@@ -1,0 +1,150 @@
+<?php
+use CodeIgniter\Router\RouteCollection;
+/**
+ * @var RouteCollection $routes
+ */
+$routes->get('/', 'Home::index');
+$routes->get('/enquiry-request/(:any)', 'Home::enquiryRequest/$1');
+$routes->get('/delete-account-request', 'Home::deleteAccountRequest');
+$routes->post('/delete-account-request', 'Home::deleteAccountRequest');
+$routes->post('/get-email-otp', 'Home::getEmailOTP');
+$routes->post('/get-phone-otp', 'Home::getPhoneOTP');
+$routes->get('/daily-tracker-fillup-report', 'Home::dailyTrackerFillupReport');
+/* ADMIN PANEL */
+	$routes->group("admin", ["namespace" => "App\Controllers\Admin"], function($routes){
+		// authentication
+			$routes->match(['get', 'post'], "/", "User::login");
+			$routes->match(['get', 'post'], "signout", "User::signout");
+			$routes->match(['get', 'post'], "forgot-password", "User::forgotPassword");
+			$routes->match(['get', 'post'], "verify-otp/(:any)", "User::verifyOtp/$1");
+			$routes->match(['get', 'post'], "reset-password/(:any)", "User::resetPassword/$1");
+		// authentication
+		// dashboard
+			$routes->match(['get', 'post'], "dashboard", "User::dashboard");
+			$routes->match(['get', 'post'], "email-logs", "User::emailLogs");
+			$routes->match(['get', 'post'], "email-logs-details/(:any)", "User::emailLogsDetails/$1");
+			$routes->match(['get', 'post'], "login-logs", "User::loginLogs");
+		// dashboard
+		// settings
+			$routes->match(['get', 'post'], "settings", "User::settings");
+			$routes->match(['post'], "profile-settings", "User::profileSetting");
+			$routes->match(['post'], "general-settings", "User::generalSetting");
+			$routes->match(['post'], "change-password", "User::changePassword");
+			$routes->match(['post'], "email-settings", "User::emailSetting");
+			$routes->match(['post'], "sms-settings", "User::smsSetting");
+			$routes->match(['post'], "footer-settings", "User::footerSetting");
+			$routes->match(['post'], "seo-settings", "User::seoSetting");
+			$routes->match(['post'], "payment-settings", "User::paymentSetting");
+			$routes->match(['post'], "bank-settings", "User::bankSetting");
+			$routes->match(['get','post'], "test-email", "User::testEmail");
+		// settings
+		// master
+			/* effort type */
+				$routes->match(['get'], "effort-type/list", "EffortTypeController::list");
+				$routes->match(['get', 'post'], "effort-type/add", "EffortTypeController::add");
+				$routes->match(['get', 'post'], "effort-type/edit/(:any)", "EffortTypeController::edit/$1");
+				$routes->match(['get', 'post'], "effort-type/delete/(:any)", "EffortTypeController::confirm_delete/$1");
+				$routes->match(['get', 'post'], "effort-type/change-status/(:any)", "EffortTypeController::change_status/$1");
+			/* effort type */
+			/* project status */
+				$routes->match(['get'], "project-status/list", "ProjectStatusController::list");
+				$routes->match(['get', 'post'], "project-status/add", "ProjectStatusController::add");
+				$routes->match(['get', 'post'], "project-status/edit/(:any)", "ProjectStatusController::edit/$1");
+				$routes->match(['get', 'post'], "project-status/delete/(:any)", "ProjectStatusController::confirm_delete/$1");
+				$routes->match(['get', 'post'], "project-status/change-status/(:any)", "ProjectStatusController::change_status/$1");
+			/* project status */
+		// master
+		/* projects */
+			$routes->match(['get'], "projects/list", "ProjectController::list");
+			$routes->match(['get', 'post'], "projects/add", "ProjectController::add");
+			$routes->match(['get', 'post'], "projects/edit/(:any)", "ProjectController::edit/$1");
+			$routes->match(['get', 'post'], "projects/delete/(:any)", "ProjectController::confirm_delete/$1");
+			$routes->match(['get', 'post'], "projects/change-status/(:any)", "ProjectController::change_status/$1");
+			$routes->match(['get', 'post'], "projects/project-effort-list/(:any)", "ProjectController::projectEffortList/$1");
+		/* projects */
+		/* clients */
+			$routes->match(['get'], "clients/list", "ClientController::list");
+			$routes->match(['get', 'post'], "clients/add", "ClientController::add");
+			$routes->match(['get', 'post'], "clients/edit/(:any)", "ClientController::edit/$1");
+			$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
+			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
+			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
+		/* clients */
+		/* users */
+			$routes->match(['get'], "users/list", "UserController::list");
+			$routes->match(['get', 'post'], "users/add", "UserController::add");
+			$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
+			$routes->match(['get', 'post'], "users/delete/(:any)", "UserController::confirm_delete/$1");
+			$routes->match(['get', 'post'], "users/change-status/(:any)", "UserController::change_status/$1");
+			$routes->match(['get', 'post'], "users/change-tracker-status/(:any)", "UserController::change_tracker_status/$1");
+			$routes->match(['get', 'post'], "users/change-salarybox-status/(:any)", "UserController::change_salarybox_status/$1");
+			$routes->match(['get', 'post'], "users/send-credentials/(:any)", "UserController::sendCredentials/$1");
+		/* users */
+		// effort
+			$routes->match(['get'], "efforts/list", "EffortController::list");
+			$routes->match(['get', 'post'], "efforts/add", "EffortController::add");
+			$routes->match(['get', 'post'], "efforts/effort-success", "EffortController::effortSuccess");
+			$routes->match(['get', 'post'], "efforts/edit/(:any)", "EffortController::edit/$1");
+			$routes->match(['get', 'post'], "efforts/view/(:any)", "EffortController::view/$1");
+			$routes->match(['get', 'post'], "efforts/delete/(:any)", "EffortController::confirm_delete/$1");
+			$routes->match(['get', 'post'], "efforts/change-status/(:any)", "EffortController::change_status/$1");
+			$routes->match(['get', 'post'], "efforts/get-project-info", "EffortController::getProjectInfo");
+		// effort
+		// report
+			/* advance search */
+				$routes->match(['get', 'post'], "reports/advance-search", "ReportController::advanceSearch");
+				$routes->match(['get', 'post'], "reports/effort-report", "ReportController::effortType");
+			/* advance search */
+		// report
+		// delete account requests
+			$routes->match(['get'], "delete-account-request/list", "DeleteAccountRequestController::list");
+			$routes->match(['get', 'post'], "delete-account-request/delete/(:any)", "DeleteAccountRequestController::confirm_delete/$1");
+			$routes->match(['get', 'post'], "delete-account-request/change-status/(:any)", "DeleteAccountRequestController::change_status/$1");
+		// delete account requests
+		// notifications
+			$routes->match(['get'], "notifications/list", "NotificationController::list");
+			$routes->match(['get', 'post'], "notifications/add", "NotificationController::add");
+			$routes->match(['get', 'post'], "notifications/edit/(:any)", "NotificationController::edit/$1");
+			$routes->match(['get', 'post'], "notifications/delete/(:any)", "NotificationController::confirm_delete/$1");
+			$routes->match(['get', 'post'], "notifications/change-status/(:any)", "NotificationController::change_status/$1");
+			$routes->match(['get', 'post'], "notifications/send/(:any)", "NotificationController::send/$1");
+			$routes->match(['get'], "notifications/list_from_app", "NotificationController::list_from_app");
+		// notifications
+	});
+/* ADMIN PANEL */
+/* API */
+	$routes->group("api", ["namespace" => "App\Controllers\Api"], function($routes){
+		// before login
+			$routes->match(['post'], "get-app-setting", "ApiController::getAppSetting");
+			$routes->match(['post'], "get-static-pages", "ApiController::getStaticPages");
+		// before login
+		// authentication
+			$routes->match(['post'], "forgot-password", "ApiController::forgotPassword");
+			$routes->match(['post'], "validate-otp", "ApiController::validateOTP");
+			$routes->match(['post'], "resend-otp", "ApiController::resendOtp");
+			$routes->match(['post'], "reset-password", "ApiController::resetPassword");
+
+			$routes->match(['post'], "signin", "ApiController::signin");
+			$routes->match(['post'], "signin-with-mobile", "ApiController::signinWithMobile");
+			$routes->match(['post'], "signin-validate-mobile", "ApiController::signinValidateMobile");
+		// authentication
+		// after login
+			$routes->match(['post'], "signout", "ApiController::signout");
+			$routes->match(['post'], "change-password", "ApiController::changePassword");
+			$routes->match(['post'], "get-profile", "ApiController::getProfile");
+			$routes->match(['post'], "update-profile", "ApiController::updateProfile");
+			$routes->match(['post'], "send-email-otp", "ApiController::sendEmailOTP");
+			$routes->match(['post'], "verify-email", "ApiController::verifyEmail");
+			$routes->match(['post'], "send-mobile-otp", "ApiController::sendMobileOTP");
+			$routes->match(['post'], "verify-mobile", "ApiController::verifyMobile");
+			$routes->match(['post'], "delete-account", "ApiController::deleteAccount");
+			$routes->match(['post'], "update-profile-image", "ApiController::updateProfileImage");
+			$routes->match(['post'], "get-holiday", "ApiController::getHoliday");
+			$routes->match(['post'], "mark-attendance", "ApiController::markAttendance");
+			$routes->match(['post'], "get-month-attendance", "ApiController::getMonthAttendance");
+			$routes->match(['post'], "get-single-attendance", "ApiController::getSingleAttendance");
+			
+			$routes->match(['post'], "get-notifications", "ApiController::getNotifications");
+		// after login
+	});
+/* API */

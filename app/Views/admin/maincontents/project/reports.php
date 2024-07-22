@@ -1,0 +1,512 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/css/bootstrap-select.css" />
+
+<div class="pagetitle">
+    <h1><?= $page_header ?></h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
+            <li class="breadcrumb-item active"><?= $page_header ?></li>
+        </ol>
+    </nav>
+</div>
+            <style type="text/css">
+                .options {
+                    padding: 20px;
+                    background-color: rgba(191, 191, 191, 0.15);
+                    margin-top: 20px;
+                }
+
+                .option {
+                    margin-top: 10px;
+                }
+
+                .caption {
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+
+                .option>span {
+                    margin-right: 10px;
+                }
+
+                .option>.dx-widget {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
+
+                .h-50 {
+                    width: 100% !important;
+                    height: 50% !important;
+                }
+                table { page-break-inside:auto; }
+                td    { border:1px solid lightgray; }
+                tr    { page-break-inside:auto; }
+
+                @media(max-width: 767px) {
+                    .h-50 {
+                        width: 100% !important;
+                        height: 100% !important;
+                    }
+                }
+
+                .dropdown-toggle {
+                    top: 8px;
+                }
+                
+            </style>
+<section class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-12">
+                <?php if (session('success_message')) { ?>
+                    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?= session('success_message') ?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+                <?php if (session('error_message')) { ?>
+                    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?= session('error_message') ?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php } ?>
+            </div>
+            
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">
+                        <?php
+                        $db = \Config\Database::connect();
+                        $sql50      = "SELECT timesheet.* FROM timesheet WHERE timesheet.project_id = " . $id . " AND timesheet.date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE()";
+                        $result     = $db->query($sql50)->getResult();
+                        if (!empty($result)) {
+                        ?>
+                            <div class="">
+                                <div style="display: inline-flex;gap: 10px;">
+                                    <select class="selectpicker" onchange="selectProject(this.value)" data-show-subtext="true" data-live-search="true">
+                                        <?php if ($all_projects) {
+                                            foreach ($all_projects as $all_project) { ?>
+                                                <option <?= ($all_project->id == $project->id) ? 'selected' : '' ?> value="<?= base64_encode($all_project->id); ?>"><?= $all_project->name; ?></option>
+                                        <?php }
+                                        } ?>
+                                    </select>
+                                    <h1><button class="btn btn-info">
+                                            <?php
+                                            $dateString = $project->start_date;
+                                            $timestamp = strtotime($dateString);
+                                            $formattedDate = date('l, F j, Y', $timestamp);
+                                            echo 'Started: ' . $formattedDate;
+                                            ?>
+                                        </button>
+                                    </h1>
+                                    <?php if ($project->project_time_type == 'Onetime') {  ?>
+                                        <h1><button class="btn btn-success"> Fixed: <?= $project->hour . ' Hours' ?></button></h1>
+                                    <?php   } else {  ?>
+                                        <h1><button class="btn btn-success"> Monthly: <?= $project->hour_month . ' Hours' ?></button></h1>
+                                    <?php } ?>
+                                </div>
+                                <div class="">
+                                    <h4 style="margin: 20px;text-align: center;border: 2px solid beige;padding: 8px;border-radius: 13px;background: #dcf5dc;"><b>Total Hours Report Last 12 Months</b></h4>
+                                    <div id="chartContainer"  style="width: 100%; height: 200px;"></div>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-fit general_table_style table-responsive">
+                                            <thead>
+                                                <tr>
+                                                    <?php if ($months) {
+                                                        foreach ($months as $month) {  ?>
+                                                            <th scope="col"><?= $month; ?></th>
+                                                    <?php }
+                                                    } ?>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <?php if ($eachMonthHour) {
+                                                        foreach ($eachMonthHour as $index => $row) {  ?>
+                                                            <td>
+                                                                <?php
+                                                                $totHours           = $row[0]->hours;
+                                                                $minutes            = $row[0]->mins;
+
+                                                                $hours              = floor($minutes / 60);
+                                                                $remainingMinutes   = $minutes % 60;
+                                                                $totalHours         = $totHours + $hours;
+                                                                echo ($totalHours > 0 || $remainingMinutes > 0) ? '<b>' . $totalHours  . ':' . $remainingMinutes . '</b>'  : '' . $totalHours  . ':' . $remainingMinutes . '';
+                                                                $processedData[] = [
+                                                                    'month' => $months[$index],
+                                                                    'totalHours' => $totalHours,
+                                                                    'remainingMinutes' => $remainingMinutes,
+                                                                ];
+                                                                ?>
+                                                            </td>
+                                                        <?php }
+                                                    } else {    ?>
+                                                        <th>
+                                                            <?= 'Not found'; ?>
+                                                        </th>
+                                                    <?php } ?>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <h4 style="margin: 20px;text-align: center;border: 2px solid beige;padding: 8px;border-radius: 13px;background: #dcf5dc;"><b>Total Hours Report (Effort-wise) Last 12 Months</b></h4>
+                                    <canvas id="myChart" class="h-50"></canvas>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-fit general_table_style">
+                                            <tr>
+                                                <th>Effort Type</th>
+                                                <?php if ($months) {
+                                                    foreach ($months as $month) {  ?>
+                                                        <th scope="col"><?= $month; ?></th>
+                                                <?php }
+                                                } ?>
+                                            </tr>
+                                            <?php
+                                            $chartData = [];
+                                            if ($effortTypes) {
+                                                foreach ($effortTypes as $effortType) {
+                                                    $effortTypeData = [
+                                                        'label' => htmlspecialchars($effortType->name),
+                                                        'data' => [],
+                                                        'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                                                        'borderColor' => 'rgba(75, 192, 192, 1)',
+                                                        'borderWidth' => 1
+                                                    ];
+                                            ?>
+                                                    <tr>
+                                                        <td><?= htmlspecialchars($effortType->name); ?></td>
+                                                        <?php if ($numeric_dates) {
+                                                            foreach ($numeric_dates as $numeric_date) { ?>
+                                                                <td>
+                                                                    <?php
+                                                                    $db = \Config\Database::connect();
+                                                                    $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins FROM `timesheet` WHERE `effort_type`=" . $effortType->effort_type_id . " AND `date_added` LIKE '%" . $numeric_date . "%' and project_id=" . $id . "";
+                                                                    // echo $sql;
+                                                                    $rowresult          = $db->query($sql)->getResult();
+                                                                    $totHours           = $rowresult[0]->hours;
+                                                                    $minutes            = $rowresult[0]->mins;
+
+                                                                    $hours              = floor($minutes / 60);
+                                                                    $remainingMinutes   = $minutes % 60;
+                                                                    $totalHours         = $totHours + $hours;
+                                                                    // echo "$totalHours : $remainingMinutes ";
+                                                                    echo ($totalHours > 0 || $remainingMinutes > 0) ? '<b>' . $totalHours  . ':' . $remainingMinutes . '</b>'  : '' . $totalHours  . ':' . $remainingMinutes . '';
+                                                                    $effortTypeData['data'][] = $totalHours;
+                                                                    ?>
+                                                                </td>
+                                                        <?php }
+                                                            $chartData[] = $effortTypeData;
+                                                        } ?>
+                                                    </tr>
+                                            <?php }
+                                            } ?>
+                                        </table>
+                                    </div>
+                                    <h4 style="margin: 20px;text-align: center;border: 2px solid beige;padding: 8px;border-radius: 13px;background: #dcf5dc;"><b>Total Hours Report (User-wise) Last 12 Months</b></h4>
+                                    <canvas id="myChart2" class="h-50"></canvas>
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered table-fit table-responsive general_table_style">
+                                            <tr>
+                                                <th>Users </th>
+                                                <?php if ($months) {
+                                                    foreach ($months as $month) {  ?>
+                                                        <th scope="col"><?= $month; ?></th>
+                                                <?php }
+                                                } ?>
+                                            </tr>
+                                            <?php
+                                            if ($usersData) {
+                                                foreach ($usersData as $user) {
+                                                    $userWiseData = [
+                                                        'label' => htmlspecialchars($user->name),
+                                                        'data' => [],
+                                                        'backgroundColor' => 'rgba(75, 192, 192, 0.2)',
+                                                        'borderColor' => 'rgba(75, 192, 192, 1)',
+                                                        'borderWidth' => 1
+                                                    ];
+                                            ?>
+                                                    <tr>
+                                                        <td><?= htmlspecialchars($user->name); ?></td>
+                                                        <?php if ($numeric_dates) {
+                                                            foreach ($numeric_dates as $numeric_date) { ?>
+                                                                <td>
+                                                                    <?php
+                                                                    $db = \Config\Database::connect();
+                                                                    $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins FROM `timesheet` WHERE `user_id`=" . $user->user_id . " AND `date_added` LIKE '%" . $numeric_date . "%' and project_id=" . $id . "";
+                                                                    // echo $sql;
+                                                                    $rowresult          = $db->query($sql)->getResult();
+                                                                    $totHours           = $rowresult[0]->hours;
+                                                                    $minutes            = $rowresult[0]->mins;
+
+                                                                    $hours              = floor($minutes / 60);
+                                                                    $remainingMinutes   = $minutes % 60;
+                                                                    $totalHours         = $totHours + $hours;
+                                                                    // echo "$totalHours : $remainingMinutes ";
+                                                                    echo ($totalHours > 0 || $remainingMinutes > 0) ? '<b>' . $totalHours  . ':' . $remainingMinutes . '</b>'  : '' . $totalHours  . ':' . $remainingMinutes . '';
+                                                                    $userWiseData['data'][] = $totalHours;
+                                                                    ?>
+                                                                </td>
+                                                        <?php }
+                                                            $chartData2[] = $userWiseData;
+                                                        } ?>
+                                                    </tr>
+                                            <?php }
+                                            } ?>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        <?php   } else {  ?>
+                            <h4 style="color: red;text-align:center;padding: 30px;">The last 12 months have not seen any activity from this project !!!</h4>
+                        <?php  }  ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/js/bootstrap-select.js"></script>
+<?php if (!empty($result)) { ?>
+    <script>
+        var processedData = <?php echo json_encode($processedData); ?>;
+        var dataPoints = [];
+        var trendLineDataPoints = [];
+        var sumX = 0,
+            sumY = 0,
+            sumXY = 0,
+            sumXX = 0;
+        var n = processedData.length;
+
+        for (var i = 0; i < processedData.length; i++) {
+            var month = processedData[i].month;
+            var totalHours = processedData[i].totalHours;
+            dataPoints.push({
+                label: month,
+                y: totalHours
+            });
+
+            var x = i + 1;
+            var y = totalHours;
+            sumX += x;
+            sumY += y;
+            sumXY += x * y;
+            sumXX += x * x;
+        }
+
+        var m = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+        var b = (sumY - m * sumX) / n;
+
+        for (var i = 0; i < processedData.length; i++) {
+            var x = i + 1;
+            var y = m * x + b;
+            trendLineDataPoints.push({
+                label: processedData[i].month,
+                y: y
+            });
+        }
+
+        window.onload = function() {
+            var options = {
+                animationEnabled: true,
+                theme: "light2",
+                title: {
+                    text: "Total Hours"
+                },
+                axisX: {
+                    valueFormatString: "DD MMM"
+                },
+                axisY: {
+                    title: "Hours",
+                    suffix: " H",
+                    minimum: 1
+                },
+                toolTip: {
+                    shared: true
+                },
+                legend: {
+                    cursor: "pointer",
+                    verticalAlign: "bottom",
+                    horizontalAlign: "left",
+                    dockInsidePlotArea: true,
+                    itemclick: toogleDataSeries
+                },
+                data: [{
+                        type: "line",
+                        showInLegend: true,
+                        name: "Monthly Hours",
+                        markerType: "circle",
+                        xValueFormatString: "DD MMM, YYYY",
+                        color: "#F08080",
+                        yValueFormatString: "#,##0H",
+                        dataPoints: dataPoints
+                    },
+                    {
+                        type: "line",
+                        showInLegend: true,
+                        name: "Trend Line",
+                        lineDashType: "dash",
+                        markerType: "none",
+                        color: "#6B8E23",
+                        dataPoints: trendLineDataPoints
+                    }
+                ]
+            };
+            $("#chartContainer").CanvasJSChart(options);
+
+            function toogleDataSeries(e) {
+                if (typeof(e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                    e.dataSeries.visible = false;
+                } else {
+                    e.dataSeries.visible = true;
+                }
+                e.chart.render();
+            }
+        }
+    </script>
+    <script>
+        const chartData = <?php echo json_encode($chartData); ?>;
+        const labels = <?php echo json_encode($months); ?>;
+        const colors = [
+            'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)',
+            'rgba(199, 199, 199, 0.2)', 'rgba(83, 102, 255, 0.2)', 'rgba(99, 255, 132, 0.2)',
+            'rgba(162, 54, 235, 0.2)', 'rgba(206, 255, 86, 0.2)', 'rgba(192, 75, 75, 0.2)',
+            'rgba(102, 153, 255, 0.2)', 'rgba(159, 255, 64, 0.2)', 'rgba(199, 83, 199, 0.2)',
+            'rgba(255, 102, 83, 0.2)', 'rgba(99, 132, 255, 0.2)', 'rgba(54, 162, 255, 0.2)',
+            'rgba(86, 255, 206, 0.2)', 'rgba(192, 75, 192, 0.2)'
+        ];
+        const borderColors = [
+            'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)',
+            'rgba(199, 199, 199, 1)', 'rgba(83, 102, 255, 1)', 'rgba(99, 255, 132, 1)',
+            'rgba(162, 54, 235, 1)', 'rgba(206, 255, 86, 1)', 'rgba(192, 75, 75, 1)',
+            'rgba(102, 153, 255, 1)', 'rgba(159, 255, 64, 1)', 'rgba(199, 83, 199, 1)',
+            'rgba(255, 102, 83, 1)', 'rgba(99, 132, 255, 1)', 'rgba(54, 162, 255, 1)',
+            'rgba(86, 255, 206, 1)', 'rgba(192, 75, 192, 1)'
+        ];
+
+        const datasets = chartData.map((data, index) => ({
+            label: data.label,
+            data: data.data,
+            backgroundColor: colors[index % colors.length],
+            borderColor: borderColors[index % borderColors.length],
+            borderWidth: 3,
+            fill: false
+        }));
+
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Effort Types vs. Total Hours'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Numeric Dates'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Total Hours'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        const chartData2 = <?php echo json_encode($chartData2); ?>;
+        const labels2 = <?php echo json_encode($months); ?>;
+        const colors2 = [
+            'rgba(255, 99, 132, 0.2)', 'rgba(54, 162, 235, 0.2)', 'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)', 'rgba(153, 102, 255, 0.2)', 'rgba(255, 159, 64, 0.2)',
+            'rgba(199, 199, 199, 0.2)', 'rgba(83, 102, 255, 0.2)', 'rgba(99, 255, 132, 0.2)',
+            'rgba(162, 54, 235, 0.2)', 'rgba(206, 255, 86, 0.2)', 'rgba(192, 75, 75, 0.2)',
+            'rgba(102, 153, 255, 0.2)', 'rgba(159, 255, 64, 0.2)', 'rgba(199, 83, 199, 0.2)',
+            'rgba(255, 102, 83, 0.2)', 'rgba(99, 132, 255, 0.2)', 'rgba(54, 162, 255, 0.2)',
+            'rgba(86, 255, 206, 0.2)', 'rgba(192, 75, 192, 0.2)'
+        ];
+        const borderColors2 = [
+            'rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)',
+            'rgba(199, 199, 199, 1)', 'rgba(83, 102, 255, 1)', 'rgba(99, 255, 132, 1)',
+            'rgba(162, 54, 235, 1)', 'rgba(206, 255, 86, 1)', 'rgba(192, 75, 75, 1)',
+            'rgba(102, 153, 255, 1)', 'rgba(159, 255, 64, 1)', 'rgba(199, 83, 199, 1)',
+            'rgba(255, 102, 83, 1)', 'rgba(99, 132, 255, 1)', 'rgba(54, 162, 255, 1)',
+            'rgba(86, 255, 206, 1)', 'rgba(192, 75, 192, 1)'
+        ];
+
+        const datasets2 = chartData2.map((data, index) => ({
+            label: data.label,
+            data: data.data,
+            backgroundColor: colors[index % colors2.length],
+            borderColor: borderColors[index % borderColors2.length],
+            borderWidth: 3,
+            fill: false
+        }));
+
+        const ctx2 = document.getElementById('myChart2').getContext('2d');
+        const myChart2 = new Chart(ctx2, {
+            type: 'line',
+            data: {
+                labels: labels2,
+                datasets: datasets2
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Users vs. Total Hours'
+                    }
+                },
+                scales: {
+                    x: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Users'
+                        }
+                    },
+                    y: {
+                        display: true,
+                        title: {
+                            display: true,
+                            text: 'Total Hours'
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+    <script>
+        function selectProject(val) {
+            var url = '<?= base_url('admin/projects/reports/') ?>' + val;
+            window.open(url, '_blank');
+        }
+    </script>
+<?php } ?>
