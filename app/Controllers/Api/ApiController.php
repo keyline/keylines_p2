@@ -2180,6 +2180,7 @@ class ApiController extends BaseController
             return $address;
         }
     /* after login */
+    
     public function getLastNDays($days, $format = 'd/m'){
         $m = date("m"); $de= date("d"); $y= date("Y");
         $dateArray = array();
