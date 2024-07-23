@@ -186,7 +186,7 @@ class ProjectController extends BaseController {
             $monthData[]        = $date;
             $numeric_dates[]    = $numericDate;
             
-            $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(hour_rate) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
+            $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
             $rows               = $this->db->query($sql)->getResult();            
             //   echo $sql; die;
             $eachMonthHour[]    = $rows;

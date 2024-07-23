@@ -73,10 +73,10 @@ class CostController extends BaseController
                 $id = $row->id;
                 $hour = $row->hour;
                 $min = $row->min;
-                $row->cost = $user_cost;  // Assuming you want cost per minute
+                $row->hour_rate = $user_cost;  // Assuming you want cost per minute
                 $cal= (($hour*60) + $min); //converted to minutes
                 $projectCost= floatval($cal_usercost * $cal);
-                $row->hour_rate = number_format($projectCost, 2, '.', '');
+                $row->cost = number_format($projectCost, 2, '.', '');
 
                 $record     = $this->data['model']->save_data('timesheet', $row, $id, 'id');
                 // $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');

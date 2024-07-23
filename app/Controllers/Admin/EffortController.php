@@ -48,7 +48,7 @@ class EffortController extends BaseController {
         $user_id                    = $this->session->get('user_id');
         $user_hour_cost             = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'id,hour_cost', '', '',);
         $user_cost                  = $user_hour_cost->hour_cost;
-        // pr($user_cost);
+        //  pr($user_cost);
         if($this->request->getMethod() == 'post') {
             $requestData    = $this->request->getPost();
             $user_id        = $this->session->get('user_id');
@@ -59,7 +59,7 @@ class EffortController extends BaseController {
             $description    = $requestData['description'];
             $effort_type    = $requestData['effort_type'];
             // $work_home      = $requestData['work_home'];
-            //  $cal_usercost= ($user_cost/60);
+              $cal_usercost= ($user_cost/60);
             if(!empty($project)){
                 for($p=0;$p<count($project);$p++){
                     $getProject     = $this->data['model']->find_data('project', 'row', ['id' => $project[$p]], 'status,bill');
@@ -78,13 +78,15 @@ class EffortController extends BaseController {
                         'assigned_task_id'      => 0,
                         'hour_rate'        =>  $user_cost
                     );
-                    // $cal= (($hour[$p]*60) + $minute[$p]); //converted to minutes
-                    // $projectCost= floatval($cal_usercost * $cal);
-                    // $postData['cost']= number_format($projectCost, 2, '.', '');
-                    // pr($postData,0);                    
+                    $cal= (($hour[$p]*60) + $minute[$p]); //converted to minutes
+                    $projectCost= floatval($cal_usercost * $cal);
+                    $postData['cost']= number_format($projectCost, 2, '.', '');
+                                        
                     $record     = $this->data['model']->save_data('timesheet', $postData, '', 'id');
                     
                 }
+                
+                // pr($postData,0);
                 // die;
             }
                         
