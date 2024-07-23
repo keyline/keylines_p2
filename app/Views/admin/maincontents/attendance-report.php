@@ -68,6 +68,7 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
         </div> -->
         <!-- Left side columns -->
+        <?php if(checkModuleFunctionAccess(27,56)){ ?>
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header text-dark">
@@ -123,6 +124,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         </div>
+        <?php } ?>
         <!-- End Left side columns -->
         
     </div>

@@ -131,12 +131,14 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div>
                             </div>
                         </div>
+                        <?php if(checkModuleFunctionAccess(22,40)){ ?>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
                             <?php if(!empty($response)){?>
                                 <a href="<?=base_url('admin/reports/advance-search')?>" class="btn btn-secondary"><i class="fa fa-refresh"></i> Reset</a>
                             <?php }?>
                         </div>
+                        <?php } ?>
                     </form>
                 </div>
             </div>

@@ -146,6 +146,7 @@ $userType           = $session->user_type;
                         <!-- End Vendors Card -->
 
                         <div class="col-md-12">
+                            <?php if(checkModuleFunctionAccess(1,66)){ ?>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">
                                     <h5 class="fw-bold text-center heading_style">Tracker Report <span id="year"><?= date('Y') ?></span></h5>
@@ -236,6 +237,8 @@ $userType           = $session->user_type;
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
+                            <?php if(checkModuleFunctionAccess(1,67)){ ?>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">
                                     <h5 class="fw-bold text-center heading_style">Last 7 Days Attendance Report</h5>
@@ -283,6 +286,8 @@ $userType           = $session->user_type;
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
+                            <?php if(checkModuleFunctionAccess(1,67)){ ?>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">
                                     <h5 class="fw-bold text-center heading_style">Last 7 Days Report</h5>
@@ -363,9 +368,10 @@ $userType           = $session->user_type;
                                     </div>
                                 </div>
                             </div>
-
+                            <?php } ?>
                         </div>
                         <div class="col-md-12">
+                            <?php if(checkModuleFunctionAccess(1,69)){ ?>
                             <div class="card">
                                 <div class="card-header  text-dark bg-dark-info">
                                     <h5 class="fw-bold text-center heading_style">ALL GRAPH</h5>
@@ -545,8 +551,10 @@ $userType           = $session->user_type;
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
                         </div>
                         <div class="col-md-12">
+                            <?php if(checkModuleFunctionAccess(1,70)){ ?>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">
                                     <h5 class="fw-bold text-center heading_style">USER GRAPH</h5>
@@ -732,6 +740,7 @@ $userType           = $session->user_type;
                                     </div>
                                 </div>
                             </div>
+                            <?php } ?>
                         </div>
                     </div>
 
