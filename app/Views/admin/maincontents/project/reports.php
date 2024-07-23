@@ -122,16 +122,22 @@
                                             <tbody>
                                                 <tr>
                                                     <?php if ($eachMonthHour) {
-                                                        foreach ($eachMonthHour as $index => $row) {  ?>
+                                                        // pr($eachMonthHour);
+                                                        foreach ($eachMonthHour as $index => $row) { 
+                                                            // pr($row);
+                                                            ?>
                                                             <td>
                                                                 <?php
                                                                 $totHours           = $row[0]->hours;
                                                                 $minutes            = $row[0]->mins;
+                                                                $total_hours_worked = intval($row[0]->total_hours_worked);
 
                                                                 $hours              = floor($minutes / 60);
                                                                 $remainingMinutes   = $minutes % 60;
                                                                 $totalHours         = $totHours + $hours;
                                                                 echo ($totalHours > 0 || $remainingMinutes > 0) ? '<b>' . $totalHours  . ':' . $remainingMinutes . '</b>'  : '' . $totalHours  . ':' . $remainingMinutes . '';
+                                                               ?> <br> <?php 
+                                                               echo ($total_hours_worked > 0 ) ? '<b>' . $total_hours_worked . '</b>'  : '' . $total_hours_worked . '';
                                                                 $processedData[] = [
                                                                     'month' => $months[$index],
                                                                     'totalHours' => $totalHours,
