@@ -133,9 +133,11 @@
                                 </div>
                             </div>
                             <a href="javascript:void(0);" class="btn btn-info add_button" title="Add field"><i class="fa fa-plus-circle"></i> Add</a>
+                            <?php if(checkModuleFunctionAccess(19,35)){ ?>
                             <div class="text-left mt-3">
                                 <button type="submit" class="btn btn_org btn-primary">Submit</button>
                             </div>
+                            <?php } ?>
                         </form>
                     </div>
                 </div>

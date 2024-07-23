@@ -31,9 +31,12 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    <?php if(checkModuleFunctionAccess(6,34)){ ?>
                     <h5 class="card-title">
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
                     </h5>
+                    <?php } ?>
+                    <?php if(checkModuleFunctionAccess(6,33)){ ?>
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered table-fit general_table_style">
                             <thead>
@@ -72,14 +75,17 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <?=(($row->last_login != '0000-00-00 00:00:00')?date_format(date_create($row->last_login), "M d, Y h:i A"):'')?>
                                     </td>
                                     <td>
+                                        <?php if(checkModuleFunctionAccess(6,55)){ ?>
                                         <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
                                         <!-- <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a> -->
+                                        <?php } ?>
                                     </td>
                                 </tr>
                                 <?php } }?>
                             </tbody>
                         </table>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>

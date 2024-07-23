@@ -1,88 +1,85 @@
 <?php
-
+use App\Models\CommonModel;
 function pr($data = array(), $mode = TRUE)
 
 {
 
-    echo "<pre>";
+  echo "<pre>";
 
-    print_r($data);
+  print_r($data);
 
-    if ($mode) {
+  if ($mode) {
 
-        die;
-
-    }
-
+    die;
+  }
 }
 
-if ( ! function_exists('test_method'))
+if (!function_exists('test_method')) {
 
-{
+  function registration_mail($params)
+  {
 
-    function registration_mail($params){
+    $params['config'] = email_settings();
 
-       $params['config']=email_settings();
+    sendmail($params);
 
-       sendmail($params);
+    return 1;
+  }
 
-       return 1;
+  function forgotpassword_mail($params)
+  {
 
-    } 
+    $params['config'] = email_settings();
 
-    function forgotpassword_mail($params){
+    sendmail($params);
 
-       $params['config']=email_settings();
+    return 1;
+  }
 
-       sendmail($params);
+  function email_settings()
+  {
 
-       return 1; 
+    $config['protocol']    = 'smtp';
 
-    } 
+    // $config['smtp_host']    = 'mail.met-technologies.com';
 
-   function email_settings(){
+    // $config['smtp_port']    = '25';        
 
-        $config['protocol']    = 'smtp';
+    //$config['smtp_user']    = 'developer.net@met-technologies.com';
 
-       // $config['smtp_host']    = 'mail.met-technologies.com';
+    // $config['smtp_pass']    = 'Dot123@#$%';
 
-       // $config['smtp_port']    = '25';        
+    $config['smtp_host']    = 'ssl://mail.met-technologies.com';
 
-        //$config['smtp_user']    = 'developer.net@met-technologies.com';
+    $config['smtp_port']    = '465';
 
-       // $config['smtp_pass']    = 'Dot123@#$%';
+    $config['smtp_user']    = 'developer.net@met-technologies.com';
 
-        $config['smtp_host']    = 'ssl://mail.met-technologies.com';
+    $config['smtp_pass']    = 'Dot123@#$%';
 
-        $config['smtp_port']    = '465';
+    $config['charset']    = 'utf-8';
 
-        $config['smtp_user']    = 'developer.net@met-technologies.com';
+    $config['newline']    = "\r\n";
 
-        $config['smtp_pass']    = 'Dot123@#$%';
+    $config['mailtype'] = 'html'; // or html
 
-        $config['charset']    = 'utf-8';
+    $config['validation'] = TRUE; // bool whether to validate email or not     
 
-        $config['newline']    = "\r\n";
+    return $config;
+  }
 
-        $config['mailtype'] = 'html'; // or html
+  function sendmail($data, $attach = '')
+  {
 
-        $config['validation'] = TRUE; // bool whether to validate email or not     
+    $obj = get_object();
 
-        return $config; 
+    $obj->load->library('email');
 
-    } 
+    //print_r($data);die;
 
-    function sendmail($data,$attach=''){
+    $config['protocol']      = 'smtp';
 
-      $obj =get_object();
-
-      $obj->load->library('email');
-
-      //print_r($data);die;
-
-      $config['protocol']      = 'smtp';
-
-      /*$config['smtp_host']     = 'ssl://mail.fitser.com';
+    /*$config['smtp_host']     = 'ssl://mail.fitser.com';
 
       $config['smtp_port']     = '465';  
 
@@ -90,595 +87,526 @@ if ( ! function_exists('test_method'))
 
       $config['smtp_pass']    = 'Test123@';*/
 
-      $config['smtp_host']     = 'ssl://mail.met-technologies.com';
+    $config['smtp_host']     = 'ssl://mail.met-technologies.com';
 
-      $config['smtp_port']     = '465';  
+    $config['smtp_port']     = '465';
 
-      $config['smtp_user']    = 'developer.net@met-technologies.com';
+    $config['smtp_user']    = 'developer.net@met-technologies.com';
 
-      $config['smtp_pass']    = 'Dot123@#$%';
+    $config['smtp_pass']    = 'Dot123@#$%';
 
-      $config['charset']     = 'utf-8';
+    $config['charset']     = 'utf-8';
 
-      $config['newline']     = "\r\n";
+    $config['newline']     = "\r\n";
 
-      $config['mailtype']  = 'html';
+    $config['mailtype']  = 'html';
 
-      $config['validation']  = TRUE;   
+    $config['validation']  = TRUE;
 
-      $obj->email->initialize($config);
+    $obj->email->initialize($config);
 
-      
 
-      if($attach!=''){
 
-        $obj->email->attach($attach);
+    if ($attach != '') {
 
-      }
-
-      $obj->email->set_crlf( "\r\n" );
-
-      $obj->email->from($data['from_email'], $data['from_name']);
-
-      $obj->email->to($data['to']); 
-
-      $obj->email->subject($data['subject']);
-
-      $obj->email->message($data['message']);  
-
-      $obj->email->send();
-
-      //echo $obj->email->print_debugger(); die; 
-
-      return true;    
-
+      $obj->email->attach($attach);
     }
 
-    function get_user_role_type(){
+    $obj->email->set_crlf("\r\n");
 
-      $user_role=get_object()->session->userdata('user_role');
+    $obj->email->from($data['from_email'], $data['from_name']);
 
-      return $user_role;
+    $obj->email->to($data['to']);
 
-    } 
+    $obj->email->subject($data['subject']);
 
-    function get_object(){
+    $obj->email->message($data['message']);
 
-      $obj =& get_instance();
+    $obj->email->send();
 
-      return $obj;
+    //echo $obj->email->print_debugger(); die; 
 
+    return true;
+  }
+
+  function get_user_role_type()
+  {
+
+    $user_role = get_object()->session->userdata('user_role');
+
+    return $user_role;
+  }
+
+  function get_object()
+  {
+
+    $obj = &get_instance();
+
+    return $obj;
+  }
+
+  function getStatusCahnge($id, $tbl, $tbl_column_name, $chng_status_colm, $status, $reason = null)
+  {
+
+    //echo $id."<br>".$tbl."<br>".$tbl_column_name."<br>".$chng_status_colm."<br>".$status;exit;
+
+    $CI = get_instance();
+
+    $condition                      = array();
+
+    $udata                          = array();
+
+    $resonse                        = '';
+
+    $condition[$tbl_column_name]    = $id;
+
+    $udata[$chng_status_colm]       = $status;
+
+    if ($reason != null) {
+
+      $udata['cancellation_reason'] = $reason;
     }
 
-    function getStatusCahnge($id,$tbl,$tbl_column_name,$chng_status_colm,$status,$reason = null) {    
+    $resonse                        = $CI->mcommon->update($tbl, $condition, $udata);
 
-      //echo $id."<br>".$tbl."<br>".$tbl_column_name."<br>".$chng_status_colm."<br>".$status;exit;
+    //echo $CI->db->last_query(); die;  
 
-      $CI = get_instance();
+    return $resonse;
+  }
 
-      $condition                      = array();
+  function RemoveSpecialChar($str)
+  {
 
-      $udata                          = array();
+    $res = str_replace(array(
+      '\'', '"',
 
-      $resonse                        = '';
+      ',', ';', '<', '>', '?', '(', ')', '[', ']', '{', '}', '.', '\r', '\n'
+    ), ' ', $str);
 
-      $condition[$tbl_column_name]    = $id;
+    return $res;
+  }
 
-      $udata[$chng_status_colm]       = $status;
+  function time_difference($to_time)
 
-      if($reason != null){
+  {
 
-        $udata['cancellation_reason'] = $reason;
+    $to_time = strtotime($to_time);
 
-      }
+    $from_time = strtotime(date('Y-m-d H:i:s'));
 
-      $resonse                        = $CI->mcommon->update($tbl,$condition,$udata); 
+    $time_diff = round(abs($to_time - $from_time) / 60, 0);
 
-      //echo $CI->db->last_query(); die;  
+    if ($time_diff > 1440) {
 
-      return $resonse;
+      if ($time_diff > 525600) {
 
-    }
+        $totalYears = ($time_diff / 1440) / 365;
 
-    function RemoveSpecialChar($str) {
+        //echo $totalDays;die;
 
-      $res = str_replace( array( '\'', '"',
-
-      ',' , ';', '<', '>', '?', '(', ')', '[', ']', '{', '}', '.', '\r', '\n' ), ' ', $str);
-
-      return $res;
-
-    }
-
-    function time_difference($to_time)
-
-    {
-
-      $to_time = strtotime($to_time);
-
-      $from_time = strtotime(date('Y-m-d H:i:s'));
-
-      $time_diff = round(abs($to_time - $from_time) / 60,0);
-
-      if($time_diff>1440) {
-
-          if($time_diff>525600){
-
-              $totalYears = ($time_diff/1440)/365;
-
-              //echo $totalDays;die;
-
-              $day_diff = round($totalYears,0)." years";
-
-          } else {
-
-              $day_diff = round(($time_diff/1440),0)." days";
-
-          }            
-
+        $day_diff = round($totalYears, 0) . " years";
       } else {
 
-          if($time_diff>60){
-
-              $hours = round(($time_diff/60),0);
-
-              $mins = round(($time_diff%60),0);
-
-              $day_diff = $hours." hours ".$mins." mins";
-
-          } else {
-
-              $day_diff = $time_diff. " mins";
-
-          }            
-
+        $day_diff = round(($time_diff / 1440), 0) . " days";
       }
+    } else {
 
-      return $day_diff;
+      if ($time_diff > 60) {
 
-    }
+        $hours = round(($time_diff / 60), 0);
 
-    /////////////////////////////////////new fn for time ago/////////////////////////////////////
+        $mins = round(($time_diff % 60), 0);
 
-    function time_ago($timestamp){       
-
-      $time_ago        = strtotime($timestamp);
-
-      $current_time    = time();
-
-      $time_difference = $current_time - $time_ago;
-
-      $seconds         = $time_difference;
-
-      
-
-      $minutes = round($seconds / 60); // value 60 is seconds  
-
-      $hours   = round($seconds / 3600); //value 3600 is 60 minutes * 60 sec  
-
-      $days    = round($seconds / 86400); //86400 = 24 * 60 * 60;  
-
-      $weeks   = round($seconds / 604800); // 7*24*60*60;  
-
-      $months  = round($seconds / 2629440); //((365+365+365+365+366)/5/12)*24*60*60  
-
-      $years   = round($seconds / 31553280); //(365+365+365+365+366)/5 * 24 * 60 * 60
-
-                    
-
-      if ($seconds <= 60){
-
-        return "Just Now";
-
-      } else if ($minutes <= 60){
-
-        if ($minutes == 1){
-
-          return "1 minute ago";
-
-        } else {
-
-          return "$minutes minutes ago";
-
-        }
-
-      } else if ($hours <= 24){
-
-        if ($hours == 1){
-
-          return "an hour ago";
-
-        } else {
-
-          return "$hours hrs ago";
-
-        }
-
-      } else if ($days <= 7){
-
-        if ($days == 1){
-
-          return "yesterday";
-
-        } else {
-
-          return "$days days ago";
-
-        }
-
-      } else if ($weeks <= 4.3){
-
-        if ($weeks == 1){
-
-          return "a week ago";
-
-        } else {
-
-          return "$weeks weeks ago";
-
-        }
-
-      } else if ($months <= 12){
-
-        if ($months == 1){
-
-          return "a month ago";
-
-        } else {
-
-          return "$months months ago";
-
-        }
-
+        $day_diff = $hours . " hours " . $mins . " mins";
       } else {
 
-        
-
-        if ($years == 1){
-
-          return "one year ago";
-
-        } else {
-
-          return "$years years ago";
-
-        }
-
+        $day_diff = $time_diff . " mins";
       }
-
     }
 
-    function encoded($param){
+    return $day_diff;
+  }
 
-      return urlencode(base64_encode($param));
+  /////////////////////////////////////new fn for time ago/////////////////////////////////////
 
-    }
+  function time_ago($timestamp)
+  {
 
-    function decoded($param){
+    $time_ago        = strtotime($timestamp);
 
-      return base64_decode(urldecode($param));
+    $current_time    = time();
 
-    }
+    $time_difference = $current_time - $time_ago;
 
-    function getInquiryStatus($num){
+    $seconds         = $time_difference;
 
-      if($num == 0){
 
-        $inquiryStatus = 'Submit Inquiry';
 
-      } elseif($num == 1){
+    $minutes = round($seconds / 60); // value 60 is seconds  
 
-        $inquiryStatus = 'Documents Uploaded';
+    $hours   = round($seconds / 3600); //value 3600 is 60 minutes * 60 sec  
 
-      } elseif($num == 2){
+    $days    = round($seconds / 86400); //86400 = 24 * 60 * 60;  
 
-        $inquiryStatus = 'Admin Approved';
+    $weeks   = round($seconds / 604800); // 7*24*60*60;  
 
-      } elseif($num == 3){
+    $months  = round($seconds / 2629440); //((365+365+365+365+366)/5/12)*24*60*60  
 
-        $inquiryStatus = 'Buyer Accept';
+    $years   = round($seconds / 31553280); //(365+365+365+365+366)/5 * 24 * 60 * 60
 
-      } elseif($num == 4){
 
-        $inquiryStatus = 'PO Uploaded';
 
-      } elseif($num == 5){
+    if ($seconds <= 60) {
 
-        $inquiryStatus = 'Shared PO';
+      return "Just Now";
+    } else if ($minutes <= 60) {
 
-      } elseif($num == 6){
+      if ($minutes == 1) {
 
-        $inquiryStatus = 'Admin Upload Invoices';
-
-      } elseif($num == 7){
-
-        $inquiryStatus = 'Buyer Payment Upload';
-
-      } elseif($num == 8){
-
-        $inquiryStatus = 'Admin Accept Payment';
-
-      }
-
-      return $inquiryStatus;
-
-    }
-
-    function perform_http_request($method, $url, $data = false) {
-
-      $curl = curl_init();      
-
-      switch ($method) {
-
-          case "POST":
-
-              curl_setopt($curl, CURLOPT_POST, 1);
-
-              if ($data) {                
-
-                curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-
-              }        
-
-              break;
-
-          case "PUT":
-
-              curl_setopt($curl, CURLOPT_PUT, 1);        
-
-              break;
-
-          default:
-
-              if ($data) {
-
-                $url = sprintf("%s?%s", $url, http_build_query($data));
-
-              }
-
-      }
-
-      curl_setopt($curl, CURLOPT_URL, $url);
-
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-      curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true); //If SSL Certificate Not Available, for example, I am calling from http://localhost URL
-
-      $result = curl_exec($curl);
-
-      curl_close($curl);
-
-      return $result;
-
-    }
-
-    function curl_request_post($method, $url, $data = false){
-
-      $url = "https://trst01.in/api/blockchain/postData";
-
-
-
-      $curl = curl_init($url);
-
-      curl_setopt($curl, CURLOPT_URL, $url);
-
-      curl_setopt($curl, CURLOPT_POST, true);
-
-      curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-
-
-
-      $headers = array(
-
-         "Content-type: application/json",
-
-         "Accept: application/json",
-
-      );
-
-      curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
-
-      //pr($data);
-
-
-
-      curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-
-
-
-      //for debug only!
-
-      curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
-
-      curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-
-
-
-      $resp = curl_exec($curl);
-
-      curl_close($curl);
-
-      //pr($resp);
-
-      return $resp;
-
-    }  
-
-    function generateRandomString($length = 10) {
-      $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      $randomString = substr(str_shuffle($characters), 0, $length);
-
-      return $randomString;
-    }  
-
-    function checkModuleFunctionAccess($module_id, $function_id){
-
-      $db = \Config\Database::connect();
-
-      $session      = \Config\Services::session();
-
-      $userId             = $session->get('userId');
-
-      $adminUser          = $db->query("select * from ecoex_admin_user where id = '$userId'")->getRow();
-
-      $checkExist         = $db->query("select * from ecoex_role_module_function where module_id = '$module_id' and role_id = '$adminUser->role_id' and function_id = '$function_id'")->getNumRows(); 
-
-      //echo $db->getLastQuery();die;
-
-      //print_r($checkExist);die;       
-
-      //echo $checkExist;die;
-
-      if($checkExist>0){
-
-          return TRUE;
-
+        return "1 minute ago";
       } else {
 
-          return FALSE;
-
+        return "$minutes minutes ago";
       }
+    } else if ($hours <= 24) {
 
+      if ($hours == 1) {
+
+        return "an hour ago";
+      } else {
+
+        return "$hours hrs ago";
+      }
+    } else if ($days <= 7) {
+
+      if ($days == 1) {
+
+        return "yesterday";
+      } else {
+
+        return "$days days ago";
+      }
+    } else if ($weeks <= 4.3) {
+
+      if ($weeks == 1) {
+
+        return "a week ago";
+      } else {
+
+        return "$weeks weeks ago";
+      }
+    } else if ($months <= 12) {
+
+      if ($months == 1) {
+
+        return "a month ago";
+      } else {
+
+        return "$months months ago";
+      }
+    } else {
+
+
+
+      if ($years == 1) {
+
+        return "one year ago";
+      } else {
+
+        return "$years years ago";
+      }
+    }
+  }
+
+  function encoded($param)
+  {
+
+    return urlencode(base64_encode($param));
+  }
+
+  function decoded($param)
+  {
+
+    return base64_decode(urldecode($param));
+  }
+
+  function getInquiryStatus($num)
+  {
+
+    if ($num == 0) {
+
+      $inquiryStatus = 'Submit Inquiry';
+    } elseif ($num == 1) {
+
+      $inquiryStatus = 'Documents Uploaded';
+    } elseif ($num == 2) {
+
+      $inquiryStatus = 'Admin Approved';
+    } elseif ($num == 3) {
+
+      $inquiryStatus = 'Buyer Accept';
+    } elseif ($num == 4) {
+
+      $inquiryStatus = 'PO Uploaded';
+    } elseif ($num == 5) {
+
+      $inquiryStatus = 'Shared PO';
+    } elseif ($num == 6) {
+
+      $inquiryStatus = 'Admin Upload Invoices';
+    } elseif ($num == 7) {
+
+      $inquiryStatus = 'Buyer Payment Upload';
+    } elseif ($num == 8) {
+
+      $inquiryStatus = 'Admin Accept Payment';
     }
 
-    function weekdays($dayNo) {
+    return $inquiryStatus;
+  }
 
-      if($dayNo==0) {
+  function perform_http_request($method, $url, $data = false)
+  {
 
-          $day_name = 'Sunday';
+    $curl = curl_init();
 
-      }
+    switch ($method) {
 
-      if($dayNo==1) {
+      case "POST":
 
-          $day_name = 'Monday';
+        curl_setopt($curl, CURLOPT_POST, 1);
 
-      }
+        if ($data) {
 
-      if($dayNo==2) {
+          curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        }
 
-          $day_name = 'Tuesday';
+        break;
 
-      }
+      case "PUT":
 
-      if($dayNo==3) {
+        curl_setopt($curl, CURLOPT_PUT, 1);
 
-          $day_name = 'Wednesday';
+        break;
 
-      }
+      default:
 
-      if($dayNo==4) {
+        if ($data) {
 
-          $day_name = 'Thursday';
-
-      }
-
-      if($dayNo==5) {
-
-          $day_name = 'Friday';
-
-      }
-
-      if($dayNo==6) {
-
-          $day_name = 'Saturday';
-
-      }
-
-      return $day_name;
-
+          $url = sprintf("%s?%s", $url, http_build_query($data));
+        }
     }
 
-    function monthName($monthNo) {
+    curl_setopt($curl, CURLOPT_URL, $url);
 
-      if($monthNo==1) {
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
 
-          $month_name = 'January';
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, true); //If SSL Certificate Not Available, for example, I am calling from http://localhost URL
 
-      }
+    $result = curl_exec($curl);
 
-      if($monthNo==2) {
+    curl_close($curl);
 
-          $month_name = 'February';
+    return $result;
+  }
 
-      }
+  function curl_request_post($method, $url, $data = false)
+  {
 
-      if($monthNo==3) {
+    $url = "https://trst01.in/api/blockchain/postData";
 
-          $month_name = 'March';
 
-      }
 
-      if($monthNo==4) {
+    $curl = curl_init($url);
 
-          $month_name = 'April';
+    curl_setopt($curl, CURLOPT_URL, $url);
 
-      }
+    curl_setopt($curl, CURLOPT_POST, true);
 
-      if($monthNo==5) {
+    curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 
-          $month_name = 'May';
 
-      }
 
-      if($monthNo==6) {
+    $headers = array(
 
-          $month_name = 'June';
+      "Content-type: application/json",
 
-      }
+      "Accept: application/json",
 
-      if($monthNo==7) {
+    );
 
-          $month_name = 'July';
+    curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
 
-      }
+    //pr($data);
 
-      if($monthNo==8) {
 
-          $month_name = 'August';
 
-      }
+    curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
 
-      if($monthNo==9) {
 
-          $month_name = 'September';
 
-      }
+    //for debug only!
 
-      if($monthNo==10) {
+    curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
 
-          $month_name = 'October';
+    curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
 
-      }
 
-      if($monthNo==11) {
 
-          $month_name = 'November';
+    $resp = curl_exec($curl);
 
-      }
+    curl_close($curl);
 
-      if($monthNo==12) {
+    //pr($resp);
 
-          $month_name = 'December';
+    return $resp;
+  }
 
-      }
+  function generateRandomString($length = 10)
+  {
+    $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $randomString = substr(str_shuffle($characters), 0, $length);
 
-      return $month_name;
+    return $randomString;
+  }
 
+  function checkModuleFunctionAccess($module_id, $function_id)
+  {
+    $db           = \Config\Database::connect();
+    $common_model = new CommonModel();
+    $session      = \Config\Services::session();
+    $userId             = $session->get('user_id');
+    // echo $userId;die;
+    $adminUser          = $common_model->find_data('user', 'row', ['id' => $userId]);
+    $role_id = $adminUser->role_id;
+    $checkExist         = $common_model->find_data('sms_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $function_id]);
+    // echo $db->getLastQuery();
+    // die;
+    //echo $checkExist;die;
+    if ($checkExist > 0) {
+      return TRUE;
+    } else {
+      return FALSE;
+    }
+  }
+
+  function weekdays($dayNo)
+  {
+
+    if ($dayNo == 0) {
+
+      $day_name = 'Sunday';
     }
 
-    function clean($string) 
+    if ($dayNo == 1) {
 
-    {
-
-       $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
-
-       $string2 = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
-
-       $string3 = preg_replace('/-+/', '-', $string2);
-
-       return strtolower($string3);
-
+      $day_name = 'Monday';
     }
 
+    if ($dayNo == 2) {
+
+      $day_name = 'Tuesday';
+    }
+
+    if ($dayNo == 3) {
+
+      $day_name = 'Wednesday';
+    }
+
+    if ($dayNo == 4) {
+
+      $day_name = 'Thursday';
+    }
+
+    if ($dayNo == 5) {
+
+      $day_name = 'Friday';
+    }
+
+    if ($dayNo == 6) {
+
+      $day_name = 'Saturday';
+    }
+
+    return $day_name;
+  }
+
+  function monthName($monthNo)
+  {
+
+    if ($monthNo == 1) {
+
+      $month_name = 'January';
+    }
+
+    if ($monthNo == 2) {
+
+      $month_name = 'February';
+    }
+
+    if ($monthNo == 3) {
+
+      $month_name = 'March';
+    }
+
+    if ($monthNo == 4) {
+
+      $month_name = 'April';
+    }
+
+    if ($monthNo == 5) {
+
+      $month_name = 'May';
+    }
+
+    if ($monthNo == 6) {
+
+      $month_name = 'June';
+    }
+
+    if ($monthNo == 7) {
+
+      $month_name = 'July';
+    }
+
+    if ($monthNo == 8) {
+
+      $month_name = 'August';
+    }
+
+    if ($monthNo == 9) {
+
+      $month_name = 'September';
+    }
+
+    if ($monthNo == 10) {
+
+      $month_name = 'October';
+    }
+
+    if ($monthNo == 11) {
+
+      $month_name = 'November';
+    }
+
+    if ($monthNo == 12) {
+
+      $month_name = 'December';
+    }
+
+    return $month_name;
+  }
+
+  function clean($string)
+
+  {
+
+    $string = str_replace(' ', '-', $string); // Replaces all spaces with hyphens.
+
+    $string2 = preg_replace('/[^A-Za-z0-9\-]/', '', $string); // Removes special chars.
+
+    $string3 = preg_replace('/-+/', '-', $string2);
+
+    return strtolower($string3);
+  }
 }
