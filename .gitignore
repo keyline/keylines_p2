@@ -84,7 +84,7 @@ phpunit
 #-------------------------
 # Composer
 #-------------------------
-vendor/
+/vendor/
 composer.lock
 
 #-------------------------
@@ -130,4 +130,4 @@ nb-configuration.xml
 /public/uploads/user
 
 # Whitelisting public/vendor folder for frontend assets
-!/public/material/*
+!public/material/*
