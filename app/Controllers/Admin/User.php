@@ -24,7 +24,7 @@ class User extends BaseController {
                         );
                     $checkEmail = $this->common_model->find_data('user', 'row', $conditions);
                     $checkclientEmail = $this->common_model->find_data('client', 'row', $conditions2);
-                    //pr($checkclientEmail);
+                    // pr($checkclientEmail);
                     if($checkEmail) {
                         $user_type = $checkEmail->type;
                         $user_name = $checkEmail->name;
@@ -99,8 +99,9 @@ class User extends BaseController {
                                                     'username'          => $checkclientEmail->name,
                                                     'name'              => $checkclientEmail->name,
                                                     'email'             => $checkclientEmail->email_1,                                                    
-                                                    'is_admin_login'    => 1
+                                                    'is_admin_login'    => $checkclientEmail->login_access
                                                     );
+                                // pr($session_data);
                                 $this->session->set($session_data);
                                 
                                 if($this->session->get('is_admin_login') == 1)
@@ -113,19 +114,10 @@ class User extends BaseController {
                                     );
                                     $user_id = $checkclientEmail->id;
                                     $this->common_model->save_data('client',$fields,$user_id,'id');
-                                    header('Location: https://tracker2.keylines.net/admin/dashboard');
-                                    //pr(redirect()->to('/admin/dashboard'));
-                                    // $userActivityData = [
-                                    //     'user_email'        => $this->request->getPost('email'),
-                                    //     'user_name'         => $user_name,
-                                    //     'activity_type'     => 1,
-                                    //     'user_type'         => $user_type,
-                                    //     'ip_address'        => $this->request->getIPAddress(),
-                                    //     'activity_details'  => 'Admin Sign In Success',
-                                    // ];
-                                    // $this->common_model->save_data('user_activities', $userActivityData, '','activity_id');
-                                    //$this->session->setFlashdata('success_message', 'SignIn Success! Redirecting to dashboard !!!');
-                                    
+                                    return redirect()->to('/admin/dashboard');                                                                        
+                                } else{
+                                    $this->session->setFlashdata('error_message','Please contact the admin for access !!!');
+                                    return redirect()->to(base_url("admin"));
                                 }
                             } else {
                                 $userActivityData = [
@@ -292,17 +284,25 @@ class User extends BaseController {
                 $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
                 $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
                 $data['projects']           = $this->common_model->find_data('project', 'array', ['project.status!=' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
+                // pr($data['projects']);
                 $data['closed_projects']    = $this->common_model->find_data('project', 'array', ['project.status' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
-                $project_id = $data['projects'][0]->id;
-                $sql = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where t.project_id = '$project_id' group by t.project_id order by p.name asc";
-                $rows = $this->db->query($sql)->getResult();
-                $total_effort_in_mins = 0;
-                $hour = $rows[0]->tot_hour;
-                $min = $rows[0]->tot_min;
-                $total_hour_min = ($hour * 60); // 0*60 = 0
-                $total_min_min = $min; // 30
-                $total_effort_in_mins += ($total_hour_min + $total_min_min);
-                $data['total_effort_in_mins']   = $total_effort_in_mins;
+                foreach($data['projects'] as $project)
+                {
+                    // pr($project);
+                    $project_id = $project->id;
+                    $sql = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where t.project_id = '$project_id' group by t.project_id order by p.name asc";
+                    $rows = $this->db->query($sql)->getResult();
+                    // echo $sql; die;
+                    $total_effort_in_mins = 0;
+                    $hour = $rows[0]->tot_hour;
+                    $min = $rows[0]->tot_min;
+                    $total_hour_min = ($hour * 60); // 0*60 = 0
+                    $total_min_min = $min; // 30
+                    $total_effort_in_mins += ($total_hour_min + $total_min_min);
+                    $data['total_effort_in_mins']   = $total_effort_in_mins;
+                // pr($data['total_effort_in_mins']);
+                }
+                
             }else{
                 /* total cards */
                     $data['total_users']                = $this->common_model->find_data('user', 'count');
