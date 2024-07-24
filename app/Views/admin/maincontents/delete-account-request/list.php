@@ -12,7 +12,6 @@ $controller_route   = $moduleDetail['controller_route'];
         </ol>
     </nav>
 </div>
-<?php if(checkModuleFunctionAccess(8,50)){ ?>
 <section class="section">
     <div class="row">
         <div class="col-xl-12">
@@ -73,14 +72,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </h6>
                                 </td>
                                 <td>
-                                    <?php if(checkModuleFunctionAccess(8,48)){ ?>
                                     <?php if($row->status){?>
                                             <span class="badge bg-success"><i class="fa fa-check"></i> APPROVED</span>
                                             <h6><?=date_format(date_create($row->approve_date), 'M d, Y h:i A')?></h6>
                                     <?php } else {?>
                                             <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Deactivate <?=$title?>" onclick="return confirm('Do You Want To Activate This <?=$title?>');"><i class="fa fa-times"></i> Click To Approve</a>
-                                    <?php } ?>
-                                    <?php } ?>
+                                    <?php }?>
                                 </td>
                             </tr>
                             <?php } }?>
@@ -91,4 +88,3 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
-<?php } ?>

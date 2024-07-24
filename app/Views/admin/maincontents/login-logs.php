@@ -10,7 +10,6 @@ $user_type = session('user_type');
     </ol>
   </nav>
 </div><!-- End Page Title -->
-<?php if(checkModuleFunctionAccess(10,53)){ ?>
 <section class="section profile">
   <div class="row">
     <div class="col-xl-12">
@@ -205,4 +204,3 @@ $user_type = session('user_type');
     </div>
   </div>
 </section>
-<?php } ?>
