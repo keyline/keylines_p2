@@ -61,6 +61,13 @@ $userId             = $session->user_id;
             </li>
 
             <li class="nav-item">
+                <a class="nav-link <?=(($pageSegment == 'task-assign')?'active':'')?>" href="<?=base_url('admin/task-assign')?>">
+                    <i class="fa fa-laptop"></i>
+                    <span>Task Assign</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link <?=(($pageSegment == 'users')?'active':'')?>" href="<?=base_url('admin/users/list')?>">
                     <i class="fa fa-users"></i>
                     <span>Users</span>
