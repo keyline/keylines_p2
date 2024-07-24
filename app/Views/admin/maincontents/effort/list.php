@@ -21,7 +21,6 @@ $controller_route   = $moduleDetail['controller_route'];
         </ol>
     </nav>
 </div>
-<?php if(checkModuleFunctionAccess(20,36)){ ?>
 <section class="section">
     <div class="row">
         <div class="col-xl-12">
@@ -41,11 +40,10 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <?php if(checkModuleFunctionAccess(20,37)){ ?>
+                    
                     <h5 class="card-title">
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
                     </h5>
-                    <?php } ?>
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style" style="width: 100%">
                             <thead>
@@ -100,17 +98,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <td><?=(($getEffortType)?$getEffortType->name:'')?></td>
                                     <td width="10%"><?=date_format(date_create($row->date_today), "d-m-Y h:i:s A")?></td>
                                     <td>
-                                        <?php if(checkModuleFunctionAccess(20,38)){ ?>
                                         <a target="_blank" href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->id))?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil text-primary"></i></a>
-                                        <?php } ?>
                                         <br><br>
                                         <?php
                                         $userType           = $session->user_type;
                                         if($userType == 'admin'){
                                         ?>
-                                            <?php if(checkModuleFunctionAccess(20,39)){ ?>
                                             <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->id))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash text-danger"></i></a>
-                                            <?php } ?>
                                         <?php }?>
                                     </td>
                                 </tr>
@@ -123,4 +117,3 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
-<?php } ?>

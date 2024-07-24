@@ -48,9 +48,7 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
-                    <?php if(checkModuleFunctionAccess(26,47)){ ?>
                     <a href="<?=base_url('admin/reports/get-desklog-report')?>" class="btn btn-success btn-sm" onclick="return confirm('Do you want to fetch data from desklog ?');">Fetch Current Date Date From Desklog</a>
-                    <?php } ?>
                     <form method="POST" action="" enctype="multipart/form-data">
                         <input type="hidden" name="mode" value="advance_search">
                         <div class="row mb-3 align-items-center">                                                                                                                                      
@@ -58,7 +56,6 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <label for="is_date_range">Date</label>
                                 <input type="date" id="is_date_range" name="is_date_range" class="form-control" value="<?=$is_date_range?>" required>
                             </div>
-                            <?php if(checkModuleFunctionAccess(26,46)){ ?>
                             <div class="col-md-6 col-lg-6">
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
@@ -67,15 +64,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <?php }?>
                                 </div>
                             </div>
-                            <?php } ?>
                         </div>
                     </form>
                 </div>
             </div>
             <?php
             // pr($dateWise);
-            if(!empty($dateWise)){?>   
-                <?php if(checkModuleFunctionAccess(26,49)){ ?>              
+            if(!empty($dateWise)){?>                 
                 <div class="card mt-3">
                     <div class="card-body pt-3">
                         <!-- <h6 class="alert alert-success"><?=count($dateWise)?> result(s) found</h6> -->
@@ -127,8 +122,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </table>
                         </div>
                     </div>
-                </div> 
-                <?php } ?>               
+                </div>                
             <?php }?>
         </div>
     </div>

@@ -41,30 +41,6 @@ $userId             = $session->user_id;
                 <span>Dashboard</span>
             </a>
         </li>
-        <?php if($userType == 'admin'){ ?>
-            <li class="nav-item">
-                <a class="nav-link" data-bs-target="#access-nav" data-bs-toggle="collapse" href="#">
-                    <i class="fas fa-key"></i><span>Access & Permission</span><i class="bi bi-chevron-down ms-auto"></i>
-                </a>
-                <ul id="access-nav" class="nav-content collapse" data-bs-parent="#sidebar-nav">
-                    <li>
-                        <a class="" href="<?=base_url('admin/manage_functionlist')?>">
-                            <i class="fa fa-arrow-right"></i><span>Functions</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="" href="<?=base_url('admin/manage_modulelist')?>">
-                            <i class="fa fa-arrow-right"></i><span>Modules</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="" href="<?=base_url('admin/manage_roles')?>">
-                            <i class="fa fa-arrow-right"></i><span>Role</span>
-                        </a>
-                    </li>
-                </ul>
-            </li>
-        <?php } ?>
         <?php if($userType == 'admin'){?>
             <li class="nav-item">
                 <a class="nav-link <?=(($pageSegment == 'effort-type' || $pageSegment == 'project-status')?'':'collapsed')?> <?=(($pageSegment == 'effort-type' || $pageSegment == 'project-status')?'active':'')?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
