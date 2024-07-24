@@ -90,6 +90,15 @@ class ClientController extends BaseController {
         $data['users']              = $this->data['model']->find_data('user', 'array', ['status' => '1'], 'id,name', '', '', $order_by);
 
         if($this->request->getMethod() == 'post') {
+            // pr($this->request->getPost());
+            $password = $this->request->getPost('password');
+            // if (!empty($password)) {
+            //    $newPassword = $password;
+            // }
+            // else{
+            //     $newPassword = md5($this->request->getPost('password'));
+            // }
+            
             if( $this->request->getPost('password') != ''){
                 $postData   = array(
                     'name'                  => $this->request->getPost('name'),
@@ -131,13 +140,14 @@ class ClientController extends BaseController {
                     'dob_day'               => $this->request->getPost('dob_day'),
                     'dob_month'             => $this->request->getPost('dob_month'),
                     'dob_year'              => $this->request->getPost('dob_year'),
+                    'password_org'          => $this->request->getPost('password'),
                     'comment'               => $this->request->getPost('comment'),
                     'reference'             => $this->request->getPost('reference'),
                     'login_access'          => $this->request->getPost('login_access'),
                     'client_of'             => $this->request->getPost('client_of'),
                 );
             }
-            // pr($postData);
+            //   pr($postData);
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
