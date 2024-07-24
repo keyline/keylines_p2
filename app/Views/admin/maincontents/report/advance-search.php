@@ -63,23 +63,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <?php } }?>
                                 </select>
                             </div>
-                            <?php } else{ ?>
-                            <div class="col-md-3 col-lg-3">
-                                <label for="search_user_id">User</label>
-                                <!-- <input type="hidden" name="search_user_id" value="all" id="search_user_id"> -->
-                                <select name="search_user_id" class="form-control" id="search_user_id" required>
-                                    <option value="all" <?=(($search_user_id == 'all')?'selected':'')?>>All</option> 
-                                     <hr>
-                                    <?php                                     
-                                    if($projectwise_user){ foreach($projectwise_user as $row){?>
-                                        <option value="<?=$row->id?>" <?=(($search_user_id == $row->id)?'selected':'')?>><?=$row->name?> - <?=(($row->status == '1')?'Active':'Deactive')?></option>
-                                        <hr>
-                                    <?php } }?>
-                                </select>
-                            </div>
-                            <?php } ?>
+                            <?php } ?>                            
                             <div class="col-md-3 col-lg-3">
                                 <label for="search_project_id">Project</label>
+                                <input type="hidden" name="search_user_id" value="all" id="search_user_id">
                                 <select name="search_project_id" class="form-control" id="search_project_id" required>
                                     <?php if($user == 'admin') {?>
                                     <option value="all" <?=(($search_project_id == 'all')?'selected':'')?>>All</option>
@@ -140,7 +127,9 @@ $controller_route   = $moduleDetail['controller_route'];
                     </form>
                 </div>
             </div>
-            <?php if(!empty($response)){?>
+            <?php if(!empty($response)){
+                // pr($response);
+                ?>
                  <div class="card mt-3">
                     <div class="card-body pt-3">
                         <?php

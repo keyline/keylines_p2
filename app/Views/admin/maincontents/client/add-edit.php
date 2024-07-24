@@ -47,6 +47,7 @@ $controller_route   = $moduleDetail['controller_route'];
               $dob_day          = $row->dob_day;
               $dob_month        = $row->dob_month;
               $dob_year         = $row->dob_year;
+              $password         = $row->password_org;
               $comment          = $row->comment;
               $reference        = $row->reference;
               $login_access     = $row->login_access;
@@ -182,7 +183,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <label for="password" class="col-form-label">Password <small class="text-danger">*</small></label>
-                                <input type="password" name="password" class="form-control" id="password" required>
+                                <input type="password" name="password" class="form-control" id="password" required value="<?=$password?>" >
                                 <?php if($row){?><small>Leave blank if do not want to update</small><?php }?>
                             </div>
 

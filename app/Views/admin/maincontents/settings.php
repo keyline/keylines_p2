@@ -120,12 +120,12 @@ $user_type = session('user_type');
                       <input type="text" name="phone2" class="form-control" id="phone2" value="<?=$admin->phone2?>">
                     </div>
                   </div>
-                  <div class="row mb-3">
+                  <!-- <div class="row mb-3">
                     <label for="hour_cost" class="col-md-4 col-lg-3 col-form-label">Hour Cost</label>
                     <div class="col-md-8 col-lg-9">
                       <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$admin->hour_cost?>">
                     </div>
-                  </div>
+                  </div> -->
                   <div class="row mb-3">
                     <label for="dob" class="col-md-4 col-lg-3 col-form-label">DOB</label>
                     <div class="col-md-8 col-lg-9">

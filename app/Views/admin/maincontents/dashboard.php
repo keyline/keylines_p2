@@ -776,7 +776,7 @@ $userType           = $session->user_type;
                                                 <th>#</th>
                                                 <th>Project Name</th>
                                                 <th>Project Type</th>
-                                                <th>Effort Time</th>
+                                                <!-- <th>Effort Time</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -787,7 +787,7 @@ $userType           = $session->user_type;
                                                         <td><?= $sl++ ?></td>
                                                         <td><?= $row->name ?></td>
                                                         <td><?= $row->project_status_name ?></td>
-                                                        <td><?= intdiv($total_effort_in_mins, 60) . ' Hours ' . ($total_effort_in_mins % 60) . ' Minutes'; ?></td>
+                                                        <!-- <td><?= intdiv($total_effort_in_mins, 60) . ' Hours ' . ($total_effort_in_mins % 60) . ' Minutes'; ?></td> -->
                                                     </tr>
                                             <?php }
                                             } ?>
@@ -802,6 +802,9 @@ $userType           = $session->user_type;
                                             } ?>
                                         </tbody>
                                     </table>
+                                    <div class="text-center">
+                                        <a class="btn btn-primary" href="<?=base_url('admin/reports/advance-search')?>"> View Report Details</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
