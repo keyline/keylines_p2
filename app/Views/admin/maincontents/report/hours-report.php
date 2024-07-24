@@ -60,6 +60,7 @@
                     </form>
                 </div>
             </div>
+            <?php if(checkModuleFunctionAccess(24,43)){ ?>
             <div class="card" id="project-container">
                 <div class="row">
                     <div class="col md-6" style="padding: 12px;margin: 15px;margin-top:0px">
@@ -129,6 +130,7 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </div>
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

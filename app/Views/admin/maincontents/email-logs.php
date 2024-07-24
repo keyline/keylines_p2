@@ -10,6 +10,7 @@ $user_type = session('user_type');
     </ol>
   </nav>
 </div><!-- End Page Title -->
+<?php if(checkModuleFunctionAccess(9,52)){ ?>
 <section class="section profile">
   <div class="row">
     <div class="col-xl-12">
@@ -47,7 +48,9 @@ $user_type = session('user_type');
                         <td><?=$row->email?></td>
                         <td><?=$row->subject?></td>
                         <td>
+                          <?php if(checkModuleFunctionAccess(9,51)){ ?>
                             <a target="_blank" href="<?=base_url('admin/email-logs-details/'.encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$row->subject?>"><i class="fa fa-info-circle"></i></a>
+                            <?php } ?>
                         </td>
                     </tr>
                     <?php } }?>
@@ -58,3 +61,4 @@ $user_type = session('user_type');
     </div>
   </div>
 </section>
+<?php } ?>

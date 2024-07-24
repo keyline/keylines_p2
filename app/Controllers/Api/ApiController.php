@@ -2154,7 +2154,68 @@ class ApiController extends BaseController
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
-
+        public function changePassword()
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $this->isJSON(file_get_contents('php://input'));
+            $requestData        = $this->extract_json(file_get_contents('php://input'));        
+            $requiredFields     = ['note_date', 'note'];
+            $headerData         = $this->request->headers();
+            if (!$this->validateArray($requiredFields, $requestData)){              
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }           
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $note_date                  = date_format(date_create($requestData['note_date']), "Y-m-d");
+                $note                       = $requestData['note'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    if($getUser){
+                        $checkAttn  = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $note_date]);
+                        $fields     = [
+                            'note' => $note
+                        ];
+                        if($checkAttn){
+                            $this->common_model->save_data('attendances', $fields, $checkAttn->id, 'id');
+                            $apiMessage         = 'Note Updated Successfully !!!';
+                        } else {
+                            $this->common_model->save_data('attendances', $fields, '', 'id');
+                            $apiMessage         = 'Note Inserted Successfully !!!';
+                        }
+                        $apiStatus          = TRUE;
+                        http_response_code(200);
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(404);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
         public static function geolocationaddress($lat, $long)
         {
             $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=AIzaSyDHeAHBftV28TQMq2iqyO730UC6O0WoE9M";
