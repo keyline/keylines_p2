@@ -2170,6 +2170,7 @@ class ApiController extends BaseController
             if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
                 $note_date                  = date_format(date_create($requestData['note_date']), "Y-m-d");
                 $note                       = $requestData['note'];
+                $Authorization              = $headerData['Authorization'];
                 $app_access_token           = $this->extractToken($Authorization);
                 $getTokenValue              = $this->tokenAuth($app_access_token);
                 
