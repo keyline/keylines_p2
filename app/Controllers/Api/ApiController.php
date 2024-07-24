@@ -2154,7 +2154,7 @@ class ApiController extends BaseController
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
-        public function changePassword()
+        public function updateNote()
         {
             $apiStatus          = TRUE;
             $apiMessage         = '';

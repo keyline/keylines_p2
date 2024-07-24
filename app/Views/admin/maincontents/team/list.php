@@ -13,7 +13,6 @@ $controller_route   = $moduleDetail['controller_route'];
         </ol>
     </nav>
 </div>
-<?php if(checkModuleFunctionAccess(18,26)){ ?>
 <section class="section">
     <div class="row">
         <div class="col-xl-12">
@@ -119,11 +118,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         <td><?=$department_name->deprt_name ?? null;?></td>
                                                         <!-- ?php } }?>                                                                                    -->
                                                         <td>
-                                                            <?php if(checkModuleFunctionAccess(18,27)){ ?>
                                                             <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample<?=$row->id?>" role="button" aria-expanded="false" aria-controls="collapseExample">
                                                                 Add/Edit
                                                             </a>
-                                                            <?php } ?>
 
                                                             <div class="collapse" id="collapseExample<?=$row->id?>">
                                                             <div class="card card-body">
@@ -170,7 +167,6 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>    
 </section>
-<?php   } ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
