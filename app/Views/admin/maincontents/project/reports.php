@@ -82,9 +82,11 @@
                         if (!empty($result)) {
                         ?>
                             <div class="">
-                                <div style="display: inline-flex;gap: 10px;">
+                                <div style="display: inline-flex;gap: 10px;width: 100%;">
+                                    <!-- ?php pr($project); ?> -->
                                     <select class="selectpicker" onchange="selectProject(this.value)" data-show-subtext="true" data-live-search="true">
                                         <?php if ($all_projects) {
+                                           
                                             foreach ($all_projects as $all_project) { ?>
                                                 <option <?= ($all_project->id == $project->id) ? 'selected' : '' ?> value="<?= base64_encode($all_project->id); ?>"><?= $all_project->name; ?></option>
                                         <?php }
@@ -104,6 +106,8 @@
                                     <?php   } else {  ?>
                                         <h1><button class="btn btn-success"> Monthly: <?= $project->hour_month . ' Hours' ?></button></h1>
                                     <?php } ?>
+                                    <h3 style="font-size: 20px; background-color: #dcf5dc; padding: 4px; margin: 0px; text-align: center; border: 2px solid beige; padding: 8px; border-radius: 13px; background: #dcf5dc; margin-left: auto; float: right;"><?= $project->name; ?></h3>
+                                    
                                 </div>
                                 <div class="">
                                     <h4 style="margin: 20px;text-align: center;border: 2px solid beige;padding: 8px;border-radius: 13px;background: #dcf5dc;"><b>Total Hours Report Last 12 Months</b></h4>
