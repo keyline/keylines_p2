@@ -2178,12 +2178,14 @@ class ApiController extends BaseController
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
                     if($getUser){
-                        $checkAttn  = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $note_date]);
+                        $checkAttns  = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $note_date]);
                         $fields     = [
                             'note' => $note
                         ];
-                        if($checkAttn){
-                            $this->common_model->save_data('attendances', $fields, $checkAttn->id, 'id');
+                        if($checkAttns){
+                            foreach($checkAttns as $checkAttn){
+                                $this->common_model->save_data('attendances', $fields, $checkAttn->id, 'id');
+                            }
                             $apiMessage         = 'Note Updated Successfully !!!';
                         } else {
                             $this->common_model->save_data('attendances', $fields, '', 'id');
