@@ -96,7 +96,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     ?>
                                     <tr>
                                         <th scope="row"><?=$sl++?></th>
-                                        <td><a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($row->id));?>"><?=$row->name?></a></td>
+                                        <td><?=$row->name?><a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($row->id));?>"><i class="fa fa-edit" style="margin-left: 5px;"></i></a></td>
                                         <td><?=$row->client_name?></td>
                                         <td><?=$row->assigned_name?></td>
                                         <td><?=$row->project_status_name?></td>
