@@ -1955,10 +1955,13 @@ class ApiController extends BaseController
                                         $totmin                 = $dayWiseBooked->totmin;
                                         $totalMin               = ($tothour + $totmin);
                                         $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                        $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desklog_report` where tracker_user_id='$uId' and insert_date LIKE '$loopDate'")->getRow();
+                                        $desklog_time           = (($getDesklogTime)?$getDesklogTime->time_at_work:'');
                                         $trackerLast7Days[]     = [
                                             'date_no'       => date_format(date_create($last7Days[$t]), "M d, Y"),
                                             'day_name'      => date('D', strtotime($last7Days[$t])),
                                             'booked_time'   => $booked_effort,
+                                            'desklog_time'  => $desklog_time
                                         ];
                                     }
                                 }
