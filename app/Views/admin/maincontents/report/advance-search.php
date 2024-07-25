@@ -33,7 +33,7 @@ $controller_route   = $moduleDetail['controller_route'];
     <div class="row">
         <div class="col-xl-12">
             <?php if(session('success_message')){?>
-            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+            <div class="alert alert-success custom-alert bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
                 <?=session('success_message')?>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -153,17 +153,17 @@ $controller_route   = $moduleDetail['controller_route'];
                         // $totalMinutes = ($totHour * 60) + $totMinute;
                         $totalBooked = intdiv($total_effort_in_mins, 60).' Hours '. ($total_effort_in_mins % 60).' Minutes';;
                         ?>
-                        <h4 class="alert alert-warning fw-bold"><i class="fa fa-clock"></i> Total Effort : <?=$totalBooked?></h4>
+                        <h4 class="alert alert-warning fw-bold custom-alert"><i class="fa fa-clock"></i> Total Effort : <?=$totalBooked?></h4>
                     </div>
                 </div> 
                 <div class="card mt-3">
                     <div class="card-body pt-3">
-                        <h6 class="alert alert-success"><?=count($response)?> result(s) found</h6>
+                        <h6 class="alert alert-success custom-alert mb-2"><?=count($response)?> result(s) found</h6>
                         <!-- <h5>
                             <a target="_blank" href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/download_csv" class="btn btn-success">Downlaod CSV</a>
                         </h5> -->
                         <div class="dt-responsive table-responsive">
-                            <table id="simpletable" class="table table-bordered table-striped general_table_style">
+                            <table id="simpletable" class="table table-bordered general_table_style">
                                 <thead>
                                     <tr>
                                         <th width="3%">#</th>
@@ -192,13 +192,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td><?=$res['description']?></td>
                                             <td><?=$res['effort_type']?><br><small>(<?=$res['project_status']?>)</small></td>
                                             <td>
-                                                <a target="_blank" href="<?=base_url('admin/efforts/edit/'.encoded($res['id']))?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil text-primary"></i></a>
-                                                <br><br>
+                                                <a class="btn btn-outline-primary btn-sm" target="_blank" href="<?=base_url('admin/efforts/edit/'.encoded($res['id']))?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil text-primary"></i></a>
+                                                <br>
                                                 <?php
                                                 $userType           = $session->user_type;
                                                 if($userType == 'admin'){
                                                 ?>
-                                                    <a href="<?=base_url('admin/efforts/delete/'.encoded($res['id']))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash text-danger"></i></a>
+                                                    <a class="btn btn-outline-primary btn-sm mt-1" href="<?=base_url('admin/efforts/delete/'.encoded($res['id']))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash text-danger"></i></a>
                                                 <?php }?>
                                             </td>
                                         </tr>
@@ -218,7 +218,7 @@ $controller_route   = $moduleDetail['controller_route'];
                         // $totalMinutes = ($totHour * 60) + $totMinute;
                         $totalBooked = intdiv($total_effort_in_mins, 60).' Hours '. ($total_effort_in_mins % 60).' Minutes';;
                         ?>
-                        <h4 class="alert alert-warning fw-bold"><i class="fa fa-clock"></i> Total Effort : <?=$totalBooked?></h4>
+                        <h4 class="alert alert-warning fw-bold custom-alert"><i class="fa fa-clock"></i> Total Effort : <?=$totalBooked?></h4>
                     </div>
                 </div>
                 <div class="card mt-3">

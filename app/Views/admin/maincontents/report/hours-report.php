@@ -63,9 +63,9 @@
             <div class="card" id="project-container">
                 <div class="row">
                     <div class="col md-6" style="padding: 12px;margin: 15px;margin-top:0px">
-                        <center><h3><b>ONGOING PROJECT</b></h3></center>
+                        <center><h6><b>ONGOING PROJECT</b></h6></center>
                         <div class="dt-responsive table-responsive">
-                            <table class="table table-striped table-bordered nowrap general_table_style" style="width: 100%">
+                            <table class="table table-bordered nowrap general_table_style" style="width: 100%">
                                 <thead>
                                     <tr>
                                         <th width="1%">#</th>
@@ -107,9 +107,9 @@
                         </div>
                     </div>
                     <div class="col md-6" style="padding: 12px;margin: 15px;margin-top:0px">
-                        <center><h3><b>BILLABLE/NONBILLABLE HOURS</b></h3></center>
+                        <center><h6><b>BILLABLE/NONBILLABLE HOURS</b></h6></center>
                         <div class="dt-responsive table-responsive">
-                            <table class="table table-striped table-bordered nowrap general_table_style" style="width: 100%">
+                            <table class="table table-bordered nowrap general_table_style" style="width: 100%">
                                 <thead>
                                     <tr>
                                         <th width="1%">#</th>

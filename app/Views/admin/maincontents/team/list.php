@@ -40,12 +40,12 @@ $controller_route   = $moduleDetail['controller_route'];
                         <?php foreach($department as $row){?>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">                       
-                                    <h5 class="fw-bold text-center heading_style"><?=$row->deprt_name?></h5>                            
+                                    <h6 class="fw-bold text-center heading_style"><?=$row->deprt_name?></h6>                            
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="dt-responsive table-responsive">
-                                            <table class="table table-striped table-bordered nowrap general_table_style">
+                                            <table class="table table-bordered nowrap general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>                                                
@@ -79,12 +79,12 @@ $controller_route   = $moduleDetail['controller_route'];
                         <div class="col-md-9">
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">                       
-                                    <h5 class="fw-bold text-center heading_style">All Members</h5>                            
+                                    <h6 class="fw-bold text-center heading_style">All Members</h6>                            
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="dt-responsive table-responsive">
-                                            <table class="table table-striped table-bordered nowrap general_table_style">
+                                            <table class="table table-bordered nowrap general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>                                                
@@ -110,7 +110,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         ?>
                                                     <tr>
                                                         <th scope="row"><?=$sl++?></th>
-                                                        <td style= "text-align: left !important;"><?=$row->name;?></td> 
+                                                        <td><?=$row->name;?></td> 
                                                         <?php
                                                         // if($department_name){ $sl=1; foreach($department_name as $row1){
                                                             //  pr($row1);
@@ -118,8 +118,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         <td><?=$department_name->deprt_name ?? null;?></td>
                                                         <!-- ?php } }?>                                                                                    -->
                                                         <td>
-                                                            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample<?=$row->id?>" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                                Add/Edit
+                                                            <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample<?=$row->id?>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                                <i class="fa fa-edit"></i>
                                                             </a>
 
                                                             <div class="collapse" id="collapseExample<?=$row->id?>">

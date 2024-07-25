@@ -69,13 +69,13 @@ $controller_route   = $moduleDetail['controller_route'];
                 <div class="row mt-3">                    
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header text-dark">
-                                <h5 class="fw-bold text-center heading_style">Project Report <span id="year"><?=$year?></span></h5>
+                            <div class="card-header text-dark bg-dark-info">
+                                <h6 class="fw-bold text-center heading_style">Project Report <span id="year"><?=$year?></span></h6>
                             </div>
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-xxl-12 col-md-12 table-responsive">
-                                        <table class="table table-striped table-bordered general_table_style">
+                                        <table class="table table-bordered general_table_style">
                                             <thead>
                                                 <tr>
                                                     <th>#</th>
