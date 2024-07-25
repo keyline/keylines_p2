@@ -83,6 +83,10 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
 			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
 		/* clients */
+		// task assign
+			$routes->match(['get'], "task-assign", "TaskAssignController::task_list");
+		// task assign
+
 		/* users */
 			$routes->match(['get'], "users/list", "UserController::list");
 			$routes->match(['get', 'post'], "users/add", "UserController::add");
