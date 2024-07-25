@@ -52,18 +52,16 @@ $controller_route   = $moduleDetail['controller_route'];
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Client</th>
-                                    <th scope="col">Assigned<br>By</th>
-                                    <th scope="col">Type</th>
+                                    <th scope="col">Project Name</th>                                    
+                                    <th scope="col">Assigned By<br>Client Service</th>                                    
                                     <th scope="col">Total Hour</th>
-                                    <th scope="col">Monthly Hour</th>
-                                    <th scope="col">Contact</th>
-                                    <th scope="col">Start<br>Deadline</th>
+                                    <!-- <th scope="col">Monthly Hour</th> -->
+                                    <!-- <th scope="col">Contact</th> -->
+                                    <!-- <th scope="col">Start<br>Deadline</th> -->
                                     <!-- <th scope="col">Parent</th> -->
-                                    <th scope="col">URL</th>
-                                    <th scope="col">Contact Service</th>
-                                    <th scope="col">Created<br>Updated</th>
+                                    <!-- <th scope="col">URL</th> -->
+                                    <!-- <th scope="col"></th> -->
+                                    <!-- <th scope="col">Created<br>Updated</th> -->
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -96,37 +94,42 @@ $controller_route   = $moduleDetail['controller_route'];
                                     ?>
                                     <tr>
                                         <th scope="row"><?=$sl++?></th>
-                                        <td><?=$row->name?><a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($row->id));?>"><i class="fa fa-edit" style="margin-left: 5px;"></i></a></td>
-                                        <td><?=$row->client_name?></td>
-                                        <td><?=$row->assigned_name?></td>
-                                        <td><?=$row->project_status_name?></td>
+                                        <td>
+                                            <span class="badge bg-warning text-dark">Id: <?=$row->$primary_key?></span><b><?=$row->name?></b><a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($row->id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a><br>
+                                            <span class="badge bg-primary"><?=$row->project_status_name?></span>
+                                            <span class="badge bg-success"><?=(($row->start_date != '')?date_format(date_create($row->start_date), "M d, Y"):'')?></span><br>
+                                            Last Update: <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?><br>
+                                            <i class="fa fa-user" style="margin-left: 5px;"></i><b><?=$row->client_name?></b> <br>
+                                            
+                                            <!-- ?=(($row->deadline != '')?date_format(date_create($row->deadline), "M d, Y"):'')?> -->
+                                        </td>                                    
+                                        <td><?=$row->assigned_name?><br><?=(($getClientService)?$getClientService->name:'')?></td>                                        
                                         <td>
                                             <?php if($getProject){ if($getProject->project_time_type == 'Onetime'){?>
-                                                <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Assigned : <?=$assigned?> hrs</span></a><br>
+                                                <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Fixed : <?=$assigned?> hrs</span></a><br>
                                                 <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked(Monthly) : <?=$current_month_booking?></span></a><br>
                                                 <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a>
-                                            <?php } }?>
-                                        </td>
-                                        <td>
-                                            <?php if($getProject){ if($getProject->project_time_type == 'Monthlytime'){?>
-                                                <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Assigned : <?=$assigned?> hrs</span></a><br>
+                                            <?php } elseif($getProject->project_time_type == 'Monthlytime'){?>
+                                                <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Monthly : <?=$assigned?> hrs</span></a><br>
                                                 <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked : <?=$current_month_booking?></span></a><br>
-                                                <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a>
+                                                <!-- <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a> -->
                                             <?php } }?>
                                         </td>
-                                        <td><?=$row->client_name?></td>
-                                        <td><?=(($row->start_date != '')?date_format(date_create($row->start_date), "M d, Y"):'')?><br><?=(($row->deadline != '')?date_format(date_create($row->deadline), "M d, Y"):'')?></td>
+                                        <!-- <td>
+                                            <?php if($getProject){  }?>
+                                        </td> -->
+                                        <!-- <td>?=$row->client_name?></td>                                         -->
                                         <!-- <td></td> -->
-                                        <td>
+                                        <!-- <td>
                                             <?php if($row->temporary_url != ''){?><small>Temp : <a href="<?=$row->temporary_url?>" target="_blank"><?=$row->temporary_url?></a></small><br><?php }?>
                                             <?php if($row->permanent_url != ''){?><small>Per : <a href="<?=$row->permanent_url?>" target="_blank"><?=$row->permanent_url?></a></small><?php }?>
-                                        </td>
-                                        <td><?=(($getClientService)?$getClientService->name:'')?></td>
-                                        <td>
-                                            <?=(($row->date_added != '')?date_format(date_create($row->date_added), "M d, Y h:i A"):'')?>
+                                        </td> -->
+                                        <!-- <td></td> -->
+                                        <!-- <td>
+                                            ?=(($row->date_added != '')?date_format(date_create($row->date_added), "M d, Y h:i A"):'')?>
                                             <br><hr>
-                                            <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?>
-                                        </td>
+                                            
+                                        </td> -->
                                         <td>
                                             <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a><br><br>
                                             <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a><br><br>
