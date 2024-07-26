@@ -172,6 +172,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <div class="general_form_right_box">
                                         <input type="password" name="password" class="form-control" id="password" value="<?=$password?>" <?=((empty($row))?'required':'')?>>
                                     </div>
+                                    <div class="eye">
+                                        <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
+                                        <i class="fa fa-eye" id="hidePassword" style="cursor:pointer;display: none;"></i>
+                                    </div>
                                 </div>
                                 <!-- type field -->
                                 <div class="col-md-2 col-lg-2">
@@ -353,4 +357,18 @@ $controller_route   = $moduleDetail['controller_route'];
         }
         return true;
     }
+</script>
+<script type="text/javascript">
+    $(function(){
+        $('#viewPassword').on('click', function(){
+            $('#password').attr('type', 'text');
+            $('#viewPassword').hide();
+            $('#hidePassword').show();
+        });
+        $('#hidePassword').on('click', function(){
+            $('#password').attr('type', 'password');
+            $('#hidePassword').hide();
+            $('#viewPassword').show();
+        });
+    })
 </script>
