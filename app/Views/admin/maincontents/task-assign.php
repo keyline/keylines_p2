@@ -88,6 +88,18 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                 <div class="row">
                                                                     <div class="col-12">
                                                                         <div class="input-group mb-1">
+                                                                            <textarea name="" id="" class="form-control form-control2"></textarea>
+                                                                            <a href="#" class="task_edit_btn">
+                                                                                <i class="fa-solid fa-pencil"></i>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </form>
+                                                            <form action="">
+                                                                <div class="row">
+                                                                    <div class="col-12">
+                                                                        <div class="input-group mb-1">
                                                                             <select name="" id="" class="form-control">
                                                                                 <option value="">Select Project</option>
                                                                                 <option value="">ABP Podcast Microsite Maintenance  (Biswajit Kolay) - Maintanance</option>

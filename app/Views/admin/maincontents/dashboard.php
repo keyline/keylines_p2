@@ -24,7 +24,7 @@ $userType           = $session->user_type;
             <div class="col-lg-12">
                 <div class="row">
                     <div class="col-xxl-12 col-md-12">
-                        <h2 style="font-weight: bold;">Welcome To <?= $general_settings->site_name ?></h2>
+                        <h4 style="font-weight: bold;">Welcome To <?= $general_settings->site_name ?></h4>
                     </div>
 
                     <!-- Recent Sales -->
@@ -38,7 +38,7 @@ $userType           = $session->user_type;
                 <?php if ($userType != 'client') { ?>
                     <div class="row mt-3">
                         <!-- Companies Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-3 col-md-6">
                             <div class="card info-card sales-card">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Users <span>| All Time</span></h5>
@@ -46,7 +46,7 @@ $userType           = $session->user_type;
                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                             <i class="bi bi-people"></i>
                                         </div>
-                                        <div class="ps-3">
+                                        <div class="ps-2">
                                             <h6><?= $total_users ?></h6>
                                         </div>
                                     </div>
@@ -56,7 +56,7 @@ $userType           = $session->user_type;
                         <!-- End Companies Card -->
 
                         <!-- Plants Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-3 col-md-6">
                             <div class="card info-card revenue-card">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Active Users <span>| All Time</span></h5>
@@ -64,7 +64,7 @@ $userType           = $session->user_type;
                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                             <i class="bi bi-people"></i>
                                         </div>
-                                        <div class="ps-3">
+                                        <div class="ps-2">
                                             <h6><?= $total_active_users ?></h6>
                                         </div>
                                     </div>
@@ -74,7 +74,7 @@ $userType           = $session->user_type;
                         <!-- End Plants Card -->
 
                         <!-- Vendors Card -->
-                        <div class="col-xxl-4 col-xl-12">
+                        <div class="col-xxl-3 col-xl-12">
                             <div class="card info-card customers-card">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Inactive Users <span>| All Time</span></h5>
@@ -82,7 +82,7 @@ $userType           = $session->user_type;
                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                             <i class="bi bi-people"></i>
                                         </div>
-                                        <div class="ps-3">
+                                        <div class="ps-2">
                                             <h6><?= $total_inactive_users ?></h6>
                                         </div>
                                     </div>
@@ -92,7 +92,7 @@ $userType           = $session->user_type;
                         <!-- End Vendors Card -->
 
                         <!-- Companies Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-3 col-md-6">
                             <div class="card info-card customers-card2">
                                 <div class="card-body">
                                     <h5 class="card-title">Project (Prospect/Active/Lost) <span>| All Time</span></h5>
@@ -100,7 +100,7 @@ $userType           = $session->user_type;
                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                             <i class="bi bi-people"></i>
                                         </div>
-                                        <div class="ps-3">
+                                        <div class="ps-2">
                                             <h6><?= $total_projects ?> <small>(<?= $total_prospect_projects ?>/<?= $total_active_projects ?>/<?= $total_lost_projects ?>)</small></h6>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@ $userType           = $session->user_type;
                         <!-- End Companies Card -->
 
                         <!-- Plants Card -->
-                        <div class="col-xxl-4 col-md-6">
+                        <div class="col-xxl-3 col-md-6">
                             <div class="card info-card customers-card3">
                                 <div class="card-body">
                                     <h5 class="card-title">Contacts (Lead) <span>| All Time</span></h5>
@@ -118,7 +118,7 @@ $userType           = $session->user_type;
                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                             <i class="bi bi-people"></i>
                                         </div>
-                                        <div class="ps-3">
+                                        <div class="ps-2">
                                             <h6><?= $total_clients ?> (<?= $total_clients_leads->count_lead ?>)</h6>
                                         </div>
                                     </div>
@@ -128,7 +128,7 @@ $userType           = $session->user_type;
                         <!-- End Plants Card -->
 
                         <!-- Vendors Card -->
-                        <div class="col-xxl-4 col-xl-12">
+                        <div class="col-xxl-3 col-xl-12">
                             <div class="card info-card customers-card4">
                                 <div class="card-body">
                                     <h5 class="card-title">Billable/Non-Billable <span>| All Time</span></h5>
@@ -136,7 +136,7 @@ $userType           = $session->user_type;
                                         <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                                             <i class="bi bi-people"></i>
                                         </div>
-                                        <div class="ps-3">
+                                        <div class="ps-2">
                                             <h6><?= $total_bill_projects ?>/<?= $total_nonbill_projects ?></h6>
                                         </div>
                                     </div>
@@ -148,12 +148,12 @@ $userType           = $session->user_type;
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">
-                                    <h5 class="fw-bold text-center heading_style">Tracker Report <span id="year"><?= date('Y') ?></span></h5>
+                                    <h6 class="fw-bold text-center heading_style">Tracker Report <span id="year"><?= date('Y') ?></span></h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="rows">
                                         <div class="col-xxl-12 col-md-12 table-responsive">
-                                            <table class="table table-striped table-bordered general_table_style">
+                                            <table class="table table-bordered general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -179,51 +179,51 @@ $userType           = $session->user_type;
                                                             <tr>
                                                                 <td><?= $sl++ ?></td>
                                                                 <td class="fw-bold"><?= $response['name'] ?></td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['jan_booked'] > 0) { ?><span class="badge <?= (($response['jan_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jan_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['jan_desklog'] > 0) { ?><span class="badge" <?= (($response['jan_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jan_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['feb_booked'] > 0) { ?><span class="badge <?= (($response['feb_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['feb_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['feb_desklog'] > 0) { ?><span class="badge" <?= (($response['feb_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['feb_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['mar_booked'] > 0) { ?><span class="badge <?= (($response['mar_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['mar_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['mar_desklog'] > 0) { ?><span class="badge" <?= (($response['mar_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['mar_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['apr_booked'] > 0) { ?><span class="badge <?= (($response['apr_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['apr_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['apr_desklog'] > 0) { ?><span class="badge" <?= (($response['apr_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['apr_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['may_booked'] > 0) { ?><span class="badge <?= (($response['may_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['may_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['may_desklog'] > 0) { ?><span class="badge" <?= (($response['may_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['may_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['jun_booked'] > 0) { ?><span class="badge <?= (($response['jun_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jun_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['jun_desklog'] > 0) { ?><span class="badge" <?= (($response['jun_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jun_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['jul_booked'] > 0) { ?><span class="badge <?= (($response['jul_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jul_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['jul_desklog'] > 0) { ?><span class="badge" <?= (($response['jul_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jul_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['aug_booked'] > 0) { ?><span class="badge <?= (($response['aug_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['aug_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['aug_desklog'] > 0) { ?><span class="badge" <?= (($response['aug_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['aug_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['sep_booked'] > 0) { ?><span class="badge <?= (($response['sep_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['sep_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['sep_desklog'] > 0) { ?><span class="badge" <?= (($response['sep_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['sep_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['oct_booked'] > 0) { ?><span class="badge <?= (($response['oct_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['oct_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['oct_desklog'] > 0) { ?><span class="badge" <?= (($response['oct_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['oct_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['nov_booked'] > 0) { ?><span class="badge <?= (($response['nov_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['nov_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['nov_desklog'] > 0) { ?><span class="badge" <?= (($response['nov_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['nov_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['dec_booked'] > 0) { ?><span class="badge <?= (($response['dec_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['dec_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['dec_desklog'] > 0) { ?><span class="badge" <?= (($response['dec_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['dec_desklog'] ?></span><?php } ?>
                                                                 </td>
@@ -238,12 +238,12 @@ $userType           = $session->user_type;
                             </div>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">
-                                    <h5 class="fw-bold text-center heading_style">Last 7 Days Attendance Report</h5>
+                                    <h6 class="fw-bold text-center heading_style">Last 7 Days Attendance Report</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="rows">
                                         <div class="col-xxl-12 col-md-12 table-responsive">
-                                            <table class="table table-striped table-bordered general_table_style general_table_style2">
+                                            <table class="table table-bordered general_table_style general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -269,7 +269,7 @@ $userType           = $session->user_type;
                                                                     $punchIn = $report['punchIn'];
                                                                     $punchOut = $report['punchOut'];                                                                
                                                                 ?>
-                                                                <td><p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>')"><?php if($punchIn > 0){ ?><span class="badge <?=(($punchIn <= 10)?'bg-success':'bg-danger')?>" style="cursor:pointer;">IN: <?=date('H:i', strtotime($punchIn))?></span> <?php } ?></p><br>
+                                                                <td class="text-center"><p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>')"><?php if($punchIn > 0){ ?><span class="badge <?=(($punchIn <= 10)?'bg-success':'bg-danger')?>" style="cursor:pointer;">IN: <?=date('H:i', strtotime($punchIn))?></span> <?php } ?></p><br>
                                                                     <p onclick="punchout('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchOut'] ?>')"><?php if($punchOut > 0){ ?><span class="badge" style="background-color: #b5f1a8;cursor:pointer;">OUT: <?=date('H:i', strtotime($punchOut))?></span> <?php } ?></p>
                                                                 </td>
                                                                 <?php } ?>
@@ -285,12 +285,12 @@ $userType           = $session->user_type;
                             </div>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">
-                                    <h5 class="fw-bold text-center heading_style">Last 7 Days Report</h5>
+                                    <h6 class="fw-bold text-center heading_style">Last 7 Days Report</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="rows">
                                         <div class="col-xxl-12 col-md-12 table-responsive">
-                                            <table class="table table-striped table-bordered general_table_style">
+                                            <table class="table table-bordered general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -319,7 +319,7 @@ $userType           = $session->user_type;
                                                                     $date_difference    = $diff->format("%a");
                                                                     //    echo $report['booked_effort']                                                  
                                                                 ?>
-                                                                    <td onclick="dayWiseList('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['booked_effort'] ?>')" 
+                                                                    <td class="text-right" onclick="dayWiseList('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['booked_effort'] ?>')" 
                                                                         <?php 
                                                                         // if ($date_difference > 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) { 
                                                                         //     echo 'style="background-color: #f9d99d;cursor:pointer;"';
@@ -340,16 +340,17 @@ $userType           = $session->user_type;
                                                                                 echo 'style="background-color: #b5f1a8;cursor:pointer;"';
                                                                             } 
                                                                         ?>
-                                                                    >T:
-                                                                        <?= $report['booked_effort']  ?> 
-                                                                        <!-- ?= $date_difference  ?>  -->
-                                                                        <?php 
+                                                                    > <?php 
                                                                         if ($date_difference != 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) { 
                                                                             echo '<span class="badge badge-danger badge_circle"></span>';
                                                                         } elseif ($date_difference == 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) {
                                                                             echo '<span class="badge badge-danger badge_circle"></span>';
                                                                         }                                                                    
-                                                                        ?> </br>
+                                                                        ?>
+                                                                        T:
+                                                                        <?= $report['booked_effort']  ?> 
+                                                                        <!-- ?= $date_difference  ?>  -->
+                                                                        </br>
                                                                         D: <?= $report['desklog_time'] ?>
                                                                     </td>
                                                                 <?php } ?>
@@ -368,12 +369,12 @@ $userType           = $session->user_type;
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header  text-dark bg-dark-info">
-                                    <h5 class="fw-bold text-center heading_style">ALL GRAPH</h5>
+                                    <h6 class="fw-bold text-center heading_style">ALL GRAPH</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="rows">
                                         <div class="col-xxl-12 col-md-12 table-responsive">
-                                            <table class="table table-striped table-bordered general_table_style2">
+                                            <table class="table table-bordered general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th>Yesterday</th>
@@ -549,12 +550,12 @@ $userType           = $session->user_type;
                         <div class="col-md-12">
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">
-                                    <h5 class="fw-bold text-center heading_style">USER GRAPH</h5>
+                                    <h6 class="fw-bold text-center heading_style">USER GRAPH</h6>
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="rows">
                                         <div class="col-xxl-12 col-md-12 table-responsive">
-                                            <table class="table table-striped table-bordered general_table_style">
+                                            <table class="table table-bordered general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -570,7 +571,7 @@ $userType           = $session->user_type;
                                                         $counter = 0;
                                                         foreach ($userGraph as $res) { ?>
                                                             <tr>
-                                                                <td><?= $sl++ ?></td>
+                                                                <td class="text-center"><?= $sl++ ?></td>
                                                                 <td class="fw-bold"><?= $res['name'] ?></td>
                                                                 <td>
                                                                     <?php if ($res['yesterdayHourBill'] != 0) { ?>
@@ -768,9 +769,9 @@ $userType           = $session->user_type;
                             <h6 class="fw-bold text-center">Project Report</h6>
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                            <div class="rows">
                                 <div class="col-xxl-12 col-md-12 table-responsive">
-                                    <table class="table table-striped table-bordered">
+                                    <table class="table table-bordered">
                                         <thead>
                                             <tr>
                                                 <th>#</th>
@@ -817,20 +818,20 @@ $userType           = $session->user_type;
     </div>
 
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog wide-modal">
-            <div class="modal-content" id="modalBody" style="height: 650px;overflow-y: scroll;">
+        <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable mx-auto wide-modal">
+            <div class="modal-content" id="modalBody">
             </div>
         </div>
     </div>
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog wide-modal">
-            <div class="modal-content" id="modalBody1" style="height: 650px;overflow-y: scroll;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mx-auto wide-modal">
+            <div class="modal-content" id="modalBody1">
             </div>
         </div>
     </div>
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog wide-modal">
-            <div class="modal-content" id="modalBody2" style="height: 650px;overflow-y: scroll;">
+        <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mx-auto wide-modal">
+            <div class="modal-content" id="modalBody2">
             </div>
         </div>
     </div>

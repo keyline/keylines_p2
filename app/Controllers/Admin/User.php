@@ -985,13 +985,13 @@ class User extends BaseController {
 
             $rows = $this->db->query($sql)->getResult();
             $html = '<div class="modal-header" style="justify-content: center;">
-                        <center><h5 style="font-size: x-large;" class="modal-title">List of Efforts of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h5></center>
-                        <button style="position: absolute;right: 1rem;top: 1rem;background-color: #dd828b;border-radius: 50%;width: 30px;height: 30px;font-size: 1.2rem;color: #7e1019;cursor: pointer;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <center><h6 class="modal-title">List of Efforts of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h6></center>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table general_table_style table-bordered">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -1007,10 +1007,10 @@ class User extends BaseController {
                 $sl = 1;
                 foreach ($rows as $record) {
                     $html .= '<tr>
-                                <td>' . $sl++ . '</td>
+                                <td class="text-center">' . $sl++ . '</td>
                                 <td>' . esc($record->projectName) . '</td>
-                                <td>' . esc($record->date_added) . '</td>
-                                <td>' . esc($record->hour) . ':' . esc($record->min) . '</td>
+                                <td class="text-center">' . esc($record->date_added) . '</td>
+                                <td class="text-center">' . esc($record->hour) . ':' . esc($record->min) . '</td>
                                 <td>' . esc($record->description) . '</td>
                                 <td>' . esc($record->effortName) . '</td>
                             </tr>';
@@ -1023,7 +1023,7 @@ class User extends BaseController {
             $html .= '</tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="6"><b>On '.$date.', '.$name.' work total of '.$effort_time.' hours</b></td>
+                                    <td colspan="6" class="text-center"><b>On '.$date.', '.$name.' work total of '.$effort_time.' hours</b></td>
                                 </tr>
                             </tfoot>
                                 </table>
@@ -1051,13 +1051,13 @@ class User extends BaseController {
 
             $rows = $this->db->query($sql)->getResult();
             $html = '<div class="modal-header" style="justify-content: center;">
-                        <center><h5 style="font-size: x-large;" class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h5></center>
-                        <button style="position: absolute;right: 1rem;top: 1rem;background-color: #dd828b;border-radius: 50%;width: 30px;height: 30px;font-size: 1.2rem;color: #7e1019;cursor: pointer;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <center><h6 class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h6></center>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table general_table_style table-bordered">
                                     <thead>
                                         <tr>                                            
                                             <th>Image</th>
@@ -1112,13 +1112,13 @@ class User extends BaseController {
 
             $rows = $this->db->query($sql)->getResult();
             $html = '<div class="modal-header" style="justify-content: center;">
-                        <center><h5 style="font-size: x-large;" class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h5></center>
-                        <button style="position: absolute;right: 1rem;top: 1rem;background-color: #dd828b;border-radius: 50%;width: 30px;height: 30px;font-size: 1.2rem;color: #7e1019;cursor: pointer;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <center><h6 class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h6></center>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table general_table_style table-bordered">
                                     <thead>
                                         <tr>                                            
                                             <th>Image</th>

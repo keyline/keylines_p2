@@ -78,7 +78,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             <a target="_blank" href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/download_csv" class="btn btn-success">Downlaod CSV</a>
                         </h5> -->
                         <div class="dt-responsive table-responsive">
-                            <table id="simpletable" class="table table-bordered table-striped general_table_style">
+                            <table id="simpletable" class="table table-bordered general_table_style">
                                 <thead>
                                     <tr>
                                         <th width="3%">#</th>

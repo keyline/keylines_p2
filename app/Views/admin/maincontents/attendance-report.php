@@ -71,12 +71,12 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header text-dark">
-                    <h5 class="fw-bold text-center heading_style">Last 7 Days Attendance Report</h5>
+                    <h6 class="fw-bold text-center heading_style">Last 7 Days Attendance Report</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xxl-12 col-md-12 table-responsive">
-                            <table class="table table-striped table-bordered general_table_style">
+                            <table class="table table-bordered general_table_style">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -127,14 +127,14 @@ $controller_route   = $moduleDetail['controller_route'];
         
     </div>
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog wide-modal">
-            <div class="modal-content" id="modalBody1" style="height: 650px; width: 900px; overflow-y: scroll;">
+        <div class="modal-dialog wide-modal modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" id="modalBody1">
             </div>
         </div>
     </div>
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog wide-modal">
-            <div class="modal-content" id="modalBody2" style="height: 650px; width: 900px; overflow-y: scroll;">
+        <div class="modal-dialog wide-modal modal-dialog-centered modal-dialog-scrollable">
+            <div class="modal-content" id="modalBody2">
             </div>
         </div>
     </div>

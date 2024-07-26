@@ -17,13 +17,13 @@ $controller_route   = $moduleDetail['controller_route'];
     <div class="row">
         <div class="col-xl-12">
             <?php if(session('success_message')){?>
-                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message custom-alert mb-2" role="alert">
                     <?=session('success_message')?>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
             <?php if(session('error_message')){?>
-                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message custom-alert mb-2" role="alert">
                     <?=session('error_message')?>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -40,12 +40,12 @@ $controller_route   = $moduleDetail['controller_route'];
                         <?php foreach($department as $row){?>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">                       
-                                    <h5 class="fw-bold text-center heading_style"><?=$row->deprt_name?></h5>                            
+                                    <h6 class="fw-bold text-center heading_style"><?=$row->deprt_name?></h6>                            
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="dt-responsive table-responsive">
-                                            <table class="table table-striped table-bordered nowrap general_table_style">
+                                            <table class="table table-bordered nowrap general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>                                                
@@ -79,12 +79,12 @@ $controller_route   = $moduleDetail['controller_route'];
                         <div class="col-md-9">
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">                       
-                                    <h5 class="fw-bold text-center heading_style">All Members</h5>                            
+                                    <h6 class="fw-bold text-center heading_style">All Members</h6>                            
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="dt-responsive table-responsive">
-                                            <table class="table table-striped table-bordered nowrap general_table_style">
+                                            <table class="table table-bordered nowrap general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>                                                
@@ -110,46 +110,78 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         ?>
                                                     <tr>
                                                         <th scope="row"><?=$sl++?></th>
-                                                        <td style= "text-align: left !important;"><?=$row->name;?></td> 
+                                                        <td><?=$row->name;?></td> 
                                                         <?php
                                                         // if($department_name){ $sl=1; foreach($department_name as $row1){
                                                             //  pr($row1);
                                                         ?>
                                                         <td><?=$department_name->deprt_name ?? null;?></td>
                                                         <!-- ?php } }?>                                                                                    -->
-                                                        <td>
-                                                            <a class="btn btn-primary" data-bs-toggle="collapse" href="#collapseExample<?=$row->id?>" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                                Add/Edit
+                                                        <td class="text-center">
+                                                            <!-- <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample<?=$row->id?>" role="button" aria-expanded="false" aria-controls="collapseExample">
+                                                                <i class="fa fa-edit"></i>
+                                                            </a> -->
+
+                                                            <a href="#exampleModal<?=$row->id?>" role="button" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                                <i class="fa fa-edit"></i>
                                                             </a>
 
-                                                            <div class="collapse" id="collapseExample<?=$row->id?>">
-                                                            <div class="card card-body">
-                                                                <form id="exampleForm" method="post">
-                                                                    <input type ="hidden" name="user_id" value ="<?=$row->id?>">
-                                                                    <div class="form-group">
-                                                                        <label for="name" class="col-form-label">Department Id <span class="text-danger">*</span></label>
-                                                                        <select name="dep_id" class="form-control" id="search_user_id" required>
-                                                                            <option value="all">All</option>
-                                                                            <hr>
-                                                                            <?php if($department){ foreach($department as $row1){?>
-                                                                                <option value="<?=$row1->id?> "<?=(($row->department == $row1->id)?'selected':'')?>><?=$row1->deprt_name?></option>
-                                                                                <hr>
-                                                                            <?php } }?>
-                                                                        </select>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade team-assin-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-dialog-centered">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <form id="exampleForm" method="post" class="general_form_style">
+                                                                                <input type ="hidden" name="user_id" value ="<?=$row->id?>">
+                                                                                <div class="container-fluid">
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6 col-lg-4">
+                                                                                            <div class="general_form_left_box">
+                                                                                                <label for="name" class="col-form-label">Department Id <span class="text-danger">*</span></label>
+                                                                                            </div>  
+                                                                                        </div>
+                                                                                        <div class="col-md-6 col-lg-8">
+                                                                                            <div class="general_form_right_box">
+                                                                                                <select name="dep_id" class="form-control" id="search_user_id" required>
+                                                                                                    <option value="all">All</option>
+                                                                                                    <hr>
+                                                                                                    <?php if($department){ foreach($department as $row1){?>
+                                                                                                        <option value="<?=$row1->id?> "<?=(($row->department == $row1->id)?'selected':'')?>><?=$row1->deprt_name?></option>
+                                                                                                        <hr>
+                                                                                                    <?php } }?>
+                                                                                                </select>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-md-6 col-lg-4">
+                                                                                            <div class="general_form_left_box">
+                                                                                                <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
+                                                                                            </div>  
+                                                                                        </div>
+                                                                                        <div class="col-md-6 col-lg-8">
+                                                                                            <div class="general_form_right_box">
+                                                                                                <select name="type" class="form-control" id="type" required>
+                                                                                                    <option value="" selected>Select Type</option>
+                                                                                                    <option value="Teamlead"<?=(($row->dept_type == 'Teamlead')?'selected':'')?>>Team Lead</option>
+                                                                                                    <option value="Sublead"<?=(($row->dept_type == 'Sublead')?'selected':'')?>>Sub Lead</option>
+                                                                                                    <option value="Member"<?=(($row->dept_type == 'Member')?'selected':'')?>>Member</option>                                    
+                                                                                                </select>
+                                                                                                <button type="submit" class="btn btn-primary btn-sm font-12 mt-1">Submit</button>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </form>
+                                                                        </div>
                                                                     </div>
-                                                                    <div class="form-group">
-                                                                        <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
-                                                                        <select name="type" class="form-control" id="type" required>
-                                                                            <option value="" selected>Select Type</option>
-                                                                            <option value="Teamlead"<?=(($row->dept_type == 'Teamlead')?'selected':'')?>>Team Lead</option>
-                                                                            <option value="Sublead"<?=(($row->dept_type == 'Sublead')?'selected':'')?>>Sub Lead</option>
-                                                                            <option value="Member"<?=(($row->dept_type == 'Member')?'selected':'')?>>Member</option>                                    
-                                                                        </select>
-                                                                    </div>
-                                                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                                                </form>
+                                                                </div>
                                                             </div>
-                                                            </div>                                                                                                                     
+                                                                                                                     
                                                         </td>
                                                     </tr>
                                                     <?php } }?>

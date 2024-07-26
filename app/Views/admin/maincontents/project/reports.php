@@ -59,13 +59,13 @@
         <div class="row">
             <div class="col-xl-12">
                 <?php if (session('success_message')) { ?>
-                    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
                         <?= session('success_message') ?>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 <?php } ?>
                 <?php if (session('error_message')) { ?>
-                    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
                         <?= session('error_message') ?>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
@@ -92,7 +92,7 @@
                                         <?php }
                                         } ?>
                                     </select>
-                                    <h1><button class="btn btn-info">
+                                    <h1><button class="btn btn-info btn-sm font-12">
                                             <?php
                                             $dateString = $project->start_date;
                                             $timestamp = strtotime($dateString);
@@ -102,11 +102,11 @@
                                         </button>
                                     </h1>
                                     <?php if ($project->project_time_type == 'Onetime') {  ?>
-                                        <h1><button class="btn btn-success"> Fixed: <?= $project->hour . ' Hours' ?></button></h1>
+                                        <h1><button class="btn btn-success btn-sm font-12"> Fixed: <?= $project->hour . ' Hours' ?></button></h1>
                                     <?php   } else {  ?>
                                         <h1><button class="btn btn-success"> Monthly: <?= $project->hour_month . ' Hours' ?></button></h1>
                                     <?php } ?>
-                                    <h3 style="font-size: 20px; background-color: #dcf5dc; padding: 4px; margin: 0px; text-align: center; border: 2px solid beige; padding: 8px; border-radius: 13px; background: #dcf5dc; margin-left: auto; float: right;"><?= $project->name; ?></h3>
+                                    <h3 style="font-size: 15px; background-color: #dcf5dc; padding: 4px; margin: 0px; text-align: center; padding: 5px; border-radius: 5px; background: #dcf5dc; margin-left: auto; float: right;"><?= $project->name; ?></h3>
                                     
                                 </div>
                                 <div class="">

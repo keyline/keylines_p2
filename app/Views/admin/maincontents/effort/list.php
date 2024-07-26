@@ -42,10 +42,10 @@ $controller_route   = $moduleDetail['controller_route'];
                 <div class="card-body">
                     
                     <h5 class="card-title">
-                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
+                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
                     </h5>
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style" style="width: 100%">
+                        <table id="simpletable" class="table table-bordered nowrap general_table_style" style="width: 100%">
                             <thead>
                                 <tr>
                                     <th width="1%">#</th>
@@ -98,13 +98,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <td><?=(($getEffortType)?$getEffortType->name:'')?></td>
                                     <td width="10%"><?=date_format(date_create($row->date_today), "d-m-Y h:i:s A")?></td>
                                     <td>
-                                        <a target="_blank" href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->id))?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil text-primary"></i></a>
-                                        <br><br>
+                                        <a target="_blank" class="btn btn-outline-primary btn-sm" href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->id))?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil"></i></a>
+                                        <br>
                                         <?php
                                         $userType           = $session->user_type;
                                         if($userType == 'admin'){
                                         ?>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->id))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash text-danger"></i></a>
+                                            <a class="btn btn-outline-danger mt-2 btn-sm" href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->id))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash"></i></a>
                                         <?php }?>
                                     </td>
                                 </tr>
