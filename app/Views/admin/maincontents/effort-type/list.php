@@ -32,10 +32,10 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
+                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
                     </h5>
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
+                        <table id="simpletable" class="table table-bordered nowrap general_table_style">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -54,7 +54,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <?=(($row->created_at != '')?date_format(date_create($row->created_at), "M d, Y h:i A"):'')?>
                                         </h6>
                                         <h6 <?php if($row->updated_at != ''){?>
-                                            echo style=" border-top: 1px solid #444444; margin-top: 15px; padding: 15px 20px 0; width: auto; display: inline-block;"
+                                            echo style=" border-top: 1px solid #444444; width: auto; display: inline-block;"
                                         <?php }?>>
                                             <?=(($row->updated_at != '')?date_format(date_create($row->updated_at), "M d, Y h:i A"):'')?>
                                         </h6>

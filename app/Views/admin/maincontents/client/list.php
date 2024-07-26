@@ -32,10 +32,10 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
+                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
                     </h5>
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered table-fit general_table_style">
+                        <table id="simpletable" class="table table-bordered table-fit general_table_style">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -55,7 +55,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <td>
                                         <?=$row->name?>
                                         <?php $projectCount = $common_model->find_data('project', 'count', ['client_id' => $row->id], 'id');?>
-                                        <h6><span class="badge bg-warning"><?=$projectCount?> Projects</span></h6>
+                                        <h6><span class="badge bg-primary"><?=$projectCount?> Projects</span></h6>
                                         <span class="badge <?=(($row->login_access == '1')?'bg-success':'bg-danger')?>"><?=(($row->login_access == '1')?' Login Access: YES':'Login Access: NO')?></span>
                                     </td>
                                     <td>
@@ -68,8 +68,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <td><?=$row->reference?></td>
                                     <td>
                                         <?=(($row->added_date != '0000-00-00 00:00:00')?date_format(date_create($row->added_date), "M d, Y h:i A"):'')?>
-                                        <br><hr>
-                                        <?=(($row->last_login != '0000-00-00 00:00:00')?date_format(date_create($row->last_login), "M d, Y h:i A"):'')?>
+                                        <h6 style=" border-top: 1px solid #444444; width: auto; display: inline-block;">
+                                            <?=(($row->last_login != '0000-00-00 00:00:00')?date_format(date_create($row->last_login), "M d, Y h:i A"):'')?>
+                                        </h6>
                                     </td>
                                     <td>
                                         <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>

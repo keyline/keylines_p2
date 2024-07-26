@@ -32,10 +32,10 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">
-                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
+                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
                     </h5>
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
+                        <table id="simpletable" class="table table-bordered nowrap general_table_style">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -82,8 +82,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <?php } else {?>
                                             <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$title?>" onclick="return confirm('Do You Want To Activate This <?=$title?>');"><i class="fa fa-times"></i></a>
                                         <?php }?>
-                                        <br><br>
-                                        <a href="<?=base_url('admin/users/send-credentials/'.encoded($row->$primary_key))?>" class="badge bg-info" onclick="return confirm('Do you want to reset password & send credentials ?');"><i class="fa fa-envelope"></i> Reset & Send Credentials</a>
+                                        <br>
+                                        <a href="<?=base_url('admin/users/send-credentials/'.encoded($row->$primary_key))?>" class="badge bg-info mt-1" onclick="return confirm('Do you want to reset password & send credentials ?');"><i class="fa fa-envelope"></i> Reset & Send Credentials</a>
                                     </td>
                                 </tr>
                                 <?php } }?>

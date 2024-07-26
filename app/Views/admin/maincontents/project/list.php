@@ -48,7 +48,7 @@ $controller_route   = $moduleDetail['controller_route'];
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
                     </h5>
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered table-fit general_table_style">
+                        <table id="simpletable" class="table table-bordered table-fit general_table_style">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -124,12 +124,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <td><?=(($getClientService)?$getClientService->name:'')?></td>
                                         <td>
                                             <?=(($row->date_added != '')?date_format(date_create($row->date_added), "M d, Y h:i A"):'')?>
-                                            <br><hr>
-                                            <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?>
+                                            <h6 style=" border-top: 1px solid #444444; width: auto; display: inline-block;">
+                                            <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?></h6>
                                         </td>
                                         <td>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a><br><br>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a><br><br>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a><br>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm my-1" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a><br>
                                             <?php if($row->active == 0){?>
                                                 <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-success btn-sm" title="Activate <?=$title?>" onclick="return confirm('Do You Want To Deactivate This <?=$title?>');"><i class="fa fa-check"></i></a>
                                             <?php } else {?>

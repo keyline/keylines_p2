@@ -1217,9 +1217,9 @@ class ReportController extends BaseController
         $html = '<div class="card" id="project-container">
                     <div class="row">
                         <div class="col md-6" style="padding: 12px;margin: 15px;margin-top:0px">
-                            <center><h3><b>ONGOING PROJECT</b></h3></center>
+                            <center><h6><b>ONGOING PROJECT</b></h6></center>
                             <div class="dt-responsive table-responsive">
-                                <table class="table table-striped table-bordered nowrap" style="width: 100%">
+                                <table class="table table-bordered nowrap general_table_style" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th width="1%">#</th>
@@ -1274,9 +1274,9 @@ class ReportController extends BaseController
             </div>';
 
         $html .= '<div class="col md-6" style="padding: 12px;margin: 15px;margin-top:0px">
-                <center><h3><b>BILLABLE/NONBILLABLE HOURS</b></h3></center>
+                <center><h6><b>BILLABLE/NONBILLABLE HOURS</b></h6></center>
                 <div class="dt-responsive table-responsive">
-                    <table class="table table-striped table-bordered nowrap" style="width: 100%">
+                    <table class="table general_table_style table-bordered nowrap" style="width: 100%">
                         <thead>
                             <tr>
                                 <th width="1%">#</th>
@@ -1366,7 +1366,7 @@ class ReportController extends BaseController
         // echo $sql;die;
         $rows       = $this->db->query($sql)->getResult();
         $html = '<div class="modal-header" style="justify-content: center;">
-                    <center><h5 style="font-size: x-large;" class="modal-title">Reports of Project <b><u> ' . $project->name . ' </b></u>'. '('. ucwords(str_replace('_', ' ', (string)$date)) .')' .'</h5></center>
+                    <center><h6 style="font-size: x-large;" class="modal-title">Reports of Project <b><u> ' . $project->name . ' </b></u>'. '('. ucwords(str_replace('_', ' ', (string)$date)) .')' .'</h6></center>
                     <button style="position: absolute;right: 1rem;top: 1rem;background-color: #dd828b;border-radius: 50%;width: 30px;height: 30px;font-size: 1.2rem;color: #7e1019;cursor: pointer;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div style="justify-content: center;display: flex;gap: 10px;margin-top: 10px;">
@@ -1382,7 +1382,7 @@ class ReportController extends BaseController
                     <div class="modal-body">
                         <div class="container">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table general_table_style">
                                     <thead>
                                         <tr>
                                             <th>ID</th>

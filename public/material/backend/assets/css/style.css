@@ -18,7 +18,10 @@ body {
   background: #f6f9ff;
   color: #444444;
 }
-
+ul{
+  list-style: none;
+  padding-left: 0;
+}
 a {
   color: #4154f1;
   text-decoration: none;
@@ -44,19 +47,42 @@ th,td{
 }
 
 /* surajit css */
-
+.dashboard .btn-close{
+  position: absolute;
+  right: 20px;
+  top: 15px;
+  background-color: #cdd8ff;
+  border-radius: 50%;
+  width: 15px;
+  height: 15px;
+  font-size: 1.2rem;
+  color: #000;
+  cursor: pointer;
+  opacity: 1;
+}
+.dashboard .modal-header{
+  padding: 10px 15px;
+  border-bottom: none;
+}
+.dashboard .modal-header .modal-title{
+  color: #000;
+}
+.dashboard .modal-body{
+  padding: 0;
+}
 .general_table_style{
   border: 2px solid #fff;
   vertical-align: middle !important;
   text-align: center !important;
+  margin-bottom: 0;
 }
 .general_table_style thead > tr{
   background: #cdd8ff !important;
-  box-shadow: 0 0px 10px -5px #000;
+  /* box-shadow: 0 0px 10px -5px #000; */
 }
 .general_table_style tbody > tr{
   background: #ececff !important;
-  box-shadow: 0 0px 10px -5px #000
+  /* box-shadow: 0 0px 10px -5px #000 */
 }
 .general_table_style th,
 .general_table_style td,
@@ -64,11 +90,22 @@ th,td{
 .general_table_style2 td{
   text-align: center !important;
   vertical-align: middle !important;
+  font-size: 11px !important;
+  padding: 2px !important;
+}
+.general_table_style td h6{
+  font-size: 11px !important;
+  margin-top: 5px !important;
+  padding: 5px 20px 0 !important;
+}
+.general_table_style  td a{
+  color: #000
 }
 .general_table_style2{
   border: 2px solid #fff;
   vertical-align: middle !important;
   text-align: center !important;
+  margin-bottom: 0;
 }
 .general_table_style2 tbody > tr{
   background: #fff4ec !important;
@@ -80,14 +117,14 @@ th,td{
 }
 
 label{
-  font-size: 15px;
+  font-size: 12px;
 }
 .custom_bg{
   background: #ff1e58;
   padding: 5px 8px
 }
 .badge{
-  padding: 5px 8px;
+  padding: 3px 5px;
 }
 .bg-dark-info{
   background: #d9ddff !important;
@@ -117,7 +154,7 @@ label{
   display: block;
   content: "";
   position: relative;
-  margin-top: 15px;
+  margin-top: 5px;
   left: 0;
   right: 0;
   background-color: #b80000;
@@ -181,7 +218,109 @@ label{
 .signin-box.card{
   border-radius: 10px;
 }
-
+/* add_effort css */
+.add_effort_btn{
+  font-size: 12px;
+}
+.dt-search{
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+div.dt-container .dt-search input{
+  height: 25px;
+}
+.dt-info{
+  font-size: 12px;
+}
+div.dt-container .dt-paging .dt-paging-button{
+  padding: 2px 8px !important;
+  font-size: 12px;
+}
+.dt-paging.paging_full_numbers{
+  color: #4154f1 !important;
+}
+div.dt-container .dt-paging .dt-paging-button.current, div.dt-container .dt-paging .dt-paging-button.current:hover{
+  background: #e5edff !important;
+  border: 1px solid #4154f1 !important;
+}
+div.dt-container .dt-paging .dt-paging-button:hover{
+  background: #4154f1 !important;
+  border: 1px solid #4154f1 !important
+}
+.custom-alert{
+  margin-bottom: 0;
+  font-size: 14px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
+.custom-alert i{
+  font-size: 13px;
+  margin-right: 5px;
+}
+/* task assign page css */
+.task-section  .card,
+.task-section  .card-body{
+  background: transparent;
+  padding: 0;
+  box-shadow: none;
+}
+.task-section .card h5{
+  font-size: 14px;
+}
+.task-section th{
+  font-size: 10px;
+} 
+.task-section  td{
+  padding: 0 5px
+}
+.task-section  th{
+  padding: 5px;
+}
+.task-section .form-control{
+  padding: 2px 10px;
+  height: 25px;
+  font-size: 11px;
+  border-radius: 4px !important;
+  width: 150px;
+}
+.task-section .form-control2{
+  height: 100px;
+}
+.task-section textarea{
+  resize: none;
+  min-height: 25px !important;
+}
+.task-section .add_button,
+.task-section .save_button{
+  font-size: 13px;
+  border-radius: 4px;
+  padding: 2px 10px;
+}
+.task-section .form-control:focus{
+  box-shadow: none;
+}
+.form-control2{
+  position: relative;
+}
+.task_edit_btn{
+  width: 15px;
+  height: 15px;
+  border: 1px solid #4154f1;
+  border-radius: 3px !important;
+  position: absolute;
+  bottom:5px;
+  right: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 55555;
+}
+.task_edit_btn i{
+  color: #4154f1;
+  font-size: 8px;
+}
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
@@ -374,13 +513,13 @@ label{
   border-color: #ebeef4;
   background-color: #fff;
   color: #798eb3;
-  padding: 15px 15px;
+  padding: 5px 15px;
   border-bottom: none;
 }
 
 .card-title {
-  padding: 0px 0 10px 0;
-  font-size: 16px;
+  padding: 0px;
+  font-size: 13px;
   font-weight: 500;
   color: #012970;
   font-family: "Poppins", sans-serif;
@@ -393,7 +532,7 @@ label{
 }
 
 .card-body {
-  padding: 15px 20px;
+  padding: 10px 10px;
 }
 
 .card-img-overlay {
@@ -795,10 +934,10 @@ label{
   top: 60px;
   left: 0;
   bottom: 0;
-  width: 230px;
+  width: 200px;
   z-index: 996;
   transition: all 0.3s;
-  padding: 20px;
+  padding: 5px;
   overflow-y: auto;
   /* scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent; */
@@ -816,7 +955,7 @@ label{
 
   #main,
   #footer {
-    margin-left: 220px;
+    margin-left: 200px;
   }
 }
 
@@ -865,20 +1004,20 @@ label{
 .sidebar-nav .nav-link {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: #1c55af;
   transition: 0.3;
   /* background: #f6f9ff; */
-  padding: 10px 15px;
-  border-radius: 4px;
+  padding: 5px 10px;
+  border-radius: 3px;
 }
 select.form-control {
     height: 40px;
 }
 .sidebar-nav .nav-link i {
-  font-size: 16px;
-  margin-right: 10px;
+  font-size: 12px;
+  margin-right: 5px;
   /* color: #4154f1; */
 }
 
@@ -891,7 +1030,8 @@ select.form-control {
   /* color: #899bbd; */
 }
 
-.sidebar-nav .nav-link:hover {
+.sidebar-nav .nav-link:hover,
+.sidebar-nav .nav-content a:hover {
   background: #e5edff;
   color: #4154f1;
   /* box-shadow: 0 3px 7px -5px #142f93; */
@@ -919,11 +1059,11 @@ select.form-control {
 .sidebar-nav .nav-content a {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 600;
   color: #012970;
   transition: 0.3;
-  padding: 10px 0 10px 40px;
+  padding: 5px 5px 5px 20px;
   transition: 0.3s;
 }
 
@@ -990,7 +1130,7 @@ select.form-control {
 }
 
 .dashboard .info-card h6 {
-  font-size: 20px;
+  font-size: 15px;
   color: #1c55af;
   font-weight: 700;
   margin: 0;
@@ -1012,10 +1152,10 @@ select.form-control {
   color: #fa5f1c;
 }
 .dashboard .card-icon {
-  font-size: 25px;
+  font-size: 18px;
   line-height: 0;
-  width: 55px;
-  height: 55px;
+  width: 40px;
+  height: 40px;
   flex-shrink: 0;
   flex-grow: 0;
 }
@@ -1448,13 +1588,14 @@ select.form-control {
 
 
 .dt-buttons button{
-  padding: 2px 20px;
+  padding: 2px 15px;
   background-color: #198754;
   color: #fff;
   border-radius: 50px;
   border:2px solid #198754;
   transition: all .3s ease-in-out;
   box-shadow: 0 9px 20px -10px #a5a5a5;
+  font-size: 12px;
 }
 .dt-buttons button:hover{
   background: transparent;
@@ -1466,8 +1607,8 @@ select.form-control {
 }
 
 .badge_circle{
-  width: 10px;
-    height: 10px;
+  width: 6px;
+    height: 6px;
     background-color: red;
     border-radius: 50% !important;
     padding: 0;
@@ -1497,6 +1638,9 @@ select.form-control {
   .info-date{
     margin-top: 10px !important;
     margin-bottom: 0 !important;
+  }
+  .dashboard .modal-header .modal-title{
+    width: 70%;
   }
 }
 @media (max-width: 480px) {
