@@ -16,13 +16,13 @@ $controller_route   = $moduleDetail['controller_route'];
     <div class="row">
         <div class="col-xl-12">
             <?php if(session('success_message')){?>
-                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
                     <?=session('success_message')?>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
             <?php if(session('error_message')){?>
-                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
                     <?=session('error_message')?>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -38,10 +38,10 @@ $controller_route   = $moduleDetail['controller_route'];
                         <table id="simpletable" class="table table-bordered nowrap general_table_style">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Created At<br>Updated At</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col" class="text-center">#</th>
+                                    <th scope="col" class="text-center">Name</th>
+                                    <th scope="col" class="text-center">Created At<br>Updated At</th>
+                                    <th scope="col" class="text-center">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -49,7 +49,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
                                     <td><?=$row->name?></td>
-                                    <td>
+                                    <td class="text-center">
                                         <h6>
                                             <?=(($row->created_at != '')?date_format(date_create($row->created_at), "M d, Y h:i A"):'')?>
                                         </h6>
@@ -59,7 +59,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <?=(($row->updated_at != '')?date_format(date_create($row->updated_at), "M d, Y h:i A"):'')?>
                                         </h6>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
                                         <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
                                         <?php if($row->status){?>

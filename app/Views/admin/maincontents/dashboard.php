@@ -179,51 +179,51 @@ $userType           = $session->user_type;
                                                             <tr>
                                                                 <td><?= $sl++ ?></td>
                                                                 <td class="fw-bold"><?= $response['name'] ?></td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['jan_booked'] > 0) { ?><span class="badge <?= (($response['jan_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jan_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['jan_desklog'] > 0) { ?><span class="badge" <?= (($response['jan_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jan_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['feb_booked'] > 0) { ?><span class="badge <?= (($response['feb_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['feb_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['feb_desklog'] > 0) { ?><span class="badge" <?= (($response['feb_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['feb_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['mar_booked'] > 0) { ?><span class="badge <?= (($response['mar_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['mar_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['mar_desklog'] > 0) { ?><span class="badge" <?= (($response['mar_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['mar_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['apr_booked'] > 0) { ?><span class="badge <?= (($response['apr_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['apr_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['apr_desklog'] > 0) { ?><span class="badge" <?= (($response['apr_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['apr_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['may_booked'] > 0) { ?><span class="badge <?= (($response['may_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['may_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['may_desklog'] > 0) { ?><span class="badge" <?= (($response['may_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['may_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['jun_booked'] > 0) { ?><span class="badge <?= (($response['jun_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jun_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['jun_desklog'] > 0) { ?><span class="badge" <?= (($response['jun_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jun_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['jul_booked'] > 0) { ?><span class="badge <?= (($response['jul_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jul_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['jul_desklog'] > 0) { ?><span class="badge" <?= (($response['jul_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jul_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['aug_booked'] > 0) { ?><span class="badge <?= (($response['aug_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['aug_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['aug_desklog'] > 0) { ?><span class="badge" <?= (($response['aug_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['aug_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['sep_booked'] > 0) { ?><span class="badge <?= (($response['sep_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['sep_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['sep_desklog'] > 0) { ?><span class="badge" <?= (($response['sep_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['sep_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['oct_booked'] > 0) { ?><span class="badge <?= (($response['oct_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['oct_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['oct_desklog'] > 0) { ?><span class="badge" <?= (($response['oct_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['oct_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['nov_booked'] > 0) { ?><span class="badge <?= (($response['nov_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['nov_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['nov_desklog'] > 0) { ?><span class="badge" <?= (($response['nov_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['nov_desklog'] ?></span><?php } ?>
                                                                 </td>
-                                                                <td>
+                                                                <td class="text-center">
                                                                     <?php if ($response['dec_booked'] > 0) { ?><span class="badge <?= (($response['dec_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['dec_booked'] ?></span><?php } ?><br>
                                                                     <?php if ($response['dec_desklog'] > 0) { ?><span class="badge" <?= (($response['dec_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['dec_desklog'] ?></span><?php } ?>
                                                                 </td>
@@ -243,7 +243,7 @@ $userType           = $session->user_type;
                                 <div class="card-body">
                                     <div class="rows">
                                         <div class="col-xxl-12 col-md-12 table-responsive">
-                                            <table class="table table-bordered general_table_style general_table_style2">
+                                            <table class="table table-bordered general_table_style general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
@@ -269,7 +269,7 @@ $userType           = $session->user_type;
                                                                     $punchIn = $report['punchIn'];
                                                                     $punchOut = $report['punchOut'];                                                                
                                                                 ?>
-                                                                <td><p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>')"><?php if($punchIn > 0){ ?><span class="badge <?=(($punchIn <= 10)?'bg-success':'bg-danger')?>" style="cursor:pointer;">IN: <?=date('H:i', strtotime($punchIn))?></span> <?php } ?></p><br>
+                                                                <td class="text-center"><p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>')"><?php if($punchIn > 0){ ?><span class="badge <?=(($punchIn <= 10)?'bg-success':'bg-danger')?>" style="cursor:pointer;">IN: <?=date('H:i', strtotime($punchIn))?></span> <?php } ?></p><br>
                                                                     <p onclick="punchout('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchOut'] ?>')"><?php if($punchOut > 0){ ?><span class="badge" style="background-color: #b5f1a8;cursor:pointer;">OUT: <?=date('H:i', strtotime($punchOut))?></span> <?php } ?></p>
                                                                 </td>
                                                                 <?php } ?>
@@ -319,7 +319,7 @@ $userType           = $session->user_type;
                                                                     $date_difference    = $diff->format("%a");
                                                                     //    echo $report['booked_effort']                                                  
                                                                 ?>
-                                                                    <td onclick="dayWiseList('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['booked_effort'] ?>')" 
+                                                                    <td class="text-right" onclick="dayWiseList('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['booked_effort'] ?>')" 
                                                                         <?php 
                                                                         // if ($date_difference > 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) { 
                                                                         //     echo 'style="background-color: #f9d99d;cursor:pointer;"';
@@ -340,16 +340,17 @@ $userType           = $session->user_type;
                                                                                 echo 'style="background-color: #b5f1a8;cursor:pointer;"';
                                                                             } 
                                                                         ?>
-                                                                    >T:
-                                                                        <?= $report['booked_effort']  ?> 
-                                                                        <!-- ?= $date_difference  ?>  -->
-                                                                        <?php 
+                                                                    > <?php 
                                                                         if ($date_difference != 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) { 
                                                                             echo '<span class="badge badge-danger badge_circle"></span>';
                                                                         } elseif ($date_difference == 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) {
                                                                             echo '<span class="badge badge-danger badge_circle"></span>';
                                                                         }                                                                    
-                                                                        ?> </br>
+                                                                        ?>
+                                                                        T:
+                                                                        <?= $report['booked_effort']  ?> 
+                                                                        <!-- ?= $date_difference  ?>  -->
+                                                                        </br>
                                                                         D: <?= $report['desklog_time'] ?>
                                                                     </td>
                                                                 <?php } ?>
@@ -373,7 +374,7 @@ $userType           = $session->user_type;
                                 <div class="card-body">
                                     <div class="rows">
                                         <div class="col-xxl-12 col-md-12 table-responsive">
-                                            <table class="table table-bordered general_table_style2">
+                                            <table class="table table-bordered general_table_style">
                                                 <thead>
                                                     <tr>
                                                         <th>Yesterday</th>
@@ -570,7 +571,7 @@ $userType           = $session->user_type;
                                                         $counter = 0;
                                                         foreach ($userGraph as $res) { ?>
                                                             <tr>
-                                                                <td><?= $sl++ ?></td>
+                                                                <td class="text-center"><?= $sl++ ?></td>
                                                                 <td class="fw-bold"><?= $res['name'] ?></td>
                                                                 <td>
                                                                     <?php if ($res['yesterdayHourBill'] != 0) { ?>

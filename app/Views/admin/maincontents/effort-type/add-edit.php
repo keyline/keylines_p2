@@ -18,13 +18,13 @@ $controller_route   = $moduleDetail['controller_route'];
     <div class="row">
         <div class="col-xl-12">
             <?php if(session('success_message')){?>
-            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
                 <?=session('success_message')?>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <?php }?>
             <?php if(session('error_message')){?>
-            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
                 <?=session('error_message')?>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
@@ -40,15 +40,23 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
-                    <form method="POST" action="" enctype="multipart/form-data">
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-2 col-lg-2 col-form-label"><?=$title?> Name</label>
-                            <div class="col-md-10 col-lg-10">
-                                <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
+                    <form method="POST" action="" enctype="multipart/form-data" class="general_form_style">
+                        <div class="container-fluid">
+                            <div class="row mb-2">
+                                <div class="col-md-2 col-lg-2">
+                                    <div class="general_form_left_box">
+                                        <label for="name" class="col-form-label ml-auto"><?=$title?> Name</label>
+                                    </div>  
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="general_form_right_box">
+                                        <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="text-center">
-                            <button type="submit" class="btn btn-primary"><?=(($row)?'Save':'Add')?></button>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary btn-sm small_btn"><?=(($row)?'Save':'Add')?></button>
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -100,7 +100,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <td><?=$row->client_name?></td>
                                         <td><?=$row->assigned_name?></td>
                                         <td><?=$row->project_status_name?></td>
-                                        <td>
+                                        <td class="text-center">
                                             <?php if($getProject){ if($getProject->project_time_type == 'Onetime'){?>
                                                 <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Assigned : <?=$assigned?> hrs</span></a><br>
                                                 <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked(Monthly) : <?=$current_month_booking?></span></a><br>
@@ -122,7 +122,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <?php if($row->permanent_url != ''){?><small>Per : <a href="<?=$row->permanent_url?>" target="_blank"><?=$row->permanent_url?></a></small><?php }?>
                                         </td>
                                         <td><?=(($getClientService)?$getClientService->name:'')?></td>
-                                        <td>
+                                        <td class="text-center">
                                             <?=(($row->date_added != '')?date_format(date_create($row->date_added), "M d, Y h:i A"):'')?>
                                             <h6 style=" border-top: 1px solid #444444; width: auto; display: inline-block;">
                                             <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?></h6>

@@ -1007,10 +1007,10 @@ class User extends BaseController {
                 $sl = 1;
                 foreach ($rows as $record) {
                     $html .= '<tr>
-                                <td>' . $sl++ . '</td>
+                                <td class="text-center">' . $sl++ . '</td>
                                 <td>' . esc($record->projectName) . '</td>
-                                <td>' . esc($record->date_added) . '</td>
-                                <td>' . esc($record->hour) . ':' . esc($record->min) . '</td>
+                                <td class="text-center">' . esc($record->date_added) . '</td>
+                                <td class="text-center">' . esc($record->hour) . ':' . esc($record->min) . '</td>
                                 <td>' . esc($record->description) . '</td>
                                 <td>' . esc($record->effortName) . '</td>
                             </tr>';
@@ -1023,7 +1023,7 @@ class User extends BaseController {
             $html .= '</tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="6"><b>On '.$date.', '.$name.' work total of '.$effort_time.' hours</b></td>
+                                    <td colspan="6" class="text-center"><b>On '.$date.', '.$name.' work total of '.$effort_time.' hours</b></td>
                                 </tr>
                             </tfoot>
                                 </table>

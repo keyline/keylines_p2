@@ -16,13 +16,13 @@ $controller_route   = $moduleDetail['controller_route'];
     <div class="row">
         <div class="col-xl-12">
             <?php if(session('success_message')){?>
-                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
                     <?=session('success_message')?>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
             <?php if(session('error_message')){?>
-                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
                     <?=session('error_message')?>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -55,26 +55,26 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
                                     <td><?=$row->name?><br><span class="badge bg-warning"><?=$row->id?></span></td>
-                                    <td><?=$row->phone1?></td>
+                                    <td class="text-center"><?=$row->phone1?></td>
                                     <td><?=$row->email?></td>
-                                    <td><?=$row->type?></td>
-                                    <td><?=$row->work_mode?></td>
-                                    <td>
+                                    <td class="text-center"><?=$row->type?></td>
+                                    <td class="text-center"><?=$row->work_mode?></td>
+                                    <td class="text-center">
                                         <?php if($row->is_tracker_user){?>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/change-tracker-status/'.encoded($row->$primary_key))?>" class="badge bg-success" title="Tracker On <?=$title?>" onclick="return confirm('Do You Want To Tracker Off This <?=$title?>');"><i class="fa fa-check"></i> Tracker On</a>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/change-tracker-status/'.encoded($row->$primary_key))?>" class="badge bg-success text-white" title="Tracker On <?=$title?>" onclick="return confirm('Do You Want To Tracker Off This <?=$title?>');"><i class="fa fa-check"></i> Tracker On</a>
                                         <?php } else {?>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/change-tracker-status/'.encoded($row->$primary_key))?>" class="badge bg-danger" title="Tracker Off <?=$title?>" onclick="return confirm('Do You Want To Tracker On This <?=$title?>');"><i class="fa fa-times"></i> Tracker Off</a>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/change-tracker-status/'.encoded($row->$primary_key))?>" class="badge bg-danger text-white" title="Tracker Off <?=$title?>" onclick="return confirm('Do You Want To Tracker On This <?=$title?>');"><i class="fa fa-times"></i> Tracker Off</a>
                                         <?php }?>
                                     </td>
-                                    <td>
+                                    <td class="text-center">
                                         <?php if($row->is_salarybox_user){?>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/change-salarybox-status/'.encoded($row->$primary_key))?>" class="badge bg-success" title="Salarybox On <?=$title?>" onclick="return confirm('Do You Want To Salarybox Off This <?=$title?>');"><i class="fa fa-check"></i> Salarybox On</a>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/change-salarybox-status/'.encoded($row->$primary_key))?>" class="badge bg-success text-white" title="Salarybox On <?=$title?>" onclick="return confirm('Do You Want To Salarybox Off This <?=$title?>');"><i class="fa fa-check"></i> Salarybox On</a>
                                         <?php } else {?>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/change-salarybox-status/'.encoded($row->$primary_key))?>" class="badge bg-danger" title="Salarybox Off <?=$title?>" onclick="return confirm('Do You Want To Salarybox On This <?=$title?>');"><i class="fa fa-times"></i> Salarybox Off</a>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/change-salarybox-status/'.encoded($row->$primary_key))?>" class="badge bg-danger text-white" title="Salarybox Off <?=$title?>" onclick="return confirm('Do You Want To Salarybox On This <?=$title?>');"><i class="fa fa-times"></i> Salarybox Off</a>
                                         <?php }?>
                                     </td>
-                                    <td><?=$row->attendence_type?></td>
-                                    <td>
+                                    <td class="text-center"><?=$row->attendence_type?></td>
+                                    <td class="text-center">
                                         <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
                                         <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
                                         <?php if($row->status){?>

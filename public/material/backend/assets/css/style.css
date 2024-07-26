@@ -70,10 +70,13 @@ th,td{
 .dashboard .modal-body{
   padding: 0;
 }
+.table.dataTable th{
+  text-align: center;
+}
 .general_table_style{
   border: 2px solid #fff;
   vertical-align: middle !important;
-  text-align: center !important;
+  /* text-align: center !important; */
   margin-bottom: 0;
 }
 .general_table_style thead > tr{
@@ -88,10 +91,13 @@ th,td{
 .general_table_style td,
 .general_table_style2 th,
 .general_table_style2 td{
-  text-align: center !important;
+  /* text-align: center !important; */
   vertical-align: middle !important;
   font-size: 11px !important;
   padding: 2px !important;
+}
+.general_table_style th{
+  text-align: center;
 }
 .general_table_style td h6{
   font-size: 11px !important;
@@ -104,7 +110,6 @@ th,td{
 .general_table_style2{
   border: 2px solid #fff;
   vertical-align: middle !important;
-  text-align: center !important;
   margin-bottom: 0;
 }
 .general_table_style2 tbody > tr{
@@ -222,6 +227,10 @@ label{
 .add_effort_btn{
   font-size: 12px;
 }
+.small_btn,
+.font-12{
+  font-size: 12px;
+}
 .dt-search{
   display: flex;
   justify-content: end;
@@ -258,6 +267,17 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 .custom-alert i{
   font-size: 13px;
   margin-right: 5px;
+}
+.custom-alert .btn-close{
+  padding: 13px;
+  opacity: 1;
+}
+.team-assin-modal .modal-header{
+  padding: 10px;
+  border-bottom: none;
+}
+.team-assin-modal .modal-body{
+  padding: 5px;
 }
 /* task assign page css */
 .task-section  .card,
@@ -320,6 +340,44 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 .task_edit_btn i{
   color: #4154f1;
   font-size: 8px;
+}
+.general_form_style {
+  border: 2px solid #cdd8ff;
+  padding-bottom: 5px;
+  font-size: 12px !important;
+}
+.general_form_left_box{
+  margin-left: -13px;
+  margin-right: -13px;
+  text-align: right;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 100%;
+}
+.general_form_right_box{
+  padding: 3px;
+  background: #cdd8ff;
+  margin-left: -13px;
+  margin-right: -13px;
+  height: 100%;
+}
+.general_form_left_box label{
+  font-size: 12px;
+  text-align: right;
+  padding: 2px;
+  margin-right: 5px;
+}
+.general_form_style input,
+.general_form_style select{
+  padding: 3px 5px;
+  border-radius: 3px;
+  height: 25px !important;
+  font-size: 12px;
+} 
+.general_form_style input:focus,
+.general_form_style select:focus{
+  box-shadow: none;
 }
 /*--------------------------------------------------------------
 # Main
@@ -501,7 +559,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 
 /* Card */
 .card {
-  margin-bottom: 30px;
+  margin-bottom: 15px;
   border: none;
   border-radius: 5px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
