@@ -86,7 +86,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <label for="description" class="col-form-label">Description</label>
-                                <textarea name="description" class="form-control ckeditor" id="description"><?=$description?></textarea>
+                                <textarea name="description" class="form-control" id="description"><?=$description?></textarea>
                             </div>
 
                             <div class="col-lg-6 col-md-6">
@@ -215,7 +215,11 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
-<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
+<!-- <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script> -->
+<script src="https://cdn.ckeditor.com/4.24.0-lts/standard/ckeditor.js"></script>
+<script>
+        CKEDITOR.replace( 'description' );
+</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
     $(function(){
