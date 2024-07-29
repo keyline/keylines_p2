@@ -51,7 +51,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
                                     <td><?=$row->deprt_name?></td>
-                                    <td><span style="border-radius: 50%; background-color: <?=$row->header_color?>">&nbsp;</span></td>
+                                    <td><span style="border-radius: 50%; background-color: <?=$row->header_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                                     <td><?=(($row->is_join_morning_meeting)?'YES':'NO')?></td>
                                     <td class="text-center">
                                         <h6>
