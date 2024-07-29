@@ -29,23 +29,23 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "reset-password/(:any)", "User::resetPassword/$1");
 		// authentication
 		//	access & permission
-			$routes->match(['get', 'post'], "manage_functionlist", "manage_functionlist::index");
-			$routes->match(['get', 'post'], "manage_functionlist/add", "manage_functionlist::add");
-			$routes->match(['get', 'post'], "manage_functionlist/edit/(:any)", "manage_functionlist::edit/$1");
-			$routes->match(['get', 'post'], "manage_functionlist/delete/(:any)", "manage_functionlist::confirm_delete/$1");
+		$routes->match(['get', 'post'], "manage_functionlist", "Manage_functionlist::index");
+		$routes->match(['get', 'post'], "manage_functionlist/add", "Manage_functionlist::add");
+		$routes->match(['get', 'post'], "manage_functionlist/edit/(:any)", "Manage_functionlist::edit/$1");
+		$routes->match(['get', 'post'], "manage_functionlist/delete/(:any)", "Manage_functionlist::confirm_delete/$1");
 
-			$routes->match(['get', 'post'], "manage_modulelist", "manage_modulelist::index");
-			$routes->match(['get', 'post'], "manage_modulelist/add", "manage_modulelist::add");
-			$routes->match(['get', 'post'], "manage_modulelist/edit/(:any)", "manage_modulelist::edit/$1");
-			$routes->match(['get', 'post'], "manage_modulelist/view/(:any)", "manage_modulelist::view/$1");
-			$routes->match(['get', 'post'], "manage_roles", "manage_roles::index");
+		$routes->match(['get', 'post'], "manage_modulelist", "Manage_modulelist::index");
+		$routes->match(['get', 'post'], "manage_modulelist/add", "Manage_modulelist::add");
+		$routes->match(['get', 'post'], "manage_modulelist/edit/(:any)", "Manage_modulelist::edit/$1");
+		$routes->match(['get', 'post'], "manage_modulelist/view/(:any)", "Manage_modulelist::view/$1");
+		$routes->match(['get', 'post'], "manage_roles", "Manage_roles::index");
 
-			$routes->match(['get', 'post'], "manage_roles", "manage_roles::index");
-			$routes->match(['get', 'post'], "manage_roles/add", "manage_roles::add");
-			$routes->match(['get', 'post'], "manage_roles/edit/(:any)", "manage_roles::edit/$1");
-			$routes->match(['get', 'post'], "manage_roles/view/(:any)", "manage_roles::view/$1");
-			$routes->match(['get', 'post'], "manage_roles/active/(:any)", "manage_roles::active/$1");
-			$routes->match(['get', 'post'], "manage_roles/deactive/(:any)", "manage_roles::deactive/$1");
+		$routes->match(['get', 'post'], "manage_roles", "Manage_roles::index");
+		$routes->match(['get', 'post'], "manage_roles/add", "Manage_roles::add");
+		$routes->match(['get', 'post'], "manage_roles/edit/(:any)", "Manage_roles::edit/$1");
+		$routes->match(['get', 'post'], "manage_roles/view/(:any)", "Manage_roles::view/$1");
+		$routes->match(['get', 'post'], "manage_roles/active/(:any)", "Manage_roles::active/$1");
+		$routes->match(['get', 'post'], "manage_roles/deactive/(:any)", "Manage_roles::deactive/$1");
 		//  access & permission
 		// dashboard
 			$routes->match(['get', 'post'], "dashboard", "User::dashboard");
