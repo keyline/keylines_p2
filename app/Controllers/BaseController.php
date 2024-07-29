@@ -227,7 +227,7 @@ abstract class BaseController extends Controller
         $this->session      = \Config\Services::session();
         $userId             = $this->session->get('user_id');
         $adminUser          = $this->common_model->find_data('sms_admin_user', 'row', ['id' => $userId]);
-        $checkExist         = $this->common_model->find_data('sms_role_module_function', 'count', ['module_id' => $id, 'role_id' => $adminUser->role_id]);
+        $checkExist         = $this->common_model->find_data('permission_role_module_function', 'count', ['module_id' => $id, 'role_id' => $adminUser->role_id]);
 		// echo $this->db->getLastQuery();die;
         // echo $checkExist;die;
         if($checkExist>0){
@@ -241,9 +241,9 @@ abstract class BaseController extends Controller
         $this->common_model = new CommonModel();
         $this->session      = \Config\Services::session();
         $userId             = $this->session->get('user_id');
-        $adminUser          = $this->common_model->find_data('sms_admin_user', 'row', ['id' => $userId]);        
+        $adminUser          = $this->common_model->find_data('sms_admin_user', 'row', ['id' => $userId]);
         $role_id = $adminUser->role_id;
-        $checkExist         = $this->common_model->find_data('sms_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $function_id]);
+        $checkExist         = $this->common_model->find_data('permission_role_module_function', 'count',['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $function_id]);
         // echo $this->db->getLastQuery();die;
         //echo $checkExist;die;
         if($checkExist>0){

@@ -38,7 +38,10 @@ class UserController extends BaseController {
         $page_name                  = 'user/add-edit';        
         $data['row']                = [];
         $data['userCats']           = $this->data['model']->find_data('user_category', 'array');
+        $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => '1']);
+        // pr($data['roleMasters']);
         if($this->request->getMethod() == 'post') {
+            // pr($this->request->getPost());
             /* profile image */
                 $file = $this->request->getFile('image');
                 $originalName = $file->getClientName();
@@ -67,6 +70,7 @@ class UserController extends BaseController {
                 'longitude'             => $this->request->getPost('longitude'),
                 'password'              => md5($this->request->getPost('password')),
                 'type'                  => $this->request->getPost('type'),
+                'role_id'               => $this->request->getPost('role_id'),
                 'category'              => $this->request->getPost('category'),
                 'hour_cost'             => $this->request->getPost('hour_cost'),
                 'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
@@ -115,6 +119,7 @@ class UserController extends BaseController {
         $conditions                 = array($this->data['primary_key']=>$id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
         $data['userCats']           = $this->data['model']->find_data('user_category', 'array');
+        $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => '1']);
         if($this->request->getMethod() == 'post') {
             /* profile image */
                 $file = $this->request->getFile('image');
@@ -151,6 +156,7 @@ class UserController extends BaseController {
                 'longitude'             => $this->request->getPost('longitude'),
                 'password'              => $newPassword,
                 'type'                  => $this->request->getPost('type'),
+                'role_id'               => $this->request->getPost('role_id'),
                 'category'              => $this->request->getPost('category'),
                 'hour_cost'             => $this->request->getPost('hour_cost'),
                 'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),

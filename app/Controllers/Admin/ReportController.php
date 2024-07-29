@@ -44,14 +44,14 @@ class ReportController extends BaseController
         $user_type                  = $this->session->get('user_type');
         $user_id                    = $this->session->get('user_id');
 
-        if ($user_type == 'client') {
+        if ($user_type == 'CLIENT') {
             $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
             $data['closed_projects']    = $this->data['model']->find_data('project', 'array', ['project.status' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
             $project_id = $data['projects'][0]->id;
             $sql = "SELECT DISTINCT user.status, user.name, user.id FROM `timesheet` INNER JOIN user on timesheet.user_id = user.id WHERE timesheet.project_id = $project_id and user.status = '1';";
             $rows = $this->db->query($sql)->getResult();
             $data['projectwise_user'] = $rows;
-            //pr($data['projectwise_user']);
+            // pr($data['projectwise_user']);
         } else {
             $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
             $data['closed_projects']    = $this->data['model']->find_data('project', 'array', ['project.status' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);

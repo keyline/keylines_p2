@@ -8,13 +8,14 @@
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?php echo base_url('admin/'); ?>/user"><i class="feather icon-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="#!"><?php echo $page_header; ?></a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard'); ?>">Home </a></li>
+                        <li class="breadcrumb-item"><a href="javascript:(void);"><?php echo $page_header; ?></a></li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
-    <?php if (checkModuleFunctionAccess(14, 7)) { ?>
+    <?php if (checkModuleFunctionAccess(28, 73)) { ?>
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
@@ -31,10 +32,10 @@
                                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         <?php } ?>
-                        <?php if (checkModuleFunctionAccess(14, 8)) { ?>
-                            <!-- <h5>
-                                <a href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/add" class="btn btn-success">Add <?php echo $moduleDetail['module']; ?></a>
-                            </h5> -->
+                        <?php if (checkModuleFunctionAccess(28, 74)) { ?>
+                            <h5>
+                                <a href="<?php echo base_url(); ?>/admin/role-master/add" class="btn btn-success"><?= $action; ?></a>
+                            </h5>
                         <?php } ?>
                     </div>
                     <div class="card-body">
@@ -44,8 +45,7 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Role Master Name</th>
-                                            <th class="text-center">Actions</th>
+                                            <th>Role Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -55,15 +55,6 @@
                                                 <tr>
                                                     <td><?= $i++ ?></td>
                                                     <td><?= $row->role_name ?></td>
-                                                    <td>
-                                                        <?php if (checkModuleFunctionAccess(14, 9)) { ?>
-                                                            <a href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/edit/<?php echo $row->id; ?>" class="btn btn-icon btn-primary btn-sm" title="Provide Permissions"><i class="fa fa-edit"></i> Provide Permissions</a>
-                                                        <?php } ?>
-                                                        &nbsp;&nbsp;&nbsp;
-                                                        <?php if (checkModuleFunctionAccess(14, 63)) { ?>
-                                                            <a class="btn btn-info btn-sm" href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/view/<?php echo $row->id; ?>"><i class="nav-icon fas fa-info-circle"></i> Analyze Permissions </a>
-                                                        <?php } ?>
-                                                    </td>
                                                 </tr>
                                         <?php }
                                         } ?>

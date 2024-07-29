@@ -18,7 +18,7 @@ class Manage_modulelist extends BaseController {
             'session'       => $session,
             'module'        => 'Module',
             'controller'    => 'manage_modulelist',
-            'table_name'    => 'sms_modules',
+            'table_name'    => 'permission_modules',
             'primary_key'   => 'id'
         );
     }
@@ -52,7 +52,7 @@ class Manage_modulelist extends BaseController {
         $data['action']             = 'Add';
         $title                      = $data['action'].' '.$this->data['module'];
         $page_name                  = 'modulelist/add-edit';
-        $data['allfunctions']       = $this->data['model']->find_data('sms_function', 'array',['published' => 1]);
+        $data['allfunctions']       = $this->data['model']->find_data('permission_function', 'array',['published' => 1]);
         // pr($data['functions']);
         $data['row'] = [];
         if(isset($userId)){
@@ -61,7 +61,7 @@ class Manage_modulelist extends BaseController {
                                 'parent_id'                      => $this->request->getPost('parent_id'),
                                 'module_name'                    => strtoupper($this->request->getPost('module_name'))
                             ];
-                $module_id = $this->common_model->save_data('sms_modules', $postData, '', 'id');
+                $module_id = $this->common_model->save_data('permission_modules', $postData, '', 'id');
                 /* function manage */
                     $function_name = $this->request->getPost('function_name');
                     if(count($function_name)>0){
@@ -71,7 +71,7 @@ class Manage_modulelist extends BaseController {
                                           'module_id'             => $module_id,
                                           'function_name'         => $function_name[$f]
                                         ];
-                                $this->common_model->save_data('sms_module_functions', $postData2, '', 'function_id');
+                                $this->common_model->save_data('permission_module_functions', $postData2, '', 'function_id');
                             }
                         }
                     }
@@ -82,7 +82,7 @@ class Manage_modulelist extends BaseController {
             $data['row']            = [];
             $data['action']         = 'Add';
             $data['session']        = $this->session; 
-            $data['modules']        = $this->common_model->find_data('sms_modules', 'array', ['published' => 1, 'parent_id' => 0]);
+            $data['modules']        = $this->common_model->find_data('permission_modules', 'array', ['published' => 1, 'parent_id' => 0]);
             $data['functions']      = [];
         } else {
             return redirect()->to(base_url('/'));
@@ -99,14 +99,14 @@ class Manage_modulelist extends BaseController {
         $page_name                  = 'modulelist/add-edit';
         $conditions                 = array($this->data['primary_key']=>$id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
-        $data['allfunctions']       = $this->data['model']->find_data('sms_function', 'array',['published' => 1]);
+        $data['allfunctions']       = $this->data['model']->find_data('permission_function', 'array',['published' => 1]);
 
         if(isset($userId)){
             $data['common_model'] = $this->common_model;
             $data['session']      = $this->session;
-            $data['row']          = $this->common_model->find_data('sms_modules', 'row', ['id' => $id]);
-            $data['modules']      = $this->common_model->find_data('sms_modules', 'array', ['published' => 1, 'parent_id' => 0]);
-            $data['functions']    = $this->common_model->find_data('sms_module_functions', 'array', ['published' => 1, 'module_id' => $id]);
+            $data['row']          = $this->common_model->find_data('permission_modules', 'row', ['id' => $id]);
+            $data['modules']      = $this->common_model->find_data('permission_modules', 'array', ['published' => 1, 'parent_id' => 0]);
+            $data['functions']    = $this->common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $id]);
             $data['action']       = 'Update';
             if($this->request->getPost()){
                 $postData = [
@@ -114,7 +114,7 @@ class Manage_modulelist extends BaseController {
                           'module_name'                    => strtoupper($this->request->getPost('module_name')),
                           'updated_at'                     => date('Y-m-d H:i:s')
                         ];
-                $module_id = $this->common_model->save_data('sms_modules', $postData, $id, 'id');
+                $module_id = $this->common_model->save_data('permission_modules', $postData, $id, 'id');
                 /* function manage */
                     $function_name = $this->request->getPost('function_name');
                     if(count($function_name)>0){
@@ -124,7 +124,7 @@ class Manage_modulelist extends BaseController {
                                           'module_id'                      => $id,
                                           'function_name'                  => $function_name[$f]
                                         ];
-                                $this->common_model->save_data('sms_module_functions', $postData2, '', 'function_id');
+                                $this->common_model->save_data('permission_module_functions', $postData2, '', 'function_id');
                             }
                         }
                     }
@@ -149,7 +149,7 @@ class Manage_modulelist extends BaseController {
         if(isset($userId)){
             $data['common_model'] = $this->common_model;
                 $data['session']      = $this->session;
-                $data['row']          = $this->common_model->find_data('sms_modules', 'row', ['id' => $id]);
+                $data['row']          = $this->common_model->find_data('permission_modules', 'row', ['id' => $id]);
             } else {
                 return redirect()->to(base_url('/'));
             }

@@ -24,7 +24,7 @@ class User extends BaseController {
                         );
                     $checkEmail = $this->common_model->find_data('user', 'row', $conditions);
                     $checkclientEmail = $this->common_model->find_data('client', 'row', $conditions2);
-                    //pr($checkclientEmail);
+                    // pr($checkclientEmail);
                     if($checkEmail) {
                         $user_type = $checkEmail->type;
                         $user_name = $checkEmail->name;
@@ -89,7 +89,7 @@ class User extends BaseController {
                         }
                     } 
                     elseif($checkclientEmail) {
-                        $user_type = 'client';
+                        $user_type = 'CLIENT';
                         $user_name = $checkclientEmail->name;
                         //if($checkclientEmail->status == '1'){
                             if($checkclientEmail->password_md5 == md5($this->request->getPost('password'))){
@@ -105,7 +105,7 @@ class User extends BaseController {
                                 
                                 if($this->session->get('is_admin_login') == 1)
                                 {
-                                    //pr($session_data);
+                                    // pr($session_data);
                                     $fields = array(
                                         //'ip_address'        => $this->request->getIPAddress(),
                                         'last_login'        => date('Y-m-d H:i:s'),
@@ -113,8 +113,9 @@ class User extends BaseController {
                                     );
                                     $user_id = $checkclientEmail->id;
                                     $this->common_model->save_data('client',$fields,$user_id,'id');
-                                    header('Location: https://tracker2.keylines.net/admin/dashboard');
-                                    //pr(redirect()->to('/admin/dashboard'));
+                                    return redirect()->to(base_url("admin/dashboard"));
+                                    // header('Location: http://localhost/tracker23724/admin/dashboard');
+                                    // pr(redirect()->to('/admin/dashboard'));
                                     // $userActivityData = [
                                     //     'user_email'        => $this->request->getPost('email'),
                                     //     'user_name'         => $user_name,
@@ -285,7 +286,7 @@ class User extends BaseController {
             
             $userType                           = $this->session->user_type;
             $userId                             = $this->session->user_id;
-            if($userType == 'client'){
+            if($userType == 'CLIENT'){
                 $user_id                = $this->session->get('user_id');
                 $data['active_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id , 'status!=' => 13 , 'type' => 'own']);
                 $data['closed_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id , 'status' => 13 , 'type' => 'own']);
@@ -293,6 +294,7 @@ class User extends BaseController {
                 $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
                 $data['projects']           = $this->common_model->find_data('project', 'array', ['project.status!=' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
                 $data['closed_projects']    = $this->common_model->find_data('project', 'array', ['project.status' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
+                // pr($data['projects']);
                 $project_id = $data['projects'][0]->id;
                 $sql = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where t.project_id = '$project_id' group by t.project_id order by p.name asc";
                 $rows = $this->db->query($sql)->getResult();
@@ -317,7 +319,7 @@ class User extends BaseController {
                     $data['total_clients']              = $this->common_model->find_data('client', 'count');
                     $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
                 /* total cards */
-                // if($userType == 'admin'){
+                // if($userType == 'ADMIN'){
                 //     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                 //     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                 //     $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
@@ -571,7 +573,7 @@ class User extends BaseController {
                 $users_data              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);                        
                 $arr = $this->getLastNDays(7, 'Y-m-d');
                 //print_r($arr);die;
-                if($user = ($userType == 'admin') ? $users_data : $users){
+                if($user = ($userType == 'ADMIN') ? $users_data : $users){
                 // if($users){
                     foreach($user as $row){
                         if(!empty($arr)){
@@ -618,7 +620,7 @@ class User extends BaseController {
                 // echo "<pre>";   
                 // print_r($data['last7DaysResponses'])  ;die;       
                        
-                if($user = ($userType == 'admin') ? $users_data : $users){               
+                if($user = ($userType == 'ADMIN') ? $users_data : $users){               
                     $userGraph = [];          
                     foreach($user as $row){                
                     /* user graph */

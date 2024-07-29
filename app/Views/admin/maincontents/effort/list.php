@@ -105,12 +105,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <?php } ?>
                                         <br><br>
                                         <?php
-                                        $userType           = $session->user_type;
-                                        if($userType == 'admin'){
+                                        // $userType           = $session->user_type;
+                                        // if($userType == 'ADMIN'){
                                         ?>
                                             <?php if(checkModuleFunctionAccess(20,39)){ ?>
                                             <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->id))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash text-danger"></i></a>
-                                            <?php } ?>
+                                            <?//php } ?>
                                         <?php }?>
                                     </td>
                                 </tr>

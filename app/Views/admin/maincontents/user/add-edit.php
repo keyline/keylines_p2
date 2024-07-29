@@ -89,14 +89,18 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
-                                <select name="type" class="form-control" id="type" required>
+                                <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
                                     <option value="" selected>Select Type</option>
-                                    <option value="superadmin" <?=(($type == 'superadmin')?'selected':'')?>>Super Admin</option>
-                                    <option value="admin" <?=(($type == 'admin')?'selected':'')?>>Admin</option>
-                                    <option value="user" <?=(($type == 'user')?'selected':'')?>>User</option>
-                                    <option value="client" <?=(($type == 'client')?'selected':'')?>>Client</option>
-                                    <option value="sales" <?=(($type == 'sales')?'selected':'')?>>Sales</option>
+                                    <?php if($roleMasters){foreach($roleMasters as $roleMaster){ ?>
+                                        <option value="<?=$roleMaster->role_name;?>" <?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
+                                    <?php   }   } ?>
                                 </select>
+                                <input type="hidden" id="role_id" name="role_id" value="">
+                                <?php foreach ($roleMasters as $roleMaster): ?>
+                                    <?php if ($roleMaster->role_name == htmlspecialchars($type)): ?>
+                                        <input type="hidden" name="role_id" id="role_ide" value="<?= htmlspecialchars($roleMaster->id); ?>">
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label for="address" class="col-form-label">Address</label>
@@ -214,5 +218,18 @@ $controller_route   = $moduleDetail['controller_route'];
             return false;
         }
         return true;
+    }
+</script>
+<script>
+    const roles        = <?php echo json_encode($roleMasters); ?>;
+    const roleMapping  = {};
+    for(let i = 0; i < roles.length; i++){
+        roleMapping[roles[i]['role_name']] = roles[i]['id'];
+    }
+    function updateHiddenField() {
+        $('#role_ide').remove();
+        const selectedType = document.getElementById('type').value;
+        const roleIdField = document.getElementById('role_id');
+        roleIdField.value = roleMapping[selectedType] || '';
     }
 </script>

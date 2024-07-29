@@ -69,16 +69,16 @@
                                                                 <div class="tab-pane fade <?= (($i == 1) ? 'show active' : '') ?>" id="v-pills-<?= $parentmodule->id ?>" role="tabpanel" aria-labelledby="v-pills-<?= $parentmodule->id ?>-tab">
 
                                                                     <?php
-                                                                    $checkNestedMenu = $common_model->find_data('sms_modules', 'count', ['parent_id' => $parentmodule->id]);
+                                                                    $checkNestedMenu = $common_model->find_data('permission_modules', 'count', ['parent_id' => $parentmodule->id]);
                                                                     if ($checkNestedMenu <= 0) {
                                                                     ?>
                                                                         <input type="hidden" name="module_id[]" value="<?= $parentmodule->id ?>">
                                                                         <?php
-                                                                        $functions    = $common_model->find_data('sms_module_functions', 'array', ['published' => 1, 'module_id' => $parentmodule->id]);
+                                                                        $functions    = $common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $parentmodule->id]);
                                                                         if ($functions) {
                                                                             foreach ($functions as $function) { ?>
                                                                                 <?php
-                                                                                $checkFunctionSelected = $common_model->find_data('sms_role_module_function', 'count', ['role_id' => $row->id, 'module_id' => $parentmodule->id, 'function_id' => $function->function_id]);
+                                                                                $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $row->id, 'module_id' => $parentmodule->id, 'function_id' => $function->function_id]);
                                                                                 if ($checkFunctionSelected > 0) {
                                                                                     $checked = 1;
                                                                                 } else {
@@ -93,7 +93,7 @@
                                                                     <?php } else { ?>
                                                                         <div class="row">
                                                                             <?php
-                                                                            $nestedMenus = $common_model->find_data('sms_modules', 'array', ['parent_id' => $parentmodule->id]);
+                                                                            $nestedMenus = $common_model->find_data('permission_modules', 'array', ['parent_id' => $parentmodule->id]);
                                                                             // pr($nestedMenus);
                                                                             if ($nestedMenus) {
                                                                                 foreach ($nestedMenus as $nestedMenu) {
@@ -106,12 +106,12 @@
                                                                                             </div>
                                                                                             <div class="card-body">
                                                                                                 <?php
-                                                                                                $functions    = $common_model->find_data('sms_module_functions', 'array', ['published' => 1, 'module_id' => $nestedMenu->id]);
+                                                                                                $functions    = $common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $nestedMenu->id]);
                                                                                                 // pr($functions);
                                                                                                 if ($functions) {
                                                                                                     foreach ($functions as $function) { ?>
                                                                                                         <?php
-                                                                                                        $checkFunctionSelected = $common_model->find_data('sms_role_module_function', 'count', ['role_id' => $row->id, 'module_id' => $nestedMenu->id, 'function_id' => $function->function_id]);
+                                                                                                        $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $row->id, 'module_id' => $nestedMenu->id, 'function_id' => $function->function_id]);
                                                                                                         if ($checkFunctionSelected > 0) {
                                                                                                             $checked = 1;
                                                                                                         } else {

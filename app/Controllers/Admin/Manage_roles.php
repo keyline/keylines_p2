@@ -18,7 +18,7 @@ class Manage_roles extends BaseController {
             'session'       => $session,
             'module'        => 'Roles',
             'controller'    => 'manage_roles',
-            'table_name'    => 'sms_roles',
+            'table_name'    => 'permission_roles',
             'primary_key'   => 'id'
         );
     }
@@ -53,25 +53,23 @@ class Manage_roles extends BaseController {
         $title                      = $data['action'].' '.$this->data['module'];
         $page_name                  = 'roles/add-edit';        
         $data['row'] = [];
-        // if(isset($userId)){
+        $data['role_masters']       = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1 ], '', '', '');
             if($this->request->getPost()){
-                // pr($this->request->getPost());
                 $postData = [
-                          'role_name'                    => strtoupper($this->request->getPost('role_name'))
-                        ];
-                
-                $role_id = $this->common_model->save_data('sms_roles', $postData, '', 'id');
+                                'role_name'                    => strtoupper($this->request->getPost('role_name'))
+                            ];
+                $role_id = $this->common_model->save_data('permission_roles', $postData, '', 'id');
                 /* function manage */
                     $function_id  = $this->request->getPost('function_id');
                     if(count($function_id)>0){
                         for($f=0;$f<count($function_id);$f++){
-                            $function    = $this->common_model->find_data('sms_module_functions', 'row', ['function_id' => $function_id[$f]]);
+                            $function    = $this->common_model->find_data('permission_module_functions', 'row', ['function_id' => $function_id[$f]]);
                             $postData2 = [
                                       'role_id'                         => $role_id,
                                       'module_id'                       => (($function)?$function->module_id:0),
                                       'function_id'                     => $function_id[$f],
                                     ];
-                            $this->common_model->save_data('sms_role_module_function', $postData2, '', 'function_id');
+                            $this->common_model->save_data('permission_role_module_function', $postData2, '', 'function_id');
                         }
                     }
                 /* function manage */
@@ -80,47 +78,42 @@ class Manage_roles extends BaseController {
             }
             $data['row']            = [];
             $data['action']         = 'Add';
-            // $data['session']        = $session; 
-            $data['parentmodules']  = $this->common_model->find_data('sms_modules', 'array', ['published' => 1, 'parent_id' => 0]);
+            $data['parentmodules']  = $this->common_model->find_data('permission_modules', 'array', ['published' => 1, 'parent_id' => 0]);
             $data['functions']      = [];
-        //     return view('admin/layout/addEditRole',$data);
-        // } else {
-        //     return redirect()->to(base_url('admin/login'));
-        // }
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function edit($id)
     {
-        // echo 'hello';die;
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Edit';
         $title                      = $data['action'].' '.$this->data['module'];
         $page_name                  = 'roles/add-edit';        
         $conditions                 = array($this->data['primary_key']=>$id);
-        $data['row']                = $this->common_model->find_data('sms_roles', 'row', ['id' => $id]);
+        $data['row']                = $this->common_model->find_data('permission_roles', 'row', ['id' => $id]);
+        $data['role_masters']       = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1 ], '', '', '');
         // pr($data['row']);
-        $data['parentmodules']      = $this->common_model->find_data('sms_modules', 'array', ['published' => 1, 'parent_id' => 0]);
-        $data['functions']          = $this->common_model->find_data('sms_module_functions', 'array', ['published' => 1, 'module_id' => $id]);
+        $data['parentmodules']      = $this->common_model->find_data('permission_modules', 'array', ['published' => 1, 'parent_id' => 0]);
+        $data['functions']          = $this->common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $id]);
         $data['action']             = 'Update';
-        if($this->request->getPost()){                
+        if($this->request->getPost()){
             $postData = [
-                      'role_name'                    => strtoupper($this->request->getPost('role_name')),
-                      'updated_at'                   => date('Y-m-d H:i:s')
-                    ];
-            $this->common_model->save_data('sms_roles', $postData, $id, 'id');
+                            'role_name'                    => strtoupper($this->request->getPost('role_name_hidden')),
+                            'updated_at'                   => date('Y-m-d H:i:s')
+                        ];
+            $this->common_model->save_data('permission_roles', $postData, $id, 'id');
             $role_id = $id;
-            $this->common_model->delete_data('sms_role_module_function', $role_id, 'role_id');
+            $this->common_model->delete_data('permission_role_module_function', $role_id, 'role_id');
             /* function manage */
                 $function_id  = $this->request->getPost('function_id');
                 if(count($function_id)>0){
                     for($f=0;$f<count($function_id);$f++){
-                        $function    = $this->common_model->find_data('sms_module_functions', 'row', ['function_id' => $function_id[$f]]);
+                        $function    = $this->common_model->find_data('permission_module_functions', 'row', ['function_id' => $function_id[$f]]);
                         $postData2 = [
-                                  'role_id'                         => $role_id,
-                                  'module_id'                       => (($function)?$function->module_id:0),
-                                  'function_id'                     => $function_id[$f],
-                                ];
-                        $this->common_model->save_data('sms_role_module_function', $postData2, '', 'function_id');
+                                        'role_id'                         => $role_id,
+                                        'module_id'                       => (($function)?$function->module_id:0),
+                                        'function_id'                     => $function_id[$f],
+                                    ];
+                        $this->common_model->save_data('permission_role_module_function', $postData2, '', 'function_id');
                     }
                 }
             /* function manage */                    
@@ -142,8 +135,8 @@ class Manage_roles extends BaseController {
         // if(isset($userId)){
             $data['common_model']   = $this->common_model;
             $data['session']        = $this->session;
-            $data['row']            = $this->common_model->find_data('sms_roles', 'row', ['id' => $id]);
-            $data['parentmodules']  = $this->common_model->find_data('sms_modules', 'array', ['published' => 1, 'parent_id' => 0]);
+            $data['row']            = $this->common_model->find_data('permission_roles', 'row', ['id' => $id]);
+            $data['parentmodules']  = $this->common_model->find_data('permission_modules', 'array', ['published' => 1, 'parent_id' => 0]);
             // } else {
                 // return redirect()->to(base_url('admin/login'));
                 // }
@@ -163,7 +156,7 @@ class Manage_roles extends BaseController {
         $postData = array(
             'published' => 0
         );
-        $this->common_model->save_data('sms_roles', $postData, $id, 'id');
+        $this->common_model->save_data('permission_roles', $postData, $id, 'id');
         $this->session->setFlashdata('success_message', $this->data['module'].' deactivated successfully');
         return redirect()->to('/admin/'.$this->data['controller']);
     }
@@ -172,7 +165,7 @@ class Manage_roles extends BaseController {
         $postData = array(
             'published' => 1
         );
-        $this->common_model->save_data('sms_roles', $postData, $id, 'id');
+        $this->common_model->save_data('permission_roles', $postData, $id, 'id');
         $this->session->setFlashdata('success_message', $this->data['module'].' activated successfully');
         return redirect()->to('/admin/'.$this->data['controller']);
     }

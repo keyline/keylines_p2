@@ -55,13 +55,13 @@
                                 <tr>
                                   <td><?=$i++?></td>
                                   <td><?php                                  
-                                  $module = $common_model->find_data('sms_modules', 'row', ['id' => $row->parent_id]);
+                                  $module = $common_model->find_data('permission_modules', 'row', ['id' => $row->parent_id]);
                                   echo (($module)?$module->module_name:'');
                                   ?></td>
                                   <td><?=$row->module_name?></td>
                                   <td>
                                     <?php
-                                    $functions    = $common_model->find_data('sms_module_functions', 'array', ['published' => 1, 'module_id' => $row->id]);
+                                    $functions    = $common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $row->id]);
                                     if($functions){ foreach($functions as $function){?>
                                       <span class="badge bg-primary" style="font-size: 12px;"><?=$function->function_name?></span>
                                     <?php } }?>

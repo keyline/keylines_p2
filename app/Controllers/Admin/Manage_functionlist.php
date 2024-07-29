@@ -18,7 +18,7 @@ class Manage_functionlist extends BaseController {
             'session'       => $session,
             'module'        => 'Function',
             'controller'    => 'manage_functionlist',
-            'table_name'    => 'sms_function',
+            'table_name'    => 'permission_function',
             'primary_key'   => 'id'
         );
     }
