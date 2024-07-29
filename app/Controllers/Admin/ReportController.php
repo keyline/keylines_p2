@@ -68,7 +68,7 @@ class ReportController extends BaseController
         $data['graph_users']        = '';
         $data['graph_user_data']    = '';
         if ($this->request->getGet('mode') == 'advance_search') {
-            // pr($this->request->getGet());
+            pr($this->request->getGet());
             $search_user_id     = $this->request->getGet('search_user_id');
             $search_project_id  = $this->request->getGet('search_project_id');
             $search_day_id      = $this->request->getGet('search_day_id');
