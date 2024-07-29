@@ -96,6 +96,13 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 				$routes->match(['get', 'post'], "department/delete/(:any)", "DepartmentController::confirm_delete/$1");
 				$routes->match(['get', 'post'], "department/change-status/(:any)", "DepartmentController::change_status/$1");
 			/* department */
+			/* department */
+				$routes->match(['get'], "work-status/list", "WorkStatusController::list");
+				$routes->match(['get', 'post'], "work-status/add", "WorkStatusController::add");
+				$routes->match(['get', 'post'], "work-status/edit/(:any)", "WorkStatusController::edit/$1");
+				$routes->match(['get', 'post'], "work-status/delete/(:any)", "WorkStatusController::confirm_delete/$1");
+				$routes->match(['get', 'post'], "work-status/change-status/(:any)", "WorkStatusController::change_status/$1");
+			/* department */
 		// master
 		/* projects */
 			$routes->match(['get'], "projects/list", "ProjectController::list");
