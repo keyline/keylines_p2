@@ -90,11 +90,13 @@ $userId             = $session->user_id;
                     </a>
                 </li>
                 <?php } ?>
+
                 <li>
                     <a class="<?= (($pageSegment == 'department') ? 'active' : '') ?>" href="<?= base_url('admin/department/list') ?>">
                         <i class="fa fa-arrow-right"></i><span>Departments</span>
                     </a>
                 </li>
+                
                 <?php if(checkModuleAccess(28)){ ?>
                 <li>
                     <a class="<?= (($pageSegment == 'role-master') ? 'active' : '') ?>" href="<?= base_url('admin/role-master/list') ?>">
