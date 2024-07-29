@@ -1,6 +1,6 @@
 <?php
-$user = $session->user_type;
-//pr($user);
+$user               = $session->user_type;
+pr($user);
 $title              = $moduleDetail['title'];
 $primary_key        = $moduleDetail['primary_key'];
 $controller_route   = $moduleDetail['controller_route'];
@@ -66,7 +66,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             <?php } ?>                            
                             <div class="col-md-3 col-lg-3">
                                 <label for="search_project_id">Project</label>
-                                <!-- <input type="hidden" name="search_user_id" value="all" id="search_user_id"> -->
+                                <input type="hidden" name="search_user_id" value="all" id="search_user_id">
                                 <select name="search_project_id" class="form-control" id="search_project_id" required>
                                     <?php if($user == 'admin') {?>
                                     <option value="all" <?=(($search_project_id == 'all')?'selected':'')?>>All</option>
