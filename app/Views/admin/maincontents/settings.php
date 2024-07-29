@@ -290,6 +290,27 @@ $user_type = session('user_type');
                     </div>
                   </div>
                   <div class="row mb-3">
+                    <label for="tomorrow_task_editing_time" class="col-md-4 col-lg-3 col-form-label">Tomorrow Task Editing Time</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="tomorrow_task_editing_time" type="time" class="form-control" id="tomorrow_task_editing_time" value="<?= $setting->tomorrow_task_editing_time ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Block Tracker Fillup After Days</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="block_tracker_fillup_after_days" type="number" class="form-control" id="block_tracker_fillup_after_days" value="<?= $setting->block_tracker_fillup_after_days ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Is Desklog Use</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="is_desklog_use" type="radio" id="is_desklog_use1" value="1" <?=(($setting->is_desklog_use == 1)?'checked':'')?>>
+                      <label for="is_desklog_use1">YES</label>
+                      <input name="is_desklog_use" type="radio" id="is_desklog_use2" value="0" <?=(($setting->is_desklog_use == 0)?'checked':'')?>>
+                      <label for="is_desklog_use2">NO</label>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
                     <label for="twitter_profile" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="twitter_profile" type="text" class="form-control" id="twitter_profile" value="<?= $setting->twitter_profile ?>">
