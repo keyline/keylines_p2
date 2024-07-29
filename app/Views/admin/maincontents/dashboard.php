@@ -748,7 +748,6 @@ $userType           = $session->user_type;
                         <?php } ?>
                     </div>
 
-
                 <?php } else { ?>
                     <div class="row">
                         <div class="col-md-6 col-xl-6">
