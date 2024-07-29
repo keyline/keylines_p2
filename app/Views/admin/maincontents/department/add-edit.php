@@ -34,9 +34,11 @@ $controller_route   = $moduleDetail['controller_route'];
             if($row){
               $deprt_name       = $row->deprt_name;
               $header_color     = $row->header_color;
+              $is_join_morning_meeting     = $row->is_join_morning_meeting;
             } else {
               $deprt_name       = '';
               $header_color     = '';
+              $is_join_morning_meeting     = '';
             }
             ?>
         <div class="col-xl-12">
@@ -64,7 +66,22 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-10 col-lg-10">
                                     <div class="general_form_right_box">
-                                        <input type="text" name="header_color" class="form-control" id="header_color" value="<?=$header_color?>" required>
+                                        <input type="color" name="header_color" class="form-control" id="header_color" value="<?=$header_color?>" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2 col-lg-2">
+                                    <div class="general_form_left_box">
+                                        <label for="is_join_morning_meeting" class="col-form-label">Is Join Morning Meeting</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="general_form_right_box">
+                                        <input name="is_join_morning_meeting" type="radio" id="is_join_morning_meeting1" value="1" <?=(($is_join_morning_meeting == 1)?'checked':'')?>>
+                                        <label for="is_join_morning_meeting1">YES</label>
+                                        <input name="is_join_morning_meeting" type="radio" id="is_join_morning_meeting2" value="0" <?=(($is_join_morning_meeting == 0)?'checked':'')?>>
+                                        <label for="is_join_morning_meeting2">NO</label>
                                     </div>
                                 </div>
                             </div>
