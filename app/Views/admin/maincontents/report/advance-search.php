@@ -84,6 +84,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div>
                             <?php } ?>
                             <div class="col-md-3 col-lg-3">
+                                <?php if($user != 'admin') { ?>
+                                    <input type="hidden" name="search_user_id" value="all" id="search_user_id">
+                                <?php } ?>
                                 <label for="search_project_id">Project</label>
                                 <select name="search_project_id" class="form-control" id="search_project_id" required>
                                     <?php if ($user == 'ADMIN') { ?>
