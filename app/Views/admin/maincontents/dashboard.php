@@ -38,7 +38,7 @@ $userType           = $session->user_type;
                 <?php if ($userType != 'client') { ?>
                     <div class="row mt-3">
                         <!-- Companies Card -->
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-4 col-md-6">
                             <div class="card info-card sales-card">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Users <span>| All Time</span></h5>
@@ -56,7 +56,7 @@ $userType           = $session->user_type;
                         <!-- End Companies Card -->
 
                         <!-- Plants Card -->
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-4 col-md-6">
                             <div class="card info-card revenue-card">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Active Users <span>| All Time</span></h5>
@@ -74,7 +74,7 @@ $userType           = $session->user_type;
                         <!-- End Plants Card -->
 
                         <!-- Vendors Card -->
-                        <div class="col-xxl-3 col-xl-12">
+                        <div class="col-xxl-4 col-xl-12">
                             <div class="card info-card customers-card">
                                 <div class="card-body">
                                     <h5 class="card-title">Total Inactive Users <span>| All Time</span></h5>
@@ -92,7 +92,7 @@ $userType           = $session->user_type;
                         <!-- End Vendors Card -->
 
                         <!-- Companies Card -->
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-4 col-md-6">
                             <div class="card info-card customers-card2">
                                 <div class="card-body">
                                     <h5 class="card-title">Project (Prospect/Active/Lost) <span>| All Time</span></h5>
@@ -110,7 +110,7 @@ $userType           = $session->user_type;
                         <!-- End Companies Card -->
 
                         <!-- Plants Card -->
-                        <div class="col-xxl-3 col-md-6">
+                        <div class="col-xxl-4 col-md-6">
                             <div class="card info-card customers-card3">
                                 <div class="card-body">
                                     <h5 class="card-title">Contacts (Lead) <span>| All Time</span></h5>
@@ -128,7 +128,7 @@ $userType           = $session->user_type;
                         <!-- End Plants Card -->
 
                         <!-- Vendors Card -->
-                        <div class="col-xxl-3 col-xl-12">
+                        <div class="col-xxl-4 col-xl-12">
                             <div class="card info-card customers-card4">
                                 <div class="card-body">
                                     <h5 class="card-title">Billable/Non-Billable <span>| All Time</span></h5>
@@ -735,7 +735,6 @@ $userType           = $session->user_type;
                             </div>
                         </div>
                     </div>
-
 
                 <?php } else { ?>
                     <div class="row">
