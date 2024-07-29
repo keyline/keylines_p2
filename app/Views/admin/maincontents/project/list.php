@@ -123,15 +123,6 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <!-- <td>
                                             <?php if($row->temporary_url != ''){?><small>Temp : <a href="<?=$row->temporary_url?>" target="_blank"><?=$row->temporary_url?></a></small><br><?php }?>
                                             <?php if($row->permanent_url != ''){?><small>Per : <a href="<?=$row->permanent_url?>" target="_blank"><?=$row->permanent_url?></a></small><?php }?>
-<<<<<<< HEAD
-                                        </td>
-                                        <td><?=(($getClientService)?$getClientService->name:'')?></td>
-                                        <td class="text-center">
-                                            <?=(($row->date_added != '')?date_format(date_create($row->date_added), "M d, Y h:i A"):'')?>
-                                            <h6 style=" border-top: 1px solid #444444; width: auto; display: inline-block;">
-                                            <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?></h6>
-                                        </td>
-=======
                                         </td> -->
                                         <!-- <td></td> -->
                                         <!-- <td>
@@ -139,7 +130,6 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <br><hr>
                                             
                                         </td> -->
->>>>>>> user_module
                                         <td>
                                             <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a><br>
                                             <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm my-1" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a><br>
