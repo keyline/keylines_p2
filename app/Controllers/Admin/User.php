@@ -89,7 +89,7 @@ class User extends BaseController {
                         }
                     } 
                     elseif($checkclientEmail) {
-                        $user_type = 'client';
+                        $user_type = 'CLIENT';
                         $user_name = $checkclientEmail->name;
                         //if($checkclientEmail->status == '1'){
                             if($checkclientEmail->password_md5 == md5($this->request->getPost('password'))){
@@ -106,7 +106,7 @@ class User extends BaseController {
                                 
                                 if($this->session->get('is_admin_login') == 1)
                                 {
-                                    //pr($session_data);
+                                    // pr($session_data);
                                     $fields = array(
                                         //'ip_address'        => $this->request->getIPAddress(),
                                         'last_login'        => date('Y-m-d H:i:s'),
@@ -277,7 +277,7 @@ class User extends BaseController {
             
             $userType                           = $this->session->user_type;
             $userId                             = $this->session->user_id;
-            if($userType == 'client'){
+            if($userType == 'CLIENT'){
                 $user_id                = $this->session->get('user_id');
                 $data['active_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id , 'status!=' => 13 , 'type' => 'own']);
                 $data['closed_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id , 'status' => 13 , 'type' => 'own']);
@@ -317,7 +317,7 @@ class User extends BaseController {
                     $data['total_clients']              = $this->common_model->find_data('client', 'count');
                     $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
                 /* total cards */
-                // if($userType == 'admin'){
+                // if($userType == 'ADMIN'){
                 //     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                 //     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                 //     $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
@@ -571,7 +571,7 @@ class User extends BaseController {
                 $users_data              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);                        
                 $arr = $this->getLastNDays(7, 'Y-m-d');
                 //print_r($arr);die;
-                if($user = ($userType == 'admin') ? $users_data : $users){
+                if($user = ($userType == 'ADMIN') ? $users_data : $users){
                 // if($users){
                     foreach($user as $row){
                         if(!empty($arr)){
@@ -618,7 +618,7 @@ class User extends BaseController {
                 // echo "<pre>";   
                 // print_r($data['last7DaysResponses'])  ;die;       
                        
-                if($user = ($userType == 'admin') ? $users_data : $users){               
+                if($user = ($userType == 'ADMIN') ? $users_data : $users){               
                     $userGraph = [];          
                     foreach($user as $row){                
                     /* user graph */

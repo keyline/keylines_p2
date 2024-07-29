@@ -80,260 +80,122 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-7">
             <div class="card">
                 <div class="card-body pt-3">
-                    <form method="POST" action="" enctype="multipart/form-data" class="general_form_style">
-                        <div class="container-fluid">
-                            <!-- <span class="text-danger font-12">Star (*) marks fields are mandatory</span> -->
-                            <div class="row">
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="name" class="col-form-label">Name <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
-                                    </div>
-                                </div>
-                                <!-- email field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="email" class="col-form-label">Email <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="email" name="email" class="form-control" id="email" value="<?=$email?>" required>
-                                    </div>
-                                </div>
-                                <!-- Alt email field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="personal_email" class="col-form-label">Alternate Email</label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="email" name="personal_email" class="form-control" id="personal_email" value="<?=$personal_email?>">
-                                    </div>
-                                </div>
-                                <!-- phone field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="phone1" class="col-form-label">Phone <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="text" name="phone1" class="form-control" id="phone1" value="<?=$phone1?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
-                                    </div>
-                                </div>
-                                <!-- Alt phone field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="phone2" class="col-form-label">Alternate Phone</label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="text" name="phone2" class="form-control" id="phone2" value="<?=$phone2?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
-                                    </div>
-                                </div>
-                                <!-- address field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="address" class="col-form-label">Address</label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="text" name="address" class="form-control" id="address" value="<?=$address?>">
-                                        <input type="hidden" name="latitude" id="latitude" value="<?=$latitude?>">
-                                        <input type="hidden" name="longitude" id="longitude" value="<?=$longitude?>">
-                                    </div>
-                                </div>
-                                <!-- pincode field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="pincode" class="col-form-label">Pincode</label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="text" name="pincode" class="form-control" id="pincode" value="<?=$pincode?>" minlength="6" maxlength="6" onkeypress="return isNumber(event)">
-                                    </div>
-                                </div>
-                                <!-- password field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="password" name="password" class="form-control" id="password" value="<?=$password?>" <?=((empty($row))?'required':'')?>>
-                                    </div>
-                                    <div class="eye">
-                                        <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
-                                        <i class="fa fa-eye" id="hidePassword" style="cursor:pointer;display: none;"></i>
-                                    </div>
-                                </div>
-                                <!-- type field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <select name="type" class="form-control" id="type" required>
-                                            <option value="" selected>Select Type</option>
-                                            <option value="superadmin" <?=(($type == 'superadmin')?'selected':'')?>>Super Admin</option>
-                                            <option value="admin" <?=(($type == 'admin')?'selected':'')?>>Admin</option>
-                                            <option value="user" <?=(($type == 'user')?'selected':'')?>>User</option>
-                                            <option value="client" <?=(($type == 'client')?'selected':'')?>>Client</option>
-                                            <option value="sales" <?=(($type == 'sales')?'selected':'')?>>Sales</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- category field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="category" class="col-form-label">Category <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <select name="category" class="form-control" id="category" required>
-                                            <option value="" selected>Select Category</option>
-                                            <?php if($userCats){ foreach($userCats as $userCat){?>
-                                            <option value="<?=$userCat->id?>" <?=(($userCat->id == $category)?'selected':'')?>><?=$userCat->name?></option>
-                                            <?php } }?>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- hour cost field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="hour_cost" class="col-form-label">Hour Cost</label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$hour_cost?>" minlength="2" maxlength="4" onkeypress="return isNumber(event)">
-                                    </div>
-                                </div>
-                                <!-- DOB field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="dob" class="col-form-label">DOB</label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="date" name="dob" class="form-control" id="dob" value="<?=$dob?>" max="<?=date('Y-m-d')?>">
-                                    </div>
-                                </div>
-                                <!-- DOJ field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="doj" class="col-form-label">DOJ</label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="date" name="doj" class="form-control" id="doj" value="<?=$doj?>" max="<?=date('Y-m-d')?>">
-                                    </div>
-                                </div>
-                                <!-- Status field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box d-flex align-items-center">
-                                        <input class="me-1" type="radio" name="status" id="status1" value="1" <?=(($status == '1')?'checked':'')?> required> 
-                                        <label for="status1" class="me-2">Active</label>
-                                        <input class="me-1" type="radio" name="status" id="status2" value="0" <?=(($status == '0')?'checked':'')?> required> <label for="status2">Deactive</label>
-                                    </div>
-                                </div>
-                                <!-- Work Mode field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="work_mode" class="col-form-label">Work Mode <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <select name="work_mode" class="form-control" id="work_mode" required>
-                                            <option value="" selected>Select Work Mode</option>
-                                            <option value="Work From Office" <?=(($work_mode == 'Work From Office')?'selected':'')?>>Work From Office</option>
-                                            <option value="Work From Home" <?=(($work_mode == 'Work From Home')?'selected':'')?>>Work From Home</option>
-                                            <option value="Hybrid" <?=(($work_mode == 'Hybrid')?'selected':'')?>>Hybrid</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- Tracker user field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="is_tracker_user" class="col-form-label">Tracker User <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box  d-flex align-items-center">
-                                        <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user1" <?=(($is_tracker_user == '1')?'checked':'')?> value="1" required> 
-                                        <label for="is_tracker_user1" class="me-2">YES</label>
-                                        <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user2" <?=(($is_tracker_user == '0')?'checked':'')?> value="0" required> 
-                                        <label for="is_tracker_user2">NO</label>
-                                    </div>
-                                </div>
-                                <!-- Salarybox user field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="is_salarybox_user" class="col-form-label">Salarybox User <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box  d-flex align-items-center">
-                                        <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?=(($is_salarybox_user == '1')?'checked':'')?> required> 
-                                        <label for="is_salarybox_user1" class="me-2">YES</label>
-                                        <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0"  <?=(($is_salarybox_user == '0')?'checked':'')?>required> 
-                                        <label for="is_salarybox_user2">NO</label>
-                                    </div>
-                                </div>
-                                <!-- Attendence user field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="attendence_type" class="col-form-label">Attendence Type <span class="text-danger">*</span></label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <select name="attendence_type" class="form-control" id="attendence_type" required>
-                                            <option value="" selected>Select Attendence Type</option>
-                                            <option value="OPEN" <?=(($attendence_type == 'OPEN')?'selected':'')?>>OPEN</option>
-                                            <option value="OFFICE 1" <?=(($attendence_type == 'OFFICE 1')?'selected':'')?>>OFFICE 1</option>
-                                            <option value="OFFICE 2" <?=(($attendence_type == 'OFFICE 2')?'selected':'')?>>OFFICE 2</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <!-- Profile Image field -->
-                                <div class="col-md-2 col-lg-2">
-                                    <div class="general_form_left_box">
-                                        <label for="image" class="col-form-label">Profile Image</label>
-                                    </div>  
-                                </div>
-                                <div class="col-md-10 col-lg-10">
-                                    <div class="general_form_right_box">
-                                        <input type="file" name="image" class="form-control" id="profile_image" accept="image/*">
-                                        <small class="text-dark">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
-                                        <?php if($profile_image != ''){?>
-                                        <img class="img-thumbnail" src="<?=getenv('app.uploadsURL').'user/'.$profile_image?>" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px; border-radius:50%">
-                                        <?php } else {?>
-                                        <img class="img-thumbnail" src="<?=getenv('app.NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px; border-radius:50%">
-                                        <?php }?>
-                                    </div>
-                                </div>     
+                    <form method="POST" action="" enctype="multipart/form-data">
+                        <span class="text-danger">Star (*) marks fields are mandatory</span>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="col-form-label">Name <span class="text-danger">*</span></label>
+                                <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
+                                <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
+                                    <option value="" selected>Select Type</option>
+                                    <?php if($roleMasters){foreach($roleMasters as $roleMaster){ ?>
+                                        <option value="<?=$roleMaster->role_name;?>" <?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
+                                    <?php   }   } ?>
+                                </select>
+                                <input type="hidden" id="role_id" name="role_id" value="">
+                                <?php foreach ($roleMasters as $roleMaster): ?>
+                                    <?php if ($roleMaster->role_name == htmlspecialchars($type)): ?>
+                                        <input type="hidden" name="role_id" id="role_ide" value="<?= htmlspecialchars($roleMaster->id); ?>">
+                                    <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="address" class="col-form-label">Address</label>
+                                <input type="text" name="address" class="form-control" id="address" value="<?=$address?>">
+                                <input type="hidden" name="latitude" id="latitude" value="<?=$latitude?>">
+                                <input type="hidden" name="longitude" id="longitude" value="<?=$longitude?>">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="pincode" class="col-form-label">Pincode</label>
+                                <input type="text" name="pincode" class="form-control" id="pincode" value="<?=$pincode?>" minlength="6" maxlength="6" onkeypress="return isNumber(event)">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="col-form-label">Email <span class="text-danger">*</span></label>
+                                <input type="email" name="email" class="form-control" id="email" value="<?=$email?>" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="personal_email" class="col-form-label">Alternate Email</label>
+                                <input type="email" name="personal_email" class="form-control" id="personal_email" value="<?=$personal_email?>">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone1" class="col-form-label">Phone <span class="text-danger">*</span></label>
+                                <input type="text" name="phone1" class="form-control" id="phone1" value="<?=$phone1?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone2" class="col-form-label">Alternate Phone</label>
+                                <input type="text" name="phone2" class="form-control" id="phone2" value="<?=$phone2?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>
+                                <input type="password" name="password" class="form-control" id="password" value="<?=$password?>" <?=((empty($row))?'required':'')?>>
+                            </div>
+                            
+                            <div class="col-md-6 mb-3">
+                                <label for="category" class="col-form-label">Category <span class="text-danger">*</span></label>
+                                <select name="category" class="form-control" id="category" required>
+                                    <option value="" selected>Select Category</option>
+                                    <?php if($userCats){ foreach($userCats as $userCat){?>
+                                    <option value="<?=$userCat->id?>" <?=(($userCat->id == $category)?'selected':'')?>><?=$userCat->name?></option>
+                                    <?php } }?>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="hour_cost" class="col-form-label">Hour Cost</label>
+                                <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$hour_cost?>" minlength="2" maxlength="4" onkeypress="return isNumber(event)">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="dob" class="col-form-label">DOB</label>
+                                <input type="date" name="dob" class="form-control" id="dob" value="<?=$dob?>" max="<?=date('Y-m-d')?>">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="doj" class="col-form-label">DOJ</label>
+                                <input type="date" name="doj" class="form-control" id="doj" value="<?=$doj?>" max="<?=date('Y-m-d')?>">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <p><label for="status" class="col-form-label">Status <span class="text-danger">*</span></label></p>
+                                <input type="radio" name="status" id="status1" value="1" <?=(($status == '1')?'checked':'')?> required> <label for="status1">Active</label>
+                                <input type="radio" name="status" id="status2" value="0" <?=(($status == '0')?'checked':'')?> required> <label for="status2">Deactive</label>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="work_mode" class="col-form-label">Work Mode <span class="text-danger">*</span></label>
+                                <select name="work_mode" class="form-control" id="work_mode" required>
+                                    <option value="" selected>Select Work Mode</option>
+                                    <option value="Work From Office" <?=(($work_mode == 'Work From Office')?'selected':'')?>>Work From Office</option>
+                                    <option value="Work From Home" <?=(($work_mode == 'Work From Home')?'selected':'')?>>Work From Home</option>
+                                    <option value="Hybrid" <?=(($work_mode == 'Hybrid')?'selected':'')?>>Hybrid</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <p><label for="is_tracker_user" class="col-form-label">Tracker User <span class="text-danger">*</span></label></p>
+                                <input type="radio" name="is_tracker_user" id="is_tracker_user1" <?=(($is_tracker_user == '1')?'checked':'')?> value="1" required> <label for="is_tracker_user1">YES</label>
+                                <input type="radio" name="is_tracker_user" id="is_tracker_user2" <?=(($is_tracker_user == '0')?'checked':'')?> value="0" required> <label for="is_tracker_user2">NO</label>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <p><label for="is_salarybox_user" class="col-form-label">Salarybox User <span class="text-danger">*</span></label></p>
+                                <input type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?=(($is_salarybox_user == '1')?'checked':'')?> required> <label for="is_salarybox_user1">YES</label>
+                                <input type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0"  <?=(($is_salarybox_user == '0')?'checked':'')?>required> <label for="is_salarybox_user2">NO</label>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="attendence_type" class="col-form-label">Attendence Type <span class="text-danger">*</span></label>
+                                <select name="attendence_type" class="form-control" id="attendence_type" required>
+                                    <option value="" selected>Select Attendence Type</option>
+                                    <option value="OPEN" <?=(($attendence_type == 'OPEN')?'selected':'')?>>OPEN</option>
+                                    <option value="OFFICE 1" <?=(($attendence_type == 'OFFICE 1')?'selected':'')?>>OFFICE 1</option>
+                                    <option value="OFFICE 2" <?=(($attendence_type == 'OFFICE 2')?'selected':'')?>>OFFICE 2</option>
+                                </select>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <label for="image" class="col-form-label">Profile Image</label>
+                                <input type="file" name="image" class="form-control" id="profile_image" accept="image/*">
+                                <small class="text-info">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
+                                <?php if($profile_image != ''){?>
+                                  <img class="img-thumbnail" src="<?=getenv('app.uploadsURL').'user/'.$profile_image?>" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px; border-radius:50%">
+                                <?php } else {?>
+                                  <img class="img-thumbnail" src="<?=getenv('app.NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px; border-radius:50%">
+                                <?php }?>
                             </div>
                         </div>
                         
@@ -358,17 +220,16 @@ $controller_route   = $moduleDetail['controller_route'];
         return true;
     }
 </script>
-<script type="text/javascript">
-    $(function(){
-        $('#viewPassword').on('click', function(){
-            $('#password').attr('type', 'text');
-            $('#viewPassword').hide();
-            $('#hidePassword').show();
-        });
-        $('#hidePassword').on('click', function(){
-            $('#password').attr('type', 'password');
-            $('#hidePassword').hide();
-            $('#viewPassword').show();
-        });
-    })
+<script>
+    const roles        = <?php echo json_encode($roleMasters); ?>;
+    const roleMapping  = {};
+    for(let i = 0; i < roles.length; i++){
+        roleMapping[roles[i]['role_name']] = roles[i]['id'];
+    }
+    function updateHiddenField() {
+        $('#role_ide').remove();
+        const selectedType = document.getElementById('type').value;
+        const roleIdField = document.getElementById('role_id');
+        roleIdField.value = roleMapping[selectedType] || '';
+    }
 </script>

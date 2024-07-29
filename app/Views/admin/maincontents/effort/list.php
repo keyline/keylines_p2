@@ -101,10 +101,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <a target="_blank" class="btn btn-outline-primary btn-sm" href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->id))?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil"></i></a>
                                         <br>
                                         <?php
-                                        $userType           = $session->user_type;
-                                        if($userType == 'admin'){
+                                        // $userType           = $session->user_type;
+                                        // if($userType == 'ADMIN'){
                                         ?>
-                                            <a class="btn btn-outline-danger mt-2 btn-sm" href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->id))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash"></i></a>
+                                            <?php if(checkModuleFunctionAccess(20,39)){ ?>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->id))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash text-danger"></i></a>
+                                            <?//php } ?>
                                         <?php }?>
                                     </td>
                                 </tr>
