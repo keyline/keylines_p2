@@ -66,9 +66,24 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="dt-responsive table-responsive">
                                 <table class="table table-bordered nowrap general_table_style">
                                     <thead>
-
-                                        <th>Alolika</th>
-                                        
+                                        <tr>
+                                            <?php if($departments){ foreach($departments as $dept){?>
+                                                <?php
+                                                $teamMemberCount = $common_model->find_data('team', 'count', ['dep_id' => $dept->id]);
+                                                ?>
+                                                <th colspan="<?=$teamMemberCount?>" style="background-color: <?=$dept->header_color?>;"><?=$dept->deprt_name?></th>
+                                            <?php } } ?>
+                                        </tr>
+                                        <tr>
+                                            <?php if($departments){ foreach($departments as $dept){?>
+                                                <?php
+                                                $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id'")->getResult();
+                                                if($teamMembers){ foreach($teamMembers as $teamMember){
+                                                ?>
+                                                    <th style="background-color: <?=$dept->header_color?>;"><?=$teamMember->name?></th>
+                                                <?php } } ?>
+                                            <?php } } ?>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         <tr>

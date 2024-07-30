@@ -29,7 +29,7 @@ class TaskAssignController extends BaseController {
         // pr($data['moduleDetail'] );
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'task-assign/list';
-        // $data                       =[];
+        $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color');
         // $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
         // $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', '', 'id,name,compnay,address_1,state,city,country,pin,address_2,email_1,email_2,phone_1,phone_2,reference,added_date,last_login,login_access', '', '', $order_by);
         echo $this->layout_after_login($title,$page_name,$data);
