@@ -88,6 +88,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <tr>
                                                         <th scope="col">#</th>                                                
                                                         <th scope="col">Name</th>
+                                                        <th scope="col">Type</th>
                                                         <th scope="col">Department</th>
                                                         <th scope="col">Action</th>
                                                     </tr>
@@ -106,13 +107,14 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <tr>
                                                         <th scope="row"><?=$sl++?></th>
                                                         <td><?=$row->name;?></td>
+                                                        <td><?=$single_dept_type?></td>
                                                         <td><?=(($department_name)?$department_name->deprt_name:'')?></td>
                                                         <td class="text-center">
-                                                            <a href="#exampleModal<?=$row->id?>" role="button" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                                            <a href="#exampleModal<?=$row->id?>" role="button" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal<?=$row->id?>">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
                                                             <!-- Modal -->
-                                                            <div class="modal fade team-assin-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                            <div class="modal fade team-assin-modal" id="exampleModal<?=$row->id?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header">
