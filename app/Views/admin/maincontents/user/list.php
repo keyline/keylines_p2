@@ -35,8 +35,9 @@ $controller_route   = $moduleDetail['controller_route'];
                     <?php if(checkModuleFunctionAccess(4,21)){ ?>
                     <h5 class="card-title">
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
-                    </h5>
-                    <?php } ?>
+                        <a href="<?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivated  <?=$title?>s</a>
+                    </h5> 
+                    <?php } ?>                   
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
                             <thead>
@@ -57,8 +58,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <?php if($rows){ $sl=1; foreach($rows as $row){?>
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
-                                    <td><?=$row->name?><br><span class="badge bg-warning"><?=$row->id?></span></td>
-                                    <td><?=$row->phone1?></td>
+                                    <td><?=$row->name?><span class="badge bg-warning ms-1"><?=$row->id?></span></td>
+                                    <td class="text-center"><?=$row->phone1?></td>
                                     <td><?=$row->email?></td>
                                     <td><?=$row->type?></td>
                                     <td><?=$row->work_mode?></td>
