@@ -95,9 +95,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <tbody>
                                                     <?php                                                    
                                                     if($users){ $sl=1; foreach($users as $row){
-                                                        $department_name =$db->query("SELECT user.id, user.name, user.status, user.department, user.dept_type, department.deprt_name FROM `user` 
+                                                        $department_name =$db->query("SELECT user.id, user.name, user.status, user.department as depart_id, user.dept_type, department.deprt_name FROM `user` 
                                                         INNER JOIN department ON user.department = department.id 
-                                                        WHERE user.`status` = '1'AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC;")->getRow();
+                                                        WHERE user.`status` = '1'AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC")->getRow();
                                                         ?>
                                                     <tr>
                                                         <th scope="row"><?=$sl++?></th>
@@ -130,7 +130,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                                                     <option value="all">All</option>
                                                                                                     <hr>
                                                                                                     <?php if($department){ foreach($department as $row1){?>
-                                                                                                        <option value="<?=$row1->id?> "<?=(($row->department == $row1->id)?'selected':'')?>><?=$row1->deprt_name?></option>
+                                                                                                        <option value="<?=$row1->id?> "<?=(($row->depart_id == $row1->id)?'selected':'')?>><?=$row1->deprt_name?></option>
                                                                                                         <hr>
                                                                                                     <?php } }?>
                                                                                                 </select>
