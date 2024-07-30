@@ -98,6 +98,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         $department_name =$db->query("SELECT user.id, user.name, user.status, user.department as depart_id, user.dept_type, department.deprt_name FROM `user` 
                                                         INNER JOIN department ON user.department = department.id 
                                                         WHERE user.`status` = '1'AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC")->getRow();
+                                                        pr($department_name);
                                                         ?>
                                                     <tr>
                                                         <th scope="row"><?=$sl++?></th>
