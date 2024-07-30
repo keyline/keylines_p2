@@ -55,15 +55,18 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <option value="2024" <?=(($year == '2024')?'selected':'')?>>2024</option>
                                     <hr>                                    
                                 </select>
-                            </div>                                                        
+                            </div>          
+                            <?php if(checkModuleFunctionAccess(25,45)){ ?>                                              
                             <div class="col-md-6 col-lg-6" style="margin-top: 20px;">
                                 <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>                                
                             </div>
+                            <?php } ?>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
+        <?php if(checkModuleFunctionAccess(25,44)){ ?>
         <!-- Left side columns -->
         <div class="col-lg-12">                       
                 <div class="row mt-3">                    
@@ -147,6 +150,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>                                
         </div>
         <!-- End Left side columns -->
+         <?php } ?>
         
     </div>
 </section>
