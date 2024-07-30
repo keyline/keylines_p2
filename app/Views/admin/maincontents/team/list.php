@@ -55,7 +55,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <tbody>
                                                     <?php
                                                     $deprt_id = $row->id;
-                                                    $sql = "SELECT team.*, user.name FROM `team` INNER JOIN user ON user.id = team.user_id WHERE `dep_id` = '$deprt_id'";
+                                                    $sql = "SELECT team.*, user.name FROM `team` INNER JOIN user ON user.id = team.user_id WHERE team.`dep_id` = '$deprt_id'";
                                                     // $query = $db->query($sql, [$deprt_id]);
                                                     $team = $db->query($sql)->getResult();                                                    
                                                 
@@ -95,36 +95,18 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <tbody>
                                                     <?php                                                    
                                                     if($users){ $sl=1; foreach($users as $row){
-                                                        //    pr($row);
-                                                        $db = db_connect();
                                                         $department_name =$db->query("SELECT user.id, user.name, user.status, user.department, user.dept_type, department.deprt_name FROM `user` 
                                                         INNER JOIN department ON user.department = department.id 
-                                                        WHERE `status` = '1'AND user.id= $row->id ORDER BY `status` DESC, `name` ASC;")->getRow();  
-                                                        //  pr($department_name[0]->name);die;
-                                                        //  pr($department_name);
-                                                    //     echo "<pre>";
-                                                    // print_r($department_name);
-
-
+                                                        WHERE user.`status` = '1'AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC;")->getRow();
                                                         ?>
                                                     <tr>
                                                         <th scope="row"><?=$sl++?></th>
-                                                        <td><?=$row->name;?></td> 
-                                                        <?php
-                                                        // if($department_name){ $sl=1; foreach($department_name as $row1){
-                                                            //  pr($row1);
-                                                        ?>
+                                                        <td><?=$row->name;?></td>
                                                         <td><?=$department_name->deprt_name ?? null;?></td>
-                                                        <!-- ?php } }?>                                                                                    -->
                                                         <td class="text-center">
-                                                            <!-- <a class="btn btn-outline-primary btn-sm" data-bs-toggle="collapse" href="#collapseExample<?=$row->id?>" role="button" aria-expanded="false" aria-controls="collapseExample">
-                                                                <i class="fa fa-edit"></i>
-                                                            </a> -->
-
                                                             <a href="#exampleModal<?=$row->id?>" role="button" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
-
                                                             <!-- Modal -->
                                                             <div class="modal fade team-assin-modal" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered">
@@ -201,13 +183,3 @@ $controller_route   = $moduleDetail['controller_route'];
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
-<!-- <script>
-    $(document).ready(function() {
-        $('#exampleForm').on('submit', function(event) {
-            event.preventDefault(); // Prevent default form submission
-            // Your form submission logic here (e.g., AJAX call)
-            alert('Form submitted successfully!');
-            window.location.href = '<?php base_url('admin/team/list.php')?>';  // Redirect to list page
-        });
-    });
-</script> -->
