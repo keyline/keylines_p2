@@ -1,6 +1,6 @@
 <?php
-$user = $session->user_type;
-//pr($user);
+$user               = $session->user_type;
+// pr($user);
 $title              = $moduleDetail['title'];
 $primary_key        = $moduleDetail['primary_key'];
 $controller_route   = $moduleDetail['controller_route'];
