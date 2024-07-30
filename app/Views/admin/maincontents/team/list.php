@@ -97,7 +97,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     if($users){ $sl=1; foreach($users as $row){
                                                         $department_name =$db->query("SELECT user.id, user.name, user.status, user.department as depart_id, user.dept_type, department.deprt_name FROM `user` 
                                                         INNER JOIN department ON user.department = department.id 
-                                                        WHERE user.`status` = '1'AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC")->getRow();
+                                                        WHERE user.`status` = '1' AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC")->getRow();
+                                                        echo $db->getlastQuery();
                                                         pr($department_name);
                                                         ?>
                                                     <tr>
