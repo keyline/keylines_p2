@@ -37,7 +37,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     <!--</h5>-->
                     <div class="row">
                         <div class="col-md-3">
-                        <?php foreach($department as $row){?>
+                        <?php foreach($departments as $row){?>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">                       
                                     <h6 class="fw-bold text-center heading_style"><?=$row->deprt_name?></h6>                            
@@ -99,7 +99,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         INNER JOIN department ON user.department = department.id 
                                                         WHERE user.`status` = '1' AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC")->getRow();
                                                         // echo $db->getlastQuery();
-                                                        pr($row);
+                                                        // pr($row);
+                                                        $single_depart_id = (($department_name)?$department_name->depart_id:'');
+                                                        $single_dept_type = (($department_name)?$department_name->dept_type:'');
                                                         ?>
                                                     <tr>
                                                         <th scope="row"><?=$sl++?></th>
@@ -131,8 +133,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                                                 <select name="dep_id" class="form-control" id="search_user_id" required>
                                                                                                     <option value="all">All</option>
                                                                                                     <hr>
-                                                                                                    <?php if($department){ foreach($department as $row1){?>
-                                                                                                        <option value="<?=$row1->id?> "<?=(($row->depart_id == $row1->id)?'selected':'')?>><?=$row1->deprt_name?></option>
+                                                                                                    <?php if($departments){ foreach($departments as $row1){?>
+                                                                                                        <option value="<?=$row1->id?> "<?=(($row1->id == $single_depart_id)?'selected':'')?>><?=$row1->deprt_name?></option>
                                                                                                         <hr>
                                                                                                     <?php } }?>
                                                                                                 </select>
@@ -149,9 +151,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                                             <div class="general_form_right_box">
                                                                                                 <select name="type" class="form-control" id="type" required>
                                                                                                     <option value="" selected>Select Type</option>
-                                                                                                    <option value="Teamlead"<?=(($row->dept_type == 'Teamlead')?'selected':'')?>>Team Lead</option>
-                                                                                                    <option value="Sublead"<?=(($row->dept_type == 'Sublead')?'selected':'')?>>Sub Lead</option>
-                                                                                                    <option value="Member"<?=(($row->dept_type == 'Member')?'selected':'')?>>Member</option>                                    
+                                                                                                    <option value="Teamlead" <?=(($single_dept_type == 'Teamlead')?'selected':'')?>>Team Lead</option>
+                                                                                                    <option value="Sublead" <?=(($single_dept_type == 'Sublead')?'selected':'')?>>Sub Lead</option>
+                                                                                                    <option value="Member" <?=(($single_dept_type == 'Member')?'selected':'')?>>Member</option>                                    
                                                                                                 </select>
                                                                                                 <button type="submit" class="btn btn-primary btn-sm font-12 mt-1">Submit</button>
                                                                                             </div>

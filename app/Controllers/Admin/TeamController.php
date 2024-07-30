@@ -30,7 +30,7 @@ class TeamController extends BaseController {
         // $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', '', '', '');          
         $order_by[1]                = array('field' => 'status', 'type' => 'DESC');
         $order_by[2]                = array('field' => 'name', 'type' => 'ASC');
-        $data['department']         = $this->data['model']->find_data('department', 'array', '', '', '');         
+        $data['departments']        = $this->data['model']->find_data('department', 'array', '', '', '');         
         $data['users']              = $this->data['model']->find_data('user', 'array', ['status' => '1'], 'id,name,status,department,dept_type', '', '', $order_by);
         // pr($data['department']);
         
