@@ -66,82 +66,68 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="dt-responsive table-responsive">
                                 <table class="table table-bordered nowrap general_table_style">
                                     <thead>
+
                                         <th>Alolika</th>
-                                        <th>Sudip</th>
-                                        <th>Deblina</th>
-                                        <th>Deep</th>
-                                        <th>Alolika</th>
-                                        <th>Sudip</th>
-                                        <th>Deblina</th>
-                                        <th>Deep</th>
-                                        <th>Avijit</th>
-                                        <th>Avijit</th>
-                                        <th>Avijit</th>
+                                        
                                     </thead>
                                     <tbody>
-                                            <tr> 
-                                                <?php for($i=0;$i<11;$i++) {  ?>
-                                                    
-                                                    <td>
-                                                        <div class="field_wrapper" id="name<?=$i?>">
-                                                            <form action="">
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <div class="input-group mb-1">
-                                                                            <textarea name="" id="" class="form-control form-control2"></textarea>
-                                                                            <a href="#" class="task_edit_btn">
-                                                                                <i class="fa-solid fa-pencil"></i>
-                                                                            </a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                            <form action="">
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <div class="input-group mb-1">
-                                                                            <select name="" id="" class="form-control">
-                                                                                <option value="">Select Project</option>
-                                                                                <option value="">ABP Podcast Microsite Maintenance  (Biswajit Kolay) - Maintanance</option>
-                                                                                <option value="">bengalrowingclub.com mobile app (Joydeep Thakurta) - Development</option>
-                                                                                <option value="">Digital Marketing of RDB International HUT (Priyanka Muykherjee) - Promotion</option>
-                                                                                <option value="">Gallery Rasa Phase II Maintenance & Modify (Rakesh Sahani) - Development   </option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-12">
-                                                                        <div class="input-group mb-1">
-                                                                            <textarea name="" id="" placeholder="Description" class="form-control"></textarea>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="input-group mb-1">
-                                                                            <input type="text" placeholder="Hour" class="form-control">
-                                                                        </div>
-                                                                    </div>
-                                                                    <div class="col-md-6">
-                                                                        <div class="input-group mb-1">
-                                                                            <input type="text" placeholder="Min." class="form-control">
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </form>
-                                                            <ul class="d-flex justify-content-center">
-                                                                <li>
-                                                                    <a href="javascript:void(0);" class="btn btn-info save_button me-2" title="Add field"> <i class="fa-solid fa-floppy-disk"></i></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:void(0);" class="btn btn-info save_button me-2" title="Add field"> <i class="fa-solid fa-edit"></i></a>
-                                                                </li>
-                                                                <li>
-                                                                    <a href="javascript:void(0);" class="btn btn-info add_button" title="Add field"> <i class="fa fa-circle-plus"></i></a>
-                                                                </li>
-                                                            </ul>
+                                        <tr>
+                                            <td>
+                                                <div class="field_wrapper" id="name">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <div class="input-group mb-1">
+                                                                <textarea name="" id="" class="form-control form-control2"></textarea>
+                                                                <a href="#" class="task_edit_btn">
+                                                                    <i class="fa-solid fa-pencil"></i>
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                </td>
-                                               <?php }?>
-                                            </tr>
-                                            
+                                                    </div>
+                                                    <form action="">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="input-group mb-1">
+                                                                    <select name="" id="" class="form-control">
+                                                                        <option value="">Select Project</option>
+                                                                        <option value="">ABP Podcast Microsite Maintenance  (Biswajit Kolay) - Maintanance</option>
+                                                                        <option value="">bengalrowingclub.com mobile app (Joydeep Thakurta) - Development</option>
+                                                                        <option value="">Digital Marketing of RDB International HUT (Priyanka Muykherjee) - Promotion</option>
+                                                                        <option value="">Gallery Rasa Phase II Maintenance & Modify (Rakesh Sahani) - Development   </option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="input-group mb-1">
+                                                                    <textarea name="" id="" placeholder="Description" class="form-control"></textarea>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group mb-1">
+                                                                    <input type="text" placeholder="Hour" class="form-control">
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div class="input-group mb-1">
+                                                                    <input type="text" placeholder="Min." class="form-control">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </form>
+                                                    <ul class="d-flex justify-content-center">
+                                                        <li>
+                                                            <a href="javascript:void(0);" class="btn btn-info save_button me-2" title="Add field"> <i class="fa-solid fa-floppy-disk"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" class="btn btn-info save_button me-2" title="Add field"> <i class="fa-solid fa-edit"></i></a>
+                                                        </li>
+                                                        <li>
+                                                            <a href="javascript:void(0);" class="btn btn-info add_button" title="Add field"> <i class="fa fa-circle-plus"></i></a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </td>
+                                        </tr>
                                     </tbody>
                                 </table>
                             </div> 
