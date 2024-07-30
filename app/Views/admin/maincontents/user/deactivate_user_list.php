@@ -32,7 +32,7 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="card">
                 <div class="card-body">  
                     <h5 class="card-title">                        
-                        <a href="<?=base_url('admin/' . $controller_route . '/list/')?>" class="btn btn-outline-success btn-sm">Activate <?=$title?></a>
+                        <a href="<?=base_url('admin/' . $controller_route . '/list/')?>" class="btn btn-outline-success btn-sm">Activated <?=$title?>s</a>
                     </h5>                     
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">

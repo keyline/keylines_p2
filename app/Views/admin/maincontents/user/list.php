@@ -33,7 +33,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 <div class="card-body">
                     <h5 class="card-title">
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
-                        <a href="<?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivate <?=$title?></a>
+                        <a href="<?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivated <?=$title?>s</a>
                     </h5>
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
