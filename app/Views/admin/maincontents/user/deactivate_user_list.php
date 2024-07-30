@@ -30,11 +30,10 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
-                        <a href="<?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivate <?=$title?></a>
-                    </h5>
+                <div class="card-body">  
+                    <h5 class="card-title">                        
+                        <a href="<?=base_url('admin/' . $controller_route . '/list/')?>" class="btn btn-outline-success btn-sm">Activate <?=$title?></a>
+                    </h5>                     
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
                             <thead>

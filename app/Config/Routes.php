@@ -89,6 +89,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 
 		/* users */
 			$routes->match(['get'], "users/list", "UserController::list");
+			$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
 			$routes->match(['get', 'post'], "users/add", "UserController::add");
 			$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
 			$routes->match(['get', 'post'], "users/delete/(:any)", "UserController::confirm_delete/$1");
