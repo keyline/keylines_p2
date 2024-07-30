@@ -279,6 +279,9 @@ class ReportController extends BaseController
         $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
         $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
         $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+        $deskloguser        = $this->common_model->find_data('general_settings', 'row', '', 'is_desklog_use', '', '');
+        //  pr($deskloguser);
+        $desklog_user       = $deskloguser->is_desklog_use;
         $response = [];
         $year = [];
         $sl = 1;
@@ -500,6 +503,7 @@ class ReportController extends BaseController
                     'oct_desklog'   => $result10,
                     'nov_desklog'   => $result11,
                     'dec_desklog'   => $result12,
+                    'deskloguser'   => $desklog_user,
                 ];
             }
         }

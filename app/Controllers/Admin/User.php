@@ -326,6 +326,9 @@ class User extends BaseController {
                     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                     $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], 'id,name,status', '', '', $order_by);
+                    $deskloguser        = $this->common_model->find_data('general_settings', 'row', '', 'is_desklog_use', '', '');
+                    // pr($deskloguser);
+                    $desklog_user       = $deskloguser->is_desklog_use;
                 // }
 
                 $response = [];
@@ -560,6 +563,7 @@ class User extends BaseController {
                             'oct_desklog'   => $result10,
                             'nov_desklog'   => $result11,
                             'dec_desklog'   => $result12,
+                            'deskloguser'   => $desklog_user,
                         ];
                     }
                 }
@@ -602,7 +606,8 @@ class User extends BaseController {
                                     'booked_date'   => date_format(date_create($loopDate), "d-m-Y"),
                                     'booked_effort' => $booked_effort,
                                     'booked_today' => date_format(date_create($dayWiseBooked->date_today), "d-m-Y"),
-                                    'desklog_time'  => str_replace(['h ', 'm'], [':', ''], $desklogTime),                       
+                                    'desklog_time'  => str_replace(['h ', 'm'], [':', ''], $desklogTime), 
+                                    'deskloguser'   => $desklog_user,                      
                                 ];
                             }
                         }
