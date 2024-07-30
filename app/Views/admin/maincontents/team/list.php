@@ -134,7 +134,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                                                     <option value="all">All</option>
                                                                                                     <hr>
                                                                                                     <?php if($departments){ foreach($departments as $row1){?>
-                                                                                                        <option value="<?=$row1->id?> "<?=(($single_depart_id == $row1->id)?'selected':'')?>><?=$row1->deprt_name?></option>
+                                                                                                        <option value="<?=$row1->id?> "<?=(($row1->id == $single_depart_id)?'selected':'')?>><?=$row1->deprt_name?></option>
                                                                                                         <hr>
                                                                                                     <?php } }?>
                                                                                                 </select>
@@ -151,9 +151,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                                             <div class="general_form_right_box">
                                                                                                 <select name="type" class="form-control" id="type" required>
                                                                                                     <option value="" selected>Select Type</option>
-                                                                                                    <option value="Teamlead"<?=(($single_dept_type == 'Teamlead')?'selected':'')?>>Team Lead</option>
-                                                                                                    <option value="Sublead"<?=(($single_dept_type == 'Sublead')?'selected':'')?>>Sub Lead</option>
-                                                                                                    <option value="Member"<?=(($single_dept_type == 'Member')?'selected':'')?>>Member</option>                                    
+                                                                                                    <option value="Teamlead" <?=(($single_dept_type == 'Teamlead')?'selected':'')?>>Team Lead</option>
+                                                                                                    <option value="Sublead" <?=(($single_dept_type == 'Sublead')?'selected':'')?>>Sub Lead</option>
+                                                                                                    <option value="Member" <?=(($single_dept_type == 'Member')?'selected':'')?>>Member</option>                                    
                                                                                                 </select>
                                                                                                 <button type="submit" class="btn btn-primary btn-sm font-12 mt-1">Submit</button>
                                                                                             </div>
