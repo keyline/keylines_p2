@@ -37,7 +37,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     <!--</h5>-->
                     <div class="row">
                         <div class="col-md-3">
-                        <?php foreach($department as $row){?>
+                        <?php foreach($departments as $row){?>
                             <div class="card">
                                 <div class="card-header text-dark bg-dark-info">                       
                                     <h6 class="fw-bold text-center heading_style"><?=$row->deprt_name?></h6>                            
@@ -99,7 +99,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         INNER JOIN department ON user.department = department.id 
                                                         WHERE user.`status` = '1' AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC")->getRow();
                                                         // echo $db->getlastQuery();
-                                                        pr($row);
+                                                        // pr($row);
                                                         ?>
                                                     <tr>
                                                         <th scope="row"><?=$sl++?></th>
@@ -131,8 +131,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                                                 <select name="dep_id" class="form-control" id="search_user_id" required>
                                                                                                     <option value="all">All</option>
                                                                                                     <hr>
-                                                                                                    <?php if($department){ foreach($department as $row1){?>
-                                                                                                        <option value="<?=$row1->id?> "<?=(($row->depart_id == $row1->id)?'selected':'')?>><?=$row1->deprt_name?></option>
+                                                                                                    <?php if($departments){ foreach($departments as $row1){?>
+                                                                                                        <option value="<?=$row1->id?> "<?=(($row->department == $row1->id)?'selected':'')?>><?=$row1->deprt_name?></option>
                                                                                                         <hr>
                                                                                                     <?php } }?>
                                                                                                 </select>
