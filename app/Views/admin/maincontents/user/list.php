@@ -33,7 +33,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 <div class="card-body">
                     <h5 class="card-title">
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
-                        <a href="<?=base_url('admin/' . $controller_route . '/deactivate_user_list/')?>" class="btn btn-outline-success btn-sm">Deactivate <?=$title?></a>
+                        <a href="<?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivate <?=$title?></a>
                     </h5>                    
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-bordered nowrap general_table_style">
@@ -55,7 +55,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <?php if($rows){ $sl=1; foreach($rows as $row){?>
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
-                                    <td><?=$row->name?><br><span class="badge bg-warning"><?=$row->id?></span></td>
+                                    <td><?=$row->name?><span class="badge bg-warning ms-1"><?=$row->id?></span></td>
                                     <td class="text-center"><?=$row->phone1?></td>
                                     <td><?=$row->email?></td>
                                     <td class="text-center"><?=$row->type?></td>

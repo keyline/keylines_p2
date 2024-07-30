@@ -182,57 +182,58 @@ $userType           = $session->user_type;
                                                 <tbody>
                                                     <?php if ($responses) {
                                                         $sl = 1;
-                                                        foreach ($responses as $response) { ?>
+                                                        foreach ($responses as $response) { 
+                                                            //  pr($response);?>
                                                             <tr>
                                                                 <td><?= $sl++ ?></td>
                                                                 <td class="fw-bold"><?= $response['name'] ?></td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['jan_booked'] > 0) { ?><span class="badge <?= (($response['jan_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jan_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['jan_desklog'] > 0) { ?><span class="badge" <?= (($response['jan_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jan_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['jan_desklog'] > 0) { ?><span class="badge" <?= (($response['jan_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jan_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['feb_booked'] > 0) { ?><span class="badge <?= (($response['feb_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['feb_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['feb_desklog'] > 0) { ?><span class="badge" <?= (($response['feb_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['feb_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['feb_desklog'] > 0) { ?><span class="badge" <?= (($response['feb_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['feb_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['mar_booked'] > 0) { ?><span class="badge <?= (($response['mar_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['mar_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['mar_desklog'] > 0) { ?><span class="badge" <?= (($response['mar_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['mar_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['mar_desklog'] > 0) { ?><span class="badge" <?= (($response['mar_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['mar_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['apr_booked'] > 0) { ?><span class="badge <?= (($response['apr_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['apr_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['apr_desklog'] > 0) { ?><span class="badge" <?= (($response['apr_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['apr_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['apr_desklog'] > 0) { ?><span class="badge" <?= (($response['apr_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['apr_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['may_booked'] > 0) { ?><span class="badge <?= (($response['may_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['may_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['may_desklog'] > 0) { ?><span class="badge" <?= (($response['may_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['may_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['may_desklog'] > 0) { ?><span class="badge" <?= (($response['may_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['may_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['jun_booked'] > 0) { ?><span class="badge <?= (($response['jun_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jun_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['jun_desklog'] > 0) { ?><span class="badge" <?= (($response['jun_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jun_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['jun_desklog'] > 0) { ?><span class="badge" <?= (($response['jun_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jun_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['jul_booked'] > 0) { ?><span class="badge <?= (($response['jul_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jul_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['jul_desklog'] > 0) { ?><span class="badge" <?= (($response['jul_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jul_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['jul_desklog'] > 0) { ?><span class="badge" <?= (($response['jul_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['jul_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['aug_booked'] > 0) { ?><span class="badge <?= (($response['aug_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['aug_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['aug_desklog'] > 0) { ?><span class="badge" <?= (($response['aug_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['aug_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['aug_desklog'] > 0) { ?><span class="badge" <?= (($response['aug_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['aug_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['sep_booked'] > 0) { ?><span class="badge <?= (($response['sep_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['sep_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['sep_desklog'] > 0) { ?><span class="badge" <?= (($response['sep_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['sep_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['sep_desklog'] > 0) { ?><span class="badge" <?= (($response['sep_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['sep_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['oct_booked'] > 0) { ?><span class="badge <?= (($response['oct_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['oct_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['oct_desklog'] > 0) { ?><span class="badge" <?= (($response['oct_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['oct_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['oct_desklog'] > 0) { ?><span class="badge" <?= (($response['oct_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['oct_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['nov_booked'] > 0) { ?><span class="badge <?= (($response['nov_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['nov_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['nov_desklog'] > 0) { ?><span class="badge" <?= (($response['nov_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['nov_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['nov_desklog'] > 0) { ?><span class="badge" <?= (($response['nov_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['nov_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                                 <td class="text-center">
                                                                     <?php if ($response['dec_booked'] > 0) { ?><span class="badge <?= (($response['dec_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['dec_booked'] ?></span><?php } ?><br>
-                                                                    <?php if ($response['dec_desklog'] > 0) { ?><span class="badge" <?= (($response['dec_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['dec_desklog'] ?></span><?php } ?>
+                                                                    <?php if($response['deskloguser'] == 1) { if ($response['dec_desklog'] > 0) { ?><span class="badge" <?= (($response['dec_desklog'] >= 172) ? 'style="background-color: #29cb05;"' : 'style="background-color: #b70400;"') ?>>D: <?= $response['dec_desklog'] ?></span><?php } }?>
                                                                 </td>
                                                             </tr>
                                                     <?php }
@@ -318,7 +319,9 @@ $userType           = $session->user_type;
                                                     <?php if ($last7DaysResponses) {
                                                         $sl = 1;
                                                         $counter = 0;
-                                                        foreach ($last7DaysResponses as $res) { ?>
+                                                        foreach ($last7DaysResponses as $res) {
+                                                            //  pr($res);
+                                                             ?>
                                                             <tr>
                                                                 <td><?= $sl++ ?></td>
                                                                 <td class="fw-bold"><?= $res['name'] ?></td>
@@ -359,7 +362,9 @@ $userType           = $session->user_type;
                                                                         <?= $report['booked_effort']  ?>
                                                                         <!-- ?= $date_difference  ?>  -->
                                                                         </br>
+                                                                        <?php if($report['deskloguser'] == 1) { ?>
                                                                         D: <?= $report['desklog_time'] ?>
+                                                                        <?php } ?>
                                                                     </td>
                                                                 <?php } ?>
                                                             </tr>

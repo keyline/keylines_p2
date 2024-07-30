@@ -30,7 +30,10 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-body">                    
+                <div class="card-body">  
+                    <h5 class="card-title">                        
+                        <a href="<?=base_url('admin/' . $controller_route . '/list/')?>" class="btn btn-outline-success btn-sm">Activate <?=$title?></a>
+                    </h5>                     
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
                             <thead>
@@ -51,7 +54,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <?php if($rows){ $sl=1; foreach($rows as $row){?>
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
-                                    <td><?=$row->name?><br><span class="badge bg-warning"><?=$row->id?></span></td>
+                                    <td><?=$row->name?><span class="badge bg-warning ms-1"><?=$row->id?></span></td>
                                     <td><?=$row->phone1?></td>
                                     <td><?=$row->email?></td>
                                     <td><?=$row->type?></td>

@@ -91,7 +91,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
                                 <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
                                     <option value="" selected>Select Type</option>
-                                    <?php if($roleMasters){foreach($roleMasters as $roleMaster){ ?>
+                                    <?php if($roleMasters){  var_dump($roleMasters); foreach($roleMasters as $roleMaster){ 
+                                        // pr($roleMaster)?>
                                         <option value="<?=$roleMaster->role_name;?>" <?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
                                     <?php   }   } ?>
                                 </select>
