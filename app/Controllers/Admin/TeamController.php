@@ -28,11 +28,11 @@ class TeamController extends BaseController {
         $page_name                  = 'team/list';
         $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
         // $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', '', '', '');          
-        $order_by[0]                = array('field' => 'status', 'type' => 'DESC');
-        $order_by[1]                = array('field' => 'name', 'type' => 'ASC');
+        $order_by[1]                = array('field' => 'status', 'type' => 'DESC');
+        $order_by[2]                = array('field' => 'name', 'type' => 'ASC');
         $data['department']         = $this->data['model']->find_data('department', 'array', '', '', '');         
         $data['users']              = $this->data['model']->find_data('user', 'array', ['status' => '1'], 'id,name,status,department,dept_type', '', '', $order_by);
-      
+        pr($data['department']);
         
         if($this->request->getMethod() == 'post') {           
             $user_id = $this->request->getPost('user_id');
