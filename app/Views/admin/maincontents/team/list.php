@@ -13,6 +13,7 @@ $controller_route   = $moduleDetail['controller_route'];
         </ol>
     </nav>
 </div>
+<?php if(checkModuleFunctionAccess(18,26)){ ?>
 <section class="section">
     <div class="row">
         <div class="col-xl-12">
@@ -110,9 +111,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         <td><?=$single_dept_type?></td>
                                                         <td><?=(($department_name)?$department_name->deprt_name:'')?></td>
                                                         <td class="text-center">
+                                                        <?php if(checkModuleFunctionAccess(18,27)){ ?>
                                                             <a href="#exampleModal<?=$row->id?>" role="button" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal<?=$row->id?>">
                                                                 <i class="fa fa-edit"></i>
                                                             </a>
+                                                            <?php } ?>
                                                             <!-- Modal -->
                                                             <div class="modal fade team-assin-modal" id="exampleModal<?=$row->id?>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                                                 <div class="modal-dialog modal-dialog-centered">
@@ -186,6 +189,7 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>    
 </section>
+<?php   } ?>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.1/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>

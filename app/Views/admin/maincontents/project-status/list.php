@@ -12,17 +12,18 @@ $controller_route   = $moduleDetail['controller_route'];
         </ol>
     </nav>
 </div>
+<?php if(checkModuleFunctionAccess(17,15)){ ?>
 <section class="section">
     <div class="row">
         <div class="col-xl-12">
             <?php if(session('success_message')){?>
-                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
+                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
                     <?=session('success_message')?>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
             <?php if(session('error_message')){?>
-                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message custom-alert" role="alert">
+                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
                     <?=session('error_message')?>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -31,11 +32,13 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    <?php if(checkModuleFunctionAccess(17,16)){ ?>
                     <h5 class="card-title">
-                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
+                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
                     </h5>
+                    <?php   } ?>
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-bordered nowrap general_table_style">
+                        <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -49,7 +52,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
                                     <td><?=$row->name?></td>
-                                    <td class="text-center">
+                                    <td>
                                         <h6>
                                             <?=(($row->created_at != '')?date_format(date_create($row->created_at), "M d, Y h:i A"):'')?>
                                         </h6>
@@ -59,13 +62,21 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <?=(($row->updated_at != '')?date_format(date_create($row->updated_at), "M d, Y h:i A"):'')?>
                                         </h6>
                                     </td>
-                                    <td class="text-center">
+                                    <td>
+                                        <?php if(checkModuleFunctionAccess(17,17)){ ?>
                                         <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
+                                        <?php } ?>
+                                        <?php if(checkModuleFunctionAccess(17,60)){ ?>
                                         <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
+                                        <?php } ?>
                                         <?php if($row->status){?>
+                                            <?php if(checkModuleFunctionAccess(17,18)){ ?>
                                             <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-success btn-sm" title="Activate <?=$title?>" onclick="return confirm('Do You Want To Deactivate This <?=$title?>');"><i class="fa fa-check"></i></a>
+                                            <?php } ?>
                                         <?php } else {?>
+                                            <?php if(checkModuleFunctionAccess(17,19)){ ?>
                                             <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$title?>" onclick="return confirm('Do You Want To Activate This <?=$title?>');"><i class="fa fa-times"></i></a>
+                                            <?php } ?>
                                         <?php }?>
                                     </td>
                                 </tr>
@@ -78,3 +89,4 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
+<?php   } ?>
