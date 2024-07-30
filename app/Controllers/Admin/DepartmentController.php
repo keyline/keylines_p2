@@ -42,6 +42,7 @@ class DepartmentController extends BaseController {
             $postData   = array(
                 'deprt_name'          => $this->request->getPost('deprt_name'),
                 'header_color'        => $this->request->getPost('header_color'),
+                'is_join_morning_meeting'        => $this->request->getPost('is_join_morning_meeting'),
             );
             $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);            
             $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
@@ -63,6 +64,7 @@ class DepartmentController extends BaseController {
             $postData   = array(
                 'deprt_name'          => $this->request->getPost('deprt_name'),
                 'header_color'        => $this->request->getPost('header_color'),
+                'is_join_morning_meeting'        => $this->request->getPost('is_join_morning_meeting'),
             );
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
