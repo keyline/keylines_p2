@@ -91,17 +91,21 @@ $userId             = $session->user_id;
                 </li>
                 <?php } ?>
 
+                <?php if(checkModuleAccess(29)){ ?>
                 <li>
                     <a class="<?= (($pageSegment == 'department') ? 'active' : '') ?>" href="<?= base_url('admin/department/list') ?>">
                         <i class="fa fa-arrow-right"></i><span>Departments</span>
                     </a>
                 </li>
+                <?php } ?>
 
+                <?php if(checkModuleAccess(30)){ ?>
                 <li>
                     <a class="<?= (($pageSegment == 'work-status') ? 'active' : '') ?>" href="<?= base_url('admin/work-status/list') ?>">
                         <i class="fa fa-arrow-right"></i><span>Work Status</span>
                     </a>
                 </li>
+                <?php } ?>
 
                 <?php if(checkModuleAccess(28)){ ?>
                 <li>

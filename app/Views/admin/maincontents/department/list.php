@@ -31,51 +31,63 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    <?php if (checkModuleFunctionAccess(29, 77)) { ?>
                     <h5 class="card-title">
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
                     </h5>
+                    <?php   } ?>
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-bordered nowrap general_table_style">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Department Name</th>
-                                    <th scope="col">Header Color</th>
-                                    <th scope="col">Is Join Morning Meeting</th>
-                                    <th scope="col">Created At<br>Updated At</th>
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if($rows){ $sl=1; foreach($rows as $row){?>
-                                <tr>
-                                    <th scope="row"><?=$sl++?></th>
-                                    <td><?=$row->deprt_name?></td>
-                                    <td><span style="border-radius: 50%; background-color: <?=$row->header_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                                    <td><?=(($row->is_join_morning_meeting)?'YES':'NO')?></td>
-                                    <td class="text-center">
-                                        <h6>
-                                            <?=(($row->created_at != '')?date_format(date_create($row->created_at), "M d, Y h:i A"):'')?>
-                                        </h6>
-                                        <h6 <?php if($row->updated_at != ''){?>
-                                            echo style=" border-top: 1px solid #444444; margin-top: 15px; padding: 15px 20px 0; width: auto; display: inline-block;"
-                                        <?php }?>>
-                                            <?=(($row->updated_at != '')?date_format(date_create($row->updated_at), "M d, Y h:i A"):'')?>
-                                        </h6>
-                                    </td>
-                                    <td class="text-center">
-                                        <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
-                                        <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
-                                        <?php if($row->status){?>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-success btn-sm" title="Activate <?=$title?>" onclick="return confirm('Do You Want To Deactivate This <?=$title?>');"><i class="fa fa-check"></i></a>
-                                        <?php } else {?>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$title?>" onclick="return confirm('Do You Want To Activate This <?=$title?>');"><i class="fa fa-times"></i></a>
-                                        <?php }?>
-                                    </td>
-                                </tr>
-                                <?php } }?>
-                            </tbody>
-                        </table>
+                        <?php if (checkModuleFunctionAccess(29, 76)) { ?>
+                            <table id="simpletable" class="table table-bordered nowrap general_table_style">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Department Name</th>
+                                        <th scope="col">Header Color</th>
+                                        <th scope="col">Is Join Morning Meeting</th>
+                                        <th scope="col">Created At<br>Updated At</th>
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if($rows){ $sl=1; foreach($rows as $row){?>
+                                    <tr>
+                                        <th scope="row"><?=$sl++?></th>
+                                        <td><?=$row->deprt_name?></td>
+                                        <td><span style="border-radius: 50%; background-color: <?=$row->header_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                        <td><?=(($row->is_join_morning_meeting)?'YES':'NO')?></td>
+                                        <td class="text-center">
+                                            <h6>
+                                                <?=(($row->created_at != '')?date_format(date_create($row->created_at), "M d, Y h:i A"):'')?>
+                                            </h6>
+                                            <h6 <?php if($row->updated_at != ''){?>
+                                                echo style=" border-top: 1px solid #444444; margin-top: 15px; padding: 15px 20px 0; width: auto; display: inline-block;"
+                                            <?php }?>>
+                                                <?=(($row->updated_at != '')?date_format(date_create($row->updated_at), "M d, Y h:i A"):'')?>
+                                            </h6>
+                                        </td>
+                                        <td class="text-center">
+                                            <?php if (checkModuleFunctionAccess(29, 78)) { ?>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
+                                            <?php } ?>
+                                            <?php if (checkModuleFunctionAccess(29, 79)) { ?>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
+                                            <?php } ?>
+                                            <?php if($row->status){?>
+                                                <?php if (checkModuleFunctionAccess(29, 80)) { ?>
+                                                <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-success btn-sm" title="Activate <?=$title?>" onclick="return confirm('Do You Want To Deactivate This <?=$title?>');"><i class="fa fa-check"></i></a>
+                                                <?php } ?>
+                                            <?php } else {?>
+                                                <?php if (checkModuleFunctionAccess(29, 81)) { ?>
+                                                <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$title?>" onclick="return confirm('Do You Want To Activate This <?=$title?>');"><i class="fa fa-times"></i></a>
+                                                <?php } ?>
+                                            <?php }?>
+                                        </td>
+                                    </tr>
+                                    <?php } }?>
+                                </tbody>
+                            </table>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
