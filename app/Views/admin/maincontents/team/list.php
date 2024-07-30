@@ -55,9 +55,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <tbody>
                                                     <?php
                                                     $deprt_id = $row->id;
-                                                    $sql = "SELECT team.*, user.name FROM `team` INNER JOIN user ON user.id = team.user_id WHERE `dep_id` = ?";
-                                                    $query = $db->query($sql, [$deprt_id]);
-                                                    $team = $query->getResult();                                                    
+                                                    $sql = "SELECT team.*, user.name FROM `team` INNER JOIN user ON user.id = team.user_id WHERE `dep_id` = '$deprt_id'";
+                                                    // $query = $db->query($sql, [$deprt_id]);
+                                                    $team = $db->$query->getResult();                                                    
                                                 
                                                     // Check if the team is not null before accessing its properties
                                                     if ($team !== null) { $sl= 1;
@@ -66,8 +66,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                          <th scope="row"><?=$sl++?></th> 
                                                         <td><?=$teamlist->name; if($teamlist->type == "Teamlead"){ echo "(T)"; } elseif($teamlist->type == "Sublead"){ echo "(ST)"; }?></td>
                                                     </tr>
-                                                    <?php } } 
-                                                        ?>
+                                                    <?php } } ?>
                                                 </tbody>
                                             </table>
                                         </div> 
