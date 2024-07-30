@@ -98,13 +98,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         $department_name =$db->query("SELECT user.id, user.name, user.status, user.department as depart_id, user.dept_type, department.deprt_name FROM `user` 
                                                         INNER JOIN department ON user.department = department.id 
                                                         WHERE user.`status` = '1' AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC")->getRow();
-                                                        echo $db->getlastQuery();
-                                                        pr($department_name);
+                                                        // echo $db->getlastQuery();
+                                                        pr($row);
                                                         ?>
                                                     <tr>
                                                         <th scope="row"><?=$sl++?></th>
                                                         <td><?=$row->name;?></td>
-                                                        <td><?=$department_name->deprt_name ?? null;?></td>
+                                                        <td><?=(($department_name)?$department_name->deprt_name:'')?></td>
                                                         <td class="text-center">
                                                             <a href="#exampleModal<?=$row->id?>" role="button" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">
                                                                 <i class="fa fa-edit"></i>
