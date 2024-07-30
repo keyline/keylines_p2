@@ -163,7 +163,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <input type="text" name="pincode" class="form-control" id="pincode" value="<?=$pincode?>" minlength="6" maxlength="6" onkeypress="return isNumber(event)">
                                         </div>
                                     </div>
-                                    <!--Password field -->
+                                    <!--Password fields -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
                                             <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>
