@@ -140,22 +140,6 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                     <!-- address field -->
-                                    <!-- <div class="col-md-2 col-lg-2">
-                                        <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
-                                        <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
-                                            <option value="" selected>Select Type</option>
-                                            <?php if($roleMasters){  var_dump($roleMasters); foreach($roleMasters as $roleMaster){ 
-                                                // pr($roleMaster)?>
-                                                <option value="<?=$roleMaster->role_name;?>" <?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
-                                            <?php   }   } ?>
-                                        </select>
-                                        <input type="hidden" id="role_id" name="role_id" value="">
-                                        <?php foreach ($roleMasters as $roleMaster): ?>
-                                            <?php if ($roleMaster->role_name == htmlspecialchars($type)): ?>
-                                                <input type="hidden" name="role_id" id="role_ide" value="<?= htmlspecialchars($roleMaster->id); ?>">
-                                            <?php endif; ?>
-                                        <?php endforeach; ?>
-                                    </div> -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
                                             <label for="address" class="col-form-label">Address</label>
@@ -209,6 +193,29 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <option value="<?=$userCat->id?>" <?=(($userCat->id == $category)?'selected':'')?>><?=$userCat->name?></option>
                                                 <?php } }?>
                                             </select>
+                                        </div>
+                                    </div>
+                                    <!-- Type field -->
+                                    <div class="col-md-2 col-lg-2">
+                                        <div class="general_form_left_box">
+                                            <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
+                                        </div>  
+                                    </div>
+                                    <div class="col-md-10 col-lg-10">
+                                        <div class="general_form_right_box">
+                                            <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
+                                                <option value="" selected>Select Type</option>
+                                                <?php if($roleMasters){  var_dump($roleMasters); foreach($roleMasters as $roleMaster){ 
+                                                    // pr($roleMaster)?>
+                                                    <option value="<?=$roleMaster->role_name;?>" <?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
+                                                <?php   }   } ?>
+                                            </select>
+                                            <input type="hidden" id="role_id" name="role_id" value="">
+                                            <?php foreach ($roleMasters as $roleMaster): ?>
+                                                <?php if ($roleMaster->role_name == htmlspecialchars($type)): ?>
+                                                    <input type="hidden" name="role_id" id="role_ide" value="<?= htmlspecialchars($roleMaster->id); ?>">
+                                                <?php endif; ?>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div>
                                     <!--Hour Cost field -->
