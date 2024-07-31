@@ -363,28 +363,6 @@
         }
     </script>
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
-    <!-- <script type="text/javascript">
-        $(document).ready(function() {
-            $('#morningMeetingForm').on('submit', function(event) {
-                event.preventDefault(); // Prevent default form submission
-                var formData = $(this).serialize(); // Serialize form data
-                var base_url        = '<?=base_url()?>';
-                console.log(base_url);
-                // $.ajax({
-                //     type: 'POST',
-                //     url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
-                //     data: formData,
-                //     success: function(response) {
-                //         $('#morningMeetingForm').trigger("reset");
-                //         toastAlert("success", res.message);
-                //     },
-                //     error: function(xhr, status, error) {
-                //         console.error('Error:', error); // Handle errors
-                //     }
-                // });
-            });
-        });
-    </script> -->
 </body>
 
 </html>
