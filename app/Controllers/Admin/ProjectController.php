@@ -181,28 +181,17 @@ class ProjectController extends BaseController {
 
         $months                     = [];
         for ($i = 13; $i >= 0; $i--) {
-            $date               = date("F Y", strtotime( date( 'Y-m-01' )." -$i months"));
+            $date               = date("M-y", strtotime( date( 'Y-m-01' )." -$i months"));
             $numericDate        = date("Y-m", strtotime(date('Y-m-01') . " -$i months"));
             $monthData[]        = $date;
             $numeric_dates[]    = $numericDate;
-            
+            $months[]           = strtoupper($date);
             $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
-            $rows               = $this->db->query($sql)->getResult();            
-            //   echo $sql; die;
+            $rows               = $this->db->query($sql)->getResult();
             $eachMonthHour[]    = $rows;
-        }
-        foreach ($monthData as $date) {
-            $dateTime     = \DateTime::createFromFormat('F Y', $date);
-            if ($dateTime) {
-                $month    = $dateTime->format('M-y');
-                $months[] = strtoupper($month);
-            } else {
-                $months[] = "Invalid Date";
-            }
         }
         $data['id']             = $id;
         $data['months']         = $months;
-        // pr($data['months']);
         $data['eachMonthHour']  = $eachMonthHour;
         $data['numeric_dates']  = $numeric_dates;
 

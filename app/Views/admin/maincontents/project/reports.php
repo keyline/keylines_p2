@@ -9,51 +9,51 @@
         </ol>
     </nav>
 </div>
-            <style type="text/css">
-                .options {
-                    padding: 20px;
-                    background-color: rgba(191, 191, 191, 0.15);
-                    margin-top: 20px;
-                }
+<style type="text/css">
+    .options {
+        padding: 20px;
+        background-color: rgba(191, 191, 191, 0.15);
+        margin-top: 20px;
+    }
 
-                .option {
-                    margin-top: 10px;
-                }
+    .option {
+        margin-top: 10px;
+    }
 
-                .caption {
-                    font-size: 18px;
-                    font-weight: 500;
-                }
+    .caption {
+        font-size: 18px;
+        font-weight: 500;
+    }
 
-                .option>span {
-                    margin-right: 10px;
-                }
+    .option>span {
+        margin-right: 10px;
+    }
 
-                .option>.dx-widget {
-                    display: inline-block;
-                    vertical-align: middle;
-                }
+    .option>.dx-widget {
+        display: inline-block;
+        vertical-align: middle;
+    }
 
-                .h-50 {
-                    width: 100% !important;
-                    height: 50% !important;
-                }
-                table { page-break-inside:auto; }
-                td    { border:1px solid lightgray; }
-                tr    { page-break-inside:auto; }
+    .h-50 {
+        width: 100% !important;
+        height: 50% !important;
+    }
+    table { page-break-inside:auto; }
+    td    { border:1px solid lightgray; }
+    tr    { page-break-inside:auto; }
 
-                @media(max-width: 767px) {
-                    .h-50 {
-                        width: 100% !important;
-                        height: 100% !important;
-                    }
-                }
+    @media(max-width: 767px) {
+        .h-50 {
+            width: 100% !important;
+            height: 100% !important;
+        }
+    }
 
-                .dropdown-toggle {
-                    top: 8px;
-                }
-                
-            </style>
+    .dropdown-toggle {
+        top: 8px;
+    }
+    
+</style>
 <section class="section">
     <div class="container">
         <div class="row">
@@ -83,7 +83,6 @@
                         ?>
                             <div class="">
                                 <div style="display: inline-flex;gap: 10px;width: 100%;">
-                                    <!-- ?php pr($project); ?> -->
                                     <select class="selectpicker" onchange="selectProject(this.value)" data-show-subtext="true" data-live-search="true">
                                         <?php if ($all_projects) {
                                            
@@ -126,9 +125,7 @@
                                             <tbody>
                                                 <tr>
                                                     <?php if ($eachMonthHour) {
-                                                        // pr($eachMonthHour);
-                                                        foreach ($eachMonthHour as $index => $row) { 
-                                                            // pr($row);
+                                                        foreach ($eachMonthHour as $index => $row) {
                                                             ?>
                                                             <td>
                                                                 <?php
@@ -191,7 +188,6 @@
                                                                     <?php
                                                                     $db = \Config\Database::connect();
                                                                     $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins FROM `timesheet` WHERE `effort_type`=" . $effortType->effort_type_id . " AND `date_added` LIKE '%" . $numeric_date . "%' and project_id=" . $id . "";
-                                                                    // echo $sql;
                                                                     $rowresult          = $db->query($sql)->getResult();
                                                                     $totHours           = $rowresult[0]->hours;
                                                                     $minutes            = $rowresult[0]->mins;
@@ -199,7 +195,6 @@
                                                                     $hours              = floor($minutes / 60);
                                                                     $remainingMinutes   = $minutes % 60;
                                                                     $totalHours         = $totHours + $hours;
-                                                                    // echo "$totalHours : $remainingMinutes ";
                                                                     echo ($totalHours > 0 || $remainingMinutes > 0) ? '<b>' . $totalHours  . ':' . $remainingMinutes . '</b>'  : '' . $totalHours  . ':' . $remainingMinutes . '';
                                                                     $effortTypeData['data'][] = $totalHours;
                                                                     ?>
@@ -243,7 +238,6 @@
                                                                     <?php
                                                                     $db = \Config\Database::connect();
                                                                     $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins FROM `timesheet` WHERE `user_id`=" . $user->user_id . " AND `date_added` LIKE '%" . $numeric_date . "%' and project_id=" . $id . "";
-                                                                    // echo $sql;
                                                                     $rowresult          = $db->query($sql)->getResult();
                                                                     $totHours           = $rowresult[0]->hours;
                                                                     $minutes            = $rowresult[0]->mins;
@@ -251,7 +245,6 @@
                                                                     $hours              = floor($minutes / 60);
                                                                     $remainingMinutes   = $minutes % 60;
                                                                     $totalHours         = $totHours + $hours;
-                                                                    // echo "$totalHours : $remainingMinutes ";
                                                                     echo ($totalHours > 0 || $remainingMinutes > 0) ? '<b>' . $totalHours  . ':' . $remainingMinutes . '</b>'  : '' . $totalHours  . ':' . $remainingMinutes . '';
                                                                     $userWiseData['data'][] = $totalHours;
                                                                     ?>
