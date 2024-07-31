@@ -58,9 +58,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
-
-
-
     <script type="text/javascript">
         $(document).ready(function() {
             $('.hide-message').delay(5000).fadeOut('slow');
@@ -69,10 +66,8 @@
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/toastr.js"></script>
     <link rel="stylesheet" href="<?= getenv('app.adminAssetsURL'); ?>assets/owl/owl3.css">
     <script src="<?= getenv('app.adminAssetsURL'); ?>assets/owl/owl-min.js"></script>
-
     <!-- <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
         <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script> -->
-
     <script type="text/javascript">
         function toastAlert(type, message, redirectStatus = false, redirectUrl = '') {
             toastr.options = {
@@ -367,9 +362,29 @@
             }
         }
     </script>
-    
-
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
+    <!-- <script type="text/javascript">
+        $(document).ready(function() {
+            $('#morningMeetingForm').on('submit', function(event) {
+                event.preventDefault(); // Prevent default form submission
+                var formData = $(this).serialize(); // Serialize form data
+                var base_url        = '<?=base_url()?>';
+                console.log(base_url);
+                // $.ajax({
+                //     type: 'POST',
+                //     url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
+                //     data: formData,
+                //     success: function(response) {
+                //         $('#morningMeetingForm').trigger("reset");
+                //         toastAlert("success", res.message);
+                //     },
+                //     error: function(xhr, status, error) {
+                //         console.error('Error:', error); // Handle errors
+                //     }
+                // });
+            });
+        });
+    </script> -->
 </body>
 
 </html>
