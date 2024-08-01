@@ -329,9 +329,9 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   height: 15px;
   border: 1px solid #4154f1;
   border-radius: 3px !important;
-  position: absolute;
+  /*position: absolute;
   bottom:5px;
-  right: 5px;
+  right: 5px;*/
   display: flex;
   justify-content: center;
   align-items: center;

@@ -95,47 +95,51 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <td>
                                                     <div class="field_wrapper" id="name">
                                                         <div class="row">
-                                                            <?php
-                                                            $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
-                                                            $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
-                                                            $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min', $join1, '', $order_by1);
-                                                            if($getTasks){ foreach($getTasks as $getTask){
-                                                            ?>
-                                                                <div class="col-12">
+                                                            <div class="col-12" id="meeting-user-<?=$teamMember->id?>">
+                                                                <?php
+                                                                $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
+                                                                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
+                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id', $join1, '', $order_by1);
+                                                                if($getTasks){ foreach($getTasks as $getTask){
+                                                                ?>
                                                                     <div class="input-group mb-1">
                                                                         <div class="card">
-                                                                            <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 15px;background-color: #fff;border-radius: 10px;text-align: left;vertical-align: top;" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                            <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 15px;background-color: #fff;border-radius: 10px;text-align: left;vertical-align: top;" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
                                                                                 <p>
                                                                                     <b><?=$getTask->project_name?> :</b> <?=$getTask->description?> [
                                                                                         <?php
                                                                                         if($getTask->hour > 0) {
                                                                                             if($getTask->hour == 1){
-                                                                                                echo $getTask->hour . "hr ";
+                                                                                                echo $getTask->hour . " hr ";
                                                                                             } else {
-                                                                                                echo $getTask->hour . "hrs ";
+                                                                                                echo $getTask->hour . " hrs ";
                                                                                             }
                                                                                         }
                                                                                         if($getTask->min > 0) {
                                                                                             if($getTask->min == 1){
-                                                                                                echo $getTask->min . "min ";
+                                                                                                echo $getTask->min . " min ";
                                                                                             } else {
-                                                                                                echo $getTask->min . "mins ";
+                                                                                                echo $getTask->min . " mins ";
                                                                                             }
                                                                                         }
                                                                                         ?>
                                                                                     ]
                                                                                 </p>
+                                                                                <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
+                                                                                    <i class="fa-solid fa-pencil text-primary"></i>
+                                                                                </a>
                                                                             </div>
                                                                         </div>
                                                                         <!-- <textarea name="" id="" class="form-control form-control2"></textarea> -->
-                                                                        <a href="javascript:void(0);" class="task_edit_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
-                                                                            <i class="fa-solid fa-plus-circle text-success"></i>
-                                                                        </a>
                                                                     </div>
-                                                                </div>
-                                                            <?php } }?>
+                                                                <?php } }?>
+                                                                <a href="javascript:void(0);" class="task_edit_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                    <i class="fa-solid fa-plus-circle text-success"></i>
+                                                                </a>
+                                                            </div>
                                                         </div>
                                                     </div>
+                                                    <!--  -->
                                                 </td>
                                                 <?php } } ?>
                                             <?php } } ?>
@@ -152,8 +156,7 @@ $controller_route   = $moduleDetail['controller_route'];
 </section>
 
 <!-- lead activity modal -->
-    <div class="modal fade" id="morningformModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999;
-">
+    <div class="modal fade" id="morningformModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999;">
         <div class="modal-dialog" role="document" style="max-width: 50%; margin-top: 20px;">
             <div class="modal-content">
                 <div class="modal-header" id="morningformTitle">
@@ -277,7 +280,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <div class="input-group mb-1">
                                         <select name="hour" class="form-control" id="hour" required>
                                             <option value="" selected>Select Hour</option>
-                                            <?php for($h=1;$h<=8;$h++){?>
+                                            <?php for($h=0;$h<=8;$h++){?>
                                                 <option value="<?=$h?>"><?=$h?></option>
                                             <?php }?>
                                         </select>
@@ -287,7 +290,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <div class="input-group mb-1">
                                         <select name="min" class="form-control" id="min" required>
                                             <option value="" selected>Select Minute</option>
-                                            <?php for($m=1;$m<=59;$m++){?>
+                                            <?php for($m=0;$m<=59;$m++){?>
                                                 <option value="<?=$m?>"><?=$m?></option>
                                             <?php }?>
                                         </select>
@@ -331,14 +334,82 @@ $controller_route   = $moduleDetail['controller_route'];
         dataJson.min                        = $('#min').val();
         dataJson.priority                   = $('input[name="priority"]:checked').val();
         dataJson.work_home                  = $('input[name="work_home"]:checked').val();
+        var user_id                         = $('#user_id').val();
         $.ajax({
             type: 'POST',
             url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
             data: JSON.stringify(dataJson),
             success: function(res) {
-                $('#morningMeetingForm').trigger("reset");
-                $('#morningformModal').modal('hide');
-                toastAlert("success", "Task Submitted Successfully !!!");
+                res = $.parseJSON(res);
+                if(res.success){
+                    $('#morningMeetingForm').trigger("reset");
+                    $('#morningformModal').modal('hide');
+                    $('#meeting-user-' + user_id).empty();
+                    $('#meeting-user-' + user_id).html(res.data);
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
+
+    function openEditForm(deptId, userId, userName, scheduleId){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.dept_id                    = deptId;
+        dataJson.user_id                    = userId;
+        dataJson.schedule_id                = scheduleId;
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-schedule-prefill", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    var heading = '<h5>Task Schedule Modify For <strong>' + userName + '</strong></h5>';
+                    var body    = res.data;
+                    $('#morningformModal').modal('show');
+                    $('#morningformTitle').empty();
+                    $('#morningformBody').empty();
+                    $('#morningformTitle').html(heading);
+                    $('#morningformBody').html(body);
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
+    function submitEditForm(){
+        var base_url        = '<?=base_url()?>';
+        var dataJson        = {};
+        dataJson.dept_id                    = $('#dept_id').val();
+        dataJson.user_id                    = $('#user_id').val();
+        dataJson.schedule_id                = $('#schedule_id').val();
+        dataJson.date_added                 = $('#date_added').val();
+        dataJson.project_id                 = $('#project_id').val();
+        dataJson.description                = $('#description').val();
+        dataJson.hour                       = $('#hour').val();
+        dataJson.min                        = $('#min').val();
+        dataJson.priority                   = $('input[name="priority"]:checked').val();
+        dataJson.work_home                  = $('input[name="work_home"]:checked').val();
+        var user_id                         = $('#user_id').val();
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-schedule-update", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    $('#morningMeetingForm').trigger("reset");
+                    $('#morningformModal').modal('hide');
+                    $('#meeting-user-' + user_id).empty();
+                    $('#meeting-user-' + user_id).html(res.data);
+                    toastAlert("success", res.message);
+                }
             },
             error: function(xhr, status, error) {
                 console.error('Error:', error); // Handle errors
