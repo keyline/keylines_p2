@@ -104,7 +104,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                 ?>
                                                                     <div class="input-group mb-1">
                                                                         <div class="card">
-                                                                            <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 15px;background-color: #fff;border-radius: 10px;text-align: left;vertical-align: top;" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
+                                                                            <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 15px;background-color: #fff;border-radius: 10px;text-align: left;vertical-align: top;">
                                                                                 <p>
                                                                                     <b><?=$getTask->project_name?> :</b> <?=$getTask->description?> [
                                                                                         <?php
