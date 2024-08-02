@@ -27,7 +27,7 @@ class DepartmentController extends BaseController {
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'department/list';
-        $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
+        $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
         $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status!=' => 3], '', '', '', $order_by);
         echo $this->layout_after_login($title,$page_name,$data);
     }
@@ -40,8 +40,10 @@ class DepartmentController extends BaseController {
         $data['row']                = [];
         if($this->request->getMethod() == 'post') {
             $postData   = array(
-                'deprt_name'          => $this->request->getPost('deprt_name'),
-                'header_color'        => $this->request->getPost('header_color'),
+                'deprt_name'                        => $this->request->getPost('deprt_name'),
+                'header_color'                      => $this->request->getPost('header_color'),
+                'is_join_morning_meeting'           => $this->request->getPost('is_join_morning_meeting'),
+                'rank'                              => $this->request->getPost('rank'),
             );
             $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);            
             $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
@@ -61,8 +63,10 @@ class DepartmentController extends BaseController {
 
         if($this->request->getMethod() == 'post') {
             $postData   = array(
-                'deprt_name'          => $this->request->getPost('deprt_name'),
-                'header_color'        => $this->request->getPost('header_color'),
+                'deprt_name'                        => $this->request->getPost('deprt_name'),
+                'header_color'                      => $this->request->getPost('header_color'),
+                'is_join_morning_meeting'           => $this->request->getPost('is_join_morning_meeting'),
+                'rank'                              => $this->request->getPost('rank'),
             );
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');

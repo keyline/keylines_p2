@@ -32,13 +32,15 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
         <?php
             if($row){
-              $deprt_name       = $row->deprt_name;
-              $header_color     = $row->header_color;
-              $is_join_morning_meeting     = $row->is_join_morning_meeting;
+              $deprt_name                   = $row->deprt_name;
+              $header_color                 = $row->header_color;
+              $is_join_morning_meeting      = $row->is_join_morning_meeting;
+              $rank                         = $row->rank;
             } else {
-              $deprt_name       = '';
-              $header_color     = '';
-              $is_join_morning_meeting     = '';
+              $deprt_name                   = '';
+              $header_color                 = '';
+              $is_join_morning_meeting      = '';
+              $rank                         = '';
             }
             ?>
         <div class="col-xl-12">
@@ -82,6 +84,23 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <label for="is_join_morning_meeting1">YES</label>
                                         <input name="is_join_morning_meeting" type="radio" id="is_join_morning_meeting2" value="0" <?=(($is_join_morning_meeting == 0)?'checked':'')?>>
                                         <label for="is_join_morning_meeting2">NO</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2 col-lg-2">
+                                    <div class="general_form_left_box">
+                                        <label for="rank" class="col-form-label">Rank</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="general_form_right_box">
+                                        <select name="rank" class="form-control" id="rank" required>
+                                            <option value="" selected>Select Rank</option>
+                                            <?php for($t=1;$t<=5;$t++){?>
+                                                <option value="<?=$t?>" <?=(($t == $rank)?'selected':'')?>><?=$t?></option>
+                                            <?php }?>
+                                        </select>
                                     </div>
                                 </div>
                             </div>
