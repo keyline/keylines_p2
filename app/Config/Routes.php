@@ -120,6 +120,11 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
 			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
 		/* clients */
+		//AMC Checking//
+			$routes->match(['get'], "amc-checking", "AmcCheckingController::list");
+			$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
+		//AMC Checking//
+
 		// task assign
 			$routes->match(['get'], "task-assign", "TaskAssignController::task_list");
 		// task assign
