@@ -589,7 +589,7 @@ class CommonModel extends Model
     {
         $siteSetting        = $this->find_data('general_settings', 'row');
         $email              = \Config\Services::email();        
-        $from_email         = 'no-reply@market.ecoex.market';
+        $from_email         = $siteSetting->from_email;
         $from_name          = $siteSetting->site_name;
         $email->setFrom($from_email, $from_name);
         $email->setTo($to_email);
