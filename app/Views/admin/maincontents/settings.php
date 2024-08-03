@@ -64,7 +64,7 @@ $user_type = session('user_type');
               <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Change Password</button>
               </li>
-              <?php if ($user_type == 'admin') { ?>
+              <?php if ($user_type == 'ADMIN') { ?>
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">Application</button>
                 </li>
