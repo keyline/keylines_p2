@@ -94,15 +94,19 @@ class TaskAssignController extends BaseController {
                     $min = $getTask->min . " min";
                 }
 
-                $scheduleHTML .= '<div class="input-group mb-1">
+                $scheduleHTML .= '<div class="input-group">
                                 <div class="card">
-                                    <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 15px;background-color: #fff;border-radius: 10px;text-align: left;vertical-align: top;">
-                                        <p>
+                                    <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;">
+                                        <p class="mb-2">
                                             <b>'.$getTask->project_name.' :</b> '.$getTask->description.' [' .$hr. ' ' .$min. ']
                                         </p>
-                                        <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
-                                            <i class="fa-solid fa-pencil text-primary"></i>
-                                        </a>
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-0">Shuvadeep Chakraborty</p>
+                                            <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
+                                                <i class="fa-solid fa-pencil text-primary"></i>
+                                            </a>
+                                        </div>
+                                        
                                     </div>
                                 </div>
                             </div>';
@@ -293,13 +297,16 @@ class TaskAssignController extends BaseController {
 
                 $scheduleHTML .= '<div class="input-group mb-1">
                                 <div class="card">
-                                    <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 15px;background-color: #fff;border-radius: 10px;text-align: left;vertical-align: top;">
-                                        <p>
+                                    <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;">
+                                        <p class="mb-2">
                                             <b>'.$getTask->project_name.' :</b> '.$getTask->description.' [' .$hr. ' ' .$min. ']
                                         </p>
-                                        <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
+                                        <div class="d-flex justify-content-between">
+                                            <p class="mb-0">Shuvadeep Chakraborty</p>
+                                            <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
                                             <i class="fa-solid fa-pencil text-primary"></i>
-                                        </a>
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>';

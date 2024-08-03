@@ -17,6 +17,18 @@ $controller_route   = $moduleDetail['controller_route'];
         border: 1px solid #ff980073;
         padding: 10px;
     }
+    .task-assign-table th,
+    .task-assign-table td,
+    .input-group > .card{
+        width: 150px !important;
+        vertical-align: top !important;
+    }
+    .input-group > .card{
+        margin-bottom: 5px;
+    }
+    .bg-blue{
+        background: #0d6efdc2;
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -61,10 +73,11 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="col-12">
                 <div class="card">                      
                         <h5 class="fw-bold mb-2">Devoloper Team</h5>
+                        <h6 class="mb-2">3/08/2024</h6>
                     <div class="card-body">
-                        <div class="row">
+                        <div class="rows">
                             <div class="dt-responsive table-responsive">
-                                <table class="table table-bordered nowrap general_table_style">
+                                <table class="table table-bordered nowrap general_table_style task-assign-table">
                                     <thead>
                                         <tr>
                                             <?php if($departments){ foreach($departments as $dept){?>
@@ -80,7 +93,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id'")->getResult();
                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                                 ?>
-                                                    <th style="background-color: <?=$dept->header_color?>;"><?=$teamMember->name?></th>
+                                                    <th style="background-color: <?=$dept->header_color?>;"><?=$teamMember->name?> <br>[8 hr]</th>
                                                 <?php } } ?>
                                             <?php } } ?>
                                         </tr>
@@ -102,11 +115,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                 $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id', $join1, '', $order_by1);
                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                 ?>
-                                                                    <div class="input-group mb-1">
+                                                                    <div class="input-group">
                                                                         <div class="card">
-                                                                            <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 15px;background-color: #fff;border-radius: 10px;text-align: left;vertical-align: top;">
-                                                                                <p>
-                                                                                    <b><?=$getTask->project_name?> :</b> <?=$getTask->description?> [
+                                                                            <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;">
+                                                                                <p class="mb-2">
+                                                                                    <span class="mb-1 d-block"><b><?=$getTask->project_name?> :</b> <?=$getTask->description?><br></span> [
                                                                                         <?php
                                                                                         if($getTask->hour > 0) {
                                                                                             if($getTask->hour == 1){
@@ -125,9 +138,17 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                                         ?>
                                                                                     ]
                                                                                 </p>
-                                                                                <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
-                                                                                    <i class="fa-solid fa-pencil text-primary"></i>
-                                                                                </a>
+                                                                                <div class="d-flex justify-content-between">
+                                                                                    <p class="mb-0 assign-name">Shuvadeep Chakraborty</p>
+                                                                                    <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
+                                                                                        <i class="fa-solid fa-pencil text-primary"></i>
+                                                                                    </a>
+                                                                                </div>
+                                                                                <div class="d-flex justify-content-end mt-2">
+                                                                                    <a href="#" class="btn-approv bg-success text-light me-1"><i class="fa-solid fa-check"></i></a>
+                                                                                    <a href="#" class="btn-not-approv bg-danger text-light"><i class="fa-solid fa-times"></i></a>
+                                                                                </div>
+                                                                                
                                                                             </div>
                                                                         </div>
                                                                         <!-- <textarea name="" id="" class="form-control form-control2"></textarea> -->

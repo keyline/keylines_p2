@@ -330,12 +330,31 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   border: 1px solid #4154f1;
   border-radius: 3px !important;
   position: relative;
-  bottom:5px;
-  right: 5px;
+  bottom:0px;
+  right: 0px;
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 55555;
+  margin: 0 auto;
+}
+.btn-approv,
+.btn-not-approv{
+  width: 15px;
+  height: 15px;
+  border-radius: 3px !important;
+  position: relative;
+  bottom:0px;
+  right: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 55555;
+}
+.assign-name{
+  font-size: 9px;
+  width: auto;
+  box-shadow: 0 0 10px -5px #ccc;
 }
 .task_edit_btn i{
   color: #4154f1;
