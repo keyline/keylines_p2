@@ -157,6 +157,12 @@ $userId             = $session->user_id;
             </a>
         </li>
     <?php } ?>
+        <li class="nav-item">
+            <a class="nav-link <?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
+                <i class="fas fa-industry"></i>
+                <span>AMC Checking</span>
+            </a>
+        </li>
     <?php if($userType != 'CLIENT'){ ?>
     <?php if (checkModuleAccess(7) || checkModuleAccess(19) || checkModuleAccess(20)) { ?>
         <li class="nav-item">
