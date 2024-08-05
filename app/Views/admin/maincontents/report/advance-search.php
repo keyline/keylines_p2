@@ -68,9 +68,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </select>
                                 </div>
                             <?php } else { ?>
-                                <div class="col-md-3 col-lg-3">
+                                <input type="hidden" name="search_user_id" value="all" id="search_user_id">
+                                <!-- <div class="col-md-3 col-lg-3">
                                     <label for="search_user_id">User</label>
-                                    <!-- <input type="hidden" name="search_user_id" value="all" id="search_user_id"> -->
+                                    <input type="hidden" name="search_user_id" value="all" id="search_user_id">
                                     <select name="search_user_id" class="form-control" id="search_user_id" required>
                                         <option value="all" <?= (($search_user_id == 'all') ? 'selected' : '') ?>>All</option>
                                         <hr>
@@ -81,7 +82,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <?php }
                                         } ?>
                                     </select>
-                                </div>
+                                </div> -->
                             <?php } ?>
                             <div class="col-md-3 col-lg-3">
                                 <?php if($user != 'admin') { ?>
