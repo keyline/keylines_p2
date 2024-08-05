@@ -160,8 +160,14 @@ $userId             = $session->user_id;
     <?php if($userType == 'ADMIN'){ ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
-                <i class="fas fa-industry"></i>
+                <i class="fas fa-calendar-check"></i>
                 <span>AMC Checking</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project_cost') ?>">
+                <i class="fas fa-money-check"></i>
+                <span>Add Expenses</span>
             </a>
         </li>
     <?php } ?>
