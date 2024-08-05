@@ -5,6 +5,9 @@ use CodeIgniter\HTTP\CLIRequest;
 use CodeIgniter\HTTP\IncomingRequest;
 use CodeIgniter\HTTP\RequestInterface;
 use CodeIgniter\HTTP\ResponseInterface;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
 use Psr\Log\LoggerInterface;
 use App\Models\CommonModel;
 /**
@@ -126,30 +129,65 @@ abstract class BaseController extends Controller
         die;
     }
     // send email
-        public function sendMail($to_email, $email_subject, $mailbody, $attachment = '')
+        // public function sendMail($to_email, $email_subject, $mailbody, $attachment = '')
+        // {
+        //     $siteSetting        = $this->common_model->find_data('general_settings', 'row');
+        //     $emailSetting       = \Config\Services::email();
+        //     $from_email         = $siteSetting->from_email;
+        //     $from_name          = $siteSetting->from_name;
+        //     $emailSetting->SMTPHost = $siteSetting->smtp_host;
+        //     $emailSetting->SMTPUser = $siteSetting->smtp_username;
+        //     $emailSetting->SMTPPass = $siteSetting->smtp_password;
+        //     $emailSetting->SMTPPort = $siteSetting->smtp_port;
+        //     $emailSetting->protocol = 'smtp';
+        //     $emailSetting->setFrom($from_email, $from_name);
+        //     $emailSetting->setTo($to_email);
+        //     $emailSetting->setCC('sudip.keyline@gmail.com', 'KDPL System');
+        //     $emailSetting->setCC('subhomoysamanta1989@gmail.com', 'Subhomoy Samanta');
+        //     $emailSetting->setCC('subhomoy@keylines.net', 'Subhomoy Samanta');
+        //     $emailSetting->setCC('deblina@keylines.net', 'Deblina Das');
+        //     $emailSetting->setSubject($email_subject);
+        //     $emailSetting->setMessage($mailbody);
+        //     if($attachment != ''){
+        //         $emailSetting->attach($attachment);
+        //     }
+        //     $emailSetting->send();
+        //     return true;
+        // }
+        public function sendMail($email, $subject, $message, $file = '')
         {
-            $siteSetting        = $this->common_model->find_data('general_settings', 'row');
-            $emailSetting       = \Config\Services::email();
-            $from_email         = $siteSetting->from_email;
-            $from_name          = $siteSetting->from_name;
-            $emailSetting->SMTPHost = $siteSetting->smtp_host;
-            $emailSetting->SMTPUser = $siteSetting->smtp_username;
-            $emailSetting->SMTPPass = $siteSetting->smtp_password;
-            $emailSetting->SMTPPort = $siteSetting->smtp_port;
-            $emailSetting->protocol = 'smtp';
-            $emailSetting->setFrom($from_email, $from_name);
-            $emailSetting->setTo($to_email);
-            $emailSetting->setCC('sudip.keyline@gmail.com', 'KDPL System');
-            $emailSetting->setCC('subhomoysamanta1989@gmail.com', 'Subhomoy Samanta');
-            $emailSetting->setCC('subhomoy@keylines.net', 'Subhomoy Samanta');
-            $emailSetting->setCC('deblina@keylines.net', 'Deblina Das');
-            $emailSetting->setSubject($email_subject);
-            $emailSetting->setMessage($mailbody);
-            if($attachment != ''){
-                $emailSetting->attach($attachment);
-            }
-            $emailSetting->send();
-            return true;
+            $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+            $mailLibrary                = new PHPMailer(true);
+            $mailLibrary->CharSet       = 'UTF-8';
+            $mailLibrary->SMTPDebug     = 0;
+            //$mailLibrary->IsSMTP();
+            $mailLibrary->Host          = $generalSetting->smtp_host;
+            $mailLibrary->SMTPAuth      = true;
+            $mailLibrary->Port          = $generalSetting->smtp_port;
+            $mailLibrary->Username      = $generalSetting->smtp_username;
+            $mailLibrary->Password      = $generalSetting->smtp_password;
+            $mailLibrary->SMTPSecure    = 'tls';
+            $mailLibrary->From          = $generalSetting->from_email;
+            $mailLibrary->FromName      = $generalSetting->from_name;
+            $mailLibrary->AddReplyTo($generalSetting->from_email, $generalSetting->from_name);
+            if(is_array($email)) :
+                foreach($email as $eml):
+                    $mailLibrary->addAddress($eml);
+                endforeach;
+            else:
+                $mailLibrary->addAddress($email);
+            endif;
+            $mailLibrary->addCC('sudip.keyline@gmail.com', 'KDPL System');
+            $mailLibrary->addCC('subhomoy@keylines.net', 'Subhomoy Samanta');
+            $mailLibrary->addCC('deblina@keylines.net', 'Deblina Das');
+            $mailLibrary->WordWrap      = 5000;
+            $mailLibrary->Subject       = $subject;
+            $mailLibrary->Body          = $message;
+            $mailLibrary->isHTML(true);
+            if (!empty($file)):
+                $mailLibrary->AddAttachment($file);
+            endif;
+            return (!$mailLibrary->send()) ? false : true;
         }
     // send email
     // send sms
