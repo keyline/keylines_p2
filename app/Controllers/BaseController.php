@@ -140,7 +140,9 @@ abstract class BaseController extends Controller
             $emailSetting->setFrom($from_email, $from_name);
             $emailSetting->setTo($to_email);
             $emailSetting->setCC('sudip.keyline@gmail.com', 'KDPL System');
+            $emailSetting->setCC('subhomoysamanta1989@gmail.com', 'Subhomoy Samanta');
             $emailSetting->setCC('subhomoy@keylines.net', 'Subhomoy Samanta');
+            $emailSetting->setCC('deblina@keylines.net', 'Deblina Das');
             $emailSetting->setSubject($email_subject);
             $emailSetting->setMessage($mailbody);
             if($attachment != ''){
