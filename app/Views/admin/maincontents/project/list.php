@@ -101,6 +101,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <span class="badge bg-warning text-dark">Id: <?=$row->$primary_key?></span><b><?=$row->name?></b><a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($row->id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a><br>
                                             <span class="badge bg-primary"><?=$row->project_status_name?></span>
                                             <span class="badge bg-success"><?=(($row->start_date != '')?date_format(date_create($row->start_date), "M d, Y"):'')?></span><br>
+                                            Deadline: <?=(($row->deadline != '')?date_format(date_create($row->deadline), "M d, Y"):'')?><br>
                                             Last Update: <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?><br>
                                             <i class="fa fa-user" style="margin-left: 5px;"></i><b><?=$row->client_name?></b> <br>
                                             

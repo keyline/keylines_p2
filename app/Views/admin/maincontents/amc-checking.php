@@ -64,7 +64,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         if($chk_date == null){
                                             echo '<span class="label label-danger">Never Checked</span>';
                                         }else if($days_between->format("%a") > $dayspan){
-                                        echo '<b>'.$days_between->format("%a").' Days</b><span class="badge bg-danger">Overdue</span>';
+                                        echo '<b>'.$days_between->format("%a").' Days </b><span class="badge bg-danger">Overdue</span>';
                                         }else{
                                           echo $days_between->format("%a");  
                                         }
