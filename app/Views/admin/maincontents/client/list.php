@@ -31,12 +31,9 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <?php if(checkModuleFunctionAccess(6,34)){ ?>
                     <h5 class="card-title">
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
                     </h5>
-                    <?php } ?>
-                    <?php if(checkModuleFunctionAccess(6,33)){ ?>
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered table-fit general_table_style">
                             <thead>
@@ -44,10 +41,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <th scope="col">#</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Address</th>
-                                    <th scope="col">Emails</th>
-                                    <th scope="col">Phones</th>
-                                    <th scope="col">Reference</th>
+                                    <th scope="col">Reference <br> Emails <br> Phones </th>
                                     <th scope="col">Added<br>Last Login</th>
+                                    <th scope="col">Document</th>
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -66,26 +62,32 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <?=$row->address_1?> <?=$row->state?> <?=$row->city?> <?=$row->country?> <?=$row->pin?><br>
                                         <?=$row->address_2?>
                                     </td>
-                                    <td><?=$row->email_1?><br><?=$row->email_2?></td>
-                                    <td><?=$row->phone_1?><br><?=$row->phone_2?></td>
-                                    <td><?=$row->reference?></td>
+                                    <td><?=$row->reference?> <br> <?=$row->email_1?><br><?=$row->email_2?> <br> <?=$row->phone_1?><br><?=$row->phone_2?> </td>
                                     <td>
                                         <?=(($row->added_date != '0000-00-00 00:00:00')?date_format(date_create($row->added_date), "M d, Y h:i A"):'')?>
                                         <br><hr>
                                         <?=(($row->last_login != '0000-00-00 00:00:00')?date_format(date_create($row->last_login), "M d, Y h:i A"):'')?>
                                     </td>
                                     <td>
-                                        <?php if(checkModuleFunctionAccess(6,55)){ ?>
+                                        <a href="<?=base_url('admin/' . $controller_route . '/add-proposal/'.encoded($row->$primary_key))?>" class="btn btn-outline-success btn-sm" title="Add Proposal"><i class="fa fa-plus"></i></a>
+                                        <?php
+                                            $db  = \Config\Database::connect();
+                                            $sql = "SELECT COUNT(file) as totalFile FROM proposal_files WHERE client_id=".$row->$primary_key;
+                                            $res = $db->query($sql)->getRow();
+                                            if($res->totalFile > 0){   ?>
+                                            <a href="<?=base_url('admin/' . $controller_route . '/view-proposal/'.encoded($row->$primary_key))?>" class="btn btn-outline-info btn-sm" title="View Proposal"><i class="fa fa-eye"></i></a>
+                                                <span class="badge bg-success">   <?= 'Total Document: '.$res->totalFile?></span>
+                                        <?php    }  ?>
+                                    </td>
+                                    <td>
                                         <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
                                         <!-- <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a> -->
-                                        <?php } ?>
                                     </td>
                                 </tr>
                                 <?php } }?>
                             </tbody>
                         </table>
                     </div>
-                    <?php } ?>
                 </div>
             </div>
         </div>
