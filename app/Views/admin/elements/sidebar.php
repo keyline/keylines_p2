@@ -72,10 +72,10 @@ $userId             = $session->user_id;
     <?php } ?>
     <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(28)) { ?>
         <li class="nav-item">
-            <a class="nav-link <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work_status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work_status') ? 'active' : '') ?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
                 <i class="fa fa-database"></i><span>Masters</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="master-nav" class="nav-content collapse <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work_status') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
+            <ul id="master-nav" class="nav-content collapse <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if(checkModuleAccess(16)){ ?>
                 <li>
                     <a class="<?= (($pageSegment == 'effort-type') ? 'active' : '') ?>" href="<?= base_url('admin/effort-type/list') ?>">
