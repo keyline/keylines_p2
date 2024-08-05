@@ -7,8 +7,11 @@
 <link href="<?=getenv('app.uploadsURL').$general_settings->site_favicon?>" rel="icon">
 <link href="<?=getenv('app.uploadsURL'.$general_settings->site_favicon)?>" rel="apple-touch-icon">
 <!-- Google Fonts -->
-<link href="https://fonts.gstatic.com" rel="preconnect">
-<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+<!-- <link href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"> -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
 <!-- Vendor CSS Files -->
 <link href="<?=getenv('app.adminAssetsURL')?>assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="<?=getenv('app.adminAssetsURL')?>assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
