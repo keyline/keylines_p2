@@ -14,7 +14,7 @@
 }
 
 body {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Inter", sans-serif;
   background: #f6f9ff;
   color: #444444;
 }
@@ -38,7 +38,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Nunito", sans-serif;
+  font-family: "Inter", sans-serif;
   margin: 0;
   padding: 0;
 }
@@ -580,7 +580,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   font-size: 13px;
   font-weight: 500;
   color: #012970;
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .card-title span {
@@ -647,7 +647,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 /* Alerts */
 .alert-heading {
   font-weight: 500;
-  font-family: "Poppins", sans-serif;
+  font-family: "Inter", sans-serif;
   font-size: 20px;
 }
 
@@ -696,7 +696,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 /* Breadcrumbs */
 .breadcrumb {
   font-size: 14px;
-  font-family: "Nunito", sans-serif;
+  font-family: "Inter", sans-serif;
   color: #899bbd;
   font-weight: 600;
 }
@@ -763,7 +763,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   font-size: 26px;
   font-weight: 700;
   color: #012970;
-  font-family: "Nunito", sans-serif;
+  font-family: "Inter", sans-serif;
 }
 
 .header {
