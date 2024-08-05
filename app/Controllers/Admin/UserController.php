@@ -39,15 +39,6 @@ class UserController extends BaseController {
         $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '0'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
         echo $this->layout_after_login($title,$page_name,$data);
     }
-    public function DeactivateUserlist()
-    {
-        $data['moduleDetail']       = $this->data;
-        $title                      = 'Manage '.$this->data['title'];
-        $page_name                  = 'user/deactivate_user_list';
-        $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '0'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
-        echo $this->layout_after_login($title,$page_name,$data);
-    }
     public function add()
     {
         $data['moduleDetail']       = $this->data;
