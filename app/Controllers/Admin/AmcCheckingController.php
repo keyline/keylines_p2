@@ -32,7 +32,7 @@ class AmcCheckingController extends BaseController {
         $data['users']              = $this->data['model']->find_data('user', 'array', ['status' => '1'], '', '');
         $data['user']               = $this->data['model']->find_data('user', 'row', ['id' => $user_id], '', '', '', '');                
         $hour_cost                  = $data['user']->hour_cost;
-        $cal_usercost               = ($hour_cost/60);        
+        $cal_usercost               = (($hour_cost != '')?($hour_cost/60):0);
         //  pr($data['users']);      
         $data['amc_setting']        = $this->data['model']->find_data('setting', 'array', ['id' => '1'], '', '', '', '');        
         $sql                        = "SELECT project.*,tab1.id amc_chkid, tab1.last_amcdate chk_date FROM project left JOIN 
