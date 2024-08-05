@@ -89,7 +89,7 @@ class User extends BaseController {
                         }
                     } 
                     elseif($checkclientEmail) {
-                        $user_type = 'client';
+                        $user_type = 'CLIENT';
                         $user_name = $checkclientEmail->name;
                         //if($checkclientEmail->status == '1'){
                             if($checkclientEmail->password_md5 == md5($this->request->getPost('password'))){
@@ -106,7 +106,7 @@ class User extends BaseController {
                                 
                                 if($this->session->get('is_admin_login') == 1)
                                 {
-                                    //pr($session_data);
+                                    // pr($session_data);
                                     $fields = array(
                                         //'ip_address'        => $this->request->getIPAddress(),
                                         'last_login'        => date('Y-m-d H:i:s'),
@@ -277,7 +277,7 @@ class User extends BaseController {
             
             $userType                           = $this->session->user_type;
             $userId                             = $this->session->user_id;
-            if($userType == 'client'){
+            if($userType == 'CLIENT'){
                 $user_id                = $this->session->get('user_id');
                 $data['active_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id , 'status!=' => 13 , 'type' => 'own']);
                 $data['closed_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id , 'status' => 13 , 'type' => 'own']);
@@ -317,7 +317,7 @@ class User extends BaseController {
                     $data['total_clients']              = $this->common_model->find_data('client', 'count');
                     $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
                 /* total cards */
-                // if($userType == 'admin'){
+                // if($userType == 'ADMIN'){
                 //     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                 //     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                 //     $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
@@ -326,6 +326,9 @@ class User extends BaseController {
                     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                     $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], 'id,name,status', '', '', $order_by);
+                    $deskloguser        = $this->common_model->find_data('general_settings', 'row', '', 'is_desklog_use', '', '');
+                    // pr($deskloguser);
+                    $desklog_user       = $deskloguser->is_desklog_use;
                 // }
 
                 $response = [];
@@ -560,6 +563,7 @@ class User extends BaseController {
                             'oct_desklog'   => $result10,
                             'nov_desklog'   => $result11,
                             'dec_desklog'   => $result12,
+                            'deskloguser'   => $desklog_user,
                         ];
                     }
                 }
@@ -571,7 +575,7 @@ class User extends BaseController {
                 $users_data              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);                        
                 $arr = $this->getLastNDays(7, 'Y-m-d');
                 //print_r($arr);die;
-                if($user = ($userType == 'admin') ? $users_data : $users){
+                if($user = ($userType == 'ADMIN') ? $users_data : $users){
                 // if($users){
                     foreach($user as $row){
                         if(!empty($arr)){
@@ -602,7 +606,8 @@ class User extends BaseController {
                                     'booked_date'   => date_format(date_create($loopDate), "d-m-Y"),
                                     'booked_effort' => $booked_effort,
                                     'booked_today' => date_format(date_create($dayWiseBooked->date_today), "d-m-Y"),
-                                    'desklog_time'  => str_replace(['h ', 'm'], [':', ''], $desklogTime),                       
+                                    'desklog_time'  => str_replace(['h ', 'm'], [':', ''], $desklogTime), 
+                                    'deskloguser'   => $desklog_user,                      
                                 ];
                             }
                         }
@@ -618,7 +623,7 @@ class User extends BaseController {
                 // echo "<pre>";   
                 // print_r($data['last7DaysResponses'])  ;die;       
                        
-                if($user = ($userType == 'admin') ? $users_data : $users){               
+                if($user = ($userType == 'ADMIN') ? $users_data : $users){               
                     $userGraph = [];          
                     foreach($user as $row){                
                     /* user graph */
@@ -985,13 +990,13 @@ class User extends BaseController {
 
             $rows = $this->db->query($sql)->getResult();
             $html = '<div class="modal-header" style="justify-content: center;">
-                        <center><h5 style="font-size: x-large;" class="modal-title">List of Efforts of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h5></center>
-                        <button style="position: absolute;right: 1rem;top: 1rem;background-color: #dd828b;border-radius: 50%;width: 30px;height: 30px;font-size: 1.2rem;color: #7e1019;cursor: pointer;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <center><h6 class="modal-title">List of Efforts of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h6></center>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table general_table_style table-bordered">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -1007,10 +1012,10 @@ class User extends BaseController {
                 $sl = 1;
                 foreach ($rows as $record) {
                     $html .= '<tr>
-                                <td>' . $sl++ . '</td>
+                                <td class="text-center">' . $sl++ . '</td>
                                 <td>' . esc($record->projectName) . '</td>
-                                <td>' . esc($record->date_added) . '</td>
-                                <td>' . esc($record->hour) . ':' . esc($record->min) . '</td>
+                                <td class="text-center">' . esc($record->date_added) . '</td>
+                                <td class="text-center">' . esc($record->hour) . ':' . esc($record->min) . '</td>
                                 <td>' . esc($record->description) . '</td>
                                 <td>' . esc($record->effortName) . '</td>
                             </tr>';
@@ -1023,7 +1028,7 @@ class User extends BaseController {
             $html .= '</tbody>
                             <tfoot>
                                 <tr>
-                                    <td colspan="6"><b>On '.$date.', '.$name.' work total of '.$effort_time.' hours</b></td>
+                                    <td colspan="6" class="text-center"><b>On '.$date.', '.$name.' work total of '.$effort_time.' hours</b></td>
                                 </tr>
                             </tfoot>
                                 </table>
@@ -1051,13 +1056,13 @@ class User extends BaseController {
 
             $rows = $this->db->query($sql)->getResult();
             $html = '<div class="modal-header" style="justify-content: center;">
-                        <center><h5 style="font-size: x-large;" class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h5></center>
-                        <button style="position: absolute;right: 1rem;top: 1rem;background-color: #dd828b;border-radius: 50%;width: 30px;height: 30px;font-size: 1.2rem;color: #7e1019;cursor: pointer;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <center><h6 class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h6></center>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table general_table_style table-bordered">
                                     <thead>
                                         <tr>                                            
                                             <th>Image</th>
@@ -1112,13 +1117,13 @@ class User extends BaseController {
 
             $rows = $this->db->query($sql)->getResult();
             $html = '<div class="modal-header" style="justify-content: center;">
-                        <center><h5 style="font-size: x-large;" class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h5></center>
-                        <button style="position: absolute;right: 1rem;top: 1rem;background-color: #dd828b;border-radius: 50%;width: 30px;height: 30px;font-size: 1.2rem;color: #7e1019;cursor: pointer;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <center><h6 class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h6></center>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div class="container">
                             <div class="table-responsive">
-                                <table class="table table-striped">
+                                <table class="table general_table_style table-bordered">
                                     <thead>
                                         <tr>                                            
                                             <th>Image</th>
@@ -1282,6 +1287,9 @@ class User extends BaseController {
                 'firebase_server_key'           => $this->request->getPost('firebase_server_key'),
                 'theme_color'                   => $this->request->getPost('theme_color'),
                 'font_color'                    => $this->request->getPost('font_color'),
+                'tomorrow_task_editing_time'      => $this->request->getPost('tomorrow_task_editing_time'),
+                'block_tracker_fillup_after_days' => $this->request->getPost('block_tracker_fillup_after_days'),
+                'is_desklog_use'                => $this->request->getPost('is_desklog_use'),
                 'twitter_profile'               => $this->request->getPost('twitter_profile'),
                 'facebook_profile'              => $this->request->getPost('facebook_profile'),
                 'instagram_profile'             => $this->request->getPost('instagram_profile'),

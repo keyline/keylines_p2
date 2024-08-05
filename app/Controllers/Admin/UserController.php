@@ -27,7 +27,16 @@ class UserController extends BaseController {
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'user/list';
         $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status!=' => '3'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
+        echo $this->layout_after_login($title,$page_name,$data);
+    }
+    public function DeactivateUserlist()
+    {
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage '.$this->data['title'];
+        $page_name                  = 'user/deactivate_user_list';
+        $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '0'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function DeactivateUserlist()
@@ -47,7 +56,10 @@ class UserController extends BaseController {
         $page_name                  = 'user/add-edit';        
         $data['row']                = [];
         $data['userCats']           = $this->data['model']->find_data('user_category', 'array');
+        $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => '1']);
+        // pr($data['roleMasters']);
         if($this->request->getMethod() == 'post') {
+            // pr($this->request->getPost());
             /* profile image */
                 $file = $this->request->getFile('image');
                 $originalName = $file->getClientName();
@@ -76,6 +88,7 @@ class UserController extends BaseController {
                 'longitude'             => $this->request->getPost('longitude'),
                 'password'              => md5($this->request->getPost('password')),
                 'type'                  => $this->request->getPost('type'),
+                'role_id'               => $this->request->getPost('role_id'),
                 'category'              => $this->request->getPost('category'),
                 'hour_cost'             => $this->request->getPost('hour_cost'),
                 'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
@@ -123,7 +136,10 @@ class UserController extends BaseController {
         $page_name                  = 'user/add-edit';        
         $conditions                 = array($this->data['primary_key']=>$id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
+        // pr($data['row']);
         $data['userCats']           = $this->data['model']->find_data('user_category', 'array');
+        $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => '1']);
+        // pr($data['roleMasters']);
         if($this->request->getMethod() == 'post') {
             /* profile image */
                 $file = $this->request->getFile('image');
@@ -160,6 +176,7 @@ class UserController extends BaseController {
                 'longitude'             => $this->request->getPost('longitude'),
                 'password'              => $newPassword,
                 'type'                  => $this->request->getPost('type'),
+                'role_id'               => $this->request->getPost('role_id'),
                 'category'              => $this->request->getPost('category'),
                 'hour_cost'             => $this->request->getPost('hour_cost'),
                 'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),

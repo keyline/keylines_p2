@@ -58,7 +58,11 @@
                 <?php }?>
             </div>
             <?php
-            $days_ago = date('Y-m-d', strtotime('-3 days', strtotime(date('Y-m-d'))));
+            $sql = "SELECT * FROM `general_settings`";
+            // $query = $db->query($sql, [$deprt_id]);
+            $settings = $db->query($sql)->getRow();
+            $day_count = $settings->block_tracker_fillup_after_days;                  
+            $days_ago = date('Y-m-d', strtotime('-'.$day_count .'days', strtotime(date('Y-m-d'))));
             ?>
             <div class="col-xl-12">
                 <div class="card">

@@ -1,5 +1,5 @@
 <?php
-
+use App\Models\CommonModel;
 function pr($data = array(), $mode = TRUE)
 
 {
@@ -511,35 +511,6 @@ if ( ! function_exists('test_method'))
       return $randomString;
     }  
 
-    function checkModuleFunctionAccess($module_id, $function_id){
-
-      $db = \Config\Database::connect();
-
-      $session      = \Config\Services::session();
-
-      $userId             = $session->get('userId');
-
-      $adminUser          = $db->query("select * from ecoex_admin_user where id = '$userId'")->getRow();
-
-      $checkExist         = $db->query("select * from ecoex_role_module_function where module_id = '$module_id' and role_id = '$adminUser->role_id' and function_id = '$function_id'")->getNumRows(); 
-
-      //echo $db->getLastQuery();die;
-
-      //print_r($checkExist);die;       
-
-      //echo $checkExist;die;
-
-      if($checkExist>0){
-
-          return TRUE;
-
-      } else {
-
-          return FALSE;
-
-      }
-
-    }
 
     function weekdays($dayNo) {
 
@@ -679,6 +650,56 @@ if ( ! function_exists('test_method'))
 
        return strtolower($string3);
 
+    }
+
+    function checkModuleAccess($id)
+    {
+      $db               = \Config\Database::connect();
+      $common_model     = new CommonModel();
+      $session          = \Config\Services::session();
+      // pr($session->get());
+      $userId           = $session->get('user_id');
+      $userType         = $session->get('user_type');
+      if($userType != 'CLIENT'){
+        $adminUser        = $common_model->find_data('user', 'row', ['id' => $userId]);
+      }else{
+        $adminUser        = $common_model->find_data('client', 'row', ['id' => $userId]);
+      }
+      // pr($adminUser);
+      $checkExist       = $common_model->find_data('permission_role_module_function', 'count', ['module_id' => $id, 'role_id' => $adminUser->role_id]);
+      // echo $db->getLastQuery();die;
+      // echo $checkExist;die;
+      if ($checkExist > 0) {
+        return TRUE;
+      } else {
+        return FALSE;
+      }
+    }
+    function checkModuleFunctionAccess($module_id, $function_id)
+    {
+      $db                 = \Config\Database::connect();
+      $common_model       = new CommonModel();
+      $session            = \Config\Services::session();
+      $userId             = $session->get('user_id');
+      // echo $userId;die;
+      // $adminUser          = $common_model->find_data('user', 'row', ['id' => $userId]);
+      $userType           = $session->get('user_type');
+      if($userType != 'CLIENT'){
+        $adminUser        = $common_model->find_data('user', 'row', ['id' => $userId]);
+      }else{
+        $adminUser        = $common_model->find_data('client', 'row', ['id' => $userId]);
+      }
+      // pr($adminUser);
+      $role_id = $adminUser->role_id;
+      $checkExist         = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $function_id]);
+      // echo $db->getLastQuery();
+      // die;
+      //echo $checkExist;die;
+      if ($checkExist > 0) {
+        return TRUE;
+      } else {
+        return FALSE;
+      }
     }
 
 }

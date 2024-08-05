@@ -28,6 +28,25 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "verify-otp/(:any)", "User::verifyOtp/$1");
 			$routes->match(['get', 'post'], "reset-password/(:any)", "User::resetPassword/$1");
 		// authentication
+		//	access & permission
+		$routes->match(['get', 'post'], "manage_functionlist", "Manage_functionlist::index");
+		$routes->match(['get', 'post'], "manage_functionlist/add", "Manage_functionlist::add");
+		$routes->match(['get', 'post'], "manage_functionlist/edit/(:any)", "Manage_functionlist::edit/$1");
+		$routes->match(['get', 'post'], "manage_functionlist/delete/(:any)", "Manage_functionlist::confirm_delete/$1");
+
+		$routes->match(['get', 'post'], "manage_modulelist", "Manage_modulelist::index");
+		$routes->match(['get', 'post'], "manage_modulelist/add", "Manage_modulelist::add");
+		$routes->match(['get', 'post'], "manage_modulelist/edit/(:any)", "Manage_modulelist::edit/$1");
+		$routes->match(['get', 'post'], "manage_modulelist/view/(:any)", "Manage_modulelist::view/$1");
+		$routes->match(['get', 'post'], "manage_roles", "Manage_roles::index");
+
+		$routes->match(['get', 'post'], "manage_roles", "Manage_roles::index");
+		$routes->match(['get', 'post'], "manage_roles/add", "Manage_roles::add");
+		$routes->match(['get', 'post'], "manage_roles/edit/(:any)", "Manage_roles::edit/$1");
+		$routes->match(['get', 'post'], "manage_roles/view/(:any)", "Manage_roles::view/$1");
+		$routes->match(['get', 'post'], "manage_roles/active/(:any)", "Manage_roles::active/$1");
+		$routes->match(['get', 'post'], "manage_roles/deactive/(:any)", "Manage_roles::deactive/$1");
+		//  access & permission
 		// dashboard
 			$routes->match(['get', 'post'], "dashboard", "User::dashboard");
 			$routes->match(['get', 'post'], "dayWiseListRecords", "User::dayWiseListRecords");
@@ -58,6 +77,10 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 				$routes->match(['get', 'post'], "effort-type/delete/(:any)", "EffortTypeController::confirm_delete/$1");
 				$routes->match(['get', 'post'], "effort-type/change-status/(:any)", "EffortTypeController::change_status/$1");
 			/* effort type */
+			/*role master */
+				$routes->match(['get'], "role-master/list", "RoleMasterController::list");
+				$routes->match(['get', 'post'], "role-master/add", "RoleMasterController::add");
+			/*role master */
 			/* project status */
 				$routes->match(['get'], "project-status/list", "ProjectStatusController::list");
 				$routes->match(['get', 'post'], "project-status/add", "ProjectStatusController::add");
@@ -66,6 +89,20 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 				$routes->match(['get', 'post'], "project-status/change-status/(:any)", "ProjectStatusController::change_status/$1");
 				$routes->match(['get', 'post'], "projects/reports/(:any)", "ProjectController::reports/$1");
 			/* project status */
+			/* department */
+				$routes->match(['get'], "department/list", "DepartmentController::list");
+				$routes->match(['get', 'post'], "department/add", "DepartmentController::add");
+				$routes->match(['get', 'post'], "department/edit/(:any)", "DepartmentController::edit/$1");
+				$routes->match(['get', 'post'], "department/delete/(:any)", "DepartmentController::confirm_delete/$1");
+				$routes->match(['get', 'post'], "department/change-status/(:any)", "DepartmentController::change_status/$1");
+			/* department */
+			/* work status */
+				$routes->match(['get'], "work-status/list", "WorkStatusController::list");
+				$routes->match(['get', 'post'], "work-status/add", "WorkStatusController::add");
+				$routes->match(['get', 'post'], "work-status/edit/(:any)", "WorkStatusController::edit/$1");
+				$routes->match(['get', 'post'], "work-status/delete/(:any)", "WorkStatusController::confirm_delete/$1");
+				$routes->match(['get', 'post'], "work-status/change-status/(:any)", "WorkStatusController::change_status/$1");
+			/* work status */
 		// master
 		/* projects */
 			$routes->match(['get'], "projects/list", "ProjectController::list");
@@ -83,8 +120,16 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
 			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
 		/* clients */
+		//AMC Checking//
+			$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
+			$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
+		//AMC Checking//
+
 		// task assign
 			$routes->match(['get'], "task-assign", "TaskAssignController::task_list");
+			$routes->match(['post'], "task-assign/morning-meeting-schedule-submit", "TaskAssignController::morning_meeting_schedule_submit");
+			$routes->match(['post'], "task-assign/morning-meeting-schedule-prefill", "TaskAssignController::morning_meeting_schedule_prefill");
+			$routes->match(['post'], "task-assign/morning-meeting-schedule-update", "TaskAssignController::morning_meeting_schedule_update");
 		// task assign
 
 		/* users */

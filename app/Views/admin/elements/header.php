@@ -154,7 +154,7 @@ $userType                   = $session->user_type;
                 <?php
                 
                 // pr($userType);
-                if($userType == "client")
+                if($userType == "CLIENT")
                 {
                     if($client) {  ?>
                         <img src="<?=getenv('app.NO_IMAGE')?>" alt="<?=$client->name?>" class="rounded-circle">
