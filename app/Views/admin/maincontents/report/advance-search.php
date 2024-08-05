@@ -54,7 +54,6 @@ $controller_route   = $moduleDetail['controller_route'];
                         <input type="hidden" name="mode" value="advance_search">
                         <div class="row mb-3 align-items-center">
                             <?php if ($user == 'ADMIN') { ?>
-                                <?=$search_user_id?>
                                 <div class="col-md-3 col-lg-3">
                                     <label for="search_user_id">User</label>
                                     <select name="search_user_id" class="form-control" id="search_user_id" required>
@@ -86,9 +85,6 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div> -->
                             <?php } ?>
                             <div class="col-md-3 col-lg-3">
-                                <?php if($user != 'admin') { ?>
-                                    <input type="hidden" name="search_user_id" value="all" id="search_user_id">
-                                <?php } ?>
                                 <label for="search_project_id">Project</label>
                                 <select name="search_project_id" class="form-control" id="search_project_id" required>
                                     <?php if ($user == 'ADMIN') { ?>
