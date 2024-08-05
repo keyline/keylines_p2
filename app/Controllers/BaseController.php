@@ -136,7 +136,7 @@ abstract class BaseController extends Controller
             $emailSetting->SMTPUser = $siteSetting->smtp_username;
             $emailSetting->SMTPPass = $siteSetting->smtp_password;
             $emailSetting->SMTPPort = $siteSetting->smtp_port;
-            $emailSetting->protocol = 'smtp';
+            $emailSetting->protocol = 'SMTP';
             $emailSetting->setFrom($from_email, $from_name);
             $emailSetting->setTo($to_email);
             $emailSetting->setCC('sudip.keyline@gmail.com', 'KDPL System');
