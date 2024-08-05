@@ -136,11 +136,11 @@ abstract class BaseController extends Controller
             $emailSetting->SMTPUser = $siteSetting->smtp_username;
             $emailSetting->SMTPPass = $siteSetting->smtp_password;
             $emailSetting->SMTPPort = $siteSetting->smtp_port;
-            $emailSetting->protocol = 'sendmail';
+            $emailSetting->protocol = 'smtp';
             $emailSetting->setFrom($from_email, $from_name);
             $emailSetting->setTo($to_email);
-            // $emailSetting->setBCC('sudip.keyline@gmail.com', 'Ecoex Commodity Trading');
-            // $emailSetting->setCC('subhomoy@keylines.net', 'KDPL');
+            $emailSetting->setCC('sudip.keyline@gmail.com', 'KDPL System');
+            $emailSetting->setCC('subhomoy@keylines.net', 'Subhomoy Samanta');
             $emailSetting->setSubject($email_subject);
             $emailSetting->setMessage($mailbody);
             if($attachment != ''){
