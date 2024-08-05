@@ -60,6 +60,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "settings", "User::settings");
 			$routes->match(['post'], "profile-settings", "User::profileSetting");
 			$routes->match(['post'], "general-settings", "User::generalSetting");
+			$routes->match(['post'], "application-settings", "User::applicationSetting");
 			$routes->match(['post'], "change-password", "User::changePassword");
 			$routes->match(['post'], "email-settings", "User::emailSetting");
 			$routes->match(['post'], "sms-settings", "User::smsSetting");
