@@ -185,16 +185,8 @@ class ProjectController extends BaseController {
             $numericDate        = date("Y-m", strtotime(date('Y-m-01') . " -$i months"));
             $monthData[]        = $date;
             $numeric_dates[]    = $numericDate;
-            $months[]           = strtoupper($date);
-            $project_cost       = $this->data['model']->find_data('application_settings','row','','','');
-        //  pr($project_cost);
-        if($project_cost->is_project_cost == 1)
-        {
-            $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
-        } else{
-            $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
-        }
-            
+            $months[]           = strtoupper($date);            
+            $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";                   
             $rows               = $this->db->query($sql)->getResult();
             $eachMonthHour[]    = $rows;
         }

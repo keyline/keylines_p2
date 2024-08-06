@@ -138,8 +138,13 @@
                                                                 $remainingMinutes   = $minutes % 60;
                                                                 $totalHours         = $totHours + $hours;
                                                                 echo ($totalHours > 0 || $remainingMinutes > 0) ? '<b>' . $totalHours  . ':' . $remainingMinutes . '</b>'  : '' . $totalHours  . ':' . $remainingMinutes . '';
-                                                               ?> <br> <?php 
-                                                               echo ($total_hours_worked > 0 ) ? '<b>' . $total_hours_worked . '</b>'  : '' . $total_hours_worked . '';
+                                                               ?>  <?php 
+                                                                $sql                = "SELECT is_project_cost FROM `application_settings`";                   
+                                                                $project_cost               = $db->query($sql)->getRow();
+                                                                if($project_cost->is_project_cost == 1){ ?>
+                                                                    <br>
+                                                                  <?php  echo ($total_hours_worked > 0 ) ? '<b>' . $total_hours_worked . '</b>'  : '' . $total_hours_worked . '';
+                                                                }                                                               
                                                                 $processedData[] = [
                                                                     'month' => $months[$index],
                                                                     'totalHours' => $totalHours,
