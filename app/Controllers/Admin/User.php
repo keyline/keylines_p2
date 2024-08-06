@@ -326,7 +326,7 @@ class User extends BaseController {
                     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                     $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], 'id,name,status', '', '', $order_by);
-                    $deskloguser        = $this->common_model->find_data('general_settings', 'row', '', 'is_desklog_use', '', '');
+                    $deskloguser        = $this->common_model->find_data('application_settings', 'row', '', 'is_desklog_use', '', '');
                     // pr($deskloguser);
                     $desklog_user       = $deskloguser->is_desklog_use;
                 // }
@@ -1289,8 +1289,7 @@ class User extends BaseController {
                 'theme_color'                   => $this->request->getPost('theme_color'),
                 'font_color'                    => $this->request->getPost('font_color'),
                 'tomorrow_task_editing_time'      => $this->request->getPost('tomorrow_task_editing_time'),
-                'block_tracker_fillup_after_days' => $this->request->getPost('block_tracker_fillup_after_days'),
-                'is_desklog_use'                => $this->request->getPost('is_desklog_use'),
+                'block_tracker_fillup_after_days' => $this->request->getPost('block_tracker_fillup_after_days'),                
                 'twitter_profile'               => $this->request->getPost('twitter_profile'),
                 'facebook_profile'              => $this->request->getPost('facebook_profile'),
                 'instagram_profile'             => $this->request->getPost('instagram_profile'),
@@ -1307,15 +1306,21 @@ class User extends BaseController {
         public function applicationSetting()
         {
             $user_id                = $this->session->get('user_id');
+            $yes_no = isset($_POST['is_desklog_use']) ? $_POST['is_desklog_use'] : 0;
+            $approval = isset($_POST['is_task_approval']) ? $_POST['is_task_approval'] : 0;
+            $project_cost = isset($_POST['is_project_cost']) ? $_POST['is_project_cost'] : 0;
+            // pr($this->request->getpost('is_desklog_use'));
             
             $fields = [                
-                'theme_color'                   => $this->request->getPost('theme_color'),
-                'font_color'                    => $this->request->getPost('font_color'),
-                'tomorrow_task_editing_time'      => $this->request->getPost('tomorrow_task_editing_time'),
-                'block_tracker_fillup_after_days' => $this->request->getPost('block_tracker_fillup_after_days'),
-                'is_desklog_use'                => $this->request->getPost('is_desklog_use'),                
+                'theme_color'                       => $this->request->getPost('theme_color'),
+                'font_color'                        => $this->request->getPost('font_color'),
+                'tomorrow_task_editing_time'        => $this->request->getPost('tomorrow_task_editing_time'),
+                'block_tracker_fillup_after_days'   => $this->request->getPost('block_tracker_fillup_after_days'),
+                'is_desklog_use'                    => $yes_no,
+                'is_task_approval'                  => $approval,
+                'is_project_cost'                   => $project_cost           
             ];
-            // pr($fields);
+            //   pr($fields);
             $this->common_model->save_data('application_settings', $fields, 1, 'id');
             $this->session->setFlashdata('success_message', 'Application Settings Updated Successfully !!!');
             return redirect()->to('/admin/settings');
