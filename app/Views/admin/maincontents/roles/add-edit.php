@@ -88,24 +88,33 @@ if ($row) {
                                                     if ($checkNestedMenu <= 0) {
                                                     ?>
                                                         <input type="hidden" name="module_id[]" value="<?= $parentmodule->id ?>">
-                                                        <?php
-                                                        $functions    = $common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $parentmodule->id]);
-                                                        if ($functions) {
-                                                            foreach ($functions as $function) { ?>
-                                                                <?php
-                                                                $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $parentmodule->id, 'function_id' => $function->function_id]);
-                                                                if ($checkFunctionSelected > 0) {
-                                                                    $checked = 'checked';
-                                                                } else {
-                                                                    $checked = '';
-                                                                }
-                                                                ?>
-                                                                <span class="text-dark mb-3" style="font-size: 20px; margin-right: 10px;">
-                                                                    <input type="checkbox" name="function_id[]" id="function<?= $function->function_id ?>" value="<?= $function->function_id ?>" <?= $checked ?>>
-                                                                    <label for="function<?= $function->function_id ?>"><?= $function->function_name ?></label>
-                                                                </span>
-                                                        <?php }
-                                                        } ?>
+                                                        
+                                                        <div class="card" style="padding: 15px;">
+                                                        <div class="card-header bg-success text-white">
+                                                            <?= $parentmodule->module_name ?>
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <?php
+                                                            $functions    = $common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $parentmodule->id]);
+                                                            if ($functions) {
+                                                                foreach ($functions as $function) { ?>
+                                                                    <?php
+                                                                    $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $parentmodule->id, 'function_id' => $function->function_id]);
+                                                                    if ($checkFunctionSelected > 0) {
+                                                                        $checked = 'checked';
+                                                                    } else {
+                                                                        $checked = '';
+                                                                    }
+                                                                    ?>
+                                                                    <span class="text-dark mb-1" style="font-size: 20px; margin-right: 10px; width: 30%; display: inline-block;">
+                                                                        <input type="checkbox" name="function_id[]" id="function<?= $function->function_id ?>" value="<?= $function->function_id ?>" <?= $checked ?>>
+                                                                        <label for="function<?= $function->function_id ?>"><?= $function->function_name ?></label>
+                                                                    </span>
+                                                            <?php }
+                                                            } ?>
+                                                        </div>
+                                                        
+                                                        </div>
                                                     <?php } else { ?>
                                                         <div class="row">
                                                             <?php
@@ -132,7 +141,7 @@ if ($row) {
                                                                                             $checked = '';
                                                                                         }
                                                                                         ?>
-                                                                                        <span class="text-dark mb-3" style="font-size: 20px; margin-right: 10px;">
+                                                                                        <span class="text-dark mb-3" style="font-size: 20px; margin-right: 10px; width: 30%; display: inline-block;">
                                                                                             <input type="checkbox" name="function_id[]" id="function<?= $function->function_id ?>" value="<?= $function->function_id ?>" <?= $checked ?>>
                                                                                             <label for="function<?= $function->function_id ?>"><?= $function->function_name ?></label>
                                                                                         </span>
