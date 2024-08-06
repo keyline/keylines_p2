@@ -125,6 +125,7 @@
                                             <tbody>
                                                 <tr>
                                                     <?php if ($eachMonthHour) {
+                                                        // pr($eachMonthHour);
                                                         foreach ($eachMonthHour as $index => $row) {
                                                             ?>
                                                             <td>
