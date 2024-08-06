@@ -387,19 +387,28 @@ $user_type = session('user_type');
                   <div class="row mb-3">
                     <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Is Desklog Use</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="is_desklog_use" type="radio" id="is_desklog_use1" value="1" <?=(($application_setting->is_desklog_use == 1)?'checked':'')?>>
-                      <label for="is_desklog_use1">YES</label>
-                      <input name="is_desklog_use" type="radio" id="is_desklog_use2" value="0" <?=(($application_setting->is_desklog_use == 0)?'checked':'')?>>
-                      <label for="is_desklog_use2">NO</label>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" name="is_desklog_use" id="is_desklog_user" value="1" <?=(($application_setting->is_desklog_use == 1)?'checked':'')?>>
+                        <label class="form-check-label" for="is_desklog_use1">YES/NO</label>                        
+                      </div>                      
                     </div>
                   </div>  
                   <div class="row mb-3">
                     <label for="is_task_approval" class="col-md-4 col-lg-3 col-form-label">Is Task Approval</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="is_task_approval" type="radio" id="is_task_approval1" value="1" <?=(($application_setting->is_task_approval == 1)?'checked':'')?>>
-                      <label for="is_task_approval1">YES</label>
-                      <input name="is_task_approval" type="radio" id="is_task_approval2" value="0" <?=(($application_setting->is_task_approval == 0)?'checked':'')?>>
-                      <label for="is_task_approval2">NO</label>
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" name="is_task_approval" id="is_task_approval1" value="1" <?=(($application_setting->is_task_approval == 1)?'checked':'')?>>
+                        <label class="form-check-label" for="is_desklog_use1">YES/NO</label>                       
+                      </div>                      
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Is Project Cost</label>
+                    <div class="col-md-8 col-lg-9">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" name="is_project_cost" id="is_project_cost" value="1" <?=(($application_setting->is_project_cost == 1)?'checked':'')?>>
+                        <label class="form-check-label" for="is_desklog_use1">YES/NO</label>                       
+                      </div>                      
                     </div>
                   </div>        
                   <div class="text-center">

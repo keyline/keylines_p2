@@ -160,8 +160,14 @@ $userId             = $session->user_id;
     <?php if($userType == 'ADMIN'){ ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
-                <i class="fas fa-industry"></i>
+                <i class="fas fa-calendar-check"></i>
                 <span>AMC Checking</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project_cost') ?>">
+                <i class="fas fa-money-check"></i>
+                <span>Add Expenses</span>
             </a>
         </li>
     <?php } ?>
@@ -245,13 +251,17 @@ $userId             = $session->user_id;
                     </a>
                 </li>
                 <?php } ?>
-                <?php if(checkModuleAccess(26)){ ?>
+                <?php if(checkModuleAccess(26)){
+                     $sql       = "SELECT is_desklog_use FROM `application_settings`";
+                    $desklog    = $db->query($sql)->getRow();
+                    //  pr($desklog);
+                    if($desklog->is_desklog_use == 1){ ?>
                 <li>
                     <a class="<?= (($pageSegment == 'reports' && $paramerId == 'desklog-report-view') ? 'active' : '') ?>" href="<?= base_url('admin/reports/desklog-report-view') ?>">
                         <i class="fa fa-arrow-right"></i><span>Desklog Report</span>
                     </a>
                 </li>
-                <?php } ?>
+                <?php } } ?>
             </ul>
         </li>
     <?php } ?>

@@ -130,6 +130,10 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
 			$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
 		//AMC Checking//
+		//outside project cost//
+			$routes->match(['get', 'post'], "outside_project_cost", "OutsideProjectCostController::list");
+		//outside project cost//
+
 
 		// task assign
 			$routes->match(['get'], "task-assign", "TaskAssignController::task_list");
