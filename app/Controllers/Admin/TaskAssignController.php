@@ -68,6 +68,7 @@ class TaskAssignController extends BaseController {
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
         $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name', $join1, '', $order_by1);
+        $totalTime                  = 0;
         if($getTasks){
             foreach($getTasks as $getTask){
                 $dept_id        = $getTask->dept_id;
@@ -93,6 +94,10 @@ class TaskAssignController extends BaseController {
                 } else {
                     $min = $getTask->min . " min";
                 }
+                $tot_hour               = $getTask->hour * 60;
+                $tot_min                = $getTask->min;
+                $totMins                = $tot_hour + $tot_min;
+                $totalTime              += $totMins;
 
                 $scheduleHTML .= '<div class="input-group">
                                 <div class="card">
@@ -101,7 +106,7 @@ class TaskAssignController extends BaseController {
                                             <b>'.$getTask->project_name.' :</b> '.$getTask->description.' [' .$hr. ' ' .$min. ']
                                         </p>
                                         <div class="d-flex justify-content-between">
-                                            <p class="mb-0">Shuvadeep Chakraborty</p>
+                                            <p class="mb-0">'.$user_name.'</p>
                                             <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
                                                 <i class="fa-solid fa-pencil text-primary"></i>
                                             </a>
@@ -113,6 +118,8 @@ class TaskAssignController extends BaseController {
             }
         }
 
+        $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+
         $dept_id        = $requestData['dept_id'];
         $user_id        = $requestData['user_id'];
         $getUser        = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name');
@@ -122,7 +129,8 @@ class TaskAssignController extends BaseController {
                                 <i class="fa-solid fa-plus-circle text-success"></i>
                             </a>';
         // echo $scheduleHTML;die;
-        $apiResponse                        = $scheduleHTML;
+        $apiResponse['scheduleHTML']        = $scheduleHTML;
+        $apiResponse['totalTime']           = $totalBooked;
         $apiStatus                          = TRUE;
         http_response_code(200);
         $apiMessage                         = 'Task Submitted Successfully !!!';
@@ -217,12 +225,6 @@ class TaskAssignController extends BaseController {
                                                         <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required ' . $checkedPriority3 . '><label for="priority3" style="margin-left : 3px;">Priority HIGH</label></span>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
-                                                    <div class="input-group mb-1">
-                                                        <span style="margin-left : 10px;"><input type="radio" name="work_home" id="work_home1" value="0" required ' . $checkedWorkFromHome0 . '><label for="work_home1" style="margin-left : 3px;">Work From Office</label></span>
-                                                        <span style="margin-left : 10px;"><input type="radio" name="work_home" id="work_home2" value="1" required ' . $checkedWorkFromHome1 . '><label for="work_home2" style="margin-left : 3px;">Work From Home</label></span>
-                                                    </div>
-                                                </div>
                                                 <div class="col-md-12">
                                                     <div class="input-group mb-1">
                                                         <button type="button" class="btn btn-success" onClick="submitEditForm();">Save</button>
@@ -269,6 +271,7 @@ class TaskAssignController extends BaseController {
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
         $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name', $join1, '', $order_by1);
+        $totalTime                  = 0;
         if($getTasks){
             foreach($getTasks as $getTask){
                 $dept_id        = $getTask->dept_id;
@@ -294,6 +297,10 @@ class TaskAssignController extends BaseController {
                 } else {
                     $min = $getTask->min . " min";
                 }
+                $tot_hour               = $getTask->hour * 60;
+                $tot_min                = $getTask->min;
+                $totMins                = $tot_hour + $tot_min;
+                $totalTime              += $totMins;
 
                 $scheduleHTML .= '<div class="input-group mb-1">
                                 <div class="card">
@@ -302,7 +309,7 @@ class TaskAssignController extends BaseController {
                                             <b>'.$getTask->project_name.' :</b> '.$getTask->description.' [' .$hr. ' ' .$min. ']
                                         </p>
                                         <div class="d-flex justify-content-between">
-                                            <p class="mb-0">Shuvadeep Chakraborty</p>
+                                            <p class="mb-0">'.$user_name.'</p>
                                             <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
                                             <i class="fa-solid fa-pencil text-primary"></i>
                                             </a>
@@ -312,6 +319,9 @@ class TaskAssignController extends BaseController {
                             </div>';
             }
         }
+
+        $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+        
         $dept_id        = $requestData['dept_id'];
         $user_id        = $requestData['user_id'];
         $getUser        = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name');
@@ -320,7 +330,8 @@ class TaskAssignController extends BaseController {
         $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
                                 <i class="fa-solid fa-plus-circle text-success"></i>
                             </a>';
-        $apiResponse                        = $scheduleHTML;
+        $apiResponse['scheduleHTML']        = $scheduleHTML;
+        $apiResponse['totalTime']           = $totalBooked;
         $apiStatus                          = TRUE;
         http_response_code(200);
         $apiMessage                         = 'Task Modified Successfully !!!';
