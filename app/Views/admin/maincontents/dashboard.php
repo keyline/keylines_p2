@@ -281,7 +281,7 @@ $userType           = $session->user_type;
                                                                 ?>
                                                                     <td class="text-center">
                                                                         <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'bg-success' : 'bg-danger') ?>" style="cursor:pointer;">IN: <?= date('H:i', strtotime($punchIn)) ?></span> <?php } ?></p><br>
-                                                                        <p onclick="punchout('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge" style="background-color: #b5f1a8;cursor:pointer;">OUT: <?= date('H:i', strtotime($punchOut)) ?></span> <?php } ?></p>
+                                                                        <p onclick="punchout('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge" style="background-color: #29cb05;cursor:pointer;">OUT: <?= date('H:i', strtotime($punchOut)) ?></span> <?php } ?></p>
                                                                     </td>
                                                                 <?php } ?>
                                                             </tr>

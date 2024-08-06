@@ -120,6 +120,11 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
 			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
+			
+			$routes->match(['get', 'post'], "clients/add-proposal/(:any)", "ClientController::addProposal/$1");
+			$routes->match(['get', 'post'], "clients/view-proposal/(:any)", "ClientController::viewProposal/$1");
+			$routes->match(['get', 'post'], "clients/edit-proposal/(:any)", "ClientController::editProposal/$1");
+			$routes->match(['get', 'post'], "clients/delete-proposal/(:any)", "ClientController::deleteProposal/$1");
 		/* clients */
 		//AMC Checking//
 			$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
