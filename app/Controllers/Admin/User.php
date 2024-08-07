@@ -326,8 +326,8 @@ class User extends BaseController {
                     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                     $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], 'id,name,status', '', '', $order_by);
-                    $deskloguser        = $this->common_model->find_data('application_settings', 'row', '', 'is_desklog_use', '', '');
-                    // pr($deskloguser);
+                    $deskloguser        = $this->common_model->find_data('application_settings', 'row');
+                    pr($deskloguser);
                     $desklog_user       = $deskloguser->is_desklog_use;
                 // }
 
