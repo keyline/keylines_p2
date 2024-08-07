@@ -26,58 +26,67 @@ class OutsideProjectCostController extends BaseController {
     {
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
-        $page_name                  = 'outside_project_cost';
+        $page_name                  = 'outside_project/project_name';
+        $data['fetch_project_id']  = '';
         $date_on                    = date('Y-m-d H:i:s');  
         $user_id                    = $this->session->get('user_id');
         $order_by[0]                = array('field' => 'project.name', 'type' => 'ASC');
         $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
         $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
-        $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);        
-        $sql                        = "SELECT outsource_payment.*, project.name FROM `outsource_payment`INNER JOIN project on outsource_payment.project_id = project.id 
-                                        ORDER BY `outsource_payment`.`id` DESC";
+        $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);                       
+        if ($this->request->getGet('mode') == 'outside_project_cost') {
+            //  pr($this->request->getGet());
+            $project_id = $this->request->getGet('project_id');
+            $sql                        = "SELECT outsource_payment.*, project.name FROM `outsource_payment`
+                                            INNER JOIN project on outsource_payment.project_id = project.id 
+                                            WHERE outsource_payment.project_id = $project_id
+                                            ORDER BY `outsource_payment`.`id` DESC";
+        $data['payment_details']    = $this->db->query($sql)->getResult();
+        $data['fetch_project_id'] = $project_id;
+        // pr($data['payment_details']);
+            
+        }
+        echo $this->layout_after_login($title,$page_name,$data);
+    }  
+    public function showexsisting($id)
+    {
+        $id                         = decoded($id);
+        $data['moduleDetail']       = $this->data;
+        $data['action']             = 'List';
+        $title                      = $data['action'].' '.$this->data['title'];
+        $page_name                  = 'outside_project/showexsisting';        
+        
+      echo  $sql                        = "SELECT outsource_payment.*, project.name FROM `outsource_payment`
+        INNER JOIN project on outsource_payment.project_id = project.id 
+        WHERE outsource_payment.project_id = $id
+        ORDER BY `outsource_payment`.`id` DESC";
         $data['payment_details']    = $this->db->query($sql)->getResult();  
-        //  pr($data['payment_details']);
-        if($this->request->getMethod() == 'post') {     
-            //  pr($this->request->getPost());      
-            $project_id         = $this->request->getPost('project_id');
-            $payment_date               = $this->request->getPost('date');
-            $comment            = $this->request->getPost('comment');
-            $amount            = $this->request->getPost('amount');                       
+        pr($data['payment_details']);
 
-            $postData = array(
-                'project_id'        => $project_id,
-                'payment_date'      => $payment_date,
-                'comment'           => $comment,
-                'amount'            => $amount,
-                'date_added'        => $date_on
-            );    
+        // if($this->request->getMethod() == 'post') {     
+        //        pr($this->request->getPost());      
+        //     $project_id         = $this->request->getPost('project_id');
+        //     $payment_date               = $this->request->getPost('date');
+        //     $comment            = $this->request->getPost('comment');
+        //     $amount            = $this->request->getPost('amount');     
+            
+            
+           
+
+        //     $postData = array(
+        //         'project_id'        => $project_id,
+        //         'payment_date'      => $payment_date,
+        //         'comment'           => $comment,
+        //         'amount'            => $amount,
+        //         'date_added'        => $date_on
+        //     );    
             
             $insertData = $this->common_model->save_data('outsource_payment',$postData,'',$this->data['primary_key']);            
             $this->session->setFlashdata('success_message', ' Out Source Payment Information is added Successfully');
             return redirect()->to('/admin/'.$this->data['controller_route']);
             
             
-        }       
-        echo $this->layout_after_login($title,$page_name,$data);
-    }  
-    public function edit($id)
-    {
-        $id                         = decoded($id);
-        $data['moduleDetail']       = $this->data;
-        $data['action']             = 'Edit';
-        $title                      = $data['action'].' '.$this->data['title'];
-        $page_name                  = 'effort-type/add-edit';        
-        $conditions                 = array($this->data['primary_key']=>$id);
-        $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
-
-        if($this->request->getMethod() == 'post') {
-            $postData   = array(
-                'name'          => $this->request->getPost('name'),
-            );
-            $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
-            $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
-            return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
-        }        
+                  
         echo $this->layout_after_login($title,$page_name,$data);
     }   
 }

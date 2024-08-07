@@ -49,21 +49,22 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
-                    <form method="POST" action="" enctype="multipart/form-data">
-                        <input type="hidden" name="mode" value="advance_search">
+                    <form method="GET" action="" enctype="multipart/form-data">  
+                        <input type="hidden" name="mode" value="outside_project_cost">                      
                         <div class="row mb-3 align-items-center">                            
-                            <div class="col-md-3 col-lg-3">
+                            <div class="col-md-12 col-lg-12">
                                 <label for="search_project_id">Project</label>
-                                <select name="project_id" class="form-control" id="search_project_id" required>                                                                        
+                                <select name="project_id" class="form-control" id="search_project_id" required>  
+                                    <option value="all">All</option>                                                                      
                                     <?php if ($projects) {
                                         foreach ($projects as $row) { ?>
-                                            <option value="<?= $row->id ?>"><?= $row->name ?> (<?= $row->client_name ?>) - <?= $row->project_status_name ?></option>
+                                            <option value="<?= $row->id ?>" <?= (($fetch_project_id == $row->id) ? 'selected' : '') ?>><?= $row->name ?> (<?= $row->client_name ?>) - <?= $row->project_status_name ?></option>
                                             <hr>
                                     <?php }
                                     } ?>                                    
                                 </select>
                             </div>   
-                            <div class="col-md-3 col-lg-3">
+                            <!-- <div class="col-md-3 col-lg-3">
                                 <label for="search_project_id">Date</label>
                                 <input type="date" id="date" name="payment_date" class="form-control" value="" style="height: 40px;">
                             </div>   
@@ -74,23 +75,21 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="col-md-3 col-lg-3">
                                 <label for="search_project_id">comment</label>
                                 <textarea type="text" name="comment" class="form-control" style="height: 40px;"></textarea>                                 
-                            </div>                            
+                            </div>                             -->
                         </div>
-                        <?php if (checkModuleFunctionAccess(22, 40)) { ?>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> submit</button>
-                                <?php if (!empty($response)) { ?>
-                                    <a href="<?= base_url('admin/outside_project_cost') ?>" class="btn btn-secondary"><i class="fa fa-refresh"></i> Reset</a>
-                                <?php } ?>
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Show Exsisting Data</button>                                    
+                                <!-- <a class="btn btn-primary" target="_blank" href="<?=base_url('admin/outside_project_cost/showexsisting/'.$row->id)?>" title="Show payment"><i class="fa fa-paper-plane"></i> Show Exsisting Data</a> -->
                             </div>
-                        <?php } ?>
                     </form>
                 </div>
-            </div>
-                            
+            </div>  
+                                                              
+        </div>
+        <div class="col-xl-12">                           
                 <div class="card mt-3">
                     <div class="card-body pt-3">
-                        <h6 class="alert alert-success custom-alert mb-2">Payment Details</h6>                        
+                        <h6 class="alert alert-success custom-alert mb-2">Payment Details of </h6>                        
                         <div class="dt-responsive table-responsive">
                             <table id="simpletable" class="table table-bordered general_table_style">
                                 <thead>
@@ -104,7 +103,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </tr>
                                 </thead>
                                 <tbody>   
-                                    <?php $sl=1; foreach ($payment_details as $res) { ?>                                 
+                                    <?php 
+                                     if (!empty($payment_details)) { 
+                                    $sl=1; foreach ($payment_details as $res) { ?>                                 
                                         <tr>
                                             <td><?=$sl++?></td>
                                             <td><?= $res->name ?></td>
@@ -112,11 +113,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td><?= $res->amount ?></td>
                                             <td><?= $res->comment ?></td>                                            
                                             <!-- <td>
-                                                <a class="btn btn-outline-primary btn-sm" target="_blank" href="<?=base_url('admin/outside_project_cost/edit/'.encoded($res->id))?>" title="Edit payment" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil text-primary"></i></a>                                            
+                                                <a class="btn btn-outline-primary btn-sm" target="_blank" href="?=base_url('admin/outside_project_cost/edit/'.encoded($res->id))?>" title="Edit payment" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil text-primary"></i></a>                                            
                                             </td> -->
                                         </tr> 
-                                    <?php }?>                                                                      
+                                    <?php } }?>                                                                      
                                 </tbody>
+
                             </table>
                         </div>
                     </div>
