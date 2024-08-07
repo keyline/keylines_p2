@@ -35,7 +35,7 @@ class OutsideProjectCostController extends BaseController {
         $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
         $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);                       
         if ($this->request->getGet('mode') == 'outside_project_cost') {
-            //  pr($this->request->getGet());
+            //   pr($this->request->getGet());
             $project_id = $this->request->getGet('project_id');
             $sql                        = "SELECT outsource_payment.*, project.name FROM `outsource_payment`
                                             INNER JOIN project on outsource_payment.project_id = project.id 
