@@ -165,7 +165,7 @@ $userId             = $session->user_id;
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project_cost') ?>">
+            <a class="nav-link <?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
                 <i class="fas fa-money-check"></i>
                 <span>Add Expenses</span>
             </a>
