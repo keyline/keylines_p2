@@ -1,9 +1,12 @@
 <?php
-$user = $session->user_type;
-// pr($moduleDetail);
-$title              = $moduleDetail['title'];
-$primary_key        = $moduleDetail['primary_key'];
-$controller_route   = $moduleDetail['controller_route'];
+$user_type              = $session->user_type;
+$user_id                = $session->user_id;
+$getTeamMemberStatus    = $common_model->find_data('team', 'row', ['user_id' => $user_id], 'type');
+$team_member_type       = (($getTeamMemberStatus)?$getTeamMemberStatus->type:'');
+
+$title                  = $moduleDetail['title'];
+$primary_key            = $moduleDetail['primary_key'];
+$controller_route       = $moduleDetail['controller_route'];
 ?>
 <style type="text/css">
     #simpletable_filter{
@@ -123,13 +126,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <td>
                                                     <div class="field_wrapper" id="name">
                                                         <div class="row">
-                                                            <div class="col-12" id="meeting-user-<?=$teamMember->id?>">
+                                                            <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>">
                                                                 <?php
                                                                 $yesterday                  = date('Y-m-d', strtotime("-1 days"));
                                                                 $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id', $join1, '', $order_by1);
+                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action', $join1, '', $order_by1);
                                                                 
                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                     $getWorkStatus          = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color');
@@ -161,23 +164,23 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                                 <div class="d-flex justify-content-between">
                                                                                     <p class="mb-0 assign-name"><?=$getTask->user_name?></p>
                                                                                 </div>
-                                                                                <div class="d-flex justify-content-end mt-2">
-                                                                                    <a href="#" class="btn-approv bg-success text-light me-1"><i class="fa-solid fa-check"></i></a>
-                                                                                    <a href="#" class="btn-not-approv bg-danger text-light"><i class="fa-solid fa-times"></i></a>
-                                                                                </div>
-                                                                                
+                                                                                <?php if($application_settings->is_task_approval){?>
+                                                                                    <?php if($team_member_type != 'Member'){?>
+                                                                                        <?php if($getTask->next_day_task_action <= 0){?>
+                                                                                            <div class="d-flex justify-content-end mt-2">
+                                                                                                <a href="javascript:void(0);" class="btn-approv bg-success text-light me-1 action-<?=$getTask->schedule_id?>-<?=$teamMember->id?>" onclick="approveTask(<?=$getTask->schedule_id?>, <?=$getTask->effort_id?>, <?=$teamMember->id?>);"><i class="fa-solid fa-check"></i></a>
+                                                                                                <a href="javascript:void(0);" class="btn-not-approv bg-danger text-light action-<?=$getTask->schedule_id?>-<?=$teamMember->id?>" onclick="rejectTask(<?=$getTask->schedule_id?>, <?=$getTask->effort_id?>, <?=$teamMember->id?>);"><i class="fa-solid fa-times"></i></a>
+                                                                                            </div>
+                                                                                        <?php }?>
+                                                                                    <?php }?>
+                                                                                <?php }?>
                                                                             </div>
                                                                         </div>
-                                                                        <!-- <textarea name="" id="" class="form-control form-control2"></textarea> -->
                                                                     </div>
                                                                 <?php } }?>
-                                                                <!-- <a href="javascript:void(0);" class="task_edit_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
-                                                                    <i class="fa-solid fa-plus-circle text-success"></i>
-                                                                </a> -->
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!--  -->
                                                 </td>
                                                 <?php } } ?>
                                             <?php } } ?>
@@ -276,9 +279,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                                 </p>
                                                                                 <div class="d-flex justify-content-between">
                                                                                     <p class="mb-0 assign-name"><?=$getTask->user_name?></p>
-                                                                                    <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
-                                                                                        <i class="fa-solid fa-pencil text-primary"></i>
-                                                                                    </a>
+                                                                                    <?php if($getTask->work_status_id <= 0){?>
+                                                                                        <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
+                                                                                            <i class="fa-solid fa-pencil text-primary"></i>
+                                                                                        </a>
+                                                                                    <?php }?>
                                                                                 </div>
                                                                             </div>
                                                                         </div>
@@ -290,7 +295,6 @@ $controller_route   = $moduleDetail['controller_route'];
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <!--  -->
                                                 </td>
                                                 <?php } } ?>
                                             <?php } } ?>
@@ -321,6 +325,20 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 <!-- lead activity modal -->
+<!-- reject task modal -->
+ <div class="modal fade" id="taskRescheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999;">
+        <div class="modal-dialog" role="document" style="max-width: 50%; margin-top: 20px;">
+            <div class="modal-content">
+                <div class="modal-header" id="taskRescheduleTitle">
+                    
+                </div>
+                <div class="modal-body" id="taskRescheduleBody">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- reject task modal -->
 
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -491,7 +509,93 @@ $controller_route   = $moduleDetail['controller_route'];
             }
         });
     }
+
+    function approveTask(schedule_id, effort_id, user_id){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.schedule_id                = schedule_id;
+        dataJson.effort_id                  = effort_id;
+        dataJson.user_id                    = user_id;
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-schedule-approve-task", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    $('.action-' + schedule_id + '-' + user_id).hide();
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
+    function rejectTask(schedule_id, effort_id, user_id){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.schedule_id                = schedule_id;
+        dataJson.effort_id                  = effort_id;
+        dataJson.user_id                    = user_id;
+        $('#taskRescheduleModal').modal('show');
+        var modalTitle  = 'Task Reschedule';
+        var modalBody   = `<form id="taskRescheduleForm">
+                            <input type="hidden" name="schedule_id" id="schedule_id" value="${schedule_id}">
+                            <input type="hidden" name="effort_id" id="effort_id" value="${effort_id}">
+                            <input type="hidden" name="user_id" id="user_id" value="${user_id}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-1">
+                                        <label for="reschedule_date">Reschedule Date</label>
+                                        <input type="date" name="reschedule_date" id="reschedule_date" placeholder="Reschedule Date" class="form-control" value="<?=date('Y-m-d')?>" min="<?=date('Y-m-d')?>" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="input-group mb-1">
+                                        <button type="button" class="btn btn-success" onClick="submitRescheduleTaskForm();">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>`;
+        $('#taskRescheduleTitle').empty();
+        $('#taskRescheduleBody').empty();
+        $('#taskRescheduleTitle').html(modalTitle);
+        $('#taskRescheduleBody').html(modalBody);
+    }
+    function submitRescheduleTaskForm(){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.schedule_id                = $('#schedule_id').val();
+        dataJson.effort_id                  = $('#effort_id').val();
+        dataJson.user_id                    = $('#user_id').val();
+        dataJson.reschedule_date            = $('#reschedule_date').val();
+
+        schedule_id                         = $('#schedule_id').val();
+        effort_id                           = $('#effort_id').val();
+        user_id                             = $('#user_id').val();
+
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-reschedule-task", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    $('#taskRescheduleModal').modal('hide');
+                    $('#meeting-user-' + user_id).empty();
+                    $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                    $('.action-' + schedule_id + '-' + user_id).hide();
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
     $(function(){
-        // toastAlert("success", 'test');
+        
     })
 </script>

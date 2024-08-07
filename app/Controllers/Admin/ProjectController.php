@@ -128,7 +128,8 @@ class ProjectController extends BaseController {
     public function confirm_delete($id)
     {
         $id                         = decoded($id);
-        $updateData = $this->common_model->delete_data($this->data['table_name'],$id,$this->data['primary_key']);
+        // $updateData = $this->common_model->delete_data($this->data['table_name'],$id,$this->data['primary_key']);
+        $this->common_model->save_data($this->data['table_name'],['active' => 3],$id,$this->data['primary_key']);
         $this->session->setFlashdata('success_message', $this->data['title'].' deleted successfully');
         return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
     }
@@ -136,7 +137,7 @@ class ProjectController extends BaseController {
     {
         $id                         = decoded($id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', [$this->data['primary_key']=>$id]);
-        if($data['row']->status){
+        if($data['row']->active){
             $status  = 0;
             $msg        = 'Deactivated';
         } else {
@@ -144,7 +145,7 @@ class ProjectController extends BaseController {
             $msg        = 'Activated';
         }
         $postData = array(
-                            'status' => $status
+                            'active' => $status
                         );
         $updateData = $this->common_model->save_data($this->data['table_name'],$postData,$id,$this->data['primary_key']);
         $this->session->setFlashdata('success_message', $this->data['title'].' '.$msg.' successfully');

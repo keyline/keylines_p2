@@ -117,14 +117,14 @@ $userId             = $session->user_id;
             </ul>
         </li>
     <?php } ?>
-    <?php if (checkModuleAccess(4)) { ?>
+    <?php //if (checkModuleAccess(4)) { ?>
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('admin/task-assign') ?>">
                 <i class="fa fa-laptop"></i>
                 <span>Task Assign</span>
             </a>
         </li>
-    <?php } ?>
+    <?php //} ?>
     <?php if (checkModuleAccess(4)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
