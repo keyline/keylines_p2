@@ -7,6 +7,37 @@ if ($row) {
     $role_id                        = '';
 }
 ?>
+<style>
+    .gray-checkbox {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid #888;
+        background-color: #ccc;
+        border-radius: 4px;
+        display: inline-block;
+        position: relative;
+        top: 4px;
+    }
+
+    .gray-checkbox:checked {
+        background-color: #888;
+    }
+
+    .gray-checkbox:checked::after {
+        content: '';
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+</style>
 <script src="//cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
 <div class="pcoded-content">
     <div class="page-header">
@@ -50,13 +81,15 @@ if ($row) {
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="role_name">Role Name *</label>
-                                        <select name="role_name" class="form-control" id="role_name" <?=((!empty($row))?'disabled':'')?> required>
+                                        <select name="role_name" class="form-control" id="role_name" <?= ((!empty($row)) ? 'disabled' : '') ?> required>
                                             <option value="" selected>Select Type</option>
-                                            <?php if($role_masters){    foreach($role_masters as $role_master){   ?>
-                                                <option value="<?=$role_master->role_name;?>" <?=(($role_name == $role_master->role_name)?'selected':'')?> ><?=$role_master->role_name;?></option>
-                                            <?php }   } ?>
+                                            <?php if ($role_masters) {
+                                                foreach ($role_masters as $role_master) {   ?>
+                                                    <option value="<?= $role_master->role_name; ?>" <?= (($role_name == $role_master->role_name) ? 'selected' : '') ?>><?= $role_master->role_name; ?></option>
+                                            <?php }
+                                            } ?>
                                         </select>
-                                        <?php if($row){?>
+                                        <?php if ($row) { ?>
                                             <input type="hidden" name="role_name_hidden" id="role_name_hidden" value="<?= htmlspecialchars($role_name) ?>">
                                         <?php } ?>
                                     </div>
@@ -88,24 +121,33 @@ if ($row) {
                                                     if ($checkNestedMenu <= 0) {
                                                     ?>
                                                         <input type="hidden" name="module_id[]" value="<?= $parentmodule->id ?>">
-                                                        <?php
-                                                        $functions    = $common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $parentmodule->id]);
-                                                        if ($functions) {
-                                                            foreach ($functions as $function) { ?>
+
+                                                        <div class="card">
+                                                            <div class="card-header bg-success text-white">
+                                                                <?= $parentmodule->module_name ?>
+                                                            </div>
+                                                            <div class="card-body">
                                                                 <?php
-                                                                $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $parentmodule->id, 'function_id' => $function->function_id]);
-                                                                if ($checkFunctionSelected > 0) {
-                                                                    $checked = 'checked';
-                                                                } else {
-                                                                    $checked = '';
-                                                                }
-                                                                ?>
-                                                                <span class="text-dark mb-3" style="font-size: 20px; margin-right: 10px;">
-                                                                    <input type="checkbox" name="function_id[]" id="function<?= $function->function_id ?>" value="<?= $function->function_id ?>" <?= $checked ?>>
-                                                                    <label for="function<?= $function->function_id ?>"><?= $function->function_name ?></label>
-                                                                </span>
-                                                        <?php }
-                                                        } ?>
+                                                                $functions    = $common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $parentmodule->id]);
+                                                                if ($functions) {
+                                                                    foreach ($functions as $function) { ?>
+                                                                        <?php
+                                                                        $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $parentmodule->id, 'function_id' => $function->function_id]);
+                                                                        if ($checkFunctionSelected > 0) {
+                                                                            $checked = 'checked';
+                                                                        } else {
+                                                                            $checked = '';
+                                                                        }
+                                                                        ?>
+                                                                        <span class="text-dark mb-1" style="font-size: 20px; margin-right: 10px; width: 30%; display: inline-block;">
+                                                                            <input type="checkbox" class="allow-interaction gray-checkbox" name="function_id[]" id="function<?= $function->function_id ?>" value="<?= $function->function_id ?>" <?= $checked ?>>
+                                                                            <label for="function<?= $function->function_id ?>"><?= $function->function_name ?></label>
+                                                                        </span>
+                                                                <?php }
+                                                                } ?>
+                                                            </div>
+
+                                                        </div>
                                                     <?php } else { ?>
                                                         <div class="row">
                                                             <?php
@@ -132,8 +174,8 @@ if ($row) {
                                                                                             $checked = '';
                                                                                         }
                                                                                         ?>
-                                                                                        <span class="text-dark mb-3" style="font-size: 20px; margin-right: 10px;">
-                                                                                            <input type="checkbox" name="function_id[]" id="function<?= $function->function_id ?>" value="<?= $function->function_id ?>" <?= $checked ?>>
+                                                                                        <span class="text-dark mb-3" style="font-size: 20px; margin-right: 10px; width: 30%; display: inline-block;">
+                                                                                            <input type="checkbox" class="allow-interaction gray-checkbox" name="function_id[]" id="function<?= $function->function_id ?>" value="<?= $function->function_id ?>" <?= $checked ?>>
                                                                                             <label for="function<?= $function->function_id ?>"><?= $function->function_name ?></label>
                                                                                         </span>
                                                                                 <?php }
@@ -154,9 +196,11 @@ if ($row) {
                                 </div>
                             </div>
                         </div>
-                        <div class="box-footer">
-                            <input type="submit" class="btn btn-primary" name="submit" value="Submit">
-                        </div>
+                        <?php if (checkModuleFunctionAccess(14, 63) == False) { ?>
+                            <div class="box-footer">
+                                <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                            </div>
+                        <?php } ?>
                     </form>
                 </div>
             </div>
@@ -212,3 +256,20 @@ if ($row) {
         document.getElementById('role_name_hidden').value = selectValue;
     });
 </script>
+
+<?php if (checkModuleFunctionAccess(14, 63)) { ?>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.allow-interaction');
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    alert("You are not authorized to use this functionality !!");
+                });
+                checkbox.addEventListener('keydown', function(event) {
+                    event.preventDefault();
+                });
+            });
+        });
+    </script>
+<?php } ?>

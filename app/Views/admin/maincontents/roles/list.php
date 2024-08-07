@@ -56,12 +56,12 @@
                                                     <td><?= $i++ ?></td>
                                                     <td><?= $row->role_name ?></td>
                                                     <td>
-                                                        <?php if (checkModuleFunctionAccess(14, 9)) { ?>
-                                                            <a href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/edit/<?php echo $row->id; ?>" class="btn btn-icon btn-primary btn-sm" title="Provide Permissions"><i class="fa fa-edit"></i> Provide Permissions</a>
+                                                        <?php if (checkModuleFunctionAccess(14, 9) || (checkModuleFunctionAccess(14, 63)) ) { ?>
+                                                            <a href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/edit/<?php echo $row->id; ?>" class="btn btn-icon btn-primary btn-sm" title="Provide Permissions"><i class="fa fa-edit"></i></a>
                                                         <?php } ?>
                                                         &nbsp;&nbsp;&nbsp;
                                                         <?php if (checkModuleFunctionAccess(14, 63)) { ?>
-                                                            <a class="btn btn-info btn-sm" href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/view/<?php echo $row->id; ?>"><i class="nav-icon fas fa-info-circle"></i> Analyze Permissions </a>
+                                                            <!-- <a class="btn btn-info btn-sm" href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/view/<?php echo $row->id; ?>"><i class="nav-icon fas fa-info-circle"></i> Analyze Permissions </a> -->
                                                         <?php } ?>
                                                     </td>
                                                 </tr>

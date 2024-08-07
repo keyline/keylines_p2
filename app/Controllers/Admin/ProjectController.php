@@ -178,15 +178,15 @@ class ProjectController extends BaseController {
 
         $sql20                      = 'SELECT timesheet.id as timesheet_id, user.id AS user_id, user.name FROM timesheet LEFT JOIN user ON timesheet.user_id = user.id WHERE timesheet.project_id = '.$id.' AND timesheet.date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY user.name ORDER BY user.name ASC';
         $data['usersData']          = $this->db->query($sql20)->getResult();
-
+        
         $months                     = [];
         for ($i = 13; $i >= 0; $i--) {
             $date               = date("M-y", strtotime( date( 'Y-m-01' )." -$i months"));
             $numericDate        = date("Y-m", strtotime(date('Y-m-01') . " -$i months"));
             $monthData[]        = $date;
             $numeric_dates[]    = $numericDate;
-            $months[]           = strtoupper($date);
-            $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
+            $months[]           = strtoupper($date);            
+            $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";                   
             $rows               = $this->db->query($sql)->getResult();
             $eachMonthHour[]    = $rows;
         }

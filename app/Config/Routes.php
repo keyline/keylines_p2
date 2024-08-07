@@ -60,6 +60,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "settings", "User::settings");
 			$routes->match(['post'], "profile-settings", "User::profileSetting");
 			$routes->match(['post'], "general-settings", "User::generalSetting");
+			$routes->match(['post'], "application-settings", "User::applicationSetting");
 			$routes->match(['post'], "change-password", "User::changePassword");
 			$routes->match(['post'], "email-settings", "User::emailSetting");
 			$routes->match(['post'], "sms-settings", "User::smsSetting");
@@ -119,11 +120,20 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
 			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
+			
+			$routes->match(['get', 'post'], "clients/add-proposal/(:any)", "ClientController::addProposal/$1");
+			$routes->match(['get', 'post'], "clients/view-proposal/(:any)", "ClientController::viewProposal/$1");
+			$routes->match(['get', 'post'], "clients/edit-proposal/(:any)", "ClientController::editProposal/$1");
+			$routes->match(['get', 'post'], "clients/delete-proposal/(:any)", "ClientController::deleteProposal/$1");
 		/* clients */
 		//AMC Checking//
 			$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
 			$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
 		//AMC Checking//
+		//outside project cost//
+			$routes->match(['get', 'post'], "outside_project_cost", "OutsideProjectCostController::list");
+		//outside project cost//
+
 
 		// task assign
 			$routes->match(['get'], "task-assign", "TaskAssignController::task_list");

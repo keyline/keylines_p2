@@ -66,7 +66,10 @@ $user_type = session('user_type');
               </li>
               <?php if ($user_type == 'ADMIN') { ?>
                 <li class="nav-item">
-                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">Application</button>
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">General</button>
+                </li>
+                <li class="nav-item">
+                  <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab11">Application</button>
                 </li>
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab4">Email</button>
@@ -222,13 +225,7 @@ $user_type = session('user_type');
                     <div class="col-md-8 col-lg-9">
                       <input name="system_email" type="email" class="form-control" id="system_email" value="<?= $setting->system_email ?>">
                     </div>
-                  </div>
-                  <!-- <div class="row mb-3">
-                    <label for="hour_cost" class="col-md-4 col-lg-3 col-form-label">Hour Cost</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="site_url" type="url" class="form-control" id="site_url" value="<?= $setting->site_url ?>">
-                    </div>
-                  </div> -->
+                  </div>                  
                   <div class="row mb-3">
                     <label for="description" class="col-md-4 col-lg-3 col-form-label">Address</label>
                     <div class="col-md-8 col-lg-9">
@@ -276,40 +273,7 @@ $user_type = session('user_type');
                     <div class="col-md-8 col-lg-9">
                       <textarea name="firebase_server_key" class="form-control" id="firebase_server_key" rows="3"><?= $setting->firebase_server_key ?></textarea>
                     </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="theme_color" class="col-md-4 col-lg-3 col-form-label">Theme Color</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="theme_color" type="color" class="form-control" id="theme_color" value="<?= $setting->theme_color ?>">
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="font_color" class="col-md-4 col-lg-3 col-form-label">Font Color</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="font_color" type="color" class="form-control" id="font_color" value="<?= $setting->font_color ?>">
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="tomorrow_task_editing_time" class="col-md-4 col-lg-3 col-form-label">Tomorrow Task Editing Time</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="tomorrow_task_editing_time" type="time" class="form-control" id="tomorrow_task_editing_time" value="<?= $setting->tomorrow_task_editing_time ?>">
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Block Tracker Fillup After Days</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="block_tracker_fillup_after_days" type="number" class="form-control" id="block_tracker_fillup_after_days" value="<?= $setting->block_tracker_fillup_after_days ?>">
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Is Desklog Use</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="is_desklog_use" type="radio" id="is_desklog_use1" value="1" <?=(($setting->is_desklog_use == 1)?'checked':'')?>>
-                      <label for="is_desklog_use1">YES</label>
-                      <input name="is_desklog_use" type="radio" id="is_desklog_use2" value="0" <?=(($setting->is_desklog_use == 0)?'checked':'')?>>
-                      <label for="is_desklog_use2">NO</label>
-                    </div>
-                  </div>
+                  </div>                  
                   <div class="row mb-3">
                     <label for="twitter_profile" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                     <div class="col-md-8 col-lg-9">
@@ -388,6 +352,65 @@ $user_type = session('user_type');
                     </div> -->
                     </div>
                   </div>
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                </form><!-- End general settings Form -->
+              </div>
+              <div class="tab-pane fade profile-edit pt-3" id="tab11">
+                <!-- application settings Form -->
+                <form method="POST" action="<?= base_url('admin/application-settings') ?>" enctype="multipart/form-data">                  
+                  <div class="row mb-3">
+                    <label for="theme_color" class="col-md-4 col-lg-3 col-form-label">Theme Color</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="theme_color" type="color" class="form-control" id="theme_color" value="<?= $application_setting->theme_color ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="font_color" class="col-md-4 col-lg-3 col-form-label">Font Color</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="font_color" type="color" class="form-control" id="font_color" value="<?= $application_setting->font_color ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="tomorrow_task_editing_time" class="col-md-4 col-lg-3 col-form-label">Tomorrow Task Editing Time</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="tomorrow_task_editing_time" type="time" class="form-control" id="tomorrow_task_editing_time" value="<?= $application_setting->tomorrow_task_editing_time ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Block Tracker Fillup After Days</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="block_tracker_fillup_after_days" type="number" class="form-control" id="block_tracker_fillup_after_days" value="<?= $application_setting->block_tracker_fillup_after_days ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Is Desklog Use</label>
+                    <div class="col-md-8 col-lg-9">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" name="is_desklog_use" id="is_desklog_user" value="1" <?=(($application_setting->is_desklog_use == 1)?'checked':'')?>>
+                        <label class="form-check-label" for="is_desklog_use1">YES/NO</label>                        
+                      </div>                      
+                    </div>
+                  </div>  
+                  <div class="row mb-3">
+                    <label for="is_task_approval" class="col-md-4 col-lg-3 col-form-label">Is Task Approval</label>
+                    <div class="col-md-8 col-lg-9">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" name="is_task_approval" id="is_task_approval1" value="1" <?=(($application_setting->is_task_approval == 1)?'checked':'')?>>
+                        <label class="form-check-label" for="is_desklog_use1">YES/NO</label>                       
+                      </div>                      
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Is Project Cost</label>
+                    <div class="col-md-8 col-lg-9">
+                      <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" name="is_project_cost" id="is_project_cost" value="1" <?=(($application_setting->is_project_cost == 1)?'checked':'')?>>
+                        <label class="form-check-label" for="is_desklog_use1">YES/NO</label>                       
+                      </div>                      
+                    </div>
+                  </div>        
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>

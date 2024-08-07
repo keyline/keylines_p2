@@ -274,11 +274,17 @@ class ReportController extends BaseController
         $title                      = 'Manage ' . $this->data['title'] . ' : Effort Report';
         $page_name                  = 'report/effort-report';
         $data['userType']                           = $this->session->user_type;
+        // pr($data['userType']);
         $userType                   = $data['userType'];
         $userId                             = $this->session->user_id;
         $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
         $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
-        $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+        if($data['userType'] == 'SUPERADMIN' || $data['userType'] == "ADMIN" ){
+            $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+        }else{
+            $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1,'id='=>$userId], 'id,name,status', '', '', $order_by);
+        }
+        // pr($users);
         $deskloguser        = $this->common_model->find_data('general_settings', 'row', '', 'is_desklog_use', '', '');
         //  pr($deskloguser);
         $desklog_user       = $deskloguser->is_desklog_use;
@@ -556,23 +562,23 @@ class ReportController extends BaseController
         $order_by[0]                = array('field' => 'status', 'type' => 'DESC');
         $order_by[1]                = array('field' => 'name', 'type' => 'ASC');
         $users                      = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
-        $projects                    = $this->db->query("SELECT timesheet.project_id, timesheet.date_added, project.name FROM `timesheet` LEFT JOIN project ON timesheet.project_id = project.id WHERE timesheet.date_added LIKE '%2024%' GROUP BY timesheet.project_id, project.name ORDER BY `project`.`name` ASC")->getResult();        
+        $projects                    = $this->db->query("SELECT timesheet.project_id, timesheet.date_added, project.name FROM `timesheet` LEFT JOIN project ON timesheet.project_id = project.id WHERE timesheet.date_added LIKE '%2024%' GROUP BY timesheet.project_id, project.name ORDER BY `project`.`name` ASC")->getResult();
         $response                   = [];
         $year                       = [];
-        $sl                         = 1; 
+        $sl                         = 1;
         // pr($projects);       
         foreach ($projects as $project) {
-            $project_name= $project->name;
+            $project_name = $project->name;
             $project_id = $project->project_id;
-                if ($this->request->getGet('mode') == 'year') {
-                    //  pr($this->request->getGet('year'));                    
-                    $year = $this->request->getGet('year');
-                } else {
-                    $year = date('Y');
-                }
-                $monthYear1 = $year . '-' . date('01');
-                $yearString = $year;
-                $jan_booked = $this->db->query("SELECT timesheet.project_id,
+            if ($this->request->getGet('mode') == 'year') {
+                //  pr($this->request->getGet('year'));                    
+                $year = $this->request->getGet('year');
+            } else {
+                $year = date('Y');
+            }
+            $monthYear1 = $year . '-' . date('01');
+            $yearString = $year;
+            $jan_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -584,21 +590,20 @@ class ReportController extends BaseController
                         WHERE timesheet.project_id = $project_id and  timesheet.date_added LIKE '%$monthYear1%' GROUP BY
                             timesheet.project_id, project.name
                         ORDER BY
-                            `project`.`name` ASC;")->getRow();                
-                //  echo $this->db->getLastquery();die;
-                if ($jan_booked) {
-                    // pr($jan_booked);
-                    $tothour = $jan_booked->tothour * 60;
-                    $totmin = $jan_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked1            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);                    
-                }
-                else {
-                    $totalBooked1 = '';
-                }
-                $monthYear2 = $year . '-' . date('02');
-                $yearString = $year;
-                $feb_booked = $this->db->query("SELECT timesheet.project_id,
+                            `project`.`name` ASC;")->getRow();
+            //  echo $this->db->getLastquery();die;
+            if ($jan_booked) {
+                // pr($jan_booked);
+                $tothour = $jan_booked->tothour * 60;
+                $totmin = $jan_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked1            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked1 = '';
+            }
+            $monthYear2 = $year . '-' . date('02');
+            $yearString = $year;
+            $feb_booked = $this->db->query("SELECT timesheet.project_id,
                 timesheet.date_added,
                 project.name,
                 timesheet.bill,
@@ -610,19 +615,18 @@ class ReportController extends BaseController
                 WHERE timesheet.project_id = $project_id and timesheet.date_added LIKE '%$monthYear2%' GROUP BY
                     timesheet.project_id, project.name
                 ORDER BY
-                `project`.`name` ASC;")->getRow();                
-                if ($feb_booked) {
-                    $tothour = $feb_booked->tothour * 60;
-                    $totmin = $feb_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked2            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked2 = '';
-                }
-                $monthYear3 = $year . '-' . date('03');
-                $yearString = $year;
-                $mar_booked = $this->db->query("SELECT timesheet.project_id,
+                `project`.`name` ASC;")->getRow();
+            if ($feb_booked) {
+                $tothour = $feb_booked->tothour * 60;
+                $totmin = $feb_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked2            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked2 = '';
+            }
+            $monthYear3 = $year . '-' . date('03');
+            $yearString = $year;
+            $mar_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -634,19 +638,18 @@ class ReportController extends BaseController
                         WHERE timesheet.project_id = $project_id and timesheet.date_added LIKE '%$monthYear3%' GROUP BY
                             timesheet.project_id, project.name
                         ORDER BY
-                            `project`.`name` ASC;")->getRow(); 
-                if ($mar_booked) {
-                    $tothour3 = $mar_booked->tothour * 60;
-                    $totmin3 = $mar_booked->totmin;
-                    $totalMin3 = ($tothour3 + $totmin3);
-                    $totalBooked3            = intdiv($totalMin3, 60) . '.' . ($totalMin3 % 60);
-                }
-                else {
-                    $totalBooked3 = '';
-                }
-                $monthYear4 = $year . '-' . date('04');
-                $yearString = $year;
-                $apr_booked = $this->db->query("SELECT timesheet.project_id,
+                            `project`.`name` ASC;")->getRow();
+            if ($mar_booked) {
+                $tothour3 = $mar_booked->tothour * 60;
+                $totmin3 = $mar_booked->totmin;
+                $totalMin3 = ($tothour3 + $totmin3);
+                $totalBooked3            = intdiv($totalMin3, 60) . '.' . ($totalMin3 % 60);
+            } else {
+                $totalBooked3 = '';
+            }
+            $monthYear4 = $year . '-' . date('04');
+            $yearString = $year;
+            $apr_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -659,18 +662,17 @@ class ReportController extends BaseController
                             timesheet.project_id, project.name
                         ORDER BY
                             `project`.`name` ASC;")->getRow();
-                if ($apr_booked) {
-                    $tothour = $apr_booked->tothour * 60;
-                    $totmin = $apr_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked4            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked4 = '';
-                }
-                $monthYear5 = $year . '-' . date('05');
-                $yearString = $year;
-                $may_booked = $this->db->query("SELECT timesheet.project_id,
+            if ($apr_booked) {
+                $tothour = $apr_booked->tothour * 60;
+                $totmin = $apr_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked4            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked4 = '';
+            }
+            $monthYear5 = $year . '-' . date('05');
+            $yearString = $year;
+            $may_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -683,18 +685,17 @@ class ReportController extends BaseController
                             timesheet.project_id, project.name
                         ORDER BY
                             `project`.`name` ASC;")->getRow();
-                if ($may_booked) {
-                    $tothour = $may_booked->tothour * 60;
-                    $totmin = $may_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked5            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked5 = '';
-                }
-                $monthYear6 = $year . '-' . date('06');
-                $yearString = $year;
-                $jun_booked = $this->db->query("SELECT timesheet.project_id,
+            if ($may_booked) {
+                $tothour = $may_booked->tothour * 60;
+                $totmin = $may_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked5            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked5 = '';
+            }
+            $monthYear6 = $year . '-' . date('06');
+            $yearString = $year;
+            $jun_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -707,18 +708,17 @@ class ReportController extends BaseController
                             timesheet.project_id, project.name
                         ORDER BY
                             `project`.`name` ASC;")->getRow();
-                if ($jun_booked) {
-                    $tothour = $jun_booked->tothour * 60;
-                    $totmin = $jun_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked6            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked6 = '';
-                }
-                $monthYear7 = $year . '-' . date('07');
-                $yearString = $year;
-                $jul_booked = $this->db->query("SELECT timesheet.project_id,
+            if ($jun_booked) {
+                $tothour = $jun_booked->tothour * 60;
+                $totmin = $jun_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked6            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked6 = '';
+            }
+            $monthYear7 = $year . '-' . date('07');
+            $yearString = $year;
+            $jul_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -731,18 +731,17 @@ class ReportController extends BaseController
                             timesheet.project_id, project.name
                         ORDER BY
                             `project`.`name` ASC;")->getRow();
-                if ($jul_booked) {
-                    $tothour = $jul_booked->tothour * 60;
-                    $totmin = $jul_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked7            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked7 = '';
-                }
-                $monthYear8 = $year . '-' . date('08');
-                $yearString = $year;
-                $aug_booked = $this->db->query("SELECT timesheet.project_id,
+            if ($jul_booked) {
+                $tothour = $jul_booked->tothour * 60;
+                $totmin = $jul_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked7            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked7 = '';
+            }
+            $monthYear8 = $year . '-' . date('08');
+            $yearString = $year;
+            $aug_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -755,18 +754,17 @@ class ReportController extends BaseController
                             timesheet.project_id, project.name
                         ORDER BY
                             `project`.`name` ASC;")->getRow();
-                if ($aug_booked) {
-                    $tothour = $aug_booked->tothour * 60;
-                    $totmin = $aug_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked8            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked8 = '';
-                }
-                $monthYear9 = $year . '-' . date('09');
-                $yearString = $year;
-                $sep_booked = $this->db->query("SELECT timesheet.project_id,
+            if ($aug_booked) {
+                $tothour = $aug_booked->tothour * 60;
+                $totmin = $aug_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked8            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked8 = '';
+            }
+            $monthYear9 = $year . '-' . date('09');
+            $yearString = $year;
+            $sep_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -779,18 +777,17 @@ class ReportController extends BaseController
                             timesheet.project_id, project.name
                         ORDER BY
                             `project`.`name` ASC;")->getRow();
-                if ($sep_booked) {
-                    $tothour = $sep_booked->tothour * 60;
-                    $totmin = $sep_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked9            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked9 = '';
-                }
-                $monthYear10 = $year . '-' . date('10');
-                $yearString = $year;
-                $oct_booked = $this->db->query("SELECT timesheet.project_id,
+            if ($sep_booked) {
+                $tothour = $sep_booked->tothour * 60;
+                $totmin = $sep_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked9            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked9 = '';
+            }
+            $monthYear10 = $year . '-' . date('10');
+            $yearString = $year;
+            $oct_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -803,18 +800,17 @@ class ReportController extends BaseController
                             timesheet.project_id, project.name
                         ORDER BY
                             `project`.`name` ASC;")->getRow();
-                if ($oct_booked) {
-                    $tothour = $oct_booked->tothour * 60;
-                    $totmin = $oct_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked10            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked10 = '';
-                }
-                $monthYear11 = $year . '-' . date('11');
-                $yearString = $year;
-                $nov_booked = $this->db->query("SELECT timesheet.project_id,
+            if ($oct_booked) {
+                $tothour = $oct_booked->tothour * 60;
+                $totmin = $oct_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked10            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked10 = '';
+            }
+            $monthYear11 = $year . '-' . date('11');
+            $yearString = $year;
+            $nov_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -827,18 +823,17 @@ class ReportController extends BaseController
                             timesheet.project_id, project.name
                         ORDER BY
                             `project`.`name` ASC;")->getRow();
-                if ($nov_booked) {
-                    $tothour = $nov_booked->tothour * 60;
-                    $totmin = $nov_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked11            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked11 = '';
-                }
-                $monthYear12 = $year . '-' . date('12');
-                $yearString = $year;
-                $dec_booked = $this->db->query("SELECT timesheet.project_id,
+            if ($nov_booked) {
+                $tothour = $nov_booked->tothour * 60;
+                $totmin = $nov_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked11            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked11 = '';
+            }
+            $monthYear12 = $year . '-' . date('12');
+            $yearString = $year;
+            $dec_booked = $this->db->query("SELECT timesheet.project_id,
                             timesheet.date_added,
                             project.name,
                             timesheet.bill,
@@ -851,38 +846,37 @@ class ReportController extends BaseController
                             timesheet.project_id, project.name
                         ORDER BY
                             `project`.`name` ASC;")->getRow();
-                if ($dec_booked) {
-                    // pr($dec_booked); die;
-                    $tothour = $dec_booked->tothour * 60;
-                    $totmin = $dec_booked->totmin;
-                    $totalMin = ($tothour + $totmin);
-                    $totalBooked12            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                }
-                else {
-                    $totalBooked12 = '';
-                }
+            if ($dec_booked) {
+                // pr($dec_booked); die;
+                $tothour = $dec_booked->tothour * 60;
+                $totmin = $dec_booked->totmin;
+                $totalMin = ($tothour + $totmin);
+                $totalBooked12            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+            } else {
+                $totalBooked12 = '';
+            }
 
-                $data['year']        = $yearString;
-                $response[] = [
-                    'sl_no'         => $sl++,                    
-                    'project_name'  => $project_name,
-                    'jan_booked'    => $totalBooked1,
-                    'feb_booked'    => $totalBooked2,
-                    'mar_booked'    => $totalBooked3,
-                    'apr_booked'    => $totalBooked4,
-                    'may_booked'    => $totalBooked5,
-                    'jun_booked'    => $totalBooked6,
-                    'jul_booked'    => $totalBooked7,
-                    'aug_booked'    => $totalBooked8,
-                    'sep_booked'    => $totalBooked9,
-                    'oct_booked'    => $totalBooked10,
-                    'nov_booked'    => $totalBooked11,
-                    'dec_booked'    => $totalBooked12,                  
-                ];
+            $data['year']        = $yearString;
+            $response[] = [
+                'sl_no'         => $sl++,
+                'project_name'  => $project_name,
+                'jan_booked'    => $totalBooked1,
+                'feb_booked'    => $totalBooked2,
+                'mar_booked'    => $totalBooked3,
+                'apr_booked'    => $totalBooked4,
+                'may_booked'    => $totalBooked5,
+                'jun_booked'    => $totalBooked6,
+                'jul_booked'    => $totalBooked7,
+                'aug_booked'    => $totalBooked8,
+                'sep_booked'    => $totalBooked9,
+                'oct_booked'    => $totalBooked10,
+                'nov_booked'    => $totalBooked11,
+                'dec_booked'    => $totalBooked12,
+            ];
         }
-        
+
         $data['responses']                   = $response;
-            // pr($data['responses']);
+        // pr($data['responses']);
 
         $last7DaysResponses = [];
         $arr                = [];
@@ -1178,7 +1172,7 @@ class ReportController extends BaseController
 
             default:
                 # code...
-            break;
+                break;
         }
         $i4               = 1;
         $ystrdhr          = 0;
@@ -1237,17 +1231,17 @@ class ReportController extends BaseController
             foreach ($ongoingProjects as $ongoingProject) {
                 $html .= '<tr>
                             <th>' . $sl++ . '</th>';
-                
+
                 if ($ongoingProject->bill == 0) {
-                    if($ongoingProject->project_time_type == 'Onetime'){
+                    if ($ongoingProject->project_time_type == 'Onetime') {
                         $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success">Billable</span><span class="badge bg-info">Fixed</span></th>';
-                    }else{
+                    } else {
                         $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success">Billable</span><span class="badge bg-primary">Monthly</span></th>';
                     }
                 } else {
-                    if($ongoingProject->project_time_type == 'Onetime'){
+                    if ($ongoingProject->project_time_type == 'Onetime') {
                         $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
-                    }else{
+                    } else {
                         $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
                     }
                 }
@@ -1258,16 +1252,16 @@ class ReportController extends BaseController
                 $remainingMinutes   = $totalMinutes % 60;
                 $totalHours        += $additionalHours;
                 $formattedTime      = sprintf("%d hours %d minutes", $totalHours, $remainingMinutes);
-                
-                
+
+
                 $html .= '<th style="cursor: pointer;" onclick="showWorkList(' . $ongoingProject->project_id . ', \'' . $day . '\' , ' . ($ongoingProject->bill == 0 ? '0' : '1') . ' , \'' . $formattedTime . '\')">';
 
                 $html .= $formattedTime;
-                
+
                 $html .= '</th>
                         </tr>';
             }
-        }else{
+        } else {
             $html .= '<tr>
                         <td colspan="3">No records found for the selected date.</td>
                      </tr>';
@@ -1312,41 +1306,41 @@ class ReportController extends BaseController
         switch ($date) {
             case 'today':
                 $today          = date('Y-m-d');
-                $condition      = '`timesheet`.`date_added` = "'.$today.'"';
+                $condition      = '`timesheet`.`date_added` = "' . $today . '"';
                 break;
             case 'yesterday':
                 $yesterday      = date('Y-m-d', strtotime('-1 day'));
-                $condition      = '`timesheet`.`date_added` = "'.$yesterday.'"';
+                $condition      = '`timesheet`.`date_added` = "' . $yesterday . '"';
                 break;
             case 'this_week':
                 $startDate      = date('Y-m-d', strtotime('monday this week'));
                 $endDate        = date('Y-m-d', strtotime('sunday this week'));
-                $condition      = '`timesheet`.`date_added` BETWEEN "'.$startDate.'" AND "'.$endDate.'"';
+                $condition      = '`timesheet`.`date_added` BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
                 break;
             case 'last_week':
                 $startDate      = date('Y-m-d', strtotime('monday last week'));
                 $endDate        = date('Y-m-d', strtotime('sunday last week'));
-                $condition      = '`timesheet`.`date_added` BETWEEN "'.$startDate.'" AND "'.$endDate.'"';
+                $condition      = '`timesheet`.`date_added` BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
                 break;
             case 'this_month':
                 $startDate      = date('Y-m-01');
                 $endDate        = date('Y-m-t');
-                $condition      = '`timesheet`.`date_added` BETWEEN "'.$startDate.'" AND "'.$endDate.'"';
+                $condition      = '`timesheet`.`date_added` BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
                 break;
             case 'last_month':
                 $startDate      = date('Y-m-01', strtotime('first day of last month'));
                 $endDate        = date('Y-m-t', strtotime('last day of last month'));
-                $condition      = '`timesheet`.`date_added` BETWEEN "'.$startDate.'" AND "'.$endDate.'"';
+                $condition      = '`timesheet`.`date_added` BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
                 break;
             case 'last_7_days':
                 $startDate      = date('Y-m-d', strtotime('-7 days'));
                 $endDate        = date('Y-m-d');
-                $condition      = '`timesheet`.`date_added` BETWEEN "'.$startDate.'" AND "'.$endDate.'"';
+                $condition      = '`timesheet`.`date_added` BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
                 break;
             case 'last_30_days':
                 $startDate      = date('Y-m-d', strtotime('-30 days'));
                 $endDate        = date('Y-m-d');
-                $condition      = '`timesheet`.`date_added` BETWEEN "'.$startDate.'" AND "'.$endDate.'"';
+                $condition      = '`timesheet`.`date_added` BETWEEN "' . $startDate . '" AND "' . $endDate . '"';
                 break;
             default:
                 # code...
@@ -1364,24 +1358,24 @@ class ReportController extends BaseController
                         LEFT JOIN user ON timesheet.user_id = user.id
                         LEFT JOIN effort_type ON timesheet.effort_type = effort_type.id
                         WHERE
-                            ".  $condition  ." AND timesheet.project_id = '$projectId'
+                            " .  $condition  . " AND timesheet.project_id = '$projectId'
                         ORDER BY
                             timesheet.`date_added` DESC";
         // echo $sql;die;
         $rows       = $this->db->query($sql)->getResult();
         $html = '<div class="modal-header" style="justify-content: center;">
-                    <center><h6 style="font-size: x-large;" class="modal-title">Reports of Project <b><u> ' . $project->name . ' </b></u>'. '('. ucwords(str_replace('_', ' ', (string)$date)) .')' .'</h6></center>
+                    <center><h6 style="font-size: x-large;" class="modal-title">Reports of Project <b><u> ' . $project->name . ' </b></u>' . '(' . ucwords(str_replace('_', ' ', (string)$date)) . ')' . '</h6></center>
                     <button style="position: absolute;right: 1rem;top: 1rem;background-color: #dd828b;border-radius: 50%;width: 30px;height: 30px;font-size: 1.2rem;color: #7e1019;cursor: pointer;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div style="justify-content: center;display: flex;gap: 10px;margin-top: 10px;">
-                    <div class="btn btn-info"> <i class="fa fa-hourglass-end"></i>&nbsp; Total Effort: '.$hours.'</div>';
-                    if($billable == 0){
-        $html .=        '<div class="btn btn-success"><i class="fa fa-rupee"></i>&nbsp; '. $hours .'</div>
+                    <div class="btn btn-info"> <i class="fa fa-hourglass-end"></i>&nbsp; Total Effort: ' . $hours . '</div>';
+        if ($billable == 0) {
+            $html .=        '<div class="btn btn-success"><i class="fa fa-rupee"></i>&nbsp; ' . $hours . '</div>
                          <div class="btn btn-danger"><i class="fa fa-coffee"></i>&nbsp;  0 Hour 0 Minute</div>';
-                    }else{
-        $html .=        '<div class="btn btn-success"><i class="fa fa-rupee"></i>&nbsp; 0 Hour 0 Minute</div>
-                         <div class="btn btn-danger"><i class="fa fa-coffee"></i>&nbsp;  '.$hours.'</div>';
-                    }
+        } else {
+            $html .=        '<div class="btn btn-success"><i class="fa fa-rupee"></i>&nbsp; 0 Hour 0 Minute</div>
+                         <div class="btn btn-danger"><i class="fa fa-coffee"></i>&nbsp;  ' . $hours . '</div>';
+        }
         $html .= '</div>
                     <div class="modal-body">
                         <div class="container">
@@ -1399,28 +1393,28 @@ class ReportController extends BaseController
                                         </tr>
                                     </thead>
                                     <tbody>';
-            if (!empty($rows)) {
+        if (!empty($rows)) {
             $sl = 1;
             foreach ($rows as $record) {
-            $date1              = date_create($record->date_today);
-            $date2              = date_create($record->date_added);
-            $diff               = date_diff($date1,$date2);
-            $date_difference    = $diff->format("%R%a");
+                $date1              = date_create($record->date_today);
+                $date2              = date_create($record->date_added);
+                $diff               = date_diff($date1, $date2);
+                $date_difference    = $diff->format("%R%a");
 
-            $html .= '<tr>
+                $html .= '<tr>
                         <td>' . $sl++ . '</td>';
-                        if($record->bill == 0){
-            $html .=    '<td>' . esc($record->projectName) . ' <span class="badge bg-success">Billable</span>' .'</td>';
-                        }else{
-            $html .=    '<td>' . esc($record->projectName) . ' <span class="badge bg-danger">Non-Billable</span>' .'</td>';
-                        }
-            $html .=    '<td><b>' . esc($record->userName) . '</b></td>';
-                        if($date_difference < 0){
-            $html .=    '<td>' . esc($record->date_added) . ' <span class="text-danger">'. '(' . $date_difference . ')' .'</span>' .'</td>';
-                        }else{
-            $html .=    '<td>' . esc($record->date_added) .'</td>';
-                        }
-            $html .=   '<td>' . esc($record->hour) . ':' . esc($record->min) . '</td>
+                if ($record->bill == 0) {
+                    $html .=    '<td>' . esc($record->projectName) . ' <span class="badge bg-success">Billable</span>' . '</td>';
+                } else {
+                    $html .=    '<td>' . esc($record->projectName) . ' <span class="badge bg-danger">Non-Billable</span>' . '</td>';
+                }
+                $html .=    '<td><b>' . esc($record->userName) . '</b></td>';
+                if ($date_difference < 0) {
+                    $html .=    '<td>' . esc($record->date_added) . ' <span class="text-danger">' . '(' . $date_difference . ')' . '</span>' . '</td>';
+                } else {
+                    $html .=    '<td>' . esc($record->date_added) . '</td>';
+                }
+                $html .=   '<td>' . esc($record->hour) . ':' . esc($record->min) . '</td>
                         <td>' . esc($record->description) . '</td>
                         <td>' . esc($record->effortName) . '</td>
                     </tr>';
@@ -1430,7 +1424,7 @@ class ReportController extends BaseController
                         <td colspan="6">No records found for the selected date.</td>
                       </tr>';
         }
-            $html .= '</tbody>
+        $html .= '</tbody>
                                 </table>
                             </div>
                         </div>
@@ -1447,17 +1441,17 @@ class ReportController extends BaseController
         $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
         $cu_date = date('d-m-Y'); // Or however you are getting the current date
         //    $cu_date = "19-07-2024"; // Or however you are getting the current date
-        
+
         $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
         $response = file_get_contents($url);
         $data = json_decode($response, true);
-        if($data){
+        if ($data) {
             foreach ($data as $item) {
                 $db_date = date_format(date_create($cu_date), "Y-m-d");
-                $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%'.$db_date.'%']);
-                if(!$existingRecord){
+                $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%' . $db_date . '%']);
+                if (!$existingRecord) {
                     $postData   = array(
-                        'desklog_usrid' => $item['id'],                
+                        'desklog_usrid' => $item['id'],
                         'email' => $item['email'],
                         'arrival_at' => $item['arrival_at'],
                         'left_at' => $item['left_at'],
@@ -1468,9 +1462,9 @@ class ReportController extends BaseController
                         'total_time_allocated' => $item['total_time_allocated'],
                         'total_time_spended' => $item['total_time_spended'],
                         'time_zone' => $item['time_zone'],
-                        'app_and_os' => $item['app_and_os'],     
+                        'app_and_os' => $item['app_and_os'],
                     );
-                    $user_email                     = $item['email'];            
+                    $user_email                     = $item['email'];
                     $data['user']                   = $this->data['model']->find_data('user', 'array', ['status!=' => 3, 'email' => $user_email]);
                     $user_id                        = $data['user'][0]->id;
                     $postData['tracker_user_id']    = $user_id;
@@ -1481,7 +1475,7 @@ class ReportController extends BaseController
                 } else {
                     $id = $existingRecord->id;
                     $postData   = array(
-                        'desklog_usrid' => $item['id'],                
+                        'desklog_usrid' => $item['id'],
                         'email' => $item['email'],
                         'arrival_at' => $item['arrival_at'],
                         'left_at' => $item['left_at'],
@@ -1492,9 +1486,9 @@ class ReportController extends BaseController
                         'total_time_allocated' => $item['total_time_allocated'],
                         'total_time_spended' => $item['total_time_spended'],
                         'time_zone' => $item['time_zone'],
-                        'app_and_os' => $item['app_and_os'],     
+                        'app_and_os' => $item['app_and_os'],
                     );
-                    $user_email = $item['email'];            
+                    $user_email = $item['email'];
                     $data['user']               = $this->data['model']->find_data('user', 'array', ['status!=' => 3, 'email' => $user_email]);
                     $user_id = $data['user'][0]->id;
                     $postData['tracker_user_id'] = $user_id;
@@ -1507,28 +1501,27 @@ class ReportController extends BaseController
         return redirect()->to('/admin/reports/desklog-report-view/');
     }
 
-    public function show() 
+    public function show()
     {
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'] . ' : Desklog Report';
         $page_name                  = 'report/desklog-report';
 
         $currentDate                = date('Y-m-d');
-        $dateWise                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%'.$currentDate.'%']);
+        $dateWise                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $currentDate . '%']);
         $data['dateWise']           = $dateWise;
         $data['is_date_range']      = $currentDate;
 
-        if($this->request->getMethod() == 'post') {
+        if ($this->request->getMethod() == 'post') {
 
             $is_date_range              = $this->request->getPost('is_date_range');
-            $dateWise                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%'.$is_date_range.'%']);
+            $dateWise                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $is_date_range . '%']);
             $data['dateWise']           = $dateWise;
             //  print_r($data['dateWise']);
             //  var_dump($data['dateWise']);
             $data['is_date_range']      = $is_date_range;
         }
-        
+
         echo $this->layout_after_login($title, $page_name, $data);
     }
-    
 }

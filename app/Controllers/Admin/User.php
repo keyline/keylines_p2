@@ -326,7 +326,7 @@ class User extends BaseController {
                     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                     $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], 'id,name,status', '', '', $order_by);
-                    $deskloguser        = $this->common_model->find_data('general_settings', 'row', '', 'is_desklog_use', '', '');
+                    $deskloguser        = $this->common_model->find_data('application_settings', 'row', '', 'is_desklog_use', '', '');
                     // pr($deskloguser);
                     $desklog_user       = $deskloguser->is_desklog_use;
                 // }
@@ -1181,6 +1181,7 @@ class User extends BaseController {
             $user_id                = $this->session->get('user_id');
             $data['admin']          = $this->common_model->find_data('user', 'row', ['id' => $user_id]);
             $data['setting']        = $this->common_model->find_data('general_settings', 'row', ['id' => 1]);
+            $data['application_setting']        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
             echo $this->layout_after_login($title,$page_name,$data);
         }
         public function profileSetting()
@@ -1288,8 +1289,7 @@ class User extends BaseController {
                 'theme_color'                   => $this->request->getPost('theme_color'),
                 'font_color'                    => $this->request->getPost('font_color'),
                 'tomorrow_task_editing_time'      => $this->request->getPost('tomorrow_task_editing_time'),
-                'block_tracker_fillup_after_days' => $this->request->getPost('block_tracker_fillup_after_days'),
-                'is_desklog_use'                => $this->request->getPost('is_desklog_use'),
+                'block_tracker_fillup_after_days' => $this->request->getPost('block_tracker_fillup_after_days'),                
                 'twitter_profile'               => $this->request->getPost('twitter_profile'),
                 'facebook_profile'              => $this->request->getPost('facebook_profile'),
                 'instagram_profile'             => $this->request->getPost('instagram_profile'),
@@ -1301,6 +1301,28 @@ class User extends BaseController {
             ];
             $this->common_model->save_data('general_settings', $fields, 1, 'id');
             $this->session->setFlashdata('success_message', 'General Settings Updated Successfully !!!');
+            return redirect()->to('/admin/settings');
+        }
+        public function applicationSetting()
+        {
+            $user_id                = $this->session->get('user_id');
+            $yes_no = isset($_POST['is_desklog_use']) ? $_POST['is_desklog_use'] : 0;
+            $approval = isset($_POST['is_task_approval']) ? $_POST['is_task_approval'] : 0;
+            $project_cost = isset($_POST['is_project_cost']) ? $_POST['is_project_cost'] : 0;
+            // pr($this->request->getpost('is_desklog_use'));
+            
+            $fields = [                
+                'theme_color'                       => $this->request->getPost('theme_color'),
+                'font_color'                        => $this->request->getPost('font_color'),
+                'tomorrow_task_editing_time'        => $this->request->getPost('tomorrow_task_editing_time'),
+                'block_tracker_fillup_after_days'   => $this->request->getPost('block_tracker_fillup_after_days'),
+                'is_desklog_use'                    => $yes_no,
+                'is_task_approval'                  => $approval,
+                'is_project_cost'                   => $project_cost           
+            ];
+            //   pr($fields);
+            $this->common_model->save_data('application_settings', $fields, 1, 'id');
+            $this->session->setFlashdata('success_message', 'Application Settings Updated Successfully !!!');
             return redirect()->to('/admin/settings');
         }
         public function changePassword()

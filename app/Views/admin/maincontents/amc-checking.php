@@ -30,12 +30,7 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-body">
-                    <?php if(checkModuleFunctionAccess(6,34)){ ?>
-                    <!-- <h5 class="card-title">
-                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
-                    </h5> -->
-                    <?php } ?>
+                <div class="card-body">                    
                     <?php if(checkModuleFunctionAccess(6,33)){ ?>
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered table-fit general_table_style">
@@ -59,10 +54,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <td>
                                      <?php  $chk_date = $row->chk_date;
                                          $today_date = date('Y-m-d');
-                                        $days_between = date_diff(date_create($chk_date),date_create($today_date)); 
-                                        //$days_between  = date_diff(date_create("2018-07-07"),date_create("2018-07-09"));
-                                        $days_between->format("%R%a days");
-                                        // pr($amc_setting);
+                                        $days_between = date_diff(date_create($chk_date),date_create($today_date));                                         
+                                        $days_between->format("%R%a days");                                       
                                         foreach($amc_setting as $amc)
                                         {
                                             $dayspan = $amc->check_span;
@@ -71,7 +64,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         if($chk_date == null){
                                             echo '<span class="label label-danger">Never Checked</span>';
                                         }else if($days_between->format("%a") > $dayspan){
-                                        echo '<span class="label label-warning">'.$days_between->format("%a").'</span><span class="label label-sm label-danger">Need to Check</span>';
+                                        echo '<b>'.$days_between->format("%a").' Days </b><span class="badge bg-danger">Overdue</span>';
                                         }else{
                                           echo $days_between->format("%a");  
                                         }
@@ -82,8 +75,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         echo '<a href="' . $row->permanent_url . '" target="_blank">' . $row->permanent_url . '</a>';
                                         ?>
                                     </td>
-                                    <td>
-                                        <!-- <a class="btn btn-sm btn-success" href="amc_ok.php?proj_id=?php echo $row_all_amc['id']; ?>">OK</a> -->
+                                    <td>                                        
                                         <a href="<?=base_url('admin/' . $controller_route . '/ok_status/'.encoded($row->id))?>" class="btn btn-outline-success btn-sm" title="OK <?=$title?>"><i class="fa fa-check"></i>OK</a>
                                     </td>
                                     <td>                                        
