@@ -40,7 +40,7 @@
                 <div class="card-body">
                     <form action="" method="post" enctype="multipart/form-data">
                         <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered nowrap">
+                        <table id="simpletable" class="table table-striped general_table_style table-bordered nowrap">
                             <thead>
                                 <tr>
                                   <th>#</th>
