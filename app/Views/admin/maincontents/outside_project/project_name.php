@@ -49,13 +49,13 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
-                    <form method="GET" action="" enctype="multipart/form-data">  
+                    <form method="GET" action="" enctype="multipart/form-data">
                         <input type="hidden" name="mode" value="outside_project_cost">                      
                         <div class="row mb-3 align-items-center">                            
                             <div class="col-md-12 col-lg-12">
                                 <label for="search_project_id">Project</label>
                                 <select name="project_id" class="form-control" id="search_project_id" required>  
-                                    <option value="all">All</option>                                                                      
+                                    <option value="" selected>Select Project</option>
                                     <?php if ($projects) {
                                         foreach ($projects as $row) { ?>
                                             <option value="<?= $row->id ?>" <?= (($fetch_project_id == $row->id) ? 'selected' : '') ?>><?= $row->name ?> (<?= $row->client_name ?>) - <?= $row->project_status_name ?></option>
