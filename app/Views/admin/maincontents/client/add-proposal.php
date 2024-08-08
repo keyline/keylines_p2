@@ -62,7 +62,7 @@ $controller_route   = $moduleDetail['controller_route'];
                         <div class="row mb-3">
                             <label for="proposal_file" class="col-md-4 col-lg-3 col-form-label">Files <span style="color:red">*</span></label>
                             <div class="col-md-8 col-lg-9">
-                                <input name="proposal_file[]" type="file" accept = "application/pdf" multiple class="form-control" required id="proposal_file" value="">
+                                <input name="proposal_file[]" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" multiple class="form-control" required id="proposal_file" value="">
                             </div>
                         </div>
                         <div class="text-center">

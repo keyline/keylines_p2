@@ -47,18 +47,18 @@ $userId             = $session->user_id;
             </a>
             <ul id="access-nav" class="nav-content collapse <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if(checkModuleAccess(12)){ ?>
-                <!-- <li>
+                <li>
                     <a class="<?= (($pageSegment == 'manage_functionlist') ? 'active' : '') ?>" href="<?= base_url('admin/manage_functionlist') ?>">
                         <i class="fa fa-arrow-right"></i><span>Features</span>
                     </a>
-                </li> -->
+                </li>
                 <?php } ?>
                 <?php if(checkModuleAccess(13)){ ?>
-                <!-- <li>
+                <li>
                     <a class="<?= (($pageSegment == 'manage_modulelist') ? 'active' : '') ?>" href="<?= base_url('admin/manage_modulelist') ?>">
                         <i class="fa fa-arrow-right"></i><span>Modules</span>
                     </a>
-                </li> -->
+                </li>
                 <?php } ?>
                 <?php if(checkModuleAccess(14)){ ?>
                 <li>

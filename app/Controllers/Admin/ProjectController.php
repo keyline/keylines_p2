@@ -38,6 +38,36 @@ class ProjectController extends BaseController {
 
         echo $this->layout_after_login($title,$page_name,$data);
     }
+    public function activeProject(){
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage '.$this->data['title'];
+        $page_name                  = 'project/active-project';
+
+        $order_by[0]                = array('field' => $this->data['table_name'].'.'.$this->data['primary_key'], 'type' => 'desc');
+        $select                     = 'project.*, user.name as assigned_name, client.name as client_name, client.compnay as client_company_name, project_status.name as project_status_name';
+        $join[0]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'assigned_by', 'type' => 'inner'];
+        $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_id', 'type' => 'inner'];
+        $join[2]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'status', 'type' => 'inner'];
+        // $join[2]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_service', 'type' => 'inner'];
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['project.active!=' => 3,'active'=>0], $select, $join, '', $order_by);
+
+        echo $this->layout_after_login($title,$page_name,$data);
+    }
+    public function InactiveProject(){
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage '.$this->data['title'];
+        $page_name                  = 'project/inactive-project';
+
+        $order_by[0]                = array('field' => $this->data['table_name'].'.'.$this->data['primary_key'], 'type' => 'desc');
+        $select                     = 'project.*, user.name as assigned_name, client.name as client_name, client.compnay as client_company_name, project_status.name as project_status_name';
+        $join[0]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'assigned_by', 'type' => 'inner'];
+        $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_id', 'type' => 'inner'];
+        $join[2]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'status', 'type' => 'inner'];
+        // $join[2]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_service', 'type' => 'inner'];
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['project.active!=' => 3,'active'=>1], $select, $join, '', $order_by);
+
+        echo $this->layout_after_login($title,$page_name,$data);
+    }
     public function add()
     {
         $data['moduleDetail']       = $this->data;

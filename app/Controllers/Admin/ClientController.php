@@ -33,6 +33,8 @@ class ClientController extends BaseController
         $page_name                  = 'client/list';
         $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
         $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', '', 'id,name,compnay,address_1,state,city,country,pin,address_2,email_1,email_2,phone_1,phone_2,reference,added_date,last_login,login_access', '', '', $order_by);
+        // pr($data['rows']);
+        // $data['rows']               = $this->data['model']->find_data('project', 'count', '', '', '', '', '');
         echo $this->layout_after_login($title, $page_name, $data);
     }
     public function add()
@@ -259,14 +261,14 @@ class ClientController extends BaseController
             $p_file                 = $this->data['model']->find_data('proposal_files', 'row', ['id' => $id], '', '', '', '');
             $p_id                   = $this->data['model']->find_data('client_proposal', 'row', ['id' => $data['proposal']->id], '', '', '', '');
             $postData0 = [
-                            'client_id'         => $p_file->client_id,
-                            'project_id'        => 0,
-                            'title'             => $this->request->getPost('proposal_title'),
-                            'description'       => $this->request->getPost('proposal_description')
-                        ];
+                'client_id'         => $p_file->client_id,
+                'project_id'        => 0,
+                'title'             => $this->request->getPost('proposal_title'),
+                'description'       => $this->request->getPost('proposal_description')
+            ];
             $lastInsertID       = $this->data['model']->save_data('client_proposal', $postData0, $p_file->proposal_id, 'id');
             if ($this->request->getFileMultiple('proposal_file')) {
-                $file_pointer   = "public/uploads/proposal/". $p_file->file;
+                $file_pointer   = "public/uploads/proposal/" . $p_file->file;
                 unlink($file_pointer);
                 $files          = $this->request->getFileMultiple('proposal_file');
                 $data           = [];
@@ -279,10 +281,10 @@ class ClientController extends BaseController
                         $newName        = "{$date}_{$timestamp}_{$index}---" . str_replace(' ', '-', pathinfo($originalName, PATHINFO_FILENAME)) . ".{$extension}";
                         $file->move('public/uploads/proposal/', $newName);
                         $data[] = [
-                                    'filename'  => $newName,
-                                    'filepath'  => 'uploads/proposal/' . $newName,
-                                    'type'      => $extension
-                                ];
+                            'filename'  => $newName,
+                            'filepath'  => 'uploads/proposal/' . $newName,
+                            'type'      => $extension
+                        ];
                     }
                 }
                 if (!empty($data)) {
@@ -307,12 +309,52 @@ class ClientController extends BaseController
     {
         $id             = decoded($id);
         $p_file         = $this->data['model']->find_data('proposal_files', 'row', ['id' => $id], '', '', '', '');
-        $file_pointer   = "public/uploads/proposal/". $p_file->file;
+        $file_pointer   = "public/uploads/proposal/" . $p_file->file;
         unlink($file_pointer);
         $p_id           = $this->data['model']->find_data('proposal_files', 'row', ['id' => $id], '', '', '', '');
         // $clientID       = $p_id->client_id;
         $updateData     = $this->common_model->delete_data('proposal_files', $id, $this->data['primary_key']);
         $this->session->setFlashdata('success_message', 'Proposal' . ' deleted successfully');
         return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
+    }
+    public function addProject($id)
+    {
+        $id                         = base64_decode($id);
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Add Project';
+        $page_name                  = 'client/add-project';
+        $data['clientDetail']       = $this->data['model']->find_data('client', 'row', ['id' => $id], '', '', '', '');
+        $order_by[0]                = array('field' => 'name', 'type' => 'ASC');
+        $data['users']              = $this->data['model']->find_data('user', 'array', ['status' => '1'], 'id,name', '', '', $order_by);
+        $data['projectStats']       = $this->data['model']->find_data('project_status', 'array', ['status' => 1], 'id,name', '', '', $order_by);
+        $data['clients']            = $this->data['model']->find_data('client', 'array', '', 'id,name,compnay', '', '', $order_by);
+        $data['projects']           = $this->data['model']->find_data('project', 'array', '', 'id,name', '', '', $order_by);
+        if ($this->request->getMethod() == 'post') {
+            $postData   = array(
+                'name'                  => $this->request->getPost('project_name'),
+                'description'           => $this->request->getPost('project_description'),
+                'assigned_by'           => $this->request->getPost('assigned_by'),
+                'status'                => $this->request->getPost('status'),
+                'type'                  => $this->request->getPost('type'),
+                'client_id'             => $this->request->getPost('client_id'),
+                'project_time_type'     => $this->request->getPost('project_time_type'),
+                'hour'                  => (($this->request->getPost('hour') != '') ? $this->request->getPost('hour') : NULL),
+                'hour_month'            => (($this->request->getPost('hour_month') != '') ? $this->request->getPost('hour_month') : NULL),
+                'start_date'            => date_format(date_create($this->request->getPost('start_date')), "Y-m-d"),
+                'deadline'              => date_format(date_create($this->request->getPost('deadline')), "Y-m-d"),
+                'temporary_url'         => $this->request->getPost('temporary_url'),
+                'permanent_url'         => $this->request->getPost('permanent_url'),
+                'parent'                => $this->request->getPost('parent'),
+                'client_service'        => $this->request->getPost('client_service'),
+                'bill'                  => $this->request->getPost('bill'),
+                'active'                => $this->request->getPost('active'),
+                'date_added'            => date('Y-m-d H:i:s'),
+                'date_modified'         => date('Y-m-d H:i:s'),
+            );
+            $record     = $this->data['model']->save_data('project', $postData, '', $this->data['primary_key']);
+            $this->session->setFlashdata('success_message', 'Project' . ' inserted successfully');
+            return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
+        }
+        echo $this->layout_after_login($title, $page_name, $data);
     }
 }
