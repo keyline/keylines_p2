@@ -43,6 +43,18 @@ class OutsideProjectCostController extends BaseController {
             $data['payment_details']    = $this->db->query($sql)->getResult();
             $data['fetch_project_id'] = $project_id;
         }
+        if ($this->request->getPost('mode') == 'outside_project_cost_add') {
+            $fields = [
+                'project_id'    => $this->request->getPost('project_id'),
+                'amount'        => $this->request->getPost('amount'),
+                'payment_date'  => date_format(date_create($this->request->getPost('payment_date')), "Y-m-d"),
+                'comment'       => $this->request->getPost('comment'),
+                'date_added'    => date('Y-m-d H:i:s'),
+            ];
+            $this->data['model']->save_data('outsource_payment',$fields, '', 'id');
+            $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
+            return redirect()->to(current_url());
+        }
         echo $this->layout_after_login($title,$page_name,$data);
     }  
     public function showexsisting($id)

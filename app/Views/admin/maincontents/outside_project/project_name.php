@@ -168,26 +168,25 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-body pt-3">
-                    <form method="GET" action="" enctype="multipart/form-data">  
-                        <input type="hidden" name="mode" value="outside_project_cost">
-                        <input type="text" id="project_id" name="project_id" class="form-control" value="<?=$fetch_project_id?>">
+                    <form method="POST" action="" enctype="multipart/form-data">  
+                        <input type="hidden" name="mode" value="outside_project_cost_add">
+                        <input type="hidden" id="project_id" name="project_id" class="form-control" value="<?=$fetch_project_id?>">
                         <div class="row mb-3 align-items-center">
-                            <div class="col-md-4 col-lg-4">
+                            <div class="col-md-6 col-lg-6">
                                 <label for="date">Date</label>
                                 <input type="date" id="date" name="payment_date" class="form-control" value="" style="height: 40px;">
                             </div>   
-                            <div class="col-md-4 col-lg-4">
+                            <div class="col-md-6 col-lg-6">
                                 <label for="amount">Amount</label>
                                 <input type="text" id="amount" name="amount" class="form-control" value="" style="height: 40px;">
                             </div> 
-                            <div class="col-md-4 col-lg-4">
+                            <div class="col-md-12 col-lg-12">
                                 <label for="comment">comment</label>
                                 <textarea type="text" name="comment" class="form-control" style="height: 40px;"></textarea>                                 
                             </div>                            
                         </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Submit</button>                                    
-                                 <a class="btn btn-primary" target="_blank" href="<?=base_url('admin/outside_project_cost/showexsisting/'.$row->id)?>" title="Show payment"><i class="fa fa-paper-plane"></i> Show Exsisting Data</a> 
+                                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Add Expense</button>
                             </div>
                     </form>
                 </div>
