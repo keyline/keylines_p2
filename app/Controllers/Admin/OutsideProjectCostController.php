@@ -33,7 +33,9 @@ class OutsideProjectCostController extends BaseController {
         $order_by[0]                = array('field' => 'project.name', 'type' => 'ASC');
         $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
         $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
-        $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);                       
+        $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
+
+        $data['is_search'] = 0;
         if ($this->request->getGet('mode') == 'outside_project_cost') {
             $project_id = $this->request->getGet('project_id');
             $sql                        = "SELECT outsource_payment.*, project.name FROM `outsource_payment`
@@ -42,10 +44,12 @@ class OutsideProjectCostController extends BaseController {
                                                 ORDER BY `outsource_payment`.`id` DESC";
             $data['payment_details']    = $this->db->query($sql)->getResult();
             $data['fetch_project_id'] = $project_id;
+            $data['is_search'] = 1;
         }
         if ($this->request->getPost('mode') == 'outside_project_cost_add') {
+            $project_id = $this->request->getPost('project_id');
             $fields = [
-                'project_id'    => $this->request->getPost('project_id'),
+                'project_id'    => $project_id,
                 'amount'        => $this->request->getPost('amount'),
                 'payment_date'  => date_format(date_create($this->request->getPost('payment_date')), "Y-m-d"),
                 'comment'       => $this->request->getPost('comment'),
@@ -53,7 +57,7 @@ class OutsideProjectCostController extends BaseController {
             ];
             $this->data['model']->save_data('outsource_payment',$fields, '', 'id');
             $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
-            return redirect()->to(current_url());
+            return redirect()->to(current_url().'?mode=outside_project_cost&project_id=' . $project_id);
         }
         echo $this->layout_after_login($title,$page_name,$data);
     }  
