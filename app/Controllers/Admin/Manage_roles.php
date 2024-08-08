@@ -28,7 +28,12 @@ class Manage_roles extends BaseController {
         $title                      = 'Manage '.$this->data['module'];
         $page_name                  = 'roles/list';        
         $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['published!=' => 3 ], '', '', '', $order_by);
+        $userType                   = $this->session->user_type;
+        if($userType == 'SUPER ADMIN'){
+            $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['published!=' => 3 ], '', '', '', $order_by);
+        }else{
+            $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['published!=' => 3 , 'role_name!=' => 'SUPER ADMIN'  ], '', '', '', $order_by);
+        }
         if($this->request->getMethod() == 'post') {
             // pr($this->request->getPost());
             $bulkData   =$this->request->getPost();
