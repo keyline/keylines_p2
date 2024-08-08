@@ -130,7 +130,7 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-6">                           
                 <div class="card mt-3">
                     <div class="card-body pt-3">
-                        <h6 class="fw-bold">Payment Details </h6>                        
+                        <h6 class="fw-bold">Payment Details </h6>
                         <div class="dt-responsive table-responsive">
                             <table id="simpletable" class="table table-bordered general_table_style">
                                 <thead>
@@ -168,6 +168,7 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-6">
             <div class="card">
                 <div class="card-body pt-3">
+                    <h6 class="fw-bold">Add Payment</h6>
                     <form method="POST" action="" enctype="multipart/form-data">  
                         <input type="hidden" name="mode" value="outside_project_cost_add">
                         <input type="hidden" id="project_id" name="project_id" class="form-control" value="<?=$fetch_project_id?>">
