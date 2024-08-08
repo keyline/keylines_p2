@@ -112,7 +112,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>                
             </div>
             <div class="col-xl-4">
-                <div class="card">
+                <div class="card mt-3">
                     <div class="card-body pt-3">
                         <h6 class="fw-bold">Add Payment</h6>
                         <form method="POST" action="" enctype="multipart/form-data">  
