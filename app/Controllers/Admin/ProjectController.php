@@ -139,10 +139,10 @@ class ProjectController extends BaseController {
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', [$this->data['primary_key']=>$id]);
         if($data['row']->active){
             $status  = 0;
-            $msg        = 'Deactivated';
+            $msg        = 'Activated';
         } else {
             $status  = 1;
-            $msg        = 'Activated';
+            $msg        = 'Deactivated';
         }
         $postData = array(
                             'active' => $status
