@@ -35,16 +35,13 @@ class OutsideProjectCostController extends BaseController {
         $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
         $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);                       
         if ($this->request->getGet('mode') == 'outside_project_cost') {
-            //   pr($this->request->getGet());
             $project_id = $this->request->getGet('project_id');
             $sql                        = "SELECT outsource_payment.*, project.name FROM `outsource_payment`
-                                            INNER JOIN project on outsource_payment.project_id = project.id 
-                                            WHERE outsource_payment.project_id = $project_id
-                                            ORDER BY `outsource_payment`.`id` DESC";
-        $data['payment_details']    = $this->db->query($sql)->getResult();
-        $data['fetch_project_id'] = $project_id;
-        // pr($data['payment_details']);
-            
+                                                INNER JOIN project on outsource_payment.project_id = project.id 
+                                                WHERE outsource_payment.project_id = $project_id
+                                                ORDER BY `outsource_payment`.`id` DESC";
+            $data['payment_details']    = $this->db->query($sql)->getResult();
+            $data['fetch_project_id'] = $project_id;
         }
         echo $this->layout_after_login($title,$page_name,$data);
     }  
@@ -56,7 +53,7 @@ class OutsideProjectCostController extends BaseController {
         $title                      = $data['action'].' '.$this->data['title'];
         $page_name                  = 'outside_project/showexsisting';        
         
-      echo  $sql                        = "SELECT outsource_payment.*, project.name FROM `outsource_payment`
+        echo  $sql                        = "SELECT outsource_payment.*, project.name FROM `outsource_payment`
         INNER JOIN project on outsource_payment.project_id = project.id 
         WHERE outsource_payment.project_id = $id
         ORDER BY `outsource_payment`.`id` DESC";

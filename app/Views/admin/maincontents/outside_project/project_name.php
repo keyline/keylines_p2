@@ -127,7 +127,7 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>  
                                                               
         </div>
-        <div class="col-xl-8">                           
+        <div class="col-xl-6">                           
                 <div class="card mt-3">
                     <div class="card-body pt-3">
                         <h6 class="fw-bold">Payment Details </h6>                        
@@ -165,24 +165,13 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>                
         </div>
-        <!-- <div class="col-xl-6">
+        <div class="col-xl-6">
             <div class="card">
                 <div class="card-body pt-3">
                     <form method="GET" action="" enctype="multipart/form-data">  
-                        <input type="hidden" name="mode" value="outside_project_cost">                      
-                        <div class="row mb-3 align-items-center">                            
-                           <div class="col-md-12 col-lg-12">
-                                <label for="search_project_id">Project</label>
-                                 <select name="project_id" class="form-control" id="search_project_id" required>  
-                                    <option value="all">All</option>                                                                      
-                                    <?php if ($projects) {
-                                        foreach ($projects as $row) { ?>
-                                            <option value="<?= $row->id ?>" <?= (($fetch_project_id == $row->id) ? 'selected' : '') ?>><?= $row->name ?> (<?= $row->client_name ?>) - <?= $row->project_status_name ?></option>
-                                            <hr>
-                                    <?php }
-                                    } ?>                                    
-                                </select> 
-                            </div>   
+                        <input type="hidden" name="mode" value="outside_project_cost">
+                        <input type="text" id="project_id" name="project_id" class="form-control" value="<?=$fetch_project_id?>">
+                        <div class="row mb-3 align-items-center">
                             <div class="col-md-4 col-lg-4">
                                 <label for="date">Date</label>
                                 <input type="date" id="date" name="payment_date" class="form-control" value="" style="height: 40px;">
@@ -202,9 +191,8 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                     </form>
                 </div>
-            </div>  
-                                                              
-        </div> -->
+            </div>
+        </div>
     </div>
 </section>
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
