@@ -202,7 +202,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <label for="type" class="col-form-label">Active <small class="text-danger">*</small></label>
                                 <p>
                                     <input type="radio" name="active" id="active1" value="0" <?=(($active == 0)?'checked':'')?> required>&nbsp;&nbsp;<label for="active1">Active</label>
-                                    <input type="radio" name="active" id="active2" value="1" <?=(($active == 1)?'checked':'')?> required>&nbsp;&nbsp;<label for="active2">Inactive</label>
+                                    <input type="radio" name="active" id="active2" value="1" <?=(($active == 1)?'checked':'')?> required>&nbsp;&nbsp;<label for="active2">Deactive</label>
                                 </p>
                             </div>
                         </div>

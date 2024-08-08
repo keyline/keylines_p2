@@ -99,11 +99,12 @@ class ProjectController extends BaseController {
         $data['projects']           = $this->data['model']->find_data('project', 'array', '', 'id,name', '', '', $order_by);
 
         if($this->request->getMethod() == 'post') {
+            $projectStatus = $this->request->getPost('status');
             $postData   = array(
                 'name'                  => $this->request->getPost('name'),
                 'description'           => $this->request->getPost('description'),
                 'assigned_by'           => $this->request->getPost('assigned_by'),
-                'status'                => $this->request->getPost('status'),
+                'status'                => $projectStatus,
                 'type'                  => $this->request->getPost('type'),
                 'client_id'             => $this->request->getPost('client_id'),
                 'project_time_type'     => $this->request->getPost('project_time_type'),
@@ -116,10 +117,11 @@ class ProjectController extends BaseController {
                 'parent'                => $this->request->getPost('parent'),
                 'client_service'        => $this->request->getPost('client_service'),
                 'bill'                  => $this->request->getPost('bill'),
-                'active'                => $this->request->getPost('active'),
+                'active'                => (($projectStatus == 13)?1:$this->request->getPost('active')),
                 'date_modified'         => date('Y-m-d H:i:s'),
             );
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
+            
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
         }        
