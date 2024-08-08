@@ -174,20 +174,20 @@ $controller_route   = $moduleDetail['controller_route'];
                         <div class="row mb-3 align-items-center">
                             <div class="col-md-6 col-lg-6">
                                 <label for="date">Date</label>
-                                <input type="date" id="date" name="payment_date" class="form-control" value="" style="height: 40px;">
+                                <input type="date" id="date" name="payment_date" class="form-control" required>
                             </div>   
                             <div class="col-md-6 col-lg-6">
                                 <label for="amount">Amount</label>
-                                <input type="text" id="amount" name="amount" class="form-control" value="" style="height: 40px;">
+                                <input type="text" id="amount" name="amount" class="form-control" required>
                             </div> 
                             <div class="col-md-12 col-lg-12">
                                 <label for="comment">comment</label>
-                                <textarea type="text" name="comment" class="form-control" style="height: 40px;"></textarea>                                 
+                                <textarea type="text" name="comment" class="form-control" required></textarea>                                 
                             </div>                            
                         </div>
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Add Expense</button>
-                            </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Add Expense</button>
+                        </div>
                     </form>
                 </div>
             </div>
