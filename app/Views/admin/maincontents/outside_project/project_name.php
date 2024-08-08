@@ -95,10 +95,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                         $sl=1; foreach ($payment_details as $res) { ?>                                 
                                             <tr>
                                                 <td><?=$sl++?></td>
-                                                <td><?= $res->name ?></td>
-                                                <td><?= $res->payment_date ?></td>
-                                                <td><?= $res->amount ?></td>
-                                                <td><?= $res->comment ?></td>                                            
+                                                <td><?= $res->name?></td>
+                                                <td><?= date_format(date_create($res->payment_date), "M d, Y")?></td>
+                                                <td><?=number_format($res->amount,2)?></td>
+                                                <td><?= $res->comment?></td>                                            
                                                 <!-- <td>
                                                     <a class="btn btn-outline-primary btn-sm" target="_blank" href="?=base_url('admin/outside_project_cost/edit/'.encoded($res->id))?>" title="Edit payment" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil text-primary"></i></a>                                            
                                                 </td> -->
