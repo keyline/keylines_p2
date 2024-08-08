@@ -63,6 +63,7 @@ abstract class BaseController extends Controller
         $data['Common_model']       = new CommonModel;
         $data['db']                 = \Config\Database::connect();
         $data['general_settings']   = $this->common_model->find_data('general_settings','row');
+        $data['application_settings']   = $this->common_model->find_data('application_settings','row');
         $data['title']              = $title.'-'.$data['general_settings']->site_name;
         $data['page_header']        = $title;
         $data['head']               = view('admin/elements/before-head',$data);
@@ -82,6 +83,7 @@ abstract class BaseController extends Controller
         $user_id                    = $this->session->get('user_id');
         
         $data['general_settings']   = $this->common_model->find_data('general_settings','row');
+        $data['application_settings']   = $this->common_model->find_data('application_settings','row');
         $data['admin']              = $this->common_model->find_data('user','row', ['id' => $user_id]);
         $data['client']              = $this->common_model->find_data('client','row', ['id' => $user_id]);
         $data['title']              = $title.'-'.$data['general_settings']->site_name;

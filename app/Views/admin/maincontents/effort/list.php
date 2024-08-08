@@ -96,7 +96,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <?php }?>
                                     </td>
                                     <td><?=$row->hour?>:<?=$row->min?></td>
-                                    <td><?=$row->description?></td>
+                                    <td><?=wordwrap($row->description,55,"<br>\n")?></td>
                                     <td><?=(($getEffortType)?$getEffortType->name:'')?></td>
                                     <td width="10%"><?=date_format(date_create($row->date_today), "d-m-Y h:i:s A")?></td>
                                     <td>

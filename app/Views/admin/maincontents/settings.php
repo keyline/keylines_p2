@@ -89,9 +89,7 @@ $user_type = session('user_type');
             <li class="nav-item">
               <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab8">Payment</button>
             </li>
-            <li class="nav-item">
-              <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab10">Bank Account</button>
-            </li> -->
+            -->
               <?php } ?>
             </ul>
 
@@ -731,38 +729,6 @@ $user_type = session('user_type');
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
                 </form><!-- End payment settings Form -->
-              </div>
-              <div class="tab-pane fade pt-3" id="tab10">
-                <!-- bank settings Form -->
-                <form method="POST" action="<?= base_url('admin/bank-settings') ?>" enctype="multipart/form-data">
-                  <div class="row mb-3">
-                    <label for="bank_name" class="col-md-4 col-lg-3 col-form-label">Bank Name</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="bank_name" type="text" class="form-control" id="bank_name" value="<?= $setting->bank_name ?>" required>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="branch_name" class="col-md-4 col-lg-3 col-form-label">Bank Branch</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="branch_name" type="text" class="form-control" id="branch_name" value="<?= $setting->branch_name ?>" required>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="acc_no" class="col-md-4 col-lg-3 col-form-label">Account Number</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="acc_no" type="text" class="form-control" id="acc_no" value="<?= $setting->acc_no ?>" required>
-                    </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="ifsc_code" class="col-md-4 col-lg-3 col-form-label">IFSC Code</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input name="ifsc_code" type="text" class="form-control" id="ifsc_code" value="<?= $setting->ifsc_code ?>" required>
-                    </div>
-                  </div>
-                  <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                  </div>
-                </form><!-- End bank settings Form -->
               </div>
             </div><!-- End Bordered Tabs -->
           </div>
