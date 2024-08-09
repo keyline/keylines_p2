@@ -1944,7 +1944,7 @@ class ApiController extends BaseController
                                     ];
                                 }
                             }
-
+                            $applicationSetting     = $this->common_model->find_data('application_settings', 'row');
                             /* last 7 days tracker report */
                                 $last7Days = $this->getLastNDays(7, 'Y-m-d');
                                 if(!empty($last7Days)){
@@ -1975,6 +1975,7 @@ class ApiController extends BaseController
                                 'halfday_count'     => $halfday_count,
                                 'late_count'        => $late_count,
                                 'absent_count'      => $absent_count,
+                                'is_desklog_use'    => $applicationSetting->is_desklog_use,
                                 'markDates'         => $markDates,
                                 'trackerLast7Days'  => $trackerLast7Days,
                             ];
