@@ -32,11 +32,13 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
         <?php
             if($row){
-              $name       = $row->name;
+              $name                 = $row->name;
               $background_color     = $row->background_color;
+              $is_schedule          = $row->is_schedule;
             } else {
-              $name       = '';
+              $name                 = '';
               $background_color     = '';
+              $is_schedule          = '';
             }
             ?>
         <div class="col-xl-12">
@@ -65,6 +67,21 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <div class="col-md-10 col-lg-10">
                                     <div class="general_form_right_box">
                                         <input type="color" name="background_color" class="form-control" id="background_color" value="<?=$background_color?>" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2 col-lg-2">
+                                    <div class="general_form_left_box">
+                                        <label for="is_schedule" class="col-form-label">Is Schedule</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="general_form_right_box">
+                                        <input name="is_schedule" type="radio" id="is_schedule1" value="1" <?=(($is_schedule == 1)?'checked':'')?>>
+                                        <label for="is_schedule1">YES</label>
+                                        <input name="is_schedule" type="radio" id="is_schedule2" value="0" <?=(($is_schedule == 0)?'checked':'')?>>
+                                        <label for="is_schedule2">NO</label>
                                     </div>
                                 </div>
                             </div>

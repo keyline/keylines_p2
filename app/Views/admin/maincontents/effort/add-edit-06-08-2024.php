@@ -82,87 +82,8 @@
                                 </div>
                             </div>
                             <div class="field_wrapper">
-                                <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
-                                    <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">scheduled task</span></div>
-                                </div>
-                                <?php
-                                if($morningSchedules){ $ms = 1; foreach($morningSchedules as $morningSchedule){
-                                ?>
-                                    <div class="row" style="border:1px solid #4154f16b; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
-                                        <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">Scheduled Task <?=$ms?></h5>
-                                        <input type="hidden" name="assigned_task_id[]" value="<?=$morningSchedule->id?>">
-                                        <input type="hidden" name="date_added[]" value="<?=$morningSchedule->date_added?>">
-                                        <h6><?=date_format(date_create($morningSchedule->date_added), "M d, Y - l")?></h6>
-                                        <div class="col-md-12">
-                                            <label class="control-label">Project</label>
-                                            <br>
-                                            <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" required onchange="getProjectInfo(this.value, 0);">
-                                                <option value="" selected="">Select Project</option>
-                                                <hr>
-                                                <?php if($projects){ foreach($projects as $project){?>
-                                                    <option value="<?=$project->id?>" <?=(($project->id == $morningSchedule->project_id)?'selected':'')?>><?=$project->name?> (<?=$project->client_name?>) - <?=$project->project_status_name?></option>
-                                                    <hr>
-                                                <?php } }?>
-                                            </select>
-                                            
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="control-label">Hour</label>
-                                            <br>
-                                            <input type="number" name="hour[]" id="hour0" minlength="0" maxlength="2" min="0" max="4" class="form-control hours" required="" autocomplete="off" onblur="maxHour(this.value,0);" value="<?=$morningSchedule->hour?>">
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="control-label">Minute</label>
-                                            <br>
-                                            <input type="number" name="minute[]" id="minute0" minlength="0" maxlength="2" min="0" max="50" class="form-control minutes" required="" autocomplete="off" onblur="maxMinute(this.value,0);" value="<?=$morningSchedule->min?>">
-                                        </div>
-                                        <div class="col-md-6">
-                                            <label class="control-label">Description</label>
-                                            <languagebr>
-                                                <textarea name="description[]" class="form-control description" rows="3" autocomplete="off" required><?=$morningSchedule->description?></textarea>
-                                                <div class="itemDetails">
-                                                    
-                                                </div>
-                                            </languagebr>
-                                        </div>
-                                        <div class="col-md-2">
-                                            <label class="control-label">Effort Type</label>
-                                            <br>
-                                            <select name="effort_type[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off" required>
-                                                <option value="" selected="">Select Effort Type</option>
-                                                <hr>
-                                                <?php if($effortTypes){ foreach($effortTypes as $effortType){?>
-                                                <option value="<?=$effortType->id?>" <?=(($effortType->id == $morningSchedule->effort_type)?'selected':'')?>><?=$effortType->name?></option>
-                                                <hr>
-                                                <?php } }?>
-                                            </select>
-                                            <div class="fill_up_et" style="color: red;"></div>
-                                            <label class="control-label mt-3">Work Status</label>
-                                            <br>
-                                            <select name="work_status_id[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off" required>
-                                                <option value="" selected="">Select Work Status</option>
-                                                <hr>
-                                                <?php if($workStats){ foreach($workStats as $workStat){?>
-                                                <option value="<?=$workStat->id?>"><?=$workStat->name?></option>
-                                                <hr>
-                                                <?php } }?>
-                                            </select>
-                                        </div>
-                                    </div>
-                                <?php $ms++; } }?>
-                                <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
-                                <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">new task</span></div>
-                                </div>
                                 <div class="row" style="border:1px solid #f19620a6; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
-                                    <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">New Work List 1</h5>
-                                    <input type="hidden" name="assigned_task_id[]" value="0">
-                                    <input type="hidden" name="date_added[]" value="<?=date('Y-m-d')?>">
-                                    <input type="hidden" name="work_status_id[]" value="4">
+                                    <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">Work List 1</h5>
                                     <div class="col-md-12">
                                         <label class="control-label">Project</label>
                                         <br>
@@ -174,6 +95,7 @@
                                                 <hr>
                                             <?php } }?>
                                         </select>
+                                        
                                     </div>
                                     <div class="col-md-12">
                                         <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
@@ -239,10 +161,7 @@
             //Check maximum number of input fields
             if(x < maxField){
                 var fieldHTML = '<div class="row" style="border:1px solid #f19620a6; padding: 10px; border-radius: 5px; margin-bottom: 10px;">\
-                                    <h5 class="badge bg-warning text-dark" style="width: auto;">New Work List '+(x + 1)+'</h5>\
-                                    <input type="hidden" name="assigned_task_id[]" value="0">\
-                                    <input type="hidden" name="date_added[]" value="<?=date('Y-m-d')?>">\
-                                    <input type="hidden" name="work_status_id[]" value="4">\
+                                    <h5 class="badge bg-warning text-dark" style="width: auto;">Work List '+(x + 1)+'</h5>\
                                     <div class="col-md-12">\
                                         <label class="control-label">Project</label>\
                                         <br>\
@@ -366,6 +285,16 @@
                 var html = '';
                 $('#fill_up_project_' + counter).show();
                 if(res.success){
+                    // if(res.data.project_time_type == 'Onetime'){
+                    //     html += '<span><b>Assigned Fixed :</b> ' + res.data.assigned + '</span><br>';
+                    //     html += '<span><b>Booked Current Month :</b> ' + res.data.current_month_booking + '</span><br>';
+                    //     html += '<span><b>Total Booked from Start :</b> ' + res.data.total_booked + '</span>';
+                    // } else if(res.data.project_time_type == 'Monthlytime'){
+                    //     html += '<span><b>Assigned Monthly :</b> ' + res.data.assigned + '</span><br>';
+                    //     html += '<span><b>Booked Current Month :</b> ' + res.data.current_month_booking + '</span><br>';
+                    //     html += '<span><b>Total Booked from Start :</b> ' + res.data.total_booked + '</span>';
+                    // }
+                    
                     if(res.data.project_time_type == 'Onetime'){
                         html += '<div class="row">\
                                     <div class="col-md-4 col-sm-4">\

@@ -38,6 +38,36 @@ class ProjectController extends BaseController {
 
         echo $this->layout_after_login($title,$page_name,$data);
     }
+    public function activeProject(){
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage '.$this->data['title'];
+        $page_name                  = 'project/active-project';
+
+        $order_by[0]                = array('field' => $this->data['table_name'].'.'.$this->data['primary_key'], 'type' => 'desc');
+        $select                     = 'project.*, user.name as assigned_name, client.name as client_name, client.compnay as client_company_name, project_status.name as project_status_name';
+        $join[0]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'assigned_by', 'type' => 'inner'];
+        $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_id', 'type' => 'inner'];
+        $join[2]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'status', 'type' => 'inner'];
+        // $join[2]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_service', 'type' => 'inner'];
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['project.active!=' => 3,'active'=>0], $select, $join, '', $order_by);
+
+        echo $this->layout_after_login($title,$page_name,$data);
+    }
+    public function InactiveProject(){
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage '.$this->data['title'];
+        $page_name                  = 'project/inactive-project';
+
+        $order_by[0]                = array('field' => $this->data['table_name'].'.'.$this->data['primary_key'], 'type' => 'desc');
+        $select                     = 'project.*, user.name as assigned_name, client.name as client_name, client.compnay as client_company_name, project_status.name as project_status_name';
+        $join[0]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'assigned_by', 'type' => 'inner'];
+        $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_id', 'type' => 'inner'];
+        $join[2]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'status', 'type' => 'inner'];
+        // $join[2]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_service', 'type' => 'inner'];
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['project.active!=' => 3,'active'=>1], $select, $join, '', $order_by);
+
+        echo $this->layout_after_login($title,$page_name,$data);
+    }
     public function add()
     {
         $data['moduleDetail']       = $this->data;
@@ -99,11 +129,12 @@ class ProjectController extends BaseController {
         $data['projects']           = $this->data['model']->find_data('project', 'array', '', 'id,name', '', '', $order_by);
 
         if($this->request->getMethod() == 'post') {
+            $projectStatus = $this->request->getPost('status');
             $postData   = array(
                 'name'                  => $this->request->getPost('name'),
                 'description'           => $this->request->getPost('description'),
                 'assigned_by'           => $this->request->getPost('assigned_by'),
-                'status'                => $this->request->getPost('status'),
+                'status'                => $projectStatus,
                 'type'                  => $this->request->getPost('type'),
                 'client_id'             => $this->request->getPost('client_id'),
                 'project_time_type'     => $this->request->getPost('project_time_type'),
@@ -116,10 +147,11 @@ class ProjectController extends BaseController {
                 'parent'                => $this->request->getPost('parent'),
                 'client_service'        => $this->request->getPost('client_service'),
                 'bill'                  => $this->request->getPost('bill'),
-                'active'                => $this->request->getPost('active'),
+                'active'                => (($projectStatus == 13)?1:$this->request->getPost('active')),
                 'date_modified'         => date('Y-m-d H:i:s'),
             );
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
+            
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
         }        
@@ -128,7 +160,8 @@ class ProjectController extends BaseController {
     public function confirm_delete($id)
     {
         $id                         = decoded($id);
-        $updateData = $this->common_model->delete_data($this->data['table_name'],$id,$this->data['primary_key']);
+        // $updateData = $this->common_model->delete_data($this->data['table_name'],$id,$this->data['primary_key']);
+        $this->common_model->save_data($this->data['table_name'],['active' => 3],$id,$this->data['primary_key']);
         $this->session->setFlashdata('success_message', $this->data['title'].' deleted successfully');
         return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
     }
@@ -136,15 +169,15 @@ class ProjectController extends BaseController {
     {
         $id                         = decoded($id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', [$this->data['primary_key']=>$id]);
-        if($data['row']->status){
+        if($data['row']->active){
             $status  = 0;
-            $msg        = 'Deactivated';
+            $msg        = 'Activated';
         } else {
             $status  = 1;
-            $msg        = 'Activated';
+            $msg        = 'Deactivated';
         }
         $postData = array(
-                            'status' => $status
+                            'active' => $status
                         );
         $updateData = $this->common_model->save_data($this->data['table_name'],$postData,$id,$this->data['primary_key']);
         $this->session->setFlashdata('success_message', $this->data['title'].' '.$msg.' successfully');

@@ -47,18 +47,18 @@ $userId             = $session->user_id;
             </a>
             <ul id="access-nav" class="nav-content collapse <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if(checkModuleAccess(12)){ ?>
-                <!-- <li>
+                <li>
                     <a class="<?= (($pageSegment == 'manage_functionlist') ? 'active' : '') ?>" href="<?= base_url('admin/manage_functionlist') ?>">
                         <i class="fa fa-arrow-right"></i><span>Features</span>
                     </a>
-                </li> -->
+                </li>
                 <?php } ?>
                 <?php if(checkModuleAccess(13)){ ?>
-                <!-- <li>
+                <li>
                     <a class="<?= (($pageSegment == 'manage_modulelist') ? 'active' : '') ?>" href="<?= base_url('admin/manage_modulelist') ?>">
                         <i class="fa fa-arrow-right"></i><span>Modules</span>
                     </a>
-                </li> -->
+                </li>
                 <?php } ?>
                 <?php if(checkModuleAccess(14)){ ?>
                 <li>
@@ -117,14 +117,14 @@ $userId             = $session->user_id;
             </ul>
         </li>
     <?php } ?>
-    <?php if (checkModuleAccess(4)) { ?>
+    <?php //if (checkModuleAccess(4)) { ?>
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('admin/task-assign') ?>">
                 <i class="fa fa-laptop"></i>
                 <span>Task Assign</span>
             </a>
         </li>
-    <?php } ?>
+    <?php //} ?>
     <?php if (checkModuleAccess(4)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
@@ -165,7 +165,7 @@ $userId             = $session->user_id;
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project_cost') ?>">
+            <a class="nav-link <?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
                 <i class="fas fa-money-check"></i>
                 <span>Add Expenses</span>
             </a>

@@ -30,7 +30,6 @@ class EffortController extends BaseController {
         $order_by[0]                = array('field' => 'date_added', 'type' => 'desc');
         $order_by[1]                = array('field' => 'id', 'type' => 'asc');
         $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['user_id' => $user_id], '', '', '', $order_by);
-        // pr($data['rows']);
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function add()
@@ -44,52 +43,172 @@ class EffortController extends BaseController {
         $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
         $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
         $orderBy2[0]                = array('field' => 'name', 'type' => 'ASC');
-        $data['effortTypes']        = $this->data['model']->find_data('effort_type', 'array', '', 'id,name', '', '', $orderBy2);
+        $data['effortTypes']        = $this->data['model']->find_data('effort_type', 'array', ['status' => 1], 'id,name', '', '', $orderBy2);
+        $data['workStats']          = $this->data['model']->find_data('work_status', 'array', ['status' => 1, 'is_schedule' => 1], 'id,name', '', '', $orderBy2);
         $user_id                    = $this->session->get('user_id');
         $user_hour_cost             = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'id,hour_cost', '', '',);
         $user_cost                  = $user_hour_cost->hour_cost;
         //  pr($user_cost);
+
+        $order_by2[0]               = array('field' => 'id', 'type' => 'ASC');
+        $data['morningSchedules']   = $this->common_model->find_data('morning_meetings', 'array', ['user_id' => $user_id, 'effort_id' => 0], '', '', '', $order_by2);
+
         if($this->request->getMethod() == 'post') {
             $requestData    = $this->request->getPost();
-            $user_id        = $this->session->get('user_id');
-            $date_task      = $requestData['date_task'];
-            $project        = $requestData['project'];
-            $hour           = $requestData['hour'];
-            $minute         = $requestData['minute'];
-            $description    = $requestData['description'];
-            $effort_type    = $requestData['effort_type'];
-            // $work_home      = $requestData['work_home'];
-              $cal_usercost= ($user_cost/60);
-            if(!empty($project)){
-                for($p=0;$p<count($project);$p++){
+            // pr($requestData);die;
+            $user_id                = $this->session->get('user_id');
+            $date_task              = $requestData['date_task'];
+            $assigned_task_id       = $requestData['assigned_task_id'];
+            $date_added             = $requestData['date_added'];
+            $project                = $requestData['project'];
+            $hour                   = $requestData['hour'];
+            $minute                 = $requestData['minute'];
+            $description            = $requestData['description'];
+            $effort_type            = $requestData['effort_type'];
+            $work_status_id         = $requestData['work_status_id'];
+            
+            $cal_usercost= ($user_cost/60);
+            if(!empty($assigned_task_id)){
+                for($p=0;$p<count($assigned_task_id);$p++){
                     $getProject     = $this->data['model']->find_data('project', 'row', ['id' => $project[$p]], 'status,bill');
-                    $postData   = array(
-                        'project_id'            => $project[$p],
-                        'status_id'             => (($getProject)?$getProject->status:0),
-                        'user_id'               => $user_id,
-                        'description'           => $description[$p],
-                        'hour'                  => $hour[$p],
-                        'min'                   => $minute[$p],
-                        'work_home'             => 0,
-                        'effort_type'           => $effort_type[$p],
-                        'date_today'            => date('Y-m-d H:i:s'),
-                        'date_added'            => $date_task,
-                        'bill'                  => (($getProject)?$getProject->bill:1),
-                        'assigned_task_id'      => 0,
-                        'hour_rate'        =>  $user_cost
-                    );
-                    $cal= (($hour[$p]*60) + $minute[$p]); //converted to minutes
-                    $projectCost= floatval($cal_usercost * $cal);
-                    $postData['cost']= number_format($projectCost, 2, '.', '');
-                                        
-                    $record     = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                    $getUser        = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'department');
                     
+                    if($assigned_task_id[$p] > 0){
+                        // scheduled task
+                            $cal                = (($hour[$p]*60) + $minute[$p]); //converted to minutes
+                            $projectCost        = floatval($cal_usercost * $cal);
+                            $postData   = array(
+                                'project_id'            => $project[$p],
+                                'status_id'             => (($getProject)?$getProject->status:0),
+                                'user_id'               => $user_id,
+                                'description'           => $description[$p],
+                                'hour'                  => $hour[$p],
+                                'min'                   => $minute[$p],
+                                'work_home'             => 0,
+                                'effort_type'           => $effort_type[$p],
+                                'work_status_id'        => $work_status_id[$p],
+                                'date_today'            => date('Y-m-d H:i:s'),
+                                'date_added'            => $date_added[$p],
+                                'bill'                  => (($getProject)?$getProject->bill:1),
+                                'assigned_task_id'      => $assigned_task_id[$p],
+                                'hour_rate'             => $user_cost,
+                                'cost'                  => number_format($projectCost, 2, '.', ''),
+                            );
+                            $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                        // scheduled task
+                        /* morning meeting schedule update */
+                            $morningScheduleData = [
+                                'project_id'            => $project[$p],
+                                'status_id'             => (($getProject)?$getProject->status:0),
+                                'user_id'               => $user_id,
+                                'description'           => $description[$p],
+                                'hour'                  => $hour[$p],
+                                'min'                   => $minute[$p],
+                                'work_home'             => 0,
+                                'effort_type'           => $effort_type[$p],
+                                'work_status_id'        => $work_status_id[$p],
+                                'bill'                  => (($getProject)?$getProject->bill:1),
+                                'effort_id'             => $effort_id,
+                            ];
+                            $this->data['model']->save_data('morning_meetings', $morningScheduleData, $assigned_task_id[$p], 'id');
+                            $schedule_id = $assigned_task_id[$p];
+                        /* morning meeting schedule update */
+                        /* timesheet update for effort id */
+                            $this->data['model']->save_data('timesheet', ['assigned_task_id' => $schedule_id], $effort_id, 'id');
+                        /* timesheet update for effort id */
+                        // Finish & Assign tomorrow
+                            if($work_status_id[$p] == 5){
+                                $morningScheduleData2 = [
+                                    'dept_id'               => (($getUser)?$getUser->department:0),
+                                    'project_id'            => $project[$p],
+                                    'status_id'             => (($getProject)?$getProject->status:0),
+                                    'user_id'               => $user_id,
+                                    'description'           => $description[$p],
+                                    'hour'                  => $hour[$p],
+                                    'min'                   => $minute[$p],
+                                    'work_home'             => 0,
+                                    'effort_type'           => 0,
+                                    'date_added'            => date('Y-m-d', strtotime("+1 days")),
+                                    'added_by'              => $user_id,
+                                    'bill'                  => (($getProject)?$getProject->bill:1),
+                                    'work_status_id'        => $work_status_id[$p],
+                                    'priority'              => 3,
+                                    'effort_id'             => 0,
+                                ];
+                                $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
+                            }
+                        // Finish & Assign tomorrow
+                    } else {
+                        // new task
+                            $cal                = (($hour[$p]*60) + $minute[$p]); //converted to minutes
+                            $projectCost        = floatval($cal_usercost * $cal);
+                            $postData   = array(
+                                'project_id'            => $project[$p],
+                                'status_id'             => (($getProject)?$getProject->status:0),
+                                'user_id'               => $user_id,
+                                'description'           => $description[$p],
+                                'hour'                  => $hour[$p],
+                                'min'                   => $minute[$p],
+                                'work_home'             => 0,
+                                'effort_type'           => $effort_type[$p],
+                                'work_status_id'        => $work_status_id[$p],
+                                'date_today'            => date('Y-m-d H:i:s'),
+                                'date_added'            => $date_task,
+                                'bill'                  => (($getProject)?$getProject->bill:1),
+                                'assigned_task_id'      => 0,
+                                'hour_rate'             => $user_cost,
+                                'cost'                  => number_format($projectCost, 2, '.', ''),
+                            );
+                            $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                        // new task
+                        /* morning meeting schedule insert */
+                            $morningScheduleData = [
+                                'dept_id'               => (($getUser)?$getUser->department:0),
+                                'project_id'            => $project[$p],
+                                'status_id'             => (($getProject)?$getProject->status:0),
+                                'user_id'               => $user_id,
+                                'description'           => $description[$p],
+                                'hour'                  => $hour[$p],
+                                'min'                   => $minute[$p],
+                                'work_home'             => 0,
+                                'effort_type'           => $effort_type[$p],
+                                'date_added'            => $date_added[$p],
+                                'added_by'              => $user_id,
+                                'bill'                  => (($getProject)?$getProject->bill:1),
+                                'work_status_id'        => $work_status_id[$p],
+                                'priority'              => 3,
+                                'effort_id'             => $effort_id,
+                            ];
+                            $schedule_id             = $this->data['model']->save_data('morning_meetings', $morningScheduleData, '', 'id');
+                        /* morning meeting schedule insert */
+                        /* timesheet update for effort id */
+                            $this->data['model']->save_data('timesheet', ['assigned_task_id' => $schedule_id], $effort_id, 'id');
+                        /* timesheet update for effort id */
+                        // Finish & Assign tomorrow
+                            if($work_status_id[$p] == 5){
+                                $morningScheduleData2 = [
+                                    'dept_id'               => (($getUser)?$getUser->department:0),
+                                    'project_id'            => $project[$p],
+                                    'status_id'             => (($getProject)?$getProject->status:0),
+                                    'user_id'               => $user_id,
+                                    'description'           => $description[$p],
+                                    'hour'                  => $hour[$p],
+                                    'min'                   => $minute[$p],
+                                    'work_home'             => 0,
+                                    'effort_type'           => 0,
+                                    'date_added'            => date('Y-m-d', strtotime("+1 days")),
+                                    'added_by'              => $user_id,
+                                    'bill'                  => (($getProject)?$getProject->bill:1),
+                                    'work_status_id'        => $work_status_id[$p],
+                                    'priority'              => 3,
+                                    'effort_id'             => 0,
+                                ];
+                                $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
+                            }
+                        // Finish & Assign tomorrow
+                    }
                 }
-                
-                // pr($postData,0);
-                // die;
-            }
-                        
+            }           
             $this->session->setFlashdata('success_message', 'Effort Submitted successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/effort-success');
         }

@@ -1944,7 +1944,6 @@ class ApiController extends BaseController
                                     ];
                                 }
                             }
-
                             $applicationSetting     = $this->common_model->find_data('application_settings', 'row');
                             /* last 7 days tracker report */
                                 $last7Days          = $this->getLastNDays(7, 'Y-m-d');

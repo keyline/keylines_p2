@@ -1287,8 +1287,6 @@ class User extends BaseController {
                 'firebase_server_key'           => $this->request->getPost('firebase_server_key'),
                 'theme_color'                   => $this->request->getPost('theme_color'),
                 'font_color'                    => $this->request->getPost('font_color'),
-                'tomorrow_task_editing_time'      => $this->request->getPost('tomorrow_task_editing_time'),
-                'block_tracker_fillup_after_days' => $this->request->getPost('block_tracker_fillup_after_days'),                
                 'twitter_profile'               => $this->request->getPost('twitter_profile'),
                 'facebook_profile'              => $this->request->getPost('facebook_profile'),
                 'instagram_profile'             => $this->request->getPost('instagram_profile'),

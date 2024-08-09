@@ -112,6 +112,9 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "projects/delete/(:any)", "ProjectController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "projects/change-status/(:any)", "ProjectController::change_status/$1");
 			$routes->match(['get', 'post'], "projects/project-effort-list/(:any)", "ProjectController::projectEffortList/$1");
+			$routes->match(['get', 'post'], "projects/active-project/", "ProjectController::activeProject");
+			$routes->match(['get', 'post'], "projects/inactive-project/", "ProjectController::InactiveProject");
+			
 		/* projects */
 		/* clients */
 			$routes->match(['get'], "clients/list", "ClientController::list");
@@ -120,6 +123,8 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
 			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
+
+			$routes->match(['get', 'post'], "clients/add-project/(:any)", "ClientController::addProject/$1");
 			
 			$routes->match(['get', 'post'], "clients/add-proposal/(:any)", "ClientController::addProposal/$1");
 			$routes->match(['get', 'post'], "clients/view-proposal/(:any)", "ClientController::viewProposal/$1");
@@ -131,7 +136,8 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
 		//AMC Checking//
 		//outside project cost//
-			$routes->match(['get', 'post'], "outside_project_cost", "OutsideProjectCostController::list");
+			$routes->match(['get', 'post'], "outside_project/project_name", "OutsideProjectCostController::list");
+			$routes->match(['get', 'post'], "outside_project/showexsisting", "OutsideProjectCostController::showexsisting");
 		//outside project cost//
 
 
@@ -140,6 +146,8 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-submit", "TaskAssignController::morning_meeting_schedule_submit");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-prefill", "TaskAssignController::morning_meeting_schedule_prefill");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-update", "TaskAssignController::morning_meeting_schedule_update");
+			$routes->match(['post'], "task-assign/morning-meeting-schedule-approve-task", "TaskAssignController::morning_meeting_schedule_approve_task");
+			$routes->match(['post'], "task-assign/morning-meeting-reschedule-task", "TaskAssignController::morning_meeting_reschedule_task");
 		// task assign
 
 		/* users */
