@@ -44,7 +44,7 @@ class EffortController extends BaseController {
         $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
         $orderBy2[0]                = array('field' => 'name', 'type' => 'ASC');
         $data['effortTypes']        = $this->data['model']->find_data('effort_type', 'array', ['status' => 1], 'id,name', '', '', $orderBy2);
-        $data['workStats']          = $this->data['model']->find_data('work_status', 'array', ['status' => 1], 'id,name', '', '', $orderBy2);
+        $data['workStats']          = $this->data['model']->find_data('work_status', 'array', ['status' => 1, 'is_schedule' => 1], 'id,name', '', '', $orderBy2);
         $user_id                    = $this->session->get('user_id');
         $user_hour_cost             = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'id,hour_cost', '', '',);
         $user_cost                  = $user_hour_cost->hour_cost;

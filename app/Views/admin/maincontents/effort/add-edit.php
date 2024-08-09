@@ -82,6 +82,9 @@
                                 </div>
                             </div>
                             <div class="field_wrapper">
+                                <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
+                                    <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">scheduled task</span></div>
+                                </div>
                                 <?php
                                 if($morningSchedules){ $ms = 1; foreach($morningSchedules as $morningSchedule){
                                 ?>
@@ -150,17 +153,16 @@
                                                 <?php } }?>
                                             </select>
                                         </div>
-                                        <div class="col-md-2">
-                                            <a href="javascript:void(0);" class="btn btn-danger btn-sm remove_button" style="margin-top: 20px;">
-                                                <i class="fa fa-trash"></i> Delete
-                                            </a>
-                                        </div>
                                     </div>
                                 <?php $ms++; } }?>
+                                <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
+                                <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">new task</span></div>
+                                </div>
                                 <div class="row" style="border:1px solid #f19620a6; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
                                     <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">New Work List 1</h5>
                                     <input type="hidden" name="assigned_task_id[]" value="0">
                                     <input type="hidden" name="date_added[]" value="<?=date('Y-m-d')?>">
+                                    <input type="hidden" name="work_status_id[]" value="4">
                                     <div class="col-md-12">
                                         <label class="control-label">Project</label>
                                         <br>
@@ -172,7 +174,6 @@
                                                 <hr>
                                             <?php } }?>
                                         </select>
-                                        
                                     </div>
                                     <div class="col-md-12">
                                         <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
@@ -210,16 +211,6 @@
                                             <?php } }?>
                                         </select>
                                         <div class="fill_up_et" style="color: red;"></div>
-                                        <label class="control-label mt-3">Work Status</label>
-                                        <br>
-                                        <select name="work_status_id[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off" required>
-                                            <option value="" selected="">Select Work Status</option>
-                                            <hr>
-                                            <?php if($workStats){ foreach($workStats as $workStat){?>
-                                            <option value="<?=$workStat->id?>"><?=$workStat->name?></option>
-                                            <hr>
-                                            <?php } }?>
-                                        </select>
                                     </div>
                                 </div>
                             </div>
@@ -251,6 +242,7 @@
                                     <h5 class="badge bg-warning text-dark" style="width: auto;">New Work List '+(x + 1)+'</h5>\
                                     <input type="hidden" name="assigned_task_id[]" value="0">\
                                     <input type="hidden" name="date_added[]" value="<?=date('Y-m-d')?>">\
+                                    <input type="hidden" name="work_status_id[]" value="4">\
                                     <div class="col-md-12">\
                                         <label class="control-label">Project</label>\
                                         <br>\
@@ -291,16 +283,6 @@
                                             <?php } }?>
                                         </select>\
                                         <div class="fill_up_et" style="color: red;"></div>\
-                                        <label class="control-label mt-3">Work Status</label>\
-                                        <br>\
-                                        <select name="work_status_id[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off" required>\
-                                            <option value="" selected="">Select Work Status</option>\
-                                            <hr>\
-                                            <?php if($workStats){ foreach($workStats as $workStat){?>
-                                            <option value="<?=$workStat->id?>"><?=$workStat->name?></option>\
-                                            <hr>\
-                                            <?php } }?>
-                                        </select>\
                                     </div>\
                                     <div class="col-md-2">\
                                         <a href="javascript:void(0);" class="btn btn-danger btn-sm remove_button" style="margin-top: 20px;">\
