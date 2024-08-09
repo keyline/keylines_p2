@@ -120,7 +120,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                         <tr>
                                             <?php if($departments){ foreach($departments as $dept){?>
                                                 <?php
-                                                $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id'")->getResult();
+                                                $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                             ?>
                                                 <td>
@@ -220,7 +220,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                         <tr>
                                             <?php if($departments){ foreach($departments as $dept){?>
                                                 <?php
-                                                $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id'")->getResult();
+                                                $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                                 ?>
                                                     <?php
