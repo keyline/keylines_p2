@@ -112,6 +112,9 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "projects/delete/(:any)", "ProjectController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "projects/change-status/(:any)", "ProjectController::change_status/$1");
 			$routes->match(['get', 'post'], "projects/project-effort-list/(:any)", "ProjectController::projectEffortList/$1");
+			$routes->match(['get', 'post'], "projects/active-project/", "ProjectController::activeProject");
+			$routes->match(['get', 'post'], "projects/inactive-project/", "ProjectController::InactiveProject");
+			
 		/* projects */
 		/* clients */
 			$routes->match(['get'], "clients/list", "ClientController::list");
@@ -120,6 +123,8 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
 			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
+
+			$routes->match(['get', 'post'], "clients/add-project/(:any)", "ClientController::addProject/$1");
 			
 			$routes->match(['get', 'post'], "clients/add-proposal/(:any)", "ClientController::addProposal/$1");
 			$routes->match(['get', 'post'], "clients/view-proposal/(:any)", "ClientController::viewProposal/$1");
