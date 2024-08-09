@@ -66,8 +66,8 @@ class TaskAssignController extends BaseController {
         $scheduleHTML               = '';
         $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
-        $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id', $join1, '', $order_by1);
+        $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);
         $totalTime                  = 0;
         if($getTasks){
             foreach($getTasks as $getTask){
@@ -102,11 +102,22 @@ class TaskAssignController extends BaseController {
                 $totMins                = $tot_hour + $tot_min;
                 $totalTime              += $totMins;
 
+                if($getTask->priority == 3){
+                    $priority = '<span><i class="fa-solid fa-medal" style="color: #FFD43B; border:1px solid #FFD43B; border-radius:50%; padding:3px;float:right;" title="High"></i></span>';
+                }
+                if($getTask->priority == 2){
+                    $priority = '<span><i class="fa-solid fa-medal" style="color: #CCCCCC; border:1px solid #CCCCCC; border-radius:50%; padding:3px;float:right;" title="Medium"></i></span>';
+                }
+                if($getTask->priority == 1){
+                    $priority = '<span><i class="fa-solid fa-medal" style="color: #b08d57; border:1px solid #b08d57; border-radius:50%; padding:3px;float:right;" title="Low"></i></span>';
+                }
+
                 $scheduleHTML .= '<div class="input-group">
                                 <div class="card">
                                     <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
                                         <p class="mb-2">
-                                            <b>'.$getTask->project_name.' :</b> '.$getTask->description.' [' .$hr. ' ' .$min. ']
+                                            ' . $priority . '
+                                            <span class="mb-1 d-block"><b>'.$getTask->project_name.' :</b> '.$getTask->description.'</span> [' .$hr. ' ' .$min. ']
                                         </p>
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-0">'.$user_name.'</p>
@@ -272,8 +283,8 @@ class TaskAssignController extends BaseController {
         $scheduleHTML               = '';
         $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
-        $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id', $join1, '', $order_by1);
+        $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);
         $totalTime                  = 0;
         if($getTasks){
             foreach($getTasks as $getTask){
@@ -308,11 +319,22 @@ class TaskAssignController extends BaseController {
                 $totMins                = $tot_hour + $tot_min;
                 $totalTime              += $totMins;
 
+                if($getTask->priority == 3){
+                    $priority = '<span><i class="fa-solid fa-medal" style="color: #FFD43B; border:1px solid #FFD43B; border-radius:50%; padding:3px;float:right;" title="High"></i></span>';
+                }
+                if($getTask->priority == 2){
+                    $priority = '<span><i class="fa-solid fa-medal" style="color: #CCCCCC; border:1px solid #CCCCCC; border-radius:50%; padding:3px;float:right;" title="Medium"></i></span>';
+                }
+                if($getTask->priority == 1){
+                    $priority = '<span><i class="fa-solid fa-medal" style="color: #b08d57; border:1px solid #b08d57; border-radius:50%; padding:3px;float:right;" title="Low"></i></span>';
+                }
+
                 $scheduleHTML .= '<div class="input-group mb-1">
                                 <div class="card">
                                     <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
                                         <p class="mb-2">
-                                            <b>'.$getTask->project_name.' :</b> '.$getTask->description.' [' .$hr. ' ' .$min. ']
+                                            ' . $priority . '
+                                            <span class="mb-1 d-block"><b>'.$getTask->project_name.' :</b> '.$getTask->description.'</span> [' .$hr. ' ' .$min. ']
                                         </p>
                                         <div class="d-flex justify-content-between">
                                             <p class="mb-0">'.$user_name.'</p>

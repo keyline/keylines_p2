@@ -132,7 +132,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                 $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action', $join1, '', $order_by1);
+                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action,morning_meetings.priority', $join1, '', $order_by1);
                                                                 
                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                     $getWorkStatus          = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color');
@@ -142,6 +142,16 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         <div class="card">
                                                                             <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: <?=$work_status_color?>;">
                                                                                 <p class="mb-2">
+                                                                                    <?php if($getTask->priority == 3){?>
+                                                                                        <span><i class="fa-solid fa-medal" style="color: #FFD43B; border:1px solid #FFD43B; border-radius:50%; padding:3px;float:right;" title="High"></i></span>
+                                                                                    <?php }?>
+                                                                                    <?php if($getTask->priority == 2){?>
+                                                                                        <span><i class="fa-solid fa-medal" style="color: #CCCCCC; border:1px solid #CCCCCC; border-radius:50%; padding:3px;float:right;" title="Medium"></i></span>
+                                                                                    <?php }?>
+                                                                                    <?php if($getTask->priority == 1){?>
+                                                                                        <span><i class="fa-solid fa-medal" style="color: #b08d57; border:1px solid #b08d57; border-radius:50%; padding:3px;float:right;" title="Low"></i></span>
+                                                                                    <?php }?>
+                                                                                    
                                                                                     <span class="mb-1 d-block"><b><?=$getTask->project_name?> :</b> <?=$getTask->description?><br></span> [
                                                                                         <?php
                                                                                         if($getTask->hour > 0) {
@@ -247,8 +257,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                 <?php
                                                                 $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
-                                                                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id', $join1, '', $order_by1);
+                                                                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);
                                                                 
                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                     $getWorkStatus          = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color');
@@ -258,6 +268,16 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         <div class="card">
                                                                             <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: <?=$work_status_color?>;">
                                                                                 <p class="mb-2">
+                                                                                    <?php if($getTask->priority == 3){?>
+                                                                                        <span><i class="fa-solid fa-medal" style="color: #FFD43B; border:1px solid #FFD43B; border-radius:50%; padding:3px;float:right;" title="High"></i></span>
+                                                                                    <?php }?>
+                                                                                    <?php if($getTask->priority == 2){?>
+                                                                                        <span><i class="fa-solid fa-medal" style="color: #CCCCCC; border:1px solid #CCCCCC; border-radius:50%; padding:3px;float:right;" title="Medium"></i></span>
+                                                                                    <?php }?>
+                                                                                    <?php if($getTask->priority == 1){?>
+                                                                                        <span><i class="fa-solid fa-medal" style="color: #b08d57; border:1px solid #b08d57; border-radius:50%; padding:3px;float:right;" title="Low"></i></span>
+                                                                                    <?php }?>
+
                                                                                     <span class="mb-1 d-block"><b><?=$getTask->project_name?> :</b> <?=$getTask->description?><br></span> [
                                                                                         <?php
                                                                                         if($getTask->hour > 0) {
