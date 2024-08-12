@@ -383,6 +383,12 @@ $user_type = session('user_type');
                     </div>
                   </div>
                   <div class="row mb-3">
+                    <label for="amc_checking_after_days" class="col-md-4 col-lg-3 col-form-label">AMC Checking After Days</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="amc_checking_after_days" type="number" class="form-control" id="amc_checking_after_days" value="<?= $amc_setting->check_span ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
                     <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Is Desklog Use</label>
                     <div class="col-md-8 col-lg-9">
                       <div class="form-check form-switch">

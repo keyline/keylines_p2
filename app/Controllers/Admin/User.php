@@ -336,8 +336,12 @@ class User extends BaseController {
                     foreach($users as $row){
                         $monthYear1 = date('Y').'-'.date('01');
                         $year = date('Y');
-                        $jan_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear1%'")->getRow();
-                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 1 AND user_id = '$row->id'")->getRow();
+                        $sql1 = "SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear1%'";
+                        $jan_booked = $this->db->query($sql1)->getRow();
+                        // $sql = "SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 1 AND user_id = '$row->id'";
+                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear1%'";
+                        $getDesktimeHour = $this->db->query($sql)->getResult();
+                        // pr($getDesktimeHour);
                         if ($getDesktimeHour) {
                         $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
                         } else{
@@ -421,9 +425,23 @@ class User extends BaseController {
                         }
                         $monthYear7 = date('Y').'-'.date('07');
                         $jul_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear7%'")->getRow();
-                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 7 AND user_id = '$row->id'")->getRow();
+                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear7%'";
+                        $getDesktimeHour = $this->db->query($sql)->getResult();
+                        //  pr($getDesktimeHour);
+                        $totalHours = 0;
+                        $totalMinutes = 0;
+                        foreach ($getDesktimeHour as $entry) {                            
+                            // Extract hours and minutes
+                            sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
+                            // Sum up hours and minutes
+                            $totalHours += $hours;
+                            $totalMinutes += $minutes;                           
+                        }
+                         $totalHours += intdiv($totalMinutes, 60);
+                         $totalMinutes = 534 % 60;                        
                         if ($getDesktimeHour) {
-                        $result7 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        $result7 = $totalHours.'.'.$totalMinutes;
+                        // $result7 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
                         }else{
                             $result7 ='';
                         }
@@ -435,9 +453,24 @@ class User extends BaseController {
                         }
                         $monthYear8 = date('Y').'-'.date('08');
                         $aug_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear8%'")->getRow();
-                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
+                        // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
+                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear8%'";
+                        $getDesktimeHour = $this->db->query($sql)->getResult();
+                        //  pr($getDesktimeHour);
+                        $totalHours = 0;
+                        $totalMinutes = 0;
+                        foreach ($getDesktimeHour as $entry) {                            
+                            // Extract hours and minutes
+                            sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
+                            // Sum up hours and minutes
+                            $totalHours += $hours;
+                            $totalMinutes += $minutes;                           
+                        }
+                         $totalHours += intdiv($totalMinutes, 60);
+                         $totalMinutes = $totalMinutes % 60;                       
                         if ($getDesktimeHour) {
-                        $result8 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        $result8 = $totalHours.'.'.$totalMinutes;
+                        // $result8 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
                         }else{
                             $result8 ='';
                         }
@@ -449,9 +482,24 @@ class User extends BaseController {
                         }
                         $monthYear9 = date('Y').'-'.date('09');
                         $sep_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear9%'")->getRow();
-                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
+                        // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
+                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear9%'";
+                        $getDesktimeHour = $this->db->query($sql)->getResult();
+                        //  pr($getDesktimeHour);
+                        $totalHours = 0;
+                        $totalMinutes = 0;
+                        foreach ($getDesktimeHour as $entry) {                            
+                            // Extract hours and minutes
+                            sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
+                            // Sum up hours and minutes
+                            $totalHours += $hours;
+                            $totalMinutes += $minutes;                           
+                        }
+                         $totalHours += intdiv($totalMinutes, 60);
+                         $totalMinutes = $totalMinutes % 60; 
                         if ($getDesktimeHour) {
-                        $result9 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        $result9 = $totalHours.'.'.$totalMinutes;
+                        // $result9 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
                         }else{
                             $result9 ='';
                         }
@@ -463,9 +511,24 @@ class User extends BaseController {
                         }
                         $monthYear10 = date('Y').'-'.date('10');
                         $oct_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear10%'")->getRow();
-                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
+                        // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
+                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear10%'";
+                        $getDesktimeHour = $this->db->query($sql)->getResult();
+                        //  pr($getDesktimeHour);
+                        $totalHours = 0;
+                        $totalMinutes = 0;
+                        foreach ($getDesktimeHour as $entry) {                            
+                            // Extract hours and minutes
+                            sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
+                            // Sum up hours and minutes
+                            $totalHours += $hours;
+                            $totalMinutes += $minutes;                           
+                        }
+                         $totalHours += intdiv($totalMinutes, 60);
+                         $totalMinutes = $totalMinutes % 60; 
                         if ($getDesktimeHour) {
-                        $result10 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        $result10 = $totalHours.'.'.$totalMinutes;
+                        // $result10 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
                         }else{
                             $result10 ='';
                         }
@@ -477,9 +540,24 @@ class User extends BaseController {
                         }
                         $monthYear11 = date('Y').'-'.date('11');
                         $nov_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear11%'")->getRow();
-                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
+                        // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
+                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear11%'";
+                        $getDesktimeHour = $this->db->query($sql)->getResult();
+                        //  pr($getDesktimeHour);
+                        $totalHours = 0;
+                        $totalMinutes = 0;
+                        foreach ($getDesktimeHour as $entry) {                            
+                            // Extract hours and minutes
+                            sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
+                            // Sum up hours and minutes
+                            $totalHours += $hours;
+                            $totalMinutes += $minutes;                           
+                        }
+                         $totalHours += intdiv($totalMinutes, 60);
+                         $totalMinutes = $totalMinutes % 60; 
                         if ($getDesktimeHour) {
-                        $result11 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        $result11 = $totalHours.'.'.$totalMinutes;
+                        // $result11 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
                         }else{
                             $result11 ='';
                         }
@@ -491,9 +569,24 @@ class User extends BaseController {
                         }
                         $monthYear12 = date('Y').'-'.date('12');
                         $dec_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear12%'")->getRow();
-                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
+                        // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
+                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear12%'";
+                        $getDesktimeHour = $this->db->query($sql)->getResult();
+                        //  pr($getDesktimeHour);
+                        $totalHours = 0;
+                        $totalMinutes = 0;
+                        foreach ($getDesktimeHour as $entry) {                            
+                            // Extract hours and minutes
+                            sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
+                            // Sum up hours and minutes
+                            $totalHours += $hours;
+                            $totalMinutes += $minutes;                           
+                        }
+                         $totalHours += intdiv($totalMinutes, 60);
+                         $totalMinutes = $totalMinutes % 60; 
                         if ($getDesktimeHour) {
-                        $result12 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        $result12 = $totalHours.'.'.$totalMinutes;
+                        // $result12 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
                         }else{
                             $result12 ='';
                         }
@@ -1181,6 +1274,7 @@ class User extends BaseController {
             $data['admin']          = $this->common_model->find_data('user', 'row', ['id' => $user_id]);
             $data['setting']        = $this->common_model->find_data('general_settings', 'row', ['id' => 1]);
             $data['application_setting']        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+            $data['amc_setting']    = $this->common_model->find_data('setting', 'row', ['id' => 1]);
             echo $this->layout_after_login($title,$page_name,$data);
         }
         public function profileSetting()
@@ -1302,7 +1396,7 @@ class User extends BaseController {
         }
         public function applicationSetting()
         {
-            $user_id                = $this->session->get('user_id');
+            $user_id                = $this->session->get('user_id');                        
             $yes_no = isset($_POST['is_desklog_use']) ? $_POST['is_desklog_use'] : 0;
             $approval = isset($_POST['is_task_approval']) ? $_POST['is_task_approval'] : 0;
             $project_cost = isset($_POST['is_project_cost']) ? $_POST['is_project_cost'] : 0;
@@ -1317,8 +1411,12 @@ class User extends BaseController {
                 'is_task_approval'                  => $approval,
                 'is_project_cost'                   => $project_cost           
             ];
-            //   pr($fields);
+            $fields2 = [
+                'check_span' => $this->request->getpost('amc_checking_after_days')
+            ];
+            //   pr($fields2);
             $this->common_model->save_data('application_settings', $fields, 1, 'id');
+            $this->common_model->save_data('setting', $fields2, 1, 'id');
             $this->session->setFlashdata('success_message', 'Application Settings Updated Successfully !!!');
             return redirect()->to('/admin/settings');
         }
