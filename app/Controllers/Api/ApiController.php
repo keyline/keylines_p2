@@ -536,7 +536,7 @@ class ApiController extends BaseController
                     $device_type                = trim($headerData['Source'], "Source: ");
                     $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => '1']);
                     if($checkUser){
-                        if($otp == $checkUser->mobile_otp){
+                        if($otp == $checkUser->remember_token){
                             $objOfJwt           = new CreatorJwt();
                             $app_access_token   = $objOfJwt->GenerateToken($checkUser->id, $checkUser->email, $checkUser->phone1);
                             $user_id                        = $checkUser->id;
@@ -569,7 +569,7 @@ class ApiController extends BaseController
                                 'user_id'               => $user_id,
                                 'name'                  => $checkUser->name,
                                 'email'                 => $checkUser->email,
-                                'phone1'                => $checkUser->phone,
+                                'phone'                 => $checkUser->phone1,
                                 'type'                  => $checkUser->type,
                                 'device_type'           => $device_type,
                                 'device_token'          => $device_token,
