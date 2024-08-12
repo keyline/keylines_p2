@@ -466,16 +466,16 @@ class ApiController extends BaseController
                 $apiResponse        = [];
                 $this->isJSON(file_get_contents('php://input'));
                 $requestData        = $this->extract_json(file_get_contents('php://input'));
-                $requiredFields     = ['type', 'phone'];
+                $requiredFields     = ['phone'];
                 $headerData         = $this->request->headers();
                 if (!$this->validateArray($requiredFields, $requestData)){
                     $apiStatus          = FALSE;
                     $apiMessage         = 'All Data Are Not Present !!!';
                 }
                 if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                    $type                       = $requestData['type'];
+                    // $type                       = $requestData['type'];
                     $phone                      = $requestData['phone'];
-                    $checkUser                  = $this->common_model->find_data('user', 'row', ['type' => $type, 'phone1' => $phone, 'status' => 1]);
+                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => 1]);
                     if($checkUser){
                         $mobile_otp = rand(100000,999999);
                         $postData = [
