@@ -35,7 +35,7 @@ class AmcCheckingController extends BaseController {
         $cal_usercost               = (($hour_cost != '')?($hour_cost/60):0);
         //  pr($data['users']);      
         $data['amc_setting']        = $this->data['model']->find_data('setting', 'array', ['id' => '1'], '', '', '', '');        
-        $sql                        = "SELECT project.*,tab1.id amc_chkid, tab1.last_amcdate chk_date FROM project left JOIN 
+       $sql                        = "SELECT project.*,tab1.id amc_chkid, tab1.last_amcdate chk_date FROM project left JOIN 
                                         ( SELECT id,project_id,user_id,comment,status,max(date) last_amcdate FROM `amc_check` group by project_id) tab1 
                                         on project.id = tab1.project_id where project.status IN ('9', '4') and  project.deadline >= '$currentdate' order by DATE(tab1.last_amcdate)";
         $data['rows']               = $this->db->query($sql)->getResult();         
