@@ -475,7 +475,7 @@ class ApiController extends BaseController
                 if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
                     // $type                       = $requestData['type'];
                     $phone                      = $requestData['phone'];
-                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => 1]);
+                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => '1']);
                     if($checkUser){
                         $mobile_otp = rand(100000,999999);
                         $postData = [
@@ -534,7 +534,7 @@ class ApiController extends BaseController
                     $device_token               = $requestData['device_token'];
                     $fcm_token                  = $requestData['fcm_token'];
                     $device_type                = trim($headerData['Source'], "Source: ");
-                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => 1]);
+                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => '1']);
                     if($checkUser){
                         if($otp == $checkUser->mobile_otp){
                             $objOfJwt           = new CreatorJwt();
