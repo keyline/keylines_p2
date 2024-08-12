@@ -9,7 +9,7 @@ $controller_route   = $moduleDetail['controller_route'];
     }
 </style>
 <div class="pagetitle">
-    <h1><?= $page_header ?></h1>
+    <h1><?= $page_header ?> for <?= $clientDetail->name . '(' . $clientDetail->compnay . ')' ?></h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
