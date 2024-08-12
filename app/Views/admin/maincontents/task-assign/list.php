@@ -85,7 +85,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                         <tr>
                                             <?php if($departments){ foreach($departments as $dept){?>
                                                 <?php
-                                                $teamMemberCount = $common_model->find_data('team', 'count', ['dep_id' => $dept->id]);
+                                                $join[0]                    = ['table' => 'user', 'field' => 'id', 'table_master' => 'team', 'field_table_master' => 'user_id', 'type' => 'INNER'];
+                                                $teamMemberCount            = $common_model->find_data('team', 'count', ['team.dep_id' => $dept->id, 'user.status' => '1'], '', $join);
                                                 ?>
                                                 <th colspan="<?=$teamMemberCount?>" style="background-color: <?=$dept->header_color?>;"><?=$dept->deprt_name?></th>
                                             <?php } } ?>
@@ -93,14 +94,15 @@ $controller_route       = $moduleDetail['controller_route'];
                                         <tr>
                                             <?php if($departments){ foreach($departments as $dept){?>
                                                 <?php
-                                                $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id'")->getResult();
+                                                $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                                 ?>
                                                     <?php
+                                                    $yesterday                  = date('Y-m-d', strtotime("-1 days"));
                                                     $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
                                                     $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
                                                     $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-                                                    $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name', $join1, '', $order_by1);
+                                                    $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name', $join1, '', $order_by1);
                                                     $totalTime                  = 0;
                                                     if($getTasks){ foreach($getTasks as $getTask){
                                                         $tot_hour               = $getTask->hour * 60;
@@ -111,7 +113,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                     $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
                                                     $totalBooked    = '[' . $totalBooked . ']';
                                                     ?>
-                                                    <th style="background-color: <?=$dept->header_color?>;"><?=$teamMember->name?> <br><span id="total-time-<?=$teamMember->id?>"><?=$totalBooked?></span></th>
+                                                    <th style="background-color: <?=$dept->header_color?>;"><?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span></th>
                                                 <?php } } ?>
                                             <?php } } ?>
                                         </tr>
@@ -129,7 +131,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                             <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>">
                                                                 <?php
                                                                 $yesterday                  = date('Y-m-d', strtotime("-1 days"));
-                                                                $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
+                                                                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
                                                                 $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action,morning_meetings.priority', $join1, '', $order_by1);
@@ -212,7 +214,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                         <tr>
                                             <?php if($departments){ foreach($departments as $dept){?>
                                                 <?php
-                                                $teamMemberCount = $common_model->find_data('team', 'count', ['dep_id' => $dept->id]);
+                                                $join[0]                    = ['table' => 'user', 'field' => 'id', 'table_master' => 'team', 'field_table_master' => 'user_id', 'type' => 'INNER'];
+                                                $teamMemberCount            = $common_model->find_data('team', 'count', ['team.dep_id' => $dept->id, 'user.status' => '1'], '', $join);
                                                 ?>
                                                 <th colspan="<?=$teamMemberCount?>" style="background-color: <?=$dept->header_color?>;"><?=$dept->deprt_name?></th>
                                             <?php } } ?>
@@ -247,7 +250,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                         <tr>
                                             <?php if($departments){ foreach($departments as $dept){?>
                                                 <?php
-                                                $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id'")->getResult();
+                                                $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                             ?>
                                                 <td>
@@ -255,7 +258,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                         <div class="row">
                                                             <div class="col-12" id="meeting-user-<?=$teamMember->id?>">
                                                                 <?php
-                                                                $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
+                                                                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
                                                                 $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);

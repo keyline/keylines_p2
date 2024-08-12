@@ -93,19 +93,27 @@
                                         <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">Scheduled Task <?=$ms?></h5>
                                         <input type="hidden" name="assigned_task_id[]" value="<?=$morningSchedule->id?>">
                                         <input type="hidden" name="date_added[]" value="<?=$morningSchedule->date_added?>">
+
+                                        <input type="hidden" name="project[]" value="<?=$morningSchedule->project_id?>">
+
                                         <h6><?=date_format(date_create($morningSchedule->date_added), "M d, Y - l")?></h6>
                                         <div class="col-md-12">
                                             <label class="control-label">Project</label>
                                             <br>
-                                            <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" required onchange="getProjectInfo(this.value, 0);">
+                                            <!-- <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" required onchange="getProjectInfo(this.value, 0);">
                                                 <option value="" selected="">Select Project</option>
                                                 <hr>
                                                 <?php if($projects){ foreach($projects as $project){?>
                                                     <option value="<?=$project->id?>" <?=(($project->id == $morningSchedule->project_id)?'selected':'')?>><?=$project->name?> (<?=$project->client_name?>) - <?=$project->project_status_name?></option>
                                                     <hr>
                                                 <?php } }?>
-                                            </select>
-                                            
+                                            </select> -->
+                                            <?php
+                                            $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+                                            $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+                                            $getProjectInfo           = $common_model->find_data('project', 'row', ['project.id' => $morningSchedule->project_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
+                                            ?>
+                                            <h6 class="text-primary fw-bold"><?=(($getProjectInfo)?$getProjectInfo->name . '(' . $getProjectInfo->client_name . ') - ' . $getProjectInfo->project_status_name:'')?></h6>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">

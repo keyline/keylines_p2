@@ -475,23 +475,22 @@ class ApiController extends BaseController
                 if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
                     $type                       = $requestData['type'];
                     $phone                      = $requestData['phone'];
-                    $checkUser                  = $this->common_model->find_data('user', 'row', ['type' => $type, 'phone' => $phone, 'status>=' => 1]);
+                    $checkUser                  = $this->common_model->find_data('user', 'row', ['type' => $type, 'phone1' => $phone, 'status' => 1]);
                     if($checkUser){
                         $mobile_otp = rand(100000,999999);
                         $postData = [
-                            'mobile_otp'        => $mobile_otp
+                            'remember_token'        => $mobile_otp
                         ];
-                        $this->common_model->save_data('user', ['mobile_otp' => $mobile_otp], $checkUser->id, 'id');
+                        $this->common_model->save_data('user', $postData, $checkUser->id, 'id');
                         /* send sms */
-                            $memberType             = $this->common_model->find_data('ecomm_member_types', 'row', ['id' => $checkUser->member_type], 'name');
-                            $message = "Dear ".(($memberType)?$memberType->name:'ECOEX').", ".$mobile_otp." is your verification OTP for registration at ECOEX PORTAL. Do not share this OTP with anyone for security reasons.";
+                            $message = "Dear KEYLINERS, ".$mobile_otp." is your verification OTP for registration at ECOEX PORTAL. Do not share this OTP with anyone for security reasons.";
                             $mobileNo = (($checkUser)?$checkUser->phone:'');
                             $this->sendSMS($mobileNo,$message);
                         /* send sms */
                         $mailData                   = [
                             'id'    => $checkUser->id,
                             'email' => $checkUser->email,
-                            'phone' => $checkUser->phone,
+                            'phone' => $checkUser->phone1,
                             'otp'   => $mobile_otp,
                         ];
                         $apiResponse                        = $mailData;
@@ -501,7 +500,7 @@ class ApiController extends BaseController
                         $userActivityData = [
                             'user_email'        => '',
                             'user_name'         => '',
-                            'user_type'         => 'USER',
+                            'user_type'         => 'user',
                             'ip_address'        => $this->request->getIPAddress(),
                             'activity_type'     => 0,
                             'activity_details'  => 'We Don\'t Recognize Your Phone Number',
@@ -535,11 +534,11 @@ class ApiController extends BaseController
                     $device_token               = $requestData['device_token'];
                     $fcm_token                  = $requestData['fcm_token'];
                     $device_type                = trim($headerData['Source'], "Source: ");
-                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone' => $phone, 'status>=' => 1]);
+                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => 1]);
                     if($checkUser){
                         if($otp == $checkUser->mobile_otp){
                             $objOfJwt           = new CreatorJwt();
-                            $app_access_token   = $objOfJwt->GenerateToken($checkUser->id, $checkUser->email, $checkUser->phone);
+                            $app_access_token   = $objOfJwt->GenerateToken($checkUser->id, $checkUser->email, $checkUser->phone1);
                             $user_id                        = $checkUser->id;
                             $fields     = [
                                 'user_id'               => $user_id,
@@ -559,7 +558,7 @@ class ApiController extends BaseController
                                 'user_email'        => $checkUser->email,
                                 'user_name'         => $checkUser->name,
                                 'activity_type'     => 1,
-                                'user_type'         => 'USER',
+                                'user_type'         => 'user',
                                 'ip_address'        => $this->request->getIPAddress(),
                                 'activity_details'  => $checkUser->type.' Sign In Success',
                             ];
@@ -568,23 +567,23 @@ class ApiController extends BaseController
 
                             $apiResponse = [
                                 'user_id'               => $user_id,
-                                'name'          => $checkUser->name,
+                                'name'                  => $checkUser->name,
                                 'email'                 => $checkUser->email,
-                                'phone'                 => $checkUser->phone,
+                                'phone1'                => $checkUser->phone,
                                 'type'                  => $checkUser->type,
                                 'device_type'           => $device_type,
                                 'device_token'          => $device_token,
                                 'fcm_token'             => $fcm_token,
                                 'app_access_token'      => $app_access_token,
                             ];
-                            $this->common_model->save_data('user', ['mobile_otp' => ''], $checkUser->id, 'id');
+                            $this->common_model->save_data('user', ['remember_token' => ''], $checkUser->id, 'id');
                             $apiStatus                          = TRUE;
                             $apiMessage                         = 'SignIn Successfully !!!';
                         } else {
                             $userActivityData = [
                                 'user_email'        => $checkUser->email,
                                 'user_name'         => $checkUser->name,
-                                'user_type'         => 'USER',
+                                'user_type'         => 'user',
                                 'ip_address'        => $this->request->getIPAddress(),
                                 'activity_type'     => 0,
                                 'activity_details'  => 'OTP Mismatched !!!',
@@ -597,7 +596,7 @@ class ApiController extends BaseController
                         $userActivityData = [
                             'user_email'        => $email,
                             'user_name'         => '',
-                            'user_type'         => 'USER',
+                            'user_type'         => 'user',
                             'ip_address'        => $this->request->getIPAddress(),
                             'activity_type'     => 0,
                             'activity_details'  => 'We Don\'t Recognize Your Phone Number',

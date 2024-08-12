@@ -64,7 +64,7 @@ class TaskAssignController extends BaseController {
         $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
 
         $scheduleHTML               = '';
-        $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
+        $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
         $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);
@@ -281,7 +281,7 @@ class TaskAssignController extends BaseController {
         $this->data['model']->save_data('morning_meetings', $fields, $schedule_id, 'id');
 
         $scheduleHTML               = '';
-        $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
+        $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
         $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);

@@ -147,7 +147,7 @@ class ProjectController extends BaseController {
                 'parent'                => $this->request->getPost('parent'),
                 'client_service'        => $this->request->getPost('client_service'),
                 'bill'                  => $this->request->getPost('bill'),
-                'active'                => (($projectStatus == 13)?1:$this->request->getPost('active')),
+                'active'                => (($projectStatus == 13)?1:0),
                 'date_modified'         => date('Y-m-d H:i:s'),
             );
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
@@ -169,16 +169,21 @@ class ProjectController extends BaseController {
     {
         $id                         = decoded($id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', [$this->data['primary_key']=>$id]);
-        if($data['row']->active){
-            $status  = 0;
+        if($data['row']->active == 0){
+            $status     = 13;
             $msg        = 'Activated';
+            $postData = array(
+                'active' => 1,
+                'status' => $status
+            );
         } else {
-            $status  = 1;
+            $status     = 1;
             $msg        = 'Deactivated';
+            $postData = array(
+                'active' => 0,
+                'status' => $status
+            );
         }
-        $postData = array(
-                            'active' => $status
-                        );
         $updateData = $this->common_model->save_data($this->data['table_name'],$postData,$id,$this->data['primary_key']);
         $this->session->setFlashdata('success_message', $this->data['title'].' '.$msg.' successfully');
         return redirect()->to('/admin/'.$this->data['controller_route'].'/list');

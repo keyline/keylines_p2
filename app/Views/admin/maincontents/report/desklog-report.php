@@ -50,7 +50,7 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body pt-3">
-                        <a href="<?= base_url('admin/reports/get-desklog-report') ?>" class="btn btn-success btn-sm" onclick="return confirm('Do you want to fetch data from desklog ?');">Fetch Current Date Date From Desklog</a>
+                        <!-- <a href="<?= base_url('admin/reports/get-desklog-report') ?>" class="btn btn-success btn-sm" onclick="return confirm('Do you want to fetch data from desklog ?');">Fetch Current Date Date From Desklog</a> -->
                         <form method="POST" action="" enctype="multipart/form-data">
                             <input type="hidden" name="mode" value="advance_search">
                             <div class="row mb-3 align-items-center">
