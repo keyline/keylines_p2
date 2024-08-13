@@ -27,7 +27,8 @@ class ProjectController extends BaseController {
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'project/list';
-
+        $order_by1[0]                = array('field' => 'name', 'type' => 'ASC');
+        $data['projectStats']       = $this->data['model']->find_data('project_status', 'array', ['status' => 1], 'id,name', '', '', $order_by1);
         $order_by[0]                = array('field' => $this->data['table_name'].'.'.$this->data['primary_key'], 'type' => 'desc');
         $select                     = 'project.*, user.name as assigned_name, client.name as client_name, client.compnay as client_company_name, project_status.name as project_status_name';
         $join[0]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'assigned_by', 'type' => 'inner'];
@@ -35,7 +36,21 @@ class ProjectController extends BaseController {
         $join[2]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'status', 'type' => 'inner'];
         // $join[2]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_service', 'type' => 'inner'];
         $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['project.active!=' => 3], $select, $join, '', $order_by);
+        if($this->request->getMethod() == 'post') {
+            //    pr($this->request->getPost());
+              $project_id           = $this->request->getPost('project_id');
+              $project_status       = $this->request->getPost('status');
+            $data['project']        = $this->data['model']->find_data($this->data['table_name'], 'row', [$this->data['primary_key']=>$project_id]);
+            // pr($data['project']);
+            $postData = array(
+                'active' => 0,
+                'status' => $project_status
+            );
+        $updateData = $this->common_model->save_data($this->data['table_name'],$postData,$project_id,$this->data['primary_key']);
+        $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
+        return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
 
+        }
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function activeProject(){
@@ -172,20 +187,20 @@ class ProjectController extends BaseController {
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', [$this->data['primary_key']=>$id]);
         if($data['row']->active == 0){
             $status     = 13;
-            $msg        = 'Activated';
+            $msg        = 'Deactivated';
             $postData = array(
                 'active' => 1,
                 'status' => $status
             );
         } else {
             $status     = 1;
-            $msg        = 'Deactivated';
+            $msg        = 'Activated';
             $postData = array(
                 'active' => 0,
                 'status' => $status
             );
         }
-        pr($postData);
+        // pr($postData);
         $updateData = $this->common_model->save_data($this->data['table_name'],$postData,$id,$this->data['primary_key']);
         $this->session->setFlashdata('success_message', $this->data['title'].' '.$msg.' successfully');
         return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
