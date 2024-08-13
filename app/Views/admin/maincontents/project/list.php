@@ -158,7 +158,58 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <?php } ?>
                                             <?php } else {?>
                                                 <?php if(checkModuleFunctionAccess(5,32)){ ?>
-                                                <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$title?>" onclick="return confirm('Do You Want To Activate This <?=$title?>');"><i class="fa fa-times"></i></a>
+                                                <a href="#activemodal<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-warning btn-sm" data-bs-toggle="modal" data-bs-target="#activemodal<?=$row->$primary_key?> title="Deactivate <?=$title?>" onclick="return confirm('Do You Want To Activate This <?=$title?>');"><i class="fa fa-times"></i></a>
+                                                <!-- Modal -->
+                                                    <div class="modal fade team-assin-modal" id="activemodal<?=$row->id?>" tabindex="-1" aria-labelledby="activemodalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Add Reason</h4>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>                                                            
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <form id="exampleForm" method="post" class="general_form_style">
+                                                                        <input type ="hidden" name="project_id" value ="<?=$row->id?>">
+                                                                        <div class="container-fluid">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 col-lg-4">
+                                                                                    <div class="general_form_left_box">
+                                                                                        <label for="name" class="col-form-label">User <span class="text-danger">*</span></label>
+                                                                                    </div>  
+                                                                                </div>
+                                                                                <div class="col-md-6 col-lg-8">
+                                                                                    <div class="general_form_right_box">
+                                                                                        <select name="user_id" class="form-control" id="user_id" required>
+                                                                                            <option value="all">All</option>
+                                                                                            <hr>
+                                                                                            <?php if($users){ foreach($users as $row1){?>
+                                                                                                <option value="<?=$row1->id?> "><?=$row1->name?></option>
+                                                                                                <hr>
+                                                                                            <?php } }?>
+                                                                                        </select>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="row">
+                                                                                <div class="col-md-6 col-lg-4">
+                                                                                    <div class="general_form_left_box">
+                                                                                        <label for="type" class="col-form-label">Comment<span class="text-danger">*</span></label>
+                                                                                    </div>  
+                                                                                </div>
+                                                                                <div class="col-md-6 col-lg-8">
+                                                                                    <div class="general_form_right_box">
+                                                                                        <textarea name="comment" class="form-control" rows="3" required></textarea>
+                                                                                        <button type="submit" class="btn btn-primary btn-sm font-12 mt-1">Submit</button>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 <?php   } ?>
                                             <?php }?>
                                         </td>

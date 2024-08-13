@@ -83,7 +83,8 @@ class ProjectController extends BaseController {
         $data['projects']           = $this->data['model']->find_data('project', 'array', '', 'id,name', '', '', $order_by);
 
         if($this->request->getMethod() == 'post') {
-            // pr($this->request->getPost());
+            //  pr($this->request->getPost());
+            $project_status = $this->request->getPost('status');
             $postData   = array(
                 'name'                  => $this->request->getPost('name'),
                 'description'           => $this->request->getPost('description'),
@@ -101,11 +102,11 @@ class ProjectController extends BaseController {
                 'parent'                => $this->request->getPost('parent'),
                 'client_service'        => $this->request->getPost('client_service'),
                 'bill'                  => $this->request->getPost('bill'),
-                'active'                => $this->request->getPost('active'),
+                'active'                => ($project_status != 13) ? 0 : 1,
                 'date_added'            => date('Y-m-d H:i:s'),
                 'date_modified'         => date('Y-m-d H:i:s'),
             );
-            // pr($postData);
+            //  pr($postData);
             $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
@@ -184,6 +185,7 @@ class ProjectController extends BaseController {
                 'status' => $status
             );
         }
+        pr($postData);
         $updateData = $this->common_model->save_data($this->data['table_name'],$postData,$id,$this->data['primary_key']);
         $this->session->setFlashdata('success_message', $this->data['title'].' '.$msg.' successfully');
         return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
@@ -204,20 +206,24 @@ class ProjectController extends BaseController {
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function reports($id){
-        $id                         = base64_decode($id);
-        $data['project']            = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
-        $order_by[0]                = array('field' => 'name', 'type' => 'ASC');
-        $data['all_projects']        = $this->data['model']->find_data('project', 'array', ['active' => 0], '', '', '', $order_by);
-        $data['moduleDetail']       = $this->data;
-        $title                      = 'Manage '.$this->data['title'];
-        $page_name                  = 'project/reports';
-        $sql10                      = 'SELECT timesheet.id as timesheet_id, effort_type.id AS effort_type_id, effort_type.name FROM timesheet LEFT JOIN effort_type ON timesheet.effort_type = effort_type.id WHERE timesheet.project_id = '.$id.' AND date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY effort_type.name ORDER BY effort_type.id ASC';
-        $data['effortTypes']        = $this->db->query($sql10)->getResult();
+        $id                             = base64_decode($id);
+        $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
+        $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
+        // $data['all_projects']        = $this->data['model']->find_data('project', 'array', ['active' => 0], '', '', '', $order_by);
+        $sql1                           = "SELECT project.*, project_status.name AS project_status_name FROM project, project_status WHERE project.status NOT IN (SELECT id FROM project_status WHERE id = 13) AND project.status = project_status.id ORDER BY project.name";
+        $data['all_projects']           = $this->db->query($sql1)->getResult();
+        $sql2                           = "SELECT project.*, project_status.name AS project_status_name FROM project JOIN project_status ON project.status = project_status.id WHERE project.status = 13 ORDER BY project.name";
+        $data['all_closed_projects']    = $this->db->query($sql2)->getResult();
+        $data['moduleDetail']           = $this->data;
+        $title                          = 'Manage '.$this->data['title'];
+        $page_name                      = 'project/reports';
+        $sql10                          = 'SELECT timesheet.id as timesheet_id, effort_type.id AS effort_type_id, effort_type.name FROM timesheet LEFT JOIN effort_type ON timesheet.effort_type = effort_type.id WHERE timesheet.project_id = '.$id.' AND date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY effort_type.name ORDER BY effort_type.id ASC';
+        $data['effortTypes']            = $this->db->query($sql10)->getResult();
 
-        $sql20                      = 'SELECT timesheet.id as timesheet_id, user.id AS user_id, user.name FROM timesheet LEFT JOIN user ON timesheet.user_id = user.id WHERE timesheet.project_id = '.$id.' AND timesheet.date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY user.name ORDER BY user.name ASC';
-        $data['usersData']          = $this->db->query($sql20)->getResult();
+        $sql20                          = 'SELECT timesheet.id as timesheet_id, user.id AS user_id, user.name FROM timesheet LEFT JOIN user ON timesheet.user_id = user.id WHERE timesheet.project_id = '.$id.' AND timesheet.date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY user.name ORDER BY user.name ASC';
+        $data['usersData']              = $this->db->query($sql20)->getResult();
         
-        $months                     = [];
+        $months                         = [];
         for ($i = 13; $i >= 0; $i--) {
             $date               = date("M-y", strtotime( date( 'Y-m-01' )." -$i months"));
             $numericDate        = date("Y-m", strtotime(date('Y-m-01') . " -$i months"));

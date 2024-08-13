@@ -48,7 +48,10 @@
             height: 100% !important;
         }
     }
-
+    .dropdown-menu .dropdown-item:hover{
+        color: #fff;
+        background: #0d6efd;
+    }
     .dropdown-toggle {
         top: 8px;
     }
@@ -84,12 +87,22 @@
                             <div class="">
                                 <div style="display: inline-flex;gap: 10px;width: 100%;">
                                     <select class="selectpicker" onchange="selectProject(this.value)" data-show-subtext="true" data-live-search="true">
+                                        <optgroup label="">
                                         <?php if ($all_projects) {
                                            
                                             foreach ($all_projects as $all_project) { ?>
-                                                <option <?= ($all_project->id == $project->id) ? 'selected' : '' ?> value="<?= base64_encode($all_project->id); ?>"><?= $all_project->name; ?></option>
+                                                <option <?= ($all_project->id == $project->id) ? 'selected' : '' ?> value="<?= base64_encode($all_project->id); ?>"><?= $all_project->name; ?> (<?= $all_project->project_status_name; ?>)</option>
                                         <?php }
                                         } ?>
+                                        </optgroup>                                        
+                                        <optgroup label="">
+                                        <?php if ($all_projects) {
+                                           
+                                           foreach ($all_closed_projects as $all_closed_project) { ?>
+                                               <option <?= ($all_closed_project->id == $project->id) ? 'selected' : '' ?> value="<?= base64_encode($all_closed_project->id); ?>"><?= $all_closed_project->name; ?> (<?= $all_closed_project->project_status_name; ?>)</option>
+                                       <?php }
+                                       } ?>
+                                       </optgroup>
                                     </select>
                                     <h1><button class="btn btn-info btn-sm font-12">
                                             <?php

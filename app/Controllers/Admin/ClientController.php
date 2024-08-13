@@ -330,6 +330,8 @@ class ClientController extends BaseController
         $data['clients']            = $this->data['model']->find_data('client', 'array', '', 'id,name,compnay', '', '', $order_by);
         $data['projects']           = $this->data['model']->find_data('project', 'array', '', 'id,name', '', '', $order_by);
         if ($this->request->getMethod() == 'post') {
+            // pr($this->request->getPost());
+            $project_status = $this->request->getPost('status');
             $postData   = array(
                 'name'                  => $this->request->getPost('project_name'),
                 'description'           => $this->request->getPost('project_description'),
@@ -347,10 +349,11 @@ class ClientController extends BaseController
                 'parent'                => $this->request->getPost('parent'),
                 'client_service'        => $this->request->getPost('client_service'),
                 'bill'                  => $this->request->getPost('bill'),
-                'active'                => $this->request->getPost('active'),
+                'active'                => ($project_status != 13) ? 0 : 1,
                 'date_added'            => date('Y-m-d H:i:s'),
                 'date_modified'         => date('Y-m-d H:i:s'),
             );
+            // pr($postData);
             $record     = $this->data['model']->save_data('project', $postData, '', $this->data['primary_key']);
             $this->session->setFlashdata('success_message', 'Project' . ' inserted successfully');
             return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
