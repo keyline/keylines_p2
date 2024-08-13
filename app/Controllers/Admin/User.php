@@ -325,9 +325,12 @@ class User extends BaseController {
                 // else {
                     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
-                    $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], 'id,name,status', '', '', $order_by);
+                    // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
+                    $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
+                    $users              = $this->db->query($sql11)->getResult();
                     $deskloguser        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
                     $desklog_user       = $deskloguser->is_desklog_use;
+                    $cu_date            = date('Y-m-d');
                 // }
 
                 $response = [];
@@ -425,12 +428,15 @@ class User extends BaseController {
                         }
                         $monthYear7 = date('Y').'-'.date('07');
                         $jul_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear7%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 7 AND user_id = '$row->id'")->getRow();
                         $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear7%'";
-                        $getDesktimeHour = $this->db->query($sql)->getResult();
-                        //  pr($getDesktimeHour);
+                        $getDesktime = $this->db->query($sql)->getResult();
+                        //    pr($getDesktimeHour);
+                        //   pr($getDesktime);
+                        //  pr($row);
                         $totalHours = 0;
                         $totalMinutes = 0;
-                        foreach ($getDesktimeHour as $entry) {                            
+                        foreach ($getDesktime as $entry) {                            
                             // Extract hours and minutes
                             sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
                             // Sum up hours and minutes
@@ -438,11 +444,30 @@ class User extends BaseController {
                             $totalMinutes += $minutes;                           
                         }
                          $totalHours += intdiv($totalMinutes, 60);
-                         $totalMinutes = 534 % 60;                        
-                        if ($getDesktimeHour) {
-                        $result7 = $totalHours.'.'.$totalMinutes;
-                        // $result7 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                         $totalMinutes = $totalMinutes % 60;   
+                         $result7desk = $totalHours.'.'.$totalMinutes;                                                                
+                        if ($getDesktimeHour) {                              
+                        // $result7 = $totalHours.'.'.$totalMinutes;
+                        $postData = array(
+                            'total_desktime_hour' => $result7desk,                                
+                        ); 
+                        // pr($postData);
+                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$row->id,'id'); 
+                         $result7 = $getDesktimeHour->total_desktime_hour;
                         }else{
+                            $postData = array(
+                                'month_upload' => 7,                                
+                                'year_upload' => $year,                                
+                                'user_id' => $row->id,                                
+                                'name' => $row->name,                                
+                                'email' => $row->email,
+                                'department' => $row->deprt_name,
+                                'total_desktime_hour' => $result7desk,
+                                'total_working_time' => $result7desk,
+                                'added_on' => $cu_date,                               
+                            ); 
+                            // pr($postData);
+                            $insertData = $this->common_model->save_data('desktime_sheet_tracking',$postData,'','id');
                             $result7 ='';
                         }
                         if($jul_booked){
