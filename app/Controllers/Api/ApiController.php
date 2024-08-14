@@ -466,16 +466,16 @@ class ApiController extends BaseController
                 $apiResponse        = [];
                 $this->isJSON(file_get_contents('php://input'));
                 $requestData        = $this->extract_json(file_get_contents('php://input'));
-                $requiredFields     = ['type', 'phone'];
+                $requiredFields     = ['phone'];
                 $headerData         = $this->request->headers();
                 if (!$this->validateArray($requiredFields, $requestData)){
                     $apiStatus          = FALSE;
                     $apiMessage         = 'All Data Are Not Present !!!';
                 }
                 if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                    $type                       = $requestData['type'];
+                    // $type                       = $requestData['type'];
                     $phone                      = $requestData['phone'];
-                    $checkUser                  = $this->common_model->find_data('user', 'row', ['type' => $type, 'phone1' => $phone, 'status' => 1]);
+                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => '1']);
                     if($checkUser){
                         $mobile_otp = rand(100000,999999);
                         $postData = [
@@ -484,7 +484,7 @@ class ApiController extends BaseController
                         $this->common_model->save_data('user', $postData, $checkUser->id, 'id');
                         /* send sms */
                             $message = "Dear KEYLINERS, ".$mobile_otp." is your verification OTP for registration at ECOEX PORTAL. Do not share this OTP with anyone for security reasons.";
-                            $mobileNo = (($checkUser)?$checkUser->phone:'');
+                            $mobileNo = (($checkUser)?$checkUser->phone1:'');
                             $this->sendSMS($mobileNo,$message);
                         /* send sms */
                         $mailData                   = [
@@ -534,9 +534,9 @@ class ApiController extends BaseController
                     $device_token               = $requestData['device_token'];
                     $fcm_token                  = $requestData['fcm_token'];
                     $device_type                = trim($headerData['Source'], "Source: ");
-                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => 1]);
+                    $checkUser                  = $this->common_model->find_data('user', 'row', ['phone1' => $phone, 'status' => '1']);
                     if($checkUser){
-                        if($otp == $checkUser->mobile_otp){
+                        if($otp == $checkUser->remember_token){
                             $objOfJwt           = new CreatorJwt();
                             $app_access_token   = $objOfJwt->GenerateToken($checkUser->id, $checkUser->email, $checkUser->phone1);
                             $user_id                        = $checkUser->id;
@@ -569,7 +569,7 @@ class ApiController extends BaseController
                                 'user_id'               => $user_id,
                                 'name'                  => $checkUser->name,
                                 'email'                 => $checkUser->email,
-                                'phone1'                => $checkUser->phone,
+                                'phone'                 => $checkUser->phone1,
                                 'type'                  => $checkUser->type,
                                 'device_type'           => $device_type,
                                 'device_token'          => $device_token,
@@ -1945,7 +1945,7 @@ class ApiController extends BaseController
                             }
                             $applicationSetting     = $this->common_model->find_data('application_settings', 'row');
                             /* last 7 days tracker report */
-                                $last7Days = $this->getLastNDays(7, 'Y-m-d');
+                                $last7Days          = $this->getLastNDays(7, 'Y-m-d');
                                 if(!empty($last7Days)){
                                     for($t=0;$t<count($last7Days);$t++){
                                         $loopDate           = $last7Days[$t];
