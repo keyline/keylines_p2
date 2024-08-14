@@ -285,7 +285,7 @@ class ReportController extends BaseController
             $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1,'id='=>$userId], 'id,name,status', '', '', $order_by);
         }
         // pr($users);
-        $deskloguser        = $this->common_model->find_data('general_settings', 'row', '', 'is_desklog_use', '', '');
+        $deskloguser        = $this->common_model->find_data('application_settings', 'row', '', 'is_desklog_use', '', '');
         //  pr($deskloguser);
         $desklog_user       = $deskloguser->is_desklog_use;
         $response = [];

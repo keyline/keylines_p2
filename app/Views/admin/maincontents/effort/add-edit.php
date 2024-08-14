@@ -58,7 +58,7 @@
                 <?php }?>
             </div>
             <?php
-            $sql = "SELECT * FROM `general_settings`";
+            $sql = "SELECT * FROM `application_settings`";
             // $query = $db->query($sql, [$deprt_id]);
             $settings = $db->query($sql)->getRow();
             $day_count = $settings->block_tracker_fillup_after_days;                  
