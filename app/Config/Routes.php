@@ -106,7 +106,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			/* work status */
 		// master
 		/* projects */
-			$routes->match(['get'], "projects/list", "ProjectController::list");
+			$routes->match(['get', 'post'], "projects/list", "ProjectController::list");
 			$routes->match(['get', 'post'], "projects/add", "ProjectController::add");
 			$routes->match(['get', 'post'], "projects/edit/(:any)", "ProjectController::edit/$1");
 			$routes->match(['get', 'post'], "projects/delete/(:any)", "ProjectController::confirm_delete/$1");

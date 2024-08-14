@@ -9,7 +9,7 @@ $controller_route   = $moduleDetail['controller_route'];
     }
 </style>
 <div class="pagetitle">
-    <h1><?= $page_header ?></h1>
+    <h1><?= $page_header ?> for <?= $clientDetail->name . '(' . $clientDetail->compnay . ')' ?></h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
@@ -128,7 +128,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
 
                             <div class="col-lg-6 col-md-6">
-                                <label for="parent" class="col-form-label">Parent <small class="text-danger">*</small></label>
+                                <label for="parent" class="col-form-label">Parent</label>
                                 <select name="parent" class="form-control" id="parent" required>
                                     <option value="0" selected>No Parent</option>
                                     <hr>
@@ -161,13 +161,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <input type="radio" name="bill" id="bill2" value="1" required>&nbsp;&nbsp;<label for="bill2">Non-billable</label>
                                 </p>
                             </div>
-                            <div class="col-lg-6 col-md-6">
+                            <!-- <div class="col-lg-6 col-md-6">
                                 <label for="type" class="col-form-label">Active <small class="text-danger">*</small></label>
                                 <p>
                                     <input type="radio" name="active" id="active1" value="0" required>&nbsp;&nbsp;<label for="active1">Active</label>
                                     <input type="radio" name="active" id="active2" value="1" required>&nbsp;&nbsp;<label for="active2">Deactive</label>
                                 </p>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="text-center">
                             <button type="submit" class="btn btn-primary">Save</button>
