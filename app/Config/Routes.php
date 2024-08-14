@@ -201,6 +201,11 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
 			$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
 		// attendance
+		// holiday
+			$routes->match(['get'], "holiday-list", "HolidayController::holiday");
+		// $routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
+		// $routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
+		// holiday
 		// delete account requests
 			$routes->match(['get'], "delete-account-request/list", "DeleteAccountRequestController::list");
 			$routes->match(['get', 'post'], "delete-account-request/delete/(:any)", "DeleteAccountRequestController::confirm_delete/$1");

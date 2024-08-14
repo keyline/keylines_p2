@@ -1315,6 +1315,8 @@ class User extends BaseController {
                 'font_color'                        => $this->request->getPost('font_color'),
                 'tomorrow_task_editing_time'        => $this->request->getPost('tomorrow_task_editing_time'),
                 'block_tracker_fillup_after_days'   => $this->request->getPost('block_tracker_fillup_after_days'),
+                'api_url'                           => $this->request->getPost('api_url'),
+                'api_key'                           => $this->request->getPost('api_key'),
                 'is_desklog_use'                    => $yes_no,
                 'is_task_approval'                  => $approval,
                 'is_project_cost'                   => $project_cost           

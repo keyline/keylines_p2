@@ -389,6 +389,18 @@ $user_type = session('user_type');
                     </div>
                   </div>
                   <div class="row mb-3">
+                    <label for="api_url" class="col-md-4 col-lg-3 col-form-label">API URL</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="api_url" type="text" class="form-control" id="api_url" value="<?= $application_setting->api_url ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="api_key" class="col-md-4 col-lg-3 col-form-label">API KEY</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="api_key" type="text" class="form-control" id="api_key" value="<?= $application_setting->api_key ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
                     <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Is Desklog Use</label>
                     <div class="col-md-8 col-lg-9">
                       <div class="form-check form-switch">
