@@ -281,6 +281,12 @@ $userId             = $session->user_id;
     <?php } ?>
     <?php if (checkModuleAccess(8)) { ?>
         <li class="nav-item">
+            <a class="nav-link <?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>" href="<?= base_url('admin/holiday-list') ?>">
+                <i class="fas fa-calendar-check"></i>
+                <span>Holiday List</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'delete-account-request') ? 'active' : '') ?>" href="<?= base_url('admin/delete-account-request/list') ?>">
                 <i class="fa fa-trash"></i>
                 <span>Delete Account Requests</span>
