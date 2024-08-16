@@ -19,18 +19,14 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
             <h3 style="text-align: center; font-size: 25px; color: #5c5b5b; font-family: sans-serif;">Hi, Welcome to <?=$generalSetting->site_name?>!</h3>
             <h4 style="text-align: center; font-family: sans-serif; color: #5c5b5b ;">Your OTP</h4>
             <div style="display: flex; justify-content: center;">
-                <div style="padding: 12px; margin: 5px; border: 2px solid #f9233f;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
+                <div style="padding: 12px; margin: 5px; border: 2px solid #f19620;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
                 font-family: sans-serif;"><?=substr($otp, 0, 1)?></div>
-                <div style="padding: 12px; margin: 5px; border: 2px solid #f9233f;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
+                <div style="padding: 12px; margin: 5px; border: 2px solid #f19620;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
                 font-family: sans-serif;"><?=substr($otp, 1, 1)?></div>
-                <div style="padding: 12px; margin: 5px; border: 2px solid #f9233f;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
+                <div style="padding: 12px; margin: 5px; border: 2px solid #f19620;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
                 font-family: sans-serif;"><?=substr($otp, 2, 1)?></div>
-                <div style="padding: 12px; margin: 5px; border: 2px solid #f9233f;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
+                <div style="padding: 12px; margin: 5px; border: 2px solid #f19620;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
                 font-family: sans-serif;"><?=substr($otp, 3, 1)?></div>
-                <div style="padding: 12px; margin: 5px; border: 2px solid #f9233f;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
-                font-family: sans-serif;"><?=substr($otp, 4, 1)?></div>
-                <div style="padding: 12px; margin: 5px; border: 2px solid #f9233f;width: 17px; height: 17px; border-radius: 5px; display: flex; justify-content: center; align-items: center; font-size: 15px;
-                font-family: sans-serif;"><?=substr($otp, 5, 1)?></div>
             </div>
             </table>
           </div>
