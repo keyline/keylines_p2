@@ -83,13 +83,13 @@
                             </div>
                             <div class="field_wrapper">
 
-                                <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
+                                <!-- <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
                                     <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">scheduled task</span></div>
-                                </div>
+                                </div> -->
                                 <?php
                                 if($morningSchedules){ $ms = 1; foreach($morningSchedules as $morningSchedule){
                                 ?>
-                                    <div class="row" style="border:1px solid #4154f16b; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+                                    <!-- <div class="row" style="border:1px solid #4154f16b; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
                                         <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">Scheduled Task <?=$ms?></h5>
                                         <input type="hidden" name="assigned_task_id[]" value="<?=$morningSchedule->id?>">
                                         <input type="hidden" name="date_added[]" value="<?=$morningSchedule->date_added?>">
@@ -100,14 +100,14 @@
                                         <div class="col-md-12">
                                             <label class="control-label">Project</label>
                                             <br>
-                                            <!-- <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" required onchange="getProjectInfo(this.value, 0);">
+                                            <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" required onchange="getProjectInfo(this.value, 0);">
                                                 <option value="" selected="">Select Project</option>
                                                 <hr>
                                                 <?php if($projects){ foreach($projects as $project){?>
                                                     <option value="<?=$project->id?>" <?=(($project->id == $morningSchedule->project_id)?'selected':'')?>><?=$project->name?> (<?=$project->client_name?>) - <?=$project->project_status_name?></option>
                                                     <hr>
                                                 <?php } }?>
-                                            </select> -->
+                                            </select>
                                             <?php
                                             $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
                                             $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
@@ -162,7 +162,7 @@
                                                 <?php } }?>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 <?php $ms++; } }?>
 
 

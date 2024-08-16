@@ -162,7 +162,7 @@ abstract class BaseController extends Controller
             $mailLibrary                = new PHPMailer(true);
             $mailLibrary->CharSet       = 'UTF-8';
             $mailLibrary->SMTPDebug     = 0;
-            //$mailLibrary->IsSMTP();
+            $mailLibrary->IsSMTP();
             $mailLibrary->Host          = $generalSetting->smtp_host;
             $mailLibrary->SMTPAuth      = true;
             $mailLibrary->Port          = $generalSetting->smtp_port;
@@ -179,9 +179,9 @@ abstract class BaseController extends Controller
             else:
                 $mailLibrary->addAddress($email);
             endif;
-            $mailLibrary->addCC('sudip.keyline@gmail.com', 'KDPL System');
+            // $mailLibrary->addCC('sudip.keyline@gmail.com', 'KDPL System');
             $mailLibrary->addCC('subhomoy@keylines.net', 'Subhomoy Samanta');
-            $mailLibrary->addCC('deblina@keylines.net', 'Deblina Das');
+            // $mailLibrary->addCC('deblina@keylines.net', 'Deblina Das');
             $mailLibrary->WordWrap      = 5000;
             $mailLibrary->Subject       = $subject;
             $mailLibrary->Body          = $message;

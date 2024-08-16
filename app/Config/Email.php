@@ -18,7 +18,7 @@ class Email extends BaseConfig
     /**
      * The mail sending protocol: mail, sendmail, smtp
      */
-    public string $protocol = '';
+    public string $protocol = 'smtp';
 
     /**
      * The server path to Sendmail.

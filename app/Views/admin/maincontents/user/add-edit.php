@@ -205,10 +205,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <div class="general_form_right_box">
                                             <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
                                                 <option value="" selected>Select Type</option>
-                                                <?php if($roleMasters){  var_dump($roleMasters); foreach($roleMasters as $roleMaster){ 
-                                                    // pr($roleMaster)?>
+                                                <?php if($roleMasters){ foreach($roleMasters as $roleMaster){?>
                                                     <option value="<?=$roleMaster->role_name;?>" <?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
-                                                <?php   }   } ?>
+                                                <?php } }?>
                                             </select>
                                             <input type="hidden" id="role_id" name="role_id" value="">
                                             <?php foreach ($roleMasters as $roleMaster): ?>

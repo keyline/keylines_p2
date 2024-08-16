@@ -197,17 +197,33 @@ class User extends BaseController {
             $data       = [];
             if($this->request->getPost()){
                 $email          = $this->request->getPost('username');
-                $checkEmail     = $this->common_model->find_data('user', 'row', ['email' => $email, 'status' => 1]);
+                $checkEmail     = $this->common_model->find_data('user', 'row', ['email' => $email, 'status' => '1']);
                 if($checkEmail){
                     // otp mail send
-                        $otp     =  rand(1000,9999);
-                        $fields  =  ['otp' => $otp];
+                        $otp        =  rand(1000,9999);
+                        $fields     =  ['remember_token' => $otp];
                         $this->common_model->save_data('user', $fields, $checkEmail->id, 'id');
-                        $to         = $checkEmail->email;
-                        $subject    = "Reset Password";
-                        $message    = "Your Reset Password OTP is :" . $otp;
-                        // echo $message;die;
-                        // $this->common_model->sendEmail($email, $subject, $message);
+                        
+                        /* email sent */
+                            $mailData   = [
+                                'otp' => $otp
+                            ];
+                            $general_settings           = $this->common_model->find_data('general_settings','row');
+                            $to         = $checkEmail->email;
+                            $subject    = $general_settings->site_name . " :: Validate Email OTP";
+                            $message    = view('email-templates/otp',$mailData);
+                            // echo $message;die;
+                            $this->sendMail($to, $subject, $message);
+                        /* email sent */
+                        /* email log save */
+                            $emailLogData = [
+                                'name'      => $checkEmail->name,
+                                'email'     => $checkEmail->email,
+                                'subject'   => $subject,
+                                'message'   => $message,
+                            ];
+                            $this->common_model->save_data('email_logs', $emailLogData, '', 'id');
+                        /* email log save */
                         $this->session->setFlashdata('success_message', 'OTP Successfully Sent On Registered Email !!!');
                         return redirect()->to(base_url('admin/verify-otp/'.encoded($checkEmail->id)));
                     // otp mail send
@@ -225,10 +241,10 @@ class User extends BaseController {
             $data       = [];
             if($this->request->getPost()){
                 $otp            = $this->request->getPost('otp');
-                $checkEmail     = $this->common_model->find_data('user', 'row', ['id' => $id, 'status' => 1]);
+                $checkEmail     = $this->common_model->find_data('user', 'row', ['id' => $id, 'status' => '1']);
                 if($checkEmail){
-                    if($checkEmail->otp == $otp){
-                        $this->common_model->save_data('user', ['otp' => 0], $id, 'id');
+                    if($checkEmail->remember_token == $otp){
+                        $this->common_model->save_data('user', ['remember_token' => 0], $id, 'id');
                         $this->session->setFlashdata('success_message', 'OTP Validated Successfully !!!');
                         return redirect()->to(base_url('admin/reset-password/'.encoded($id)));
                     } else {
@@ -250,10 +266,34 @@ class User extends BaseController {
             if($this->request->getPost()){
                 $password               = $this->request->getPost('password');
                 $confirm_password       = $this->request->getPost('confirm_password');
-                $checkEmail             = $this->common_model->find_data('user', 'row', ['id' => $id, 'status' => 1]);
+                $checkEmail             = $this->common_model->find_data('user', 'row', ['id' => $id, 'status' => '1']);
                 if($checkEmail){
                     if($password == $confirm_password){
-                        $this->common_model->save_data('user', ['password' => md5($password), 'original_password' => $password, 'otp' => 0], $id, 'id');
+                        $this->common_model->save_data('user', ['password' => md5($password), 'remember_token' => 0], $id, 'id');
+
+                        /* email sent */
+                            $mailData   = [
+                                'name'      => $checkEmail->name,
+                                'email'     => $checkEmail->email,
+                                'password'  => $password,
+                            ];
+                            $general_settings           = $this->common_model->find_data('general_settings','row');
+                            $to         = $checkEmail->email;
+                            $subject    = $general_settings->site_name . " :: Reset Password";
+                            $message    = view('email-templates/change-password',$mailData);
+                            // echo $message;die;
+                            $this->sendMail($to, $subject, $message);
+                        /* email sent */
+                        /* email log save */
+                            $emailLogData = [
+                                'name'      => $checkEmail->name,
+                                'email'     => $checkEmail->email,
+                                'subject'   => $subject,
+                                'message'   => $message,
+                            ];
+                            $this->common_model->save_data('email_logs', $emailLogData, '', 'id');
+                        /* email log save */
+
                         $this->session->setFlashdata('success_message', 'Password Reset Successfully !!!');
                         return redirect()->to(base_url('admin'));
                     } else {
@@ -1342,6 +1382,30 @@ class User extends BaseController {
                             'password'                      => md5($this->request->getPost('new_password'))
                         ];
                         $this->common_model->save_data('user', $fields, $user_id, 'id');
+
+                        /* email sent */
+                            $mailData   = [
+                                'name'      => $profile->name,
+                                'email'     => $profile->email,
+                                'password'  => $password,
+                            ];
+                            $general_settings           = $this->common_model->find_data('general_settings','row');
+                            $to         = $profile->email;
+                            $subject    = $general_settings->site_name . " :: Change Password";
+                            $message    = view('email-templates/change-password',$mailData);
+                            // echo $message;die;
+                            $this->sendMail($to, $subject, $message);
+                        /* email sent */
+                        /* email log save */
+                            $emailLogData = [
+                                'name'      => $profile->name,
+                                'email'     => $profile->email,
+                                'subject'   => $subject,
+                                'message'   => $message,
+                            ];
+                            $this->common_model->save_data('email_logs', $emailLogData, '', 'id');
+                        /* email log save */
+
                         $this->session->setFlashdata('success_message', 'Password Updated Successfully !!!');
                         return redirect()->to('/admin/settings');
                     } else {
