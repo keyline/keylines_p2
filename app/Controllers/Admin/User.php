@@ -269,7 +269,7 @@ class User extends BaseController {
                 $checkEmail             = $this->common_model->find_data('user', 'row', ['id' => $id, 'status' => '1']);
                 if($checkEmail){
                     if($password == $confirm_password){
-                        $this->common_model->save_data('user', ['password' => md5($password), 'original_password' => $password, 'otp' => 0], $id, 'id');
+                        $this->common_model->save_data('user', ['password' => md5($password), 'otp' => 0], $id, 'id');
 
                         /* email sent */
                             $mailData   = [
