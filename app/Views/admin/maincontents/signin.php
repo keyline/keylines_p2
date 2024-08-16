@@ -57,9 +57,9 @@
                                 <div class="col-12">
                                     <button class="btn btn-success btn_org w-100 mb-4 mt-2" type="submit">Sign In</button>
                                 </div>
-                                <!-- <div class="col-12">
+                                <div class="col-12">
                                     <p class="small mb-0">Forgot Password? <a href="<?=base_url('/admin/forgot-password')?>">Click Here</a></p>
-                                </div> -->
+                                </div>
                             </form>
                         </div>
                     </div>

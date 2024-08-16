@@ -124,6 +124,12 @@ $userId             = $session->user_id;
                 <span>Task Assign</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link" href="<?= base_url('admin/task-assign-v2') ?>">
+                <i class="fa fa-laptop"></i>
+                <span>Task Assign V2</span>
+            </a>
+        </li>
     <?php //} ?>
     <?php if (checkModuleAccess(4)) { ?>
         <li class="nav-item">

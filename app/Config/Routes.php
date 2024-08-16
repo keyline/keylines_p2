@@ -148,6 +148,8 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-update", "TaskAssignController::morning_meeting_schedule_update");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-approve-task", "TaskAssignController::morning_meeting_schedule_approve_task");
 			$routes->match(['post'], "task-assign/morning-meeting-reschedule-task", "TaskAssignController::morning_meeting_reschedule_task");
+
+			$routes->match(['get'], "task-assign-v2", "TaskAssignController::task_listv2");
 		// task assign
 
 		/* users */
