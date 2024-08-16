@@ -9,103 +9,7 @@ $controller_route   = $moduleDetail['controller_route'];
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/daygrid@5.11.3/main.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/interaction@5.11.3/main.min.js'></script>
     <script src='https://cdn.jsdelivr.net/npm/@fullcalendar/timegrid@5.11.3/main.min.js'></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            var calendarEl = document.getElementById('calendar');
-            var calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                selectable: true,
-                editable: true,
-                events: '/holidays/getHolidays',
-                dateClick: function(info) {
-                    var title = prompt('Enter Holiday Title:');
-                    var startDate = info.dateStr;
-                    var endDate = startDate;
 
-                    if (title) {
-                        fetch('/holidays/addHoliday', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': '<?= csrf_hash() ?>'
-                            },
-                            body: JSON.stringify({ title, start_date: startDate, end_date: endDate })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert(data.status);
-                            calendar.refetchEvents();
-                        });
-                    }
-                },
-                eventClick: function(info) {
-                    var title = prompt('Edit Holiday Title:', info.event.title);
-                    var id = info.event.id;
-                    var startDate = info.event.startStr;
-                    var endDate = info.event.endStr;
-
-                    if (title) {
-                        fetch('/holidays/updateHoliday/' + id, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-Requested-With': 'XMLHttpRequest',
-                                'X-CSRF-TOKEN': '<?= csrf_hash() ?>'
-                            },
-                            body: JSON.stringify({ title, start_date: startDate, end_date: endDate })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert(data.status);
-                            calendar.refetchEvents();
-                        });
-                    }
-                },
-                eventDrop: function(info) {
-                    var id = info.event.id;
-                    var startDate = info.event.startStr;
-                    var endDate = info.event.endStr;
-
-                    fetch('/holidays/updateHoliday/' + id, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRF-TOKEN': '<?= csrf_hash() ?>'
-                        },
-                        body: JSON.stringify({ start_date: startDate, end_date: endDate })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.status);
-                        calendar.refetchEvents();
-                    });
-                },
-                eventResize: function(info) {
-                    var id = info.event.id;
-                    var startDate = info.event.startStr;
-                    var endDate = info.event.endStr;
-
-                    fetch('/holidays/updateHoliday/' + id, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-Requested-With': 'XMLHttpRequest',
-                            'X-CSRF-TOKEN': '<?= csrf_hash() ?>'
-                        },
-                        body: JSON.stringify({ start_date: startDate, end_date: endDate })
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        alert(data.status);
-                        calendar.refetchEvents();
-                    });
-                },
-            });
-            calendar.render();
-        });
-    </script>
 <style type="text/css">
     #simpletable_filter {
         float: right;
@@ -149,13 +53,13 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 <?php } ?>
             </div>
-            <div class="col-xl-12">
+            <div class="col-xl-6">
                 <div class="card">
                     <div class="card-body pt-3">
                         <div class="portlet box green">
                             <div class="portlet-title">
                                 <div class="caption"></div>
-                                <div class="tools"> </div>
+                                <!-- <div class="tools"> </div> -->
                             </div>
                             <div class="portlet-body">
                                 <div id="calendar">
@@ -166,7 +70,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                         </div>
                         <!-- Modal -->
-                        <div class="modal" id="myModal">
+                        <div class="modal" id="holidayModal">
                             <div class="modal-dialog">
                                 <div class="modal-content">        
                                     <div class="modal-header">
@@ -174,9 +78,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
                                     <div class="modal-body">
-                                        <form id="eventForm" method="POST">
+                                        <form id="holidayForm" method="POST">
                                             <input type="hidden" name="start_event" id="start_event" />
                                             <input type="hidden" name="end_event" id="end_event" />
+                                            <input type="hidden" id="holidayId">
                                             <div class="form-group">              
                                                 <input type="text" class="form-control requiredCheck" data-check="Event Title" name="title" id="title" aria-describedby="helpId" placeholder="Enter Event title">
                                             </div>
@@ -194,28 +99,41 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>                
             </div>
-            <div class="col-md-5">                                            
-                <div class="row">
-                    <div class="portlet box green portlet-right">
-                        <div class="portlet-title">
-                            <div class="caption">
+            <div class="col-md-6"> 
+                <div class="card">                                           
+                    <div class="row">
+                        <div class="portlet box green portlet-right">
+                            <div class="portlet-title">
+                                <div class="caption">
+                                </div>
+                                <div class="tools"> </div>
                             </div>
-                            <div class="tools"> </div>
-                        </div>
-                        <div class="portlet-body">
-                            <table class="table table-striped table-bordered table-hover table-condensed" id="event-table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Event Name</th>
-                                        <th>Event Date</th>
-                                        <!-- <th>End Event Date</th> -->
-                                        <th>Edit</th>
-                                        <th>Delete</th>
-                                    </tr>
-                                </thead>
-                                
-                            </table>
+                            <div class="portlet-body">
+                                <table class="table table-striped table-bordered table-hover table-condensed" id="event-table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Event Name</th>
+                                            <th>Event Date</th>
+                                            <!-- <th>End Event Date</th> -->
+                                            <th>Action</th>                                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <?php                                                    
+                                        if($events){ $sl=1; foreach($events as $row){ ?>
+                                        <tr>
+                                        <th scope="row"><?=$sl++?></th>
+                                        <th scope="row"><?=$row->title?></th>
+                                        <th scope="row"><?=date_format(date_create($row->start_event), "l, M d, Y")?></th>
+                                        <th scope="row">                                            
+                                            <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
+                                        </th>
+                                        </tr>
+                                    <?php } }?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -225,199 +143,103 @@ $controller_route   = $moduleDetail['controller_route'];
 </section>
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <script>
-                $(document).ready(function(){
-                    $('.menu-toggler').click(function(){
-                        $('.holiday-page-menu').slideToggle();
-                    });
-                    $('.menu-dropdown').click(function(){
-                        $(this).children('.dropdown-menu').slideToggle();
-                        $(this).prevAll().children('.dropdown-menu').slideUp();
-                        $(this).nextAll().children('.dropdown-menu').slideUp();
-                    });
-                });
-            </script>
-        <script>
-            $(document).ready(function() {
-                $('#calendar').fullCalendar({
-                    header:{
-                        left: 'title',                        
-                        right: 'prev, today, next'
-                    },
-                    buttonText:{
-                        today: 'Today'                        
-                    },
-                    viewRender: function(view) {
-                    if(view.title){
-                       var a= 1;
-                          $('.fc-day.fc-sat').each(function() {                        
-                                  $($(this)).addClass("sat"+a);                                   
-                                 a++;
-                               });                    
-                       }
-                    },
-                    events: 'load.php',
-                    selectable: true,
-                    selectHelper: true,
-                    showNonCurrentDates: false,
-                    select: function(start,end,allDay)
-                    {
-                        let startDate   = $.fullCalendar.formatDate(start, "D-MM-Y");
-                        let endDate     = $.fullCalendar.formatDate(end, "D-MM-Y");
-                        $('#eventDate1').text(startDate);
-                        $('#eventDate2').text(endDate);
-                        $('#start_event').val(startDate);
-                        $('#end_event').val(startDate);
-                        $('#myModal').modal('toggle');
-                    },  
-            //         eventClick:function(event){
-            //     if(confirm("Are you confirm to delete it?"))
-            //     {
-            //         var id = event.id;
-            //         $.ajax({
-            //             url:'delete.php',
-            //             method: 'POST',
-            //             data:{id:id},
-            //             success:function(){
-            //                 //calendar.fullCalendar('refetchEvents');
-            //                 alert("Event got deleted");
-            //                 location.reload(true);
-            //             }
-            //         })
-            //     }
-            // }                  
-                });
-            });
-        </script>
-        <script>
-            $(function(){
-                $("#eventForm").submit(function (e) {
-                    e.preventDefault();
-                    let flag = commonFormChecking(true, 'requiredCheck');
-                    if (flag) {
-                        if (flag) {
-                            var formData = new FormData(this);
-                            $.ajax({
-                                type: "POST",
-                                url: "insert_new.php",
-                                data: formData,
-                                cache: false,
-                                contentType: false,
-                                processData: false,
-                                dataType: "JSON",
-                                beforeSend: function () {
-                                    $("#eventForm").loading();
-                                },
-                                success: function (res) {
-                                    $("#eventForm").loading("stop");             
-                                    if(1){
-                                        $('#eventForm').trigger("reset");
-                                        toastAlert("success", "Event Inserted Successfully !!!");
-                                        $('#myModal').modal('hide');
-                                        //calendar.fullCalendar('refetchEvents');
-                                        location.reload(true);
-                                        /* show all events */
-                                            let html = '';
-                                            $("#event-list").empty();
-                                            $.each(res, function(key, item) {
-                                                html += `<tr>
-                                                            <td style="text-align: center;">${key+1}</td>
-                                                            <td>${item.title}</td>
-                                                            <td>${item.start}</td>
-                                                            <td>${item.end}</td>
-                                                            <td>                                                                
-                                                                <button class="btn btn-primary btn-sm text-white editButton"  data-eid='(${item.id})'><span class="glyphicon glyphicon-pencil"></span></button>                                                               
-                                                            </td>
-                                                            <td>
-                                                                <button class="btn btn-danger btn-sm" id="deleteButton" onclick="deleteData(${item.id})"><span class="glyphicon glyphicon-trash"></span></button>
-                                                            </td>
-                                                        </tr>`;
-                                            });
-                                            $("#event-list").html(html);
-                                        /* show all events */
-                                    }else{
-                                        toastAlert("error", res.message);
-                                    }
-                                },
-                                error:function (xhr, ajaxOptions, thrownError){
-                                    $("#eventForm").loading("stop");
-                                    var res = xhr.responseJSON;
-                                    if(xhr.status==404) {
-                                        toastAlert("error", res.message);
-                                    }
-                                }
-                            });
-                        }
-                    }
-                });
-            })
-        </script>
-        <script>
-            //for open modal box with exsisting data
-            $(document).ready(function(start,end,allDay) {
-                $(document).on("click",".editButton", function(){
-                    $("#modal").show();
-                    var id = $(this).data("eid");
-                    //alert(id);
-                    $.ajax({
-                            url:'load_form.php',
-                            type:'POST',
-                            data: {id:id},
-                            success:function(data){
-                                $("#modal_form").html(data);                                
-                            }                            
-                            })
-                });
-                //for save editated data
-                $(document).on("click","#edit-form", function(){
-                    var eventid = $("#edit_id").val();
-                    var title = $("#edit_title").val();
-                    var color_code = $("#edit_color_code").val();                    
-                    $.ajax({
-                            url:'update.php',
-                            type:'POST',
-                            data: {title:title,                                                                   
-                                    color_code:color_code,
-                                    id:eventid},
-                            success:function(data){
-                                if(data == 1){
-                                    $("#modal").hide();
-                                    loadTable();
-                                }                              
-                            }                            
-                            })
-                });
-                function loadTable(){
-                    $.ajax({
-                                url:'load.php',
-                                type:'POST',                                
-                                success:function(data){
-                                    $("#event-table").html(data);
-                                }                            
-                            });
-                }
-            });            
-        </script>
-<script>    
-    function deleteData(data) {
-        //Make an Ajax request to delete the data
-        if(confirm("Are you confirm to delete it?"))
-        {
-            var id = data;
-            $.ajax({
-                url: 'delete.php',
-                type: 'POST',
-                data: {
-                id:id
-                },
-                success: function(response) {
-                    alert('Data deleted successfully');
-                    location.reload(true);
-                },
-                error: function(xhr, status, error) {
-                    alert('Error deleting data:', error);
-                }
-            });
+    async function holidaylist() {
+    var url = '<?= site_url('/admin/holiday-list-api') ?>';
+    let response = await fetch(url, {
+        method: 'GET',                    
+    });
+    let data = await response.json();
+    return data;
+}
+
+// Example usage
+async function loadHolidayData() {
+    let data = await holidaylist();
+    // return data;
+    // console.log(data);  // Process the data here
+}
+                  
+document.addEventListener('DOMContentLoaded', function() {
+    var calendarEl = document.getElementById('calendar');
+
+    // Static array of existing events
+    // var events =  loadHolidayData();
+    // console.log(events);      
+
+    // Initialize FullCalendar
+    var calendar = new FullCalendar.Calendar(calendarEl, {
+        initialView: 'dayGridMonth',
+        events: async function(fetchInfo, successCallback, failureCallback) {
+            try {
+                let events = await holidaylist();
+                successCallback(events);
+            } catch (error) {
+                failureCallback(error);
+            }
+        },// Load existing events here
+        dateClick: function(info) {
+            document.getElementById('holidayForm').reset();
+            document.getElementById('holidayId').value = '';
+            document.getElementById('start_event').value = info.dateStr;
+            document.getElementById('end_event').value = info.dateStr;
+            new bootstrap.Modal(document.getElementById('holidayModal')).show();
+        },
+        eventClick: function(info) {
+            // console.log(info);
+            var event = info.event;
+            document.getElementById('holidayId').value = event.id;
+            document.getElementById('title').value = event.title;
+            document.getElementById('start_event').value = event.startStr;
+            document.getElementById('end_event').value = event.endStr || event.startStr;
+            document.getElementById('color_code').value = event.backgroundColor;
+            new bootstrap.Modal(document.getElementById('holidayModal')).show();
+        },
+        editable: true,
+        eventDrop: function(info) {
+            updateHoliday(info.event);
+        },
+        eventResize: function(info) {
+            updateHoliday(info.event);
         }
-    }    
+    });
+
+    calendar.render();
+    document.getElementById('holidayForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // calendar.refetchEvents();
+        // new bootstrap.Modal(document.getElementById('holidayModal')).hide();
+        var id = document.getElementById('holidayId').value;
+        var url = id ? '<?= site_url('/admin/holiday-list/edit') ?>/' + id : '<?= site_url('/admin/holiday-list-add') ?>';
+        // alert(id);
+        
+        fetch(url, {
+            method: 'POST',
+            body: new FormData(document.getElementById('holidayForm'))
+        }).then(response => response.json())
+            .then(data => {
+            // alert(data.status);
+                if (data.status === 'success') {
+                //    new bootstrap.Modal(document.getElementById('holidayModal')).hide();                        
+                //   calendar.refetchEvents();
+                window.location.reload();
+                }
+            });
+    });
+
+    function updateHoliday(event) {
+        var url = '<?= site_url('/admin/holiday-list/edit') ?>/' + event.id;
+        
+        fetch(url, {
+            method: 'POST',
+            body: new FormData(document.getElementById('holidayForm'))
+        }).then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    calendar.refetchEvents();
+                }
+            });
+    }
+});
 </script>
