@@ -506,4 +506,19 @@ class TaskAssignController extends BaseController {
         $apiExtraData                       = http_response_code();
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
     }
+
+    public function task_listv2()
+    {
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage '.$this->data['title'];
+        $page_name                  = 'task-assign/list-v2';
+        $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
+        $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+
+        $order_by1[0]               = array('field' => 'project.name', 'type' => 'ASC');
+        $join1[0]                   = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+        $join1[1]                   = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+        $data['projects']           = $this->common_model->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join1, '', $order_by1);
+        echo $this->layout_after_login($title,$page_name,$data);
+    }
 }
