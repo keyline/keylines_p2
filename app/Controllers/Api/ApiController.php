@@ -483,8 +483,10 @@ class ApiController extends BaseController
                         ];
                         $this->common_model->save_data('user', $postData, $checkUser->id, 'id');
                         /* send sms */
-                            $message = "Dear KEYLINERS, ".$mobile_otp." is your verification OTP for registration at ECOEX PORTAL. Do not share this OTP with anyone for security reasons.";
-                            $mobileNo = (($checkUser)?$checkUser->phone1:'');
+                            // $message    = "Dear KEYLINERS, ".$mobile_otp." is your verification OTP for registration at ECOEX PORTAL. Do not share this OTP with anyone for security reasons.";
+                            $name       = $checkUser->name;
+                            $message    = "Dear ".$name.", ".$mobile_otp." is your verification OTP for ProTime Manager at KEYLINE. Do not share this OTP with anyone for security reasons.";
+                            $mobileNo   = (($checkUser)?$checkUser->phone1:'');
                             $this->sendSMS($mobileNo,$message);
                         /* send sms */
                         $mailData                   = [
