@@ -33,6 +33,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 <div class="card-body">
                     <h5 class="card-title">
                         <a href="<?= base_url('admin/' . $controller_route . '/add/') ?>" class="btn btn-outline-success btn-sm">Add <?= $title ?></a>
+                        <a href="<?= base_url('admin/' . $controller_route . '/encrypt-info/') ?>" class="btn btn-info btn-sm" style="float: right;">Encrypt Client Email & Phone</a>
                     </h5>
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered table-fit general_table_style">
@@ -67,7 +68,15 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <?= $row->address_1 ?> <?= $row->state ?> <?= $row->city ?> <?= $row->country ?> <?= $row->pin ?><br>
                                                 <?= $row->address_2 ?>
                                             </td>
-                                            <td><?= $row->reference ?> <br> <?= $row->email_1 ?><br><?= $row->email_2 ?> <br> <?= $row->phone_1 ?><br><?= $row->phone_2 ?> </td>
+                                            <td>
+                                                <?=$row->reference ?><br>
+                                                <!-- <?= $row->email_1 ?><br> -->
+                                                <?=$pro->decrypt($row->encoded_email)?><br>
+                                                <?=$row->email_2 ?> <br>
+                                                <!-- <?= $row->phone_1 ?><br> -->
+                                                <?=$pro->decrypt($row->encoded_phone)?><br>
+                                                <?=$row->phone_2 ?>
+                                            </td>
                                             <td>
                                                 <?= (($row->added_date != '0000-00-00 00:00:00') ? date_format(date_create($row->added_date), "M d, Y h:i A") : '') ?>
                                                 <br>

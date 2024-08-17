@@ -1,13 +1,11 @@
 <?php
-
 namespace App\Controllers\admin;
-
 use App\Controllers\BaseController;
 use App\Models\CommonModel;
+use App\Libraries\Pro;
 
 class ClientController extends BaseController
 {
-
     private $model;  //This can be accessed by all class methods
     public function __construct()
     {
@@ -32,7 +30,7 @@ class ClientController extends BaseController
         $title                      = 'Manage ' . $this->data['title'];
         $page_name                  = 'client/list';
         $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', '', 'id,name,compnay,address_1,state,city,country,pin,address_2,email_1,email_2,phone_1,phone_2,reference,added_date,last_login,login_access', '', '', $order_by);
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', '', 'id,name,compnay,address_1,state,city,country,pin,address_2,email_1,email_2,phone_1,phone_2,reference,added_date,last_login,login_access,encoded_email,encoded_phone', '', '', $order_by);
         // pr($data['rows']);
         // $data['rows']               = $this->data['model']->find_data('project', 'count', '', '', '', '', '');
         echo $this->layout_after_login($title, $page_name, $data);
@@ -359,5 +357,26 @@ class ClientController extends BaseController
             return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
         }
         echo $this->layout_after_login($title, $page_name, $data);
+    }
+    public function encryptInfo(){
+        $this->pro           = new Pro();
+        $clients               = $this->data['model']->find_data($this->data['table_name'], 'array', '', 'id, email_1, phone_1');
+        if($clients){
+            foreach($clients as $client){
+                $id             = $client->id;
+                $email_1        = $client->email_1;
+                $phone_1        = $client->phone_1;
+
+                $encryptedEmail = $this->pro->encrypt($email_1);
+                $encryptedPhone = $this->pro->encrypt($phone_1);
+                $fields         = [
+                    'encoded_email' => $encryptedEmail,
+                    'encoded_phone' => $encryptedPhone,
+                ];
+                $this->data['model']->save_data($this->data['table_name'], $fields, $id, 'id');
+            }
+        }
+        $this->session->setFlashdata('success_message', $this->data['title'] . ' email & phone encrypted successfully');
+        return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
     }
 }
