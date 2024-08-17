@@ -34,6 +34,22 @@ class Pro {
 		$this->secret_key 			= $application_settings->encryption_api_secret_key;
 		$this->secret_iv 			= $application_settings->encryption_api_secret_iv;
 		$this->encrypt_method 		= $application_settings->encryption_api_encrypt_method;
+
+		// $this->secret_key = '09213752946580284628402947517393';
+		// $this->secret_iv = 'pwhdyevskeifywbx';	
+		// $this->encrypt_method = 'AES-256-CBC';
+
+		// $iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($cipher = "AES-128-CBC"));
+		// $o = "Hello World";
+		// echo "plaintext: {$o} \n";
+		// $k = "just a key";
+		// $c = "AES-128-CBC";
+
+		// $e = openssl_encrypt($o, $c, $k, iv: $iv);
+		// echo "<br>after encrypted: {$e} \n";
+
+		// $d = openssl_decrypt($e, $c, $k, iv: $iv);
+		// echo "<br>after decrypted: {$d} \n";
 	}
 	
     function encrypt($message){

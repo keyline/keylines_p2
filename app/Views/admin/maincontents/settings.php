@@ -431,19 +431,19 @@ $user_type = session('user_type');
                   <div class="row mb-3">
                     <label for="encryption_api_secret_key" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret Key</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="encryption_api_secret_key" type="text" class="form-control" id="encryption_api_secret_key" value="<?=$pro->decrypt($application_setting->encryption_api_secret_key)?>">
+                      <input name="encryption_api_secret_key" type="text" class="form-control" id="encryption_api_secret_key" value="<?=$application_setting->encryption_api_secret_key?>">
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="encryption_api_secret_iv" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret IV</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="encryption_api_secret_iv" type="text" class="form-control" id="encryption_api_secret_iv" value="<?=$pro->decrypt($application_setting->encryption_api_secret_iv)?>">
+                      <input name="encryption_api_secret_iv" type="text" class="form-control" id="encryption_api_secret_iv" value="<?=$application_setting->encryption_api_secret_iv?>">
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="encryption_api_encrypt_method" class="col-md-4 col-lg-3 col-form-label">Encryption API Encryption Method</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="encryption_api_encrypt_method" type="text" class="form-control" id="encryption_api_encrypt_method" value="<?=$pro->decrypt($application_setting->encryption_api_encrypt_method)?>">
+                      <input name="encryption_api_encrypt_method" type="text" class="form-control" id="encryption_api_encrypt_method" value="<?=$application_setting->encryption_api_encrypt_method?>">
                     </div>
                   </div>
 

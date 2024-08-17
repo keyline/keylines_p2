@@ -1360,9 +1360,9 @@ class User extends BaseController {
                 'is_desklog_use'                    => $yes_no,
                 'is_task_approval'                  => $approval,
                 'is_project_cost'                   => $project_cost,
-                'encryption_api_secret_key'         => $this->pro->encrypt($this->request->getPost('encryption_api_secret_key')),
-                'encryption_api_secret_iv'          => $this->pro->encrypt($this->request->getPost('encryption_api_secret_iv')),
-                'encryption_api_encrypt_method'     => $this->pro->encrypt($this->request->getPost('encryption_api_encrypt_method')),
+                'encryption_api_secret_key'         => $this->request->getPost('encryption_api_secret_key'),
+                'encryption_api_secret_iv'          => $this->request->getPost('encryption_api_secret_iv'),
+                'encryption_api_encrypt_method'     => $this->request->getPost('encryption_api_encrypt_method'),
             ];
             $fields2 = [
                 'check_span' => $this->request->getpost('amc_checking_after_days')
