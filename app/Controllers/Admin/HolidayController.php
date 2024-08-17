@@ -35,7 +35,7 @@ class HolidayController extends BaseController
         $page_name                  = 'holiday-list';
         $data['events']             = $this->data['model']->find_data('event', 'array', ['status!=' => '3'], '', '');                 
     
-            // pr($events) ;
+            //  pr($data['events']) ;
         echo $this->layout_after_login($title, $page_name, $data);
         //  return $this->response->setJSON($data['events']);
          
@@ -49,17 +49,18 @@ class HolidayController extends BaseController
         $data['events']             = $this->data['model']->find_data('event', 'array', ['status!=' => '3'], '', ''); 
         $events = [];
 
-        foreach ($data['events'] as $holiday) {
+        foreach ($data['events'] as $holiday) {            
             $events[] = [   
                 'id'    =>$holiday->id ,     
                 'title' => $holiday->title,
                 'start' => $holiday->start_event,            
-                'color' => $holiday->color_code,           
+                'backgroundColor' => $holiday->color_code_bc,           
+                'textColor' => $holiday->color_code_fc,           
             ];
         }
-            //  pr($events) ;
+            //    pr($events) ;
         // echo $this->layout_after_login($title, $page_name, $data);
-          return $this->response->setJSON($events);
+            return $this->response->setJSON($events);
          
     }
 
@@ -75,7 +76,8 @@ class HolidayController extends BaseController
                 'title'         => $this->request->getPost('title'),
                 'start_event'    => $this->request->getPost('start_event'),
                 'end_event'      => $this->request->getPost('end_event'),
-                'color_code'   => $this->request->getPost('color_code'),
+                'color_code_bc'   => $this->request->getPost('color_code_bc'),
+                'color_code_fc'   => $this->request->getPost('color_code_fc'),
             );
             //  pr($postdata);
             $record     = $this->data['model']->save_data($this->data['table_name'], $postdata, '', $this->data['primary_key']);
@@ -98,7 +100,8 @@ class HolidayController extends BaseController
                 'title'         => $this->request->getPost('title'),
                 'start_event'    => $this->request->getPost('start_event'),
                 'end_event'      => $this->request->getPost('end_event'),
-                'color_code'   => $this->request->getPost('color_code'),
+                'color_code_bc'   => $this->request->getPost('color_code_bc'),
+                'color_code_fc'   => $this->request->getPost('color_code_fc'),
                 'updated_at'            => date('Y-m-d H:i:s'),
             );     
             // pr($postdata);
