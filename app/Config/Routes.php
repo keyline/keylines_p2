@@ -123,6 +123,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
 			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
+			$routes->match(['get', 'post'], "clients/encrypt-info", "ClientController::encryptInfo");
 
 			$routes->match(['get', 'post'], "clients/add-project/(:any)", "ClientController::addProject/$1");
 			
