@@ -316,5 +316,11 @@ $userId             = $session->user_id;
                 <span>Settings</span>
             </a>
         </li>
+        <li class="nav-item">
+            <a class="nav-link <?= (($pageSegment == 'mobile-application') ? 'active' : '') ?>" href="<?= base_url('admin/mobile-application') ?>">
+                <i class="fa fa-mobile"></i>
+                <span>Mobile Application</span>
+            </a>
+        </li>
     <?php } ?>
 </ul>

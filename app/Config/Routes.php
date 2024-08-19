@@ -213,6 +213,14 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "holiday-list/delete/(:any)", "HolidayController::confirm_delete/$1");
 		// holiday
 
+		// mobile-application
+		$routes->match(['get'], "mobile-application", "MobileController::show");
+		// $routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
+		// $routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
+		// $routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
+		// $routes->match(['get', 'post'], "holiday-list/delete/(:any)", "HolidayController::confirm_delete/$1");
+		// mobile-application
+
 		// delete account requests
 			$routes->match(['get'], "delete-account-request/list", "DeleteAccountRequestController::list");
 			$routes->match(['get', 'post'], "delete-account-request/delete/(:any)", "DeleteAccountRequestController::confirm_delete/$1");

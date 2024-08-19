@@ -86,7 +86,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <input type="text" class="form-control requiredCheck" data-check="Event Title" name="title" id="title" aria-describedby="helpId" placeholder="Enter Event title">
                                             </div>
                                             <div class="form-group">
-                                                <input type="color" class="form-control requiredCheck" data-check="Color Code" name="color_code" id="color_code" aria-describedby="helpId" placeholder="Select Color Code">
+                                                <label for="color_code_bc">Background Color</label>
+                                                <input type="color" class="form-control requiredCheck" data-check="Color Code" name="color_code_bc" id="color_code_bc" aria-describedby="helpId" placeholder="Select Background Color Code">
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="color_code_fc">Font Color</label>
+                                                <input type="color" class="form-control requiredCheck" data-check="Color Code" name="color_code_fc" id="color_code_fc" aria-describedby="helpId" placeholder="Select Font Color Code">
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" id="dataForm" class="btn btn-primary" data-dismiss="modal">Save</button>                          
@@ -163,14 +168,12 @@ async function loadHolidayData() {
                   
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
-
-    // Static array of existing events
-    // var events =  loadHolidayData();
-    // console.log(events);      
-
     // Initialize FullCalendar
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
+        buttonText: {
+                today: 'Today'        // Change the "Day" button text
+            },    
         events: async function(fetchInfo, successCallback, failureCallback) {
             try {
                 let events = await holidaylist();
@@ -193,7 +196,8 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('title').value = event.title;
             document.getElementById('start_event').value = event.startStr;
             document.getElementById('end_event').value = event.endStr || event.startStr;
-            document.getElementById('color_code').value = event.backgroundColor;
+            document.getElementById('color_code_bc').value = event.backgroundColor;
+            document.getElementById('color_code_fc').value = event.textColor;
             new bootstrap.Modal(document.getElementById('holidayModal')).show();
         },
         editable: true,
@@ -207,9 +211,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     calendar.render();
     document.getElementById('holidayForm').addEventListener('submit', function(event) {
-        event.preventDefault();
-        // calendar.refetchEvents();
-        // new bootstrap.Modal(document.getElementById('holidayModal')).hide();
+        event.preventDefault();       
         var id = document.getElementById('holidayId').value;
         var url = id ? '<?= site_url('/admin/holiday-list/edit') ?>/' + id : '<?= site_url('/admin/holiday-list-add') ?>';
         // alert(id);
@@ -220,9 +222,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }).then(response => response.json())
             .then(data => {
             // alert(data.status);
-                if (data.status === 'success') {
-                //    new bootstrap.Modal(document.getElementById('holidayModal')).hide();                        
-                //   calendar.refetchEvents();
+                if (data.status === 'success') {                
                 window.location.reload();
                 }
             });
