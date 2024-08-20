@@ -60,9 +60,11 @@ class UserController extends BaseController {
         $page_name                  = 'user/add-edit';        
         $data['row']                = [];
         $data['userCats']           = $this->data['model']->find_data('user_category', 'array');
-        $userType                   = $this->session->user_type;
-        if ($userType = "SUPER ADMIN") { 
-        $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => '1']);
+        $userType                   = $this->session->user_type;        
+        if ($userType == "SUPER ADMIN") { 
+        $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1]);
+        }else{
+        $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1, 'id!=' => 1]);
         }
         // pr($data['roleMasters']);
         if($this->request->getMethod() == 'post') {
@@ -145,7 +147,13 @@ class UserController extends BaseController {
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
         // pr($data['row']);
         $data['userCats']           = $this->data['model']->find_data('user_category', 'array');
-        $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => '1']);
+        $userType                   = $this->session->user_type;
+        // echo $userType; die;
+        if ($userType == "SUPER ADMIN") { 
+            $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1]);
+            }else{
+            $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1, 'id!=' => 1]);
+            }
         // pr($data['roleMasters']);
         if($this->request->getMethod() == 'post') {
             /* profile image */
@@ -299,5 +307,25 @@ class UserController extends BaseController {
         $msg                = 'Password Has Been Reset & Credentials Sent';
         $this->session->setFlashdata('success_message', $this->data['title'].' '.$msg.' successfully');
         return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
+    }
+
+    public function usercostlist()
+    {
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage '.$this->data['title'];
+        $page_name                  = 'user_cost';
+        $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
+        $userType                   = $this->session->user_type;        
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1'], '', '', '', $order_by);                
+        if($this->request->getMethod() == 'post') {
+            $id = $this->request->getPost('id');            
+            $postData   = array(
+                'hour_cost'           => $this->request->getPost('hour_cost'),                                                                       
+            );             
+            $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
+            $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
+            return redirect()->to('/admin/user_cost/list');
+        }
+        echo $this->layout_after_login($title,$page_name,$data);
     }
 }

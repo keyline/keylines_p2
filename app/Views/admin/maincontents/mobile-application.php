@@ -104,7 +104,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             </div>
                                             <div class="btn-stor">
                                                 <a href="https://shorturl.at/HPZ8r">
-                                                    <img src="<?= site_url('public/uploads/play-stor.png')?>" alt="" class="img-fluid">
+                                                    <img src="<?= site_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
                                                 </a>
                                             </div>
                                         </div>
@@ -130,7 +130,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             </div>
                                             <div class="btn-stor">
                                                 <a href="https://shorturl.at/VMYlc">
-                                                    <img src="<?= site_url('public/uploads/ios-btn.PNG')?>" alt="" class="img-fluid">
+                                                    <img src="<?= site_url('public/uploads/app-store.PNG')?>" alt="" class="img-fluid">
                                                 </a>
                                             </div>
                                         </div>
@@ -143,7 +143,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         </div>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col-12">
                 <div class="screen-shot-box">
                     <div class="owl-carousel owl-theme">
@@ -162,7 +162,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     <?php } ?>
 </section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

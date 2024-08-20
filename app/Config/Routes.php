@@ -155,6 +155,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 
 		/* users */
 			$routes->match(['get'], "users/list", "UserController::list");
+			$routes->match(['get', 'post'], "user_cost/list", "UserController::usercostlist");			
 			$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
 			$routes->match(['get', 'post'], "users/add", "UserController::add");
 			$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
