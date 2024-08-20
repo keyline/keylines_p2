@@ -66,7 +66,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <?php if($rows){ $sl=1; foreach($rows as $row){ ?>
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
-                                    <td><?=$row->name?><span class="badge bg-warning ms-1"><?=$row->id?></span></td>
+                                    <td><?=$row->name?></td>
                                     <td>                                                                              
                                         <form method="POST" action="" enctype="multipart/form-data" class="general_form_style"> 
                                             <input type = "hidden" name="id" value="<?=$row->id?>">                                   
@@ -82,7 +82,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             </div>                                                                                   
                                     </td>                                                                        
                                     <td>                                        
-                                            <input type="submit" value="Submit">                                     
+                                            <button type="submit" class="btn btn-success btn-sm">SUBMIT</button>                                     
                                         </form>   
                                     </td>
                                 </tr>
