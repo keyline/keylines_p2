@@ -87,17 +87,6 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="col-md-4">
                                 <div class="scan-left">
                                     <div class="card">
-                                        <!-- <div class="card-header">
-                                            <div class="d-flex align-items-center">
-                                                <div class="icon me-2">
-                                                    <i class="fa fa-mobile fa-2x"></i>
-                                                </div>
-                                                <div class="icon-heading">
-                                                    <h5 class="">Android</h5>
-                                                    <a href="<?= site_url()?>">https</a>
-                                                </div>
-                                            </div>
-                                        </div> -->
                                         <div class="card-body pt-3">
                                             <div class="download-left">
                                                 <img src="<?= site_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
@@ -114,16 +103,6 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="col-md-4">
                                 <div class="scan-right">
                                     <div class="card">
-                                        <!-- <div class="card-header">
-                                            <div class="d-flex align-items-center">
-                                                <div class="icon me-2">
-                                                    <i class="fa fa-mobile fa-2x"></i>
-                                                </div>
-                                                <div class="icon-heading">
-                                                    <a href="?= site_url()?>">https</a>
-                                                </div>
-                                            </div>
-                                        </div> -->
                                         <div class="card-body">
                                             <div class="download-right">
                                                 <img src="<?= site_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
@@ -143,26 +122,6 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         </div>
-        <!-- <div class="row">
-            <div class="col-12">
-                <div class="screen-shot-box">
-                    <div class="owl-carousel owl-theme">
-                        <div class="item"><h4>1</h4></div>
-                        <div class="item"><h4>2</h4></div>
-                        <div class="item"><h4>3</h4></div>
-                        <div class="item"><h4>4</h4></div>
-                        <div class="item"><h4>5</h4></div>
-                        <div class="item"><h4>6</h4></div>
-                        <div class="item"><h4>7</h4></div>
-                        <div class="item"><h4>8</h4></div>
-                        <div class="item"><h4>9</h4></div>
-                        <div class="item"><h4>10</h4></div>
-                        <div class="item"><h4>11</h4></div>
-                        <div class="item"><h4>12</h4></div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
     <?php } ?>
 </section>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
