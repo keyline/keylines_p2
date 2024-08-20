@@ -323,7 +323,7 @@ class UserController extends BaseController {
                 'hour_cost'           => $this->request->getPost('hour_cost'),                                                                       
             );             
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
-            $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
+            $this->session->setFlashdata('success_message', $this->data['title'].'  cost updated successfully');
             return redirect()->to('/admin/user_cost/list');
         }
         echo $this->layout_after_login($title,$page_name,$data);

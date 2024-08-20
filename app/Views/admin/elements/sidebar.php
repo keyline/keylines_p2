@@ -140,14 +140,14 @@ $userId             = $session->user_id;
                 <li class="nav-item">
                     <a class="nav-link <?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
                         <i class="fa fa-arrow-right"></i>
-                        <span>User List</span>
+                        <span>List</span>
                     </a>
                 </li>
                 <?php if($userType == 'SUPER ADMIN') { ?>
                 <li class="nav-item">
                     <a class="nav-link <?= (($pageSegment == 'user_cost') ? 'active' : '') ?>" href="<?= base_url('admin/user_cost/list') ?>">
                         <i class="fa fa-arrow-right"></i>
-                        <span>User Cost Module</span>
+                        <span>Cost Update</span>
                     </a>
                 </li>
                 <?php } ?>
