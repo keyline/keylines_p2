@@ -33,7 +33,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 <div class="card-body">
                     <h5 class="card-title">
                         <a href="<?= base_url('admin/' . $controller_route . '/add/') ?>" class="btn btn-outline-success btn-sm">Add <?= $title ?></a>
-                        <a href="<?= base_url('admin/' . $controller_route . '/encrypt-info/') ?>" class="btn btn-info btn-sm" style="float: right;">Encrypt Client Email & Phone</a>
+                        <!-- <a href="<?= base_url('admin/' . $controller_route . '/encrypt-info/') ?>" class="btn btn-info btn-sm" style="float: right;">Encrypt Client Email & Phone</a> -->
                     </h5>
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered table-fit general_table_style">
@@ -55,7 +55,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <tr>
                                             <th scope="row"><?= $sl++ ?></th>
                                             <td>
-                                                <?= $row->name ?><br>
+                                                <?=$pro->decrypt($row->name)?><br>
                                                 <?php $projectCount = $common_model->find_data('project', 'count', ['client_id' => $row->id], 'id'); ?>
                                                 <a href="<?= base_url('admin/' . $controller_route . '/add-project/' . base64_encode($row->id)) ?>" target="_blank" class="btn btn-info btn-sm d-inline-flex align-items-center" style="height: 20px;font-size: 12px;">
                                                     <i class="bi bi-plus-circle me-1"></i> Add Project
@@ -64,18 +64,19 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <span class="badge <?= (($row->login_access == '1') ? 'bg-success' : 'bg-danger') ?>"><?= (($row->login_access == '1') ? ' Login Access: YES' : 'Login Access: NO') ?></span><br>
                                             </td>
                                             <td>
-                                                <span class="fw-bold"><?= $row->compnay ?></span><br>
+                                                <span class="fw-bold"><?=$pro->decrypt($row->compnay)?></span><br>
                                                 <?= $row->address_1 ?> <?= $row->state ?> <?= $row->city ?> <?= $row->country ?> <?= $row->pin ?><br>
                                                 <?= $row->address_2 ?>
                                             </td>
                                             <td>
                                                 <?=$row->reference ?><br>
-                                                <!-- <?= $row->email_1 ?><br> -->
-                                                <?=$pro->decrypt($row->encoded_email)?><br>
-                                                <?=$row->email_2 ?> <br>
-                                                <!-- <?= $row->phone_1 ?><br> -->
-                                                <?=$pro->decrypt($row->encoded_phone)?><br>
-                                                <?=$row->phone_2 ?>
+                                                <?=$pro->decrypt($row->email_1)?><br>
+                                                <?=$pro->decrypt($row->email_2)?> <br>
+
+                                                <?=$pro->decrypt($row->phone_1)?><br>
+                                                <?=$pro->decrypt($row->phone_2)?>
+                                                <!-- <?=$pro->decrypt($row->encoded_email)?><br> -->
+                                                <!-- <?=$pro->decrypt($row->encoded_phone)?><br> -->
                                             </td>
                                             <td>
                                                 <?= (($row->added_date != '0000-00-00 00:00:00') ? date_format(date_create($row->added_date), "M d, Y h:i A") : '') ?>

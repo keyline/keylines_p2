@@ -207,7 +207,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 		// attendance
 
 		// holiday
-			$routes->match(['get'], "holiday-list", "HolidayController::fetchHolidays");
+			$routes->match(['get', 'post'], "holiday-list", "HolidayController::fetchHolidays");
 			$routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
 			$routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
 			$routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
