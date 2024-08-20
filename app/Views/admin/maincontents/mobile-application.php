@@ -126,11 +126,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div> -->
                                         <div class="card-body">
                                             <div class="download-right">
-                                                <img src="<?= site_url('public/uploads/ios.png')?>" alt="" class="img-fluid">
+                                                <img src="<?= site_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
                                             </div>
                                             <div class="btn-stor">
                                                 <a href="https://shorturl.at/VMYlc">
-                                                    <img src="<?= site_url('public/uploads/app-store.PNG')?>" alt="" class="img-fluid">
+                                                    <img src="<?= site_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
                                                 </a>
                                             </div>
                                         </div>
