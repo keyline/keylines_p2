@@ -133,10 +133,25 @@ $userId             = $session->user_id;
     <?php //} ?>
     <?php if (checkModuleAccess(4)) { ?>
         <li class="nav-item">
-            <a class="nav-link <?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
-                <i class="fa fa-users"></i>
-                <span>Users</span>
+            <a class="nav-link <?= (($pageSegment == 'users') ? '' : 'collapsed') ?> <?= (($pageSegment == 'users') ? 'active' : '') ?>" data-bs-target="#notification-nav" data-bs-toggle="collapse" href="#">
+                <i class="fa fa-users"></i><span>User Module</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
+            <ul id="notification-nav" class="nav-content collapse <?= (($pageSegment == 'users') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link <?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
+                        <i class="fa fa-arrow-right"></i>
+                        <span>User List</span>
+                    </a>
+                </li>
+                <?php if($userType == 'SUPER ADMIN') { ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= (($pageSegment == 'user_cost') ? 'active' : '') ?>" href="<?= base_url('admin/user_cost/list') ?>">
+                        <i class="fa fa-arrow-right"></i>
+                        <span>User Cost Module</span>
+                    </a>
+                </li>
+                <?php } ?>
+            </ul>
         </li>
     <?php } ?>
     <?php if (checkModuleAccess(18)) { ?>
