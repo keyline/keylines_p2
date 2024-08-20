@@ -34,11 +34,22 @@ class HolidayController extends BaseController
         $title                      = 'Manage ' . $this->data['title'];
         $page_name                  = 'holiday-list';
         $data['events']             = $this->data['model']->find_data('event', 'array', ['status!=' => '3'], '', '');                 
-    
-            //  pr($data['events']) ;
+        
+        if($this->request->getMethod() == 'post') {
+            //  pr($this->request->getPost());
+            $postdata = array(
+                'title'             => $this->request->getPost('title'),
+                'start_event'       => $this->request->getPost('start_event'),
+                'end_event'         => $this->request->getPost('end_event'),
+                'color_code_bc'     => $this->request->getPost('color_code_bc'),
+                'color_code_fc'     => $this->request->getPost('color_code_fc'),
+            );
+            // pr($postdata);
+            $record     = $this->data['model']->save_data($this->data['table_name'], $postdata, '', $this->data['primary_key']);
+            $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
+            return redirect()->to(current_url());
+        }
         echo $this->layout_after_login($title, $page_name, $data);
-        //  return $this->response->setJSON($data['events']);
-         
     }
 
     public function Holidaylistapi()
@@ -70,7 +81,7 @@ class HolidayController extends BaseController
         $title                      = 'Manage ' . $this->data['title'];
         $page_name                  = 'holiday-list';
 
-        if($this->request->getMethod() == 'post') { 
+        if($this->request->getMethod() == 'post') {
             //  pr($this->request->getPost());
             $postdata = array(
                 'title'         => $this->request->getPost('title'),

@@ -87,11 +87,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                             </div>
                                             <div class="form-group">
                                                 <label for="color_code_bc">Background Color</label>
-                                                <input type="color" class="form-control requiredCheck" data-check="Color Code" name="color_code_bc" id="color_code_bc" aria-describedby="helpId" placeholder="Select Background Color Code">
+                                                <input type="color" class="form-control requiredCheck" data-check="Color Code" name="color_code_bc" id="color_code_bc" aria-describedby="helpId" placeholder="Select Background Color Code" value="#FFFFFF">
                                             </div>
                                             <div class="form-group">
                                                 <label for="color_code_fc">Font Color</label>
-                                                <input type="color" class="form-control requiredCheck" data-check="Color Code" name="color_code_fc" id="color_code_fc" aria-describedby="helpId" placeholder="Select Font Color Code">
+                                                <input type="color" class="form-control requiredCheck" data-check="Color Code" name="color_code_fc" id="color_code_fc" aria-describedby="helpId" placeholder="Select Font Color Code" value="#000000">
                                             </div>
                                             <div class="form-group">
                                                 <button type="submit" id="dataForm" class="btn btn-primary" data-dismiss="modal">Save</button>                          
@@ -111,7 +111,12 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="portlet-title">
                                 <div class="caption">
                                 </div>
-                                <div class="tools"> </div>
+                                <div class="tools">
+                                    <!-- Button trigger modal -->
+                                    <button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#holidayAddModal">
+                                      Add New Event
+                                    </button>
+                                </div>
                             </div>
                             <div class="portlet-body">
                                 <table class="table table-striped table-bordered table-hover table-condensed" id="event-table">
@@ -120,7 +125,6 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <th>#</th>
                                             <th>Event Name</th>
                                             <th>Event Date</th>
-                                            <!-- <th>End Event Date</th> -->
                                             <th>Action</th>                                            
                                         </tr>
                                     </thead>
@@ -146,6 +150,46 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     <?php } ?>
 </section>
+
+<!-- Modal -->
+<div class="modal fade" id="holidayAddModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <form method="POST">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Add New Holiday Event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="start_event">Start Date</label>
+                    <input type="date" class="form-control" data-check="Color Code" name="start_event" id="start_event" aria-describedby="helpId" placeholder="Start Date" required>
+                </div>
+                <div class="form-group">
+                    <label for="end_event">End Date</label>
+                    <input type="date" class="form-control" data-check="Color Code" name="end_event" id="end_event" aria-describedby="helpId" placeholder="End Date" required>
+                </div>
+                <div class="form-group">
+                    <label for="end_event">Event Name</label>
+                    <input type="text" class="form-control" data-check="Event Title" name="title" id="title" aria-describedby="helpId" placeholder="Enter Event title" required>
+                </div>
+                <div class="form-group">
+                    <label for="color_code_bc">Background Color</label>
+                    <input type="color" class="form-control" data-check="Color Code" name="color_code_bc" id="color_code_bc" value="#FFFFFF" aria-describedby="helpId" placeholder="Select Background Color Code" required>
+                </div>
+                <div class="form-group">
+                    <label for="color_code_fc">Font Color</label>
+                    <input type="color" class="form-control" data-check="Color Code" name="color_code_fc" id="color_code_fc" value="#000000" aria-describedby="helpId" placeholder="Select Font Color Code" required>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </form>
+  </div>
+</div>
+
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 

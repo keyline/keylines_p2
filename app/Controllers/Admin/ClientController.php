@@ -48,18 +48,18 @@ class ClientController extends BaseController
 
         if ($this->request->getMethod() == 'post') {
             $postData   = array(
-                'name'                  => $this->request->getPost('name'),
-                'compnay'               => $this->request->getPost('compnay'),
+                'name'                  => $this->pro->encrypt($this->request->getPost('name')),
+                'compnay'               => $this->pro->encrypt($this->request->getPost('compnay')),
                 'address_1'             => $this->request->getPost('address_1'),
                 'state'                 => $this->request->getPost('state'),
                 'city'                  => $this->request->getPost('city'),
                 'country'               => $this->request->getPost('country'),
                 'pin'                   => $this->request->getPost('pin'),
                 'address_2'             => $this->request->getPost('address_2'),
-                'email_1'               => $this->request->getPost('email_1'),
-                'email_2'               => $this->request->getPost('email_2'),
-                'phone_1'               => $this->request->getPost('phone_1'),
-                'phone_2'               => $this->request->getPost('phone_2'),
+                'email_1'               => $this->pro->encrypt($this->request->getPost('email_1')),
+                'email_2'               => $this->pro->encrypt($this->request->getPost('email_2')),
+                'phone_1'               => $this->pro->encrypt($this->request->getPost('phone_1')),
+                'phone_2'               => $this->pro->encrypt($this->request->getPost('phone_2')),
                 'dob_day'               => $this->request->getPost('dob_day'),
                 'dob_month'             => $this->request->getPost('dob_month'),
                 'dob_year'              => $this->request->getPost('dob_year'),
@@ -105,18 +105,18 @@ class ClientController extends BaseController
 
             if ($this->request->getPost('password') != '') {
                 $postData   = array(
-                    'name'                  => $this->request->getPost('name'),
-                    'compnay'               => $this->request->getPost('compnay'),
+                    'name'                  => $this->pro->encrypt($this->request->getPost('name')),
+                    'compnay'               => $this->pro->encrypt($this->request->getPost('compnay')),
                     'address_1'             => $this->request->getPost('address_1'),
                     'state'                 => $this->request->getPost('state'),
                     'city'                  => $this->request->getPost('city'),
                     'country'               => $this->request->getPost('country'),
                     'pin'                   => $this->request->getPost('pin'),
                     'address_2'             => $this->request->getPost('address_2'),
-                    'email_1'               => $this->request->getPost('email_1'),
-                    'email_2'               => $this->request->getPost('email_2'),
-                    'phone_1'               => $this->request->getPost('phone_1'),
-                    'phone_2'               => $this->request->getPost('phone_2'),
+                    'email_1'               => $this->pro->encrypt($this->request->getPost('email_1')),
+                    'email_2'               => $this->pro->encrypt($this->request->getPost('email_2')),
+                    'phone_1'               => $this->pro->encrypt($this->request->getPost('phone_1')),
+                    'phone_2'               => $this->pro->encrypt($this->request->getPost('phone_2')),
                     'dob_day'               => $this->request->getPost('dob_day'),
                     'dob_month'             => $this->request->getPost('dob_month'),
                     'dob_year'              => $this->request->getPost('dob_year'),
@@ -129,18 +129,18 @@ class ClientController extends BaseController
                 );
             } else {
                 $postData   = array(
-                    'name'                  => $this->request->getPost('name'),
-                    'compnay'               => $this->request->getPost('compnay'),
+                    'name'                  => $this->pro->encrypt($this->request->getPost('name')),
+                    'compnay'               => $this->pro->encrypt($this->request->getPost('compnay')),
                     'address_1'             => $this->request->getPost('address_1'),
                     'state'                 => $this->request->getPost('state'),
                     'city'                  => $this->request->getPost('city'),
                     'country'               => $this->request->getPost('country'),
                     'pin'                   => $this->request->getPost('pin'),
                     'address_2'             => $this->request->getPost('address_2'),
-                    'email_1'               => $this->request->getPost('email_1'),
-                    'email_2'               => $this->request->getPost('email_2'),
-                    'phone_1'               => $this->request->getPost('phone_1'),
-                    'phone_2'               => $this->request->getPost('phone_2'),
+                    'email_1'               => $this->pro->encrypt($this->request->getPost('email_1')),
+                    'email_2'               => $this->pro->encrypt($this->request->getPost('email_2')),
+                    'phone_1'               => $this->pro->encrypt($this->request->getPost('phone_1')),
+                    'phone_2'               => $this->pro->encrypt($this->request->getPost('phone_2')),
                     'dob_day'               => $this->request->getPost('dob_day'),
                     'dob_month'             => $this->request->getPost('dob_month'),
                     'dob_year'              => $this->request->getPost('dob_year'),
@@ -360,23 +360,35 @@ class ClientController extends BaseController
     }
     public function encryptInfo(){
         $this->pro           = new Pro();
-        $clients               = $this->data['model']->find_data($this->data['table_name'], 'array', '', 'id, email_1, phone_1');
+        $clients               = $this->data['model']->find_data($this->data['table_name'], 'array');
         if($clients){
             foreach($clients as $client){
                 $id             = $client->id;
+                $name           = $client->name;
+                $compnay        = $client->compnay;
                 $email_1        = $client->email_1;
+                $email_2        = $client->email_2;
                 $phone_1        = $client->phone_1;
+                $phone_2        = $client->phone_2;
 
-                $encryptedEmail = $this->pro->encrypt($email_1);
-                $encryptedPhone = $this->pro->encrypt($phone_1);
-                $fields         = [
-                    'encoded_email' => $encryptedEmail,
-                    'encoded_phone' => $encryptedPhone,
+                $encryptedName      = $this->pro->encrypt($name);
+                $encryptedCompany   = $this->pro->encrypt($compnay);
+                $encryptedEmail1    = $this->pro->encrypt($email_1);
+                $encryptedEmail2    = $this->pro->encrypt($email_2);
+                $encryptedPhone1    = $this->pro->encrypt($phone_1);
+                $encryptedPhone2    = $this->pro->encrypt($phone_2);
+                $fields             = [
+                    'name'      => $encryptedName,
+                    'compnay'   => $encryptedCompany,
+                    'email_1'   => $encryptedEmail1,
+                    'email_2'   => $encryptedEmail2,
+                    'phone_1'   => $encryptedPhone1,
+                    'phone_2'   => $encryptedPhone2,
                 ];
                 $this->data['model']->save_data($this->data['table_name'], $fields, $id, 'id');
             }
         }
-        $this->session->setFlashdata('success_message', $this->data['title'] . ' email & phone encrypted successfully');
+        $this->session->setFlashdata('success_message', $this->data['title'] . ' name, company name, email 1, email 2, phone 1, phone 2 encrypted successfully');
         return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
     }
 }
