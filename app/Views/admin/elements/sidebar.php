@@ -324,7 +324,8 @@ $userId             = $session->user_id;
             </a>
         </li>
     <?php } ?>
-    <?php if (checkModuleAccess(11)) { ?>
+    <?php //if (checkModuleAccess(11)) { ?>
+    <?php //if ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="<?= base_url('admin/settings') ?>">
                 <i class="fa fa-gear"></i>
@@ -337,5 +338,5 @@ $userId             = $session->user_id;
                 <span>Mobile Application</span>
             </a>
         </li>
-    <?php } ?>
+    <?php //} ?>
 </ul>
