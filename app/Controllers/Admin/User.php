@@ -615,7 +615,7 @@ class User extends BaseController {
                 $users_data              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);                        
                 $arr = $this->getLastNDays(7, 'Y-m-d');
                 //print_r($arr);die;
-                if($user = ($userType == 'ADMIN') ? $users_data : $users){
+                if($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users){
                 // if($users){
                     foreach($user as $row){
                         if(!empty($arr)){
@@ -663,7 +663,7 @@ class User extends BaseController {
                 // echo "<pre>";   
                 // print_r($data['last7DaysResponses'])  ;die;       
                        
-                if($user = ($userType == 'ADMIN') ? $users_data : $users){               
+                if($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users){               
                     $userGraph = [];          
                     foreach($user as $row){                
                     /* user graph */
