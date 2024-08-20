@@ -27,7 +27,14 @@ class UserController extends BaseController {
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'user/list';
         $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
+        $userType                   = $this->session->user_type;
+        // pr($userType);
+        if ($userType == "SUPER ADMIN") {             
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);        
+        } else{            
+            $data['rows']           = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1', 'type!=' => 'SUPER ADMIN'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
+            //   echo $this->db->getLastquery();die;            
+        }
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function DeactivateUserlist()
@@ -36,7 +43,13 @@ class UserController extends BaseController {
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'user/deactivate_user_list';
         $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '0'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
+        $userType                   = $this->session->user_type;
+        // pr($userType);
+        if ($userType = "SUPER ADMIN") { 
+            $data['rows']           = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '0'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);            
+        } else{
+            $data['rows']           = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '0', 'type!=' => 'SUPER ADMIN'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);          
+        }
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function add()
@@ -47,10 +60,13 @@ class UserController extends BaseController {
         $page_name                  = 'user/add-edit';        
         $data['row']                = [];
         $data['userCats']           = $this->data['model']->find_data('user_category', 'array');
+        $userType                   = $this->session->user_type;
+        if ($userType = "SUPER ADMIN") { 
         $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => '1']);
+        }
         // pr($data['roleMasters']);
         if($this->request->getMethod() == 'post') {
-            // pr($this->request->getPost());
+            //  pr($this->request->getPost());
             /* profile image */
                 $file = $this->request->getFile('image');
                 $originalName = $file->getClientName();
@@ -81,7 +97,7 @@ class UserController extends BaseController {
                 'type'                  => $this->request->getPost('type'),
                 'role_id'               => $this->request->getPost('role_id'),
                 'category'              => $this->request->getPost('category'),
-                'hour_cost'             => $this->request->getPost('hour_cost'),
+                'hour_cost'             => '0',
                 'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
                 'doj'                   => date_format(date_create($this->request->getPost('doj')), "Y-m-d"),
                 'profile_image'         => $profile_image,
@@ -92,7 +108,7 @@ class UserController extends BaseController {
                 'attendence_type'       => $this->request->getPost('attendence_type'),
                 'date_added'            => date('Y-m-d H:i:s'),
             );
-            // pr($postData);
+            //  pr($postData);
             /* credentials sent */
                 $generalSetting             = $this->common_model->find_data('general_settings', 'row');
                 $subject                    = $generalSetting->site_name.' :: Account Created '.date('Y-m-d H:i:s');
@@ -168,8 +184,7 @@ class UserController extends BaseController {
                 'password'              => $newPassword,
                 'type'                  => $this->request->getPost('type'),
                 'role_id'               => $this->request->getPost('role_id'),
-                'category'              => $this->request->getPost('category'),
-                'hour_cost'             => $this->request->getPost('hour_cost'),
+                'category'              => $this->request->getPost('category'),                
                 'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
                 'doj'                   => date_format(date_create($this->request->getPost('doj')), "Y-m-d"),
                 'profile_image'         => $profile_image,
@@ -179,7 +194,7 @@ class UserController extends BaseController {
                 'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
                 'attendence_type'       => $this->request->getPost('attendence_type'),
             );
-            //  pr($postData);
+            //   pr($postData);
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/list');

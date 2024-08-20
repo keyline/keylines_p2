@@ -218,7 +218,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                     <!--Hour Cost field -->
-                                    <div class="col-md-2 col-lg-2">
+                                    <!-- <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
                                             <label for="hour_cost" class="col-form-label">Hour Cost</label>
                                         </div>  
@@ -227,7 +227,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <div class="general_form_right_box">
                                             <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$hour_cost?>" minlength="2" maxlength="4" onkeypress="return isNumber(event)">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!--DOB field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
