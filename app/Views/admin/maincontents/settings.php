@@ -10,7 +10,7 @@ $user_type = session('user_type');
     </ol>
   </nav>
 </div><!-- End Page Title -->
-<?php if (checkModuleFunctionAccess(11, 54)) { ?>
+<?php //if (checkModuleFunctionAccess(11, 54)) { ?>
   <section class="section profile">
     <div class="row">
       <div class="col-xl-12">
@@ -774,7 +774,7 @@ $user_type = session('user_type');
       </div>
     </div>
   </section>
-<?php } ?>
+<?php //} ?>
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
