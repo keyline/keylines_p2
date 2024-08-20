@@ -6,7 +6,6 @@ $userType                   = $session->user_type;
     <!-- <img src="<?=getenv('app.adminAssetsURL')?>assets/img/logo.png" alt="<?=$general_settings->site_name?>"> -->
     <span class="d-none d-lg-block" style="font-size: 23px;"><?=$general_settings->site_name?></span>
     </a>
-    <i class="bi bi-list toggle-sidebar-btn"></i>
 </div>
 <!-- End Logo -->
 <!-- <div class="search-bar">

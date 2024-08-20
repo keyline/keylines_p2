@@ -35,15 +35,25 @@ $userId             = $session->user_id;
 </style>
 <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
+        <a class="nav-link toggle-sidebar-btn">
+            <i class="fa fa-bars"></i>
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link <?= (($pageSegment == 'dashboard') ? 'active' : '') ?>" href="<?= base_url('admin/dashboard') ?>">
-            <i class="fa fa-home"></i>
+            <div class="icon-box">
+                <i class="fa fa-home"></i>
+            </div>
             <span>Dashboard</span>
         </a>
     </li>
     <?php if (checkModuleAccess(12) || checkModuleAccess(13) || checkModuleAccess(14)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>" data-bs-target="#access-nav" data-bs-toggle="collapse" href="#">
-                <i class="fas fa-key"></i><span>Access & Permission</span><i class="bi bi-chevron-down ms-auto"></i>
+                <div class="icon-box">
+                    <i class="fas fa-key"></i>
+                </div>
+                <span>Access & Permission</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="access-nav" class="nav-content collapse <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if(checkModuleAccess(12)){ ?>
@@ -73,7 +83,10 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(28)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>" data-bs-target="#master-nav" data-bs-toggle="collapse" href="#">
-                <i class="fa fa-database"></i><span>Masters</span><i class="bi bi-chevron-down ms-auto"></i>
+                <div class="icon-box">
+                    <i class="fa fa-database"></i>
+                </div>    
+                <span>Masters</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="master-nav" class="nav-content collapse <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if(checkModuleAccess(16)){ ?>
@@ -120,7 +133,9 @@ $userId             = $session->user_id;
     <?php //if (checkModuleAccess(4)) { ?>
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('admin/task-assign') ?>">
-                <i class="fa fa-laptop"></i>
+                <div class="icon-box">
+                    <i class="fa fa-laptop"></i>
+                </div>
                 <span>Task Assign</span>
             </a>
         </li>
@@ -134,7 +149,9 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(4)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
-                <i class="fa fa-users"></i>
+                <div class="icon-box">
+                    <i class="fa fa-users"></i>
+                </div>
                 <span>Users</span>
             </a>
         </li>
@@ -142,7 +159,10 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(18)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/team/list') ?>">
-                <i class="fa fa-users"></i>
+                <div class="icon-box">
+                    <i class="fa fa-users"></i>
+                </div>
+                
                 <span>Team</span>
             </a>
         </li>
@@ -150,7 +170,10 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(5)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'projects') ? 'active' : '') ?>" href="<?= base_url('admin/projects/list') ?>">
-                <i class="fas fa-project-diagram"></i>
+            <div class="icon-box">
+            <i class="fas fa-project-diagram"></i>
+            </div>
+                
                 <span>Projects</span>
             </a>
         </li>
@@ -158,7 +181,10 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(6)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'clients') ? 'active' : '') ?>" href="<?= base_url('admin/clients/list') ?>">
-                <i class="fas fa-industry"></i>
+            <div class="icon-box">
+            <i class="fas fa-industry"></i>
+            </div>
+                
                 <span>Clients</span>
             </a>
         </li>
@@ -166,13 +192,17 @@ $userId             = $session->user_id;
     <?php if($userType == 'ADMIN'){ ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
-                <i class="fas fa-calendar-check"></i>
+            <div class="icon-box">
+            <i class="fas fa-calendar-check"></i>
+            </div>
                 <span>AMC Checking</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
-                <i class="fas fa-money-check"></i>
+            <div class="icon-box">
+            <i class="fas fa-money-check"></i>
+            </div>
                 <span>Add Expenses</span>
             </a>
         </li>
@@ -181,7 +211,10 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(7) || checkModuleAccess(19) || checkModuleAccess(20)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'efforts') ? '' : 'collapsed') ?> <?= (($pageSegment == 'efforts') ? 'active' : '') ?>" data-bs-target="#notification-nav" data-bs-toggle="collapse" href="#">
-                <i class="fa fa-tasks"></i><span>Effort Booking</span><i class="bi bi-chevron-down ms-auto"></i>
+            <div class="icon-box">
+                <i class="fa fa-tasks"></i>
+            </div>
+            <span>Effort Booking</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="notification-nav" class="nav-content collapse <?= (($pageSegment == 'efforts') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if ($admin->is_tracker_user) {  ?>
@@ -226,7 +259,8 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(22) || checkModuleAccess(23) || checkModuleAccess(24) || checkModuleAccess(25) || checkModuleAccess(26)) {    ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'reports') ? '' : 'collapsed') ?> <?= (($pageSegment == 'reports') ? 'active' : '') ?>" data-bs-target="#report-nav" data-bs-toggle="collapse" href="#">
-                <i class="fa fa-tasks"></i><span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+            <div class="icon-box"><i class="fa fa-tasks"></i></div>    
+            <span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="report-nav" class="nav-content collapse <?= (($pageSegment == 'reports') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if(checkModuleAccess(22)){ ?>
@@ -282,13 +316,13 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(8)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>" href="<?= base_url('admin/holiday-list') ?>">
-                <i class="fas fa-calendar-check"></i>
+            <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
                 <span>Holiday List</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'delete-account-request') ? 'active' : '') ?>" href="<?= base_url('admin/delete-account-request/list') ?>">
-                <i class="fa fa-trash"></i>
+            <div class="icon-box"><i class="fa fa-trash"></i></div>
                 <span>Delete Account Requests</span>
             </a>
         </li>
@@ -296,7 +330,7 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(9)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'email-logs') ? 'active' : '') ?>" href="<?= base_url('admin/email-logs') ?>">
-                <i class="fa fa-envelope"></i>
+            <div class="icon-box"><i class="fa fa-envelope"></i></div>
                 <span>Email Logs</span>
             </a>
         </li>
@@ -304,7 +338,7 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(10)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'login-logs') ? 'active' : '') ?>" href="<?= base_url('admin/login-logs') ?>">
-                <i class="fa fa-list"></i>
+            <div class="icon-box"><i class="fa fa-list"></i></div>
                 <span>Login Logs</span>
             </a>
         </li>
@@ -312,13 +346,13 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(11)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="<?= base_url('admin/settings') ?>">
-                <i class="fa fa-gear"></i>
+            <div class="icon-box"><i class="fa fa-gear"></i></div>
                 <span>Settings</span>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'mobile-application') ? 'active' : '') ?>" href="<?= base_url('admin/mobile-application') ?>">
-                <i class="fa fa-mobile"></i>
+            <div class="icon-box"><i class="fa fa-mobile"></i></div>
                 <span>Mobile Application</span>
             </a>
         </li>
