@@ -6,7 +6,6 @@ $userType                   = $session->user_type;
     <!-- <img src="<?=getenv('app.adminAssetsURL')?>assets/img/logo.png" alt="<?=$general_settings->site_name?>"> -->
     <span class="d-none d-lg-block" style="font-size: 23px;"><?=$general_settings->site_name?></span>
     </a>
-    <i class="bi bi-list toggle-sidebar-btn"></i>
 </div>
 <!-- End Logo -->
 <!-- <div class="search-bar">
@@ -150,9 +149,11 @@ $userType                   = $session->user_type;
         </li>
         <!-- End Messages Nav -->
         <li class="nav-item dropdown pe-3">
+            <span style="margin-right: 10px;font-weight: bold;border: 1px solid white;padding: 7px 10px;border-radius: 10px;background-color: #FFF;"><?=$session->user_type?></span>
+        </li>
+        <li class="nav-item dropdown pe-3">
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <?php
-                
                 // pr($userType);
                 if($userType == "CLIENT")
                 {

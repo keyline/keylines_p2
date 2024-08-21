@@ -10,7 +10,7 @@ $user_type = session('user_type');
     </ol>
   </nav>
 </div><!-- End Page Title -->
-<?php if (checkModuleFunctionAccess(11, 54)) { ?>
+<?php //if (checkModuleFunctionAccess(11, 54)) { ?>
   <section class="section profile">
     <div class="row">
       <div class="col-xl-12">
@@ -64,7 +64,7 @@ $user_type = session('user_type');
               <li class="nav-item">
                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab3">Change Password</button>
               </li>
-              <?php if ($user_type == 'ADMIN') { ?>
+              <?php if ($user_type == 'SUPER ADMIN' || $user_type == 'ADMIN') { ?>
                 <li class="nav-item">
                   <button class="nav-link" data-bs-toggle="tab" data-bs-target="#tab2">General</button>
                 </li>
@@ -426,7 +426,27 @@ $user_type = session('user_type');
                         <label class="form-check-label" for="is_desklog_use1">YES/NO</label>                       
                       </div>                      
                     </div>
-                  </div>        
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="encryption_api_secret_key" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret Key</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="encryption_api_secret_key" type="text" class="form-control" id="encryption_api_secret_key" value="<?=$application_setting->encryption_api_secret_key?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="encryption_api_secret_iv" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret IV</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="encryption_api_secret_iv" type="text" class="form-control" id="encryption_api_secret_iv" value="<?=$application_setting->encryption_api_secret_iv?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="encryption_api_encrypt_method" class="col-md-4 col-lg-3 col-form-label">Encryption API Encryption Method</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="encryption_api_encrypt_method" type="text" class="form-control" id="encryption_api_encrypt_method" value="<?=$application_setting->encryption_api_encrypt_method?>">
+                    </div>
+                  </div>
+
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>
@@ -754,7 +774,7 @@ $user_type = session('user_type');
       </div>
     </div>
   </section>
-<?php } ?>
+<?php //} ?>
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">

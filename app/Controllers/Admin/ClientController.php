@@ -1,13 +1,11 @@
 <?php
-
 namespace App\Controllers\admin;
-
 use App\Controllers\BaseController;
 use App\Models\CommonModel;
+use App\Libraries\Pro;
 
 class ClientController extends BaseController
 {
-
     private $model;  //This can be accessed by all class methods
     public function __construct()
     {
@@ -32,7 +30,7 @@ class ClientController extends BaseController
         $title                      = 'Manage ' . $this->data['title'];
         $page_name                  = 'client/list';
         $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', '', 'id,name,compnay,address_1,state,city,country,pin,address_2,email_1,email_2,phone_1,phone_2,reference,added_date,last_login,login_access', '', '', $order_by);
+        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', '', 'id,name,compnay,address_1,state,city,country,pin,address_2,email_1,email_2,phone_1,phone_2,reference,added_date,last_login,login_access,encoded_email,encoded_phone', '', '', $order_by);
         // pr($data['rows']);
         // $data['rows']               = $this->data['model']->find_data('project', 'count', '', '', '', '', '');
         echo $this->layout_after_login($title, $page_name, $data);
@@ -50,18 +48,18 @@ class ClientController extends BaseController
 
         if ($this->request->getMethod() == 'post') {
             $postData   = array(
-                'name'                  => $this->request->getPost('name'),
-                'compnay'               => $this->request->getPost('compnay'),
+                'name'                  => $this->pro->encrypt($this->request->getPost('name')),
+                'compnay'               => $this->pro->encrypt($this->request->getPost('compnay')),
                 'address_1'             => $this->request->getPost('address_1'),
                 'state'                 => $this->request->getPost('state'),
                 'city'                  => $this->request->getPost('city'),
                 'country'               => $this->request->getPost('country'),
                 'pin'                   => $this->request->getPost('pin'),
                 'address_2'             => $this->request->getPost('address_2'),
-                'email_1'               => $this->request->getPost('email_1'),
-                'email_2'               => $this->request->getPost('email_2'),
-                'phone_1'               => $this->request->getPost('phone_1'),
-                'phone_2'               => $this->request->getPost('phone_2'),
+                'email_1'               => $this->pro->encrypt($this->request->getPost('email_1')),
+                'email_2'               => $this->pro->encrypt($this->request->getPost('email_2')),
+                'phone_1'               => $this->pro->encrypt($this->request->getPost('phone_1')),
+                'phone_2'               => $this->pro->encrypt($this->request->getPost('phone_2')),
                 'dob_day'               => $this->request->getPost('dob_day'),
                 'dob_month'             => $this->request->getPost('dob_month'),
                 'dob_year'              => $this->request->getPost('dob_year'),
@@ -107,18 +105,18 @@ class ClientController extends BaseController
 
             if ($this->request->getPost('password') != '') {
                 $postData   = array(
-                    'name'                  => $this->request->getPost('name'),
-                    'compnay'               => $this->request->getPost('compnay'),
+                    'name'                  => $this->pro->encrypt($this->request->getPost('name')),
+                    'compnay'               => $this->pro->encrypt($this->request->getPost('compnay')),
                     'address_1'             => $this->request->getPost('address_1'),
                     'state'                 => $this->request->getPost('state'),
                     'city'                  => $this->request->getPost('city'),
                     'country'               => $this->request->getPost('country'),
                     'pin'                   => $this->request->getPost('pin'),
                     'address_2'             => $this->request->getPost('address_2'),
-                    'email_1'               => $this->request->getPost('email_1'),
-                    'email_2'               => $this->request->getPost('email_2'),
-                    'phone_1'               => $this->request->getPost('phone_1'),
-                    'phone_2'               => $this->request->getPost('phone_2'),
+                    'email_1'               => $this->pro->encrypt($this->request->getPost('email_1')),
+                    'email_2'               => $this->pro->encrypt($this->request->getPost('email_2')),
+                    'phone_1'               => $this->pro->encrypt($this->request->getPost('phone_1')),
+                    'phone_2'               => $this->pro->encrypt($this->request->getPost('phone_2')),
                     'dob_day'               => $this->request->getPost('dob_day'),
                     'dob_month'             => $this->request->getPost('dob_month'),
                     'dob_year'              => $this->request->getPost('dob_year'),
@@ -131,18 +129,18 @@ class ClientController extends BaseController
                 );
             } else {
                 $postData   = array(
-                    'name'                  => $this->request->getPost('name'),
-                    'compnay'               => $this->request->getPost('compnay'),
+                    'name'                  => $this->pro->encrypt($this->request->getPost('name')),
+                    'compnay'               => $this->pro->encrypt($this->request->getPost('compnay')),
                     'address_1'             => $this->request->getPost('address_1'),
                     'state'                 => $this->request->getPost('state'),
                     'city'                  => $this->request->getPost('city'),
                     'country'               => $this->request->getPost('country'),
                     'pin'                   => $this->request->getPost('pin'),
                     'address_2'             => $this->request->getPost('address_2'),
-                    'email_1'               => $this->request->getPost('email_1'),
-                    'email_2'               => $this->request->getPost('email_2'),
-                    'phone_1'               => $this->request->getPost('phone_1'),
-                    'phone_2'               => $this->request->getPost('phone_2'),
+                    'email_1'               => $this->pro->encrypt($this->request->getPost('email_1')),
+                    'email_2'               => $this->pro->encrypt($this->request->getPost('email_2')),
+                    'phone_1'               => $this->pro->encrypt($this->request->getPost('phone_1')),
+                    'phone_2'               => $this->pro->encrypt($this->request->getPost('phone_2')),
                     'dob_day'               => $this->request->getPost('dob_day'),
                     'dob_month'             => $this->request->getPost('dob_month'),
                     'dob_year'              => $this->request->getPost('dob_year'),
@@ -359,5 +357,38 @@ class ClientController extends BaseController
             return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
         }
         echo $this->layout_after_login($title, $page_name, $data);
+    }
+    public function encryptInfo(){
+        $this->pro           = new Pro();
+        $clients               = $this->data['model']->find_data($this->data['table_name'], 'array');
+        if($clients){
+            foreach($clients as $client){
+                $id             = $client->id;
+                $name           = $client->name;
+                $compnay        = $client->compnay;
+                $email_1        = $client->email_1;
+                $email_2        = $client->email_2;
+                $phone_1        = $client->phone_1;
+                $phone_2        = $client->phone_2;
+
+                $encryptedName      = $this->pro->encrypt($name);
+                $encryptedCompany   = $this->pro->encrypt($compnay);
+                $encryptedEmail1    = $this->pro->encrypt($email_1);
+                $encryptedEmail2    = $this->pro->encrypt($email_2);
+                $encryptedPhone1    = $this->pro->encrypt($phone_1);
+                $encryptedPhone2    = $this->pro->encrypt($phone_2);
+                $fields             = [
+                    'name'      => $encryptedName,
+                    'compnay'   => $encryptedCompany,
+                    'email_1'   => $encryptedEmail1,
+                    'email_2'   => $encryptedEmail2,
+                    'phone_1'   => $encryptedPhone1,
+                    'phone_2'   => $encryptedPhone2,
+                ];
+                $this->data['model']->save_data($this->data['table_name'], $fields, $id, 'id');
+            }
+        }
+        $this->session->setFlashdata('success_message', $this->data['title'] . ' name, company name, email 1, email 2, phone 1, phone 2 encrypted successfully');
+        return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
     }
 }

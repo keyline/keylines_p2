@@ -218,7 +218,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                     <!--Hour Cost field -->
-                                    <div class="col-md-2 col-lg-2">
+                                    <!-- <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
                                             <label for="hour_cost" class="col-form-label">Hour Cost</label>
                                         </div>  
@@ -227,7 +227,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <div class="general_form_right_box">
                                             <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$hour_cost?>" minlength="2" maxlength="4" onkeypress="return isNumber(event)">
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!--DOB field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
@@ -281,7 +281,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!--Tracker User field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
-                                            <label for="is_tracker_user" class="col-form-label">Tracker User <span class="text-danger">*</span></label>
+                                            <label for="is_tracker_user" class="col-form-label">Task Management User <span class="text-danger">*</span></label>
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
@@ -293,7 +293,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!--Salarybox User field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
-                                            <label for="is_salarybox_user" class="col-form-label">Salarybox User <span class="text-danger">*</span></label>
+                                            <label for="is_salarybox_user" class="col-form-label">Mobileapp User <span class="text-danger">*</span></label>
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">

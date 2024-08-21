@@ -10,6 +10,7 @@ use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use Psr\Log\LoggerInterface;
 use App\Models\CommonModel;
+use App\Libraries\Pro;
 /**
  * Class BaseController
  *
@@ -55,6 +56,7 @@ abstract class BaseController extends Controller
         $this->session              = \Config\Services::session();
         $this->uri                  = new \CodeIgniter\HTTP\URI();
         $this->db                   = \Config\Database::connect();
+        $this->pro                  = new Pro();
     }
     public function layout_before_login($title,$page_name,$data)
     {
@@ -62,6 +64,8 @@ abstract class BaseController extends Controller
         $data['session']            = $this->session;
         $data['Common_model']       = new CommonModel;
         $data['db']                 = \Config\Database::connect();
+        $data['pro']                = new Pro();
+
         $data['general_settings']   = $this->common_model->find_data('general_settings','row');
         $data['application_settings']   = $this->common_model->find_data('application_settings','row');
         $data['title']              = $title.'-'.$data['general_settings']->site_name;
@@ -80,6 +84,8 @@ abstract class BaseController extends Controller
         $data['session']            = $this->session;
         $data['common_model']       = new CommonModel;
         $data['db']                 = \Config\Database::connect();
+        $data['pro']                = new Pro();
+        
         $user_id                    = $this->session->get('user_id');
         
         $data['general_settings']   = $this->common_model->find_data('general_settings','row');

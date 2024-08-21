@@ -32,18 +32,18 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
         <?php
             if($row){
-              $name             = $row->name;
-              $compnay          = $row->compnay;
+              $name             = $pro->decrypt($row->name);
+              $compnay          = $pro->decrypt($row->compnay);
               $address_1        = $row->address_1;
               $state            = $row->state;
               $city             = $row->city;
               $country          = $row->country;
               $pin              = $row->pin;
               $address_2        = $row->address_2;
-              $email_1          = $row->email_1;
-              $email_2          = $row->email_2;
-              $phone_1          = $row->phone_1;
-              $phone_2          = $row->phone_2;
+              $email_1          = $pro->decrypt($row->email_1);
+              $email_2          = $pro->decrypt($row->email_2);
+              $phone_1          = $pro->decrypt($row->phone_1);
+              $phone_2          = $pro->decrypt($row->phone_2);
               $dob_day          = $row->dob_day;
               $dob_month        = $row->dob_month;
               $dob_year         = $row->dob_year;

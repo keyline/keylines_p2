@@ -123,6 +123,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
 			$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
+			$routes->match(['get', 'post'], "clients/encrypt-info", "ClientController::encryptInfo");
 
 			$routes->match(['get', 'post'], "clients/add-project/(:any)", "ClientController::addProject/$1");
 			
@@ -154,6 +155,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 
 		/* users */
 			$routes->match(['get'], "users/list", "UserController::list");
+			$routes->match(['get', 'post'], "user_cost/list", "UserController::usercostlist");			
 			$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
 			$routes->match(['get', 'post'], "users/add", "UserController::add");
 			$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
@@ -205,12 +207,20 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 		// attendance
 
 		// holiday
-			$routes->match(['get'], "holiday-list", "HolidayController::fetchHolidays");
+			$routes->match(['get', 'post'], "holiday-list", "HolidayController::fetchHolidays");
 			$routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
 			$routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
 			$routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
 			$routes->match(['get', 'post'], "holiday-list/delete/(:any)", "HolidayController::confirm_delete/$1");
 		// holiday
+
+		// mobile-application
+		$routes->match(['get'], "mobile-application", "MobileController::show");
+		// $routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
+		// $routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
+		// $routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
+		// $routes->match(['get', 'post'], "holiday-list/delete/(:any)", "HolidayController::confirm_delete/$1");
+		// mobile-application
 
 		// delete account requests
 			$routes->match(['get'], "delete-account-request/list", "DeleteAccountRequestController::list");
