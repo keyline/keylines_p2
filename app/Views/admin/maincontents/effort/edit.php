@@ -67,7 +67,7 @@
                                 <select name="project" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" required>
                                     <option value="" selected="">Select Project</option>
                                     <?php if($projects){ foreach($projects as $project){?>
-                                        <option value="<?=$project->id?>" <?=(($project_id == $project->id)?'selected':'')?>><?=$project->name?> (<?=$project->client_name?>) - <?=$project->project_status_name?></option>
+                                        <option value="<?=$project->id?>" <?=(($project_id == $project->id)?'selected':'')?>><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
                                         <hr>
                                     <?php } }?>
                                     

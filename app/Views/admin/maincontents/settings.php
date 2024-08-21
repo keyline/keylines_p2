@@ -223,7 +223,13 @@ $user_type = session('user_type');
                     <div class="col-md-8 col-lg-9">
                       <input name="system_email" type="email" class="form-control" id="system_email" value="<?= $setting->system_email ?>">
                     </div>
-                  </div>                  
+                  </div>
+                  <div class="row mb-3">
+                    <label for="site_url" class="col-md-4 col-lg-3 col-form-label">Site URL</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="site_url" type="text" class="form-control" id="site_url" value="<?= $setting->site_url ?>">
+                    </div>
+                  </div>
                   <div class="row mb-3">
                     <label for="description" class="col-md-4 col-lg-3 col-form-label">Address</label>
                     <div class="col-md-8 col-lg-9">

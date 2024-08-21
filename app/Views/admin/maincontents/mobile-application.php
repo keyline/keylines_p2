@@ -70,8 +70,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <div class="tools"> </div>
                             </div>
                             <div class="portlet-body">
-                                  <h4>Base url :</h4> 
-                                  <p><?= site_url()?></p>                   
+                                  <h4>Application Location Path :</h4> 
+                                  <p><?=$general_settings->site_url?></p>
                             </div>
                         </div>                       
                     </div>
@@ -82,7 +82,7 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="col-12">
                 <div class="card">
                     <div class="card-body pt-3">
-                        <h4 class="mb-3">Download mobile app</h4>  
+                        <h4 class="mb-3">Download Mobile App</h4>  
                         <div class="row justify-content-center">
                             <div class="col-md-4">
                                 <div class="scan-left">
