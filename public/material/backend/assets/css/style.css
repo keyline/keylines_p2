@@ -129,7 +129,7 @@ label{
   padding: 5px 8px
 }
 .badge{
-  padding: 3px 5px;
+  padding: 5px 7px;
 }
 .bg-dark-info{
   background: #d9ddff !important;
@@ -510,7 +510,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 .dropdown-menu .dropdown-item:hover {
   background-color: #f6f9ff;
 }
-
+.font14{font-size: 14px;}
 @media (min-width: 768px) {
   .dropdown-menu-arrow::before {
     content: "";
