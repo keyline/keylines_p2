@@ -126,7 +126,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <option value="" selected>Select</option>
                                     <hr>
                                     <?php if($clients){ foreach($clients as $client){?>
-                                        <option value="<?=$client->id?>" <?=(($client_id == $client->id)?'selected':'')?>><?=$client->name?> <?=(($client->compnay != '')?'(' . $client->compnay . ')':'')?></option>
+                                        <option value="<?=$client->id?>" <?=(($client_id == $client->id)?'selected':'')?>><?=$pro->decrypt($client->name)?> <?=(($pro->decrypt($client->compnay) != '')?'(' . $pro->decrypt($client->compnay) . ')':'')?></option>
                                         <hr>
                                     <?php } }?>
                                 </select>
