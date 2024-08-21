@@ -301,7 +301,7 @@ class Home extends BaseController
                         $postData = array(
                             'total_desktime_hour' => $MonthlyDesktime,                                
                         ); 
-                        //  pr($postData);                        
+                          pr($postData);                        
                         $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
                             // echo $this->db->getLastquery();die;
                          $result = $getDesktimeHour->total_desktime_hour;
@@ -317,7 +317,7 @@ class Home extends BaseController
                                 'total_working_time' => $MonthlyDesktime,
                                 'added_on' => $db_date,                               
                             );   
-                            // pr($postData);                          
+                             pr($postData);                          
                             $insertData = $this->common_model->save_data('desktime_sheet_tracking',$postData,'','id');
                             $result ='';
                         }
