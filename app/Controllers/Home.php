@@ -176,9 +176,10 @@ class Home extends BaseController
              $cu_date = date('d-m-Y'); // Or however you are getting the current date
             //  $cu_date = '01-08-2024';
             
-             echo $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date; die;
+             echo $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
             $response = file_get_contents($url);
-            $data = json_decode($response, true);            
+            $data = json_decode($response, true);  
+            pr($data);          
             if($data){
                 foreach ($data as $item) {
                     $db_date = date_format(date_create($cu_date), "Y-m-d");
