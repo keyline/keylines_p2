@@ -179,7 +179,7 @@ class Home extends BaseController
               $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
             $response = file_get_contents($url);
             $data = json_decode($response, true);  
-            // pr($data);          
+             pr($data);          
             if($data){
                 foreach ($data as $item) {
                     $db_date = date_format(date_create($cu_date), "Y-m-d");
