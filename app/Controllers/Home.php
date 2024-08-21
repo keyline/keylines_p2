@@ -173,16 +173,18 @@ class Home extends BaseController
             $apiUrl = $apiSettings->api_url;
             // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
             $appKey = $apiSettings->api_key;
-            $cu_date = date('d-m-Y'); // Or however you are getting the current date
+              $cu_date = date('d-m-Y'); // Or however you are getting the current date
+            //   $cu_date = '01-07-2024';
             
-            $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
+              $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
             $response = file_get_contents($url);
-            $data = json_decode($response, true);            
+            $data = json_decode($response, true);  
+            //  pr($data);          
             if($data){
                 foreach ($data as $item) {
                     $db_date = date_format(date_create($cu_date), "Y-m-d");
                     $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%'.$db_date.'%']);
-                    //  pr($existingRecord);
+                    //    pr($existingRecord);
                     if(!$existingRecord){
                         // echo "user insert"; die;
                         $postData   = array(
@@ -208,6 +210,7 @@ class Home extends BaseController
                         $user_dept                      = $data['user'][0]->deprt_name;
                         $postData['tracker_user_id']    = $user_id;
                         $postData['insert_date']        = $db_date;
+                        // pr($postData);
                         $record                         = $this->common_model->save_data('desklog_report', $postData, '', 'id');
                         
                         $year = date('Y');
@@ -230,9 +233,9 @@ class Home extends BaseController
                          $MonthlyDesktime = $totalHours.'.'.$totalMinutes;                                                                
                         if ($getDesktimeHour) {                                                      
                         $postData = array(
-                            'total_desktime_hour' => $result7desk,                                
+                            'total_desktime_hour' => $MonthlyDesktime,                                
                         );                         
-                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$user_id,'id'); 
+                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
                          $result7 = $getDesktimeHour->total_desktime_hour;
                         }else{
                             $postData = array(
@@ -276,11 +279,14 @@ class Home extends BaseController
                         $postData['insert_date']        = $db_date;
                         $record                         = $this->common_model->save_data('desklog_report', $postData, $id, 'id');
                         
-                        $year = date('Y');
-                        $month  =   date('m');
+                        $date_parts = explode('-', $cu_date);
+                        $month = $date_parts[1]; // 07
+                        $year = $date_parts[2]; // 2024
+                        // $year = date('Y');
+                        // $month  =   date('m');
                         $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = '$month' AND user_id = '$user_id'";
                         $getDesktimeHour = $this->db->query($sql10)->getRow();                        
-                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" . date('Y').'-'.date('m') . "%'";
+                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" .$year.'-'.$month . "%'";
                         $getDesktime = $this->db->query($sql)->getResult();                        
                         $totalHours = 0;
                         $totalMinutes = 0;
@@ -297,8 +303,10 @@ class Home extends BaseController
                         if ($getDesktimeHour) {                                                      
                         $postData = array(
                             'total_desktime_hour' => $MonthlyDesktime,                                
-                        );                         
-                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$user_id,'id'); 
+                        ); 
+                        //   pr($postData);                        
+                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
+                            // echo $this->db->getLastquery();die;
                          $result = $getDesktimeHour->total_desktime_hour;
                         }else{
                             $postData = array(
@@ -311,7 +319,8 @@ class Home extends BaseController
                                 'total_desktime_hour' => $MonthlyDesktime,
                                 'total_working_time' => $MonthlyDesktime,
                                 'added_on' => $db_date,                               
-                            );                             
+                            );   
+                            //  pr($postData);                          
                             $insertData = $this->common_model->save_data('desktime_sheet_tracking',$postData,'','id');
                             $result ='';
                         }
