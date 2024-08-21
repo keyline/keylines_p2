@@ -173,8 +173,8 @@ class Home extends BaseController
             $apiUrl = $apiSettings->api_url;
             // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
             $appKey = $apiSettings->api_key;
-             $cu_date = date('d-m-Y'); // Or however you are getting the current date
-            //  $cu_date = '01-08-2024';
+            //  $cu_date = date('d-m-Y'); // Or however you are getting the current date
+              $cu_date = '01-07-2024';
             
               $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
             $response = file_get_contents($url);
@@ -303,7 +303,7 @@ class Home extends BaseController
                         ); 
                         //  pr($postData);                        
                         $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
-                            echo $this->db->getLastquery();die;
+                            // echo $this->db->getLastquery();die;
                          $result = $getDesktimeHour->total_desktime_hour;
                         }else{
                             $postData = array(
