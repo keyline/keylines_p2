@@ -10,7 +10,60 @@ $controller_route       = $moduleDetail['controller_route'];
 ?>
 
 <style> 
-    
+    #simpletable_filter{
+        float: right;
+    }
+    .simpletable_length label {
+        display: inline-flex;
+        padding: 10px;
+    }
+    .charts{
+        border: 1px solid #ff980073;
+        padding: 10px;
+    }
+    .task-assign-table th,
+    .task-assign-table td,
+    .input-group > .card{
+        width: 250px !important;
+        vertical-align: top !important;
+    }
+    .input-group > .card{
+        margin-bottom: 5px;
+    }
+    .bg-blue{
+        background: #0d6efdc2;
+    }
+    .card_projectname {
+	    padding-bottom: 5px;
+	}
+	.card_projecttime {
+	    font-weight: 700;
+	    margin-bottom: 0;
+	    padding-top: 10px;
+	}
+	span.card_priotty_item {
+	    position: absolute;
+	    right: 0;
+	    top: -2px;
+	    background: #ddd;
+	    padding: 2px 5px;
+	    font-size: 10px;
+	    font-weight: 600;
+	}
+	span.card_priotty_item.proiodty_high {
+	    background: #ff0404;
+	    color: #fff;
+	}
+	span.card_priotty_item.proiodty_low {
+	    background: #f5d74f;
+	}
+	span.card_priotty_item.proiodty_medium {
+	    background: #80edc0;
+	}
+	a.taskedit_iconright {
+	    float: right;
+	    margin: inherit;
+	}
     th,td{border: 1px solid #ddd;}
     .flextop {
         display: flex;
@@ -25,225 +78,231 @@ $controller_route       = $moduleDetail['controller_route'];
 <!-- <div class="dt-responsive table-responsive"> -->
 
     
-<div class="container">
+<div class="container-fluid">
 	
-	<div style="height:600px;width:100%;">
+	<div style="height:800px;width:100%;">
 		<table id="myTable" class="table table-condensed table-striped">
             <thead>
-                <tr>
-                    <th><div class="flextop_date">16-08-2024</div></th>
-                    <th class=""> <div class="flextop"> <div>Amalesh Das</div> <div class="datehour">0:00</div></div></th>
-                    <th class=""><div class="flextop"><div>Jayshree Mondal</div> <div class="datehour">0:00</div></div></th>
-                    <th class=""><div class="flextop"><div>Matinur Rahaman</div> <div class="datehour">0:00</div></th>
-                    <th class="fletop"><div class="flextop"><div>Sourav Pal</div> <div class="datehour">0:00</div></th>
-                    <th class=""><div class="flextop"><div>Payel Mukherjee</div> <div class="datehour">0:00</div></th>
-                    <th class=""><div class="flextop"><div>Poulami Mitra</div> <div class="datehour">0:00</div></th>
+            	<tr>
+                    <th>
+                    	
+                    </th>
+                    <th class="" colspan="4">
+                    	<div class="flextop">
+                    		<div>Design</div>
+                    	</div>
+                    </th>
+                    <th class="" colspan="2">
+                    	<div class="flextop">
+                    		<div>Digital</div>
+                    	</div>
+                    </th>
                 </tr>
+                <tr>
+                    <th>
+                    	
+                    </th>
+                    <th class="">
+                    	<div class="flextop">
+                    		<div>Amalesh Das</div>
+                    		<div class="datehour">0:00</div>
+                    	</div>
+                    </th>
+                    <th class="">
+                    	<div class="flextop">
+                    		<div>Jayshree Mondal</div>
+                    		<div class="datehour">0:00</div>
+                    	</div>
+                    </th>
+                    <th class="">
+                    	<div class="flextop">
+                    		<div>Matinur Rahaman</div>
+                    		<div class="datehour">0:00</div>
+                    	</div>
+                    </th>
+                    <th class="">
+                    	<div class="flextop">
+                    		<div>Sourav Pal</div>
+                    		<div class="datehour">0:00</div>
+                    	</div>
+                    </th>
+                    <th class="">
+                    	<div class="flextop">
+                    		<div>Payel Mukherjee</div>
+                    		<div class="datehour">0:00</div>
+                    	</div>
+                    </th>
+                    <th class="">
+                    	<div class="flextop">
+                    		<div>Poulami Mitra</div>
+                    		<div class="datehour">0:00</div>
+                    	</div>
+                    </th>
+                </tr>
+
+                
             </thead>
 			<tbody>
-						<tr>
-							<th></th>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-                                        <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism 22
-                                        </div>
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-                                
-							</td>
-                            
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
+				<tr>
+					<th>
+						<div class="flextop">
+							<div class="flextop_date">16-08-2024</div>
+							<div class="datehour">0:00</div>
+						</div>
+					</th>
+					<td class="text-center">TRACKER</td>
+					<td class="text-center">TRACKER</td>
+					<td class="text-center">TRACKER</td>
+					<td class="text-center">TRACKER</td>
+					<td class="text-center">TRACKER</td>
+					<td class="text-center">TRACKER</td>
+				</tr>
+				<tr>
+					<th>
+						<div class="flextop">
+							<div class="flextop_date">Friday</div>
+						</div>
+					</th>
+					<td class="text-center">Punch In - On Time</td>
+					<td class="text-center">Punch In - On Time</td>
+					<td class="text-center">Punch In - On Time</td>
+					<td class="text-center">Punch In - On Time</td>
+					<td class="text-center">Punch In - On Time</td>
+					<td class="text-center">Punch In - On Time</td>
+				</tr>
 
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
+				<tr>
+					<th></th>
+					<td>
+						<div class="tabtasklist_item">
+							<div class="row">
+							    <div class="col-12" id="meeting-user-57">
+							        <div class="input-group">
+							            <div class="card">
+							                <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: #FFF;">
+							                    <p class="mb-2">
+							                        <span class="card_priotty_item proiodty_high">High</span>
+							                    </p>
+							                    <div class="mb-1 d-block">
+							                        <div class="card_projectname"><b>Benud Behari Dutt Pvt. Ltd. :</b> </div>
+							                        <div class="card_proj_info">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.
+							                        </div>
+							                    </div>
+							                    <div class="card_projecttime">
+							                        [3 hrs ]
+							                    </div>
+							                    <div class="d-flex justify-content-between">
+							                        <p class="mb-0 assign-name">Subhomoy Samanta</p>
+							                        <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(2, 57, 'Debojyti Debroy', 116);">
+							                        <i class="fa-solid fa-pencil text-primary"></i>
+							                        </a>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							        <div class="input-group">
+							            <div class="card">
+							                <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: #FFF;">
+							                    <p class="mb-2">
+							                        <span class="card_priotty_item proiodty_medium">Medium</span>
+							                    </p>
+							                    <div class="mb-1 d-block">
+							                        <div class="card_projectname"><b>Arun Gupta :</b> </div>
+							                        <div class="card_proj_info">fsfas fas fas as asdas<br></div>
+							                    </div>
+							                    <div class="card_projecttime">
+							                        [2 hrs ]
+							                    </div>
+							                    <div class="d-flex justify-content-between">
+							                        <p class="mb-0 assign-name">Subhomoy Samanta</p>
+							                        <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(2, 57, 'Debojyti Debroy', 115);">
+							                        <i class="fa-solid fa-pencil text-primary"></i>
+							                        </a>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							        <div class="input-group">
+							            <div class="card">
+							                <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: #FFF;">
+							                    <p class="mb-2">
+							                        <span class="card_priotty_item proiodty_high">High</span>
+							                    </p>
+							                    <div class="mb-1 d-block">
+							                        <div class="card_projectname"><b>Benud Behari Dutt Pvt. Ltd. :</b> </div>
+							                        <div class="card_proj_info">In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content. Lorem ipsum may be used as a placeholder before the final copy is available.
+							                        </div>
+							                    </div>
+							                    <div class="card_projecttime">
+							                        [3 hrs ]
+							                    </div>
+							                    <div class="d-flex justify-content-between">
+							                        <p class="mb-0 assign-name">Subhomoy Samanta</p>
+							                        <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(2, 57, 'Debojyti Debroy', 116);">
+							                        <i class="fa-solid fa-pencil text-primary"></i>
+							                        </a>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							        <div class="input-group">
+							            <div class="card">
+							                <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: #FFF;">
+							                    <p class="mb-2">
+							                        <span class="card_priotty_item proiodty_low">Low</span>
+							                    </p>
+							                    <div class="mb-1 d-block">
+							                        <div class="card_projectname"><b>Arun Gupta :</b> </div>
+							                        <div class="card_proj_info">fsfas fas fas as asdas<br></div>
+							                    </div>
+							                    <div class="card_projecttime">
+							                        [2 hrs ]
+							                    </div>
+							                    <div class="d-flex justify-content-between">
+							                        <p class="mb-0 assign-name">Subhomoy Samanta</p>
+							                        <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(2, 57, 'Debojyti Debroy', 115);">
+							                        <i class="fa-solid fa-pencil text-primary"></i>
+							                        </a>
+							                    </div>
+							                </div>
+							            </div>
+							        </div>
+							        <a href="javascript:void(0);" class="task_edit_btn" onclick="openForm(2, 57, 'Debojyti Debroy');">
+							        <i class="fa-solid fa-plus-circle text-success"></i>
+							        </a>
+							    </div>
+							</div>
+						</div>
+                        
+					</td>
+                    
+					<td>
+						<div class="tabtasklist_item">
+							
+						</div>
+					</td>
+					<td>
+						<div class="tabtasklist_item">
+							
+						</div>
+					</td>
+					<td>
+						<div class="tabtasklist_item">
+							
+						</div>
+					</td>
+					<td>Leave</td>
+					<td>
+						<div class="tabtasklist_item">
+							
+						</div>
+					</td>
+				</tr>			
 
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>Leave</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-						</tr>
-
-						<tr>
-							<th></th>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-                                        <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>Leave</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-						</tr>
-
-						<tr>
-							<th></th>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-							<td>Leave</td>
-							<td>
-								<div class="tabtasklist_item">
-									<h4>Limton / Llounge Promotion :</h4>
-									    <div class="taskinfo_text">
-                                            Llounge Website Blog Post Then 15 Links Prism
-                                        </div>
-
-									<div class="worktask_time">[1hr 25mint]</div>
-									<div class="worktask_assign">Sudip Kulovi</div>
-								</div>
-							</td>
-						</tr>
-
-					</tbody>
+			</tbody>
 		</table>
 	</div>
 </div>
-    
-    
-<!-- </div> -->
-<!-- <section class="task-section">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-12">
-                <div class="card mb-3">
-                    <div class="card-body">
-                        
-                        
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </div>
-</section> -->
 
 <!-- lead activity modal -->
     <div class="modal fade" id="morningformModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999;">
