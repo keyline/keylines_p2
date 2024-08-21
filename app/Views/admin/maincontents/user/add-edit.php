@@ -281,7 +281,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!--Tracker User field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
-                                            <label for="is_tracker_user" class="col-form-label">Tracker User <span class="text-danger">*</span></label>
+                                            <label for="is_tracker_user" class="col-form-label">Task Management User <span class="text-danger">*</span></label>
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
@@ -293,7 +293,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!--Salarybox User field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
-                                            <label for="is_salarybox_user" class="col-form-label">Salarybox User <span class="text-danger">*</span></label>
+                                            <label for="is_salarybox_user" class="col-form-label">Mobileapp User <span class="text-danger">*</span></label>
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
