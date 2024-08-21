@@ -173,8 +173,8 @@ class Home extends BaseController
             $apiUrl = $apiSettings->api_url;
             // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
             $appKey = $apiSettings->api_key;
-            $cu_date = date('d-m-Y'); // Or however you are getting the current date
-            // $cu_date = '16-08-2024';
+            // $cu_date = date('d-m-Y'); // Or however you are getting the current date
+             $cu_date = '01-08-2024';
             
             $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
             $response = file_get_contents($url);
