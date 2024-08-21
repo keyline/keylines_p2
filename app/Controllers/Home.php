@@ -235,7 +235,7 @@ class Home extends BaseController
                         $postData = array(
                             'total_desktime_hour' => $MonthlyDesktime,                                
                         );                         
-                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$user_id,'id'); 
+                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
                          $result7 = $getDesktimeHour->total_desktime_hour;
                         }else{
                             $postData = array(
