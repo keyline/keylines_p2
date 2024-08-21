@@ -1435,12 +1435,12 @@ class ReportController extends BaseController
     public function desklogReport()
     {
         $apiSettings  = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);            
-            // $apiUrl = 'https://api.desklog.io/api/v2/app_usage_attendance';
-            $apiUrl = $apiSettings->api_url;
-            // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
-            $appKey = $apiSettings->api_key;
+        // $apiUrl = 'https://api.desklog.io/api/v2/app_usage_attendance';
+        $apiUrl = $apiSettings->api_url;
+        // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
+        $appKey = $apiSettings->api_key;
         $cu_date = date('d-m-Y'); // Or however you are getting the current date
-        //    $cu_date = "19-07-2024"; // Or however you are getting the current date
+           // $cu_date = "20-08-2024"; // Or however you are getting the current date
 
         $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
         $response = file_get_contents($url);
