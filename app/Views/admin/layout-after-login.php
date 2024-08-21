@@ -321,6 +321,19 @@
         //     });
         // }
     </script>
+    <script src="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.js"></script>
+<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+<link rel="stylesheet" type="text/css" href="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.css">
+<script type="text/javascript">
+			$(function() {
+				//load stickyTable with overflowy option
+				$('#myTable').stickyTable({overflowy: true});
+
+				
+
+				
+			});
+		</script>
     <script type="text/javascript">
         function copyToClipboard() {
             var $temp = $("<input>");

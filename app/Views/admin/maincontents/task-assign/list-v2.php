@@ -8,629 +8,225 @@ $title                  = $moduleDetail['title'];
 $primary_key            = $moduleDetail['primary_key'];
 $controller_route       = $moduleDetail['controller_route'];
 ?>
+
 <style> 
-    table thead th { 
-        padding: 5px; 
-        background-color: #4cb96b; 
-/*        position: -webkit-sticky; */
-        position: sticky; 
-        top: 60px; 
-    } 
+    
+    th,td{border: 1px solid #ddd;}
+    .flextop {
+        display: flex;
+        justify-content: space-between;
+        min-width: 300px;
+    }
+    .flextop_date{
+        min-width: 150px; 
+    }
 </style>
 
 <!-- <div class="dt-responsive table-responsive"> -->
-   
-    <table width="100%">
-        <thead> 
-            <th>CHARACTER</th> 
-            <th>ENCODED FORM</th> 
-        </thead> 
-        <tbody style="text-align: center;">
-            <tr>
-                <td colspan="2"><h6 class="badge bg-primary mb-2"><?=date('M d, Y - l', strtotime("-1 days"));?></h6></td>
-            </tr> 
-            <tr> 
-                <td>backspace</td> 
-                <td>%08</td> 
-            </tr> 
-            <tr> 
-                <td>tab</td> 
-                <td>%09</td> 
-            </tr> 
-            <tr> 
-                <td>linefeed</td> 
-                <td>%0A</td> 
-            </tr> 
-            <tr> 
-                <td>c return</td> 
-                <td>%0D</td> 
-            </tr> 
-            <tr> 
-                <td>space</td> 
-                <td>%20</td> 
-            </tr> 
-            <tr> 
-                <td>!</td> 
-                <td>%21</td> 
-            </tr> 
-            <tr> 
-                <td>“</td> 
-                <td>%22</td> 
-            </tr> 
-            <tr> 
-                <td>#</td> 
-                <td>%23</td> 
-            </tr> 
-            <tr> 
-                <td>$</td> 
-                <td>%24</td> 
-            </tr> 
-            <tr> 
-                <td>%</td> 
-                <td>%25</td> 
-            </tr> 
-            <tr> 
-                <td>&</td> 
-                <td>%26</td> 
-            </tr> 
-            <tr> 
-                <td>‘</td> 
-                <td>%27</td> 
-            </tr> 
-            <tr> 
-                <td>(</td> 
-                <td>%28</td> 
-            </tr> 
-            <tr> 
-                <td>)</td> 
-                <td>%29</td> 
-            </tr> 
-            <tr> 
-                <td>*</td> 
-                <td>%2A</td> 
-            </tr> 
-            <tr> 
-                <td>+</td> 
-                <td>%2B</td> 
-            </tr> 
-            <tr> 
-                <td>,</td> 
-                <td>%2C</td> 
-            </tr> 
-            <tr> 
-                <td>–</td> 
-                <td>%2D</td> 
-            </tr> 
-            <tr> 
-                <td>.</td> 
-                <td>%2E</td> 
-            </tr> 
-            <tr> 
-                <td>/</td> 
-                <td>%2F</td> 
-            </tr> 
-            <tr> 
-                <td>0</td> 
-                <td>%30</td> 
-            </tr> 
-            <tr> 
-                <td>1</td> 
-                <td>%31</td> 
-            </tr> 
-            <tr> 
-                <td>2</td> 
-                <td>%32</td> 
-            </tr> 
-            <tr> 
-                <td>3</td> 
-                <td>%33</td> 
-            </tr> 
-            <tr> 
-                <td>4</td> 
-                <td>%34</td> 
-            </tr> 
-            <tr> 
-                <td>5</td> 
-                <td>%35</td> 
-            </tr> 
-            <tr> 
-                <td>6</td> 
-                <td>%36</td> 
-            </tr> 
-            <tr> 
-                <td>7</td> 
-                <td>%37</td> 
-            </tr> 
-            <tr> 
-                <td>8</td> 
-                <td>%38</td> 
-            </tr> 
-            <tr> 
-                <td>9</td> 
-                <td>%39</td> 
-            </tr> 
-            <tr> 
-                <td>backspace</td> 
-                <td>%08</td> 
-            </tr> 
-            <tr> 
-                <td>tab</td> 
-                <td>%09</td> 
-            </tr> 
-            <tr> 
-                <td>linefeed</td> 
-                <td>%0A</td> 
-            </tr> 
-            <tr> 
-                <td>c return</td> 
-                <td>%0D</td> 
-            </tr> 
-            <tr> 
-                <td>space</td> 
-                <td>%20</td> 
-            </tr> 
-            <tr> 
-                <td>!</td> 
-                <td>%21</td> 
-            </tr> 
-            <tr> 
-                <td>“</td> 
-                <td>%22</td> 
-            </tr> 
-            <tr> 
-                <td>#</td> 
-                <td>%23</td> 
-            </tr> 
-            <tr> 
-                <td>$</td> 
-                <td>%24</td> 
-            </tr> 
-            <tr> 
-                <td>%</td> 
-                <td>%25</td> 
-            </tr> 
-            <tr> 
-                <td>&</td> 
-                <td>%26</td> 
-            </tr> 
-            <tr> 
-                <td>‘</td> 
-                <td>%27</td> 
-            </tr> 
-            <tr> 
-                <td>(</td> 
-                <td>%28</td> 
-            </tr> 
-            <tr> 
-                <td>)</td> 
-                <td>%29</td> 
-            </tr> 
-            <tr> 
-                <td>*</td> 
-                <td>%2A</td> 
-            </tr> 
-            <tr> 
-                <td>+</td> 
-                <td>%2B</td> 
-            </tr> 
-            <tr> 
-                <td>,</td> 
-                <td>%2C</td> 
-            </tr> 
-            <tr> 
-                <td>–</td> 
-                <td>%2D</td> 
-            </tr> 
-            <tr> 
-                <td>.</td> 
-                <td>%2E</td> 
-            </tr> 
-            <tr> 
-                <td>/</td> 
-                <td>%2F</td> 
-            </tr> 
-            <tr> 
-                <td>0</td> 
-                <td>%30</td> 
-            </tr> 
-            <tr> 
-                <td>1</td> 
-                <td>%31</td> 
-            </tr> 
-            <tr> 
-                <td>2</td> 
-                <td>%32</td> 
-            </tr> 
-            <tr> 
-                <td>3</td> 
-                <td>%33</td> 
-            </tr> 
-            <tr> 
-                <td>4</td> 
-                <td>%34</td> 
-            </tr> 
-            <tr> 
-                <td>5</td> 
-                <td>%35</td> 
-            </tr> 
-            <tr> 
-                <td>6</td> 
-                <td>%36</td> 
-            </tr> 
-            <tr> 
-                <td>7</td> 
-                <td>%37</td> 
-            </tr> 
-            <tr> 
-                <td>8</td> 
-                <td>%38</td> 
-            </tr> 
-            <tr> 
-                <td>9</td> 
-                <td>%39</td> 
-            </tr>
-            <tr> 
-                <td>backspace</td> 
-                <td>%08</td> 
-            </tr> 
-            <tr> 
-                <td>tab</td> 
-                <td>%09</td> 
-            </tr> 
-            <tr> 
-                <td>linefeed</td> 
-                <td>%0A</td> 
-            </tr> 
-            <tr> 
-                <td>c return</td> 
-                <td>%0D</td> 
-            </tr> 
-            <tr> 
-                <td>space</td> 
-                <td>%20</td> 
-            </tr> 
-            <tr> 
-                <td>!</td> 
-                <td>%21</td> 
-            </tr> 
-            <tr> 
-                <td>“</td> 
-                <td>%22</td> 
-            </tr> 
-            <tr> 
-                <td>#</td> 
-                <td>%23</td> 
-            </tr> 
-            <tr> 
-                <td>$</td> 
-                <td>%24</td> 
-            </tr> 
-            <tr> 
-                <td>%</td> 
-                <td>%25</td> 
-            </tr> 
-            <tr> 
-                <td>&</td> 
-                <td>%26</td> 
-            </tr> 
-            <tr> 
-                <td>‘</td> 
-                <td>%27</td> 
-            </tr> 
-            <tr> 
-                <td>(</td> 
-                <td>%28</td> 
-            </tr> 
-            <tr> 
-                <td>)</td> 
-                <td>%29</td> 
-            </tr> 
-            <tr> 
-                <td>*</td> 
-                <td>%2A</td> 
-            </tr> 
-            <tr> 
-                <td>+</td> 
-                <td>%2B</td> 
-            </tr> 
-            <tr> 
-                <td>,</td> 
-                <td>%2C</td> 
-            </tr> 
-            <tr> 
-                <td>–</td> 
-                <td>%2D</td> 
-            </tr> 
-            <tr> 
-                <td>.</td> 
-                <td>%2E</td> 
-            </tr> 
-            <tr> 
-                <td>/</td> 
-                <td>%2F</td> 
-            </tr> 
-            <tr> 
-                <td>0</td> 
-                <td>%30</td> 
-            </tr> 
-            <tr> 
-                <td>1</td> 
-                <td>%31</td> 
-            </tr> 
-            <tr> 
-                <td>2</td> 
-                <td>%32</td> 
-            </tr> 
-            <tr> 
-                <td>3</td> 
-                <td>%33</td> 
-            </tr> 
-            <tr> 
-                <td>4</td> 
-                <td>%34</td> 
-            </tr> 
-            <tr> 
-                <td>5</td> 
-                <td>%35</td> 
-            </tr> 
-            <tr> 
-                <td>6</td> 
-                <td>%36</td> 
-            </tr> 
-            <tr> 
-                <td>7</td> 
-                <td>%37</td> 
-            </tr> 
-            <tr> 
-                <td>8</td> 
-                <td>%38</td> 
-            </tr> 
-            <tr> 
-                <td>9</td> 
-                <td>%39</td> 
-            </tr>
-            <tr> 
-                <td>backspace</td> 
-                <td>%08</td> 
-            </tr> 
-            <tr> 
-                <td>tab</td> 
-                <td>%09</td> 
-            </tr> 
-            <tr> 
-                <td>linefeed</td> 
-                <td>%0A</td> 
-            </tr> 
-            <tr> 
-                <td>c return</td> 
-                <td>%0D</td> 
-            </tr> 
-            <tr> 
-                <td>space</td> 
-                <td>%20</td> 
-            </tr> 
-            <tr> 
-                <td>!</td> 
-                <td>%21</td> 
-            </tr> 
-            <tr> 
-                <td>“</td> 
-                <td>%22</td> 
-            </tr> 
-            <tr> 
-                <td>#</td> 
-                <td>%23</td> 
-            </tr> 
-            <tr> 
-                <td>$</td> 
-                <td>%24</td> 
-            </tr> 
-            <tr> 
-                <td>%</td> 
-                <td>%25</td> 
-            </tr> 
-            <tr> 
-                <td>&</td> 
-                <td>%26</td> 
-            </tr> 
-            <tr> 
-                <td>‘</td> 
-                <td>%27</td> 
-            </tr> 
-            <tr> 
-                <td>(</td> 
-                <td>%28</td> 
-            </tr> 
-            <tr> 
-                <td>)</td> 
-                <td>%29</td> 
-            </tr> 
-            <tr> 
-                <td>*</td> 
-                <td>%2A</td> 
-            </tr> 
-            <tr> 
-                <td>+</td> 
-                <td>%2B</td> 
-            </tr> 
-            <tr> 
-                <td>,</td> 
-                <td>%2C</td> 
-            </tr> 
-            <tr> 
-                <td>–</td> 
-                <td>%2D</td> 
-            </tr> 
-            <tr> 
-                <td>.</td> 
-                <td>%2E</td> 
-            </tr> 
-            <tr> 
-                <td>/</td> 
-                <td>%2F</td> 
-            </tr> 
-            <tr> 
-                <td>0</td> 
-                <td>%30</td> 
-            </tr> 
-            <tr> 
-                <td>1</td> 
-                <td>%31</td> 
-            </tr> 
-            <tr> 
-                <td>2</td> 
-                <td>%32</td> 
-            </tr> 
-            <tr> 
-                <td>3</td> 
-                <td>%33</td> 
-            </tr> 
-            <tr> 
-                <td>4</td> 
-                <td>%34</td> 
-            </tr> 
-            <tr> 
-                <td>5</td> 
-                <td>%35</td> 
-            </tr> 
-            <tr> 
-                <td>6</td> 
-                <td>%36</td> 
-            </tr> 
-            <tr> 
-                <td>7</td> 
-                <td>%37</td> 
-            </tr> 
-            <tr> 
-                <td>8</td> 
-                <td>%38</td> 
-            </tr> 
-            <tr> 
-                <td>9</td> 
-                <td>%39</td> 
-            </tr>
-            <tr> 
-                <td>backspace</td> 
-                <td>%08</td> 
-            </tr> 
-            <tr> 
-                <td>tab</td> 
-                <td>%09</td> 
-            </tr> 
-            <tr> 
-                <td>linefeed</td> 
-                <td>%0A</td> 
-            </tr> 
-            <tr> 
-                <td>c return</td> 
-                <td>%0D</td> 
-            </tr> 
-            <tr> 
-                <td>space</td> 
-                <td>%20</td> 
-            </tr> 
-            <tr> 
-                <td>!</td> 
-                <td>%21</td> 
-            </tr> 
-            <tr> 
-                <td>“</td> 
-                <td>%22</td> 
-            </tr> 
-            <tr> 
-                <td>#</td> 
-                <td>%23</td> 
-            </tr> 
-            <tr> 
-                <td>$</td> 
-                <td>%24</td> 
-            </tr> 
-            <tr> 
-                <td>%</td> 
-                <td>%25</td> 
-            </tr> 
-            <tr> 
-                <td>&</td> 
-                <td>%26</td> 
-            </tr> 
-            <tr> 
-                <td>‘</td> 
-                <td>%27</td> 
-            </tr> 
-            <tr> 
-                <td>(</td> 
-                <td>%28</td> 
-            </tr> 
-            <tr> 
-                <td>)</td> 
-                <td>%29</td> 
-            </tr> 
-            <tr> 
-                <td>*</td> 
-                <td>%2A</td> 
-            </tr> 
-            <tr> 
-                <td>+</td> 
-                <td>%2B</td> 
-            </tr> 
-            <tr> 
-                <td>,</td> 
-                <td>%2C</td> 
-            </tr> 
-            <tr> 
-                <td>–</td> 
-                <td>%2D</td> 
-            </tr> 
-            <tr> 
-                <td>.</td> 
-                <td>%2E</td> 
-            </tr> 
-            <tr> 
-                <td>/</td> 
-                <td>%2F</td> 
-            </tr> 
-            <tr> 
-                <td>0</td> 
-                <td>%30</td> 
-            </tr> 
-            <tr> 
-                <td>1</td> 
-                <td>%31</td> 
-            </tr> 
-            <tr> 
-                <td>2</td> 
-                <td>%32</td> 
-            </tr> 
-            <tr> 
-                <td>3</td> 
-                <td>%33</td> 
-            </tr> 
-            <tr> 
-                <td>4</td> 
-                <td>%34</td> 
-            </tr> 
-            <tr> 
-                <td>5</td> 
-                <td>%35</td> 
-            </tr> 
-            <tr> 
-                <td>6</td> 
-                <td>%36</td> 
-            </tr> 
-            <tr> 
-                <td>7</td> 
-                <td>%37</td> 
-            </tr> 
-            <tr> 
-                <td>8</td> 
-                <td>%38</td> 
-            </tr> 
-            <tr> 
-                <td>9</td> 
-                <td>%39</td> 
-            </tr>
-        </tbody> 
-    </table>
+
+    
+<div class="container">
+	
+	<div style="height:600px;width:100%;">
+		<table id="myTable" class="table table-condensed table-striped">
+            <thead>
+                <tr>
+                    <th><div class="flextop_date">16-08-2024</div></th>
+                    <th class=""> <div class="flextop"> <div>Amalesh Das</div> <div class="datehour">0:00</div></div></th>
+                    <th class=""><div class="flextop"><div>Jayshree Mondal</div> <div class="datehour">0:00</div></div></th>
+                    <th class=""><div class="flextop"><div>Matinur Rahaman</div> <div class="datehour">0:00</div></th>
+                    <th class="fletop"><div class="flextop"><div>Sourav Pal</div> <div class="datehour">0:00</div></th>
+                    <th class=""><div class="flextop"><div>Payel Mukherjee</div> <div class="datehour">0:00</div></th>
+                    <th class=""><div class="flextop"><div>Poulami Mitra</div> <div class="datehour">0:00</div></th>
+                </tr>
+            </thead>
+			<tbody>
+						<tr>
+							<th></th>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+                                        <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism 22
+                                        </div>
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+                                
+							</td>
+                            
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>Leave</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th></th>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+                                        <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>Leave</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+						</tr>
+
+						<tr>
+							<th></th>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+							<td>Leave</td>
+							<td>
+								<div class="tabtasklist_item">
+									<h4>Limton / Llounge Promotion :</h4>
+									    <div class="taskinfo_text">
+                                            Llounge Website Blog Post Then 15 Links Prism
+                                        </div>
+
+									<div class="worktask_time">[1hr 25mint]</div>
+									<div class="worktask_assign">Sudip Kulovi</div>
+								</div>
+							</td>
+						</tr>
+
+					</tbody>
+		</table>
+	</div>
+</div>
+    
     
 <!-- </div> -->
 <!-- <section class="task-section">
@@ -937,3 +533,4 @@ $controller_route       = $moduleDetail['controller_route'];
         
     })
 </script>
+

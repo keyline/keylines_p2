@@ -23,7 +23,7 @@ $controller_route       = $moduleDetail['controller_route'];
     .task-assign-table th,
     .task-assign-table td,
     .input-group > .card{
-        width: 150px !important;
+        width: 250px !important;
         vertical-align: top !important;
     }
     .input-group > .card{
@@ -32,6 +32,37 @@ $controller_route       = $moduleDetail['controller_route'];
     .bg-blue{
         background: #0d6efdc2;
     }
+    .card_projectname {
+    padding-bottom: 5px;
+}
+.card_projecttime {
+    font-weight: 700;
+    margin-bottom: 0;
+    padding-top: 10px;
+}
+span.card_priotty_item {
+    position: absolute;
+    right: 0;
+    top: -2px;
+    background: #ddd;
+    padding: 2px 5px;
+    font-size: 10px;
+    font-weight: 600;
+}
+span.card_priotty_item.proiodty_high {
+    background: #ff0404;
+    color: #fff;
+}
+span.card_priotty_item.proiodty_low {
+    background: #f5d74f;
+}
+span.card_priotty_item.proiodty_medium {
+    background: #80edc0;
+}
+a.taskedit_iconright {
+    float: right;
+    margin: inherit;
+}
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -154,7 +185,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                         <span><i class="fa-solid fa-medal" style="color: #b08d57; border:1px solid #b08d57; border-radius:50%; padding:3px;float:right;" title="Low"></i></span>
                                                                                     <?php }?>
                                                                                     
-                                                                                    <span class="mb-1 d-block"><b><?=$getTask->project_name?> :</b> <?=$getTask->description?><br></span> [
+                                                                                    <div class="mb-1 d-block">
+                                                                                        <div class="card_projectname"><b><?=$getTask->project_name?> :</b> </div>
+                                                                                        <div class="card_proj_info"><?=$getTask->description?></div>
+                                                                                    </div> 
+                                                                                    <div class="card_projecttime">[
                                                                                         <?php
                                                                                         if($getTask->hour > 0) {
                                                                                             if($getTask->hour == 1){
@@ -172,6 +207,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                         }
                                                                                         ?>
                                                                                     ]
+                                                                                    </div>
                                                                                 </p>
                                                                                 <div class="d-flex justify-content-between">
                                                                                     <p class="mb-0 assign-name"><?=$getTask->user_name?></p>
@@ -209,7 +245,7 @@ $controller_route       = $moduleDetail['controller_route'];
                         <h6 class="badge bg-success mb-2"><?=date('M d, Y - l')?></h6>
                         <div class="rows">
                             <div class="dt-responsive table-responsive">
-                                <table class="table table-bordered nowrap general_table_style task-assign-table">
+                                <table id="myTable" class="table table-bordered nowrap general_table_style task-assign-table">
                                     <thead>
                                         <tr>
                                             <?php if($departments){ foreach($departments as $dept){?>
@@ -272,17 +308,22 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                             <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: <?=$work_status_color?>;">
                                                                                 <p class="mb-2">
                                                                                     <?php if($getTask->priority == 3){?>
-                                                                                        <span><i class="fa-solid fa-medal" style="color: #FFD43B; border:1px solid #FFD43B; border-radius:50%; padding:3px;float:right;" title="High"></i></span>
+                                                                                        <span class="card_priotty_item proiodty_high">High</span>
                                                                                     <?php }?>
                                                                                     <?php if($getTask->priority == 2){?>
-                                                                                        <span><i class="fa-solid fa-medal" style="color: #CCCCCC; border:1px solid #CCCCCC; border-radius:50%; padding:3px;float:right;" title="Medium"></i></span>
+                                                                                        <span class="card_priotty_item proiodty_medium">Medium</span>
                                                                                     <?php }?>
                                                                                     <?php if($getTask->priority == 1){?>
-                                                                                        <span><i class="fa-solid fa-medal" style="color: #b08d57; border:1px solid #b08d57; border-radius:50%; padding:3px;float:right;" title="Low"></i></span>
+                                                                                        <span class="card_priotty_item proiodty_low">Low</span>
                                                                                     <?php }?>
+                                                                                </p>
 
-                                                                                    <span class="mb-1 d-block"><b><?=$getTask->project_name?> :</b> <?=$getTask->description?><br></span> [
-                                                                                        <?php
+                                                                                    <div class="mb-1 d-block">
+                                                                                        <div class="card_projectname"><b><?=$getTask->project_name?> :</b> </div>
+                                                                                        <div class="card_proj_info"><?=$getTask->description?><br></div> 
+                                                                                    </div>
+                                                                                    <div class="card_projecttime">
+                                                                                        [<?php
                                                                                         if($getTask->hour > 0) {
                                                                                             if($getTask->hour == 1){
                                                                                                 echo $getTask->hour . " hr ";
@@ -297,13 +338,13 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 echo $getTask->min . " mins ";
                                                                                             }
                                                                                         }
-                                                                                        ?>
-                                                                                    ]
-                                                                                </p>
+                                                                                        ?>]
+                                                                                    </div>
+                                                                                
                                                                                 <div class="d-flex justify-content-between">
                                                                                     <p class="mb-0 assign-name"><?=$getTask->user_name?></p>
                                                                                     <?php if($getTask->work_status_id <= 0){?>
-                                                                                        <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
+                                                                                        <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
                                                                                             <i class="fa-solid fa-pencil text-primary"></i>
                                                                                         </a>
                                                                                     <?php }?>
