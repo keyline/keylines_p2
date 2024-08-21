@@ -302,7 +302,7 @@ class Home extends BaseController
                             'total_desktime_hour' => $MonthlyDesktime,                                
                         ); 
                         //  pr($postData);                        
-                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$user_id,'id'); 
+                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$user_id,'user_id'); 
                            echo $this->db->getLastquery();die;
                          $result = $getDesktimeHour->total_desktime_hour;
                         }else{
