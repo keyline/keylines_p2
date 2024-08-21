@@ -201,17 +201,33 @@ $controller_route   = $moduleDetail['controller_route'];
     });
     let data = await response.json();
     return data;
-}
+    }
 
-// Example usage
-async function loadHolidayData() {
+    // Example usage
+    async function loadHolidayData() {
     let data = await holidaylist();
     // return data;
     // console.log(data);  // Process the data here
-}
+    }
                   
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
+        // Fetch week-off data from the API
+        fetch('/admin/weekoff-list-api') // Replace with the correct path to your API
+                .then(response => response.json())
+                .then(weekOffData => {
+                    // Process the weekOffData to fit FullCalendar's event format
+                    let weekOffEvents = [];
+                    
+                    Object.entries(weekOffData).forEach(([day, daysArray]) => {
+                        daysArray.forEach(dayNumber => {
+                            weekOffEvents.push({
+                                title: 'Week Off',
+                                start: `2024-08-${dayNumber.padStart(2, '0')}`, // Example date format; adjust as needed
+                                color: 'red'
+                            });
+                        });
+                    });
     // Initialize FullCalendar
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
@@ -220,12 +236,35 @@ document.addEventListener('DOMContentLoaded', function() {
             },    
         events: async function(fetchInfo, successCallback, failureCallback) {
             try {
+                // // Fetch week-off data from PHP
+                // let weekOffData = ?php echo json_encode($weekoff); ?>;
+                // // Convert week-off data to FullCalendar events format
+                // let weekOffEvents = [];
+                // weekOffData.forEach(dayData => {
+                //     // Adjust according to your actual data structure
+                //     for (const [day, daysArray] of Object.entries(dayData)) {
+                //         daysArray.forEach(day => {
+                //             weekOffEvents.push({
+                //                 title: 'Week Off',
+                //                 start: `2024-08-${day.padStart(2, '0')}`, // Adjust year/month/day as needed
+                //                 color: 'red'
+                //             });
+                //         });
+                //     }
+                // });
+                // let weekoff = weekOffEvents,
+
                 let events = await holidaylist();
-                successCallback(events);
+
+                // Combine all events
+                let allEvents = [...weekOffEvents, ...events];
+
+                successCallback(allEvents);
             } catch (error) {
                 failureCallback(error);
             }
-        },// Load existing events here
+        }
+        
         dateClick: function(info) {
             document.getElementById('holidayForm').reset();
             document.getElementById('holidayId').value = '';
@@ -254,6 +293,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendar.render();
+})
     document.getElementById('holidayForm').addEventListener('submit', function(event) {
         event.preventDefault();       
         var id = document.getElementById('holidayId').value;
