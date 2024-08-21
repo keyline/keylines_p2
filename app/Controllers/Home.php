@@ -176,7 +176,7 @@ class Home extends BaseController
              $cu_date = date('d-m-Y'); // Or however you are getting the current date
             //  $cu_date = '01-08-2024';
             
-            $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
+             echo $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date; die;
             $response = file_get_contents($url);
             $data = json_decode($response, true);            
             if($data){
