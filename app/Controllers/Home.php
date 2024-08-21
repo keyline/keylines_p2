@@ -209,6 +209,7 @@ class Home extends BaseController
                         $user_dept                      = $data['user'][0]->deprt_name;
                         $postData['tracker_user_id']    = $user_id;
                         $postData['insert_date']        = $db_date;
+                        pr($postData);
                         $record                         = $this->common_model->save_data('desklog_report', $postData, '', 'id');
                         
                         $year = date('Y');
@@ -275,11 +276,12 @@ class Home extends BaseController
                         $user_dept                      = $data['user'][0]->deprt_name;
                         $postData['tracker_user_id']    = $user_id;
                         $postData['insert_date']        = $db_date;
+                        // pr($postData);
                         $record                         = $this->common_model->save_data('desklog_report', $postData, $id, 'id');
                         
                         $year = date('Y');
                         $month  =   date('m');
-                        $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = '$month' AND user_id = '$user_id'";
+                        echo $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = '$month' AND user_id = '$user_id'";
                         $getDesktimeHour = $this->db->query($sql10)->getRow();                        
                         $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" . date('Y').'-'.date('m') . "%'";
                         $getDesktime = $this->db->query($sql)->getResult();                        
@@ -298,7 +300,8 @@ class Home extends BaseController
                         if ($getDesktimeHour) {                                                      
                         $postData = array(
                             'total_desktime_hour' => $MonthlyDesktime,                                
-                        );                         
+                        );    
+                        pr($postData);                     
                         $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$user_id,'id'); 
                          $result = $getDesktimeHour->total_desktime_hour;
                         }else{
@@ -312,7 +315,8 @@ class Home extends BaseController
                                 'total_desktime_hour' => $MonthlyDesktime,
                                 'total_working_time' => $MonthlyDesktime,
                                 'added_on' => $db_date,                               
-                            );                             
+                            ); 
+                            pr($postData);                            
                             $insertData = $this->common_model->save_data('desktime_sheet_tracking',$postData,'','id');
                             $result ='';
                         }
