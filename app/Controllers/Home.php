@@ -184,7 +184,7 @@ class Home extends BaseController
                 foreach ($data as $item) {
                     $db_date = date_format(date_create($cu_date), "Y-m-d");
                     $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%'.$db_date.'%']);
-                      pr($existingRecord);
+                    //   pr($existingRecord);
                     if(!$existingRecord){
                         // echo "user insert"; die;
                         $postData   = array(
@@ -210,6 +210,7 @@ class Home extends BaseController
                         $user_dept                      = $data['user'][0]->deprt_name;
                         $postData['tracker_user_id']    = $user_id;
                         $postData['insert_date']        = $db_date;
+                        pr($postData);
                         $record                         = $this->common_model->save_data('desklog_report', $postData, '', 'id');
                         
                         $year = date('Y');
