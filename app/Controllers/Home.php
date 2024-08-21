@@ -179,12 +179,12 @@ class Home extends BaseController
              echo $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
             $response = file_get_contents($url);
             $data = json_decode($response, true);  
-            pr($data);          
+            // pr($data);          
             if($data){
                 foreach ($data as $item) {
                     $db_date = date_format(date_create($cu_date), "Y-m-d");
                     $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%'.$db_date.'%']);
-                    //  pr($existingRecord);
+                      pr($existingRecord);
                     if(!$existingRecord){
                         // echo "user insert"; die;
                         $postData   = array(
