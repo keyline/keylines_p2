@@ -286,7 +286,7 @@ class Home extends BaseController
                         // $month  =   date('m');
                          echo $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = '$month' AND user_id = '$user_id'";
                         $getDesktimeHour = $this->db->query($sql10)->getRow();                        
-                        echo $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" .$year.'-'.$month . "%'"; die;
+                        echo $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" .$year.'-'.$month . "%'";
                         $getDesktime = $this->db->query($sql)->getResult();                        
                         $totalHours = 0;
                         $totalMinutes = 0;
