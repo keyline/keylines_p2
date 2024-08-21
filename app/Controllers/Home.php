@@ -279,11 +279,14 @@ class Home extends BaseController
                         $postData['insert_date']        = $db_date;
                         $record                         = $this->common_model->save_data('desklog_report', $postData, $id, 'id');
                         
-                        $year = date('Y');
-                        $month  =   date('m');
+                        $date_parts = explode('-', $cu_date);
+                        $month = $date_parts[1]; // 07
+                        $year = $date_parts[2]; // 2024
+                        // $year = date('Y');
+                        // $month  =   date('m');
                          echo $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = '$month' AND user_id = '$user_id'";
                         $getDesktimeHour = $this->db->query($sql10)->getRow();                        
-                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" . date('Y').'-'.date('m') . "%'";
+                        echo $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" .$year.'-'.$month . "%'"; die;
                         $getDesktime = $this->db->query($sql)->getResult();                        
                         $totalHours = 0;
                         $totalMinutes = 0;
