@@ -149,7 +149,7 @@ $userId             = $session->user_id;
                 </div>
             </a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" href="<?= base_url('admin/task-assign-v2') ?>">
             <div class="icon-box">
                 <i class="fa fa-laptop"></i>
@@ -158,7 +158,7 @@ $userId             = $session->user_id;
                 <span>Task Assign V2</span>
             </div>
             </a>
-        </li>
+        </li> -->
     <?php //} ?>
     <?php if (checkModuleAccess(4)) { ?>
         <li class="nav-item">

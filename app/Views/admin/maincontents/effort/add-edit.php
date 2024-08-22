@@ -3,6 +3,7 @@
     $primary_key        = $moduleDetail['primary_key'];
     $controller_route   = $moduleDetail['controller_route'];
 ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style type="text/css">
     .control-label{
         font-weight: bold;
@@ -58,16 +59,110 @@
                 <?php }?>
             </div>
             <?php
-            $sql = "SELECT * FROM `application_settings`";
-            // $query = $db->query($sql, [$deprt_id]);
-            $settings = $db->query($sql)->getRow();
-            $day_count = $settings->block_tracker_fillup_after_days;                  
-            $days_ago = date('Y-m-d', strtotime('-'.$day_count .'days', strtotime(date('Y-m-d'))));
+            $settings   = $db->query("SELECT * FROM `application_settings`")->getRow();
+            $day_count  = $settings->block_tracker_fillup_after_days;                  
+            $days_ago   = date('Y-m-d', strtotime('-'.$day_count .'days', strtotime(date('Y-m-d'))));
             ?>
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body pt-3">
-                        <form method="POST" action="" enctype="multipart/form-data">
+                        <form id="myForm" method="POST" action="" enctype="multipart/form-data">
+                            <div class="field_wrapper1">
+                                <!-- scheduled tasks -->
+                                    <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
+                                        <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">scheduled task</span></div>
+                                    </div>
+                                    <?php
+                                    if($morningSchedules){ $ms = 1; foreach($morningSchedules as $morningSchedule){
+                                    ?>
+                                        <div class="row" style="border:2px solid #032e49; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+                                            <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">Scheduled Task <?=$ms?></h5>
+                                            <input type="hidden" name="assigned_task_id[]" value="<?=$morningSchedule->id?>">
+                                            <input type="hidden" name="date_added[]" value="<?=$morningSchedule->date_added?>">
+
+                                            <input type="hidden" name="project[]" value="<?=$morningSchedule->project_id?>">
+
+                                            <h6><?=date_format(date_create($morningSchedule->date_added), "M d, Y - l")?></h6>
+                                            <div class="col-md-12">
+                                                <label class="control-label">Project</label>
+                                                <br>
+                                                <!-- <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" required onchange="getProjectInfo(this.value, 0);">
+                                                    <option value="" selected="">Select Project</option>
+                                                    <hr>
+                                                    <?php if($projects){ foreach($projects as $project){?>
+                                                        <option value="<?=$project->id?>" <?=(($project->id == $morningSchedule->project_id)?'selected':'')?>><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
+                                                        <hr>
+                                                    <?php } }?>
+                                                </select> -->
+                                                <?php
+                                                $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+                                                $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+                                                $getProjectInfo           = $common_model->find_data('project', 'row', ['project.id' => $morningSchedule->project_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
+                                                ?>
+                                                <h6 class="text-primary fw-bold"><?=(($getProjectInfo)?$getProjectInfo->name . '(' . $pro->decrypt($getProjectInfo->client_name) . ') - ' . $getProjectInfo->project_status_name:'')?></h6>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="fill_up_projectsss" id="fill_up_project_00" style="display:none;">
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label class="control-label">Hour</label>
+                                                <br>
+                                                <input type="number" name="hour[]" id="hour0" minlength="0" maxlength="2" min="0" max="4" class="form-control hours" required="" autocomplete="off" onblur="maxHour(this.value,0);" value="<?=$morningSchedule->hour?>">
+                                            </div>
+                                            <div class="col-md-1">
+                                                <label class="control-label">Minute</label>
+                                                <br>
+                                                <input type="number" name="minute[]" id="minute0" minlength="0" maxlength="2" min="0" max="50" class="form-control minutes" required="" autocomplete="off" onblur="maxMinute(this.value,0);" value="<?=$morningSchedule->min?>">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label class="control-label">Description</label>
+                                                <languagebr>
+                                                    <textarea name="description[]" class="form-control description" rows="3" autocomplete="off" required><?=$morningSchedule->description?></textarea>
+                                                    <div class="itemDetails">
+                                                        
+                                                    </div>
+                                                </languagebr>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="control-label">Effort Type</label>
+                                                <br>
+                                                <select name="effort_type[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off" required>
+                                                    <option value="" selected="">Select Effort Type</option>
+                                                    <hr>
+                                                    <?php if($effortTypes){ foreach($effortTypes as $effortType){?>
+                                                    <option value="<?=$effortType->id?>" <?=(($effortType->id == $morningSchedule->effort_type)?'selected':'')?>><?=$effortType->name?></option>
+                                                    <hr>
+                                                    <?php } }?>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <label class="control-label">Work Status</label>
+                                                <br>
+                                                <select name="work_status_id[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off" required>
+                                                    <option value="" selected="">Select Work Status</option>
+                                                    <hr>
+                                                    <?php if($workStats){ foreach($workStats as $workStat){?>
+                                                    <option value="<?=$workStat->id?>"><?=$workStat->name?></option>
+                                                    <hr>
+                                                    <?php } }?>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    <?php $ms++; } } else {?>
+                                        <div class="row" style="border:2px solid #032e49; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+                                            <div class="col-md-12">
+                                                <h6 class="text-danger text-center">No Scheduled Tasks Available !!!</h6>
+                                            </div>
+                                        </div>
+                                    <?php }?>
+                                <!-- scheduled tasks -->
+                            </div>
+
+                            <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
+                                <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">new task</span></div>
+                            </div>
                             <div class="row justify-content-between align-items-center floating">
                                 <div class="col-md-3">
                                     <label class="control-label">Date</label>
@@ -81,39 +176,26 @@
                                     </div>
                                 </div>
                             </div>
+
                             <div class="field_wrapper">
-
-                                <!-- <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
-                                    <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">scheduled task</span></div>
-                                </div> -->
-                                <?php
-                                if($morningSchedules){ $ms = 1; foreach($morningSchedules as $morningSchedule){
-                                ?>
-                                    <!-- <div class="row" style="border:1px solid #4154f16b; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
-                                        <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">Scheduled Task <?=$ms?></h5>
-                                        <input type="hidden" name="assigned_task_id[]" value="<?=$morningSchedule->id?>">
-                                        <input type="hidden" name="date_added[]" value="<?=$morningSchedule->date_added?>">
-
-                                        <input type="hidden" name="project[]" value="<?=$morningSchedule->project_id?>">
-
-                                        <h6><?=date_format(date_create($morningSchedule->date_added), "M d, Y - l")?></h6>
+                                <!-- new tasks -->
+                                    
+                                    <div class="row" style="border:2px solid #f19620; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
+                                        <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">New Work List 1</h5>
+                                        <input type="hidden" name="assigned_task_id[]" value="0">
+                                        <input type="hidden" name="date_added[]" value="<?=date('Y-m-d')?>">
+                                        <input type="hidden" name="work_status_id[]" value="4">
                                         <div class="col-md-12">
                                             <label class="control-label">Project</label>
                                             <br>
-                                            <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" required onchange="getProjectInfo(this.value, 0);">
+                                            <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" onchange="getProjectInfo(this.value, 0);">
                                                 <option value="" selected="">Select Project</option>
                                                 <hr>
                                                 <?php if($projects){ foreach($projects as $project){?>
-                                                    <option value="<?=$project->id?>" <?=(($project->id == $morningSchedule->project_id)?'selected':'')?>><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
+                                                    <option value="<?=$project->id?>"><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
                                                     <hr>
                                                 <?php } }?>
                                             </select>
-                                            <?php
-                                            $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
-                                            $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
-                                            $getProjectInfo           = $common_model->find_data('project', 'row', ['project.id' => $morningSchedule->project_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
-                                            ?>
-                                            <h6 class="text-primary fw-bold"><?=(($getProjectInfo)?$getProjectInfo->name . '(' . $pro->decrypt($getProjectInfo->client_name) . ') - ' . $getProjectInfo->project_status_name:'')?></h6>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
@@ -123,17 +205,17 @@
                                         <div class="col-md-2">
                                             <label class="control-label">Hour</label>
                                             <br>
-                                            <input type="number" name="hour[]" id="hour0" minlength="0" maxlength="2" min="0" max="4" class="form-control hours" required="" autocomplete="off" onblur="maxHour(this.value,0);" value="<?=$morningSchedule->hour?>">
+                                            <input type="number" name="hour[]" id="hour0" minlength="0" maxlength="2" min="0" max="4" class="form-control hours" autocomplete="off" onblur="maxHour(this.value,0);">
                                         </div>
                                         <div class="col-md-2">
                                             <label class="control-label">Minute</label>
                                             <br>
-                                            <input type="number" name="minute[]" id="minute0" minlength="0" maxlength="2" min="0" max="50" class="form-control minutes" required="" autocomplete="off" onblur="maxMinute(this.value,0);" value="<?=$morningSchedule->min?>">
+                                            <input type="number" name="minute[]" id="minute0" minlength="0" maxlength="2" min="0" max="50" class="form-control minutes" autocomplete="off" onblur="maxMinute(this.value,0);">
                                         </div>
                                         <div class="col-md-6">
                                             <label class="control-label">Description</label>
                                             <languagebr>
-                                                <textarea name="description[]" class="form-control description" rows="3" autocomplete="off" required><?=$morningSchedule->description?></textarea>
+                                                <textarea name="description[]" class="form-control description" rows="3" autocomplete="off"></textarea>
                                                 <div class="itemDetails">
                                                     
                                                 </div>
@@ -142,94 +224,22 @@
                                         <div class="col-md-2">
                                             <label class="control-label">Effort Type</label>
                                             <br>
-                                            <select name="effort_type[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off" required>
-                                                <option value="" selected="">Select Effort Type</option>
+                                            <select name="effort_type[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off">
+                                                <option value="" selected="">Select Type</option>
                                                 <hr>
                                                 <?php if($effortTypes){ foreach($effortTypes as $effortType){?>
-                                                <option value="<?=$effortType->id?>" <?=(($effortType->id == $morningSchedule->effort_type)?'selected':'')?>><?=$effortType->name?></option>
+                                                <option value="<?=$effortType->id?>"><?=$effortType->name?></option>
                                                 <hr>
                                                 <?php } }?>
                                             </select>
                                             <div class="fill_up_et" style="color: red;"></div>
-                                            <label class="control-label mt-3">Work Status</label>
-                                            <br>
-                                            <select name="work_status_id[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off" required>
-                                                <option value="" selected="">Select Work Status</option>
-                                                <hr>
-                                                <?php if($workStats){ foreach($workStats as $workStat){?>
-                                                <option value="<?=$workStat->id?>"><?=$workStat->name?></option>
-                                                <hr>
-                                                <?php } }?>
-                                            </select>
-                                        </div>
-                                    </div> -->
-                                <?php $ms++; } }?>
-
-
-
-                                <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
-                                    <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">new task</span></div>
-                                </div>
-                                <div class="row" style="border:1px solid #f19620a6; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
-                                    <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">New Work List 1</h5>
-                                    <input type="hidden" name="assigned_task_id[]" value="0">
-                                    <input type="hidden" name="date_added[]" value="<?=date('Y-m-d')?>">
-                                    <input type="hidden" name="work_status_id[]" value="4">
-                                    <div class="col-md-12">
-                                        <label class="control-label">Project</label>
-                                        <br>
-                                        <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" onchange="getProjectInfo(this.value, 0);">
-                                            <option value="" selected="">Select Project</option>
-                                            <hr>
-                                            <?php if($projects){ foreach($projects as $project){?>
-                                                <option value="<?=$project->id?>"><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
-                                                <hr>
-                                            <?php } }?>
-                                        </select>
-                                    </div>
-                                    <div class="col-md-12">
-                                        <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
-                                            
                                         </div>
                                     </div>
-                                    <div class="col-md-2">
-                                        <label class="control-label">Hour</label>
-                                        <br>
-                                        <input type="number" name="hour[]" id="hour0" minlength="0" maxlength="2" min="0" max="4" class="form-control hours" autocomplete="off" onblur="maxHour(this.value,0);">
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="control-label">Minute</label>
-                                        <br>
-                                        <input type="number" name="minute[]" id="minute0" minlength="0" maxlength="2" min="0" max="50" class="form-control minutes" autocomplete="off" onblur="maxMinute(this.value,0);">
-                                    </div>
-                                    <div class="col-md-6">
-                                        <label class="control-label">Description</label>
-                                        <languagebr>
-                                            <textarea name="description[]" class="form-control description" rows="3" autocomplete="off"></textarea>
-                                            <div class="itemDetails">
-                                                
-                                            </div>
-                                        </languagebr>
-                                    </div>
-                                    <div class="col-md-2">
-                                        <label class="control-label">Effort Type</label>
-                                        <br>
-                                        <select name="effort_type[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off">
-                                            <option value="" selected="">Select Type</option>
-                                            <hr>
-                                            <?php if($effortTypes){ foreach($effortTypes as $effortType){?>
-                                            <option value="<?=$effortType->id?>"><?=$effortType->name?></option>
-                                            <hr>
-                                            <?php } }?>
-                                        </select>
-                                        <div class="fill_up_et" style="color: red;"></div>
-                                    </div>
-                                </div>
-
+                                <!-- new tasks -->
                             </div>
-                            <a href="javascript:void(0);" class="btn btn-info add_button" title="Add field"><i class="fa fa-plus-circle"></i> Add</a>
+                            <a href="javascript:void(0);" class="btn btn-primary btn-sm add_button" title="Add field"><i class="fa fa-plus-circle"></i> Add More New Tasks</a>
                             <div class="text-left mt-3">
-                                <button type="submit" class="btn btn_org btn-primary">Submit</button>
+                                <button type="submit" class="btn btn_org btn-primary btn-sm" id="submitBtn"><i class="fa fa-paper-plane"></i> Submit</button>
                             </div>
                         </form>
                     </div>
@@ -251,7 +261,7 @@
         $(addButton).click(function(){
             //Check maximum number of input fields
             if(x < maxField){
-                var fieldHTML = '<div class="row" style="border:1px solid #f19620a6; padding: 10px; border-radius: 5px; margin-bottom: 10px;">\
+                var fieldHTML = '<div class="row" style="border:2px solid #f19620; padding: 10px; border-radius: 5px; margin-bottom: 10px;">\
                                     <h5 class="badge bg-warning text-dark" style="width: auto;">New Work List '+(x + 1)+'</h5>\
                                     <input type="hidden" name="assigned_task_id[]" value="0">\
                                     <input type="hidden" name="date_added[]" value="<?=date('Y-m-d')?>">\
@@ -409,5 +419,31 @@
             }
         });
     }
-    
+</script>
+<script>
+    document.getElementById('submitBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+        var date_task = $('#date_task').val();
+        var date = new Date(date_task);
+        var formattedDate = date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+        // console.log(formattedDate); // Output: "22/08/2024" (DD/MM/YYYY)
+        // alert(formattedDate);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You are submitting tasks for " + formattedDate,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#4CAF50',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, submit it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('myForm').submit(); // Submit the form if confirmed
+            }
+        });
+    });
 </script>

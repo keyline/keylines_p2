@@ -28,13 +28,39 @@ class TaskAssignController extends BaseController {
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'task-assign/list';
+
+        $user_id                    = $this->session->get('user_id');
+        $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show');
+        $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
+
         $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
-        $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+        if(empty($data['tracker_depts_show'])){
+            $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+        } else {
+            $tracker_depts_show_string = implode(",", $data['tracker_depts_show']);
+            $data['departments']        = $this->db->query("SELECT * FROM `department` WHERE `id` IN ($tracker_depts_show_string) AND `is_join_morning_meeting` = 1 AND status = 1 ORDER BY rank ASC")->getResult();
+        }
+        // echo $this->db->getLastQuery();die;
+        
 
         $order_by1[0]               = array('field' => 'project.name', 'type' => 'ASC');
         $join1[0]                   = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
         $join1[1]                   = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
         $data['projects']           = $this->common_model->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join1, '', $order_by1);
+
+        
+
+        if($this->request->getMethod() == 'post') {
+            $user_id    = $this->session->get('user_id');
+            $postData   = array(
+                'tracker_depts_show'          => json_encode($this->request->getPost('tracker_depts_show')),
+            );
+            // pr($postData);
+            $record     = $this->data['model']->save_data('user', $postData, $user_id, 'id');            
+            $this->session->setFlashdata('success_message', 'Filter Applied Successfully');
+            return redirect()->to('/admin/'.$this->data['controller_route']);
+        }
+
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function morning_meeting_schedule_submit(){
@@ -103,32 +129,37 @@ class TaskAssignController extends BaseController {
                 $totalTime              += $totMins;
 
                 if($getTask->priority == 3){
-                    $priority = '<span><i class="fa-solid fa-medal" style="color: #FFD43B; border:1px solid #FFD43B; border-radius:50%; padding:3px;float:right;" title="High"></i></span>';
+                    $priority = '<span class="card_priotty_item proiodty_high">High</span>';
                 }
                 if($getTask->priority == 2){
-                    $priority = '<span><i class="fa-solid fa-medal" style="color: #CCCCCC; border:1px solid #CCCCCC; border-radius:50%; padding:3px;float:right;" title="Medium"></i></span>';
+                    $priority = '<span class="card_priotty_item proiodty_medium">Medium</span>';
                 }
                 if($getTask->priority == 1){
-                    $priority = '<span><i class="fa-solid fa-medal" style="color: #b08d57; border:1px solid #b08d57; border-radius:50%; padding:3px;float:right;" title="Low"></i></span>';
+                    $priority = '<span class="card_priotty_item proiodty_low">Low</span>';
                 }
 
                 $scheduleHTML .= '<div class="input-group">
-                                <div class="card">
-                                    <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
-                                        <p class="mb-2">
-                                            ' . $priority . '
-                                            <span class="mb-1 d-block"><b>'.$getTask->project_name.' :</b> '.$getTask->description.'</span> [' .$hr. ' ' .$min. ']
-                                        </p>
-                                        <div class="d-flex justify-content-between">
-                                            <p class="mb-0">'.$user_name.'</p>
-                                            <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
+                                    <div class="card">
+                                        <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
+                                            <p class="mb-2">
+                                                ' . $priority . '
+                                            </p>
+                                            <div class="mb-1 d-block">
+                                                <div class="card_projectname"><b>'.$getTask->project_name.' :</b> </div>
+                                                <div class="card_proj_info">'.$getTask->description.'</div>
+                                            </div>
+                                            <div class="card_projecttime">
+                                                [' .$hr. ' ' .$min. ']
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-0 assign-name">'.$user_name.'</p>
+                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
                                                 <i class="fa-solid fa-pencil text-primary"></i>
-                                            </a>
+                                                </a>
+                                            </div>
                                         </div>
-                                        
                                     </div>
-                                </div>
-                            </div>';
+                                </div>';
             }
         }
 
@@ -199,7 +230,7 @@ class TaskAssignController extends BaseController {
                                                             <hr>';
                                                             if($projects){ foreach($projects as $project){
                                                                 $selectedProject = (($project->id == $getTask->project_id)?'selected':'');
-                                    $scheduleHTML           .= '<option value="'.$project->id.'" '.$selectedProject.'>'.$project->name.' ('.$project->client_name.') - '.$project->project_status_name.'</option>
+                                    $scheduleHTML           .= '<option value="'.$project->id.'" '.$selectedProject.'>'.$project->name.' ('.$this->pro->decrypt($project->client_name).') - '.$project->project_status_name.'</option>
                                                                 <hr>';
                                                             } }
                             $scheduleHTML           .= '</select>
@@ -320,34 +351,40 @@ class TaskAssignController extends BaseController {
                 $totalTime              += $totMins;
 
                 if($getTask->priority == 3){
-                    $priority = '<span><i class="fa-solid fa-medal" style="color: #FFD43B; border:1px solid #FFD43B; border-radius:50%; padding:3px;float:right;" title="High"></i></span>';
+                    $priority = '<span class="card_priotty_item proiodty_high">High</span>';
                 }
                 if($getTask->priority == 2){
-                    $priority = '<span><i class="fa-solid fa-medal" style="color: #CCCCCC; border:1px solid #CCCCCC; border-radius:50%; padding:3px;float:right;" title="Medium"></i></span>';
+                    $priority = '<span class="card_priotty_item proiodty_medium">Medium</span>';
                 }
                 if($getTask->priority == 1){
-                    $priority = '<span><i class="fa-solid fa-medal" style="color: #b08d57; border:1px solid #b08d57; border-radius:50%; padding:3px;float:right;" title="Low"></i></span>';
+                    $priority = '<span class="card_priotty_item proiodty_low">Low</span>';
                 }
 
-                $scheduleHTML .= '<div class="input-group mb-1">
-                                <div class="card">
-                                    <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
-                                        <p class="mb-2">
-                                            ' . $priority . '
-                                            <span class="mb-1 d-block"><b>'.$getTask->project_name.' :</b> '.$getTask->description.'</span> [' .$hr. ' ' .$min. ']
-                                        </p>
-                                        <div class="d-flex justify-content-between">
-                                            <p class="mb-0">'.$user_name.'</p>
-                                            <a href="javascript:void(0);" class="task_edit_btn" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
-                                            <i class="fa-solid fa-pencil text-primary"></i>
-                                            </a>
+                $scheduleHTML .= '<div class="input-group">
+                                    <div class="card">
+                                        <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
+                                            <p class="mb-2">
+                                                ' . $priority . '
+                                            </p>
+                                            <div class="mb-1 d-block">
+                                                <div class="card_projectname"><b>'.$getTask->project_name.' :</b> </div>
+                                                <div class="card_proj_info">'.$getTask->description.'</div>
+                                            </div>
+                                            <div class="card_projecttime">
+                                                [' .$hr. ' ' .$min. ']
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="mb-0 assign-name">'.$user_name.'</p>
+                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
+                                                <i class="fa-solid fa-pencil text-primary"></i>
+                                                </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>';
+                                </div>';
             }
         }
-
+        // echo $scheduleHTML;die;
         $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
         
         $dept_id        = $requestData['dept_id'];

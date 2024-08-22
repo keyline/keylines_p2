@@ -8,6 +8,8 @@ $title                  = $moduleDetail['title'];
 $primary_key            = $moduleDetail['primary_key'];
 $controller_route       = $moduleDetail['controller_route'];
 ?>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
+<script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
 <style type="text/css">
     #simpletable_filter{
         float: right;
@@ -33,36 +35,40 @@ $controller_route       = $moduleDetail['controller_route'];
         background: #0d6efdc2;
     }
     .card_projectname {
-    padding-bottom: 5px;
-}
-.card_projecttime {
-    font-weight: 700;
-    margin-bottom: 0;
-    padding-top: 10px;
-}
-span.card_priotty_item {
-    position: absolute;
-    right: 0;
-    top: -2px;
-    background: #ddd;
-    padding: 2px 5px;
-    font-size: 10px;
-    font-weight: 600;
-}
-span.card_priotty_item.proiodty_high {
-    background: #ff0404;
-    color: #fff;
-}
-span.card_priotty_item.proiodty_low {
-    background: #f5d74f;
-}
-span.card_priotty_item.proiodty_medium {
-    background: #80edc0;
-}
-a.taskedit_iconright {
-    float: right;
-    margin: inherit;
-}
+        padding-bottom: 5px;
+    }
+    .card_projecttime {
+        font-weight: 700;
+        margin-bottom: 0;
+        padding-top: 10px;
+    }
+    span.card_priotty_item {
+        position: absolute;
+        right: 0;
+        top: -2px;
+        background: #ddd;
+        padding: 2px 5px;
+        font-size: 10px;
+        font-weight: 600;
+    }
+    span.card_priotty_item.proiodty_high {
+        background: #ff0404;
+        color: #fff;
+    }
+    span.card_priotty_item.proiodty_medium {
+        background: #80edc0;
+    }
+    span.card_priotty_item.proiodty_low {
+        background: #f5d74f;
+    }
+    a.taskedit_iconright {
+        float: right;
+        margin: inherit;
+    }
+    .choices__list--multiple .choices__item {
+        background-color: #ffc107;
+        border: 1px solid #ffc107;
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
@@ -105,7 +111,23 @@ a.taskedit_iconright {
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-
+                <form method="POST" action="">
+                    <div class="row" style="border:1px solid #ffc107; padding: 10px; border-radius: 10px; margin-bottom: 10px;">
+                        <div class="col-md-3">
+                            <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
+                                <!-- <option value="0">Only Mine</option> -->
+                                <?php if($departments){ foreach($departments as $dept){?>
+                                    <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
+                                <?php } }?>
+                            </select>
+                        </div>
+                        <div class="col-md-1">
+                            <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-filter"></i> Filter</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-12">
                 <div class="card mb-3">
                     <div class="card-body">
                         <h6 class="badge bg-primary mb-2"><?=date('M d, Y - l', strtotime("-1 days"));?></h6>
@@ -174,44 +196,47 @@ a.taskedit_iconright {
                                                                     <div class="input-group">
                                                                         <div class="card">
                                                                             <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: <?=$work_status_color?>;">
+                                                                                
                                                                                 <p class="mb-2">
                                                                                     <?php if($getTask->priority == 3){?>
-                                                                                        <span><i class="fa-solid fa-medal" style="color: #FFD43B; border:1px solid #FFD43B; border-radius:50%; padding:3px;float:right;" title="High"></i></span>
+                                                                                        <span class="card_priotty_item proiodty_high">High</span>
                                                                                     <?php }?>
                                                                                     <?php if($getTask->priority == 2){?>
-                                                                                        <span><i class="fa-solid fa-medal" style="color: #CCCCCC; border:1px solid #CCCCCC; border-radius:50%; padding:3px;float:right;" title="Medium"></i></span>
+                                                                                        <span class="card_priotty_item proiodty_medium">Medium</span>
                                                                                     <?php }?>
                                                                                     <?php if($getTask->priority == 1){?>
-                                                                                        <span><i class="fa-solid fa-medal" style="color: #b08d57; border:1px solid #b08d57; border-radius:50%; padding:3px;float:right;" title="Low"></i></span>
+                                                                                        <span class="card_priotty_item proiodty_low">Low</span>
                                                                                     <?php }?>
-                                                                                    
-                                                                                    <div class="mb-1 d-block">
-                                                                                        <div class="card_projectname"><b><?=$getTask->project_name?> :</b> </div>
-                                                                                        <div class="card_proj_info"><?=$getTask->description?></div>
-                                                                                    </div> 
-                                                                                    <div class="card_projecttime">[
-                                                                                        <?php
-                                                                                        if($getTask->hour > 0) {
-                                                                                            if($getTask->hour == 1){
-                                                                                                echo $getTask->hour . " hr ";
-                                                                                            } else {
-                                                                                                echo $getTask->hour . " hrs ";
-                                                                                            }
-                                                                                        }
-                                                                                        if($getTask->min > 0) {
-                                                                                            if($getTask->min == 1){
-                                                                                                echo $getTask->min . " min ";
-                                                                                            } else {
-                                                                                                echo $getTask->min . " mins ";
-                                                                                            }
-                                                                                        }
-                                                                                        ?>
-                                                                                    ]
-                                                                                    </div>
                                                                                 </p>
+                                                                                    
+                                                                                <div class="mb-1 d-block">
+                                                                                    <div class="card_projectname"><b><?=$getTask->project_name?> :</b> </div>
+                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div> 
+                                                                                </div>
+
+                                                                                <div class="card_projecttime">
+                                                                                    [<?php
+                                                                                    if($getTask->hour > 0) {
+                                                                                        if($getTask->hour == 1){
+                                                                                            echo $getTask->hour . " hr ";
+                                                                                        } else {
+                                                                                            echo $getTask->hour . " hrs ";
+                                                                                        }
+                                                                                    }
+                                                                                    if($getTask->min > 0) {
+                                                                                        if($getTask->min == 1){
+                                                                                            echo $getTask->min . " min ";
+                                                                                        } else {
+                                                                                            echo $getTask->min . " mins ";
+                                                                                        }
+                                                                                    }
+                                                                                    ?>]
+                                                                                </div>
+                                                                                
                                                                                 <div class="d-flex justify-content-between">
                                                                                     <p class="mb-0 assign-name"><?=$getTask->user_name?></p>
                                                                                 </div>
+
                                                                                 <?php if($application_settings->is_task_approval){?>
                                                                                     <?php if($team_member_type != 'Member'){?>
                                                                                         <?php if($getTask->next_day_task_action <= 0){?>
@@ -318,28 +343,28 @@ a.taskedit_iconright {
                                                                                     <?php }?>
                                                                                 </p>
 
-                                                                                    <div class="mb-1 d-block">
-                                                                                        <div class="card_projectname"><b><?=$getTask->project_name?> :</b> </div>
-                                                                                        <div class="card_proj_info"><?=$getTask->description?><br></div> 
-                                                                                    </div>
-                                                                                    <div class="card_projecttime">
-                                                                                        [<?php
-                                                                                        if($getTask->hour > 0) {
-                                                                                            if($getTask->hour == 1){
-                                                                                                echo $getTask->hour . " hr ";
-                                                                                            } else {
-                                                                                                echo $getTask->hour . " hrs ";
-                                                                                            }
+                                                                                <div class="mb-1 d-block">
+                                                                                    <div class="card_projectname"><b><?=$getTask->project_name?> :</b> </div>
+                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div> 
+                                                                                </div>
+                                                                                <div class="card_projecttime">
+                                                                                    [<?php
+                                                                                    if($getTask->hour > 0) {
+                                                                                        if($getTask->hour == 1){
+                                                                                            echo $getTask->hour . " hr ";
+                                                                                        } else {
+                                                                                            echo $getTask->hour . " hrs ";
                                                                                         }
-                                                                                        if($getTask->min > 0) {
-                                                                                            if($getTask->min == 1){
-                                                                                                echo $getTask->min . " min ";
-                                                                                            } else {
-                                                                                                echo $getTask->min . " mins ";
-                                                                                            }
+                                                                                    }
+                                                                                    if($getTask->min > 0) {
+                                                                                        if($getTask->min == 1){
+                                                                                            echo $getTask->min . " min ";
+                                                                                        } else {
+                                                                                            echo $getTask->min . " mins ";
                                                                                         }
-                                                                                        ?>]
-                                                                                    </div>
+                                                                                    }
+                                                                                    ?>]
+                                                                                </div>
                                                                                 
                                                                                 <div class="d-flex justify-content-between">
                                                                                     <p class="mb-0 assign-name"><?=$getTask->user_name?></p>
@@ -426,7 +451,7 @@ a.taskedit_iconright {
                                             <option value="" selected="">Select Project</option>
                                             <hr>
                                             <?php if($projects){ foreach($projects as $project){?>
-                                                <option value="<?=$project->id?>"><?=$project->name?> (<?=$project->client_name?>) - <?=$project->project_status_name?></option>
+                                                <option value="<?=$project->id?>"><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
                                                 <hr>
                                             <?php } }?>
                                         </select>
@@ -460,7 +485,7 @@ a.taskedit_iconright {
                                 <div class="col-md-6">
                                     <div class="input-group mb-1">
                                         <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required><label for="priority1" style="margin-left : 3px;">Priority LOW</label></span>
-                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" required><label for="priority2" style="margin-left : 3px;">Priority MEDIUM</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" checked required><label for="priority2" style="margin-left : 3px;">Priority MEDIUM</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required><label for="priority3" style="margin-left : 3px;">Priority HIGH</label></span>
                                     </div>
                                 </div>
@@ -662,4 +687,14 @@ a.taskedit_iconright {
     $(function(){
         
     })
+</script>
+<script type="text/javascript">
+    $(document).ready(function(){    
+        var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            maxItemCount:5,
+            searchResultLimit:5,
+            renderChoiceLimit:5
+        });     
+    });
 </script>
