@@ -101,13 +101,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <hr>
                                         <?php if ($projects) {
                                             foreach ($projects as $row) { ?>
-                                                <option value="<?= $row->id ?>" <?= (($search_project_id == $row->id) ? 'selected' : '') ?>><?= $row->name ?> (<?= $row->client_name ?>) - <?= $row->project_status_name ?></option>
+                                                <option value="<?= $row->id ?>" <?= (($search_project_id == $row->id) ? 'selected' : '') ?>><?= $row->name ?> (<?=$pro->decrypt($row->client_name)?>) - <?= $row->project_status_name ?></option>
                                                 <hr>
                                         <?php }
                                         } ?>
                                         <?php if ($closed_projects) {
                                             foreach ($closed_projects as $row2) { ?>
-                                                <option value="<?= $row2->id ?>" <?= (($search_project_id == $row2->id) ? 'selected' : '') ?>><?= $row2->name ?> (<?= $row2->client_name ?>) - <?= $row2->project_status_name ?></option>
+                                                <option value="<?= $row2->id ?>" <?= (($search_project_id == $row2->id) ? 'selected' : '') ?>><?= $row2->name ?> (<?=$pro->decrypt($row2->client_name)?>) - <?= $row2->project_status_name ?></option>
                                                 <hr>
                                         <?php }
                                         } ?>

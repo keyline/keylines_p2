@@ -177,7 +177,6 @@ label{
 }
 
 .sidebar-nav .nav-link.active{
-  /* background: #e5edff; */
   color: #4154f1;
   /* box-shadow: 0 3px 7px -5px #142f93; */
 }
@@ -1001,10 +1000,11 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   left: 0;
   bottom: 0;
   width: 68px;
+  height: 100%;
   z-index: 996;
   transition: all 0.3s;
-  overflow-y: auto;
-  overflow-x: hidden;
+  /* overflow-y: auto; */
+  /* overflow-x: hidden; */
   /* scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent; */
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
@@ -1035,10 +1035,6 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   list-style: none;
 }
 
-.sidebar-nav .nav-item {
-  margin-bottom: 5px;
-}
-
 .sidebar-nav .nav-heading {
   font-size: 11px;
   text-transform: uppercase;
@@ -1060,7 +1056,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 select.form-control {
     height: 40px;
 }
-.sidebar-nav .nav-link i {
+.sidebar-nav .nav-link .icon-box i {
   font-size: 18px;
   color: #2D2D2E;
   width: 36px;
@@ -1070,16 +1066,34 @@ select.form-control {
   justify-content: center;
   align-items: center;
 }
-.icon-box{
-  margin-right: 10px;
-}
+
 .sidebar-nav .nav-link.active i{
   background: #B9EDFF;
 }
-.sidebar-nav .nav-link span,
+.sidebar-nav .nav-link span + i{
+  font-size: 12px;
+}
+/* .sidebar-nav .nav-link span,
 .sidebar-nav .nav-link span + i{
   display: none;
+}  */
+.sidebar-nav .nav-link .link-text{
+  margin-left: 20px;
+  background: #fff;
+  padding: 9px 5px;
+  width: 131px;
+  opacity: 0;
+  visibility: hidden;
+  display: flex;
+  align-items: center;
+  transition: all .3s ease-in-out;
+}
+.sidebar-nav .nav-link:hover .link-text,
+.toggle-sidebar .sidebar-nav .nav-link .link-text{
+  opacity: 1;
+  visibility: visible;
 } 
+
 .toggle-sidebar .sidebar .sidebar-nav .nav-link span,
 .toggle-sidebar .sidebar .sidebar-nav .nav-link span + i{
   display: block;
@@ -1092,17 +1106,19 @@ select.form-control {
 
 .sidebar-nav .nav-link.collapsed {
   color: #1c55af;
-  background: #fff;
+  /* background: #fff; */
 }
 
 
-.sidebar-nav .nav-link:hover i,
+.sidebar-nav .nav-link:hover .icon-box i,
 .sidebar-nav .nav-content a:hover {
   background: #B9EDFF;
   color: #4154f1;
   /* box-shadow: 0 3px 7px -5px #142f93; */
 }
-
+/* .sidebar-nav .nav-link:hover span{
+  display: block;
+} */
 .sidebar-nav .nav-link:hover i {
   color: #4154f1;
 }
@@ -1120,6 +1136,8 @@ select.form-control {
   padding: 5px 0 0 0;
   margin: 0;
   list-style: none;
+  background: #fff;
+  width: 200px;
 }
 
 .sidebar-nav .nav-content a {

@@ -114,7 +114,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <span class="badge bg-success"><?=(($row->start_date != '')?date_format(date_create($row->start_date), "M d, Y"):'')?></span><br>
                                             Deadline: <?=(($row->deadline != '')?date_format(date_create($row->deadline), "M d, Y"):'')?><br>
                                             Last Update: <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?><br>
-                                            <i class="fa fa-user" style="margin-left: 5px;"></i><b><?=$row->client_name?></b> <br>
+                                            <i class="fa fa-user" style="margin-left: 5px;"></i><b><?=$pro->decrypt($row->client_name)?></b> <br>
                                             
                                             <!-- ?=(($row->deadline != '')?date_format(date_create($row->deadline), "M d, Y"):'')?> -->
                                         </td>                                    
@@ -133,7 +133,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <!-- <td>
                                             <?php if($getProject){  }?>
                                         </td> -->
-                                        <!-- <td>?=$row->client_name?></td>                                         -->
+                                        <!-- <td>?=$pro->decrypt($row->client_name)?></td>                                         -->
                                         <!-- <td></td> -->
                                         <!-- <td>
                                             <?php if($row->temporary_url != ''){?><small>Temp : <a href="<?=$row->temporary_url?>" target="_blank"><?=$row->temporary_url?></a></small><br><?php }?>

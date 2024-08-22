@@ -36,7 +36,9 @@ $userId             = $session->user_id;
 <ul class="sidebar-nav" id="sidebar-nav">
     <li class="nav-item">
         <a class="nav-link toggle-sidebar-btn">
-            <i class="fa fa-bars"></i>
+            <div class="icon-box">
+                <i class="fa fa-bars"></i>
+            </div>
         </a>
     </li>
     <li class="nav-item">
@@ -44,7 +46,9 @@ $userId             = $session->user_id;
             <div class="icon-box">
                 <i class="fa fa-home"></i>
             </div>
-            <span>Dashboard</span>
+            <div class="link-text">
+                <span>Dashboard</span>
+            </div>
         </a>
     </li>
     <?php if (checkModuleAccess(12) || checkModuleAccess(13) || checkModuleAccess(14)) { ?>
@@ -53,7 +57,9 @@ $userId             = $session->user_id;
                 <div class="icon-box">
                     <i class="fas fa-key"></i>
                 </div>
-                <span>Access & Permission</span><i class="bi bi-chevron-down ms-auto"></i>
+                <div class="link-text">
+                    <span>Access & Permission</span><i class="bi bi-chevron-down ms-auto"></i>
+                </div>
             </a>
             <ul id="access-nav" class="nav-content collapse <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if(checkModuleAccess(12)){ ?>
@@ -86,7 +92,9 @@ $userId             = $session->user_id;
                 <div class="icon-box">
                     <i class="fa fa-database"></i>
                 </div>    
-                <span>Masters</span><i class="bi bi-chevron-down ms-auto"></i>
+                <div class="link-text">
+                    <span>Masters</span><i class="bi bi-chevron-down ms-auto"></i>
+                </div>
             </a>
             <ul id="master-nav" class="nav-content collapse <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if(checkModuleAccess(16)){ ?>
@@ -136,13 +144,19 @@ $userId             = $session->user_id;
                 <div class="icon-box">
                     <i class="fa fa-laptop"></i>
                 </div>
-                <span>Task Assign</span>
+                <div class="link-text">
+                    <span>Task Assign</span>
+                </div>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="<?= base_url('admin/task-assign-v2') ?>">
+            <div class="icon-box">
                 <i class="fa fa-laptop"></i>
+            </div>
+            <div class="link-text">
                 <span>Task Assign V2</span>
+            </div>
             </a>
         </li>
     <?php //} ?>
@@ -152,7 +166,9 @@ $userId             = $session->user_id;
                 <div class="icon-box">
                     <i class="fa fa-users"></i>
                 </div>
-                <span>User Module</span><i class="bi bi-chevron-down ms-auto"></i>
+                <div class="link-text">
+                    <span>User Module</span><i class="bi bi-chevron-down ms-auto"></i>
+                </div>
             </a>
             <ul id="notification-nav" class="nav-content collapse <?= (($pageSegment == 'users') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <li class="nav-item">
@@ -178,8 +194,9 @@ $userId             = $session->user_id;
                 <div class="icon-box">
                     <i class="fa fa-users"></i>
                 </div>
-                
-                <span>Team</span>
+                <div class="link-text">
+                    <span>Team</span>
+                </div>
             </a>
         </li>
     <?php } ?>
@@ -189,8 +206,9 @@ $userId             = $session->user_id;
             <div class="icon-box">
             <i class="fas fa-project-diagram"></i>
             </div>
-                
+            <div class="link-text">
                 <span>Projects</span>
+            </div>
             </a>
         </li>
     <?php } ?>
@@ -198,10 +216,11 @@ $userId             = $session->user_id;
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'clients') ? 'active' : '') ?>" href="<?= base_url('admin/clients/list') ?>">
             <div class="icon-box">
-            <i class="fas fa-industry"></i>
+                <i class="fas fa-industry"></i>
             </div>
-                
-                <span>Clients</span>
+                <div class="link-text">
+                    <span>Clients</span>
+                </div>
             </a>
         </li>
     <?php } ?>
@@ -211,7 +230,9 @@ $userId             = $session->user_id;
             <div class="icon-box">
             <i class="fas fa-calendar-check"></i>
             </div>
+            <div class="link-text">
                 <span>AMC Checking</span>
+            </div>
             </a>
         </li>
         <li class="nav-item">
@@ -219,7 +240,9 @@ $userId             = $session->user_id;
             <div class="icon-box">
             <i class="fas fa-money-check"></i>
             </div>
+            <div class="link-text">
                 <span>Add Expenses</span>
+            </div>
             </a>
         </li>
     <?php } ?>
@@ -230,7 +253,9 @@ $userId             = $session->user_id;
             <div class="icon-box">
                 <i class="fa fa-tasks"></i>
             </div>
-            <span>Effort Booking</span><i class="bi bi-chevron-down ms-auto"></i>
+            <div class="link-text">
+                <span>Effort Booking</span><i class="bi bi-chevron-down ms-auto"></i>
+            </div>
             </a>
             <ul id="notification-nav" class="nav-content collapse <?= (($pageSegment == 'efforts') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if ($admin->is_tracker_user) {  ?>
@@ -275,8 +300,10 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(22) || checkModuleAccess(23) || checkModuleAccess(24) || checkModuleAccess(25) || checkModuleAccess(26)) {    ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'reports') ? '' : 'collapsed') ?> <?= (($pageSegment == 'reports') ? 'active' : '') ?>" data-bs-target="#report-nav" data-bs-toggle="collapse" href="#">
-            <div class="icon-box"><i class="fa fa-tasks"></i></div>    
-            <span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+            <div class="icon-box"><i class="fa fa-tasks"></i></div>   
+            <div class="link-text">
+                <span>Reports</span><i class="bi bi-chevron-down ms-auto"></i>
+            </div> 
             </a>
             <ul id="report-nav" class="nav-content collapse <?= (($pageSegment == 'reports') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
                 <?php if(checkModuleAccess(22)){ ?>
@@ -324,8 +351,12 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(27)) { ?>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'attendance-report') ? 'active' : '') ?>" href="<?= base_url('admin/attendance-report') ?>">
-                <i class="fa fa-user"></i>
-                <span>Attendance</span>
+                <div class="icon-box">
+                    <i class="fa fa-user"></i>
+                </div>
+                <div class="link-text">
+                    <span>Attendance</span>
+                </div>
             </a>
         </li>
     <?php } ?>
@@ -333,13 +364,18 @@ $userId             = $session->user_id;
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>" href="<?= base_url('admin/holiday-list') ?>">
             <div class="icon-box"><i class="fas fa-calendar-check"></i></div>
+            <div class="link-text">
                 <span>Holiday List</span>
+            </div>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'delete-account-request') ? 'active' : '') ?>" href="<?= base_url('admin/delete-account-request/list') ?>">
             <div class="icon-box"><i class="fa fa-trash"></i></div>
+            <div class="link-text">
                 <span>Delete Account Requests</span>
+            </div>
+
             </a>
         </li>
     <?php } ?>
@@ -347,7 +383,10 @@ $userId             = $session->user_id;
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'email-logs') ? 'active' : '') ?>" href="<?= base_url('admin/email-logs') ?>">
             <div class="icon-box"><i class="fa fa-envelope"></i></div>
+            <div class="link-text">
                 <span>Email Logs</span>
+            </div>
+
             </a>
         </li>
     <?php } ?>
@@ -355,7 +394,9 @@ $userId             = $session->user_id;
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'login-logs') ? 'active' : '') ?>" href="<?= base_url('admin/login-logs') ?>">
             <div class="icon-box"><i class="fa fa-list"></i></div>
+            <div class="link-text">
                 <span>Login Logs</span>
+            </div>
             </a>
         </li>
     <?php } ?>
@@ -364,13 +405,17 @@ $userId             = $session->user_id;
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="<?= base_url('admin/settings') ?>">
             <div class="icon-box"><i class="fa fa-gear"></i></div>
+            <div class="link-text">
                 <span>Settings</span>
+            </div>
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link <?= (($pageSegment == 'mobile-application') ? 'active' : '') ?>" href="<?= base_url('admin/mobile-application') ?>">
             <div class="icon-box"><i class="fa fa-mobile"></i></div>
+            <div class="link-text">
                 <span>Mobile Application</span>
+            </div>
             </a>
         </li>
     <?php //} ?>

@@ -104,7 +104,7 @@
                                                 <option value="" selected="">Select Project</option>
                                                 <hr>
                                                 <?php if($projects){ foreach($projects as $project){?>
-                                                    <option value="<?=$project->id?>" <?=(($project->id == $morningSchedule->project_id)?'selected':'')?>><?=$project->name?> (<?=$project->client_name?>) - <?=$project->project_status_name?></option>
+                                                    <option value="<?=$project->id?>" <?=(($project->id == $morningSchedule->project_id)?'selected':'')?>><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
                                                     <hr>
                                                 <?php } }?>
                                             </select>
@@ -113,7 +113,7 @@
                                             $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
                                             $getProjectInfo           = $common_model->find_data('project', 'row', ['project.id' => $morningSchedule->project_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
                                             ?>
-                                            <h6 class="text-primary fw-bold"><?=(($getProjectInfo)?$getProjectInfo->name . '(' . $getProjectInfo->client_name . ') - ' . $getProjectInfo->project_status_name:'')?></h6>
+                                            <h6 class="text-primary fw-bold"><?=(($getProjectInfo)?$getProjectInfo->name . '(' . $pro->decrypt($getProjectInfo->client_name) . ') - ' . $getProjectInfo->project_status_name:'')?></h6>
                                         </div>
                                         <div class="col-md-12">
                                             <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
@@ -182,7 +182,7 @@
                                             <option value="" selected="">Select Project</option>
                                             <hr>
                                             <?php if($projects){ foreach($projects as $project){?>
-                                                <option value="<?=$project->id?>"><?=$project->name?> (<?=$project->client_name?>) - <?=$project->project_status_name?></option>
+                                                <option value="<?=$project->id?>"><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
                                                 <hr>
                                             <?php } }?>
                                         </select>
@@ -262,7 +262,7 @@
                                         <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" onchange="getProjectInfo(this.value, ' + x + ');" required>\
                                             <option value="" selected="">Select Project</option>\
                                             <?php if($projects){ foreach($projects as $project){?>
-                                                <option value="<?=$project->id?>"><?=$project->name?> (<?=$project->client_name?>) - <?=$project->project_status_name?></option>\
+                                                <option value="<?=$project->id?>"><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>\
                                                 <hr>\
                                             <?php } }?>
                                         </select>\
