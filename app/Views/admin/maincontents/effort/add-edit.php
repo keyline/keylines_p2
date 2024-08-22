@@ -3,6 +3,7 @@
     $primary_key        = $moduleDetail['primary_key'];
     $controller_route   = $moduleDetail['controller_route'];
 ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style type="text/css">
     .control-label{
         font-weight: bold;
@@ -67,7 +68,7 @@
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body pt-3">
-                        <form method="POST" action="" enctype="multipart/form-data">
+                        <form id="myForm" method="POST" action="" enctype="multipart/form-data">
                             <div class="row justify-content-between align-items-center floating">
                                 <div class="col-md-3">
                                     <label class="control-label">Date</label>
@@ -229,7 +230,7 @@
                             </div>
                             <a href="javascript:void(0);" class="btn btn-info add_button" title="Add field"><i class="fa fa-plus-circle"></i> Add</a>
                             <div class="text-left mt-3">
-                                <button type="submit" class="btn btn_org btn-primary">Submit</button>
+                                <button type="submit" class="btn btn_org btn-primary" id="submitBtn">Submit</button>
                             </div>
                         </form>
                     </div>
@@ -409,5 +410,31 @@
             }
         });
     }
-    
+</script>
+<script>
+    document.getElementById('submitBtn').addEventListener('click', function(event) {
+        event.preventDefault(); // Prevent the form from submitting
+        var date_task = $('#date_task').val();
+        var date = new Date(date_task);
+        var formattedDate = date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+        // console.log(formattedDate); // Output: "22/08/2024" (DD/MM/YYYY)
+        // alert(formattedDate);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You are submitting tasks for " + formattedDate,
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#4CAF50',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, submit it!'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                document.getElementById('myForm').submit(); // Submit the form if confirmed
+            }
+        });
+    });
 </script>
