@@ -234,7 +234,11 @@ class EffortController extends BaseController {
         $page_name                  = 'effort/edit';        
         $conditions                 = array($this->data['primary_key']=>$id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
+        $user_id                    = $this->session->get('user_id');
+        $user_hour_cost             = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'id,hour_cost', '', '',);
+        $user_cost                  = $user_hour_cost->hour_cost;
         // pr($data['row']);
+        //   pr($user_cost);
 
         $order_by[0]                = array('field' => 'project.name', 'type' => 'ASC');
         $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
@@ -242,6 +246,7 @@ class EffortController extends BaseController {
         $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
         $orderBy2[0]                = array('field' => 'name', 'type' => 'ASC');
         $data['effortTypes']        = $this->data['model']->find_data('effort_type', 'array', '', 'id,name', '', '', $orderBy2);
+        
         if($this->request->getMethod() == 'post') {
             $requestData    = $this->request->getPost();
             $project        = $requestData['project'];
@@ -249,7 +254,9 @@ class EffortController extends BaseController {
             $minute         = $requestData['minute'];
             $description    = $requestData['description'];
             $effort_type    = $requestData['effort_type'];
+            $cal_usercost= ($user_cost/60);
             $getProject     = $this->data['model']->find_data('project', 'row', ['id' => $project], 'status,bill');
+            
             $postData   = array(
                 'project_id'            => $project,
                 'status_id'             => (($getProject)?$getProject->status:0),
@@ -261,7 +268,10 @@ class EffortController extends BaseController {
                 'bill'                  => (($getProject)?$getProject->bill:1),
                 'assigned_task_id'      => 0,
             );
-            // pr($postData,0);die;
+            $cal                = (($hour*60) + $minute); //converted to minutes
+            $projectCost        = floatval($cal_usercost * $cal);
+            $postData['cost']= number_format($projectCost, 2, '.', '');
+            //  pr($postData,0);die;
             $record     = $this->data['model']->save_data('timesheet', $postData, $id, 'id');
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/edit/'.encoded($id));
