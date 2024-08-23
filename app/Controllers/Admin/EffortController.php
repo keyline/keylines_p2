@@ -55,7 +55,7 @@ class EffortController extends BaseController {
 
         if($this->request->getMethod() == 'post') {
             $requestData    = $this->request->getPost();
-             pr($requestData);die;
+            //  pr($requestData);die;
             $user_id                = $this->session->get('user_id');
             $date_task              = $requestData['date_task'];
             $assigned_task_id       = $requestData['assigned_task_id'];
@@ -66,7 +66,9 @@ class EffortController extends BaseController {
             $description            = $requestData['description'];
             $effort_type            = $requestData['effort_type'];
             $work_status_id         = $requestData['work_status_id'];
-            
+            $year                   = date('Y', strtotime($date_task)); // 2024
+            $month                  = date('m', strtotime($date_task)); // 08
+           
             $cal_usercost= ($user_cost/60);
             if(!empty($assigned_task_id)){
                 for($p=0;$p<count($assigned_task_id);$p++){
@@ -94,25 +96,17 @@ class EffortController extends BaseController {
                                 'hour_rate'             => $user_cost,
                                 'cost'                  => number_format($projectCost, 2, '.', ''),
                             );
+                            // pr($postData);
                             $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
-                            // $postData2   = array(
-                            //     'project_id'            => $project[$p],
-                            //     'status_id'             => (($getProject)?$getProject->status:0),
-                            //     'user_id'               => $user_id,
-                            //     'description'           => $description[$p],
-                            //     'hour'                  => $hour[$p],
-                            //     'min'                   => $minute[$p],
-                            //     'work_home'             => 0,
-                            //     'effort_type'           => $effort_type[$p],
-                            //     'work_status_id'        => $work_status_id[$p],
-                            //     'date_today'            => date('Y-m-d H:i:s'),
-                            //     'date_added'            => $date_added[$p],
-                            //     'bill'                  => (($getProject)?$getProject->bill:1),
-                            //     'assigned_task_id'      => $assigned_task_id[$p],
-                            //     'hour_rate'             => $user_cost,
-                            //     'cost'                  => number_format($projectCost, 2, '.', ''),
-                            // );
-                            // $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+
+                            $postData2   = array(
+                                'project_id'            => $project[$p],
+                                'month'                 => $month[$p],
+                                'year'                  => $year[$p],
+                                'project_cost'          => $description[$p],
+                                'created_at'            => date('Y-m-d H:i:s'),                                
+                            );
+                            $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
                         // scheduled task
                         /* morning meeting schedule update */
                             // $morningScheduleData = [
@@ -178,7 +172,27 @@ class EffortController extends BaseController {
                                     'hour_rate'             => $user_cost,
                                     'cost'                  => number_format($projectCost, 2, '.', ''),
                                 );
-                                $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                                //  pr($postData);
+                                
+                            $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                            echo $projectcost      = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project[$p]."";
+                                $rows                   = $this->db->query($projectcost)->getResult(); 
+                                foreach($rows as $row){
+                                    $project_cost   =  $row->total_hours_worked;
+                                }
+                                // pr($rows)   ;   
+                                $postData2   = array(
+                                'project_id'            => $project[$p],
+                                'month'                 => $month ,
+                                'year'                  => $year,
+                                'project_cost'          => $project_cost,
+                                'created_at'            => date('Y-m-d H:i:s'),                                
+                            );
+                            //  pr($postData2);
+                            $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
+                           
+                            
+                                
                             // new task
                             /* morning meeting schedule insert */
                             //     $morningScheduleData = [
@@ -225,6 +239,10 @@ class EffortController extends BaseController {
                                 //     $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
                                 // }
                             // Finish & Assign tomorrow
+                        } else{
+                            $this->session->setFlashdata('error_message', 'Please select project and other info before submit');
+                            return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
+                            // echo "false"; die;
                         }
                     }
                 }
