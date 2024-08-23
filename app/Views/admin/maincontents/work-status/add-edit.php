@@ -34,11 +34,15 @@ $controller_route   = $moduleDetail['controller_route'];
             if($row){
               $name                 = $row->name;
               $background_color     = $row->background_color;
+              $border_color         = $row->border_color;
               $is_schedule          = $row->is_schedule;
+              $is_reassign          = $row->is_reassign;
             } else {
               $name                 = '';
               $background_color     = '';
+              $border_color         = '';
               $is_schedule          = '';
+              $is_reassign          = '';
             }
             ?>
         <div class="col-xl-12">
@@ -73,6 +77,18 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="row mb-2">
                                 <div class="col-md-2 col-lg-2">
                                     <div class="general_form_left_box">
+                                        <label for="border_color" class="col-form-label">Border Color</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="general_form_right_box">
+                                        <input type="color" name="border_color" class="form-control" id="border_color" value="<?=$border_color?>" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2 col-lg-2">
+                                    <div class="general_form_left_box">
                                         <label for="is_schedule" class="col-form-label">Is Schedule</label>
                                     </div>
                                 </div>
@@ -82,6 +98,21 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <label for="is_schedule1">YES</label>
                                         <input name="is_schedule" type="radio" id="is_schedule2" value="0" <?=(($is_schedule == 0)?'checked':'')?>>
                                         <label for="is_schedule2">NO</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2 col-lg-2">
+                                    <div class="general_form_left_box">
+                                        <label for="is_reassign" class="col-form-label">Is Reassign</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="general_form_right_box">
+                                        <input name="is_reassign" type="radio" id="is_reassign1" value="1" <?=(($is_reassign == 1)?'checked':'')?>>
+                                        <label for="is_reassign1">YES</label>
+                                        <input name="is_reassign" type="radio" id="is_reassign2" value="0" <?=(($is_reassign == 0)?'checked':'')?>>
+                                        <label for="is_reassign2">NO</label>
                                     </div>
                                 </div>
                             </div>

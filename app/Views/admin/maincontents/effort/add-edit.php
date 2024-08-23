@@ -161,7 +161,7 @@
                             </div>
 
                             <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
-                                <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">new task</span></div>
+                                <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">new task for&nbsp;<span id="new-task-date-text"><?=date('d/m/Y')?></span></span></div>
                             </div>
                             <div class="row justify-content-between align-items-center floating">
                                 <div class="col-md-3">
@@ -179,7 +179,6 @@
 
                             <div class="field_wrapper">
                                 <!-- new tasks -->
-                                    
                                     <div class="row" style="border:2px solid #f19620; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
                                         <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">New Work List 1</h5>
                                         <input type="hidden" name="assigned_task_id[]" value="0">
@@ -331,12 +330,19 @@
 </script>
 <script type="text/javascript">
     function getTrackerDate(inputValue, currentDate){
+        var date = new Date(inputValue);
+        var formattedDate = date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
         if(inputValue == currentDate){
             var trackerDate = 'Total Added';
         } else {
-            var trackerDate = inputValue;
+            var trackerDate = formattedDate;
         }
         $('#tracker-date').text(trackerDate);
+        $('#new-task-date-text').text(formattedDate);
     }
     $(document).on("blur", ".hours", function() {
         var tracketHour = 0;
@@ -430,11 +436,13 @@
             month: '2-digit',
             year: 'numeric'
         });
+        var dayNames    = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var dayName     = dayNames[date.getDay()];
         // console.log(formattedDate); // Output: "22/08/2024" (DD/MM/YYYY)
         // alert(formattedDate);
         Swal.fire({
             title: 'Are you sure?',
-            text: "You are submitting tasks for " + formattedDate,
+            html: "You are submitting tasks for <strong>" + formattedDate + " (" + dayName + ")</strong>",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#4CAF50',

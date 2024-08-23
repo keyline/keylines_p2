@@ -34,6 +34,8 @@ class TaskAssignController extends BaseController {
         $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
 
         $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
+        $data['all_departments']    = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+
         if(empty($data['tracker_depts_show'])){
             $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
         } else {
@@ -71,12 +73,12 @@ class TaskAssignController extends BaseController {
         $apiExtraData       = '';
         $this->isJSON(file_get_contents('php://input'));
         $requestData        = $this->extract_json(file_get_contents('php://input'));
-        
+        // pr($requestData);
         $getProject         = $this->data['model']->find_data('project', 'row', ['id' => $requestData['project_id']], 'status,bill');
         $fields             = [
             'dept_id'       => $requestData['dept_id'],
             'user_id'       => $requestData['user_id'],
-            'project_id'    => $requestData['project_id'],
+            'project_id'    => (($requestData['project_id'] != '')?$requestData['project_id']:0),
             'description'   => $requestData['description'],
             'hour'          => $requestData['hour'],
             'min'           => $requestData['min'],
@@ -87,13 +89,22 @@ class TaskAssignController extends BaseController {
             'bill'          => (($getProject)?$getProject->bill:1),
             'status_id'     => (($getProject)?$getProject->status:0),
         ];
+        if($requestData['project_id'] == ''){
+            $fields['effort_type']          = 0;
+            $fields['work_status_id']       = 6;
+            $fields['effort_id']            = 0;
+            $fields['next_day_task_action'] = 1;
+            $fields['is_leave']             = $requestData['is_leave'];
+        }
+        // pr($fields);
         $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
 
         $scheduleHTML               = '';
         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
-        $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
+        $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
         $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);
+        // pr($getTasks);
         $totalTime                  = 0;
         if($getTasks){
             foreach($getTasks as $getTask){
@@ -102,8 +113,9 @@ class TaskAssignController extends BaseController {
                 $user_name      = $getTask->user_name;
                 $schedule_id    = $getTask->schedule_id;
 
-                $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color');
-                $work_status_color      = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
+                $getWorkStatus                  = $this->common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
+                $work_status_color              = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
+                $work_status_border_color       = (($getWorkStatus)?$getWorkStatus->border_color:'#0c0c0c4a');
 
                 if($getTask->hour > 0) {
                     if($getTask->hour == 1){
@@ -128,24 +140,44 @@ class TaskAssignController extends BaseController {
                 $totMins                = $tot_hour + $tot_min;
                 $totalTime              += $totMins;
 
-                if($getTask->priority == 3){
-                    $priority = '<span class="card_priotty_item proiodty_high">High</span>';
+                if($requestData['is_leave'] == 0){
+                    if($getTask->priority == 3){
+                        $priority = '<span class="card_priotty_item proiodty_high">High</span>';
+                    }
+                    if($getTask->priority == 2){
+                        $priority = '<span class="card_priotty_item proiodty_medium">Medium</span>';
+                    }
+                    if($getTask->priority == 1){
+                        $priority = '<span class="card_priotty_item proiodty_low">Low</span>';
+                    }
+                } else {
+                    $priority = '';
                 }
-                if($getTask->priority == 2){
-                    $priority = '<span class="card_priotty_item proiodty_medium">Medium</span>';
+
+                if($getTask->project_name != ''){
+                    $projectName = $getTask->project_name;
+                } else {
+                    if($requestData['is_leave'] == 1){
+                        $projectName = 'HALFDAY LEAVE';
+                    } else {
+                        $projectName = 'FULLDAY LEAVE';
+                    }
                 }
-                if($getTask->priority == 1){
-                    $priority = '<span class="card_priotty_item proiodty_low">Low</span>';
+
+                if($requestData['is_leave'] == 0){
+                    $display = 'block';
+                } else {
+                    $display = 'none';
                 }
 
                 $scheduleHTML .= '<div class="input-group">
                                     <div class="card">
-                                        <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
+                                        <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
                                             <p class="mb-2">
                                                 ' . $priority . '
                                             </p>
                                             <div class="mb-1 d-block">
-                                                <div class="card_projectname"><b>'.$getTask->project_name.' :</b> </div>
+                                                <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                 <div class="card_proj_info">'.$getTask->description.'</div>
                                             </div>
                                             <div class="card_projecttime">
@@ -153,7 +185,7 @@ class TaskAssignController extends BaseController {
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p class="mb-0 assign-name">'.$user_name.'</p>
-                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
+                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                                 <i class="fa-solid fa-pencil text-primary"></i>
                                                 </a>
                                             </div>
@@ -170,9 +202,18 @@ class TaskAssignController extends BaseController {
         $getUser        = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name');
         $user_name      = (($getUser)?$getUser->name:'');
 
-        $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                <i class="fa-solid fa-plus-circle text-success"></i>
+        $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+        if(!$getLeaveTask){
+            $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                    <i class="fa-solid fa-plus-circle text-success"></i>
                             </a>';
+        } else {
+            if($getLeaveTask->is_leave == 1){
+                $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                    <i class="fa-solid fa-plus-circle text-success"></i>
+                            </a>';
+            }
+        }
         // echo $scheduleHTML;die;
         $apiResponse['scheduleHTML']        = $scheduleHTML;
         $apiResponse['totalTime']           = $totalBooked;
@@ -313,7 +354,7 @@ class TaskAssignController extends BaseController {
 
         $scheduleHTML               = '';
         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
-        $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
+        $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
         $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);
         $totalTime                  = 0;
@@ -324,8 +365,9 @@ class TaskAssignController extends BaseController {
                 $user_name      = $getTask->user_name;
                 $schedule_id    = $getTask->schedule_id;
 
-                $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color');
-                $work_status_color      = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
+                $getWorkStatus                  = $this->common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
+                $work_status_color              = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
+                $work_status_border_color       = (($getWorkStatus)?$getWorkStatus->border_color:'#0c0c0c4a');
 
                 if($getTask->hour > 0) {
                     if($getTask->hour == 1){
@@ -350,24 +392,44 @@ class TaskAssignController extends BaseController {
                 $totMins                = $tot_hour + $tot_min;
                 $totalTime              += $totMins;
 
-                if($getTask->priority == 3){
-                    $priority = '<span class="card_priotty_item proiodty_high">High</span>';
+                if($requestData['is_leave'] == 0){
+                    if($getTask->priority == 3){
+                        $priority = '<span class="card_priotty_item proiodty_high">High</span>';
+                    }
+                    if($getTask->priority == 2){
+                        $priority = '<span class="card_priotty_item proiodty_medium">Medium</span>';
+                    }
+                    if($getTask->priority == 1){
+                        $priority = '<span class="card_priotty_item proiodty_low">Low</span>';
+                    }
+                } else {
+                    $priority = '';
                 }
-                if($getTask->priority == 2){
-                    $priority = '<span class="card_priotty_item proiodty_medium">Medium</span>';
+
+                if($getTask->project_name != ''){
+                    $projectName = $getTask->project_name;
+                } else {
+                    if($requestData['is_leave'] == 1){
+                        $projectName = 'HALFDAY LEAVE';
+                    } else {
+                        $projectName = 'FULLDAY LEAVE';
+                    }
                 }
-                if($getTask->priority == 1){
-                    $priority = '<span class="card_priotty_item proiodty_low">Low</span>';
+
+                if($requestData['is_leave'] == 0){
+                    $display = 'block';
+                } else {
+                    $display = 'none';
                 }
 
                 $scheduleHTML .= '<div class="input-group">
                                     <div class="card">
-                                        <div class="card-body" style="border: 1px solid #0c0c0c4a;width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
+                                        <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
                                             <p class="mb-2">
                                                 ' . $priority . '
                                             </p>
                                             <div class="mb-1 d-block">
-                                                <div class="card_projectname"><b>'.$getTask->project_name.' :</b> </div>
+                                                <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                 <div class="card_proj_info">'.$getTask->description.'</div>
                                             </div>
                                             <div class="card_projecttime">
@@ -375,7 +437,7 @@ class TaskAssignController extends BaseController {
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p class="mb-0 assign-name">'.$user_name.'</p>
-                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">
+                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                                 <i class="fa-solid fa-pencil text-primary"></i>
                                                 </a>
                                             </div>
@@ -392,9 +454,18 @@ class TaskAssignController extends BaseController {
         $getUser        = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name');
         $user_name      = (($getUser)?$getUser->name:'');
 
-        $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                <i class="fa-solid fa-plus-circle text-success"></i>
+        $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+        if(!$getLeaveTask){
+            $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                    <i class="fa-solid fa-plus-circle text-success"></i>
                             </a>';
+        } else {
+            if($getLeaveTask->is_leave == 1){
+                $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                    <i class="fa-solid fa-plus-circle text-success"></i>
+                            </a>';
+            }
+        }
         $apiResponse['scheduleHTML']        = $scheduleHTML;
         $apiResponse['totalTime']           = $totalBooked;
         $apiStatus                          = TRUE;
