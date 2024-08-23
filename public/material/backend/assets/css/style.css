@@ -1003,8 +1003,8 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   height: 100%;
   z-index: 996;
   transition: all 0.3s;
-  /* overflow-y: auto; */
-  /* overflow-x: hidden; */
+  overflow-y: auto; 
+  overflow-x: hidden;
   /* scrollbar-width: thin;
   scrollbar-color: #aab7cf transparent; */
   box-shadow: 0px 0px 20px rgba(1, 41, 112, 0.1);
@@ -1082,16 +1082,16 @@ select.form-control {
   background: #fff;
   padding: 9px 5px;
   width: 131px;
-  opacity: 0;
-  visibility: hidden;
+  /* opacity: 0;
+  visibility: hidden; */
   display: flex;
   align-items: center;
   transition: all .3s ease-in-out;
 }
 .sidebar-nav .nav-link:hover .link-text,
 .toggle-sidebar .sidebar-nav .nav-link .link-text{
-  opacity: 1;
-  visibility: visible;
+  /* opacity: 1;
+  visibility: visible; */
 } 
 
 .toggle-sidebar .sidebar .sidebar-nav .nav-link span,
