@@ -179,7 +179,7 @@
                                     <div class="col-md-12">
                                         <label class="control-label">Project</label>
                                         <br>
-                                        <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" onchange="getProjectInfo(this.value, 0);">
+                                        <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" onchange="getProjectInfo(this.value, 0);" required>
                                             <option value="" selected="">Select Project</option>
                                             <hr>
                                             <?php if($projects){ foreach($projects as $project){?>
@@ -196,17 +196,17 @@
                                     <div class="col-md-2">
                                         <label class="control-label">Hour</label>
                                         <br>
-                                        <input type="number" name="hour[]" id="hour0" minlength="0" maxlength="2" min="0" max="4" class="form-control hours" autocomplete="off" onblur="maxHour(this.value,0);">
+                                        <input type="number" name="hour[]" id="hour0" minlength="0" maxlength="2" min="0" max="4" class="form-control hours" autocomplete="off" onblur="maxHour(this.value,0);" required>
                                     </div>
                                     <div class="col-md-2">
                                         <label class="control-label">Minute</label>
                                         <br>
-                                        <input type="number" name="minute[]" id="minute0" minlength="0" maxlength="2" min="0" max="50" class="form-control minutes" autocomplete="off" onblur="maxMinute(this.value,0);">
+                                        <input type="number" name="minute[]" id="minute0" minlength="0" maxlength="2" min="0" max="50" class="form-control minutes" autocomplete="off" onblur="maxMinute(this.value,0);" required>
                                     </div>
                                     <div class="col-md-6">
                                         <label class="control-label">Description</label>
                                         <languagebr>
-                                            <textarea name="description[]" class="form-control description" rows="3" autocomplete="off"></textarea>
+                                            <textarea name="description[]" class="form-control description" rows="3" autocomplete="off" required></textarea>
                                             <div class="itemDetails">
                                                 
                                             </div>
@@ -215,7 +215,7 @@
                                     <div class="col-md-2">
                                         <label class="control-label">Effort Type</label>
                                         <br>
-                                        <select name="effort_type[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off">
+                                        <select name="effort_type[]" class="select_et form-control" style="font-size: 12px;" autocomplete="off" required>
                                             <option value="" selected="">Select Type</option>
                                             <hr>
                                             <?php if($effortTypes){ foreach($effortTypes as $effortType){?>

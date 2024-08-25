@@ -231,7 +231,7 @@ class Home extends BaseController
                          $totalHours += intdiv($totalMinutes, 60);
                          $totalMinutes = $totalMinutes % 60;   
                          $MonthlyDesktime = $totalHours.'.'.$totalMinutes;                                                                
-                        if ($getDesktimeHour) {                                                      
+                        if ($getDesktimeHour) {                               
                         $postData = array(
                             'total_desktime_hour' => $MonthlyDesktime,                                
                         );                         
@@ -277,6 +277,7 @@ class Home extends BaseController
                         $user_dept                      = $data['user'][0]->deprt_name;
                         $postData['tracker_user_id']    = $user_id;
                         $postData['insert_date']        = $db_date;
+                        // pr($postData);
                         $record                         = $this->common_model->save_data('desklog_report', $postData, $id, 'id');
                         
                         $date_parts = explode('-', $cu_date);

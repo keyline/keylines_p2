@@ -193,6 +193,8 @@ $controller_route   = $moduleDetail['controller_route'];
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
+
+
 <script>
     async function holidaylist() {
     var url = '<?= site_url('/admin/holiday-list-api') ?>';
@@ -209,6 +211,59 @@ async function loadHolidayData() {
     // return data;
     // console.log(data);  // Process the data here
 }
+
+function getNthSaturday(year, month, nth) {
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    let currentMonth = currentDate.getMonth();
+
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    //  console.log(firstDay.getDay());
+    const firstSaturday = ((6 - firstDay.getDay() + 7) % 7) + 1; // Saturday is the 6th day (0-indexed)
+    //  console.log(firstSaturday);
+    const nthSaturday = firstSaturday + (nth - 1) * 7;
+    //    console.log(nthSaturday);
+    // Check if the calculated date is actually within the month
+    const date = new Date(currentYear, currentMonth, nthSaturday);
+    if (date.getMonth() === month) {
+        //  console.log(date);
+        return date;
+    }
+    return null;
+}
+
+function getWeekOffEvents(year, month) {
+    let weekOffEvents = [];
+    const currentDate = new Date();
+    const currentYear = currentDate.getFullYear();
+    let currentMonth = currentDate.getMonth();
+    // 2nd Saturday
+    let secondSaturday = getNthSaturday(currentYear, currentMonth, 2);
+     console.log(secondSaturday);
+     console.log(secondSaturday.toISOString().split('T')[0]);
+    if (secondSaturday) {
+        weekOffEvents.push({
+            title: 'Week Off',
+            start: secondSaturday.toISOString().split('T')[0],
+            color: 'red',
+        });
+        console.log(weekOffEvents);
+        
+    }
+    
+
+    // 4th Saturday
+    let fourthSaturday = getNthSaturday(year, month, 4);
+    if (fourthSaturday) {
+        weekOffEvents.push({
+            title: 'Week Off',
+            start: fourthSaturday.toISOString().split('T')[0],
+            color: 'red',
+        });
+    }
+
+    return weekOffEvents;
+}
                   
 document.addEventListener('DOMContentLoaded', function() {
     var calendarEl = document.getElementById('calendar');
@@ -220,6 +275,12 @@ document.addEventListener('DOMContentLoaded', function() {
             },    
         events: async function(fetchInfo, successCallback, failureCallback) {
             try {
+                const year = fetchInfo.start.getFullYear();
+            const month = fetchInfo.start.getMonth(); // Month is 0-indexed
+
+            // Calculate week off events for the given month
+            const weekOffEvents = getWeekOffEvents(year, month);
+
                 let events = await holidaylist();
                 successCallback(events);
             } catch (error) {
@@ -284,6 +345,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     calendar.refetchEvents();
                 }
             });
-    }
+    }
 });
 </script>
