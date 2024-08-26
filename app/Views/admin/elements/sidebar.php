@@ -40,10 +40,12 @@ $userId             = $session->user_id;
   </li>
 
   <li>
-    <a class="<?= (($pageSegment == 'dashboard') ? 'active' : '') ?>" href="<?= base_url('admin/dashboard') ?>">
-      <i class="fa fa-home"></i>
-      <span class="link_name">Dashboard</span>
-    </a>
+    <div class="iocn-link">
+      <a class="<?= (($pageSegment == 'dashboard') ? 'active' : '') ?>" href="<?= base_url('admin/dashboard') ?>">
+        <i class="fa fa-home"></i>
+        <span class="link_name">Dashboard</span>
+      </a>
+    </div>
     <ul class="sub-menu blank">
       <li><a class="link_name" href="<?= base_url('admin/dashboard') ?>">Dashboard</a></li>
     </ul>
@@ -56,8 +58,8 @@ $userId             = $session->user_id;
         href="#">
         <i class="fas fa-key"></i>
         <span class="link_name">Access & Permission</span>
+        <i class='bx bxs-chevron-down arrow ms-auto'></i>
       </a>
-      <i class='bx bxs-chevron-down arrow'></i>
     </div>
     <ul
       class="sub-menu <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'show' : '') ?>">
@@ -102,8 +104,8 @@ $userId             = $session->user_id;
         href="#">
         <i class="fa fa-database"></i>
         <span class="link_name">Masters</span>
+        <i class='bx bxs-chevron-down arrow ms-auto'></i>
       </a>
-      <i class='bx bxs-chevron-down arrow'></i>
     </div>
     <ul
       class="sub-menu <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'show' : '') ?>">
@@ -188,8 +190,8 @@ $userId             = $session->user_id;
         href="#">
         <i class="fa fa-users"></i>
         <span class="link_name">User Module</span>
+        <i class='bx bxs-chevron-down arrow ms-auto'></i>
       </a>
-      <i class='bx bxs-chevron-down arrow'></i>
     </div>
     <ul class="sub-menu <?= (($pageSegment == 'users') ? 'show' : '') ?>">
       <li>
@@ -281,8 +283,8 @@ $userId             = $session->user_id;
             <a class="<?= (($pageSegment == 'efforts') ? '' : 'collapsed') ?> <?= (($pageSegment == 'efforts') ? 'active' : '') ?>" href="#">
               <i class="fa fa-tasks"></i>
               <span class="link_name">Effort Booking</span>
+              <i class='bx bxs-chevron-down arrow ms-auto'></i>
             </a>
-            <i class='bx bxs-chevron-down arrow'></i>
           </div>
             <ul class="sub-menu <?= (($pageSegment == 'efforts') ? 'show' : '') ?>">
               <li>
@@ -338,8 +340,8 @@ $userId             = $session->user_id;
         <a class="<?= (($pageSegment == 'reports') ? '' : 'collapsed') ?> <?= (($pageSegment == 'reports') ? 'active' : '') ?>" href="#">
         <i class="fa fa-tasks"></i>  
           <span class="link_name">Reports</span>
+          <i class='bx bxs-chevron-down arrow ms-auto'></i>
         </a>
-        <i class='bx bxs-chevron-down arrow'></i>
       </div>
         <ul class="sub-menu <?= (($pageSegment == 'reports') ? 'show' : '') ?>">
             <li>
@@ -476,7 +478,7 @@ $userId             = $session->user_id;
         <i class='bx bx-collection'></i>
         <span class="link_name">Category</span>
       </a>
-      <i class='bx bxs-chevron-down arrow'></i>
+      <i class='bx bxs-chevron-down arrow ms-auto'></i>
     </div>
     <ul class="sub-menu">
       <li><a class="link_name" href="#">Category</a></li>
