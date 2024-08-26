@@ -862,7 +862,7 @@ $controller_route       = $moduleDetail['controller_route'];
       // Event listener for when an accordion item is clicked
       $('.accordion-button').on('click', function() {
             var targetPanel = $(this).attr('data-bs-target'); // Get the target panel ID
-            console.log(targetPanel);
+            // console.log(targetPanel);
             // Check if the panel is open
             // if ($(targetPanel).hasClass('show')) {
             if (!$(this).hasClass('collapsed')) {
