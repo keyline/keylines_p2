@@ -58,9 +58,10 @@ class HolidayController extends BaseController
         $title                      = 'Manage ' . $this->data['title'];
         $page_name                  = 'holiday-list';
         $data['events']             = $this->data['model']->find_data('event', 'array', ['status!=' => '3'], '', ''); 
-        $events = [];
+        $events = [];        
 
-        foreach ($data['events'] as $holiday) {            
+        foreach ($data['events'] as $holiday) {     
+            // pr($holiday);       
             $events[] = [   
                 'id'    =>$holiday->id ,     
                 'title' => $holiday->title,
@@ -69,9 +70,35 @@ class HolidayController extends BaseController
                 'textColor' => $holiday->color_code_fc,           
             ];
         }
-            //    pr($events) ;
+                // pr($events) ;
         // echo $this->layout_after_login($title, $page_name, $data);
             return $this->response->setJSON($events);
+         
+    }
+
+    public function Weekofflistapi()
+    {
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage ' . $this->data['title'];
+        $page_name                  = 'holiday-list';
+        $data['weekoff']            = $this->data['model']->find_data('application_settings', 'row', '', 'sunday,monday,tuesday,wednesday,thursday,friday,satarday', ''); 
+        $weekoff = [];        
+        // pr($data['weekoff']);
+        // foreach ($data['weekoff'] as $holiday) {  
+            // pr($holiday);          
+            $weekoff[] = [   
+                'sunday'        => $data['weekoff']->sunday ,     
+                'monday'        => $data['weekoff']->monday,
+                'tuesday'       => $data['weekoff']->tuesday,            
+                'wednesday'     => $data['weekoff']->wednesday,           
+                'thursday'      => $data['weekoff']->thursday,           
+                'friday'        => $data['weekoff']->friday,           
+                'satarday'      => $data['weekoff']->satarday,           
+            ];
+        // }
+                // pr($weekoff) ;
+        // echo $this->layout_after_login($title, $page_name, $data);
+            return $this->response->setJSON($weekoff);
          
     }
 

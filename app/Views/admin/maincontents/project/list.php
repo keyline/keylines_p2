@@ -62,7 +62,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                     <?php   } ?>
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-bordered table-fit general_table_style">
+                        <table id="simpletable" class="table table-bordered general_table_style">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>

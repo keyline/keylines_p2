@@ -12,19 +12,24 @@
     </header>
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
-    <aside id="sidebar" class="sidebar">
-        <?= $sidebar ?>
-    </aside>
+   <div class="wrapper">
+     <!-- <aside id="sidebar" class="sidebar"> -->
+     <div class="sidebar close">
+            <?= $sidebar ?>
+        </div>
+    <!-- </aside> -->
     <!-- End Sidebar-->
-    <main id="main" class="main">
+    <main id="main" class="home-section">
         <?= $maincontent ?>
     </main>
     <!-- End #main -->
-    <!-- ======= Footer ======= -->
+      <!-- ======= Footer ======= -->
     <footer id="footer" class="footer">
         <?= $footer ?>
     </footer>
     <!-- End Footer -->
+   </div>
+   
     <a href="javascript:void(0);" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <!-- Vendor JS Files -->
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -374,6 +379,25 @@
                 }
             }
         }
+    </script>
+    <script>
+        
+        // surajit sidebar js
+
+        let arrow = document.querySelectorAll(".arrow");
+        for (var i = 0; i < arrow.length; i++) {
+        arrow[i].addEventListener("click", (e)=>{
+        let arrowParent = e.target.parentElement.parentElement.parentElement;//selecting main parent of arrow
+        arrowParent.classList.toggle("showMenu");
+        });
+        }
+
+        let sidebar = document.querySelector(".sidebar");
+        let sidebarBtn = document.querySelector(".bx-menu");
+        console.log(sidebarBtn);
+        sidebarBtn.addEventListener("click", ()=>{
+        sidebar.classList.toggle("close");
+        });
     </script>
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
 </body>

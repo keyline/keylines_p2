@@ -1348,7 +1348,23 @@ class User extends BaseController {
             $yes_no = isset($_POST['is_desklog_use']) ? $_POST['is_desklog_use'] : 0;
             $approval = isset($_POST['is_task_approval']) ? $_POST['is_task_approval'] : 0;
             $project_cost = isset($_POST['is_project_cost']) ? $_POST['is_project_cost'] : 0;
-            // pr($this->request->getpost('is_desklog_use'));
+            //  pr($this->request->getpost());
+            $sundaySelections = isset($_POST['sunday']) ? $_POST['sunday'] : [];
+            $mondaySelections = isset($_POST['monday']) ? $_POST['monday'] : [];
+            $tuesdaySelections = isset($_POST['tuesday']) ? $_POST['tuesday'] : [];
+            $wednesdaySelections = isset($_POST['wednesday']) ? $_POST['wednesday'] : [];
+            $thursdaySelections = isset($_POST['thursday']) ? $_POST['thursday'] : [];
+            $fridaySelections = isset($_POST['friday']) ? $_POST['friday'] : [];
+            $satardaySelections = isset($_POST['satarday']) ? $_POST['satarday'] : [];
+            // pr($satardaySelections);
+            $sundayJson = json_encode($sundaySelections);
+            $mondayJson = json_encode($mondaySelections);
+            $tuesdayJson = json_encode($tuesdaySelections);
+            $wednesdayJson = json_encode($wednesdaySelections);
+            $thursdayJson = json_encode($thursdaySelections);
+            $fridayJson = json_encode($fridaySelections);
+            $satardayJson = json_encode($satardaySelections);
+            //  pr($sundayJson);
             
             $fields = [                
                 'theme_color'                       => $this->request->getPost('theme_color'),
@@ -1363,11 +1379,18 @@ class User extends BaseController {
                 'encryption_api_secret_key'         => $this->request->getPost('encryption_api_secret_key'),
                 'encryption_api_secret_iv'          => $this->request->getPost('encryption_api_secret_iv'),
                 'encryption_api_encrypt_method'     => $this->request->getPost('encryption_api_encrypt_method'),
+                'sunday'                            => $sundayJson,
+                'monday'                            => $mondayJson,
+                'tuesday'                           => $tuesdayJson,
+                'wednesday'                         => $wednesdayJson,
+                'thursday'                          => $thursdayJson,
+                'friday'                            => $fridayJson,
+                'satarday'                          => $satardayJson,
             ];
             $fields2 = [
                 'check_span' => $this->request->getpost('amc_checking_after_days')
             ];
-            //   pr($fields2);
+            //    pr($fields);
             $this->common_model->save_data('application_settings', $fields, 1, 'id');
             $this->common_model->save_data('setting', $fields2, 1, 'id');
             $this->session->setFlashdata('success_message', 'Application Settings Updated Successfully !!!');
