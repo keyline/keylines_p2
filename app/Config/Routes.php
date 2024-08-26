@@ -209,6 +209,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 		// holiday
 			$routes->match(['get', 'post'], "holiday-list", "HolidayController::fetchHolidays");
 			$routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
+			$routes->match(['get'], "weekoff-list-api", "HolidayController::Weekofflistapi");
 			$routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
 			$routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
 			$routes->match(['get', 'post'], "holiday-list/delete/(:any)", "HolidayController::confirm_delete/$1");
