@@ -41,16 +41,37 @@ class TaskAssignController extends BaseController {
         } else {
             $tracker_depts_show_string = implode(",", $data['tracker_depts_show']);
             $data['departments']        = $this->db->query("SELECT * FROM `department` WHERE `id` IN ($tracker_depts_show_string) AND `is_join_morning_meeting` = 1 AND status = 1 ORDER BY rank ASC")->getResult();
-        }
-        // echo $this->db->getLastQuery();die;
-        
+        }        
 
         $order_by1[0]               = array('field' => 'project.name', 'type' => 'ASC');
         $join1[0]                   = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
         $join1[1]                   = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
         $data['projects']           = $this->common_model->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join1, '', $order_by1);
 
+        // Declare two dates
+        $applicationSetting         = $this->common_model->find_data('application_settings', 'row');
+        $Date1 = date('Y-m-d', strtotime("-".$applicationSetting->block_tracker_fillup_after_days." days"));
+        $Date2 = date('Y-m-d', strtotime("-2 days"));
         
+        // Declare an empty array
+        $date_array = array();
+        
+        // Use strtotime function
+        $Variable1 = strtotime($Date1);
+        $Variable2 = strtotime($Date2);
+        
+        // Use for loop to store dates into array
+        // 86400 sec = 24 hrs = 60*60*24 = 1 day
+        for ($currentDate = $Variable1;
+        $currentDate <= $Variable2;
+        $currentDate += (86400)){
+            $Store = date('Y-m-d', $currentDate);
+            $date_array[] = $Store;
+        }
+        // pr($date_array);
+        $data['date_array']         = $date_array;
+        $data['user_id']            = $user_id;
+        $data['before_date']        = $Date1;
 
         if($this->request->getMethod() == 'post') {
             $user_id    = $this->session->get('user_id');

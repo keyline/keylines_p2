@@ -36,7 +36,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     <h5 class="card-title">
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
                     </h5>
-                    <?php   } ?>
+                    <?php } ?>
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
                             <thead>

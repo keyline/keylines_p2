@@ -184,6 +184,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "efforts/delete/(:any)", "EffortController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "efforts/change-status/(:any)", "EffortController::change_status/$1");
 			$routes->match(['get', 'post'], "efforts/get-project-info", "EffortController::getProjectInfo");
+			$routes->match(['get', 'post'], "efforts/request-previous-task-submit/(:any)", "EffortController::requestPreviousTaskSubmit/$1");
 		// effort
 		// hour_cost
 			$routes->match(['get', 'post'], "user-cost", "CostController::usercost");

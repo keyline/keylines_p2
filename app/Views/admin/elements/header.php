@@ -148,9 +148,9 @@ $userType                   = $session->user_type;
             <!-- End Messages Dropdown Items -->
         </li>
         <!-- End Messages Nav -->
-        <li class="nav-item dropdown pe-3">
+        <!-- <li class="nav-item dropdown pe-3">
             <span style="margin-right: 10px;font-weight: bold;border: 1px solid white;padding: 7px 10px;border-radius: 10px;background-color: #FFF;"><?=$session->user_type?></span>
-        </li>
+        </li> -->
         <li class="nav-item dropdown pe-3">
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <?php
@@ -170,7 +170,10 @@ $userType                   = $session->user_type;
                 <?php } else {?>
                     <img src="<?=getenv('app.NO_IMAGE')?>" alt="<?=$admin->name?>" class="rounded-circle">
                 <?php } }?>
-                <span class="d-none d-md-block dropdown-toggle ps-2"><?=$session->name?></span>
+                <span class="d-none d-md-block dropdown-toggle ps-2">
+                    <?=$session->name?><br>
+                    <small style="font-size: 9px;"><?=$session->user_type?></small>
+                </span>
             </a><!-- End Profile Iamge Icon -->
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                 <li class="dropdown-header">

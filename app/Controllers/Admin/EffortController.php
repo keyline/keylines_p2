@@ -50,12 +50,36 @@ class EffortController extends BaseController {
         $user_cost                  = $user_hour_cost->hour_cost;
         //  pr($user_cost);
 
+        // Declare two dates
+        $applicationSetting         = $this->common_model->find_data('application_settings', 'row');
+        $Date1 = date('Y-m-d', strtotime("-".$applicationSetting->block_tracker_fillup_after_days." days"));
+        $Date2 = date('d-m-Y');
+        
+        // Declare an empty array
+        $date_array = array();
+        
+        // Use strtotime function
+        $Variable1 = strtotime($Date1);
+        $Variable2 = strtotime($Date2);
+        
+        // Use for loop to store dates into array
+        // 86400 sec = 24 hrs = 60*60*24 = 1 day
+        for ($currentDate = $Variable1;
+        $currentDate <= $Variable2;
+        $currentDate += (86400)){
+            $Store = date('Y-m-d', $currentDate);
+            $date_array[] = $Store;
+        }
+        // pr($date_array);
+        $data['date_array']         = $date_array;
+        $data['user_id']            = $user_id;
+        $data['before_date']        = $Date1;
         $order_by2[0]               = array('field' => 'id', 'type' => 'ASC');
-        $data['morningSchedules']   = $this->common_model->find_data('morning_meetings', 'array', ['user_id' => $user_id, 'effort_id' => 0, 'is_leave' => 0, 'date_added<=' => date('Y-m-d')], '', '', '', $order_by2);
+        $data['previousMorningSchedules']   = $this->common_model->find_data('morning_meetings', 'array', ['user_id' => $user_id, 'effort_id' => 0, 'is_leave' => 0, 'date_added<=' => $data['before_date']], '', '', '', $order_by2);
 
         if($this->request->getMethod() == 'post') {
             $requestData    = $this->request->getPost();
-            //  pr($requestData);die;
+            // pr($requestData);die;
             $user_id                = $this->session->get('user_id');
             $date_task              = $requestData['date_task'];
             $assigned_task_id       = $requestData['assigned_task_id'];
@@ -543,5 +567,37 @@ class EffortController extends BaseController {
             // echo "The date $date is not a Saturday.";
             return 0;
         }
+    }
+    public function requestPreviousTaskSubmit($before_date){
+        $before_date                = decoded($before_date);
+        $user_id                    = $this->session->get('user_id');
+        $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $user_id]);
+        $getTL                      = $this->common_model->find_data('user', 'row', ['type' => 'SUPER ADMIN']);
+        $mailData                   = [
+            'before_date'       => $before_date,
+            'getUser'           => $getUser,
+            'getTL'             => $getTL,
+        ];
+        $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+        $subject                    = $generalSetting->site_name.' :: Effort Booking Request Before - '.date_format(date_create($before_date), "M d, Y");
+        $message                    = view('email-templates/request-task-fillup-edit-access',$mailData);
+        // echo $message;die;
+        // pr($getUser);
+        /* email log save */
+            $postData2 = [
+                'name'                  => $generalSetting->site_name,
+                'email'                 => $generalSetting->system_email,
+                'subject'               => $subject,
+                'message'               => $message
+            ];
+            $this->common_model->save_data('email_logs', $postData2, '', 'id');
+        /* email log save */
+        // $this->sendMail($generalSetting->system_email, $subject, $message);
+        if($this->sendMail($generalSetting->system_email, $subject, $message)){
+            $this->session->setFlashdata('success_message', $this->data['title'].' Booking Access Request Submitted successfully');
+            return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
+        }
+        // $this->session->setFlashdata('success_message', $this->data['title'].' Booking Access Request Submitted successfully');
+        // return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
     }
 }

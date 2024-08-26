@@ -149,18 +149,23 @@ $controller_route       = $moduleDetail['controller_route'];
                 <div class="card">
                     <div class="card-body">
                         <div class="accordion" id="accordionPanelsStayOpenExample">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                  <button class="accordion-button bg-default collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
-                                    <h6 class="badge bg-primary mb-2"><?=date('M d, Y - l', strtotime("-2 days"));?></h6>
-                                  </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                                  <div class="accordion-body">
-                                    <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                  </div>
+                            <?php
+                            if(!empty($date_array)){ for($k=0;$k<count($date_array);$k++){
+                                $singleDate         = $date_array[$k];
+                            ?>
+                                <div class="accordion-item">
+                                    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                      <button class="accordion-button accordion-button-prev bg-default collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse<?=$k?>" aria-expanded="false" aria-controls="panelsStayOpen-collapse<?=$k?>">
+                                        <h6 class="badge bg-primary mb-2"><?=date_format(date_create($singleDate), "M d, Y l")?></h6>
+                                      </button>
+                                    </h2>
+                                    <div id="panelsStayOpen-collapse<?=$k?>" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+                                      <div class="accordion-body">
+                                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                      </div>
+                                    </div>
                                 </div>
-                            </div>
+                            <?php } }?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                                     <button class="accordion-button bg-warning" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
@@ -845,9 +850,6 @@ $controller_route       = $moduleDetail['controller_route'];
             $('input[name="priority"]').attr('disabled', true);
         }
     }
-    
-</script>
-<script type="text/javascript">
     $(document).ready(function(){    
         var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
             removeItemButton: true,
@@ -855,5 +857,19 @@ $controller_route       = $moduleDetail['controller_route'];
             searchResultLimit:5,
             renderChoiceLimit:5
         });     
+    });
+    $(document).ready(function() {
+      // Event listener for when an accordion item is clicked
+      $('.accordion-button').on('click', function() {
+            var targetPanel = $(this).attr('data-bs-target'); // Get the target panel ID
+            console.log(targetPanel);
+            // Check if the panel is open
+            // if ($(targetPanel).hasClass('show')) {
+            if (!$(this).hasClass('collapsed')) {
+              console.log('The accordion is open.');
+            } else {
+              console.log('The accordion is closed.');
+            }
+        });
     });
 </script>
