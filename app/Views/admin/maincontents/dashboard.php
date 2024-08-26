@@ -2,16 +2,22 @@
    //die("dashboard");
    $userType           = $session->user_type;
    ?>
-<div class="pagetitle">
-   <h1>Dashboard</h1>
-   <nav>
-      <ol class="breadcrumb">
-         <li class="breadcrumb-item"><a href="index.html">Home</a></li>
-         <li class="breadcrumb-item active">Dashboard</li>
-      </ol>
-   </nav>
-</div>
-<style>
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-12">
+            <div class="pagetitle">
+               <h1>Dashboard</h1>
+               <nav>
+                  <ol class="breadcrumb">
+                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                     <li class="breadcrumb-item active">Dashboard</li>
+                  </ol>
+               </nav>
+            </div>
+         </div>
+      </div>
+   </div>
+   <style>
    .modal-dialog.wide-modal {
    max-width: 80%;
    }
@@ -141,14 +147,30 @@
                <?php   } ?>
                <div class="col-md-12">
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
-                  <div class="card">
-                     <div class="card-header text-dark bg-dark-info">
-                        <h6 class="fw-bold text-center heading_style">Monthly Effort Report <span id="year"><?= date('Y') ?></span></h6>
+                  <div class="card table-card">
+                     <div class="card-header">
+                        <div class="row">
+                           <div class="col-md-4">
+                              <div class="card-header-left">
+                                 <ul class="d-flex align-items-center">
+                                    <li class="me-3"><h6 class="fw-bold heading_style">Monthly Effort Report <span id="year"><?= date('Y') ?></span></h6></li>
+                                    <li>
+                                       <p>January to December</p>
+                                    </li>
+                                 </ul>
+                              </div>
+                           </div>
+                           <div class="col-md-8">
+                              <div class="card-header-right">
+
+                              </div>
+                           </div>
+                        </div>
                      </div>
                      <div class="card-body">
                         <div class="rows">
                            <div class="col-xxl-12 col-md-12 table-responsive">
-                              <table class="table table-bordered general_table_style">
+                              <table class="table general_table_style">
                                  <thead>
                                     <tr>
                                        <th>#</th>
@@ -176,52 +198,52 @@
                                        <td><?= $sl++ ?></td>
                                        <td class="fw-bold"><?= $response['name'] ?></td>
                                        <td class="text-center">
-                                          <?php if ($response['jan_booked'] > 0) { ?><span class="badge <?= (($response['jan_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jan_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['jan_desklog'] > 0) { ?><span class="badge" <?= (($response['jan_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['jan_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['jan_booked'] > 0) { ?><span class="badge <?= (($response['jan_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['jan_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['jan_desklog'] > 0) { ?><span class="badge" <?= (($response['jan_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['jan_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['feb_booked'] > 0) { ?><span class="badge <?= (($response['feb_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['feb_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['feb_desklog'] > 0) { ?><span class="badge" <?= (($response['feb_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['feb_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['feb_booked'] > 0) { ?><span class="badge <?= (($response['feb_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['feb_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['feb_desklog'] > 0) { ?><span class="badge" <?= (($response['feb_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['feb_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['mar_booked'] > 0) { ?><span class="badge <?= (($response['mar_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['mar_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['mar_desklog'] > 0) { ?><span class="badge" <?= (($response['mar_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['mar_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['mar_booked'] > 0) { ?><span class="badge <?= (($response['mar_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['mar_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['mar_desklog'] > 0) { ?><span class="badge" <?= (($response['mar_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['mar_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['apr_booked'] > 0) { ?><span class="badge <?= (($response['apr_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['apr_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['apr_desklog'] > 0) { ?><span class="badge" <?= (($response['apr_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['apr_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['apr_booked'] > 0) { ?><span class="badge <?= (($response['apr_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['apr_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['apr_desklog'] > 0) { ?><span class="badge" <?= (($response['apr_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['apr_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['may_booked'] > 0) { ?><span class="badge <?= (($response['may_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['may_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['may_desklog'] > 0) { ?><span class="badge" <?= (($response['may_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['may_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['may_booked'] > 0) { ?><span class="badge <?= (($response['may_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['may_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['may_desklog'] > 0) { ?><span class="badge" <?= (($response['may_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['may_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['jun_booked'] > 0) { ?><span class="badge <?= (($response['jun_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jun_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['jun_desklog'] > 0) { ?><span class="badge" <?= (($response['jun_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['jun_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['jun_booked'] > 0) { ?><span class="badge <?= (($response['jun_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['jun_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['jun_desklog'] > 0) { ?><span class="badge" <?= (($response['jun_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['jun_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['jul_booked'] > 0) { ?><span class="badge <?= (($response['jul_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['jul_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['jul_desklog'] > 0) { ?><span class="badge" <?= (($response['jul_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['jul_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['jul_booked'] > 0) { ?><span class="badge <?= (($response['jul_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['jul_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['jul_desklog'] > 0) { ?><span class="badge" <?= (($response['jul_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['jul_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['aug_booked'] > 0) { ?><span class="badge <?= (($response['aug_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['aug_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['aug_desklog'] > 0) { ?><span class="badge" <?= (($response['aug_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['aug_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['aug_booked'] > 0) { ?><span class="badge <?= (($response['aug_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['aug_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['aug_desklog'] > 0) { ?><span class="badge" <?= (($response['aug_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['aug_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['sep_booked'] > 0) { ?><span class="badge <?= (($response['sep_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['sep_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['sep_desklog'] > 0) { ?><span class="badge" <?= (($response['sep_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['sep_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['sep_booked'] > 0) { ?><span class="badge <?= (($response['sep_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['sep_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['sep_desklog'] > 0) { ?><span class="badge" <?= (($response['sep_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['sep_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['oct_booked'] > 0) { ?><span class="badge <?= (($response['oct_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['oct_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['oct_desklog'] > 0) { ?><span class="badge" <?= (($response['oct_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['oct_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['oct_booked'] > 0) { ?><span class="badge <?= (($response['oct_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['oct_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['oct_desklog'] > 0) { ?><span class="badge" <?= (($response['oct_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['oct_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['nov_booked'] > 0) { ?><span class="badge <?= (($response['nov_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['nov_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['nov_desklog'] > 0) { ?><span class="badge" <?= (($response['nov_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['nov_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['nov_booked'] > 0) { ?><span class="badge <?= (($response['nov_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['nov_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['nov_desklog'] > 0) { ?><span class="badge" <?= (($response['nov_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['nov_desklog'] ?></span><?php } }?>
                                        </td>
                                        <td class="text-center">
-                                          <?php if ($response['dec_booked'] > 0) { ?><span class="badge <?= (($response['dec_booked'] >= 172) ? 'bg-success' : 'bg-danger custom_bg') ?>">T: <?= $response['dec_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['dec_desklog'] > 0) { ?><span class="badge" <?= (($response['dec_desklog'] >= 172) ? 'style="background-color: #29cb05;margin-top: 03px;"' : 'style="background-color: #b70400;margin-top: 03px;"') ?>>D: <?= $response['dec_desklog'] ?></span><?php } }?>
+                                          <?php if ($response['dec_booked'] > 0) { ?><span class="badge <?= (($response['dec_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['dec_booked'] ?></span><?php } ?><br>
+                                          <?php if($response['deskloguser'] == 1) { if ($response['dec_desklog'] > 0) { ?><span class="badge" <?= (($response['dec_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['dec_desklog'] ?></span><?php } }?>
                                        </td>
                                     </tr>
                                     <?php }
@@ -234,14 +256,14 @@
                   </div>
                   <?php   } ?>
                   <?php if (checkModuleFunctionAccess(1, 67)) { ?>
-                  <div class="card">
-                     <div class="card-header text-dark bg-dark-info">
-                        <h6 class="fw-bold text-center heading_style">Last 7 Days Attendance Report</h6>
+                  <div class="card table-card">
+                     <div class="card-header">
+                        <h6 class="fw-bold heading_style">Last 7 Days Attendance Report</h6>
                      </div>
                      <div class="card-body">
                         <div class="rows">
                            <div class="col-xxl-12 col-md-12 table-responsive">
-                              <table class="table table-bordered general_table_style general_table_style">
+                              <table class="table general_table_style general_table_style">
                                  <thead>
                                     <tr>
                                        <th>#</th>
@@ -285,14 +307,14 @@
                   </div>
                   <?php   } ?>
                   <?php if (checkModuleFunctionAccess(1, 68)) { ?>
-                  <div class="card">
-                     <div class="card-header text-dark bg-dark-info">
-                        <h6 class="fw-bold text-center heading_style">Last 7 Days Report</h6>
+                  <div class="card table-card">
+                     <div class="card-header">
+                        <h6 class="fw-bold heading_style">Last 7 Days Report</h6>
                      </div>
                      <div class="card-body">
                         <div class="rows">
                            <div class="col-xxl-12 col-md-12 table-responsive">
-                              <table class="table table-bordered general_table_style">
+                              <table class="table general_table_style">
                                  <thead>
                                     <tr>
                                        <th>#</th>
@@ -323,7 +345,7 @@
                                               $date_difference    = $diff->format("%a");
                                               //    echo $report['booked_effort']                                                  
                                           ?>
-                                       <td class="text-right" onclick="dayWiseList('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['booked_effort'] ?>')" <?php
+                                       <td onclick="dayWiseList('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['booked_effort'] ?>')" <?php
                                           // if ($date_difference > 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) { 
                                           //     echo 'style="background-color: #f9d99d;cursor:pointer;"';
                                           // } elseif ($date_difference > 0 && $report['booked_effort'] != 0 && $report['booked_effort'] >= 8) {
@@ -371,176 +393,180 @@
                </div>
                <?php if (checkModuleFunctionAccess(1, 71)) { ?>
                <div class="col-md-12">
-                  <div class="card">
-                     <div class="card-header  text-dark bg-dark-info">
-                        <h6 class="fw-bold text-center heading_style">ALL GRAPH</h6>
+                  <div class="card table-card">
+                     <div class="card-header ">
+                        <h6 class="fw-bold heading_style">ALL GRAPH</h6>
                      </div>
                      <div class="card-body">
                         <div class="rows">
                            <div class="col-xxl-12 col-md-12 table-responsive">
-                              <table class="table table-bordered general_table_style">
+                              <table class="table general_table_style">
                                  <thead>
-                                    <tr>
-                                       <th>Yesterday</th>
-                                       <th>This Month</th>
-                                       <th>Last Month</th>
-                                    </tr>
+                                    <div class="table-tr">
+                                       <tr>
+                                          <th>Yesterday</th>
+                                          <th>This Month</th>
+                                          <th>Last Month</th>
+                                       </tr>
+                                    </div>
                                  </thead>
                                  <tbody>
                                     <?php if ($AlluserGraph) {
                                        foreach ($AlluserGraph as $res) { ?>
-                                    <tr>
-                                       <td>
-                                          <?php if ($res['yesterdayAllUserHourBill'] != 0) { ?>
-                                          <!-- Pie Chart -->
-                                          <div id="pieChartWise"></div>
-                                          <script>
-                                             document.addEventListener("DOMContentLoaded", () => {
-                                                 var options = {
-                                                     series: [<?= $res['yesterdayAllUserHourBill'] ?>, <?= $res['yesterdayAllUserMinBill'] ?>],
-                                                     chart: {
-                                                         width: 270,
-                                                         type: 'pie',
-                                                     },
-                                                     fill: {
-                                                         colors: ['#b5f1a8', '#ff2323']
-                                                     },
-                                                     dataLabels: {
-                                                         enabled: true,
-                                                         style: {
-                                                             fontSize: '12px',
+                                       <div class="table-tr">
+                                          <tr>
+                                             <td>
+                                                <?php if ($res['yesterdayAllUserHourBill'] != 0) { ?>
+                                                <!-- Pie Chart -->
+                                                <div id="pieChartWise"></div>
+                                                <script>
+                                                   document.addEventListener("DOMContentLoaded", () => {
+                                                      var options = {
+                                                         series: [<?= $res['yesterdayAllUserHourBill'] ?>, <?= $res['yesterdayAllUserMinBill'] ?>],
+                                                         chart: {
+                                                               width: 270,
+                                                               type: 'pie',
                                                          },
-                                                         background: {
-                                                             enabled: true,
-                                                             foreColor: '#000',
-                                                             padding: 4,
-                                                             borderRadius: 2,
-                                                             borderWidth: 1,
-                                                             borderColor: '#ffc107',
+                                                         fill: {
+                                                               colors: ['#b5f1a8', '#ff2323']
                                                          },
-                                                     },
-                                                     colors: ['#b5f1a8', '#ff2323'],
-                                                     labels: ['Billable', 'Non-Billable'],
-                                                     responsive: [{
-                                                         breakpoint: 300,
-                                                         options: {
-                                                             chart: {
-                                                                 width: 100
-                                                             },
-                                                             legend: {
-                                                                 position: 'bottom'
-                                                             }
-                                                         }
-                                                     }]
-                                                 };
-                                                 var chart = new ApexCharts(document.querySelector("#pieChartWise"), options);
-                                                 chart.render();
-                                             });
-                                          </script>
-                                          <!-- End Pie Chart -->
-                                          <?php } ?>
-                                       </td>
-                                       <td>
-                                          <?php if ($res['thismonthAllUserHourBillUsr'] != 0) { ?>
-                                          <!-- Pie Chart -->
-                                          <div id="pieChartMonthWise"></div>
-                                          <script>
-                                             document.addEventListener("DOMContentLoaded", () => {
-                                                 var options = {
-                                                     series: [<?= str_replace(",", "", $res['thismonthAllUserHourBillUsr']) ?>, <?= $res['thismonthAllUserMinBillUsr'] ?>],
-                                                     chart: {
-                                                         width: 270,
-                                                         type: 'pie',
-                                                     },
-                                                     fill: {
-                                                         colors: ['#b5f1a8', '#ff2323']
-                                                     },
-                                                     dataLabels: {
-                                                         enabled: true,
-                                                         style: {
-                                                             fontSize: '12px',
+                                                         dataLabels: {
+                                                               enabled: true,
+                                                               style: {
+                                                                  fontSize: '12px',
+                                                               },
+                                                               background: {
+                                                                  enabled: true,
+                                                                  foreColor: '#000',
+                                                                  padding: 4,
+                                                                  borderRadius: 2,
+                                                                  borderWidth: 1,
+                                                                  borderColor: '#ffc107',
+                                                               },
                                                          },
-                                                         background: {
-                                                             enabled: true,
-                                                             foreColor: '#000',
-                                                             padding: 4,
-                                                             borderRadius: 2,
-                                                             borderWidth: 1,
-                                                             borderColor: '#ffc107',
+                                                         colors: ['#b5f1a8', '#ff2323'],
+                                                         labels: ['Billable', 'Non-Billable'],
+                                                         responsive: [{
+                                                               breakpoint: 300,
+                                                               options: {
+                                                                  chart: {
+                                                                     width: 100
+                                                                  },
+                                                                  legend: {
+                                                                     position: 'bottom'
+                                                                  }
+                                                               }
+                                                         }]
+                                                      };
+                                                      var chart = new ApexCharts(document.querySelector("#pieChartWise"), options);
+                                                      chart.render();
+                                                   });
+                                                </script>
+                                                <!-- End Pie Chart -->
+                                                <?php } ?>
+                                             </td>
+                                             <td>
+                                                <?php if ($res['thismonthAllUserHourBillUsr'] != 0) { ?>
+                                                <!-- Pie Chart -->
+                                                <div id="pieChartMonthWise"></div>
+                                                <script>
+                                                   document.addEventListener("DOMContentLoaded", () => {
+                                                      var options = {
+                                                         series: [<?= str_replace(",", "", $res['thismonthAllUserHourBillUsr']) ?>, <?= $res['thismonthAllUserMinBillUsr'] ?>],
+                                                         chart: {
+                                                               width: 270,
+                                                               type: 'pie',
                                                          },
-                                                     },
-                                                     colors: ['#b5f1a8', '#ff2323'],
-                                                     labels: ['Billable', 'Non-Billable'],
-                                                     responsive: [{
-                                                         breakpoint: 300,
-                                                         options: {
-                                                             chart: {
-                                                                 width: 100
-                                                             },
-                                                             legend: {
-                                                                 position: 'bottom'
-                                                             }
-                                                         }
-                                                     }]
-                                                 };
-                                                 var chart = new ApexCharts(document.querySelector("#pieChartMonthWise"), options);
-                                                 chart.render();
-                                             });
-                                          </script>
-                                          <!-- End Pie Chart -->
-                                          <?php } ?>
-                                       </td>
-                                       <td>
-                                          <?php if ($res['thismonthAllUserHourBillUsr'] != 0) { ?>
-                                          <!-- Pie Chart -->
-                                          <div id="pieChartlmWise"></div>
-                                          <script>
-                                             document.addEventListener("DOMContentLoaded", () => {
-                                                 var options = {
-                                                     series: [<?= str_replace(",", "", $res['lastmonthAllUserHourBillUsr']) ?>, <?= $res['lastmonthAllUserMinBillUsr'] ?>],
-                                                     chart: {
-                                                         width: 270,
-                                                         type: 'pie',
-                                                     },
-                                                     fill: {
-                                                         colors: ['#b5f1a8', '#ff2323']
-                                                     },
-                                                     dataLabels: {
-                                                         enabled: true,
-                                                         style: {
-                                                             fontSize: '12px',
+                                                         fill: {
+                                                               colors: ['#b5f1a8', '#ff2323']
                                                          },
-                                                         background: {
-                                                             enabled: true,
-                                                             foreColor: '#000',
-                                                             padding: 4,
-                                                             borderRadius: 2,
-                                                             borderWidth: 1,
-                                                             borderColor: '#ffc107',
+                                                         dataLabels: {
+                                                               enabled: true,
+                                                               style: {
+                                                                  fontSize: '12px',
+                                                               },
+                                                               background: {
+                                                                  enabled: true,
+                                                                  foreColor: '#000',
+                                                                  padding: 4,
+                                                                  borderRadius: 2,
+                                                                  borderWidth: 1,
+                                                                  borderColor: '#ffc107',
+                                                               },
                                                          },
-                                                     },
-                                                     colors: ['#b5f1a8', '#ff2323'],
-                                                     labels: ['Billable', 'Non-Billable'],
-                                                     responsive: [{
-                                                         breakpoint: 300,
-                                                         options: {
-                                                             chart: {
-                                                                 width: 100
-                                                             },
-                                                             legend: {
-                                                                 position: 'bottom'
-                                                             }
-                                                         }
-                                                     }]
-                                                 };
-                                                 var chart = new ApexCharts(document.querySelector("#pieChartlmWise"), options);
-                                                 chart.render();
-                                             });
-                                          </script>
-                                          <!-- End Pie Chart -->
-                                          <?php } ?>
-                                       </td>
-                                    </tr>
+                                                         colors: ['#b5f1a8', '#ff2323'],
+                                                         labels: ['Billable', 'Non-Billable'],
+                                                         responsive: [{
+                                                               breakpoint: 300,
+                                                               options: {
+                                                                  chart: {
+                                                                     width: 100
+                                                                  },
+                                                                  legend: {
+                                                                     position: 'bottom'
+                                                                  }
+                                                               }
+                                                         }]
+                                                      };
+                                                      var chart = new ApexCharts(document.querySelector("#pieChartMonthWise"), options);
+                                                      chart.render();
+                                                   });
+                                                </script>
+                                                <!-- End Pie Chart -->
+                                                <?php } ?>
+                                             </td>
+                                             <td>
+                                                <?php if ($res['thismonthAllUserHourBillUsr'] != 0) { ?>
+                                                <!-- Pie Chart -->
+                                                <div id="pieChartlmWise"></div>
+                                                <script>
+                                                   document.addEventListener("DOMContentLoaded", () => {
+                                                      var options = {
+                                                         series: [<?= str_replace(",", "", $res['lastmonthAllUserHourBillUsr']) ?>, <?= $res['lastmonthAllUserMinBillUsr'] ?>],
+                                                         chart: {
+                                                               width: 270,
+                                                               type: 'pie',
+                                                         },
+                                                         fill: {
+                                                               colors: ['#b5f1a8', '#ff2323']
+                                                         },
+                                                         dataLabels: {
+                                                               enabled: true,
+                                                               style: {
+                                                                  fontSize: '12px',
+                                                               },
+                                                               background: {
+                                                                  enabled: true,
+                                                                  foreColor: '#000',
+                                                                  padding: 4,
+                                                                  borderRadius: 2,
+                                                                  borderWidth: 1,
+                                                                  borderColor: '#ffc107',
+                                                               },
+                                                         },
+                                                         colors: ['#b5f1a8', '#ff2323'],
+                                                         labels: ['Billable', 'Non-Billable'],
+                                                         responsive: [{
+                                                               breakpoint: 300,
+                                                               options: {
+                                                                  chart: {
+                                                                     width: 100
+                                                                  },
+                                                                  legend: {
+                                                                     position: 'bottom'
+                                                                  }
+                                                               }
+                                                         }]
+                                                      };
+                                                      var chart = new ApexCharts(document.querySelector("#pieChartlmWise"), options);
+                                                      chart.render();
+                                                   });
+                                                </script>
+                                                <!-- End Pie Chart -->
+                                                <?php } ?>
+                                             </td>
+                                          </tr>
+                                          </div>
                                     <?php  }
                                        } ?>
                                  </tbody>
@@ -554,13 +580,13 @@
                <?php if (checkModuleFunctionAccess(1, 72)) { ?>
                <div class="col-md-12">
                   <div class="card">
-                     <div class="card-header text-dark bg-dark-info">
-                        <h6 class="fw-bold text-center heading_style">USER GRAPH</h6>
+                     <div class="card-header">
+                        <h6 class="fw-bold heading_style">USER GRAPH</h6>
                      </div>
                      <div class="card-body">
                         <div class="rows">
                            <div class="col-xxl-12 col-md-12 table-responsive">
-                              <table class="table table-bordered general_table_style">
+                              <table class="table general_table_style">
                                  <thead>
                                     <tr>
                                        <th>#</th>
@@ -777,7 +803,7 @@
                <div class="card-body">
                   <div class="rows">
                      <div class="col-xxl-12 col-md-12 table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table">
                            <thead>
                               <tr>
                                  <th>#</th>
