@@ -247,23 +247,20 @@ class EffortController extends BaseController {
                                 //  pr($postData);
                                 
                             $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
-                            echo $projectcost      = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project[$p]."";
-                                $rows                   = $this->db->query($projectcost)->getResult(); 
-                                foreach($rows as $row){
-                                    $project_cost   =  $row->total_hours_worked;
-                                }
-                                // pr($rows)   ;   
-                                $postData2   = array(
-                                'project_id'            => $project[$p],
-                                'month'                 => $month ,
-                                'year'                  => $year,
-                                'project_cost'          => $project_cost,
-                                'created_at'            => date('Y-m-d H:i:s'),                                
-                            );
-                            //  pr($postData2);
-                            $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
-                           
-                            
+                            // echo $projectcost      = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project[$p]."";
+                            //     $rows                   = $this->db->query($projectcost)->getResult(); 
+                            //     foreach($rows as $row){
+                            //         $project_cost   =  $row->total_hours_worked;
+                            //     }
+                            //     // pr($rows)   ;   
+                            //     $postData2   = array(
+                            //     'project_id'            => $project[$p],
+                            //     'month'                 => $month ,
+                            //     'year'                  => $year,
+                            //     'project_cost'          => $project_cost,
+                            //     'created_at'            => date('Y-m-d H:i:s'),                                
+                            // );
+                            // $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
                                 
                             // new task
                             /* morning meeting schedule insert */
