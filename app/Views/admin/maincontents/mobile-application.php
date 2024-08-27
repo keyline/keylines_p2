@@ -89,11 +89,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <div class="card">
                                         <div class="card-body pt-3">
                                             <div class="download-left">
-                                                <img src="<?= site_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
+                                                <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
                                             </div>
                                             <div class="btn-stor">
                                                 <a href="https://shorturl.at/HPZ8r">
-                                                    <img src="<?= site_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
+                                                    <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
                                                 </a>
                                             </div>
                                         </div>
@@ -105,11 +105,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <div class="card">
                                         <div class="card-body">
                                             <div class="download-right">
-                                                <img src="<?= site_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
+                                                <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
                                             </div>
                                             <div class="btn-stor">
                                                 <a href="https://shorturl.at/VMYlc">
-                                                    <img src="<?= site_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
+                                                    <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
                                                 </a>
                                             </div>
                                         </div>

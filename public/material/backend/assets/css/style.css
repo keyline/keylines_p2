@@ -440,21 +440,55 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   background: #92D594;
   border: 1px solid #247426;
   color: #247426;
+  margin: 2px 0;
+  height: 25px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .badge-desktime-success{
   background: #F0FFF0;
   border: 1px solid #4CAB4F;
   color: #4CAB4F;
+  margin: 2px 0;
+  height: 25px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .badge-tracker-danger{
   background: #FFE1E1;
   border: 1px solid #EA2A2A;
   color: #EA2A2A;
+  margin: 2px 0;
+  height: 25px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .badge-desktime-danger{
   background: #FFB9B9;
   border: 1px solid #C10000;
   color: #C10000;
+  margin: 2px 0;
+  height: 25px;
+  width: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* custom badge css end*/
+.tracker-icon{
+  width: 15px;
+  margin-right: 3px;
+}
+.desklog-icon{
+  width: 12px;
+  margin-right: 3px;
 }
 /*--------------------------------------------------------------
 # Override some default Bootstrap stylings
@@ -758,37 +792,20 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 /*--------------------------------------------------------------
 # Header
 --------------------------------------------------------------*/
-.logo {
-  line-height: 1;
-}
-
-@media (min-width: 1200px) {
-  .logo {
-    width: 280px;
-  }
-}
-
-.logo img {
-  max-height: 26px;
-  margin-right: 6px;
-}
-
-.logo span {
-  font-size: 26px;
-  font-weight: 700;
-  color: #012970;
-  font-family: "lato", sans-serif;
-}
 
 .header {
   transition: all 0.5s;
   z-index: 997;
-  height: 60px;
   /* box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1); */
   background-color: #fff;
-  padding:0 15px;
+  padding:10px 15px;
   /* Toggle Sidebar Button */
   /* Search Bar */
+}
+
+.logo img {
+  width: 100%;
+  max-height: 50px;
 }
 
 
