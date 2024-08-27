@@ -68,15 +68,15 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <label for="project_month">Select a Month :</label>
                                 <!-- <input type="text" class="form-control" >  -->
                                 <select name="project_month" id="project_month">
-                                    <option value="1">January</option>
-                                    <option value="2">February</option>
-                                    <option value="3">March</option>
-                                    <option value="4">April</option>
-                                    <option value="5">May</option>
-                                    <option value="6">June</option>
-                                    <option value="7">July</option>
-                                    <option value="8">August</option>
-                                    <option value="9">September</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
                                     <option value="10">October</option>
                                     <option value="11">November</option>
                                     <option value="12">December</option>
@@ -114,40 +114,32 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <thead>
                                     <tr>
                                         <th width="3%">#</th>
-                                        <th width="15%">Project</th>
-                                        <th width="15%">User</th>
-                                        <th width="10%">Work Date</th>
-                                        <th width="7%">Time</th>
+                                        <th width="15%">Project</th>                                        
+                                        <th width="7%">Month</th>
+                                        <th width="7%">Year</th>
                                         <th width="7%">Cost</th>
-                                        <th width="7%">Hour Rate</th>
-                                        <th width="30%">Description</th>
-                                        <th width="15%">Type</th>
+                                        <th width="10%">Created At</th>
+                                        <th width="10%">Updated At</th>
                                         <th width="5%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php
-                                    $totHour    = 0;
-                                    $totMinute  = 0;
-                                    $totalUsers = [];
-                                    $totalTypes = [];
+                                    <?php                                   
                                     foreach($response as $res){?>
                                         <tr>
                                             <td><?=$res['sl_no']?></td>
                                             <td><?=$res['project_name']?></td>
-                                            <td><?=$res['user_name']?></td>
-                                            <td><?=$res['work_date']?></td>
-                                            <td><?=$res['effort_time']?></td>
-                                            <td><?=$res['cost']?></td>
-                                            <td><?=$res['hour_rate']?></td>
-                                            <td><?=$res['description']?></td>
-                                            <td><?=$res['effort_type']?><br><small>(<?=$res['project_status']?>)</small></td>
+                                            <td><?=$res['month']?></td>
+                                            <td><?=$res['year']?></td>
+                                            <td><?=$res['project_cost']?></td>
+                                            <td><?=$res['created_at']?></td>
+                                            <td><?=$res['updated_at']?></td>                                            
                                             <td>
                                                 <a target="_blank" href="<?=base_url('admin/efforts/edit/'.encoded($res['id']))?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil text-primary"></i></a>
                                                 <br><br>
                                                 <?php
                                                 $userType           = $session->user_type;
-                                                if($userType == 'admin'){
+                                                if($userType == 'ADMIN'){
                                                 ?>
                                                     <a href="<?=base_url('admin/efforts/delete/'.encoded($res['id']))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash text-danger"></i></a>
                                                 <?php }?>

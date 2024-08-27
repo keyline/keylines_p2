@@ -149,72 +149,74 @@ class CostController extends BaseController
     
         
         if ($this->request->getGet('mode') == 'project-cost') {
-            // pr($this->request->getGet());
-            $search_project_id     = $this->request->getGet('search_project_id');                        
-            $user_cost          = $this->request->getGet('user_cost');                        
-            $search_range_from  = $this->request->getGet('search_range_from');
-            $search_range_to    = $this->request->getGet('search_range_to');
+            //  pr($this->request->getGet());
+            $search_project_id      = $this->request->getGet('search_project_id');                        
+            $project_month          = $this->request->getGet('project_month');                        
+            $project_year           = $this->request->getGet('project_year'); 
 
-            // Fetch user's hourly cost
-            $user_hour_cost = $this->data['model']->find_data('user', 'row', ['id' => $search_project_id], 'id,hour_cost');            
-            $cal_usercost = ($user_cost / 60);
+            $project_cost_details           = $this->common_model->find_data('project_cost', 'array', '');
+            // pr($project_cost);
+           $projectcost             = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$project_year . "-" . $project_month ."%' and project_id=".$search_project_id."";
+            $rows                   = $this->db->query($projectcost)->getResult(); 
+            foreach($rows as $row){
+                $project_cost   =  $row->total_hours_worked;
+            }                            
+            $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $search_project_id, 'month' => $project_month, 'year' => $project_year]);
+            //   echo $this->db->getLastquery();
+             if(!$exsistingProjectCost){                              
+                $postData2   = array(
+                    'project_id'            => $search_project_id,
+                    'month'                 => $project_month ,
+                    'year'                  => $project_year,
+                    'project_cost'          => $project_cost,
+                    'created_at'            => date('Y-m-d H:i:s'),                                
+                );  
+                //  pr($postData2)  ;                          
+                $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');                               
+             } else {                                
+                $id         = $exsistingProjectCost->id;
+                $postData2   = array(
+                    'project_id'            => $search_project_id,
+                    'month'                 => $project_month ,
+                    'year'                  => $project_year,
+                    'project_cost'          => $project_cost,
+                    'updated_at'            => date('Y-m-d H:i:s'),                                
+                );      
+                //  pr($postData2)  ;                         
+                $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');                               
+             }  
 
-            // Prepare and execute the query safely
-            $sql = "SELECT * FROM `timesheet` 
-                    WHERE `user_id` = ? 
-                    AND `date_added` BETWEEN ? AND ?";
-            $rows = $this->db->query($sql, [$search_project_id, $search_range_from, $search_range_to])->getResult();
-
-            // Add calculated cost to each row
-            foreach ($rows as &$row) {
-                $id = $row->id;
-                $hour = $row->hour;
-                $min = $row->min;
-                $row->hour_rate = $user_cost;  // Assuming you want cost per minute
-                $cal= (($hour*60) + $min); //converted to minutes
-                $projectCost= floatval($cal_usercost * $cal);
-                $row->cost = number_format($projectCost, 2, '.', '');
-
-                $record     = $this->data['model']->save_data('timesheet', $row, $id, 'id');
-                // $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
-            }                                                    
             $response = [];
             $total_effort_in_mins = 0;
-            if ($rows) {
-                // pr($rows);
+            if ($project_cost_details) {
+                // pr($project_cost_details);
                 $sl = 1;
-                foreach ($rows as $row) {
+                foreach ($project_cost_details as $row) {
                     $getProject = $this->common_model->find_data('project', 'row', ['id' => $row->project_id], 'name');
-                    $getUser = $this->common_model->find_data('user', 'row', ['id' => $row->user_id], 'name');
-                    $getProjectStatus = $this->common_model->find_data('project_status', 'row', ['id' => $row->status_id], 'name');
-                    $getEffortType = $this->common_model->find_data('effort_type', 'row', ['id' => $row->effort_type], 'name');
-                    $effort_time = $row->hour . ':' . $row->min;
+                    // $getUser = $this->common_model->find_data('user', 'row', ['id' => $row->user_id], 'name');
+                    // $getProjectStatus = $this->common_model->find_data('project_status', 'row', ['id' => $row->status_id], 'name');
+                    // $getEffortType = $this->common_model->find_data('effort_type', 'row', ['id' => $row->effort_type], 'name');
+                    // $effort_time = $row->hour . ':' . $row->min;
                     $response[] = [
-                        'sl_no'             => $sl++,
-                        'id'                => $row->id,
-                        'project_name'      => (($getProject) ? $getProject->name : ''),
-                        'user_name'         => (($getUser) ? $getUser->name : ''),
-                        'work_date'         => date_format(date_create($row->date_added), "d-m-Y"),
-                        'date_today'        => date_format(date_create($row->date_today), "d-m-Y"),
-                        'description'       => $row->description,
-                        'effort_time'       => $effort_time,
-                        'hour'              => $row->hour,
-                        'min'               => $row->min,
-                        'cost'              => $row->cost,
-                        'hour_rate'         => $row->hour_rate,
-                        'project_status'    => (($getProjectStatus) ? $getProjectStatus->name : ''),
-                        'effort_type'       => (($getEffortType) ? $getEffortType->name : ''),
+                        'sl_no'             => $sl++,  
+                        'id'                => $row->id,     
+                        'project_name'      => (($getProject) ? $getProject->name : ''),                        
+                        'month'             => $row->month,
+                        'year'              => $row->year,
+                        'project_cost'      => $row->project_cost,
+                        'created_at'        => $row->created_at,
+                        'updated_at'        => $row->updated_at,
                     ];
-                    $total_hour_min = ($row->hour * 60); // 0*60 = 0
-                    $total_min_min = $row->min; // 30
-                    $total_effort_in_mins += ($total_hour_min + $total_min_min);
+                    // $total_hour_min = ($row->hour * 60); // 0*60 = 0
+                    // $total_min_min = $row->min; // 30
+                    // $total_effort_in_mins += ($total_hour_min + $total_min_min);
                 }
             }
             $data['response']               = $response;
-            $data['total_effort_in_mins']   = $total_effort_in_mins;
-            $data['search_project_id']         = $search_project_id;            
-            $data['search_range_from']      = $search_range_from;
-            $data['search_range_to']        = $search_range_to;            
+            // $data['total_effort_in_mins']   = $total_effort_in_mins;
+            // $data['search_project_id']         = $search_project_id;            
+            // $data['search_range_from']      = $search_range_from;
+            // $data['search_range_to']        = $search_range_to;            
         }
         echo $this->layout_after_login($title, $page_name, $data);
     }
