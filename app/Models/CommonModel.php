@@ -147,9 +147,9 @@ class CommonModel extends Model
         {
             $imageFileType1 = pathinfo($imge, PATHINFO_EXTENSION);
             if($uploadType=='image') {
-                if($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif" && $imageFileType1 != "JPG" && $imageFileType1 != "PNG" && $imageFileType1 != "JPEG" && $imageFileType1 != "GIF" && $imageFileType1 != "ico" && $imageFileType1 != "ICO")
+                if($imageFileType1 != "jpg" && $imageFileType1 != "png" && $imageFileType1 != "jpeg" && $imageFileType1 != "gif" && $imageFileType1 != "JPG" && $imageFileType1 != "PNG" && $imageFileType1 != "JPEG" && $imageFileType1 != "GIF" && $imageFileType1 != "ico" && $imageFileType1 != "ICO" && $imageFileType1 != "svg" && $imageFileType1 != "SVG")
                 {
-                    $message = 'Sorry, only JPG, JPEG, ICO, PNG & GIF files are allowed';
+                    $message = 'Sorry, only JPG, JPEG, ICO, PNG & GIF & SVG files are allowed';
                     $status = 0;
                 }
                 else
