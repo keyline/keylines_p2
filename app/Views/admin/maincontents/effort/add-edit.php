@@ -71,12 +71,14 @@
                                 <!-- before block date tasks -->
                                     <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
                                         <div class="col-md-12"><span style="text-transform: uppercase; color:#eb0606ed; font-weight:bold; display: flex; justify-content: center;">scheduled task before&nbsp;<strong><?=date_format(date_create($before_date), "M d, Y l")?></strong></span>
-                                        <span style="display: flex;justify-content: center;"><a href="<?=base_url('admin/efforts/request-previous-task-submit/'.encoded($before_date))?>" class="btn btn-primary btn-sm" onclick="return confirm('Are you sure ?');"><i class="fa fa-envelope"></i> Request Admin For Booking Access</a></span>
+                                        <?php if(count($previousMorningSchedules) > 0){?>
+                                            <span style="display: flex;justify-content: center;"><a href="<?=base_url('admin/efforts/request-previous-task-submit/'.encoded($before_date))?>" class="btn btn-primary btn-sm" onclick="return confirm('Are you sure ?');"><i class="fa fa-envelope"></i> Request Admin For Booking Access</a></span>
+                                        <?php }?>
                                     </div>
                                     </div>
                                     <?php if($previousMorningSchedules){ $ms = 1; foreach($previousMorningSchedules as $previousMorningSchedules){ ?>
                                             <div class="row" style="border:2px solid #032e49; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
-                                                <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">Scheduled Task <?=$ms?></h5>
+                                                <h5 class="badge bg-danger text-dark" style="width: auto; margin-left: 13px; ">Pending Task <?=$ms?></h5>
                                                 <h6><?=date_format(date_create($previousMorningSchedules->date_added), "M d, Y - l")?></h6>
                                                 <div class="col-md-5">
                                                     <label class="control-label">Project</label>
@@ -103,7 +105,7 @@
                                         <?php $ms++; } } else {?>
                                             <div class="row" style="border:2px solid #032e49; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
                                                 <div class="col-md-12">
-                                                    <h6 class="text-danger text-center">No Scheduled Tasks Available !!!</h6>
+                                                    <h6 class="text-danger text-center">No Pending Tasks Are Available Before <?=date_format(date_create($before_date), "M d, Y")?> !!!</h6>
                                                 </div>
                                             </div>
                                         <?php }?>

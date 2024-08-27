@@ -635,6 +635,48 @@ class TaskAssignController extends BaseController {
         $apiExtraData                       = http_response_code();
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
     }
+    public function morning_meeting_get_previous_task(){
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $apiExtraField      = '';
+        $apiExtraData       = '';
+        $this->isJSON(file_get_contents('php://input'));
+        $requestData        = $this->extract_json(file_get_contents('php://input'));
+        // pr($requestData);
+        $taskDate                   = $requestData['taskDate'];
+        $scheduleHTML               = '';
+        $data['taskDate']           = $taskDate;
+
+        $user_id                    = $this->session->get('user_id');
+        $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show');
+        $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
+
+        $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
+        $data['all_departments']    = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+
+        if(empty($data['tracker_depts_show'])){
+            $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+        } else {
+            $tracker_depts_show_string  = implode(",", $data['tracker_depts_show']);
+            $data['departments']        = $this->db->query("SELECT * FROM `department` WHERE `id` IN ($tracker_depts_show_string) AND `is_join_morning_meeting` = 1 AND status = 1 ORDER BY rank ASC")->getResult();
+        }
+
+        $order_by1[0]               = array('field' => 'project.name', 'type' => 'ASC');
+        $join1[0]                   = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+        $join1[1]                   = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+        $data['projects']           = $this->common_model->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join1, '', $order_by1);
+        $scheduleHTML               = view('admin/maincontents/effort/previous-schedule-html',$data);
+
+        // echo $scheduleHTML;die;
+        $apiResponse['scheduleHTML']        = $scheduleHTML;
+        $apiStatus                          = TRUE;
+        http_response_code(200);
+        $apiMessage                         = 'Task Schedule Generated For  !!!';
+        $apiExtraField                      = 'response_code';
+        $apiExtraData                       = http_response_code();
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+    }
 
     public function task_listv2()
     {

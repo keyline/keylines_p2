@@ -155,13 +155,13 @@ $controller_route       = $moduleDetail['controller_route'];
                             ?>
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="panelsStayOpen-headingThree">
-                                      <button class="accordion-button accordion-button-prev bg-default collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse<?=$k?>" aria-expanded="false" aria-controls="panelsStayOpen-collapse<?=$k?>">
+                                      <button class="accordion-button accordion-button-prev bg-default collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse<?=$k?>" aria-expanded="false" aria-controls="panelsStayOpen-collapse<?=$k?>" data-task-date="<?=$singleDate?>">
                                         <h6 class="badge bg-primary mb-2"><?=date_format(date_create($singleDate), "M d, Y l")?></h6>
                                       </button>
                                     </h2>
                                     <div id="panelsStayOpen-collapse<?=$k?>" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
-                                      <div class="accordion-body">
-                                        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+                                      <div class="accordion-body" id="task-list-<?=$singleDate?>">
+                                        
                                       </div>
                                     </div>
                                 </div>
@@ -862,13 +862,31 @@ $controller_route       = $moduleDetail['controller_route'];
       // Event listener for when an accordion item is clicked
       $('.accordion-button').on('click', function() {
             var targetPanel = $(this).attr('data-bs-target'); // Get the target panel ID
-            // console.log(targetPanel);
             // Check if the panel is open
             // if ($(targetPanel).hasClass('show')) {
             if (!$(this).hasClass('collapsed')) {
-              console.log('The accordion is open.');
+                // console.log('The accordion is open.');
+                var taskDate                        = $(this).attr('data-task-date');
+                var base_url                        = '<?=base_url()?>';
+                var dataJson                        = {};
+                dataJson.taskDate                   = taskDate;
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + "admin/task-assign/morning-meeting-get-previous-task", // Replace with your server endpoint
+                    data: JSON.stringify(dataJson),
+                    success: function(res) {
+                        console.log(res);
+                        res = $.parseJSON(res);
+                        if(res.success){
+                            $('#task-list-' + taskDate).html(res.data.scheduleHTML);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error); // Handle errors
+                    }
+                });
             } else {
-              console.log('The accordion is closed.');
+              // console.log('The accordion is closed.');
             }
         });
     });

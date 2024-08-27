@@ -75,7 +75,7 @@ class EffortController extends BaseController {
         $data['user_id']            = $user_id;
         $data['before_date']        = $Date1;
         $order_by2[0]               = array('field' => 'id', 'type' => 'ASC');
-        $data['previousMorningSchedules']   = $this->common_model->find_data('morning_meetings', 'array', ['user_id' => $user_id, 'effort_id' => 0, 'is_leave' => 0, 'date_added<=' => $data['before_date']], '', '', '', $order_by2);
+        $data['previousMorningSchedules']   = $this->common_model->find_data('morning_meetings', 'array', ['user_id' => $user_id, 'effort_id' => 0, 'is_leave' => 0, 'date_added<' => $data['before_date']], '', '', '', $order_by2);
 
         if($this->request->getMethod() == 'post') {
             $requestData    = $this->request->getPost();
