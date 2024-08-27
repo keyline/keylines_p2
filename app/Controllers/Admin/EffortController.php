@@ -174,24 +174,39 @@ class EffortController extends BaseController {
                                 );
                                 //  pr($postData);
                                 
-                            $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
-                            echo $projectcost      = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project[$p]."";
-                                $rows                   = $this->db->query($projectcost)->getResult(); 
-                                foreach($rows as $row){
-                                    $project_cost   =  $row->total_hours_worked;
-                                }
-                                // pr($rows)   ;   
+                            $effort_id              = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                            $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project[$p]."";
+                            $rows                   = $this->db->query($projectcost)->getResult(); 
+                            foreach($rows as $row){
+                                $project_cost   =  $row->total_hours_worked;
+                            }
+                            // pr($rows)   ;   
+                            $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project[$p], 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+                            //  echo $this->db->getLastquery();die;
+                             if(!$exsistingProjectCost){
+                                // echo "new insert"; die;
                                 $postData2   = array(
-                                'project_id'            => $project[$p],
-                                'month'                 => $month ,
-                                'year'                  => $year,
-                                'project_cost'          => $project_cost,
-                                'created_at'            => date('Y-m-d H:i:s'),                                
-                            );
-                            //  pr($postData2);
-                            $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
-                           
-                            
+                                    'project_id'            => $project[$p],
+                                    'month'                 => $month ,
+                                    'year'                  => $year,
+                                    'project_cost'          => $project_cost,
+                                    'created_at'            => date('Y-m-d H:i:s'),                                
+                                );
+                                //  pr($postData2);
+                                $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');                               
+                             } else {
+                                // echo "exsisting data update"; die;
+                                $id         = $exsistingProjectCost->id;
+                                $postData2   = array(
+                                    'project_id'            => $project[$p],
+                                    'month'                 => $month ,
+                                    'year'                  => $year,
+                                    'project_cost'          => $project_cost,
+                                    'updated_at'            => date('Y-m-d H:i:s'),                                
+                                );
+                                //  pr($postData2);
+                                $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');                               
+                             }                                                                                                                            
                                 
                             // new task
                             /* morning meeting schedule insert */
@@ -273,8 +288,9 @@ class EffortController extends BaseController {
         $user_id                    = $this->session->get('user_id');
         $user_hour_cost             = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'id,hour_cost', '', '',);
         $user_cost                  = $user_hour_cost->hour_cost;
+        $effortlist                 = $this->data['model']->find_data('timesheet', 'row', ['id' => $id], 'date_added', '', '',);
         // pr($data['row']);
-        //   pr($user_cost);
+        //    pr($effortlist);
 
         $order_by[0]                = array('field' => 'project.name', 'type' => 'ASC');
         $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
@@ -290,8 +306,11 @@ class EffortController extends BaseController {
             $minute         = $requestData['minute'];
             $description    = $requestData['description'];
             $effort_type    = $requestData['effort_type'];
-            $cal_usercost= ($user_cost/60);
+            $year           = date('Y', strtotime($effortlist->date_added)); // 2024
+            $month          = date('m', strtotime($effortlist->date_added)); // 08
+            $cal_usercost   = ($user_cost/60);
             $getProject     = $this->data['model']->find_data('project', 'row', ['id' => $project], 'status,bill');
+            
             
             $postData   = array(
                 'project_id'            => $project,
@@ -306,9 +325,43 @@ class EffortController extends BaseController {
             );
             $cal                = (($hour*60) + $minute); //converted to minutes
             $projectCost        = floatval($cal_usercost * $cal);
-            $postData['cost']= number_format($projectCost, 2, '.', '');
+            $postData['cost']   = number_format($projectCost, 2, '.', '');
             //  pr($postData,0);die;
-            $record     = $this->data['model']->save_data('timesheet', $postData, $id, 'id');
+            $record             = $this->data['model']->save_data('timesheet', $postData, $id, 'id');
+            $projectcost        = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project."";
+            $rows               = $this->db->query($projectcost)->getResult(); 
+            foreach($rows as $row){
+                $project_cost   =  $row->total_hours_worked;
+            }
+            //  pr($row)   ;   
+            $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+            //  echo $this->db->getLastquery();die;
+                if(!$exsistingProjectCost){
+                //  echo "new insert"; die;
+                $postData2   = array(
+                    'project_id'            => $project,
+                    'month'                 => $month ,
+                    'year'                  => $year,
+                    'project_cost'          => $project_cost,
+                    'created_at'            => date('Y-m-d H:i:s'),                                
+                );
+                //  pr($postData2);
+                $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');                               
+                } else {
+                //  echo "exsisting data update"; die;
+                $projectCostId         = $exsistingProjectCost->id;
+                $postData2   = array(
+                    'project_id'            => $project,
+                    'month'                 => $month ,
+                    'year'                  => $year,
+                    'project_cost'          => $project_cost,
+                    'updated_at'            => date('Y-m-d H:i:s'),                                
+                );
+                //  pr($postData2);
+                $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $projectCostId, 'id');
+                //  echo $this->db->getLastquery();die;                               
+                }                                           
+
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/edit/'.encoded($id));
         }        
