@@ -1318,7 +1318,7 @@ class User extends BaseController {
                 'site_phone'                    => $this->request->getPost('site_phone'),
                 'site_mail'                     => $this->request->getPost('site_mail'),
                 'system_email'                  => $this->request->getPost('system_email'),
-                'site_url'                      => $this->request->getPost('site_url'),
+                // 'site_url'                      => $this->request->getPost('site_url'),
                 'description'                   => $this->request->getPost('description'),
                 'copyright_statement'           => $this->request->getPost('copyright_statement'),
                 'google_map_api_code'           => $this->request->getPost('google_map_api_code'),

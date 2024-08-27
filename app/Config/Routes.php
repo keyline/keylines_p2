@@ -143,12 +143,13 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 
 
 		// task assign
-			$routes->match(['get'], "task-assign", "TaskAssignController::task_list");
+			$routes->match(['get', 'post'], "task-assign", "TaskAssignController::task_list");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-submit", "TaskAssignController::morning_meeting_schedule_submit");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-prefill", "TaskAssignController::morning_meeting_schedule_prefill");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-update", "TaskAssignController::morning_meeting_schedule_update");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-approve-task", "TaskAssignController::morning_meeting_schedule_approve_task");
 			$routes->match(['post'], "task-assign/morning-meeting-reschedule-task", "TaskAssignController::morning_meeting_reschedule_task");
+			$routes->match(['post'], "task-assign/morning-meeting-get-previous-task", "TaskAssignController::morning_meeting_get_previous_task");
 
 			$routes->match(['get'], "task-assign-v2", "TaskAssignController::task_listv2");
 		// task assign
@@ -184,6 +185,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "efforts/delete/(:any)", "EffortController::confirm_delete/$1");
 			$routes->match(['get', 'post'], "efforts/change-status/(:any)", "EffortController::change_status/$1");
 			$routes->match(['get', 'post'], "efforts/get-project-info", "EffortController::getProjectInfo");
+			$routes->match(['get', 'post'], "efforts/request-previous-task-submit/(:any)", "EffortController::requestPreviousTaskSubmit/$1");
 		// effort
 		// hour_cost
 			$routes->match(['get', 'post'], "user-cost", "CostController::usercost");

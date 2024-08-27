@@ -224,12 +224,12 @@ $user_type = session('user_type');
                       <input name="system_email" type="email" class="form-control" id="system_email" value="<?= $setting->system_email ?>">
                     </div>
                   </div>
-                  <div class="row mb-3">
+                  <!-- <div class="row mb-3">
                     <label for="site_url" class="col-md-4 col-lg-3 col-form-label">Site URL</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="site_url" type="text" class="form-control" id="site_url" value="<?= $setting->site_url ?>">
                     </div>
-                  </div>
+                  </div> -->
                   <div class="row mb-3">
                     <label for="description" class="col-md-4 col-lg-3 col-form-label">Address</label>
                     <div class="col-md-8 col-lg-9">
@@ -453,17 +453,19 @@ $user_type = session('user_type');
                     </div>
                   </div>
                   <div class="row mb-3">
-                    <label for="week_off" class="col-md-4 col-lg-3 col-form-label">Week Off</label>                    
+                    <label for="week_off" class="col-form-label">Week Off</label>
+                    <br>
                     <div class="col-md-8 col-lg-9">
                       <label for="sunday" class="col-md-4 col-lg-3 col-form-label">Sunday: </label>
                       <?php
                         $sunday_values = json_decode($application_setting->sunday, true);
                         // pr($sunday_values);
                         for ($i = 1; $i <= 5; $i++) {
-                            $checked = in_array($i, $sunday_values) ? 'checked' : '';
+                            $checked        = in_array($i, $sunday_values) ? 'checked' : '';
+                            $ordinal_number = ordinal($i);
                             echo "<div class='form-check form-check-inline'>
                                     <input class='form-check-input' name='sunday[]' type='checkbox' id='sunday_$i' value='$i' $checked>
-                                    <label class='form-check-label' for='sunday_$i'>$i</label>
+                                    <label class='form-check-label' for='sunday_$i'>$ordinal_number</label>
                                   </div>";
                         }
                       ?>                      
@@ -474,10 +476,11 @@ $user_type = session('user_type');
                         $monday_values = json_decode($application_setting->monday, true);
                         // pr($monday_values);
                         for ($i = 1; $i <= 5; $i++) {
-                            $checked = in_array($i, $monday_values) ? 'checked' : '';
+                            $checked        = in_array($i, $monday_values) ? 'checked' : '';
+                            $ordinal_number = ordinal($i);
                             echo "<div class='form-check form-check-inline'>
                                     <input class='form-check-input' name='monday[]' type='checkbox' id='monday_$i' value='$i' $checked>
-                                    <label class='form-check-label' for='monday_$i'>$i</label>
+                                    <label class='form-check-label' for='monday_$i'>$ordinal_number</label>
                                   </div>";
                         }
                       ?>      
@@ -486,12 +489,13 @@ $user_type = session('user_type');
                       <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Tuesday: </label>
                       <?php
                         $tuesday_values = json_decode($application_setting->tuesday, true);
+                        $ordinal_number = ordinal($i);
                         // pr($tuesday_values);
                         for ($i = 1; $i <= 5; $i++) {
                             $checked = in_array($i, $tuesday_values) ? 'checked' : '';
                             echo "<div class='form-check form-check-inline'>
                                     <input class='form-check-input' name='tuesday[]' type='checkbox' id='tuesday_$i' value='$i' $checked>
-                                    <label class='form-check-label' for='tuesday_$i'>$i</label>
+                                    <label class='form-check-label' for='tuesday_$i'>$ordinal_number</label>
                                   </div>";
                         }
                       ?>      
@@ -500,12 +504,13 @@ $user_type = session('user_type');
                       <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Wednesday: </label>
                       <?php
                         $wednesday_values = json_decode($application_setting->wednesday, true);
+                        $ordinal_number   = ordinal($i);
                         // pr($wednesday_values);
                         for ($i = 1; $i <= 5; $i++) {
                             $checked = in_array($i, $wednesday_values) ? 'checked' : '';
                             echo "<div class='form-check form-check-inline'>
                                     <input class='form-check-input' name='wednesday[]' type='checkbox' id='wednesday_$i' value='$i' $checked>
-                                    <label class='form-check-label' for='wednesday_$i'>$i</label>
+                                    <label class='form-check-label' for='wednesday_$i'>$ordinal_number</label>
                                   </div>";
                         }
                       ?>      
@@ -513,13 +518,14 @@ $user_type = session('user_type');
                     <div class="col-md-8 col-lg-9">
                       <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Thursday: </label>
                       <?php
-                        $thursday_values = json_decode($application_setting->thursday, true);
+                        $thursday_values  = json_decode($application_setting->thursday, true);
+                        $ordinal_number   = ordinal($i);
                         // pr($thursday_values);
                         for ($i = 1; $i <= 5; $i++) {
                             $checked = in_array($i, $thursday_values) ? 'checked' : '';
                             echo "<div class='form-check form-check-inline'>
                                     <input class='form-check-input' name='thursday[]' type='checkbox' id='thursday_$i' value='$i' $checked>
-                                    <label class='form-check-label' for='thursday_$i'>$i</label>
+                                    <label class='form-check-label' for='thursday_$i'>$ordinal_number</label>
                                   </div>";
                         }
                       ?>      
@@ -527,13 +533,14 @@ $user_type = session('user_type');
                     <div class="col-md-8 col-lg-9">
                       <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Friday: </label>
                       <?php
-                        $friday_values = json_decode($application_setting->friday, true);
+                        $friday_values  = json_decode($application_setting->friday, true);
+                        $ordinal_number = ordinal($i);
                         // pr($friday_values);
                         for ($i = 1; $i <= 5; $i++) {
                             $checked = in_array($i, $friday_values) ? 'checked' : '';
                             echo "<div class='form-check form-check-inline'>
                                     <input class='form-check-input' name='friday[]' type='checkbox' id='friday_$i' value='$i' $checked>
-                                    <label class='form-check-label' for='friday_$i'>$i</label>
+                                    <label class='form-check-label' for='friday_$i'>$ordinal_number</label>
                                   </div>";
                         }
                       ?>      
@@ -541,20 +548,19 @@ $user_type = session('user_type');
                     <div class="col-md-8 col-lg-9">
                       <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Satarday: </label>
                       <?php
-                        $satarday_values = json_decode($application_setting->satarday, true);
+                        $satarday_values  = json_decode($application_setting->satarday, true);
+                        $ordinal_number   = ordinal($i);
                         // pr($satarday_values);
                         for ($i = 1; $i <= 5; $i++) {
                             $checked = in_array($i, $satarday_values) ? 'checked' : '';
                             echo "<div class='form-check form-check-inline'>
                                     <input class='form-check-input' name='satarday[]' type='checkbox' id='satarday_$i' value='$i' $checked>
-                                    <label class='form-check-label' for='satarday_$i'>$i</label>
+                                    <label class='form-check-label' for='satarday_$i'>$ordinal_number</label>
                                   </div>";
                         }
                       ?>      
                     </div>
                   </div>
-
-
                   <div class="text-center">
                     <button type="submit" class="btn btn-primary">Submit</button>
                   </div>

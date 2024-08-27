@@ -71,7 +71,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                             <div class="portlet-body">
                                   <h4>Application Location Path :</h4> 
-                                  <p><?=$general_settings->site_url?></p>
+                                  <p><?=getenv('app.baseURL')?></p>
                             </div>
                         </div>                       
                     </div>
