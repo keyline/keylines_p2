@@ -188,6 +188,9 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 		// hour_cost
 			$routes->match(['get', 'post'], "user-cost", "CostController::usercost");
 		// hour_cost
+		// project_cost
+			$routes->match(['get', 'post'], "project-cost", "CostController::projectcost");
+		// project_cost
 		// report			
 				$routes->match(['get', 'post'], "reports/advance-search", "ReportController::advanceSearch");
 				$routes->match(['get', 'post'], "reports/effort-report", "ReportController::effortType");
