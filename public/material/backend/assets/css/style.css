@@ -478,7 +478,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   width: 70px;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center:
 }
 
 /* custom badge css end*/
