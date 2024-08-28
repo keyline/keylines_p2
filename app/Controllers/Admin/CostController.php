@@ -122,18 +122,117 @@ class CostController extends BaseController
         echo $this->layout_after_login($title, $page_name, $data);
     }
 
-    
-    public function getLastNDays($days, $format = 'd/m')
+    public function projectcost()
     {
-        $m = date("m");
-        $de = date("d");
-        $y = date("Y");
-        $dateArray = array();
-        for ($i = 0; $i <= $days - 1; $i++) {
-            $dateArray[] = date($format, mktime(0, 0, 0, $m, ($de - $i), $y));
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage Project Cost';
+        $page_name                  = 'project-cost';
+        $order_by[0]                = array('field' => 'project.name', 'type' => 'ASC');
+        $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+        $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+        $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
+
+        // $data['projectwise_users']  = $this->data['model']->find_data('user', 'array', ['status!=' => '3'], 'id,name,status', '', '', $order_by); 
+
+        // $order_by[0]                = array('field' => 'project.status', 'type' => 'ASC');
+        $order_by[0]                = array('field' => 'project.name', 'type' => 'ASC');
+        $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+        $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+        $user_type                  = $this->session->get('user_type');
+        $user_id                    = $this->session->get('user_id');        
+
+
+        $data['response']           = [];
+        $data['search_project_id']     = 'all';
+        $data['project_month']     = '';
+        $data['project_year']  = '';
+    
+        
+        if ($this->request->getGet('mode') == 'project-cost') {
+            //  pr($this->request->getGet());
+            $search_project_id      = $this->request->getGet('search_project_id');                        
+            $project_month          = $this->request->getGet('project_month');                        
+            $project_year           = $this->request->getGet('project_year'); 
+
+            
+           $projectcost             = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$project_year . "-" . $project_month ."%' and project_id=".$search_project_id."";
+            $rows                   = $this->db->query($projectcost)->getResult(); 
+            foreach($rows as $row){
+                $project_cost   =  $row->total_hours_worked;
+            }                            
+            $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $search_project_id, 'month' => $project_month, 'year' => $project_year]);
+            //   echo $this->db->getLastquery();
+             if(!$exsistingProjectCost){                              
+                $postData2   = array(
+                    'project_id'            => $search_project_id,
+                    'month'                 => $project_month ,
+                    'year'                  => $project_year,
+                    'project_cost'          => $project_cost,
+                    'created_at'            => date('Y-m-d H:i:s'),                                
+                );  
+                //  pr($postData2)  ;                          
+                $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');                               
+             } else {                                
+                $id         = $exsistingProjectCost->id;
+                $postData2   = array(
+                    'project_id'            => $search_project_id,
+                    'month'                 => $project_month ,
+                    'year'                  => $project_year,
+                    'project_cost'          => $project_cost,
+                    'updated_at'            => date('Y-m-d H:i:s'),                                
+                );      
+                //  pr($postData2)  ;                         
+                $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');                               
+             }  
+             
+             $project_cost_details           = $this->common_model->find_data('project_cost', 'array', '');
+            // pr($project_cost);
+            $response = [];
+            $total_effort_in_mins = 0;
+            if ($project_cost_details) {
+                // pr($project_cost_details);
+                $sl = 1;
+                foreach ($project_cost_details as $row) {
+                    $getProject = $this->common_model->find_data('project', 'row', ['id' => $row->project_id], 'name');
+                    // $getUser = $this->common_model->find_data('user', 'row', ['id' => $row->user_id], 'name');
+                    // $getProjectStatus = $this->common_model->find_data('project_status', 'row', ['id' => $row->status_id], 'name');
+                    // $getEffortType = $this->common_model->find_data('effort_type', 'row', ['id' => $row->effort_type], 'name');
+                    // $effort_time = $row->hour . ':' . $row->min;
+                    $response[] = [
+                        'sl_no'             => $sl++,  
+                        'id'                => $row->id,     
+                        'project_name'      => (($getProject) ? $getProject->name : ''),                        
+                        'month'             => $row->month,
+                        'year'              => $row->year,
+                        'project_cost'      => $row->project_cost,
+                        'created_at'        => $row->created_at,
+                        'updated_at'        => $row->updated_at,
+                    ];
+                    // $total_hour_min = ($row->hour * 60); // 0*60 = 0
+                    // $total_min_min = $row->min; // 30
+                    // $total_effort_in_mins += ($total_hour_min + $total_min_min);
+                }
+            }
+            $data['response']               = $response;
+            // $data['total_effort_in_mins']   = $total_effort_in_mins;
+            // $data['search_project_id']         = $search_project_id;            
+            // $data['search_range_from']      = $search_range_from;
+            // $data['search_range_to']        = $search_range_to;            
         }
-        return array_reverse($dateArray);
+        echo $this->layout_after_login($title, $page_name, $data);
     }
+    
+    // public function getLastNDays($days, $format = 'd/m')
+    // {
+    //     $m = date("m");
+    //     $de = date("d");
+    //     $y = date("Y");
+    //     $dateArray = array();
+    //     for ($i = 0; $i <= $days - 1; $i++) {
+    //         $dateArray[] = date($format, mktime(0, 0, 0, $m, ($de - $i), $y));
+    //     }
+    //     return array_reverse($dateArray);
+    // }
 
     
 }
