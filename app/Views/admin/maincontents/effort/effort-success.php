@@ -15,7 +15,10 @@ $controller_route   = $moduleDetail['controller_route'];
         background-color: #f4f4f4;
         font-family: Arial, sans-serif;
     }*/
-
+    .confetti-containers{   
+        height: 100vh;
+        overflow: hidden;
+    }
     .confetti-container {
         position: absolute;
         top: 0;
@@ -23,7 +26,8 @@ $controller_route   = $moduleDetail['controller_route'];
         width: 100%;
         height: 100%;
         pointer-events: none;
-        z-index: 1000;
+        z-index: 10;
+        overflow: hidden;
     }
 
     .confetti {
@@ -106,12 +110,13 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <div class="confetti-container">
+                    <div class="confetti-containers">
                         <h5 class="card-title">
                             <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
                             <a href="<?=base_url('admin/' . $controller_route . '/list/')?>" class="btn btn-outline-success btn-sm">Effort History</a>
                         </h5>
                         <p class="alert alert-success">Your Effort Has Been Submitted Successfully</p>
+                        <div class="confetti-container"></div>
                     </div>   
                 </div>
             </div>
