@@ -29,7 +29,8 @@ $user_type = session('user_type');
     <div class="col-xl-12">
       <div class="card">
         <div class="card-body pt-3">
-            <table class="table datatable table-striped table-bordered general_table_style">
+          <div class="dt-responsive table-responsive">
+            <table id="simpletable" class="table datatable table-striped table-bordered general_table_style">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
@@ -53,6 +54,7 @@ $user_type = session('user_type');
                     <?php } }?>
                 </tbody>
             </table>
+          </div>
         </div>
       </div>
     </div>

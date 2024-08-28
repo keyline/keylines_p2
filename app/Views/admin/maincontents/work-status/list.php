@@ -44,7 +44,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th scope="col">#</th>
                                         <th scope="col">Status Name</th>
                                         <th scope="col">Background Color</th>
+                                        <th scope="col">Border Color</th>
                                         <th scope="col">Is Schedule</th>
+                                        <th scope="col">Is Reassign</th>
                                         <th scope="col">Created At<br>Updated At</th>
                                         <th scope="col">Action</th>
                                     </tr>
@@ -55,7 +57,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th scope="row"><?=$sl++?></th>
                                         <td><?=$row->name?></td>
                                         <td><span style="border-radius: 50%; background-color: <?=$row->background_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                                        <td><?=(($row->is_schedule)?'YES':'NO')?></td>
+                                        <td><span style="border-radius: 50%; background-color: <?=$row->border_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                        <td><?=(($row->is_schedule)?'<span class="badge bg-success">YES</span>':'<span class="badge bg-danger">NO</span>')?></td>
+                                        <td><?=(($row->is_reassign)?'<span class="badge bg-success">YES</span>':'<span class="badge bg-danger">NO</span>')?></td>
                                         <td class="text-center">
                                             <h6>
                                                 <?=(($row->created_at != '')?date_format(date_create($row->created_at), "M d, Y h:i A"):'')?>

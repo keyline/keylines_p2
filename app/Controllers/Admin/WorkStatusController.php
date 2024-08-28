@@ -42,7 +42,9 @@ class WorkStatusController extends BaseController {
             $postData   = array(
                 'name'                      => $this->request->getPost('name'),
                 'background_color'          => $this->request->getPost('background_color'),
+                'border_color'              => $this->request->getPost('border_color'),
                 'is_schedule'               => $this->request->getPost('is_schedule'),
+                'is_reassign'               => $this->request->getPost('is_reassign'),
             );
             $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);            
             $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
@@ -64,7 +66,9 @@ class WorkStatusController extends BaseController {
             $postData   = array(
                 'name'                      => $this->request->getPost('name'),
                 'background_color'          => $this->request->getPost('background_color'),
+                'border_color'              => $this->request->getPost('border_color'),
                 'is_schedule'               => $this->request->getPost('is_schedule'),
+                'is_reassign'               => $this->request->getPost('is_reassign'),
             );
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');

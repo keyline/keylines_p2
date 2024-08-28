@@ -197,53 +197,65 @@
                                     <tr>
                                        <td><?= $sl++ ?></td>
                                        <td class="fw-bold"><?= $response['name'] ?></td>
-                                       <td class="text-center">
-                                          <?php if ($response['jan_booked'] > 0) { ?><span class="badge <?= (($response['jan_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['jan_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['jan_desklog'] > 0) { ?><span class="badge" <?= (($response['jan_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['jan_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['jan_booked'] > 0) { ?><span class="badge <?= (($response['jan_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['jan_booked'] ?></span><?php } ?>
+
+                                          <?php if($response['deskloguser'] == 1) { if ($response['jan_desklog'] > 0) { ?><span class="badge <?= (($response['jan_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['jan_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['feb_booked'] > 0) { ?><span class="badge <?= (($response['feb_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['feb_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['feb_desklog'] > 0) { ?><span class="badge" <?= (($response['feb_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['feb_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['feb_booked'] > 0) { ?><span class="badge <?= (($response['feb_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['feb_booked'] ?></span><?php } ?>
+
+                                          <?php if($response['deskloguser'] == 1) { if ($response['feb_desklog'] > 0) { ?><span class="badge <?= (($response['feb_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['feb_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['mar_booked'] > 0) { ?><span class="badge <?= (($response['mar_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['mar_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['mar_desklog'] > 0) { ?><span class="badge" <?= (($response['mar_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['mar_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['mar_booked'] > 0) { ?><span class="badge <?= (($response['mar_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['mar_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['mar_desklog'] > 0) { ?><span class="badge <?= (($response['mar_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['mar_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['apr_booked'] > 0) { ?><span class="badge <?= (($response['apr_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['apr_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['apr_desklog'] > 0) { ?><span class="badge" <?= (($response['apr_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['apr_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['apr_booked'] > 0) { ?><span class="badge <?= (($response['apr_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['apr_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['apr_desklog'] > 0) { ?><span class="badge <?= (($response['apr_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['apr_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['may_booked'] > 0) { ?><span class="badge <?= (($response['may_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['may_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['may_desklog'] > 0) { ?><span class="badge" <?= (($response['may_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['may_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['may_booked'] > 0) { ?><span class="badge <?= (($response['may_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['may_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['may_desklog'] > 0) { ?><span class="badge <?= (($response['may_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['may_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['jun_booked'] > 0) { ?><span class="badge <?= (($response['jun_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['jun_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['jun_desklog'] > 0) { ?><span class="badge" <?= (($response['jun_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['jun_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['jun_booked'] > 0) { ?><span class="badge <?= (($response['jun_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['jun_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['jun_desklog'] > 0) { ?><span class="badge <?= (($response['jun_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['jun_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['jul_booked'] > 0) { ?><span class="badge <?= (($response['jul_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['jul_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['jul_desklog'] > 0) { ?><span class="badge" <?= (($response['jul_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['jul_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['jul_booked'] > 0) { ?><span class="badge <?= (($response['jul_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['jul_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['jul_desklog'] > 0) { ?><span class="badge <?= (($response['jul_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['jul_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['aug_booked'] > 0) { ?><span class="badge <?= (($response['aug_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['aug_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['aug_desklog'] > 0) { ?><span class="badge" <?= (($response['aug_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['aug_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['aug_booked'] > 0) { ?><span class="badge <?= (($response['aug_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['aug_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['aug_desklog'] > 0) { ?><span class="badge <?= (($response['aug_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['aug_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['sep_booked'] > 0) { ?><span class="badge <?= (($response['sep_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['sep_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['sep_desklog'] > 0) { ?><span class="badge" <?= (($response['sep_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['sep_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['sep_booked'] > 0) { ?><span class="badge <?= (($response['sep_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['sep_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['sep_desklog'] > 0) { ?><span class="badge <?= (($response['sep_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['sep_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['oct_booked'] > 0) { ?><span class="badge <?= (($response['oct_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['oct_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['oct_desklog'] > 0) { ?><span class="badge" <?= (($response['oct_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['oct_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['oct_booked'] > 0) { ?><span class="badge <?= (($response['oct_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['oct_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['oct_desklog'] > 0) { ?><span class="badge <?= (($response['oct_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['oct_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['nov_booked'] > 0) { ?><span class="badge <?= (($response['nov_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['nov_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['nov_desklog'] > 0) { ?><span class="badge" <?= (($response['nov_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['nov_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['nov_booked'] > 0) { ?><span class="badge <?= (($response['nov_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['nov_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['nov_desklog'] > 0) { ?><span class="badge <?= (($response['nov_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['nov_desklog'] ?></span><?php } }?>
                                        </td>
-                                       <td class="text-center">
-                                          <?php if ($response['dec_booked'] > 0) { ?><span class="badge <?= (($response['dec_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>">T: <?= $response['dec_booked'] ?></span><?php } ?><br>
-                                          <?php if($response['deskloguser'] == 1) { if ($response['dec_desklog'] > 0) { ?><span class="badge" <?= (($response['dec_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>>D: <?= $response['dec_desklog'] ?></span><?php } }?>
+                                       <td>
+                                          <?php if ($response['dec_booked'] > 0) { ?><span class="badge <?= (($response['dec_booked'] >= 172) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> <?= $response['dec_booked'] ?></span><?php } ?>
+                                          
+                                          <?php if($response['deskloguser'] == 1) { if ($response['dec_desklog'] > 0) { ?><span class="badge <?= (($response['dec_desklog'] >= 172) ? 'badge-desktime-success' : 'badge-desktime-danger') ?>"><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> <?= $response['dec_desklog'] ?></span><?php } }?>
                                        </td>
                                     </tr>
                                     <?php }
@@ -289,10 +301,10 @@
                                               $punchIn = $report['punchIn'];
                                               $punchOut = $report['punchOut'];
                                           ?>
-                                       <td class="text-center">
-                                          <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'bg-success' : 'bg-danger') ?>" style="cursor:pointer;">IN: <?= date('H:i', strtotime($punchIn)) ?></span> <?php } ?></p>
-                                          <br>
-                                          <p onclick="punchout('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge" style="background-color: #29cb05;cursor:pointer;">OUT: <?= date('H:i', strtotime($punchOut)) ?></span> <?php } ?></p>
+                                       <td>
+                                          <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>" style="cursor:pointer;">IN: <?= date('H:i', strtotime($punchIn)) ?></span> <?php } ?></p>
+                                          
+                                          <p onclick="punchout('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge badge-desktime-success">OUT: <?= date('H:i', strtotime($punchOut)) ?></span> <?php } ?></p>
                                        </td>
                                        <?php } ?>
                                     </tr>
@@ -602,7 +614,7 @@
                                        $counter = 0;
                                        foreach ($userGraph as $res) { ?>
                                     <tr>
-                                       <td class="text-center"><?= $sl++ ?></td>
+                                       <td><?= $sl++ ?></td>
                                        <td class="fw-bold"><?= $res['name'] ?></td>
                                        <td>
                                           <?php if ($res['yesterdayHourBill'] != 0) { ?>
@@ -835,7 +847,7 @@
                                  } ?>
                            </tbody>
                         </table>
-                        <div class="text-center">
+                        <div>
                            <a class="btn btn-primary" href="<?= base_url('admin/reports/advance-search') ?>"> View Report Details</a>
                         </div>
                      </div>

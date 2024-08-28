@@ -374,9 +374,9 @@ class User extends BaseController {
                         $year = date('Y');
                         $sql1 = "SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear1%'";
                         $jan_booked = $this->db->query($sql1)->getRow();
-                        // $sql = "SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 1 AND user_id = '$row->id'";
-                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear1%'";
-                        $getDesktimeHour = $this->db->query($sql)->getResult();
+                        $sql = "SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 1 AND user_id = '$row->id'";
+                        // $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear1%'";
+                        $getDesktimeHour = $this->db->query($sql)->getRow();
                         // pr($getDesktimeHour);
                         if ($getDesktimeHour) {
                         $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
@@ -1318,7 +1318,7 @@ class User extends BaseController {
                 'site_phone'                    => $this->request->getPost('site_phone'),
                 'site_mail'                     => $this->request->getPost('site_mail'),
                 'system_email'                  => $this->request->getPost('system_email'),
-                'site_url'                      => $this->request->getPost('site_url'),
+                // 'site_url'                      => $this->request->getPost('site_url'),
                 'description'                   => $this->request->getPost('description'),
                 'copyright_statement'           => $this->request->getPost('copyright_statement'),
                 'google_map_api_code'           => $this->request->getPost('google_map_api_code'),
