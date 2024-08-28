@@ -318,7 +318,7 @@ class UserController extends BaseController {
         $userType                   = $this->session->user_type;        
         // $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1'], '', '', '', $order_by);
         $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', '', '', '', '', $order_by);
-        echo $this->db->getLastquery(); die;
+        // echo $this->db->getLastquery(); die;
         if($this->request->getMethod() == 'post') {
             $id = $this->request->getPost('id');            
             $postData   = array(
