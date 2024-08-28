@@ -74,9 +74,10 @@ class TaskAssignController extends BaseController {
         $data['before_date']        = $Date1;
 
         if($this->request->getMethod() == 'post') {
-            $user_id    = $this->session->get('user_id');
-            $postData   = array(
-                'tracker_depts_show'          => json_encode($this->request->getPost('tracker_depts_show')),
+            $user_id            = $this->session->get('user_id');
+            $tracker_depts_show = $this->request->getPost('tracker_depts_show');
+            $postData           = array(
+                'tracker_depts_show'          => (($tracker_depts_show != '')?json_encode($tracker_depts_show):json_encode([])),
             );
             // pr($postData);
             $record     = $this->data['model']->save_data('user', $postData, $user_id, 'id');            
@@ -124,7 +125,7 @@ class TaskAssignController extends BaseController {
         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);
+        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id', $join1, '', $order_by1);
         // pr($getTasks);
         $totalTime                  = 0;
         if($getTasks){
@@ -191,6 +192,14 @@ class TaskAssignController extends BaseController {
                     $display = 'none';
                 }
 
+                $editBtn    = '';
+                $effort_id  = $getTask->effort_id;
+                if($effort_id <= 0){
+                    $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                                    <i class="fa-solid fa-pencil text-primary"></i>
+                                    </a>';
+                }
+
                 $scheduleHTML .= '<div class="input-group">
                                     <div class="card">
                                         <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
@@ -206,9 +215,7 @@ class TaskAssignController extends BaseController {
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p class="mb-0 assign-name">'.$user_name.'</p>
-                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
-                                                <i class="fa-solid fa-pencil text-primary"></i>
-                                                </a>
+                                                ' . $editBtn . '
                                             </div>
                                         </div>
                                     </div>
@@ -377,7 +384,7 @@ class TaskAssignController extends BaseController {
         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority', $join1, '', $order_by1);
+        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id', $join1, '', $order_by1);
         $totalTime                  = 0;
         if($getTasks){
             foreach($getTasks as $getTask){
@@ -443,6 +450,14 @@ class TaskAssignController extends BaseController {
                     $display = 'none';
                 }
 
+                $editBtn    = '';
+                $effort_id  = $getTask->effort_id;
+                if($effort_id <= 0){
+                    $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                                    <i class="fa-solid fa-pencil text-primary"></i>
+                                    </a>';
+                }
+
                 $scheduleHTML .= '<div class="input-group">
                                     <div class="card">
                                         <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
@@ -458,9 +473,7 @@ class TaskAssignController extends BaseController {
                                             </div>
                                             <div class="d-flex justify-content-between">
                                                 <p class="mb-0 assign-name">'.$user_name.'</p>
-                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
-                                                <i class="fa-solid fa-pencil text-primary"></i>
-                                                </a>
+                                                ' . $editBtn . '
                                             </div>
                                         </div>
                                     </div>
