@@ -405,10 +405,26 @@
                </div>
                <?php if (checkModuleFunctionAccess(1, 71)) { ?>
                <div class="col-md-12">
-                  <div class="card table-card">
-                     <div class="card-header ">
-                        <h6 class="fw-bold heading_style">ALL GRAPH</h6>
+                  <div class="heading-box">
+                     <div class="row">
+                        <div class="col-md-4">
+                           <div class="card-header-left">
+                              <ul class="d-flex align-items-center">
+                                 <li class="me-3"><h6 class="fw-bold heading_style">All Graph</h6></li>
+                                 <li>
+                                    <p>Billable & Non-Billable</p>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                        <div class="col-md-8">
+                           <div class="card-header-right">
+
+                           </div>
+                        </div>
                      </div>
+                  </div>
+                  <div class="card">
                      <div class="card-body">
                         <div class="rows">
                            <div class="col-xxl-12 col-md-12 table-responsive">
