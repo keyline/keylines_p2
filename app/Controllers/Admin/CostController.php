@@ -154,8 +154,7 @@ class CostController extends BaseController
             $project_month          = $this->request->getGet('project_month');                        
             $project_year           = $this->request->getGet('project_year'); 
 
-            $project_cost_details           = $this->common_model->find_data('project_cost', 'array', '');
-            // pr($project_cost);
+            
            $projectcost             = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$project_year . "-" . $project_month ."%' and project_id=".$search_project_id."";
             $rows                   = $this->db->query($projectcost)->getResult(); 
             foreach($rows as $row){
@@ -185,7 +184,8 @@ class CostController extends BaseController
                 //  pr($postData2)  ;                         
                 $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');                               
              }  
-
+             $project_cost_details           = $this->common_model->find_data('project_cost', 'array', '');
+            // pr($project_cost);
             $response = [];
             $total_effort_in_mins = 0;
             if ($project_cost_details) {
