@@ -184,6 +184,7 @@ class CostController extends BaseController
                 //  pr($postData2)  ;                         
                 $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');                               
              }  
+             
              $project_cost_details           = $this->common_model->find_data('project_cost', 'array', '');
             // pr($project_cost);
             $response = [];

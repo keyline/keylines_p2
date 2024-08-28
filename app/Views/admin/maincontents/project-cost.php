@@ -120,7 +120,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th width="7%">Cost</th>
                                         <th width="10%">Created At</th>
                                         <th width="10%">Updated At</th>
-                                        <th width="5%">Action</th>
+                                        <!-- <th width="5%">Action</th> -->
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,7 +134,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td><?=$res['project_cost']?></td>
                                             <td><?=$res['created_at']?></td>
                                             <td><?=$res['updated_at']?></td>                                            
-                                            <td>
+                                            <!-- <td>
                                                 <a target="_blank" href="<?=base_url('admin/efforts/edit/'.encoded($res['id']))?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-pencil text-primary"></i></a>
                                                 <br><br>
                                                 <?php
@@ -143,7 +143,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 ?>
                                                     <a href="<?=base_url('admin/efforts/delete/'.encoded($res['id']))?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash text-danger"></i></a>
                                                 <?php }?>
-                                            </td>
+                                            </td> -->
                                         </tr>
                                         <?php
                                         // $totHour    += $res['hour'];
