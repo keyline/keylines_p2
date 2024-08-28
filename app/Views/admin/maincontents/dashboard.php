@@ -357,38 +357,35 @@
                                               $date_difference    = $diff->format("%a");
                                               //    echo $report['booked_effort']                                                  
                                           ?>
-                                       <td onclick="dayWiseList('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['booked_effort'] ?>')" <?php
-                                          // if ($date_difference > 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) { 
-                                          //     echo 'style="background-color: #f9d99d;cursor:pointer;"';
-                                          // } elseif ($date_difference > 0 && $report['booked_effort'] != 0 && $report['booked_effort'] >= 8) {
-                                          //     echo 'style="background-color: #f9d99d;cursor:pointer;"';
-                                          // } elseif ($date_difference == 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) {
-                                          //     echo 'style="background-color: #b5f1a8;cursor:pointer;"';
-                                          // } elseif ($date_difference == 0 && $report['booked_effort'] != 0 && $report['booked_effort'] >= 8) {
-                                          //     echo 'style="background-color: #b5f1a8;cursor:pointer;"';
-                                          // }
+                                       <td onclick="dayWiseList('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['booked_effort'] ?>')">
+                                       <?php                                          
                                           if ($date_difference == 0 && $report['booked_effort'] != 0) {
-                                              echo 'style="background-color: #5bc164;cursor:pointer;"';
-                                          } elseif ($date_difference > 1 && $report['booked_effort'] != 0) {
-                                              echo 'style="background-color: #f9d99d;cursor:pointer;"';
+                                             echo '<span class="badge badge-tracker-success"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . $report['booked_effort'] . '' . ($report['booked_effort'] < 8 ? '<span class="dotted-badge"></span>' : '') . '</span>';
+                                             echo '<span class="badge badge-tracker-success"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
+                                             echo '</span>';
+                                          } 
+                                          elseif ($date_difference > 1 && $report['booked_effort'] != 0) {
+                                             echo '<span class="badge badge-tracker-warrning"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . $report['booked_effort']. '' . ($report['booked_effort'] < 8 ? '<span class="dotted-badge"></span>' : '') . '</span> ';
+                                             echo '<span class="badge badge-tracker-warrning"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
+                                             echo '</span>';
                                           } elseif ($date_difference <= 1 && $report['booked_effort'] != 0) {
-                                              echo 'style="background-color: #b5f1a8;cursor:pointer;"';
+                                             echo '<span class="badge badge-desktime-success"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . $report['booked_effort'] . '' . ($report['booked_effort'] < 8 ? '<span class="dotted-badge"></span>' : '') . '</span> ';
+                                             echo '<span class="badge badge-desktime-success"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
+                                             echo '</span>';
                                           }
-                                          ?>>
-                                          <?php
-                                             if ($date_difference != 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) {
-                                                 echo '<span class="badge badge-danger badge_circle"></span>';
-                                             } elseif ($date_difference == 0 && $report['booked_effort'] != 0 && $report['booked_effort'] < 8) {
-                                                 echo '<span class="badge badge-danger badge_circle"></span>';
-                                             }
-                                             ?>
-                                          T:
-                                          <?= $report['booked_effort']  ?>
-                                          <!-- ?= $date_difference  ?>  -->
-                                          </br>
-                                          <?php if($report['deskloguser'] == 1) { ?>
-                                          D: <?= $report['desklog_time'] ?>
-                                          <?php } ?>
+
+                                          if($report['booked_effort'] == 0)
+                                          {
+                                             echo '<span class="badge badge-tracker-holiday"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . $report['booked_effort'] . '</span>';
+                                             echo '<span class="badge badge-tracker-holiday"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
+                                             echo '</span>';
+                                          }
+                                                                                                                                                                        
+                                          ?>                                         
                                        </td>
                                        <?php } ?>
                                     </tr>
@@ -405,10 +402,26 @@
                </div>
                <?php if (checkModuleFunctionAccess(1, 71)) { ?>
                <div class="col-md-12">
-                  <div class="card table-card">
-                     <div class="card-header ">
-                        <h6 class="fw-bold heading_style">ALL GRAPH</h6>
+                  <div class="heading-box">
+                     <div class="row">
+                        <div class="col-md-4">
+                           <div class="card-header-left">
+                              <ul class="d-flex align-items-center">
+                                 <li class="me-3"><h6 class="fw-bold heading_style">All Graph</h6></li>
+                                 <li>
+                                    <p>Billable & Non-Billable</p>
+                                 </li>
+                              </ul>
+                           </div>
+                        </div>
+                        <div class="col-md-8">
+                           <div class="card-header-right">
+
+                           </div>
+                        </div>
                      </div>
+                  </div>
+                  <div class="card">
                      <div class="card-body">
                         <div class="rows">
                            <div class="col-xxl-12 col-md-12 table-responsive">
@@ -437,10 +450,17 @@
                                                          series: [<?= $res['yesterdayAllUserHourBill'] ?>, <?= $res['yesterdayAllUserMinBill'] ?>],
                                                          chart: {
                                                                width: 270,
-                                                               type: 'pie',
+                                                               type: 'donut',
                                                          },
+                                                         plotOptions: {
+                                                               pie: {
+                                                                  donut: {
+                                                                     size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                                  }
+                                                               }
+                                                            },
                                                          fill: {
-                                                               colors: ['#b5f1a8', '#ff2323']
+                                                               colors: ['#C5EEC5', '#FD6363']
                                                          },
                                                          dataLabels: {
                                                                enabled: true,
@@ -456,13 +476,13 @@
                                                                   borderColor: '#ffc107',
                                                                },
                                                          },
-                                                         colors: ['#b5f1a8', '#ff2323'],
+                                                         colors: ['#C5EEC5', '#FD6363'],
                                                          labels: ['Billable', 'Non-Billable'],
                                                          responsive: [{
                                                                breakpoint: 300,
                                                                options: {
                                                                   chart: {
-                                                                     width: 100
+                                                                     width: 400
                                                                   },
                                                                   legend: {
                                                                      position: 'bottom'
@@ -487,10 +507,17 @@
                                                          series: [<?= str_replace(",", "", $res['thismonthAllUserHourBillUsr']) ?>, <?= $res['thismonthAllUserMinBillUsr'] ?>],
                                                          chart: {
                                                                width: 270,
-                                                               type: 'pie',
+                                                               type: 'donut',
+                                                         },
+                                                         plotOptions: {
+                                                            pie: {
+                                                               donut: {
+                                                                  size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                               }
+                                                            }
                                                          },
                                                          fill: {
-                                                               colors: ['#b5f1a8', '#ff2323']
+                                                               colors: ['#C5EEC5', '#FD6363']
                                                          },
                                                          dataLabels: {
                                                                enabled: true,
@@ -506,13 +533,13 @@
                                                                   borderColor: '#ffc107',
                                                                },
                                                          },
-                                                         colors: ['#b5f1a8', '#ff2323'],
+                                                         colors: ['#C5EEC5', '#FD6363'],
                                                          labels: ['Billable', 'Non-Billable'],
                                                          responsive: [{
                                                                breakpoint: 300,
                                                                options: {
                                                                   chart: {
-                                                                     width: 100
+                                                                     width: 400
                                                                   },
                                                                   legend: {
                                                                      position: 'bottom'
@@ -537,10 +564,17 @@
                                                          series: [<?= str_replace(",", "", $res['lastmonthAllUserHourBillUsr']) ?>, <?= $res['lastmonthAllUserMinBillUsr'] ?>],
                                                          chart: {
                                                                width: 270,
-                                                               type: 'pie',
+                                                               type: 'donut',
                                                          },
+                                                         plotOptions: {
+                                                               pie: {
+                                                                  donut: {
+                                                                     size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                                  }
+                                                               }
+                                                            },
                                                          fill: {
-                                                               colors: ['#b5f1a8', '#ff2323']
+                                                               colors: ['#C5EEC5', '#FD6363']
                                                          },
                                                          dataLabels: {
                                                                enabled: true,
@@ -556,13 +590,13 @@
                                                                   borderColor: '#ffc107',
                                                                },
                                                          },
-                                                         colors: ['#b5f1a8', '#ff2323'],
+                                                         colors: ['#C5EEC5', '#FD6363'],
                                                          labels: ['Billable', 'Non-Billable'],
                                                          responsive: [{
                                                                breakpoint: 300,
                                                                options: {
                                                                   chart: {
-                                                                     width: 100
+                                                                     width: 400
                                                                   },
                                                                   legend: {
                                                                      position: 'bottom'
@@ -626,10 +660,17 @@
                                                      series: [<?= $res['yesterdayHourBill'] ?>, <?= $res['yesterdayMinBill'] ?>],
                                                      chart: {
                                                          width: 270,
-                                                         type: 'pie',
+                                                         type: 'donut',
                                                      },
+                                                     plotOptions: {
+                                                            pie: {
+                                                               donut: {
+                                                                  size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                               }
+                                                            }
+                                                         },
                                                      fill: {
-                                                         colors: ['#b5f1a8', '#ff2323']
+                                                         colors: ['#C5EEC5', '#FD6363']
                                                      },
                                                      dataLabels: {
                                                          enabled: true,
@@ -645,13 +686,13 @@
                                                              borderColor: '#ffc107',
                                                          },
                                                      },
-                                                     colors: ['#b5f1a8', '#ff2323'],
+                                                     colors: ['#C5EEC5', '#FD6363'],
                                                      labels: ['Billable', 'Non-Billable'],
                                                      responsive: [{
                                                          breakpoint: 300,
                                                          options: {
                                                              chart: {
-                                                                 width: 100
+                                                                 width: 400
                                                              },
                                                              legend: {
                                                                  position: 'bottom'
@@ -676,7 +717,7 @@
                                                      series: [<?= $res['thismonthHourBillUsr'] ?>, <?= $res['thismonthMinBillUsr'] ?>],
                                                      chart: {
                                                          width: 270,
-                                                         type: 'pie',
+                                                         type: 'donut',
                                                      },
                                                      dataLabels: {
                                                          enabled: true,
@@ -692,16 +733,23 @@
                                                              borderColor: '#ffc107',
                                                          },
                                                      },
+                                                     plotOptions: {
+                                                            pie: {
+                                                               donut: {
+                                                                  size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                               }
+                                                            }
+                                                         },
                                                      fill: {
-                                                         colors: ['#b5f1a8', '#ff2323']
+                                                         colors: ['#C5EEC5', '#FD6363']
                                                      },
-                                                     colors: ['#b5f1a8', '#ff2323'],
+                                                     colors: ['#C5EEC5', '#FD6363'],
                                                      labels: ['Billable', 'Non-Billable'],
                                                      responsive: [{
                                                          breakpoint: 280,
                                                          options: {
                                                              chart: {
-                                                                 width: 100
+                                                                 width: 400
                                                              },
                                                              legend: {
                                                                  position: 'bottom'
@@ -726,10 +774,17 @@
                                                      series: [<?= $res['lastmonthHourBillUsr'] ?>, <?= $res['lastmonthMinBillUsr'] ?>],
                                                      chart: {
                                                          width: 270,
-                                                         type: 'pie',
+                                                         type: 'donut',
                                                      },
+                                                     plotOptions: {
+                                                            pie: {
+                                                               donut: {
+                                                                  size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                               }
+                                                            }
+                                                         },
                                                      fill: {
-                                                         colors: ['#b5f1a8', '#ff2323']
+                                                         colors: ['#C5EEC5', '#FD6363']
                                                      },
                                                      dataLabels: {
                                                          enabled: true,
@@ -745,13 +800,13 @@
                                                              borderColor: '#ffc107',
                                                          },
                                                      },
-                                                     colors: ['#b5f1a8', '#ff2323'],
+                                                     colors: ['#C5EEC5', '#FD6363'],
                                                      labels: ['Billable', 'Non-Billable'],
                                                      responsive: [{
                                                          breakpoint: 280,
                                                          options: {
                                                              chart: {
-                                                                 width: 100
+                                                                 width: 400
                                                              },
                                                              legend: {
                                                                  position: 'bottom'
