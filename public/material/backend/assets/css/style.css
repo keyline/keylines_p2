@@ -442,18 +442,18 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   color: #247426;
   margin: 2px 0;
   height: 25px;
-  width: 70px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .badge-desktime-success{
   background: #F0FFF0;
-  border: 1px solid #4CAB4F;
+  border: 1px solid #96c098;
   color: #4CAB4F;
   margin: 2px 0;
   height: 25px;
-  width: 70px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -464,7 +464,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   color: #EA2A2A;
   margin: 2px 0;
   height: 25px;
-  width: 70px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -475,10 +475,41 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   color: #C10000;
   margin: 2px 0;
   height: 25px;
-  width: 70px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.badge-tracker-warrning{
+  background: #FFF2D9;
+  border: 1px solid #FC9A06;
+  color: #FC9A06;
+  margin: 2px 0;
+  height: 25px;
+  width: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.badge-tracker-holiday{
+  background: #F1F1F1;
+  border: 1px solid #9D9D9D;
+  color: #9D9D9D;
+  margin: 2px 0;
+  height: 25px;
+  width: 85px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dotted-badge{
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: #FF0202;
 }
 
 /* custom badge css end*/
