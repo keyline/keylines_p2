@@ -377,7 +377,7 @@ class User extends BaseController {
                         $sql = "SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 1 AND user_id = '$row->id'";
                         // $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear1%'";
                         $getDesktimeHour = $this->db->query($sql)->getRow();
-                        // pr($getDesktimeHour);
+                        //  pr($getDesktimeHour);
                         if ($getDesktimeHour) {
                         $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
                         } else{
