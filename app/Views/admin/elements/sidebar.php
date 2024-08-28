@@ -172,15 +172,6 @@ $userId             = $session->user_id;
         <li><a class="link_name" href="<?= base_url('admin/task-assign') ?>">Task Assign</a></li>
       </ul>
     </li>
-    <li>
-      <a href="<?= base_url('admin/task-assign-v2') ?>">
-        <i class="fa fa-laptop"></i>
-        <span class="link_name">Task Assign V2</span>
-      </a>
-      <ul class="sub-menu blank">
-        <li><a class="link_name" href="<?= base_url('admin/task-assign-v2') ?>">Task Assign V2</a></li>
-      </ul>
-    </li>
   <?php //} ?>
 
   <?php if (checkModuleAccess(4)) { ?>
