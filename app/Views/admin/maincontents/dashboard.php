@@ -145,7 +145,7 @@
                </div>
                <!-- End Vendors Card -->
                <?php   } ?>
-                  <?php if($userType == "SUPER ADMIN") ?>
+                  <?php if($userType == "SUPER ADMIN") {?>
                <div class="col-md-12">
                   <div class="card table-card">
                      <div class="card-header">
