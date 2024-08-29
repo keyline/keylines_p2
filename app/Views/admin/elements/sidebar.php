@@ -63,17 +63,26 @@ $userId             = $session->user_id;
     </div>
     <ul
       class="sub-menu <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'show' : '') ?>">
-      <li>
+      <!-- <li>
         <a class="<?= (($pageSegment == 'users') ? '' : 'collapsed') ?> <?= (($pageSegment == 'users') ? 'active' : '') ?>"
           href="javascript:void(0)">
           <span class="link_name">User Module</span>
         </a>
-      </li>
+      </li> -->
       <li>
         <a class="<?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
           <i class="fa fa-arrow-right"></i>
-          <span>List</span>
+          <span>Employees</span>
         </a>
+      </li>
+      <li>
+        <a class="<?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/team/list') ?>">
+        <i class="fa fa-users"></i>
+          <span class="link_name">Team</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="<?= base_url('admin/team/list') ?>">Team</a></li>
+        </ul>
       </li>
       <?php if($userType == 'SUPER ADMIN') { ?>
       <li>
@@ -84,25 +93,33 @@ $userId             = $session->user_id;
         </a>
       </li>
       <?php } ?>
-      <li>
+      <!-- <li>
         <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>"
           href="javascript:void(0)">
           <span class="link_name">Access & Permission</span>
         </a>
-      </li>
+      </li> -->
       <?php if(checkModuleAccess(12)){ ?>
-      <li>
-        <a class="<?= (($pageSegment == 'manage_functionlist') ? 'active' : '') ?>"
-          href="<?= base_url('admin/manage_functionlist') ?>">
+      <!-- <li>
+        <a class="?= (($pageSegment == 'manage_functionlist') ? 'active' : '') ?>"
+          href="?= base_url('admin/manage_functionlist') ?>">
           <i class="fa fa-arrow-right"></i><span>Features</span>
         </a>
       </li>
       <?php } ?>
       <?php if(checkModuleAccess(13)){ ?>
       <li>
-        <a class="<?= (($pageSegment == 'manage_modulelist') ? 'active' : '') ?>"
-          href="<?= base_url('admin/manage_modulelist') ?>">
+        <a class="?= (($pageSegment == 'manage_modulelist') ? 'active' : '') ?>"
+          href="?= base_url('admin/manage_modulelist') ?>">
           <i class="fa fa-arrow-right"></i><span>Modules</span>
+        </a>
+      </li>
+      <?php } ?> -->
+      <?php if(checkModuleAccess(28)){ ?>
+      <li>
+        <a class="<?= (($pageSegment == 'role-master') ? 'active' : '') ?>"
+          href="<?= base_url('admin/role-master/list') ?>">
+          <i class="fa fa-arrow-right"></i><span>Roles</span>
         </a>
       </li>
       <?php } ?>
@@ -110,139 +127,13 @@ $userId             = $session->user_id;
       <li>
         <a class="<?= (($pageSegment == 'manage_roles') ? 'active' : '') ?>"
           href="<?= base_url('admin/manage_roles') ?>">
-          <i class="fa fa-arrow-right"></i><span>Grant Permission</span>
+          <i class="fa fa-arrow-right"></i><span>Permission</span>
         </a>
       </li>
       <?php } ?>
     </ul>
   </li>
   <?php } ?>
-
-  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(28)) { ?>
-  <li>
-    <div class="iocn-link">
-      <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
-        href="javascript:void(0)">
-        <i class="fa fa-database"></i>
-        <span class="link_name">Masters</span>
-        <i class='bx bxs-chevron-down arrow ms-auto'></i>
-      </a>
-    </div>
-    <ul
-      class="sub-menu <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'show' : '') ?>">
-      <li>
-        <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
-          href="javascript:void(0)">
-          <span class="link_name">Masters</span>
-        </a>
-      </li>
-      <?php if(checkModuleAccess(16)){ ?>
-      <li>
-        <a class="<?= (($pageSegment == 'effort-type') ? 'active' : '') ?>"
-          href="<?= base_url('admin/effort-type/list') ?>">
-          <i class="fa fa-arrow-right"></i><span>Effort Type</span>
-        </a>
-      </li>
-      <?php } ?>
-      <?php if(checkModuleAccess(17)){ ?>
-      <li>
-        <a class="<?= (($pageSegment == 'project-status') ? 'active' : '') ?>"
-          href="<?= base_url('admin/project-status/list') ?>">
-          <i class="fa fa-arrow-right"></i><span>Project Status</span>
-        </a>
-      </li>
-      <?php } ?>
-
-      <?php if(checkModuleAccess(29)){ ?>
-      <li>
-        <a class="<?= (($pageSegment == 'department') ? 'active' : '') ?>"
-          href="<?= base_url('admin/department/list') ?>">
-          <i class="fa fa-arrow-right"></i><span>Departments</span>
-        </a>
-      </li>
-      <?php } ?>
-
-      <?php if(checkModuleAccess(30)){ ?>
-      <li>
-        <a class="<?= (($pageSegment == 'work-status') ? 'active' : '') ?>"
-          href="<?= base_url('admin/work-status/list') ?>">
-          <i class="fa fa-arrow-right"></i><span>Work Status</span>
-        </a>
-      </li>
-      <?php } ?>
-
-      <?php if(checkModuleAccess(28)){ ?>
-      <li>
-        <a class="<?= (($pageSegment == 'role-master') ? 'active' : '') ?>"
-          href="<?= base_url('admin/role-master/list') ?>">
-          <i class="fa fa-arrow-right"></i><span>Role Master</span>
-        </a>
-      </li>
-      <?php } ?>
-    </ul>
-  </li>
-  <?php } ?>
-
-  <?php //if (checkModuleAccess(4)) { ?>
-    <li>
-      <a href="<?= base_url('admin/task-assign') ?>">
-        <i class="fa fa-laptop"></i>
-        <span class="link_name">Task Assign</span>
-      </a>
-      <ul class="sub-menu blank">
-        <li><a class="link_name" href="<?= base_url('admin/task-assign') ?>">Task Assign</a></li>
-      </ul>
-    </li>
-  <?php //} ?>
-
-  <?php if (checkModuleAccess(4)) { ?>
-  <li>
-    <div class="iocn-link">
-      <a class="<?= (($pageSegment == 'users') ? '' : 'collapsed') ?> <?= (($pageSegment == 'users') ? 'active' : '') ?>"
-        href="javascript:void(0)">
-        <i class="fa fa-users"></i>
-        <span class="link_name">User Module</span>
-        <i class='bx bxs-chevron-down arrow ms-auto'></i>
-      </a>
-    </div>
-    <ul class="sub-menu <?= (($pageSegment == 'users') ? 'show' : '') ?>">
-      <li>
-        <a class="<?= (($pageSegment == 'users') ? '' : 'collapsed') ?> <?= (($pageSegment == 'users') ? 'active' : '') ?>"
-          href="javascript:void(0)">
-          <span class="link_name">User Module</span>
-        </a>
-      </li>
-      <li>
-        <a class="<?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
-          <i class="fa fa-arrow-right"></i>
-          <span>List</span>
-        </a>
-      </li>
-      <?php if($userType == 'SUPER ADMIN') { ?>
-      <li>
-        <a class="<?= (($pageSegment == 'user_cost') ? 'active' : '') ?>"
-          href="<?= base_url('admin/user_cost/list') ?>">
-          <i class="fa fa-arrow-right"></i>
-          <span>Cost Update</span>
-        </a>
-      </li>
-      <?php } ?>
-    </ul>
-  </li>
-  <?php } ?>
-
-  <?php if (checkModuleAccess(18)) { ?>
-    <li>
-      <a class="<?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/team/list') ?>">
-      <i class="fa fa-users"></i>
-        <span class="link_name">Team</span>
-      </a>
-      <ul class="sub-menu blank">
-        <li><a class="link_name" href="<?= base_url('admin/team/list') ?>">Team</a></li>
-      </ul>
-    </li>
-  <?php } ?>
-
   <?php if (checkModuleAccess(5)) { ?>
     <li>
         <a class="<?= (($pageSegment == 'projects') ? 'active' : '') ?>" href="<?= base_url('admin/projects/list') ?>">
@@ -254,7 +145,6 @@ $userId             = $session->user_id;
         </ul>
     </li>
   <?php } ?>
-
   <?php if (checkModuleAccess(6)) { ?>
     <li>
         <a class="<?= (($pageSegment == 'clients') ? 'active' : '') ?>" href="<?= base_url('admin/clients/list') ?>">
@@ -263,27 +153,6 @@ $userId             = $session->user_id;
         </a>
         <ul class="sub-menu blank">
           <li><a class="link_name" href="<?= base_url('admin/clients/list') ?>">Clients</a></li>
-        </ul>
-    </li>
-  <?php } ?>
-
-  <?php if($userType == 'ADMIN'){ ?>
-    <li>
-        <a class="<?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
-          <i class="fas fa-calendar-check"></i>
-          <span class="link_name">AMC Checking</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="<?= base_url('admin/amc-checking') ?>">AMC Checking</a></li>
-        </ul>
-    </li>
-    <li>
-        <a class="<?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
-        <i class="fas fa-money-check"></i>
-        <span class="link_name">Add Expenses</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="<?= base_url('admin/outside_project/project_name') ?>">Add Expenses</a></li>
         </ul>
     </li>
   <?php } ?>
@@ -306,6 +175,15 @@ $userId             = $session->user_id;
                 </a>
               </li>
                 <?php if ($admin->is_tracker_user) {  ?>
+                  <li>
+                    <a href="<?= base_url('admin/task-assign') ?>">
+                      <i class="fa fa-laptop"></i>
+                      <span class="link_name">Task Assign</span>
+                    </a>
+                    <ul class="sub-menu blank">
+                      <li><a class="link_name" href="<?= base_url('admin/task-assign') ?>">Task Assign</a></li>
+                    </ul>
+                  </li>
                     <?php if(checkModuleAccess(19)){ ?>
                     <li>
                         <a class="<?= (($pageSegment == 'efforts' && $paramerId == 'add') ? 'active' : '') ?>" href="<?= base_url('admin/efforts/add') ?>">
@@ -324,26 +202,6 @@ $userId             = $session->user_id;
             </ul>
         </li>
     <?php } ?>
-  <?php } ?>
-
-  <?php if (checkModuleAccess(14)) { ?>
-        <!-- <li class="nav-item">
-            <a class="nav-link <?= (($pageSegment == 'notifications' || $pageSegment == 'notifications') ? '' : 'collapsed') ?> <?= (($pageSegment == 'notifications' || $pageSegment == 'notifications') ? 'active' : '') ?>" data-bs-target="#notification-nav" data-bs-toggle="collapse" href="javascript:void(0)">
-                <i class="fa fa-bell"></i><span>Notifications</span><i class="bi bi-chevron-down ms-auto"></i>
-            </a>
-            <ul id="notification-nav" class="nav-content collapse <?= (($pageSegment == 'notifications' || $pageSegment == 'notifications') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
-                <li>
-                    <a class="<?= (($pageSegment == 'notifications') ? 'active' : '') ?>" href="<?= base_url('admin/notifications/list') ?>">
-                        <i class="fa fa-arrow-right"></i><span>From Admin</span>
-                    </a>
-                </li>
-                <li>
-                    <a class="<?= (($pageSegment == 'notifications') ? 'active' : '') ?>" href="<?= base_url('admin/notifications/list_from_app') ?>">
-                        <i class="fa fa-arrow-right"></i><span>From App</span>
-                    </a>
-                </li>
-            </ul>
-        </li> -->
   <?php } ?>
 
   <?php if (checkModuleAccess(22) || checkModuleAccess(23) || checkModuleAccess(24) || checkModuleAccess(25) || checkModuleAccess(26)) {    ?>
@@ -404,7 +262,6 @@ $userId             = $session->user_id;
         </ul>
     </li>
   <?php } ?>
-
   <?php if (checkModuleAccess(27)) { ?>
     <li>
         <a class="<?= (($pageSegment == 'attendance-report') ? 'active' : '') ?>" href="<?= base_url('admin/attendance-report') ?>">
@@ -416,28 +273,6 @@ $userId             = $session->user_id;
       </ul>
     </li>
   <?php } ?>
-
-  <?php if (checkModuleAccess(8)) { ?>
-        <li>
-            <a class="<?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>" href="<?= base_url('admin/holiday-list') ?>">
-              <i class="fas fa-calendar-check"></i>
-                <span class="link_name">Holiday List</span>
-            </a>
-            <ul class="sub-menu blank">
-              <li><a class="link_name" href="<?= base_url('admin/holiday-list') ?>">Holiday List</a></li>
-            </ul>
-        </li>
-        <li>
-            <a class="<?= (($pageSegment == 'delete-account-request') ? 'active' : '') ?>" href="<?= base_url('admin/delete-account-request/list') ?>">
-              <i class="fa fa-trash"></i>
-                <span class="link_name">Delete Account Requests</span>
-            </a>
-            <ul class="sub-menu blank">
-              <li><a class="link_name" href="<?= base_url('admin/delete-account-request/list') ?>">Delete Account Requests</a></li>
-            </ul>
-        </li>
-  <?php } ?>
-
   <?php if (checkModuleAccess(9)) { ?>
     <li>
         <a class="<?= (($pageSegment == 'email-logs') ? 'active' : '') ?>" href="<?= base_url('admin/email-logs') ?>">
@@ -462,6 +297,100 @@ $userId             = $session->user_id;
     </li>
   <?php } ?>
 
+  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(28)) { ?>
+  <li>
+    <div class="iocn-link">
+      <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
+        href="javascript:void(0)">
+        <i class="fa fa-database"></i>
+        <span class="link_name">Masters</span>
+        <i class='bx bxs-chevron-down arrow ms-auto'></i>
+      </a>
+    </div>
+    <ul
+      class="sub-menu <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'show' : '') ?>">
+      <li>
+        <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
+          href="javascript:void(0)">
+          <span class="link_name">Masters</span>
+        </a>
+      </li>
+      <?php if(checkModuleAccess(16)){ ?>
+      <li>
+        <a class="<?= (($pageSegment == 'effort-type') ? 'active' : '') ?>"
+          href="<?= base_url('admin/effort-type/list') ?>">
+          <i class="fa fa-arrow-right"></i><span>Effort Type</span>
+        </a>
+      </li>
+      <?php } ?>
+      <?php if(checkModuleAccess(17)){ ?>
+      <li>
+        <a class="<?= (($pageSegment == 'project-status') ? 'active' : '') ?>"
+          href="<?= base_url('admin/project-status/list') ?>">
+          <i class="fa fa-arrow-right"></i><span>Project Status</span>
+        </a>
+      </li>
+      <?php } ?>
+
+      <?php if(checkModuleAccess(29)){ ?>
+      <li>
+        <a class="<?= (($pageSegment == 'department') ? 'active' : '') ?>"
+          href="<?= base_url('admin/department/list') ?>">
+          <i class="fa fa-arrow-right"></i><span>Departments</span>
+        </a>
+      </li>
+      <?php } ?>
+
+      <?php if(checkModuleAccess(30)){ ?>
+      <li>
+        <a class="<?= (($pageSegment == 'work-status') ? 'active' : '') ?>"
+          href="<?= base_url('admin/work-status/list') ?>">
+          <i class="fa fa-arrow-right"></i><span>Work Status</span>
+        </a>
+      </li>
+      <?php } ?>    
+    </ul>
+  </li>
+  <?php } ?>
+
+  <?php //if (checkModuleAccess(4)) { ?>
+    
+  <?php //} ?>  
+
+  <?php if($userType == 'ADMIN'){ ?>
+    <li>
+        <a class="<?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
+          <i class="fas fa-calendar-check"></i>
+          <span class="link_name">AMC Checking</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="<?= base_url('admin/amc-checking') ?>">AMC Checking</a></li>
+        </ul>
+    </li>
+    <li>
+        <a class="<?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
+        <i class="fas fa-money-check"></i>
+        <span class="link_name">Add Expenses</span>
+        </a>
+        <ul class="sub-menu blank">
+          <li><a class="link_name" href="<?= base_url('admin/outside_project/project_name') ?>">Add Expenses</a></li>
+        </ul>
+    </li>
+  <?php } ?>
+  <?php if (checkModuleAccess(8)) { ?>
+        <li>
+            <a class="<?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>" href="<?= base_url('admin/holiday-list') ?>">
+              <i class="fas fa-calendar-check"></i>
+                <span class="link_name">Holiday List</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="<?= base_url('admin/holiday-list') ?>">Holiday List</a></li>
+            </ul>
+        </li>        
+  <?php } ?>
+
+  
+
   <?php //if (checkModuleAccess(11)) { ?>
     <?php //if ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') { ?>
         <li>
@@ -480,6 +409,15 @@ $userId             = $session->user_id;
             </a>
             <ul class="sub-menu blank">
               <li><a class="link_name" href="<?= base_url('admin/mobile-application') ?>">Mobile Application</a></li>
+            </ul>
+        </li>
+        <li>
+            <a class="<?= (($pageSegment == 'delete-account-request') ? 'active' : '') ?>" href="<?= base_url('admin/delete-account-request/list') ?>">
+              <i class="fa fa-trash"></i>
+                <span class="link_name">Delete Account Requests</span>
+            </a>
+            <ul class="sub-menu blank">
+              <li><a class="link_name" href="<?= base_url('admin/delete-account-request/list') ?>">Delete Account Requests</a></li>
             </ul>
         </li>
   <?php //} ?>
