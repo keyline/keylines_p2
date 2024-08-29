@@ -102,63 +102,70 @@ class AttendanceController extends BaseController
 
     /* day-wise modal punchin list */
     public function PunchInRecords()
-    {
-        $userId         = $this->request->getGet('userId');
-        $name           = $this->request->getGet('name');
-        $date           = $this->request->getGet('date');
-        $punchIn        = $this->request->getGet('punchIn');
+        {
+            $userId         = $this->request->getGet('userId');
+            $name           = $this->request->getGet('name');
+            $date           = $this->request->getGet('date');
+            $punchIn        = $this->request->getGet('punchIn');
+            $punchOut       = $this->request->getGet('punchOut');
 
-        $dateFormate = date_create($date);
-        if ($dateFormate) {
-            $formattedDate = date_format($dateFormate, 'Y-m-d');
-        }
-        $sql = "SELECT attendances.user_id, attendances.punch_date, attendances.punch_in_time, attendances.punch_in_address, attendances.punch_in_image, user.name FROM `attendances`
-                INNER JOIN user WHERE attendances.user_id = user.id and user_id = $userId AND punch_date = '$formattedDate'";
+            // pr($this->request->getGet());
 
-        $rows = $this->db->query($sql)->getResult();
-        $html = '<div class="modal-header" style="justify-content: center;">
-                    <center><h5 style="font-size: x-large;" class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h5></center>
-                    <button style="position: absolute;right: 1rem;top: 1rem;background-color: #dd828b;border-radius: 50%;width: 30px;height: 30px;font-size: 1.2rem;color: #7e1019;cursor: pointer;" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="container">
-                        <div class="table-responsive">
-                            <table class="table table-striped">
-                                <thead>
-                                    <tr>                                            
-                                        <th>Image</th>
-                                        <th>User Name</th>
-                                        <th>Punch Date</th>
-                                        <th>Punch in Time</th>
-                                        <th>Punch in Address</th>
-                                    </tr>
-                                </thead>
-                                <tbody>';
-        if (!empty($rows)) {
-            $sl = 1;
-            foreach ($rows as $record) {
-                $html .= '<tr>
-                            <td>
-                                <img src="' . getenv('app.uploadsURL') . 'user/' . esc($record->punch_in_image) . '" alt="' . esc($record->user_id) . '" class="rounded-circle">
-                            </td>
-                            <td>' . esc($record->name) . '</td>
-                            <td>' . esc($record->punch_date) . '</td>
-                            <td>' . esc($record->punch_in_time) . '</td>
-                            <td>' . esc($record->punch_in_address) . '</td>
-                        </tr>';
+            $dateFormate = date_create($date);
+            if ($dateFormate) {
+                $formattedDate = date_format($dateFormate, 'Y-m-d');
             }
-        } else {
-            $html .= '<tr>
-                        <td colspan="6">No records found for the selected date.</td>
-                      </tr>';
-        }
-        $html .= '</tbody>                            
-                    </table>
+            $sql = "SELECT attendances.user_id, attendances.punch_date, attendances.punch_in_time, attendances.punch_in_address, attendances.punch_in_image, attendances.punch_out_time, attendances.punch_out_address, attendances.punch_out_image, user.name FROM `attendances`
+                    INNER JOIN user WHERE attendances.user_id = user.id and user_id = $userId AND punch_date = '$formattedDate'";
+
+            $rows = $this->db->query($sql)->getResult();
+            $html = '<div class="modal-header" style="justify-content: center;">
+                        <center><h6 class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h6></center>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+                            <div class="table-responsive">
+                                <table class="table general_table_style table-bordered">
+                                    <thead>
+                                        <tr>                                            
+                                            <th>Image</th>                                           
+                                            <th>Punch Date</th>
+                                            <th>Punch Time(IN-OUT)</th>
+                                            <th>Address</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>';
+            if (!empty($rows)) {
+                $sl = 1;
+                foreach ($rows as $record) {
+                    $html .= '<tr>
+                                <td>
+                                    <img src="' . getenv('app.uploadsURL') . 'user/' . esc($record->punch_in_image) . '" alt="' . esc($record->user_id) . '" class="rounded-circle punch-img">
+                                </td>                                                                
+                                <td><b>IN:</b> ' . esc($record->punch_in_time) .'</td>
+                                <td>' . esc($record->punch_in_address) . '</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="' . getenv('app.uploadsURL') . 'user/' . esc($record->punch_out_image) . '" alt="' . esc($record->user_id) . '" class="rounded-circle punch-img">
+                                </td>                                                                
+                                <td><b>OUT:</b> ' . esc($record->punch_out_time) .'</td>
+                                <td>' . esc($record->punch_out_address) . '</td>
+                            </tr>';
+                }
+            } else {
+                $html .= '<tr>
+                            <td colspan="6">No records found for the selected date.</td>
+                          </tr>';
+            }
+            $html .= '</tbody>                            
+                        </table>
+                    </div>
                 </div>
-            </div>
-        </div>';
-    echo $html;
-    }
+            </div>';
+        echo $html;
+        }
     /* day-wise modal punchin list */
 
     /* day-wise modal punchout list */

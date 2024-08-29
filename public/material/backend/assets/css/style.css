@@ -1674,6 +1674,12 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   .dashboard .modal-header .modal-title{
     width: 70%;
   }
+  .punch-img{
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    object-position: center center;
+  }
 }
 @media (max-width: 480px) {
 body{font-size: 12px;}
