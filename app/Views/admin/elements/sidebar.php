@@ -77,12 +77,9 @@ $userId             = $session->user_id;
       </li>
       <li>
         <a class="<?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/team/list') ?>">
-        <i class="fa fa-users"></i>
-          <span class="link_name">Team</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="<?= base_url('admin/team/list') ?>">Team</a></li>
-        </ul>
+          <i class="fa fa-arrow-right"></i>
+          <span>Team</span>
+        </a>        
       </li>
       <?php if($userType == 'SUPER ADMIN') { ?>
       <li>
@@ -163,7 +160,7 @@ $userId             = $session->user_id;
           <div class="iocn-link">
             <a class="<?= (($pageSegment == 'efforts') ? '' : 'collapsed') ?> <?= (($pageSegment == 'efforts') ? 'active' : '') ?>" href="javascript:void(0)">
               <i class="fa fa-tasks"></i>
-              <span class="link_name">Effort Booking</span>
+              <span class="link_name">Effort Management</span>
               <i class='bx bxs-chevron-down arrow ms-auto'></i>
             </a>
           </div>
@@ -171,19 +168,16 @@ $userId             = $session->user_id;
               <li>
                 <a class="<?= (($pageSegment == 'efforts') ? '' : 'collapsed') ?> <?= (($pageSegment == 'efforts') ? 'active' : '') ?>"
                   href="javascript:void(0)">
-                  <span class="link_name">Effort Booking</span>
+                  <span class="link_name">Effort Management</span>
                 </a>
               </li>
                 <?php if ($admin->is_tracker_user) {  ?>
                   <li>
-                    <a href="<?= base_url('admin/task-assign') ?>">
-                      <i class="fa fa-laptop"></i>
-                      <span class="link_name">Task Assign</span>
-                    </a>
-                    <ul class="sub-menu blank">
-                      <li><a class="link_name" href="<?= base_url('admin/task-assign') ?>">Task Assign</a></li>
-                    </ul>
-                  </li>
+                    <a class="<?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/task-assign') ?>">
+                      <i class="fa fa-arrow-right"></i>
+                      <span>Task Assign</span>
+                    </a>        
+                  </li>                  
                     <?php if(checkModuleAccess(19)){ ?>
                     <li>
                         <a class="<?= (($pageSegment == 'efforts' && $paramerId == 'add') ? 'active' : '') ?>" href="<?= base_url('admin/efforts/add') ?>">
@@ -259,43 +253,27 @@ $userId             = $session->user_id;
                 </a>
             </li>
             <?php } } ?>
+            <li>
+              <a class="<?= (($pageSegment == 'attendance-report') ? 'active' : '') ?>" href="<?= base_url('admin/attendance-report') ?>">
+                <i class="fa fa-arrow-right"></i>
+                <span>Attendance</span>
+              </a>        
+            </li>
+            <li>
+              <a class="<?= (($pageSegment == 'email-logs') ? 'active' : '') ?>" href="<?= base_url('admin/email-logs') ?>">
+                <i class="fa fa-arrow-right"></i>
+                <span>Email Logs</span>
+              </a>        
+            </li>
+            <li>
+              <a class="<?= (($pageSegment == 'login-logs') ? 'active' : '') ?>" href="<?= base_url('admin/login-logs') ?>">
+                <i class="fa fa-arrow-right"></i>
+                <span>Login Logs</span>
+              </a>        
+            </li>
         </ul>
     </li>
-  <?php } ?>
-  <?php if (checkModuleAccess(27)) { ?>
-    <li>
-        <a class="<?= (($pageSegment == 'attendance-report') ? 'active' : '') ?>" href="<?= base_url('admin/attendance-report') ?>">
-          <i class="fa fa-user"></i>
-          <span class="link_name">Attendance</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="<?= base_url('admin/attendance-report') ?>">Attendance</a></li>
-      </ul>
-    </li>
-  <?php } ?>
-  <?php if (checkModuleAccess(9)) { ?>
-    <li>
-        <a class="<?= (($pageSegment == 'email-logs') ? 'active' : '') ?>" href="<?= base_url('admin/email-logs') ?>">
-          <i class="fa fa-envelope"></i>
-          <span class="link_name">Email Logs</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="<?= base_url('admin/email-logs') ?>">Email Logs</a></li>
-      </ul>
-    </li>
-  <?php } ?>
-
-  <?php if (checkModuleAccess(10)) { ?>
-    <li>
-        <a class="<?= (($pageSegment == 'login-logs') ? 'active' : '') ?>" href="<?= base_url('admin/login-logs') ?>">
-          <i class="fa fa-list"></i>
-          <span  class="link_name">Login Logs</span>
-        </a>
-        <ul class="sub-menu blank">
-        <li><a class="link_name" href="<?= base_url('admin/login-logs') ?>">Login Logs</a></li>
-      </ul>
-    </li>
-  <?php } ?>
+  <?php } ?>  
 
   <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(28)) { ?>
   <li>
@@ -353,10 +331,6 @@ $userId             = $session->user_id;
   </li>
   <?php } ?>
 
-  <?php //if (checkModuleAccess(4)) { ?>
-    
-  <?php //} ?>  
-
   <?php if($userType == 'ADMIN'){ ?>
     <li>
         <a class="<?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
@@ -399,27 +373,21 @@ $userId             = $session->user_id;
               <span class="link_name">Settings</span>
             </a>
             <ul class="sub-menu blank">
-              <li><a class="link_name" href="<?= base_url('admin/settings') ?>">Settings</a></li>
+              <li><a class="link_name" href="<?= base_url('admin/settings') ?>">Settings</a></li>            
+              <li>
+                <a class="<?= (($pageSegment == 'mobile-application') ? 'active' : '') ?>" href="<?= base_url('admin/mobile-application') ?>">
+                  <i class="fa fa-arrow-right"></i>
+                  <span>Mobile Application</span>
+                </a>        
+              </li>
+              <li>
+                <a class="<?= (($pageSegment == 'delete-account-request') ? 'active' : '') ?>" href="<?= base_url('admin/delete-account-request/list') ?>">
+                  <i class="fa fa-arrow-right"></i>
+                  <span>Delete Account Requests</span>
+                </a>        
+              </li>
             </ul>
-        </li>
-        <li>
-            <a class="<?= (($pageSegment == 'mobile-application') ? 'active' : '') ?>" href="<?= base_url('admin/mobile-application') ?>">
-              <i class="fa fa-mobile"></i>
-              <span class="link_name">Mobile Application</span>
-            </a>
-            <ul class="sub-menu blank">
-              <li><a class="link_name" href="<?= base_url('admin/mobile-application') ?>">Mobile Application</a></li>
-            </ul>
-        </li>
-        <li>
-            <a class="<?= (($pageSegment == 'delete-account-request') ? 'active' : '') ?>" href="<?= base_url('admin/delete-account-request/list') ?>">
-              <i class="fa fa-trash"></i>
-                <span class="link_name">Delete Account Requests</span>
-            </a>
-            <ul class="sub-menu blank">
-              <li><a class="link_name" href="<?= base_url('admin/delete-account-request/list') ?>">Delete Account Requests</a></li>
-            </ul>
-        </li>
+        </li>        
   <?php //} ?>
   
   <!-- <li>
