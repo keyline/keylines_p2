@@ -146,6 +146,31 @@
                <!-- End Vendors Card -->
                <?php   } ?>
                <div class="col-md-12">
+                  <div class="card table-card">
+                     <div class="card-header">
+                        <div class="row">
+                           <div class="col-md-4">
+                              <div class="card-header-left">
+                                 <ul class="d-flex align-items-center">                                    
+                                    <li>
+                                       <p>Present (<?=$total_present_user->user_count?>)</p>
+                                    </li>
+                                    <li>
+                                       <p>Absent (<?=$total_absent_user->user_count?>)</p>
+                                    </li>                                    
+                                 </ul>
+                              </div>
+                           </div>
+                           <div class="col-md-8">
+                              <div class="card-header-right">
+
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-12">
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
                   <div class="card table-card">
                      <div class="card-header">
@@ -289,6 +314,7 @@
                                  </thead>
                                  <tbody>
                                     <?php if ($last7DaysAttendance) {
+                                       // pr($last7DaysAttendance);
                                        $sl = 1;
                                        $counter = 0;
                                        foreach ($last7DaysAttendance as $res) { ?>
@@ -302,9 +328,8 @@
                                               $punchOut = $report['punchOut'];
                                           ?>
                                        <td>
-                                          <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>" style="cursor:pointer;">IN: <?= date('H:i', strtotime($punchIn)) ?></span> <?php } ?></p>
-                                          
-                                          <p onclick="punchout('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge badge-desktime-success">OUT: <?= date('H:i', strtotime($punchOut)) ?></span> <?php } ?></p>
+                                       <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?> d-block h-100" style="cursor:pointer;"><span class="mt-3">IN: <?= date('H:i', strtotime($punchIn)) ?></span><?php } ?></p>                                                                                 
+                                       <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;"><span class="mt-3">OUT: <?= date('H:i', strtotime($punchOut)) ?></span><?php } ?></span></p>                                                                                 
                                        </td>
                                        <?php } ?>
                                     </tr>
@@ -407,7 +432,7 @@
                         <div class="col-md-4">
                            <div class="card-header-left">
                               <ul class="d-flex align-items-center">
-                                 <li class="me-3"><h6 class="fw-bold heading_style">All Graph</h6></li>
+                                 <!-- <li class="me-3"><h6 class="fw-bold heading_style">All Graph</h6></li> -->
                                  <li>
                                     <p>Billable & Non-Billable</p>
                                  </li>
@@ -648,9 +673,9 @@
                         <div class="col-md-4">
                            <div class="card-header-left">
                               <ul class="d-flex align-items-center">
-                                 <li class="me-3"><h6 class="fw-bold heading_style">User Graph</h6></li>
+                                 <!-- <li class="me-3"><h6 class="fw-bold heading_style">User Graph</h6></li> -->
                                  <li>
-                                    <p>Billable & Non-Billable</p>
+                                    <p>Billable & Non-Billable for User</p>
                                  </li>
                               </ul>
                            </div>
@@ -671,7 +696,7 @@
                                              <div class="chart-info-inner">
                                                 <h6 class="mb-1"><?= $sl++ ?>.</h6>
                                                 <h4><?= $res['name'] ?></h4>
-                                                <p class="mt-1">Sr. Developer</p>
+                                                <p class="mt-1"><?= $res['deprt_name'] ?>(<?= $res['type'] ?>)</p>
                                              </div>
                                              <ul>
                                                 <li>Billable  <span class="billable-dot"></span></li>
@@ -683,7 +708,7 @@
                                           <div class="chart-box">
                                              <div class="row">
                                                 <div class="col-md-4 text-center">
-                                                   <?php if ($res['yesterdayHourBill'] != 0) { ?>
+                                                   <!-- ?php if ($res['yesterdayHourBill'] != 0) { ?> -->
                                                       <!-- Pie Chart -->
                                                       <div id="pieChartWise<?= $res['id'] ?>"></div>
                                                       <script>
@@ -772,7 +797,7 @@
                                                          });
                                                       </script>
                                                       <!-- End Pie Chart -->
-                                                   <?php } ?>
+                                                   <!-- ?php } ?> -->
                                                    <p class="chart-label">Yesterday</p>
                                                 </div>
                                                 <div class="col-md-4 text-center">
@@ -1062,7 +1087,7 @@
       </div>
    </div>
    <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mx-auto wide-modal">
+      <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable mx-auto">
          <div class="modal-content" id="modalBody1">
          </div>
       </div>
@@ -1097,7 +1122,7 @@
        });
    }
    
-   function punchin(userId, name, date, punchIn) {
+   function punchin(userId, name, date, punchIn, punchOut) {
        $('#modalBody1').html('');
        $.ajax({
            url: '<?php echo base_url('admin/PunchInRecords'); ?>',
@@ -1106,7 +1131,8 @@
                userId: userId,
                name: name,
                date: date,
-               punchIn: punchIn
+               punchIn: punchIn,
+               punchOut: punchOut
            },
            dataType: 'html',
            success: function(response) {
