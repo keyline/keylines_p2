@@ -345,6 +345,7 @@ class User extends BaseController {
                 
             }else{
                 /* total cards */
+                    $cu_date            = date('Y-m-d');
                     $data['total_users']                = $this->common_model->find_data('user', 'count');
                     $data['total_active_users']         = $this->common_model->find_data('user', 'count', ['status' => '1']);
                     $data['total_inactive_users']       = $this->common_model->find_data('user', 'count', ['status' => '0']);
@@ -356,6 +357,8 @@ class User extends BaseController {
                     $data['total_bill_projects']        = $this->common_model->find_data('project', 'count', ['bill' => 0, 'active' => 0]);
                     $data['total_clients']              = $this->common_model->find_data('client', 'count');
                     $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
+                    $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();                
+                    $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                    
                     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                     // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
@@ -363,7 +366,7 @@ class User extends BaseController {
                     $users              = $this->db->query($sql11)->getResult();
                     $deskloguser        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
                     $desklog_user       = $deskloguser->is_desklog_use;
-                    $cu_date            = date('Y-m-d');
+                    // $cu_date            = date('Y-m-d');
                 // }
 
                 $response = [];
@@ -552,11 +555,14 @@ class User extends BaseController {
                             for ($k = 0; $k < count($arr); $k++) {
                                 $loopDate           = $arr[$k];
                                 // print_r($loopDate);die;
-                                $dayWiseAttendance      = $this->db->query("SELECT punch_in_time, punch_out_time FROM `attendances` where user_id='$row->id' and punch_date LIKE '$loopDate'")->getRow();
+                                 $dayWiseAttendance      = $this->db->query("SELECT MIN(punch_in_time) AS first_punch_in, MAX(punch_out_time) AS last_punch_out FROM `attendances` where user_id='$row->id' and punch_date LIKE '$loopDate'")->getRow();
+                                // $dayWiseAttendance      = $this->db->query("SELECT MIN(punch_in_time) AS first_punch_in, MAX(punch_out_time) AS last_punch_out FROM `attendances` where user_id='$row->id' and punch_date LIKE '%2024-08-29%'")->getRow();
+                                // echo $this->db->getLastquery();
+                                //  pr($dayWiseAttendance);                                
                                 
                                 if ($dayWiseAttendance) {
-                                    $punchIn = $dayWiseAttendance->punch_in_time;
-                                    $punchOut = $dayWiseAttendance->punch_out_time;
+                                    $punchIn = $dayWiseAttendance->first_punch_in;
+                                    $punchOut = $dayWiseAttendance->last_punch_out;
                                 } else {
                                     $punchIn = null;
                                     $punchOut = null;
@@ -567,6 +573,7 @@ class User extends BaseController {
                                     'punchOut' => $punchOut,
                                 ];
                             }
+                            // pr($Attendancereports);
                         } 
                         $last7DaysAttendance[] = [
                             'userId'    => $row->id,
@@ -665,7 +672,11 @@ class User extends BaseController {
                        
                 if($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users){               
                     $userGraph = [];          
-                    foreach($user as $row){                
+                    foreach($user as $row){   
+                        // pr($row);       
+                    $team = "SELECT team.*,department.deprt_name  FROM `team` INNER JOIN department on team.dep_id = department.id WHERE user_id = '$row->id'";
+                    $teamdetails = $this->db->query($team)->getRow();
+                    // pr($teamdetails);
                     /* user graph */
                     $yesterday_date = date('Y-m-d', strtotime("-1 days"));
                     $qry_yesterday_proj = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill  from timesheet where date_added = '$yesterday_date' and user_id = '$row->id' group by timesheet.project_id" . " order by timesheet.date_added desc";
@@ -676,7 +687,9 @@ class User extends BaseController {
                     $ystrdbill_hr = 0;
                     $ystrdbill_min = 0;
                     $ystrdnonbill_hr = 0;
-                    $ystrdnonbill_min = 0;                      
+                    $ystrdnonbill_min = 0;      
+                    // $yesterday_hour = 0;
+                    // $yesterday_minute = 0;
                     foreach ($res_yesterday_proj as $row_yesterday_proj) {                
                         if ($row_yesterday_proj->bill != '1') {
                             $ystrdbill_hr = $ystrdbill_hr + $row_yesterday_proj->hour;
@@ -704,7 +717,7 @@ class User extends BaseController {
                         $ystrdtotnonbill_hour = $ystrdnonbill_hr + $ystrdtotnonbill_hour_res1;
                     }
                     $yesterdayHourBill = $ystrdtotbill_hour + ($ystrdtotbill_minute / 60);
-                    $yesterdayMinBill = $ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60);                                      
+                    $yesterdayMinBill = $ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60);                                                          
                     /* user graph */
                     /* user Monthly graph */
                     $thismonthdayUsr = "";
@@ -818,6 +831,8 @@ class User extends BaseController {
                     $userGraph[] = [
                         'name'                      => $row->name,
                         'id'                        => $row->id,
+                        'type'                      => ($teamdetails) ? $teamdetails->type : '',
+                        'deprt_name'                => ($teamdetails) ? $teamdetails->deprt_name : '',
                         'yesterdayMinBill'          => number_format($yesterdayMinBill, 2),
                         'yesterdayHourBill'         => number_format($yesterdayHourBill, 2),
                         'thismonthHourBillUsr'      => number_format($thismonthHourBillUsr, 2),
@@ -826,11 +841,11 @@ class User extends BaseController {
                         'lastmonthMinBillUsr'       => number_format($lastmonthMinBillUsr, 2),
                         // 'reports'   => $reports,
                     ]; 
-                    // pr($userGraph);               
+                    //    pr($userGraph);               
                     //array_push($userGraph,$row->name);
 
                     }                    
-                    //   pr($userGraph);  
+                        //  pr($userGraph);  
                       $AlluserGraph = [];
                        /* All user graph */
                      $yesterday_date = date('Y-m-d', strtotime("-1 days"));
@@ -1086,17 +1101,21 @@ class User extends BaseController {
             $name           = $this->request->getGet('name');
             $date           = $this->request->getGet('date');
             $punchIn        = $this->request->getGet('punchIn');
+            $punchOut       = $this->request->getGet('punchOut');
+
+            // pr($this->request->getGet());
 
             $dateFormate = date_create($date);
             if ($dateFormate) {
                 $formattedDate = date_format($dateFormate, 'Y-m-d');
             }
-            $sql = "SELECT attendances.user_id, attendances.punch_date, attendances.punch_in_time, attendances.punch_in_address, attendances.punch_in_image, user.name FROM `attendances`
+            $sql = "SELECT attendances.user_id, attendances.punch_date, attendances.punch_in_time, attendances.punch_in_address, attendances.punch_in_image, attendances.punch_out_time, attendances.punch_out_address, attendances.punch_out_image, user.name FROM `attendances`
                     INNER JOIN user WHERE attendances.user_id = user.id and user_id = $userId AND punch_date = '$formattedDate'";
 
             $rows = $this->db->query($sql)->getResult();
+            //  echo $this->db->getLastquery();die;
             $html = '<div class="modal-header" style="justify-content: center;">
-                        <center><h6 class="modal-title">Attendance of  <b><u> ' . $name . ' </b></u> on <b><u> ' . $date . ' </b></u></h6></center>
+                        <center><h6 class="modal-title">Attendance of  <b> ' . $name . ' </b> on <b> ' . $date . ' </b></h6></center>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -1105,11 +1124,9 @@ class User extends BaseController {
                                 <table class="table general_table_style table-bordered">
                                     <thead>
                                         <tr>                                            
-                                            <th>Image</th>
-                                            <th>User Name</th>
-                                            <th>Punch Date</th>
-                                            <th>Punch in Time</th>
-                                            <th>Punch in Address</th>
+                                            <th>Image</th>                                                                                       
+                                            <th>Punch Time(IN-OUT)</th>
+                                            <th>Address</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
@@ -1118,12 +1135,17 @@ class User extends BaseController {
                 foreach ($rows as $record) {
                     $html .= '<tr>
                                 <td>
-                                    <img src="' . getenv('app.uploadsURL') . 'user/' . esc($record->punch_in_image) . '" alt="' . esc($record->user_id) . '" class="rounded-circle">
-                                </td>
-                                <td>' . esc($record->name) . '</td>
-                                <td>' . esc($record->punch_date) . '</td>
-                                <td>' . esc($record->punch_in_time) . '</td>
+                                    <img src="' . getenv('app.uploadsURL') . 'user/' . esc($record->punch_in_image) . '" alt="' . esc($record->user_id) . '" class="rounded-circle punch-img">
+                                </td>                                                                
+                                <td><b>IN:</b> ' . esc($record->punch_in_time) .'</td>
                                 <td>' . esc($record->punch_in_address) . '</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <img src="' . getenv('app.uploadsURL') . 'user/' . esc($record->punch_out_image) . '" alt="' . esc($record->user_id) . '" class="rounded-circle punch-img">
+                                </td>                                                                
+                                <td><b>OUT:</b> ' . esc($record->punch_out_time) .'</td>
+                                <td>' . esc($record->punch_out_address) . '</td>
                             </tr>';
                 }
             } else {

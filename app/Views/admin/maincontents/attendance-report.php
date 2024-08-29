@@ -108,8 +108,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     //    echo $report['booked_effort']                                                  
                                                 ?>
                                                 <td>
-                                                    <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>')"><?php if($punchIn > 0){ ?><span class="badge <?=(($punchIn <= 10)?'bg-success':'bg-danger')?>" style="cursor:pointer;">IN: <?=date('H:i', strtotime($punchIn))?></span> <?php } ?></p>
-                                                   <p class="mb-1 text-center font14" onclick="punchout('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchOut'] ?>')"><?php if($punchOut > 0){ ?><span class="badge" style="background-color: #28c009;cursor:pointer;">OUT: <?=date('H:i', strtotime($punchOut))?></span> <?php } ?></p>
+                                                    <!-- <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?> d-block h-100" style="cursor:pointer;"><span class="mt-3">IN: <?= date('H:i', strtotime($punchIn)) ?></span> <br> <?php if ($punchOut > 0) { ?> <span class="mt-3">OUT: <?= date('H:i', strtotime($punchOut)) ?></span><?php } ?></span> <?php } ?></p> -->
+                                                    <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?> d-block h-100" style="cursor:pointer;"><span class="mt-3">IN: <?= date('H:i', strtotime($punchIn)) ?></span><?php } ?></p>                                                                                 
+                                                    <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;"><span class="mt-3">OUT: <?= date('H:i', strtotime($punchOut)) ?></span><?php } ?></span></p>                                                                                 
                                                 </td>
                                                 <?php } ?>
                                             </tr>
@@ -127,7 +128,7 @@ $controller_route   = $moduleDetail['controller_route'];
         
     </div>
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog wide-modal modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content" id="modalBody1">
             </div>
         </div>
