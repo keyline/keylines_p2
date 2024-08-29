@@ -384,19 +384,35 @@
         
         // surajit sidebar js
 
-        let arrow = document.querySelectorAll(".arrow");
-        for (var i = 0; i < arrow.length; i++) {
-        arrow[i].addEventListener("click", (e)=>{
-        let arrowParent = e.target.parentElement.parentElement.parentElement;//selecting main parent of arrow
-        arrowParent.classList.toggle("showMenu");
-        });
-        }
+        // let arrow = document.querySelectorAll(".arrow");
+        // for (var i = 0; i < arrow.length; i++) {
+        // arrow[i].addEventListener("click", (e)=>{
+        // let arrowParent = e.target.parentElement.parentElement.parentElement;//selecting main parent of arrow
+        // arrowParent.classList.toggle("showMenu");
+        // });
+        // }
 
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".bx-menu");
         console.log(sidebarBtn);
         sidebarBtn.addEventListener("click", ()=>{
         sidebar.classList.toggle("close");
+        });
+        $(document).ready(function(){
+            //jquery for toggle sub menus
+            $('.iocn-link').click(function(){
+            $(this).next('.sub-menu').slideToggle();
+            $(this).find('.arrow').toggleClass('rotate');
+            $(this).parent('li').siblings().find('.sub-menu').slideUp();
+            $(this).parent('li').siblings().find('.arrow').removeClass('rotate');
+            });
+            $('.nav-links li').click(function(){
+                $(this).addClass('showMenu').siblings().removeClass();
+            });
+            $('.bx-menu').click(function(){
+                $('.close li').find('.sub-menu').slideUp();
+                $('.close li').siblings().find('.arrow').removeClass('rotate');
+            });
         });
     </script>
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>

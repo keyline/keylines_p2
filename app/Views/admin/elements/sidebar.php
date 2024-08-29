@@ -55,7 +55,7 @@ $userId             = $session->user_id;
   <li>
     <div class="iocn-link">
       <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>"
-        href="#">
+        href="javascript:void(0)">
         <i class="fas fa-key"></i>
         <span class="link_name">Access & Permission</span>
         <i class='bx bxs-chevron-down arrow ms-auto'></i>
@@ -65,7 +65,7 @@ $userId             = $session->user_id;
       class="sub-menu <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'show' : '') ?>">
       <li>
         <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>"
-          href="#">
+          href="javascript:void(0)">
           <span class="link_name">Access & Permission</span>
         </a>
       </li>
@@ -101,7 +101,7 @@ $userId             = $session->user_id;
   <li>
     <div class="iocn-link">
       <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
-        href="#">
+        href="javascript:void(0)">
         <i class="fa fa-database"></i>
         <span class="link_name">Masters</span>
         <i class='bx bxs-chevron-down arrow ms-auto'></i>
@@ -111,7 +111,7 @@ $userId             = $session->user_id;
       class="sub-menu <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'show' : '') ?>">
       <li>
         <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
-          href="#">
+          href="javascript:void(0)">
           <span class="link_name">Masters</span>
         </a>
       </li>
@@ -178,7 +178,7 @@ $userId             = $session->user_id;
   <li>
     <div class="iocn-link">
       <a class="<?= (($pageSegment == 'users') ? '' : 'collapsed') ?> <?= (($pageSegment == 'users') ? 'active' : '') ?>"
-        href="#">
+        href="javascript:void(0)">
         <i class="fa fa-users"></i>
         <span class="link_name">User Module</span>
         <i class='bx bxs-chevron-down arrow ms-auto'></i>
@@ -187,7 +187,7 @@ $userId             = $session->user_id;
     <ul class="sub-menu <?= (($pageSegment == 'users') ? 'show' : '') ?>">
       <li>
         <a class="<?= (($pageSegment == 'users') ? '' : 'collapsed') ?> <?= (($pageSegment == 'users') ? 'active' : '') ?>"
-          href="#">
+          href="javascript:void(0)">
           <span class="link_name">User Module</span>
         </a>
       </li>
@@ -271,7 +271,7 @@ $userId             = $session->user_id;
     <?php if (checkModuleAccess(7) || checkModuleAccess(19) || checkModuleAccess(20)) { ?>
         <li>
           <div class="iocn-link">
-            <a class="<?= (($pageSegment == 'efforts') ? '' : 'collapsed') ?> <?= (($pageSegment == 'efforts') ? 'active' : '') ?>" href="#">
+            <a class="<?= (($pageSegment == 'efforts') ? '' : 'collapsed') ?> <?= (($pageSegment == 'efforts') ? 'active' : '') ?>" href="javascript:void(0)">
               <i class="fa fa-tasks"></i>
               <span class="link_name">Effort Booking</span>
               <i class='bx bxs-chevron-down arrow ms-auto'></i>
@@ -280,7 +280,7 @@ $userId             = $session->user_id;
             <ul class="sub-menu <?= (($pageSegment == 'efforts') ? 'show' : '') ?>">
               <li>
                 <a class="<?= (($pageSegment == 'efforts') ? '' : 'collapsed') ?> <?= (($pageSegment == 'efforts') ? 'active' : '') ?>"
-                  href="#">
+                  href="javascript:void(0)">
                   <span class="link_name">Effort Booking</span>
                 </a>
               </li>
@@ -307,7 +307,7 @@ $userId             = $session->user_id;
 
   <?php if (checkModuleAccess(14)) { ?>
         <!-- <li class="nav-item">
-            <a class="nav-link <?= (($pageSegment == 'notifications' || $pageSegment == 'notifications') ? '' : 'collapsed') ?> <?= (($pageSegment == 'notifications' || $pageSegment == 'notifications') ? 'active' : '') ?>" data-bs-target="#notification-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link <?= (($pageSegment == 'notifications' || $pageSegment == 'notifications') ? '' : 'collapsed') ?> <?= (($pageSegment == 'notifications' || $pageSegment == 'notifications') ? 'active' : '') ?>" data-bs-target="#notification-nav" data-bs-toggle="collapse" href="javascript:void(0)">
                 <i class="fa fa-bell"></i><span>Notifications</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
             <ul id="notification-nav" class="nav-content collapse <?= (($pageSegment == 'notifications' || $pageSegment == 'notifications') ? 'show' : '') ?>" data-bs-parent="#sidebar-nav">
@@ -328,7 +328,7 @@ $userId             = $session->user_id;
   <?php if (checkModuleAccess(22) || checkModuleAccess(23) || checkModuleAccess(24) || checkModuleAccess(25) || checkModuleAccess(26)) {    ?>
     <li>
       <div class="iocn-link">
-        <a class="<?= (($pageSegment == 'reports') ? '' : 'collapsed') ?> <?= (($pageSegment == 'reports') ? 'active' : '') ?>" href="#">
+        <a class="<?= (($pageSegment == 'reports') ? '' : 'collapsed') ?> <?= (($pageSegment == 'reports') ? 'active' : '') ?>" href="javascript:void(0)">
         <i class="fa fa-tasks"></i>  
           <span class="link_name">Reports</span>
           <i class='bx bxs-chevron-down arrow ms-auto'></i>
@@ -337,7 +337,7 @@ $userId             = $session->user_id;
         <ul class="sub-menu <?= (($pageSegment == 'reports') ? 'show' : '') ?>">
             <li>
               <a class="<?= (($pageSegment == 'reports') ? '' : 'collapsed') ?> <?= (($pageSegment == 'reports') ? 'active' : '') ?>"
-                href="#">
+                href="javascript:void(0)">
                 <span class="link_name">Reports</span>
               </a>
             </li>
@@ -465,17 +465,17 @@ $userId             = $session->user_id;
   
   <!-- <li>
     <div class="iocn-link">
-      <a href="#">
+      <a href="javascript:void(0)">
         <i class='bx bx-collection'></i>
         <span class="link_name">Category</span>
       </a>
       <i class='bx bxs-chevron-down arrow ms-auto'></i>
     </div>
     <ul class="sub-menu">
-      <li><a class="link_name" href="#">Category</a></li>
-      <li><a href="#">HTML & CSS</a></li>
-      <li><a href="#">JavaScript</a></li>
-      <li><a href="#">PHP & MySQL</a></li>
+      <li><a class="link_name" href="javascript:void(0)">Category</a></li>
+      <li><a href="javascript:void(0)">HTML & CSS</a></li>
+      <li><a href="javascript:void(0)">JavaScript</a></li>
+      <li><a href="javascript:void(0)">PHP & MySQL</a></li>
     </ul>
   </li> -->
 
