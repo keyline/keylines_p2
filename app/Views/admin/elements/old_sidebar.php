@@ -57,33 +57,12 @@ $userId             = $session->user_id;
       <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>"
         href="javascript:void(0)">
         <i class="fas fa-key"></i>
-        <span class="link_name">User & Permission Management</span>
+        <span class="link_name">Access & Permission</span>
         <i class='bx bxs-chevron-down arrow ms-auto'></i>
       </a>
     </div>
     <ul
       class="sub-menu <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'show' : '') ?>">
-      <li>
-        <a class="<?= (($pageSegment == 'users') ? '' : 'collapsed') ?> <?= (($pageSegment == 'users') ? 'active' : '') ?>"
-          href="javascript:void(0)">
-          <span class="link_name">User Module</span>
-        </a>
-      </li>
-      <li>
-        <a class="<?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
-          <i class="fa fa-arrow-right"></i>
-          <span>List</span>
-        </a>
-      </li>
-      <?php if($userType == 'SUPER ADMIN') { ?>
-      <li>
-        <a class="<?= (($pageSegment == 'user_cost') ? 'active' : '') ?>"
-          href="<?= base_url('admin/user_cost/list') ?>">
-          <i class="fa fa-arrow-right"></i>
-          <span>Cost Update</span>
-        </a>
-      </li>
-      <?php } ?>
       <li>
         <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>"
           href="javascript:void(0)">
