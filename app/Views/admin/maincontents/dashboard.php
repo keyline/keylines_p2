@@ -414,424 +414,565 @@
                               </ul>
                            </div>
                         </div>
-                        <div class="col-md-8">
-                           <div class="card-header-right">
-
-                           </div>
-                        </div>
                      </div>
                   </div>
-                  <div class="card">
-                     <div class="card-body">
-                        <div class="rows">
-                           <div class="col-xxl-12 col-md-12 table-responsive">
-                              <table class="table general_table_style">
-                                 <thead>
-                                    <div class="table-tr">
-                                       <tr>
-                                          <th>Yesterday</th>
-                                          <th>This Month</th>
-                                          <th>Last Month</th>
-                                       </tr>
+                  <div class="chart-container">
+                     <div class="row">
+                        <?php if ($AlluserGraph) {
+                           foreach ($AlluserGraph as $res) { ?>
+                              <div class="col-md-4">
+                                 <div class="chart-holder">
+                                    <div class="chart-info d-flex justify-content-between flex-column">
+                                       <div class="chart-info-inner">
+                                          <h4>Yesterday</h4>
+                                          <p class="mt-1">Compare between <br>Billable & Non-Billable</p>
+                                       </div>
+                                       <ul>
+                                          <li>Billable  <span class="billable-dot"></span></li>
+                                          <li>Non-Billable   <span class="non-billable-dot"></span></li>
+                                       </ul>
                                     </div>
-                                 </thead>
-                                 <tbody>
-                                    <?php if ($AlluserGraph) {
-                                       foreach ($AlluserGraph as $res) { ?>
-                                       <div class="table-tr">
-                                          <tr>
-                                             <td>
-                                                <?php if ($res['yesterdayAllUserHourBill'] != 0) { ?>
-                                                <!-- Pie Chart -->
-                                                <div id="pieChartWise"></div>
-                                                <script>
-                                                   document.addEventListener("DOMContentLoaded", () => {
-                                                      var options = {
-                                                         series: [<?= $res['yesterdayAllUserHourBill'] ?>, <?= $res['yesterdayAllUserMinBill'] ?>],
-                                                         chart: {
-                                                               width: 270,
-                                                               type: 'donut',
-                                                         },
-                                                         plotOptions: {
-                                                               pie: {
-                                                                  donut: {
-                                                                     size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
-                                                                  }
-                                                               }
-                                                            },
-                                                         fill: {
-                                                               colors: ['#C5EEC5', '#FD6363']
-                                                         },
-                                                         dataLabels: {
-                                                               enabled: true,
-                                                               style: {
-                                                                  fontSize: '12px',
-                                                               },
-                                                               background: {
-                                                                  enabled: true,
-                                                                  foreColor: '#000',
-                                                                  padding: 4,
-                                                                  borderRadius: 2,
-                                                                  borderWidth: 1,
-                                                                  borderColor: '#ffc107',
-                                                               },
-                                                         },
-                                                         colors: ['#C5EEC5', '#FD6363'],
-                                                         labels: ['Billable', 'Non-Billable'],
-                                                         responsive: [{
-                                                               breakpoint: 300,
-                                                               options: {
-                                                                  chart: {
-                                                                     width: 400
-                                                                  },
-                                                                  legend: {
-                                                                     position: 'bottom'
-                                                                  }
-                                                               }
-                                                         }]
-                                                      };
-                                                      var chart = new ApexCharts(document.querySelector("#pieChartWise"), options);
-                                                      chart.render();
-                                                   });
-                                                </script>
-                                                <!-- End Pie Chart -->
-                                                <?php } ?>
-                                             </td>
-                                             <td>
-                                                <?php if ($res['thismonthAllUserHourBillUsr'] != 0) { ?>
-                                                <!-- Pie Chart -->
-                                                <div id="pieChartMonthWise"></div>
-                                                <script>
-                                                   document.addEventListener("DOMContentLoaded", () => {
-                                                      var options = {
-                                                         series: [<?= str_replace(",", "", $res['thismonthAllUserHourBillUsr']) ?>, <?= $res['thismonthAllUserMinBillUsr'] ?>],
-                                                         chart: {
-                                                               width: 270,
-                                                               type: 'donut',
-                                                         },
-                                                         plotOptions: {
-                                                            pie: {
-                                                               donut: {
-                                                                  size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
-                                                               }
+                                    <div class="chart-box">
+                                       <?php if ($res['yesterdayAllUserHourBill'] != 0) { ?>
+                                          <!-- Pie Chart -->
+                                          <div id="pieChartWise" :options="chartOptions"></div>
+                                          <script>
+                                             document.addEventListener("DOMContentLoaded", () => {
+                                                var options = {
+                                                   series: [<?= $res['yesterdayAllUserHourBill'] ?>, <?= $res['yesterdayAllUserMinBill'] ?>],
+                                                   chart: {
+                                                         width: 220,
+                                                         type: 'donut',
+                                                   },
+                                                   plotOptions: {
+                                                         pie: {
+                                                            donut: {
+                                                               size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
                                                             }
+                                                         }
+                                                      },
+                                                   fill: {
+                                                         colors: ['#C5EEC5', '#FD6363']
+                                                   },
+                                                   dataLabels: {
+                                                         enabled: true,
+                                                         style: {
+                                                            fontSize: '12px',
                                                          },
-                                                         fill: {
-                                                               colors: ['#C5EEC5', '#FD6363']
+                                                         background: {
+                                                            enabled: true,
+                                                            foreColor: '#000',
+                                                            padding: 4,
+                                                            borderRadius: 2,
+                                                            borderWidth: 1,
+                                                            borderColor: '#ffc107',
                                                          },
-                                                         dataLabels: {
-                                                               enabled: true,
-                                                               style: {
-                                                                  fontSize: '12px',
-                                                               },
-                                                               background: {
-                                                                  enabled: true,
-                                                                  foreColor: '#000',
-                                                                  padding: 4,
-                                                                  borderRadius: 2,
-                                                                  borderWidth: 1,
-                                                                  borderColor: '#ffc107',
-                                                               },
-                                                         },
-                                                         colors: ['#C5EEC5', '#FD6363'],
-                                                         labels: ['Billable', 'Non-Billable'],
-                                                         responsive: [{
-                                                               breakpoint: 300,
-                                                               options: {
-                                                                  chart: {
-                                                                     width: 400
-                                                                  },
-                                                                  legend: {
-                                                                     position: 'bottom'
-                                                                  }
-                                                               }
-                                                         }]
-                                                      };
-                                                      var chart = new ApexCharts(document.querySelector("#pieChartMonthWise"), options);
-                                                      chart.render();
-                                                   });
-                                                </script>
-                                                <!-- End Pie Chart -->
-                                                <?php } ?>
-                                             </td>
-                                             <td>
-                                                <?php if ($res['thismonthAllUserHourBillUsr'] != 0) { ?>
-                                                <!-- Pie Chart -->
-                                                <div id="pieChartlmWise"></div>
-                                                <script>
-                                                   document.addEventListener("DOMContentLoaded", () => {
-                                                      var options = {
-                                                         series: [<?= str_replace(",", "", $res['lastmonthAllUserHourBillUsr']) ?>, <?= $res['lastmonthAllUserMinBillUsr'] ?>],
-                                                         chart: {
-                                                               width: 270,
-                                                               type: 'donut',
-                                                         },
-                                                         plotOptions: {
-                                                               pie: {
-                                                                  donut: {
-                                                                     size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
-                                                                  }
-                                                               }
+                                                   },
+                                                   colors: ['#C5EEC5', '#FD6363'],
+                                                   labels: ['Billable', 'Non-Billable'],
+                                                   responsive: [{
+                                                         breakpoint: 1300,
+                                                         options: {
+                                                            chart: {
+                                                               width: 180,
                                                             },
-                                                         fill: {
-                                                               colors: ['#C5EEC5', '#FD6363']
-                                                         },
-                                                         dataLabels: {
-                                                               enabled: true,
-                                                               style: {
-                                                                  fontSize: '12px',
-                                                               },
-                                                               background: {
-                                                                  enabled: true,
-                                                                  foreColor: '#000',
-                                                                  padding: 4,
-                                                                  borderRadius: 2,
-                                                                  borderWidth: 1,
-                                                                  borderColor: '#ffc107',
-                                                               },
-                                                         },
-                                                         colors: ['#C5EEC5', '#FD6363'],
-                                                         labels: ['Billable', 'Non-Billable'],
-                                                         responsive: [{
-                                                               breakpoint: 300,
-                                                               options: {
-                                                                  chart: {
-                                                                     width: 400
-                                                                  },
-                                                                  legend: {
-                                                                     position: 'bottom'
-                                                                  }
-                                                               }
-                                                         }]
-                                                      };
-                                                      var chart = new ApexCharts(document.querySelector("#pieChartlmWise"), options);
-                                                      chart.render();
-                                                   });
-                                                </script>
-                                                <!-- End Pie Chart -->
-                                                <?php } ?>
-                                             </td>
-                                          </tr>
+                                                            
+                                                         }
+                                                   }],
+                                                   legend: {
+                                                      show: false,
+                                                   }
+                                                };
+                                                var chart = new ApexCharts(document.querySelector("#pieChartWise"), options);
+                                                chart.render();
+                                             });
+                                          </script>
+                                          <!-- End Pie Chart -->
+                                       <?php } ?>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="col-md-4">
+                                 <div class="chart-holder">
+                                       <div class="chart-info d-flex justify-content-between flex-column">
+                                          <div class="chart-info-inner">
+                                             <h4>This Month</h4>
+                                             <p class="mt-1">Compare between <br>Billable & Non-Billable</p>
                                           </div>
-                                    <?php  }
-                                       } ?>
-                                 </tbody>
-                              </table>
-                           </div>
-                        </div>
+                                          <ul>
+                                             <li>Billable  <span class="billable-dot"></span></li>
+                                             <li>Non-Billable   <span class="non-billable-dot"></span></li>
+                                          </ul>
+                                       </div>
+                                       <div class="chart-box">
+                                          <?php if ($res['thismonthAllUserHourBillUsr'] != 0) { ?>
+                                             <!-- Pie Chart -->
+                                             <div id="pieChartMonthWise"></div>
+                                             <script>
+                                                document.addEventListener("DOMContentLoaded", () => {
+                                                   var options = {
+                                                      series: [<?= str_replace(",", "", $res['thismonthAllUserHourBillUsr']) ?>, <?= $res['thismonthAllUserMinBillUsr'] ?>],
+                                                      chart: {
+                                                            width: 220,
+                                                            type: 'donut',
+                                                      },
+                                                      plotOptions: {
+                                                         pie: {
+                                                            donut: {
+                                                               size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                            }
+                                                         }
+                                                      },
+                                                      fill: {
+                                                            colors: ['#C5EEC5', '#FD6363']
+                                                      },
+                                                      dataLabels: {
+                                                            enabled: true,
+                                                            style: {
+                                                               fontSize: '12px',
+                                                            },
+                                                            background: {
+                                                               enabled: true,
+                                                               foreColor: '#000',
+                                                               padding: 4,
+                                                               borderRadius: 2,
+                                                               borderWidth: 1,
+                                                               borderColor: '#ffc107',
+                                                            },
+                                                      },
+                                                      colors: ['#C5EEC5', '#FD6363'],
+                                                      labels: ['Billable', 'Non-Billable'],
+                                                      responsive: [{
+                                                            breakpoint: 1300,
+                                                            options: {
+                                                               chart: {
+                                                                  width: 180
+                                                               },
+                                                            }
+                                                      }],
+                                                      legend: {
+                                                         show: false,
+                                                      }
+                                                   };
+                                                   var chart = new ApexCharts(document.querySelector("#pieChartMonthWise"), options);
+                                                   chart.render();
+                                                });
+                                             </script>
+                                             <!-- End Pie Chart -->
+                                          <?php } ?>
+                                       </div>
+                                 </div>
+                              </div>
+                              <div class="col-md-4">
+                                 <div class="chart-holder">
+                                    <div class="chart-info d-flex justify-content-between flex-column">
+                                       <div class="chart-info-inner">
+                                          <h4>Last Month</h4>
+                                          <p class="mt-1">Compare between <br>Billable & Non-Billable</p>
+                                       </div>
+                                       <ul>
+                                          <li>Billable  <span class="billable-dot"></span></li>
+                                          <li>Non-Billable   <span class="non-billable-dot"></span></li>
+                                       </ul>
+                                    </div>
+                                    <div class="chart-box">
+                                       <?php if ($res['thismonthAllUserHourBillUsr'] != 0) { ?>
+                                          <!-- Pie Chart -->
+                                          <div id="pieChartlmWise"></div>
+                                          <script>
+                                             document.addEventListener("DOMContentLoaded", () => {
+                                                var options = {
+                                                   series: [<?= str_replace(",", "", $res['lastmonthAllUserHourBillUsr']) ?>, <?= $res['lastmonthAllUserMinBillUsr'] ?>],
+                                                   chart: {
+                                                         width: 220,
+                                                         type: 'donut',
+                                                   },
+                                                   plotOptions: {
+                                                         pie: {
+                                                            donut: {
+                                                               size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                            }
+                                                         }
+                                                      },
+                                                   fill: {
+                                                         colors: ['#C5EEC5', '#FD6363']
+                                                   },
+                                                   dataLabels: {
+                                                         enabled: true,
+                                                         style: {
+                                                            fontSize: '12px',
+                                                         },
+                                                         background: {
+                                                            enabled: true,
+                                                            foreColor: '#000',
+                                                            padding: 4,
+                                                            borderRadius: 2,
+                                                            borderWidth: 1,
+                                                            borderColor: '#ffc107',
+                                                         },
+                                                   },
+                                                   colors: ['#C5EEC5', '#FD6363'],
+                                                   labels: ['Billable', 'Non-Billable'],
+                                                   responsive: [{
+                                                         breakpoint: 1300,
+                                                         options: {
+                                                            chart: {
+                                                               width: 180
+                                                            },
+                                                         }
+                                                   }],
+                                                   legend: {
+                                                      show: false,
+                                                   }
+                                                };
+                                                var chart = new ApexCharts(document.querySelector("#pieChartlmWise"), options);
+                                                chart.render();
+                                             });
+                                          </script>
+                                          <!-- End Pie Chart -->
+                                       <?php } ?>
+                                    </div>
+                                 </div>
+                              </div>
+                           <?php  }
+                        } ?>
                      </div>
                   </div>
                </div>
                <?php } ?>
                <?php if (checkModuleFunctionAccess(1, 72)) { ?>
+
                <div class="col-md-12">
-                  <div class="card">
-                     <div class="card-header">
-                        <h6 class="fw-bold heading_style">USER GRAPH</h6>
-                     </div>
-                     <div class="card-body">
-                        <div class="rows">
-                           <div class="col-xxl-12 col-md-12 table-responsive">
-                              <table class="table general_table_style">
-                                 <thead>
-                                    <tr>
-                                       <th>#</th>
-                                       <th>User</th>
-                                       <th>Yesterday</th>
-                                       <th>This Month</th>
-                                       <th>Last Month</th>
-                                    </tr>
-                                 </thead>
-                                 <tbody>
-                                    <?php if ($userGraph) {
-                                       $sl = 1;
-                                       $counter = 0;
-                                       foreach ($userGraph as $res) { ?>
-                                    <tr>
-                                       <td><?= $sl++ ?></td>
-                                       <td class="fw-bold"><?= $res['name'] ?></td>
-                                       <td>
-                                          <?php if ($res['yesterdayHourBill'] != 0) { ?>
-                                          <!-- Pie Chart -->
-                                          <div id="pieChartWise<?= $res['id'] ?>"></div>
-                                          <script>
-                                             document.addEventListener("DOMContentLoaded", () => {
-                                                 var options = {
-                                                     series: [<?= $res['yesterdayHourBill'] ?>, <?= $res['yesterdayMinBill'] ?>],
-                                                     chart: {
-                                                         width: 270,
-                                                         type: 'donut',
-                                                     },
-                                                     plotOptions: {
-                                                            pie: {
-                                                               donut: {
-                                                                  size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
-                                                               }
-                                                            }
-                                                         },
-                                                     fill: {
-                                                         colors: ['#C5EEC5', '#FD6363']
-                                                     },
-                                                     dataLabels: {
-                                                         enabled: true,
-                                                         style: {
-                                                             fontSize: '12px',
-                                                         },
-                                                         background: {
-                                                             enabled: true,
-                                                             foreColor: '#000',
-                                                             padding: 4,
-                                                             borderRadius: 2,
-                                                             borderWidth: 1,
-                                                             borderColor: '#ffc107',
-                                                         },
-                                                     },
-                                                     colors: ['#C5EEC5', '#FD6363'],
-                                                     labels: ['Billable', 'Non-Billable'],
-                                                     responsive: [{
-                                                         breakpoint: 300,
-                                                         options: {
-                                                             chart: {
-                                                                 width: 400
-                                                             },
-                                                             legend: {
-                                                                 position: 'bottom'
-                                                             }
-                                                         }
-                                                     }]
-                                                 };
-                                                 var chart = new ApexCharts(document.querySelector("#pieChartWise<?= $res['id'] ?>"), options);
-                                                 chart.render();
-                                             });
-                                          </script>
-                                          <!-- End Pie Chart -->
-                                          <?php } ?>
-                                       </td>
-                                       <td>
-                                          <?php if ($res['thismonthHourBillUsr'] != 0) { ?>
-                                          <!-- Pie Chart -->
-                                          <div id="pieChartMonthWise<?= $res['id'] ?>"></div>
-                                          <script>
-                                             document.addEventListener("DOMContentLoaded", () => {
-                                                 var options = {
-                                                     series: [<?= $res['thismonthHourBillUsr'] ?>, <?= $res['thismonthMinBillUsr'] ?>],
-                                                     chart: {
-                                                         width: 270,
-                                                         type: 'donut',
-                                                     },
-                                                     dataLabels: {
-                                                         enabled: true,
-                                                         style: {
-                                                             fontSize: '12px',
-                                                         },
-                                                         background: {
-                                                             enabled: true,
-                                                             foreColor: '#000',
-                                                             padding: 4,
-                                                             borderRadius: 2,
-                                                             borderWidth: 1,
-                                                             borderColor: '#ffc107',
-                                                         },
-                                                     },
-                                                     plotOptions: {
-                                                            pie: {
-                                                               donut: {
-                                                                  size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
-                                                               }
-                                                            }
-                                                         },
-                                                     fill: {
-                                                         colors: ['#C5EEC5', '#FD6363']
-                                                     },
-                                                     colors: ['#C5EEC5', '#FD6363'],
-                                                     labels: ['Billable', 'Non-Billable'],
-                                                     responsive: [{
-                                                         breakpoint: 280,
-                                                         options: {
-                                                             chart: {
-                                                                 width: 400
-                                                             },
-                                                             legend: {
-                                                                 position: 'bottom'
-                                                             }
-                                                         }
-                                                     }]
-                                                 };
-                                                 var chart = new ApexCharts(document.querySelector("#pieChartMonthWise<?= $res['id'] ?>"), options);
-                                                 chart.render();
-                                             });
-                                          </script>
-                                          <!-- End Pie Chart -->
-                                          <?php } ?>
-                                       </td>
-                                       <td>
-                                          <?php if ($res['lastmonthHourBillUsr'] != 0) { ?>
-                                          <!-- Pie Chart -->
-                                          <div id="pieChartlmWise<?= $res['id'] ?>"></div>
-                                          <script>
-                                             document.addEventListener("DOMContentLoaded", () => {
-                                                 var options = {
-                                                     series: [<?= $res['lastmonthHourBillUsr'] ?>, <?= $res['lastmonthMinBillUsr'] ?>],
-                                                     chart: {
-                                                         width: 270,
-                                                         type: 'donut',
-                                                     },
-                                                     plotOptions: {
-                                                            pie: {
-                                                               donut: {
-                                                                  size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
-                                                               }
-                                                            }
-                                                         },
-                                                     fill: {
-                                                         colors: ['#C5EEC5', '#FD6363']
-                                                     },
-                                                     dataLabels: {
-                                                         enabled: true,
-                                                         style: {
-                                                             fontSize: '12px',
-                                                         },
-                                                         background: {
-                                                             enabled: true,
-                                                             foreColor: '#000',
-                                                             padding: 4,
-                                                             borderRadius: 2,
-                                                             borderWidth: 1,
-                                                             borderColor: '#ffc107',
-                                                         },
-                                                     },
-                                                     colors: ['#C5EEC5', '#FD6363'],
-                                                     labels: ['Billable', 'Non-Billable'],
-                                                     responsive: [{
-                                                         breakpoint: 280,
-                                                         options: {
-                                                             chart: {
-                                                                 width: 400
-                                                             },
-                                                             legend: {
-                                                                 position: 'bottom'
-                                                             }
-                                                         }
-                                                     }]
-                                                 };
-                                                 var chart = new ApexCharts(document.querySelector("#pieChartlmWise<?= $res['id'] ?>"), options);
-                                                 chart.render();
-                                             });
-                                          </script>
-                                          <!-- End Pie Chart -->
-                                          <?php } ?>
-                                       </td>
-                                    </tr>
-                                    <?php $counter++;
-                                       }
-                                       } ?>
-                                 </tbody>
-                              </table>
+                  <div class="heading-box">
+                     <div class="row">
+                        <div class="col-md-4">
+                           <div class="card-header-left">
+                              <ul class="d-flex align-items-center">
+                                 <li class="me-3"><h6 class="fw-bold heading_style">User Graph</h6></li>
+                                 <li>
+                                    <p>Billable & Non-Billable</p>
+                                 </li>
+                              </ul>
                            </div>
                         </div>
                      </div>
                   </div>
-               </div>
+                  <div class="chart-container all-user-chart">
+                     <div class="row">
+                        <?php if ($userGraph) {
+                           $sl = 1;
+                           $counter = 0;
+                           foreach ($userGraph as $res) { ?>
+                              <div class="col-lg-6 mb-3">
+                                 <div class="chart-holder">
+                                    <div class="row">
+                                       <div class="col-md-5">
+                                          <div class="chart-info d-flex flex-column justify-content-between">
+                                             <div class="chart-info-inner">
+                                                <h6 class="mb-1"><?= $sl++ ?>.</h6>
+                                                <h4><?= $res['name'] ?></h4>
+                                                <p class="mt-1">Sr. Developer</p>
+                                             </div>
+                                             <ul>
+                                                <li>Billable  <span class="billable-dot"></span></li>
+                                                <li>Non-Billable   <span class="non-billable-dot"></span></li>
+                                             </ul>
+                                          </div>
+                                       </div>
+                                       <div class="col-md-7">
+                                          <div class="chart-box">
+                                             <div class="row">
+                                                <div class="col-md-4 text-center">
+                                                   <?php if ($res['yesterdayHourBill'] != 0) { ?>
+                                                      <!-- Pie Chart -->
+                                                      <div id="pieChartWise<?= $res['id'] ?>"></div>
+                                                      <script>
+                                                         document.addEventListener("DOMContentLoaded", () => {
+                                                            var options = {
+                                                               series: [<?= $res['yesterdayHourBill'] ?>, <?= $res['yesterdayMinBill'] ?>],
+                                                               chart: {
+                                                                     width: "100%",
+                                                                     height: '75%',
+                                                                     type: 'donut',
+                                                               },
+                                                               plotOptions: {
+                                                                        pie: {
+                                                                           donut: {
+                                                                              size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                                           }
+                                                                        }
+                                                                     },
+                                                               fill: {
+                                                                     colors: ['#C5EEC5', '#FD6363']
+                                                               },
+                                                               dataLabels: {
+                                                                     enabled: true,
+                                                                     style: {
+                                                                        fontSize: '12px',
+                                                                     },
+                                                                     background: {
+                                                                        enabled: true,
+                                                                        foreColor: '#000',
+                                                                        padding: 4,
+                                                                        borderRadius: 2,
+                                                                        borderWidth: 1,
+                                                                        borderColor: '#ffc107',
+                                                                     },
+                                                               },
+                                                               colors: ['#C5EEC5', '#FD6363'],
+                                                               labels: ['Billable', 'Non-Billable'],
+                                                               responsive: [
+                                                                  {
+                                                                     breakpoint: 1375,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '60%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     breakpoint: 1110,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '55%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     breakpoint: 992,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '70%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     breakpoint: 768,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '100%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  }
+                                                               ],
+                                                               legend: {
+                                                                  show: false,
+                                                               }
+                                                            };
+                                                            var chart = new ApexCharts(document.querySelector("#pieChartWise<?= $res['id'] ?>"), options);
+                                                            chart.render();
+                                                         });
+                                                      </script>
+                                                      <!-- End Pie Chart -->
+                                                   <?php } ?>
+                                                   <p class="chart-label">Yesterday</p>
+                                                </div>
+                                                <div class="col-md-4 text-center">
+                                                   <?php if ($res['thismonthHourBillUsr'] != 0) { ?>
+                                                      <!-- Pie Chart -->
+                                                      <div id="pieChartMonthWise<?= $res['id'] ?>"></div>
+                                                      <script>
+                                                         document.addEventListener("DOMContentLoaded", () => {
+                                                            var options = {
+                                                               series: [<?= $res['thismonthHourBillUsr'] ?>, <?= $res['thismonthMinBillUsr'] ?>],
+                                                               chart: {
+                                                                     width: "100%",
+                                                                     height: '75%',
+                                                                     type: 'donut',
+                                                               },
+                                                               dataLabels: {
+                                                                     enabled: true,
+                                                                     style: {
+                                                                        fontSize: '12px',
+                                                                     },
+                                                                     background: {
+                                                                        enabled: true,
+                                                                        foreColor: '#000',
+                                                                        padding: 4,
+                                                                        borderRadius: 2,
+                                                                        borderWidth: 1,
+                                                                        borderColor: '#ffc107',
+                                                                     },
+                                                               },
+                                                               plotOptions: {
+                                                                        pie: {
+                                                                           donut: {
+                                                                              size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                                           }
+                                                                        }
+                                                                     },
+                                                               fill: {
+                                                                     colors: ['#C5EEC5', '#FD6363']
+                                                               },
+                                                               colors: ['#C5EEC5', '#FD6363'],
+                                                               labels: ['Billable', 'Non-Billable'],
+                                                               responsive: [
+                                                                  {
+                                                                     breakpoint: 1375,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '60%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     breakpoint: 1110,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '55%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     breakpoint: 992,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '70%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     breakpoint: 768,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '100%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  }
+                                                               ],
+                                                               legend: {
+                                                                  show: false,
+                                                               }
+                                                            };
+                                                            var chart = new ApexCharts(document.querySelector("#pieChartMonthWise<?= $res['id'] ?>"), options);
+                                                            chart.render();
+                                                         });
+                                                      </script>
+                                                      <!-- End Pie Chart -->
+                                                   <?php } ?>
+                                                   <p class="chart-label">This Month</p>
+                                                </div>
+                                                <div class="col-md-4 text-center">
+                                                   <?php if ($res['lastmonthHourBillUsr'] != 0) { ?>
+                                                   <!-- Pie Chart -->
+                                                      <div id="pieChartlmWise<?= $res['id'] ?>"></div>
+                                                      <script>
+                                                         document.addEventListener("DOMContentLoaded", () => {
+                                                            var options = {
+                                                               series: [<?= $res['lastmonthHourBillUsr'] ?>, <?= $res['lastmonthMinBillUsr'] ?>],
+                                                               chart: {
+                                                                     width: "100%",
+                                                                     height: '75%',
+                                                                     type: 'donut',
+                                                               },
+                                                               plotOptions: {
+                                                                        pie: {
+                                                                           donut: {
+                                                                              size: '35%', // Adjust the size of the inner circle (can be changed as per your preference)
+                                                                           }
+                                                                        }
+                                                                     },
+                                                               fill: {
+                                                                     colors: ['#C5EEC5', '#FD6363']
+                                                               },
+                                                               dataLabels: {
+                                                                     enabled: true,
+                                                                     style: {
+                                                                        fontSize: '12px',
+                                                                     },
+                                                                     background: {
+                                                                        enabled: true,
+                                                                        foreColor: '#000',
+                                                                        padding: 4,
+                                                                        borderRadius: 2,
+                                                                        borderWidth: 1,
+                                                                        borderColor: '#ffc107',
+                                                                     },
+                                                               },
+                                                               colors: ['#C5EEC5', '#FD6363'],
+                                                               labels: ['Billable', 'Non-Billable'],
+                                                               responsive: [
+                                                                  {
+                                                                     breakpoint: 1375,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '60%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     breakpoint: 1110,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '55%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     breakpoint: 992,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '70%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  },
+                                                                  {
+                                                                     breakpoint: 768,
+                                                                     options: {
+                                                                        chart: {
+                                                                           width: "100%",
+                                                                           height: '100%',
+                                                                        },
+                                                                     
+                                                                     }
+                                                                  }
+                                                               ],
+                                                               legend: {
+                                                                  show: false,
+                                                               }
+                                                            };
+                                                            var chart = new ApexCharts(document.querySelector("#pieChartlmWise<?= $res['id'] ?>"), options);
+                                                            chart.render();
+                                                         });
+                                                      </script>
+                                                   <!-- End Pie Chart -->
+                                                   <?php } ?>
+                                                   <p class="chart-label">Last Month</p>
+                                                </div>
+                                             </div>
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <?php $counter++;
+                           }
+                           } ?>
+                     </div>
+                  </div>
+               </div>     
                <?php } ?>
             </div>
             <?php } else { ?>

@@ -1,14 +1,3 @@
-/**
-* Template Name: NiceAdmin
-* Updated: Mar 09 2023 with Bootstrap v5.2.3
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
-
-/*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
 }
@@ -102,6 +91,12 @@ th,td{
   font-size: 14px;
   font-weight: bold;
 }
+.heading-box{
+  margin: 16px 0;
+}
+.heading-box .card-header-left p{
+  background: #F4FAFF;
+}
 .table-card  .card-body{
   padding: 0;
 }
@@ -127,17 +122,17 @@ th,td{
   /* box-shadow: 0 0px 10px -5px #000 */
 }
 .general_table_style th,
-.general_table_style td,
-.general_table_style2 th,
-.general_table_style2 td{
-  /* text-align: center !important; */
-  /* vertical-align: middle !important; */
+.general_table_style td{
+  vertical-align: middle !important;
   font-size: 14px !important;
-  padding: 23px 8px !important;
 }
 .general_table_style th{
   text-align: left;
   color: #6D6D6D;
+  padding: 23px 8px !important;
+}
+.general_table_style td{
+  padding: 6px 8px !important;
 }
 .general_table_style td h6{
   font-size: 11px !important;
@@ -159,9 +154,6 @@ th,td{
   color: #4154f1;
   /* box-shadow: 0 3px 7px -5px #142f93; */
 }
-.border{
-  border-bottom: 1px solid #fff;
-}
 .info-date{
   border: 1px solid #fff;
   margin-top: 10px;
@@ -177,6 +169,63 @@ th,td{
 }
 .add-effort .control-label{
   margin-top: 10px
+}
+/* chart section css */
+.chart-holder{
+  background: #fff;
+  border-radius: 8px;
+  padding: 32px;
+  display: flex;
+  flex-wrap: wrap;
+}
+.chart-info,
+.chart-box{
+  width: 50%;
+}
+.all-user-chart .chart-info,
+.all-user-chart .chart-box{
+  width: 100%;
+  height: 100%;
+}
+.all-user-chart .chart-holder{
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin-bottom: 16px;
+}
+.chart-info h4{
+  font-family: "Inter", sans-serif;
+  font-size: 20px;
+  color: #2D2D2E
+}
+.chart-info p,
+.chart-label,
+.chart-info-inner h6{
+  font-family: "Inter", sans-serif;
+  font-size: 12px;
+  color: #606060;
+}
+.chart-info ul{
+  display: flex;
+  align-items: center;
+}
+.chart-info li{
+  font-size: 12px;
+  color: #2D2D2E
+}
+.chart-info li span.billable-dot,
+.chart-info li span.non-billable-dot{
+  width: 9px;
+  height:9px;
+  display: inline-block;
+  border-radius: 50%;
+  margin: 0 8px;
+}
+.chart-info li span.billable-dot{
+  background: #C5EEC5;
+}
+.chart-info li span.non-billable-dot{
+  background: #FD6363;
 }
 /* scrollbar css */
 
@@ -510,6 +559,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   height: 7px;
   border-radius: 50%;
   background-color: #FF0202;
+  margin-left: 5px;
 }
 
 /* custom badge css end*/
@@ -1551,7 +1601,6 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   padding: 20px 0;
   font-size: 14px;
   transition: all 0.3s;
-  border-top: 1px solid #cddfff;
 }
 
 .footer .copyright {
@@ -1943,6 +1992,20 @@ header{
   font-weight: 600;
 }
 
+
+/* responsive start */
+@media screen and (max-width: 1199px){
+  .chart-holder{
+    padding: 20px 10px;
+    margin-bottom: 16px;
+  }
+  .chart-info, .chart-box{
+    width: 100%;
+  }
+  .chart-info-inner p br{
+    display: none;
+  }
+}
 @media screen and (max-width: 400px){
   .sidebar{
     width: 240px;
