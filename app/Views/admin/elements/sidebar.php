@@ -368,12 +368,20 @@ $userId             = $session->user_id;
   <?php //if (checkModuleAccess(11)) { ?>
     <?php //if ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') { ?>
         <li>
-            <a class="<?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="<?= base_url('admin/settings') ?>">
+          <div class="iocn-link">
+            <a class="<?= (($pageSegment == 'settings') ? '' : 'collapsed') ?> <?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="javascript:void(0)">
               <i class="fa fa-gear"></i>
               <span class="link_name">Settings</span>
+              <i class='bx bxs-chevron-down arrow ms-auto'></i>
             </a>
+          </div>            
             <ul class="sub-menu blank">
-              <li><a class="link_name" href="<?= base_url('admin/settings') ?>">Settings</a></li>            
+              <li>
+                <a class="<?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="<?= base_url('admin/settings') ?>">
+                  <i class="fa fa-arrow-right"></i>
+                  <span>Settings</span>
+                </a>        
+              </li>                       
               <li>
                 <a class="<?= (($pageSegment == 'mobile-application') ? 'active' : '') ?>" href="<?= base_url('admin/mobile-application') ?>">
                   <i class="fa fa-arrow-right"></i>
