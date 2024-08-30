@@ -2229,7 +2229,8 @@ class ApiController extends BaseController
         }
         public static function geolocationaddress($lat, $long)
         {
-            $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=AIzaSyDHeAHBftV28TQMq2iqyO730UC6O0WoE9M";
+            $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+            $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=" . $application_setting->google_map_api_code;
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $geocode);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

@@ -104,6 +104,13 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 				$routes->match(['get', 'post'], "work-status/delete/(:any)", "WorkStatusController::confirm_delete/$1");
 				$routes->match(['get', 'post'], "work-status/change-status/(:any)", "WorkStatusController::change_status/$1");
 			/* work status */
+			/* office location */
+				$routes->match(['get'], "office-location/list", "OfficeLocationController::list");
+				$routes->match(['get', 'post'], "office-location/add", "OfficeLocationController::add");
+				$routes->match(['get', 'post'], "office-location/edit/(:any)", "OfficeLocationController::edit/$1");
+				$routes->match(['get', 'post'], "office-location/delete/(:any)", "OfficeLocationController::confirm_delete/$1");
+				$routes->match(['get', 'post'], "office-location/change-status/(:any)", "OfficeLocationController::change_status/$1");
+			/* office location */
 		// master
 		/* projects */
 			$routes->match(['get', 'post'], "projects/list", "ProjectController::list");
