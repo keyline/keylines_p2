@@ -99,20 +99,39 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <?php
                                                 $reports = $res['reports'];
                                                 foreach ($reports as $report) {
-                                                    // $date1              = date_create($report['booked_date']);
-                                                    // $date2              = date_create($report['booked_today']);
-                                                    // $diff               = date_diff($date1, $date2);
-                                                    // $date_difference    = $diff->format("%a");
-                                                    $punchIn = $report['punchIn'];
-                                                    $punchOut = $report['punchOut'];
-                                                    //    echo $report['booked_effort']                                                  
+                                                    if (!empty($report['punchIn'])) {
+                                                        $punchIn = date('H:i', strtotime($report['punchIn']));
+                                                    } else {
+                                                        $punchIn = null; // Handle cases where punchIn is empty
+                                                    }
+                                                
+                                                    if (!empty($report['punchOut'])) {
+                                                        $punchOut = date('H:i', strtotime($report['punchOut']));
+                                                    } else {
+                                                        $punchOut = null; // Handle cases where punchOut is empty
+                                                    }
+                                                
+                                                    $comparison_time = "10:00";
                                                 ?>
-                                                <td>
-                                                    <!-- <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?> d-block h-100" style="cursor:pointer;"><span class="mt-3">IN: <?= date('H:i', strtotime($punchIn)) ?></span> <br> <?php if ($punchOut > 0) { ?> <span class="mt-3">OUT: <?= date('H:i', strtotime($punchOut)) ?></span><?php } ?></span> <?php } ?></p> -->
-                                                    <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?> d-block h-100" style="cursor:pointer;"><span class="mt-3">IN: <?= date('H:i', strtotime($punchIn)) ?></span><?php } ?></p>                                                                                 
-                                                    <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;"><span class="mt-3">OUT: <?= date('H:i', strtotime($punchOut)) ?></span><?php } ?></span></p>                                                                                 
-                                                </td>
-                                                <?php } ?>
+                                                    <td>
+                                                        <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')">
+                                                            <?php if ($punchIn) { ?>
+                                                                <span class="badge <?= ($punchIn <= $comparison_time) ? 'badge-tracker-success' : 'badge-tracker-danger' ?> d-block h-100" style="cursor:pointer;">
+                                                                    <span class="mt-3">IN: <?= $punchIn ?></span>
+                                                                </span>
+                                                            <?php } ?>
+                                                        </p>                                                                                 
+                                                        <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')">
+                                                            <?php if ($punchOut) { ?>
+                                                                <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;">
+                                                                    <span class="mt-3">OUT: <?= $punchOut ?></span>
+                                                                </span>
+                                                            <?php } ?>
+                                                        </p>                                                                                 
+                                                    </td>
+                                                <?php 
+                                                } 
+                                                ?>
                                             </tr>
                                     <?php $counter++;
                                         }
