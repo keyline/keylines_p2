@@ -152,7 +152,7 @@
                         <div class="row">
                            <div class="col-md-4">
                               <div class="card-header-left">
-                                 <ul class="d-flex align-items-center">                                    
+                                 <ul class="d-flex align-items-center gap-2">                                    
                                     <li>
                                        <p>Present (<?=$total_present_user->user_count?>)</p>
                                     </li>
@@ -380,8 +380,8 @@
                   <?php   } ?>
                   <?php if (checkModuleFunctionAccess(1, 68)) { ?>
                   <div class="card table-card">
-                     <div class="card-header">
-                        <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
+                        <div class="card-header">
+                           <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
                            <div class="row align-items-center">
                               <div class="col-md-7">
                                  <div class="card-header-left">
@@ -1137,7 +1137,7 @@
       </div>
    </div>
    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable mx-auto wide-modal">
+      <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable mx-auto modal-lg">
          <div class="modal-content" id="modalBody">
          </div>
       </div>
@@ -1149,7 +1149,7 @@
       </div>
    </div>
    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mx-auto wide-modal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mx-auto modal-lg">
          <div class="modal-content" id="modalBody2">
          </div>
       </div>

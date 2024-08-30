@@ -30,16 +30,31 @@ $controller_route   = $moduleDetail['controller_route'];
             <?php }?>
         </div>
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card table-card">
+                <div class="card-header">
+                    <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <div class="card-header-left">
+                            <?php if(checkModuleFunctionAccess(4,21)){ ?>
+                                <h5>
+                                    <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
+                                    <a href="<?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivated <?=$title?>s</a>
+                                </h5>
+                            <?php }?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <?php if(checkModuleFunctionAccess(4,21)){ ?>
+                    <!-- ?php if(checkModuleFunctionAccess(4,21)){ ?>
                         <h5 class="card-title">
-                            <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
-                            <a href="<?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivated <?=$title?>s</a>
+                            <a href="?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add ?=$title?></a>
+                            <a href="?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivated ?=$title?>s</a>
                         </h5>
-                    <?php }?>
+                    ?php }?> -->
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
+                        <table id="simpletable" class="table nowrap general_table_style">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
