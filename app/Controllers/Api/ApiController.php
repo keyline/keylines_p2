@@ -1729,8 +1729,24 @@ class ApiController extends BaseController
                                 $getDistance                = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
                                 $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
                                 $allow_punch_distance       = $application_setting->allow_punch_distance;
-                                pr($getDistance);
-                                die;
+                                if(!empty($getDistance)){
+                                    if($getDistance['status']){
+                                        $distance = $getDistance['distance'];
+                                        if($distance <= $allow_punch_distance){
+                                            $attendanceGivenStatus  = 1;
+                                            $apiMessage             = 'Attendance Status Enable !!!';
+                                        } else {
+                                            $attendanceGivenStatus  = 0;
+                                            $apiMessage             = 'You are '.$distance.' meters far from nearest office location. Please make sure you are within '.$allow_punch_distance.' meters radius from your nearest office location !!!';
+                                        }
+                                    } else {
+                                        $attendanceGivenStatus  = 0;
+                                        $apiMessage             = 'Location Not Found !!!'; 
+                                    }
+                                } else {
+                                    $attendanceGivenStatus  = 0;
+                                    $apiMessage             = 'Location Not Found !!!';
+                                }
                             }
 
                             if($attendanceGivenStatus){
@@ -1810,7 +1826,6 @@ class ApiController extends BaseController
                             } else {
                                 $apiStatus          = FALSE;
                                 http_response_code(404);
-                                $apiMessage         = 'Custom Message Goes here !!!';
                             }
                         } else {
                             $apiStatus          = FALSE;
