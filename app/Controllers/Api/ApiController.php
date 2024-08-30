@@ -2373,24 +2373,27 @@ class ApiController extends BaseController
                     // Send a GET request to the API
                     $response       = file_get_contents($url);
                     $data           = json_decode($response, true);
-                    pr($data,0);
+                    // pr($data,0);
                     // Extract distance from the response
-                    // if ($data['status'] === 'OK') {
-                    //     $distance = $data['rows'][0]['elements'][0]['distance']['value']; // Distance in meters
-                    //     // echo "Distance: " . $distance . " meters";
-                    //     $returnData[]     = [
-                    //         'status'    => TRUE,
-                    //         'distance'  => $distance,
-                    //     ];
-                    // } else {
-                    //     // echo "Error: " . $data['status'];
-                    //     $returnData[]     = [
-                    //         'status'    => FALSE,
-                    //         'distance'  => '',
-                    //     ];
-                    // }
+                    if ($data['status'] === 'OK') {
+                        if($data['rows'][0]['elements'][0]['status'] === 'OK'){
+                            $distance = $data['rows'][0]['elements'][0]['distance']['value']; // Distance in meters
+                            // echo "Distance: " . $distance . " meters";
+                            $returnData     = [
+                                'status'    => TRUE,
+                                'distance'  => $distance,
+                            ];
+                        }
+                    } else {
+                        // echo "Error: " . $data['status'];
+                        // $returnData[]     = [
+                        //     'status'    => FALSE,
+                        //     'distance'  => '',
+                        // ];
+                        return $returnData;
+                    }
                 }
-                die;
+                // die;
                 return $returnData;
             } else {
                 return $returnData;
