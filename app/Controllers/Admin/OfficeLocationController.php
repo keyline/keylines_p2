@@ -40,13 +40,15 @@ class OfficeLocationController extends BaseController {
         $data['row']                = [];
         if($this->request->getMethod() == 'post') {
             $postData   = array(
-                'name'                      => $this->request->getPost('name'),
+                'name'                      => strtoupper($this->request->getPost('name')),
                 'phone'                     => $this->request->getPost('phone'),
                 'email'                     => $this->request->getPost('email'),
                 'address'                   => $this->request->getPost('address'),
                 'country'                   => $this->request->getPost('country'),
                 'state'                     => $this->request->getPost('state'),
                 'city'                      => $this->request->getPost('city'),
+                'locality'                  => $this->request->getPost('locality'),
+                'street_no'                 => $this->request->getPost('street_no'),
                 'zipcode'                   => $this->request->getPost('zipcode'),
                 'latitude'                  => $this->request->getPost('latitude'),
                 'longitude'                 => $this->request->getPost('longitude'),
@@ -69,13 +71,15 @@ class OfficeLocationController extends BaseController {
 
         if($this->request->getMethod() == 'post') {
             $postData   = array(
-                'name'                      => $this->request->getPost('name'),
+                'name'                      => strtoupper($this->request->getPost('name')),
                 'phone'                     => $this->request->getPost('phone'),
                 'email'                     => $this->request->getPost('email'),
                 'address'                   => $this->request->getPost('address'),
                 'country'                   => $this->request->getPost('country'),
                 'state'                     => $this->request->getPost('state'),
                 'city'                      => $this->request->getPost('city'),
+                'locality'                  => $this->request->getPost('locality'),
+                'street_no'                 => $this->request->getPost('street_no'),
                 'zipcode'                   => $this->request->getPost('zipcode'),
                 'latitude'                  => $this->request->getPost('latitude'),
                 'longitude'                 => $this->request->getPost('longitude'),

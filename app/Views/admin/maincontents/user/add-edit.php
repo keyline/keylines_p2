@@ -52,7 +52,7 @@ $controller_route   = $moduleDetail['controller_route'];
               $work_mode            = $row->work_mode;
               $is_tracker_user      = $row->is_tracker_user;
               $is_salarybox_user    = $row->is_salarybox_user;
-              $attendence_type      = $row->attendence_type;
+              $attendence_type      = json_decode($row->attendence_type);
             } else {
               $name                 = '';
               $email                = '';
@@ -74,7 +74,7 @@ $controller_route   = $moduleDetail['controller_route'];
               $work_mode            = '';
               $is_tracker_user      = '';
               $is_salarybox_user    = '';
-              $attendence_type      = '';
+              $attendence_type      = [];
             }
             ?>
         <div class="col-xl-7">
@@ -310,6 +310,15 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div>
                                     <div class="col-md-10 col-lg-10">
                                         <div class="general_form_right_box d-flex align-items-center">
+                                            <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Work From Home<br><span style="font-size: 10px;">(Work From Home)</span></label>
+
+                                            <?php if($officeLocations){ foreach($officeLocations as $officeLocation){?>
+                                                <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type<?=$officeLocation->id?>" value="<?=$officeLocation->id?>"  <?=((in_array($officeLocation->id, $attendence_type))?'checked':'')?>> <label for="attendence_type<?=$officeLocation->id?>" onclick="getAttnValue(<?=$officeLocation->id?>);"><?=$officeLocation->name?><br><span style="font-size: 10px;">(<?=$officeLocation->address?>)</span></label>
+                                            <?php } }?>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md-10 col-lg-10">
+                                        <div class="general_form_right_box d-flex align-items-center">
                                             <select name="attendence_type" class="form-control" id="attendence_type" required>
                                                 <option value="" selected>Select Attendence Type</option>
                                                 <option value="OPEN" <?=(($attendence_type == 'OPEN')?'selected':'')?>>OPEN</option>
@@ -317,7 +326,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <option value="OFFICE 2" <?=(($attendence_type == 'OFFICE 2')?'selected':'')?>>OFFICE 2</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!--Profile Image field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
@@ -372,7 +381,6 @@ $controller_route   = $moduleDetail['controller_route'];
         roleIdField.value = roleMapping[selectedType] || '';
     }
 </script>
-
 <script>
     $(function(){
         $('#viewPassword').on('click', function(){
@@ -385,5 +393,20 @@ $controller_route   = $moduleDetail['controller_route'];
             $('#hidePassword').hide();
             $('#viewPassword').show();
         });
-    })
+    });
+    function getAttnValue(valam){
+        // Check if the checkbox is checked
+        if (!$('#attendence_type' + valam).is(':checked')) {
+            // Checkbox is checked, get the value
+            var checkboxValue = $('#attendence_type' + valam).val();
+            // console.log('Checkbox is checked. Value: ' + checkboxValue);
+            if(checkboxValue == 0){
+                $('.attnType').attr('disabled', true);
+                $('#attendence_type' + valam).attr('disabled', false);
+            }
+        } else {
+            // console.log('Checkbox is not checked.');
+            $('.attnType').attr('disabled', false);
+        }
+    }
 </script>
