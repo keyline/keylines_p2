@@ -1720,77 +1720,100 @@ class ApiController extends BaseController
                             }
                         /* profile image */
 
-                        $address    = $this->geolocationaddress($latitude, $longitude);
-                        $punch_date = date('Y-m-d');
-                        if($punch_type == 1){
-                            $punch_in_time      = date('H:i:s');
-                            $punch_in_lat       = $latitude;
-                            $punch_in_lng       = $longitude;
-                            $punch_in_address   = $address;
+                        $attendence_type = json_decode($getUser->attendence_type);
+                        if(!empty($attendence_type)){
+                            if(in_array(0, $attendence_type)){
+                                $address                = $this->geolocationaddress($latitude, $longitude);
+                                $attendanceGivenStatus  = 1;
+                            } else {
+                                echo $getDistance = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
+                                die;
+                            }
 
-                            $from_time          = strtotime($punch_date." ".$punch_in_time);
-                            $to_time            = strtotime($punch_date." 23:59:00");
-                            $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+                            if($attendanceGivenStatus){
+                                $punch_date = date('Y-m-d');
+                                if($punch_type == 1){
+                                    $punch_in_time      = date('H:i:s');
+                                    $punch_in_lat       = $latitude;
+                                    $punch_in_lng       = $longitude;
+                                    $punch_in_address   = $address;
 
-                            $fields2 = [
-                                'punch_in_time'         => $punch_in_time,
-                                'punch_in_lat'          => $punch_in_lat,
-                                'punch_in_lng'          => $punch_in_lng,
-                                'punch_in_address'      => $punch_in_address,
-                                'punch_in_image'        => $user_image,
-                                'punch_out_time'        => '',
-                                'punch_out_lat'         => '',
-                                'punch_out_lng'         => '',
-                                'punch_out_address'     => '',
-                                'punch_out_image'       => '',
-                                'status'                => 1,
-                                'attendance_time'       => $attendance_time,
-                            ];
-                            // pr($fields2);
-                            $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                            $apiMessage         = 'Attendance Punch In Successfully !!!';
-                        } elseif($punch_type == 2){
-                            $punch_out_time      = date('H:i:s');
-                            $punch_out_lat       = $latitude;
-                            $punch_out_lng       = $longitude;
-                            $punch_out_address   = $address;
+                                    $from_time          = strtotime($punch_date." ".$punch_in_time);
+                                    $to_time            = strtotime($punch_date." 23:59:00");
+                                    $attendance_time    = round(abs($to_time - $from_time) / 60,2);
 
-                            $punch_in_time      = $checkPunchIn->punch_in_time;
-                            $from_time          = strtotime($punch_date." ".$punch_in_time);
-                            $to_time            = strtotime($punch_date." ".$punch_out_time);
-                            $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+                                    $fields2 = [
+                                        'punch_in_time'         => $punch_in_time,
+                                        'punch_in_lat'          => $punch_in_lat,
+                                        'punch_in_lng'          => $punch_in_lng,
+                                        'punch_in_address'      => $punch_in_address,
+                                        'punch_in_image'        => $user_image,
+                                        'punch_out_time'        => '',
+                                        'punch_out_lat'         => '',
+                                        'punch_out_lng'         => '',
+                                        'punch_out_address'     => '',
+                                        'punch_out_image'       => '',
+                                        'status'                => 1,
+                                        'attendance_time'       => $attendance_time,
+                                    ];
+                                    // pr($fields2);
+                                    $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+                                    $apiMessage         = 'Attendance Punch In Successfully !!!';
+                                    $apiStatus          = TRUE;
+                                    http_response_code(200);
+                                } elseif($punch_type == 2){
+                                    $punch_out_time      = date('H:i:s');
+                                    $punch_out_lat       = $latitude;
+                                    $punch_out_lng       = $longitude;
+                                    $punch_out_address   = $address;
 
-                            $fields2 = [
-                                'punch_out_time'        => $punch_out_time,
-                                'punch_out_lat'         => $punch_out_lat,
-                                'punch_out_lng'         => $punch_out_lng,
-                                'punch_out_address'     => $punch_out_address,
-                                'punch_out_image'       => $user_image,
-                                'status'                => 2,
-                                'attendance_time'       => $attendance_time,
-                            ];
-                            $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                            $apiMessage         = 'Punch Out Successfully !!!';
+                                    $punch_in_time      = $checkPunchIn->punch_in_time;
+                                    $from_time          = strtotime($punch_date." ".$punch_in_time);
+                                    $to_time            = strtotime($punch_date." ".$punch_out_time);
+                                    $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+
+                                    $fields2 = [
+                                        'punch_out_time'        => $punch_out_time,
+                                        'punch_out_lat'         => $punch_out_lat,
+                                        'punch_out_lng'         => $punch_out_lng,
+                                        'punch_out_address'     => $punch_out_address,
+                                        'punch_out_image'       => $user_image,
+                                        'status'                => 2,
+                                        'attendance_time'       => $attendance_time,
+                                    ];
+                                    $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+                                    $apiMessage         = 'Punch Out Successfully !!!';
+                                    $apiStatus          = TRUE;
+                                    http_response_code(200);
+                                } else {
+                                    $punch_out_time = date('H:i:s');
+                                    $punch_in_lat       = $latitude;
+                                    $punch_in_lng       = $longitude;
+                                    $punch_in_address   = $address;
+
+                                    $fields2 = [
+                                        'punch_out_time'        => $punch_out_time,
+                                        'punch_out_lat'         => $punch_out_lat,
+                                        'punch_out_lng'         => $punch_out_lng,
+                                        'punch_out_address'     => $punch_out_address,
+                                        'punch_out_image'       => $user_image,
+                                        'status'                => 2,
+                                    ];
+                                    $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+                                    $apiMessage         = 'Punch Out Successfully !!!';
+                                    $apiStatus          = TRUE;
+                                    http_response_code(200);
+                                }
+                            } else {
+                                $apiStatus          = FALSE;
+                                http_response_code(404);
+                                $apiMessage         = 'Custom Message Goes here !!!';
+                            }
                         } else {
-                            $punch_out_time = date('H:i:s');
-                            $punch_in_lat       = $latitude;
-                            $punch_in_lng       = $longitude;
-                            $punch_in_address   = $address;
-
-                            $fields2 = [
-                                'punch_out_time'        => $punch_out_time,
-                                'punch_out_lat'         => $punch_out_lat,
-                                'punch_out_lng'         => $punch_out_lng,
-                                'punch_out_address'     => $punch_out_address,
-                                'punch_out_image'       => $user_image,
-                                'status'                => 2,
-                            ];
-                            $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                            $apiMessage         = 'Punch Out Successfully !!!';
-                        }
-
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
+                            $apiStatus          = FALSE;
+                            http_response_code(404);
+                            $apiMessage         = 'Please Contact System Administrator For Attendance Type Update !!!';
+                        }                        
                         $apiExtraField      = 'response_code';
                         $apiExtraData       = http_response_code();
                     } else {
@@ -2319,6 +2342,37 @@ class ApiController extends BaseController
                 $address = 'Not Found';
             }
             return $address;
+        }
+        public function getGeolocationDistance($lat, $long, $attn_type){
+            $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+            $google_map_api_code        = $application_setting->google_map_api_code;
+
+
+            // Your Google Maps API key
+            $apiKey         = $google_map_api_code;
+
+            // Coordinates of the first point
+            $latitudeFrom   = $lat;
+            $longitudeFrom  = $long;
+
+            // Coordinates of the second point
+            $latitudeTo     = '22.4834176';
+            $longitudeTo    = '88.350976';
+
+            // Google Maps Distance Matrix API URL
+            $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=$apiKey";
+
+            // Send a GET request to the API
+            $response       = file_get_contents($url);
+            $data           = json_decode($response, true);
+            pr($data);
+            // Extract distance from the response
+            if ($data['status'] === 'OK') {
+                $distance = $data['rows'][0]['elements'][0]['distance']['value']; // Distance in meters
+                echo "Distance: " . $distance . " meters";
+            } else {
+                echo "Error: " . $data['status'];
+            }
         }
     /* after login */
     
