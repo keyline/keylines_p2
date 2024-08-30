@@ -2359,7 +2359,7 @@ class ApiController extends BaseController
             $returnData     = [];
             if(!empty($attn_type)){
                 for($l=0;$l<count($attn_type);$l++){
-                    $getOfficeLocation  = $this->common_model->find_data('office_locations', 'row', ['id' => $attn_type[$a]], 'latitude,longitude');
+                    $getOfficeLocation  = $this->common_model->find_data('office_locations', 'row', ['id' => $attn_type[$l]], 'latitude,longitude');
                     $latitude           = (($getOfficeLocation)?$getOfficeLocation->latitude:'');
                     $longitude          = (($getOfficeLocation)?$getOfficeLocation->longitude:'');
 
