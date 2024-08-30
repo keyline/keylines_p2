@@ -1726,7 +1726,8 @@ class ApiController extends BaseController
                                 $address                = $this->geolocationaddress($latitude, $longitude);
                                 $attendanceGivenStatus  = 1;
                             } else {
-                                echo $getDistance = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
+                                $getDistance = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
+                                pr($getDistance);
                                 die;
                             }
 
@@ -2347,31 +2348,51 @@ class ApiController extends BaseController
             $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
             $google_map_api_code        = $application_setting->google_map_api_code;
 
-
             // Your Google Maps API key
-            $apiKey         = 'AIzaSyDHeAHBftV28TQMq2iqyO730UC6O0WoE9M';
+            $apiKey         = $google_map_api_code;
 
             // Coordinates of the first point
-            $latitudeFrom   = '40.748817';
-            $longitudeFrom  = '-73.985428';
+            // $latitudeFrom   = '40.748817';
+            // $longitudeFrom  = '-73.985428';
+            $latitudeFrom   = $lat;
+            $longitudeFrom  = $long;
+            $returnData     = [];
+            if(!empty($attn_type)){
+                for($l=0;$<count($attn_type);$l++){
+                    $getOfficeLocation  = $this->common_model->find_data('office_locations', 'row', ['id' => $attendence_type[$a]], 'latitude,longitude');
+                    $latitude           = (($getOfficeLocation)?$getOfficeLocation->latitude:'');
+                    $longitude          = (($getOfficeLocation)?$getOfficeLocation->longitude:'');
 
-            // Coordinates of the second point
-            $latitudeTo     = '40.689247';
-            $longitudeTo    = '-74.044502';
-
-            // Google Maps Distance Matrix API URL
-            $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=$apiKey";
-
-            // Send a GET request to the API
-            $response       = file_get_contents($url);
-            $data           = json_decode($response, true);
-            pr($data);
-            // Extract distance from the response
-            if ($data['status'] === 'OK') {
-                $distance = $data['rows'][0]['elements'][0]['distance']['value']; // Distance in meters
-                echo "Distance: " . $distance . " meters";
+                    // Coordinates of the second point
+                    // $latitudeTo     = '40.689247';
+                    // $longitudeTo    = '-74.044502';
+                    $latitudeTo     = $latitude;
+                    $longitudeTo    = $longitude;
+                    // Google Maps Distance Matrix API URL
+                    $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=$apiKey";
+                    // Send a GET request to the API
+                    $response       = file_get_contents($url);
+                    $data           = json_decode($response, true);
+                    // pr($data);
+                    // Extract distance from the response
+                    if ($data['status'] === 'OK') {
+                        $distance = $data['rows'][0]['elements'][0]['distance']['value']; // Distance in meters
+                        // echo "Distance: " . $distance . " meters";
+                        $returnData[]     = [
+                            'status'    => TRUE,
+                            'distance'  => $distance,
+                        ];
+                    } else {
+                        // echo "Error: " . $data['status'];
+                        $returnData[]     = [
+                            'status'    => FALSE,
+                            'distance'  => '',
+                        ];
+                    }
+                }
+                return $returnData;
             } else {
-                echo "Error: " . $data['status'];
+                return $returnData;
             }
         }
     /* after login */
