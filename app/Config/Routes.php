@@ -284,6 +284,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['post'], "get-single-attendance", "ApiController::getSingleAttendance");
 			
 			$routes->match(['post'], "get-notifications", "ApiController::getNotifications");
+			$routes->match(['post'], "get-notes", "ApiController::getNotes");
 			$routes->match(['post'], "update-note", "ApiController::updateNote");
 		// after login
 	});

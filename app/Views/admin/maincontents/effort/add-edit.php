@@ -123,7 +123,7 @@
                                         <?php
                                         if($morningSchedules){ $ms = 1; foreach($morningSchedules as $morningSchedule){
                                             $currentDate                        = date('Y-m-d');
-                                            $currentTime                        = date('Y-m-d');
+                                            $currentTime                        = date('H:i');
                                             $application_setting                = $common_model->find_data('application_settings', 'row', ['id' => 1]);
                                             $current_date_tasks_show_in_effort  = $application_setting->current_date_tasks_show_in_effort;
                                             if($currentDate != $morningSchedule->date_added){
