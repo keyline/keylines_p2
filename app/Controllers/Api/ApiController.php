@@ -1825,18 +1825,18 @@ class ApiController extends BaseController
                                 }
                             } else {
                                 $apiStatus          = FALSE;
-                                http_response_code(404);
+                                http_response_code(200);
                             }
                         } else {
                             $apiStatus          = FALSE;
-                            http_response_code(404);
+                            http_response_code(200);
                             $apiMessage         = 'Please Contact System Administrator For Attendance Type Update !!!';
                         }                        
                         $apiExtraField      = 'response_code';
                         $apiExtraData       = http_response_code();
                     } else {
                         $apiStatus          = FALSE;
-                        http_response_code(404);
+                        http_response_code(200);
                         $apiMessage         = 'User Not Found !!!';
                         $apiExtraField      = 'response_code';
                         $apiExtraData       = http_response_code();
