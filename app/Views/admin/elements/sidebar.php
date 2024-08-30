@@ -63,12 +63,11 @@ $userId             = $session->user_id;
     </div>
     <ul
       class="sub-menu <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'show' : '') ?>">
-      <!-- <li>
-        <a class="<?= (($pageSegment == 'users') ? '' : 'collapsed') ?> <?= (($pageSegment == 'users') ? 'active' : '') ?>"
-          href="javascript:void(0)">
-          <span class="link_name">User Module</span>
+      <li>
+        <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>">
+          <span class="link_name">User & Permission Management</span>
         </a>
-      </li> -->
+      </li>
       <li>
         <a class="<?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
           <i class="fa fa-arrow-right"></i>
@@ -383,7 +382,12 @@ $userId             = $session->user_id;
               <i class='bx bxs-chevron-down arrow ms-auto'></i>
             </a>
           </div>            
-            <ul class="sub-menu blank">
+            <ul class="sub-menu">
+            <li>
+                <a class="<?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="javascript:void(0)">
+                  <span class="link_name">All Settings</span>
+                </a>        
+              </li> 
               <li>
                 <a class="<?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="<?= base_url('admin/settings') ?>">
                   <i class="fa fa-arrow-right"></i>

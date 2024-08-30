@@ -10,6 +10,7 @@
 body {
   font-family: "lato", sans-serif;
   color: #454545;
+  overflow-x: hidden;
 }
 ul{
   list-style: none;
@@ -177,6 +178,7 @@ th,td{
   padding: 32px;
   display: flex;
   flex-wrap: wrap;
+  height: 100%;
 }
 .chart-info,
 .chart-box{
@@ -429,8 +431,8 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 # Main
 --------------------------------------------------------------*/
 #main {
-  margin-top: 60px;
-  padding: 20px 15px;
+  margin-top: 70px;
+  padding: 20px 15px 0;
   transition: all 0.3s;
   background: #E4F3FF;
   border-radius: 12px;
@@ -561,8 +563,36 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   background-color: #FF0202;
   margin-left: 5px;
 }
+.dots{
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dots-bg-dark-success{
+  background: #247426;
+}
+.dots-bg-light-success{
+  background: #4CAB4F;
+}
+.dots-bg-dark-denger{
+  background: #EA2A2A;
+}
+.dots-bg-light-denger{
+  background: #C10000;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
 
 /* custom badge css end*/
+.lagend-list li{
+  color: #696969;
+  font-family: 'lato';
+  font-size: 12px;
+  font-style: normal;
+}
 .tracker-icon{
   width: 15px;
   margin-right: 3px;
@@ -690,7 +720,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 .card {
   margin-bottom: 15px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
@@ -1598,21 +1628,20 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 # Footer
 --------------------------------------------------------------*/
 .footer {
-  padding: 20px 0;
+  padding: 4px 0 20px;
   font-size: 14px;
   transition: all 0.3s;
 }
 
-.footer .copyright {
-  text-align: center;
-  color: #012970;
+.copyright p,
+.credits p{
+  font-family: 'lato';
+  font-size: 12px;
+  color: #6D6D6D;
 }
 
 .footer .credits {
-  padding-top: 5px;
-  text-align: center;
-  font-size: 13px;
-  color: #012970;
+  text-align: right;
 }
 
 
@@ -1713,8 +1742,9 @@ header{
   height: 100%;
 }
 .sidebar{
-  position: absolute;
-  top: 0;
+  /* position: absolute; */
+  position: fixed;
+  top: 70px;
   left: 0;
   height: 100%;
   width: 260px;
@@ -1890,7 +1920,7 @@ header{
   display: block;
   pointer-events: none;
   transition: 0s;
-  width: 210px;
+  width: 240px;
 }
 .sidebar.close .nav-links li .sub-menu a{
   width: 100%;
