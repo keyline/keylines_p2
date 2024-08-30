@@ -77,7 +77,22 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <a href="<?=base_url('admin/' . $controller_route . '/change-salarybox-status/'.encoded($row->$primary_key))?>" class="badge bg-danger" title="Salarybox Off <?=$title?>" onclick="return confirm('Do You Want To Salarybox On This <?=$title?>');"><i class="fa fa-times"></i> Salarybox Off</a>
                                         <?php }?>
                                     </td>
-                                    <td><?=$row->attendence_type?></td>
+                                    <td>
+                                        <ul>
+                                            <?php
+                                            $attendence_type = json_decode($row->attendence_type);
+                                            if(count($attendence_type) > 0){ for($a=0;$a<count($attendence_type);$a++){
+                                                if($attendence_type[$a] == 0){
+                                                    $attnType = 'WORK FROM HOME';
+                                                } else {
+                                                    $getOfficeLocation = $common_model->find_data('office_locations', 'row', ['id' => $attendence_type[$a]], 'name');
+                                                    $attnType = (($getOfficeLocation)?$getOfficeLocation->name:'');
+                                                }
+                                            ?>
+                                                <li><small><?=$attnType?></small></li>
+                                            <?php } }?>
+                                        </ul>
+                                    </td>
                                     <td>
                                         <?php if(checkModuleFunctionAccess(4,22)){ ?>
                                         <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>

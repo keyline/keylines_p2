@@ -66,7 +66,7 @@ class UserController extends BaseController {
         }else{
         $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1, 'id!=' => 1]);
         }
-        // pr($data['roleMasters']);
+        $data['officeLocations']    = $this->data['model']->find_data('office_locations', 'array', ['status=' => 1], 'id,name,address');
         if($this->request->getMethod() == 'post') {
             //  pr($this->request->getPost());
             /* profile image */
@@ -85,6 +85,16 @@ class UserController extends BaseController {
                     $profile_image = '';
                 }
             /* profile image */
+            $attendence_type = $this->request->getPost('attendence_type');
+            if(!empty($attendence_type)){
+                if(in_array(0, $attendence_type)){
+                    $attnType = array('0');
+                } else {
+                    $attnType = $attendence_type;
+                }
+            } else {
+                $attnType = array('0');
+            }
             $postData   = array(
                 'name'                  => $this->request->getPost('name'),
                 'email'                 => $this->request->getPost('email'),
@@ -107,7 +117,7 @@ class UserController extends BaseController {
                 'work_mode'             => $this->request->getPost('work_mode'),
                 'is_tracker_user'       => $this->request->getPost('is_tracker_user'),
                 'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
-                'attendence_type'       => $this->request->getPost('attendence_type'),
+                'attendence_type'       => json_encode($attnType),
                 'date_added'            => date('Y-m-d H:i:s'),
             );
             //  pr($postData);
@@ -154,7 +164,7 @@ class UserController extends BaseController {
             }else{
             $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1, 'id!=' => 1]);
             }
-        // pr($data['roleMasters']);
+        $data['officeLocations']    = $this->data['model']->find_data('office_locations', 'array', ['status=' => 1], 'id,name,address');
         if($this->request->getMethod() == 'post') {
             /* profile image */
                 $file = $this->request->getFile('image');
@@ -179,6 +189,16 @@ class UserController extends BaseController {
             else{
                 $newPassword = md5($this->request->getPost('password'));
             }
+            $attendence_type = $this->request->getPost('attendence_type');
+            if(!empty($attendence_type)){
+                if(in_array(0, $attendence_type)){
+                    $attnType = array('0');
+                } else {
+                    $attnType = $attendence_type;
+                }
+            } else {
+                $attnType = array('0');
+            }
             $postData   = array(
                 'name'                  => $this->request->getPost('name'),
                 'email'                 => $this->request->getPost('email'),
@@ -200,9 +220,9 @@ class UserController extends BaseController {
                 'work_mode'             => $this->request->getPost('work_mode'),
                 'is_tracker_user'       => $this->request->getPost('is_tracker_user'),
                 'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
-                'attendence_type'       => $this->request->getPost('attendence_type'),
+                'attendence_type'       => json_encode($attnType),
             );
-            //   pr($postData);
+            // pr($postData);
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/list');

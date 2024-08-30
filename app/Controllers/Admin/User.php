@@ -1401,6 +1401,8 @@ class User extends BaseController {
                 'encryption_api_secret_key'         => $this->request->getPost('encryption_api_secret_key'),
                 'encryption_api_secret_iv'          => $this->request->getPost('encryption_api_secret_iv'),
                 'encryption_api_encrypt_method'     => $this->request->getPost('encryption_api_encrypt_method'),
+                'google_map_api_code'               => $this->request->getPost('google_map_api_code'),
+                'allow_punch_distance'              => $this->request->getPost('allow_punch_distance'),
                 'sunday'                            => $sundayJson,
                 'monday'                            => $mondayJson,
                 'tuesday'                           => $tuesdayJson,

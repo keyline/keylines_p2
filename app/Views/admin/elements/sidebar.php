@@ -286,9 +286,9 @@ $userId             = $session->user_id;
       </a>
     </div>
     <ul
-      class="sub-menu <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'show' : '') ?>">
+      class="sub-menu <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'office-location') ? 'show' : '') ?>">
       <li>
-        <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
+        <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'office-location') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'office-location') ? 'active' : '') ?>"
           href="javascript:void(0)">
           <span class="link_name">Masters</span>
         </a>
@@ -326,7 +326,15 @@ $userId             = $session->user_id;
           <i class="fa fa-arrow-right"></i><span>Work Status</span>
         </a>
       </li>
-      <?php } ?>    
+      <?php } ?>
+      <?php if(checkModuleAccess(30)){ ?>
+      <li>
+        <a class="<?= (($pageSegment == 'office-location') ? 'active' : '') ?>"
+          href="<?= base_url('admin/office-location/list') ?>">
+          <i class="fa fa-arrow-right"></i><span>Office Locations</span>
+        </a>
+      </li>
+      <?php } ?>
     </ul>
   </li>
   <?php } ?>
