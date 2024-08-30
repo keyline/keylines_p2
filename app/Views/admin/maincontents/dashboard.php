@@ -145,7 +145,7 @@
                </div>
                <!-- End Vendors Card -->
                <?php   } ?>
-                  <?php if($userType == "SUPER ADMIN") {?>
+                  <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
                <div class="col-md-12">
                   <div class="card table-card">
                      <div class="card-header">
@@ -157,7 +157,7 @@
                                        <p>Present (<?=$total_present_user->user_count?>)</p>
                                     </li>
                                     <li>
-                                       <p>Absent (<?=$total_absent_user->user_count?>)</p>
+                                       <p>Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
                                     </li>                                    
                                  </ul>
                               </div>
@@ -334,12 +334,37 @@
                                        <?php
                                           $reports = $res['Attendancereports'];
                                           foreach ($reports as $report) {
-                                              $punchIn = $report['punchIn'];
-                                              $punchOut = $report['punchOut'];
+                                             if (!empty($report['punchIn'])) {
+                                                $punchIn = date('H:i', strtotime($report['punchIn']));
+                                            } else {
+                                                $punchIn = null; // Handle cases where punchIn is empty
+                                            }
+                                        
+                                            if (!empty($report['punchOut'])) {
+                                                $punchOut = date('H:i', strtotime($report['punchOut']));
+                                            } else {
+                                                $punchOut = null; // Handle cases where punchOut is empty
+                                            }
+                                        
+                                            $comparison_time = "10:00";
                                           ?>
                                        <td>
-                                       <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?> d-block h-100 cursor-pointer"><span class="mt-3">IN: <?= date('H:i', strtotime($punchIn)) ?></span><?php } ?></p>                                                                                 
-                                       <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge badge-desktime-success d-block h-100 cursor-pointer"><span class="mt-3">OUT: <?= date('H:i', strtotime($punchOut)) ?></span><?php } ?></span></p>                                                                                 
+                                       <!-- <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?> d-block h-100" style="cursor:pointer;"><span class="mt-3">IN: <?= date('H:i', strtotime($punchIn)) ?></span><?php } ?></p>                                                                                 
+                                       <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchOut > 0) { ?><span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;"><span class="mt-3">OUT: <?= date('H:i', strtotime($punchOut)) ?></span><?php } ?></span></p>                                                                                  -->
+                                       <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')">
+                                          <?php if ($punchIn) { ?>
+                                                <span class="badge <?= ($punchIn <= $comparison_time) ? 'badge-tracker-success' : 'badge-tracker-danger' ?> d-block h-100" style="cursor:pointer;">
+                                                   <span class="mt-3">IN: <?= $punchIn ?></span>
+                                                </span>
+                                          <?php } ?>
+                                       </p>                                                                                 
+                                       <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')">
+                                          <?php if ($punchOut) { ?>
+                                                <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;">
+                                                   <span class="mt-3">OUT: <?= $punchOut ?></span>
+                                                </span>
+                                          <?php } ?>
+                                       </p>         
                                        </td>
                                        <?php } ?>
                                     </tr>

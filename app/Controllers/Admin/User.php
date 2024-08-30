@@ -357,8 +357,9 @@ class User extends BaseController {
                     $data['total_bill_projects']        = $this->common_model->find_data('project', 'count', ['bill' => 0, 'active' => 0]);
                     $data['total_clients']              = $this->common_model->find_data('client', 'count');
                     $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
-                    $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();                
-                    $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                    
+                    $data['total_app_user']             = $this->db->query("SELECT COUNT(id) as user_count FROM `user` WHERE is_salarybox_user = '1'")->getRow();                
+                    $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
+                    // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                    
                     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                     // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
@@ -1139,14 +1140,19 @@ class User extends BaseController {
                                 </td>                                                                
                                 <td><b>IN:</b> ' . esc($record->punch_in_time) .'</td>
                                 <td>' . esc($record->punch_in_address) . '</td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <img src="' . getenv('app.uploadsURL') . 'user/' . esc($record->punch_out_image) . '" alt="' . esc($record->user_id) . '" class="rounded-circle punch-img">
-                                </td>                                                                
-                                <td><b>OUT:</b> ' . esc($record->punch_out_time) .'</td>
-                                <td>' . esc($record->punch_out_address) . '</td>
-                            </tr>';
+                            </tr> ';
+                    if($record->punch_out_address!= ''){
+                        $html .= '<tr>
+                                    <td>
+                                        <img src="' . getenv('app.uploadsURL') . 'user/' . esc($record->punch_out_image) . '" alt="' . esc($record->user_id) . '" class="rounded-circle punch-img">
+                                    </td>                                                                
+                                    <td><b>OUT:</b> ' . esc($record->punch_out_time) .'</td>
+                                    <td>' . esc($record->punch_out_address) . '</td>
+                                </tr>';
+                    
+                    }
+
+                            
                 }
             } else {
                 $html .= '<tr>
