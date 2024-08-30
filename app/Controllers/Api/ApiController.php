@@ -2352,12 +2352,12 @@ class ApiController extends BaseController
             $apiKey         = 'AIzaSyDHeAHBftV28TQMq2iqyO730UC6O0WoE9M';
 
             // Coordinates of the first point
-            $latitudeFrom   = $lat;
-            $longitudeFrom  = $long;
+            $latitudeFrom   = '40.748817';
+            $longitudeFrom  = '-73.985428';
 
             // Coordinates of the second point
-            $latitudeTo     = '22.4834176';
-            $longitudeTo    = '88.350976';
+            $latitudeTo     = '40.689247';
+            $longitudeTo    = '-74.044502';
 
             // Google Maps Distance Matrix API URL
             $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=$apiKey";
