@@ -1673,13 +1673,20 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   }
   .dashboard .modal-header .modal-title{
     width: 70%;
-  }
+  }  
 }
 @media (max-width: 480px) {
 body{font-size: 12px;}
 select.form-control {
     font-size: 12px;
 }
+}
+
+.punch-img{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  object-position: center center;
 }
 
 
@@ -1745,7 +1752,7 @@ header{
   pointer-events: none;
 }
 .sidebar .nav-links{
-  height: 100vh;
+  /* height: 100vh; */
   /* padding: 30px 0 150px 0; */
   overflow: auto;
 }
@@ -1773,6 +1780,8 @@ header{
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
+  z-index: 1;
 }
 .sidebar.close .nav-links li .iocn-link{
   display: block
@@ -1803,7 +1812,10 @@ header{
 .sidebar .nav-links li a.active i{
   background-color: #B9EDFF;
 }
-.sidebar .nav-links li.showMenu i.arrow{
+/* .sidebar .nav-links .showMenu i.arrow{
+  transform: rotate(-180deg);
+} */
+.rotate{
   transform: rotate(-180deg);
 }
 .sidebar.close .nav-links i.arrow{
@@ -1828,14 +1840,25 @@ header{
   pointer-events: none;
 }
 .sidebar .nav-links li .sub-menu{
-  padding: 6px 6px 14px 0;
-  margin-top: -15px;
+  padding: 0px 6px 10px 0;
   background: #fff;
-  box-shadow: 0 0 36px #ccc;
+  box-shadow: 0px 0px 20px -12px #000;
   display: none;
+  border-radius: 10px;
+  position: relative;
+  margin-top: 5px;
+  /* transition: all .4s ease-in-out; */
+}
+.sidebar .nav-links li .sub-menu{
+  display: none;
+  /* transition: all .4s ease-in-out; */
 }
 .sidebar .nav-links li.showMenu .sub-menu{
   display: block;
+  /* transition: all .4s ease-in-out; */
+}
+.sidebar.close .sub-menu {
+  display: unset !important;
 }
 .sidebar .nav-links li .sub-menu a{
   color: #fff;
@@ -1843,10 +1866,14 @@ header{
   padding: 5px 0;
   white-space: nowrap;
   opacity: 0.6;
-  transition: all 0.3s ease;
+  transition: all 0.3s ease-in-out;
 }
 .sidebar .nav-links li .sub-menu a:hover{
   opacity: 1;
+  padding-left: 10px;
+}
+.sidebar.close .nav-links li .sub-menu li:first-child a:hover{
+  padding-left: 0;
 }
 .sidebar.close .nav-links li a{
   width: 36px;
