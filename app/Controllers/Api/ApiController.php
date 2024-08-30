@@ -1726,9 +1726,9 @@ class ApiController extends BaseController
                                 $address                = $this->geolocationaddress($latitude, $longitude);
                                 $attendanceGivenStatus  = 1;
                             } else {
-                                $getDistance = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
-                                pr($getDistance);
-                                die;
+                                $getDistance                = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
+                                $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+                                $allow_punch_distance       = $application_setting->allow_punch_distance;
                             }
 
                             if($attendanceGivenStatus){
@@ -2373,22 +2373,22 @@ class ApiController extends BaseController
                     // Send a GET request to the API
                     $response       = file_get_contents($url);
                     $data           = json_decode($response, true);
-                    // pr($data);
+                    pr($data,0);
                     // Extract distance from the response
-                    if ($data['status'] === 'OK') {
-                        $distance = $data['rows'][0]['elements'][0]['distance']['value']; // Distance in meters
-                        // echo "Distance: " . $distance . " meters";
-                        $returnData[]     = [
-                            'status'    => TRUE,
-                            'distance'  => $distance,
-                        ];
-                    } else {
-                        // echo "Error: " . $data['status'];
-                        $returnData[]     = [
-                            'status'    => FALSE,
-                            'distance'  => '',
-                        ];
-                    }
+                    // if ($data['status'] === 'OK') {
+                    //     $distance = $data['rows'][0]['elements'][0]['distance']['value']; // Distance in meters
+                    //     // echo "Distance: " . $distance . " meters";
+                    //     $returnData[]     = [
+                    //         'status'    => TRUE,
+                    //         'distance'  => $distance,
+                    //     ];
+                    // } else {
+                    //     // echo "Error: " . $data['status'];
+                    //     $returnData[]     = [
+                    //         'status'    => FALSE,
+                    //         'distance'  => '',
+                    //     ];
+                    // }
                 }
                 return $returnData;
             } else {
