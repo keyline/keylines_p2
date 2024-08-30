@@ -1729,6 +1729,8 @@ class ApiController extends BaseController
                                 $getDistance                = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
                                 $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
                                 $allow_punch_distance       = $application_setting->allow_punch_distance;
+                                pr($getDistance);
+                                die;
                             }
 
                             if($attendanceGivenStatus){
