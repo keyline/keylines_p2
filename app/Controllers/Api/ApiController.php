@@ -2349,7 +2349,7 @@ class ApiController extends BaseController
 
 
             // Your Google Maps API key
-            $apiKey         = $google_map_api_code;
+            $apiKey         = 'AIzaSyBMbNCogNokCwVmJCRfefB6iCYUWv28LjQ';
 
             // Coordinates of the first point
             $latitudeFrom   = $lat;
