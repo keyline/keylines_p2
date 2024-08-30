@@ -1737,15 +1737,15 @@ class ApiController extends BaseController
                                             $apiMessage             = 'Attendance Status Enable !!!';
                                         } else {
                                             $attendanceGivenStatus  = 0;
-                                            $apiMessage             = 'You are '.$distance.' meters away from nearest office location. Please make sure you are within '.$allow_punch_distance.' meters radius from your nearest office location !!!';
+                                            $apiMessage             = 'You are '.$distance.' meters away. Please stay within '.$allow_punch_distance.' meters of the nearest office !!!';
                                         }
                                     } else {
                                         $attendanceGivenStatus  = 0;
-                                        $apiMessage             = 'You are far away from your nearest office location !!!'; 
+                                        $apiMessage             = 'You are far away from office !!!'; 
                                     }
                                 } else {
                                     $attendanceGivenStatus  = 0;
-                                    $apiMessage             = 'You are far away from your nearest office location !!!';
+                                    $apiMessage             = 'You are far away from office !!!';
                                 }
                             }
 
