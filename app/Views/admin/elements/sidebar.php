@@ -132,25 +132,37 @@ $userId             = $session->user_id;
   <?php } ?>
   <?php if (checkModuleAccess(5)) { ?>
     <li>
-        <a class="<?= (($pageSegment == 'projects') ? 'active' : '') ?>" href="<?= base_url('admin/projects/list') ?>">
-        <i class="fas fa-project-diagram"></i>
-            <span class="link_name">Projects</span>
+      <div class="iocn-link">
+      <a class="<?= (($pageSegment == 'projects') ? 'active' : '') ?>" 
+          href="javascript:void(0)">
+          <i class="fas fa-project-diagram"></i>
+          <span class="link_name">Projects</span>
+          <i class='bx bxs-chevron-down arrow ms-auto'></i>
         </a>
+      </div>                                    
         <ul class="sub-menu">
           <li>
             <a class="<?= (($pageSegment == 'projects') ? '' : 'collapsed') ?> <?= (($pageSegment == 'projects') ? 'active' : '') ?>"
               href="javascript:void(0)">
               <span class="link_name">Projects</span>
             </a>
-          </li>          
+          </li>  
           <li>
-            <a class="<?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/task-assign') ?>">
+            <a class="<?= (($pageSegment == 'projects') ? 'active' : '') ?>" href="<?= base_url('admin/projects/list') ?>">
               <i class="fa fa-arrow-right"></i>
-              <span>Task Assign</span>
-            </a> 
-            <a href="<?= base_url('admin/outside_project/project_name') ?>">Add Expenses</a></li>
-          <li><a href="<?= base_url('admin/amc-checking') ?>">AMC Checking</a></li>
-
+              <span>Project List</span>
+            </a>             
+          <li>        
+          <li>
+            <a class="<?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
+              <i class="fa fa-arrow-right"></i>
+              <span>Add Expenses</span>
+            </a>             
+          <li>
+            <a class="<?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
+              <i class="fa fa-arrow-right"></i>
+              <span>AMC Checking</span>
+            </a>             
         </ul>
     </li>
   <?php } ?>
@@ -357,18 +369,9 @@ $userId             = $session->user_id;
   </li>
   <?php } ?>
 
-  <?php if($userType == 'ADMIN'){ ?>
-    <li>
-        <a class="<?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
-          <i class="fas fa-calendar-check"></i>
-          <span class="link_name">AMC Checking</span>
-        </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="<?= base_url('admin/amc-checking') ?>">AMC Checking</a></li>
-        </ul>
-    </li>
+  <?php if($userType == 'ADMIN'){ ?>   
     <!-- <li>
-        <a class="<?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
+        <a class="">
         <i class="fas fa-money-check"></i>
         <span class="link_name">Add Expenses</span>
         </a>
@@ -399,7 +402,7 @@ $userId             = $session->user_id;
               <li>
                 <a class="<?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="<?= base_url('admin/settings') ?>">
                   <i class="fa fa-arrow-right"></i>
-                  <span>Settings</span>
+                  <span>General Settings</span>
                 </a>        
               </li>                       
               <li>
