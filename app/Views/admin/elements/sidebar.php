@@ -56,7 +56,7 @@ $userId             = $session->user_id;
     <div class="iocn-link">
       <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>"
         href="javascript:void(0)">
-        <i class="fas fa-key"></i>
+        <i class="fas fa-users"></i>
         <span class="link_name">User & Permission Management</span>
         <i class='bx bxs-chevron-down arrow ms-auto'></i>
       </a>
@@ -137,15 +137,28 @@ $userId             = $session->user_id;
         <i class="fas fa-project-diagram"></i>
             <span class="link_name">Projects</span>
         </a>
-        <ul class="sub-menu blank">
-          <li><a class="link_name" href="<?= base_url('admin/projects/list') ?>">Projects</a></li>
+        <ul class="sub-menu">
+          <li>
+            <a class="<?= (($pageSegment == 'projects') ? '' : 'collapsed') ?> <?= (($pageSegment == 'projects') ? 'active' : '') ?>"
+              href="javascript:void(0)">
+              <span class="link_name">Projects</span>
+            </a>
+          </li>          
+          <li>
+            <a class="<?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/task-assign') ?>">
+              <i class="fa fa-arrow-right"></i>
+              <span>Task Assign</span>
+            </a> 
+            <a href="<?= base_url('admin/outside_project/project_name') ?>">Add Expenses</a></li>
+          <li><a href="<?= base_url('admin/amc-checking') ?>">AMC Checking</a></li>
+
         </ul>
     </li>
   <?php } ?>
   <?php if (checkModuleAccess(6)) { ?>
     <li>
         <a class="<?= (($pageSegment == 'clients') ? 'active' : '') ?>" href="<?= base_url('admin/clients/list') ?>">
-          <i class="fas fa-industry"></i>
+          <i class="fas fa-store"></i>
           <span class="link_name">Clients</span>
         </a>
         <ul class="sub-menu blank">
@@ -202,7 +215,7 @@ $userId             = $session->user_id;
     <li>
       <div class="iocn-link">
         <a class="<?= (($pageSegment == 'reports') ? '' : 'collapsed') ?> <?= (($pageSegment == 'reports') ? 'active' : '') ?>" href="javascript:void(0)">
-        <i class="fa fa-tasks"></i>  
+        <i class="fa fa-chart-simple"></i>  
           <span class="link_name">Reports</span>
           <i class='bx bxs-chevron-down arrow ms-auto'></i>
         </a>
@@ -325,6 +338,12 @@ $userId             = $session->user_id;
           href="<?= base_url('admin/work-status/list') ?>">
           <i class="fa fa-arrow-right"></i><span>Work Status</span>
         </a>
+      </li>      
+      <li>
+        <a class="<?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>"
+          href="<?= base_url('admin/holiday-list') ?>">
+          <i class="fa fa-arrow-right"></i><span>Holiday List</span>
+        </a>
       </li>
       <?php } ?>    
     </ul>
@@ -341,27 +360,16 @@ $userId             = $session->user_id;
           <li><a class="link_name" href="<?= base_url('admin/amc-checking') ?>">AMC Checking</a></li>
         </ul>
     </li>
-    <li>
+    <!-- <li>
         <a class="<?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
         <i class="fas fa-money-check"></i>
         <span class="link_name">Add Expenses</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="<?= base_url('admin/outside_project/project_name') ?>">Add Expenses</a></li>
+          
         </ul>
-    </li>
-  <?php } ?>
-  <?php if (checkModuleAccess(8)) { ?>
-        <li>
-            <a class="<?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>" href="<?= base_url('admin/holiday-list') ?>">
-              <i class="fas fa-calendar-check"></i>
-                <span class="link_name">Holiday List</span>
-            </a>
-            <ul class="sub-menu blank">
-              <li><a class="link_name" href="<?= base_url('admin/holiday-list') ?>">Holiday List</a></li>
-            </ul>
-        </li>        
-  <?php } ?>
+    </li> -->
+  <?php } ?>  
 
   
 
