@@ -1409,6 +1409,7 @@ class User extends BaseController {
                 'encryption_api_encrypt_method'     => $this->request->getPost('encryption_api_encrypt_method'),
                 'google_map_api_code'               => $this->request->getPost('google_map_api_code'),
                 'allow_punch_distance'              => $this->request->getPost('allow_punch_distance'),
+                'current_date_tasks_show_in_effort' => $this->request->getPost('current_date_tasks_show_in_effort'),
                 'sunday'                            => $sundayJson,
                 'monday'                            => $mondayJson,
                 'tuesday'                           => $tuesdayJson,

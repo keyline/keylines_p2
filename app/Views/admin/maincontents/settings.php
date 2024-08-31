@@ -465,6 +465,12 @@ $user_type = session('user_type');
                       <input name="allow_punch_distance" type="text" class="form-control" id="allow_punch_distance" value="<?=$application_setting->allow_punch_distance?>">
                     </div>
                   </div>
+                  <div class="row mb-3">
+                    <label for="current_date_tasks_show_in_effort" class="col-md-4 col-lg-3 col-form-label">Current Date Tasks Show In Effort Time After</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="current_date_tasks_show_in_effort" type="time" class="form-control" id="current_date_tasks_show_in_effort" value="<?= $application_setting->current_date_tasks_show_in_effort ?>">
+                    </div>
+                  </div>
 
                   <div class="row mb-3">
                     <label for="week_off" class="col-form-label">Week Off</label>
