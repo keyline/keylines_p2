@@ -10,6 +10,7 @@
 body {
   font-family: "lato", sans-serif;
   color: #454545;
+  overflow-x: hidden;
 }
 ul{
   list-style: none;
@@ -177,6 +178,7 @@ th,td{
   padding: 32px;
   display: flex;
   flex-wrap: wrap;
+  height: 100%;
 }
 .chart-info,
 .chart-box{
@@ -258,6 +260,7 @@ th,td{
 .font-12{
   font-size: 12px;
 }
+/* data table css */
 .dt-search{
   display: flex;
   justify-content: end;
@@ -269,21 +272,44 @@ div.dt-container .dt-search input{
 .dt-info{
   font-size: 12px;
 }
-div.dt-container .dt-paging .dt-paging-button{
-  padding: 2px 8px !important;
-  font-size: 12px;
-}
+
 .dt-paging.paging_full_numbers{
-  color: #4154f1 !important;
+  color: #4F4F4F !important;
 }
 div.dt-container .dt-paging .dt-paging-button.current, div.dt-container .dt-paging .dt-paging-button.current:hover{
-  background: #e5edff !important;
-  border: 1px solid #4154f1 !important;
+  display: inline-flex;
+  width: 36px !important;
+  height: 36px;
+  padding: 11px 12px !important;
+  align-items: center;
+  gap: 4px;
+  border-radius: 4px;
+  border: 1px solid #E2E3E9 !important;
+  background: #FFF !important;
+  font-size: 14px !important;
+  font-family: 'lato', sans-serif !important;
 }
 div.dt-container .dt-paging .dt-paging-button:hover{
-  background: #4154f1 !important;
-  border: 1px solid #4154f1 !important
+  background: #E5F3FF !important;
+  border: 1px solid #E5F3FF !important
 }
+table.dataTable thead>tr>th.dt-orderable-asc:hover, table.dataTable thead>tr>th.dt-orderable-desc:hover, table.dataTable thead>tr>td.dt-orderable-asc:hover, table.dataTable thead>tr>td.dt-orderable-desc:hover{
+  outline: none !important;
+}
+.dt-layout-row{
+  display: flex;
+  padding: 16px 20px;
+  align-items: center;
+  gap: 24px;
+  align-self: stretch;
+  background-color: #fff;
+  border-radius: 8px;
+  margin-bottom: 16px;
+}
+div.dt-container div.dt-layout-cell{
+  padding: 0 !important;
+}
+/* data table css  end */
 .custom-alert{
   margin-bottom: 0;
   font-size: 14px;
@@ -429,8 +455,8 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 # Main
 --------------------------------------------------------------*/
 #main {
-  margin-top: 60px;
-  padding: 20px 15px;
+  margin-top: 70px;
+  padding: 20px 15px 0;
   transition: all 0.3s;
   background: #E4F3FF;
   border-radius: 12px;
@@ -561,8 +587,36 @@ div.dt-container .dt-paging .dt-paging-button:hover{
   background-color: #FF0202;
   margin-left: 5px;
 }
+.dots{
+  width: 8px;
+  height: 8px;
+  margin-right: 5px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.dots-bg-dark-success{
+  background: #247426;
+}
+.dots-bg-light-success{
+  background: #4CAB4F;
+}
+.dots-bg-dark-denger{
+  background: #EA2A2A;
+}
+.dots-bg-light-denger{
+  background: #C10000;
+}
+.cursor-pointer{
+  cursor: pointer;
+}
 
 /* custom badge css end*/
+.lagend-list li{
+  color: #696969;
+  font-family: 'lato';
+  font-size: 12px;
+  font-style: normal;
+}
 .tracker-icon{
   width: 15px;
   margin-right: 3px;
@@ -570,6 +624,11 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 .desklog-icon{
   width: 12px;
   margin-right: 3px;
+}
+#modalBody,
+#modalBody1,
+#modalBody2{
+  background: #E5F3FF;
 }
 /*--------------------------------------------------------------
 # Override some default Bootstrap stylings
@@ -690,7 +749,7 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 .card {
   margin-bottom: 15px;
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   box-shadow: 0px 0 30px rgba(1, 41, 112, 0.1);
 }
 
@@ -1598,21 +1657,20 @@ div.dt-container .dt-paging .dt-paging-button:hover{
 # Footer
 --------------------------------------------------------------*/
 .footer {
-  padding: 20px 0;
+  padding: 4px 0 20px;
   font-size: 14px;
   transition: all 0.3s;
 }
 
-.footer .copyright {
-  text-align: center;
-  color: #012970;
+.copyright p,
+.credits p{
+  font-family: 'lato';
+  font-size: 12px;
+  color: #6D6D6D;
 }
 
 .footer .credits {
-  padding-top: 5px;
-  text-align: center;
-  font-size: 13px;
-  color: #012970;
+  text-align: right;
 }
 
 
@@ -1713,8 +1771,9 @@ header{
   height: 100%;
 }
 .sidebar{
-  position: absolute;
-  top: 0;
+  /* position: absolute; */
+  position: fixed;
+  top: 70px;
   left: 0;
   height: 100%;
   width: 260px;
@@ -1809,7 +1868,7 @@ header{
 .sidebar .nav-links li:focus a{
   background: #B9EDFF;
 }
-.sidebar .nav-links li a.active i{
+.sidebar .nav-links li a.active .i{
   background-color: #B9EDFF;
 }
 /* .sidebar .nav-links .showMenu i.arrow{
@@ -1890,7 +1949,7 @@ header{
   display: block;
   pointer-events: none;
   transition: 0s;
-  width: 210px;
+  width: 240px;
 }
 .sidebar.close .nav-links li .sub-menu a{
   width: 100%;
