@@ -329,6 +329,9 @@
     <script src="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.js"></script>
 <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.css">
+
+<script src="https://amphiluke.github.io/jquery-plugins/floatingscroll/jquery.floatingscroll.min.js"></script>
+<script src="https://amphiluke.github.io/jquery-plugins/floatingscroll/floatingscroll-demo.js"></script>
 <script type="text/javascript">
 			$(function() {
 				//load stickyTable with overflowy option

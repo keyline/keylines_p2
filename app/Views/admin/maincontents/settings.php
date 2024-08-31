@@ -471,6 +471,24 @@ $user_type = session('user_type');
                       <input name="current_date_tasks_show_in_effort" type="time" class="form-control" id="current_date_tasks_show_in_effort" value="<?= $application_setting->current_date_tasks_show_in_effort ?>">
                     </div>
                   </div>
+                  <div class="row mb-3">
+                    <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Monthly Minimum Effort Time</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="monthly_minimum_effort_time" type="number" class="form-control" id="monthly_minimum_effort_time" value="<?= $application_setting->monthly_minimum_effort_time ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Daily Minimum Effort Time</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="daily_minimum_effort_time" type="number" class="form-control" id="daily_minimum_effort_time" value="<?= $application_setting->daily_minimum_effort_time ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="mark_later_after" class="col-md-4 col-lg-3 col-form-label">Mark Later After (24 hrs)</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="mark_later_after" type="number" class="form-control" id="mark_later_after" value="<?= $application_setting->mark_later_after ?>">
+                    </div>
+                  </div>
 
                   <div class="row mb-3">
                     <label for="week_off" class="col-form-label">Week Off</label>
