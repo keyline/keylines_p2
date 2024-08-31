@@ -10,6 +10,7 @@ $controller_route       = $moduleDetail['controller_route'];
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
 <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
+<link rel="stylesheet" href="https://amphiluke.github.io//jquery-plugins/floatingscroll/jquery.floatingscroll.css"/>
 <style type="text/css">
     #simpletable_filter{
         float: right;
@@ -73,6 +74,10 @@ $controller_route       = $moduleDetail['controller_route'];
         background-color: #a5a4a070;
     }
 </style>
+<div class="maze" style="display: none;">
+    <canvas id="mazecnv" width="1840" height="1086"></canvas>
+</div>
+
 <div class="container-fluid">
     <div class="row">
         <div class="col">
@@ -343,7 +348,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                     <div class="accordion-body">
                                         <div class="rows">
                                             <div class="dt-responsive table-responsive">
-                                                <table id="myTable" class="table table-bordered nowrap general_table_style task-assign-table">
+                                                
+                                                <table id="myTable input-type-attr-summary" class="table applies table-bordered nowrap general_table_style task-assign-table">
                                                     <thead>
                                                         <tr>
                                                             <?php if($departments){ foreach($departments as $dept){?>

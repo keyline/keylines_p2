@@ -1811,9 +1811,9 @@ header{
   pointer-events: none;
 }
 .sidebar .nav-links{
-  /* height: 100vh; */
-  /* padding: 30px 0 150px 0; */
-  overflow: auto;
+  height: calc(100vh - 70px);
+  overflow-x: auto;
+  overflow-y: scroll;
 }
 .sidebar.close .nav-links{
   overflow: visible;
