@@ -2,7 +2,7 @@
 $userType                   = $session->user_type;
 ?>
 <div class="d-flex align-items-center justify-content-between">
-    <a href="index.html" class="logo d-flex align-items-center">
+    <a href="<?= base_url('admin/dashboard') ?>" class="logo d-flex align-items-center">
     <img src="<?=getenv('app.adminAssetsURL')?>assets/img/logo.svg" alt="<?=$general_settings->site_name?>">
     <!-- <img src="<?=getenv('app.adminAssetsURL')?>assets/img/logo.png" alt="<?=$general_settings->site_name?>"> -->
     <!-- <span class="d-none d-lg-block" style="font-size: 23px;"><?=$general_settings->site_name?></span> -->

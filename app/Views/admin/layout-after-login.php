@@ -13,21 +13,21 @@
     <!-- End Header -->
     <!-- ======= Sidebar ======= -->
    <div class="wrapper">
-     <!-- <aside id="sidebar" class="sidebar"> -->
-     <div class="sidebar close">
+        <!-- <aside id="sidebar" class="sidebar"> -->
+        <div class="sidebar close">
             <?= $sidebar ?>
         </div>
-    <!-- </aside> -->
-    <!-- End Sidebar-->
-    <main id="main" class="home-section">
-        <?= $maincontent ?>
-    </main>
-    <!-- End #main -->
-      <!-- ======= Footer ======= -->
-    <footer id="footer" class="footer">
-        <?= $footer ?>
-    </footer>
-    <!-- End Footer -->
+        <!-- </aside> -->
+        <!-- End Sidebar-->
+        <main id="main" class="home-section">
+            <?= $maincontent ?>
+            <!-- ======= Footer ======= -->
+            <footer id="footer" class="footer">
+                <?= $footer ?>
+            </footer>
+            <!-- End Footer -->
+        </main>
+        <!-- End #main -->
    </div>
    
     <a href="javascript:void(0);" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>

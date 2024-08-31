@@ -397,13 +397,13 @@ $user_type = session('user_type');
                   <div class="row mb-3">
                     <label for="api_url" class="col-md-4 col-lg-3 col-form-label">API URL</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="api_url" type="text" class="form-control" id="api_url" value="<?= $application_setting->api_url ?>">
+                      <input name="api_url" type="text" class="form-control" id="api_url" value="<?=$application_setting->api_url?>" <?=(($application_setting->api_url != '')?'readonly':'')?>>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="api_key" class="col-md-4 col-lg-3 col-form-label">API KEY</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="api_key" type="text" class="form-control" id="api_key" value="<?= $application_setting->api_key ?>">
+                      <input name="api_key" type="text" class="form-control" id="api_key" value="<?=$application_setting->api_key?>" <?=(($application_setting->api_key != '')?'readonly':'')?>>
                     </div>
                   </div>
                   <div class="row mb-3">
@@ -437,21 +437,35 @@ $user_type = session('user_type');
                   <div class="row mb-3">
                     <label for="encryption_api_secret_key" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret Key</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="encryption_api_secret_key" type="text" class="form-control" id="encryption_api_secret_key" value="<?=$application_setting->encryption_api_secret_key?>">
+                      <input name="encryption_api_secret_key" type="text" class="form-control" id="encryption_api_secret_key" value="<?=$application_setting->encryption_api_secret_key?>" <?=(($application_setting->encryption_api_secret_key != '')?'readonly':'')?>>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="encryption_api_secret_iv" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret IV</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="encryption_api_secret_iv" type="text" class="form-control" id="encryption_api_secret_iv" value="<?=$application_setting->encryption_api_secret_iv?>">
+                      <input name="encryption_api_secret_iv" type="text" class="form-control" id="encryption_api_secret_iv" value="<?=$application_setting->encryption_api_secret_iv?>" <?=(($application_setting->encryption_api_secret_iv != '')?'readonly':'')?>>
                     </div>
                   </div>
                   <div class="row mb-3">
                     <label for="encryption_api_encrypt_method" class="col-md-4 col-lg-3 col-form-label">Encryption API Encryption Method</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="encryption_api_encrypt_method" type="text" class="form-control" id="encryption_api_encrypt_method" value="<?=$application_setting->encryption_api_encrypt_method?>">
+                      <input name="encryption_api_encrypt_method" type="text" class="form-control" id="encryption_api_encrypt_method" value="<?=$application_setting->encryption_api_encrypt_method?>" <?=(($application_setting->encryption_api_encrypt_method != '')?'readonly':'')?>>
                     </div>
                   </div>
+
+                  <div class="row mb-3">
+                    <label for="google_map_api_code" class="col-md-4 col-lg-3 col-form-label">Google Map API Code</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="google_map_api_code" type="text" class="form-control" id="google_map_api_code" value="<?=$application_setting->google_map_api_code?>" <?=(($application_setting->google_map_api_code != '')?'readonly':'')?>>
+                    </div>
+                  </div>
+                  <div class="row mb-3">
+                    <label for="allow_punch_distance" class="col-md-4 col-lg-3 col-form-label">Allow Punch Distance (In Meters)</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="allow_punch_distance" type="text" class="form-control" id="allow_punch_distance" value="<?=$application_setting->allow_punch_distance?>">
+                    </div>
+                  </div>
+
                   <div class="row mb-3">
                     <label for="week_off" class="col-form-label">Week Off</label>
                     <br>

@@ -9,7 +9,7 @@
                <h1>Dashboard</h1>
                <nav>
                   <ol class="breadcrumb">
-                     <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+                     <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
                      <li class="breadcrumb-item active">Dashboard</li>
                   </ol>
                </nav>
@@ -152,7 +152,7 @@
                         <div class="row">
                            <div class="col-md-4">
                               <div class="card-header-left">
-                                 <ul class="d-flex align-items-center">                                    
+                                 <ul class="d-flex align-items-center gap-2">                                    
                                     <li>
                                        <p>Present (<?=$total_present_user->user_count?>)</p>
                                     </li>
@@ -177,8 +177,8 @@
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
                   <div class="card table-card">
                      <div class="card-header">
-                        <div class="row">
-                           <div class="col-md-4">
+                        <div class="row align-items-center">
+                           <div class="col-md-7">
                               <div class="card-header-left">
                                  <ul class="d-flex align-items-center">
                                     <li class="me-3"><h6 class="fw-bold heading_style">Monthly Effort Report <span id="year"><?= date('Y') ?></span></h6></li>
@@ -188,9 +188,16 @@
                                  </ul>
                               </div>
                            </div>
-                           <div class="col-md-8">
+                           <div class="col-md-5">
                               <div class="card-header-right">
-
+                                 <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list">
+                                    <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - T</li>
+                                    <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - D</li>
+                                    <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - T</li>
+                                    <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - D</li>
+                                    <li>T : Keyline Tracker</li>
+                                    <li>D : Desktop Tracker</li>
+                                 </ul>
                               </div>
                            </div>
                         </div>
@@ -373,9 +380,30 @@
                   <?php   } ?>
                   <?php if (checkModuleFunctionAccess(1, 68)) { ?>
                   <div class="card table-card">
-                     <div class="card-header">
-                        <h6 class="fw-bold heading_style">Last 7 Days Report</h6>
-                     </div>
+                        <div class="card-header">
+                           <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
+                           <div class="row align-items-center">
+                              <div class="col-md-7">
+                                 <div class="card-header-left">
+                                    <ul class="d-flex align-items-center">
+                                       <li class="me-3"><h6 class="fw-bold heading_style">Last 7 Days Report</h6></li>
+                                    </ul>
+                                 </div>
+                              </div>
+                              <div class="col-md-5">
+                                 <div class="card-header-right">
+                                    <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list">
+                                       <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - T</li>
+                                       <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - D</li>
+                                       <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - T</li>
+                                       <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - D</li>
+                                       <li>T : Keyline Tracker</li>
+                                       <li>D : Desktop Tracker</li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
                      <div class="card-body">
                         <div class="rows">
                            <div class="col-xxl-12 col-md-12 table-responsive">
@@ -413,27 +441,27 @@
                                        <td onclick="dayWiseList('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['booked_effort'] ?>')">
                                        <?php                                          
                                           if ($date_difference == 0 && $report['booked_effort'] != 0) {
-                                             echo '<span class="badge badge-tracker-success"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '' . ($report['booked_effort'] < 8 ? '<span class="dotted-badge"></span>' : '') . '</span>';
-                                             echo '<span class="badge badge-tracker-success"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo '<span class="badge badge-tracker-success cursor-pointer"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '' . ($report['booked_effort'] < 8 ? '<span class="dotted-badge"></span>' : '') . '</span>';
+                                             echo '<span class="badge badge-tracker-success cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
                                              echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
                                              echo '</span>';
                                           } 
                                           elseif ($date_difference > 1 && $report['booked_effort'] != 0) {
-                                             echo '<span class="badge badge-tracker-warrning"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '' . ($report['booked_effort'] < 8 ? '<span class="dotted-badge"></span>' : '') . '</span> ';
-                                             echo '<span class="badge badge-tracker-warrning"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo '<span class="badge badge-tracker-warrning cursor-pointer"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '' . ($report['booked_effort'] < 8 ? '<span class="dotted-badge"></span>' : '') . '</span> ';
+                                             echo '<span class="badge badge-tracker-warrning cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
                                              echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
                                              echo '</span>';
                                           } elseif ($date_difference <= 1 && $report['booked_effort'] != 0) {
-                                             echo '<span class="badge badge-desktime-success"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '' . ($report['booked_effort'] < 8 ? '<span class="dotted-badge"></span>' : '') . '</span> ';
-                                             echo '<span class="badge badge-desktime-success"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo '<span class="badge badge-desktime-success cursor-pointer"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '' . ($report['booked_effort'] < 8 ? '<span class="dotted-badge"></span>' : '') . '</span> ';
+                                             echo '<span class="badge badge-desktime-success cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
                                              echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
                                              echo '</span>';
                                           }
 
                                           if($report['booked_effort'] == 0)
                                           {
-                                             echo '<span class="badge badge-tracker-holiday"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '</span>';
-                                             echo '<span class="badge badge-tracker-holiday"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo '<span class="badge badge-tracker-holiday cursor-pointer"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '</span>';
+                                             echo '<span class="badge badge-tracker-holiday cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
                                              echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
                                              echo '</span>';
                                           }
@@ -1109,7 +1137,7 @@
       </div>
    </div>
    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable mx-auto wide-modal">
+      <div class="modal-dialog modal-dialog-centered  modal-dialog-scrollable mx-auto modal-lg">
          <div class="modal-content" id="modalBody">
          </div>
       </div>
@@ -1121,7 +1149,7 @@
       </div>
    </div>
    <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mx-auto wide-modal">
+      <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable mx-auto modal-lg">
          <div class="modal-content" id="modalBody2">
          </div>
       </div>

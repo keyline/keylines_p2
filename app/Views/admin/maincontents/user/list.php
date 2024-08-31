@@ -30,16 +30,31 @@ $controller_route   = $moduleDetail['controller_route'];
             <?php }?>
         </div>
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card table-card">
+                <div class="card-header">
+                    <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
+                    <div class="row align-items-center">
+                        <div class="col-md-12">
+                            <div class="card-header-left">
+                            <?php if(checkModuleFunctionAccess(4,21)){ ?>
+                                <h5>
+                                    <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
+                                    <a href="<?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivated <?=$title?>s</a>
+                                </h5>
+                            <?php }?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
-                    <?php if(checkModuleFunctionAccess(4,21)){ ?>
+                    <!-- ?php if(checkModuleFunctionAccess(4,21)){ ?>
                         <h5 class="card-title">
-                            <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>
-                            <a href="<?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivated <?=$title?>s</a>
+                            <a href="?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add ?=$title?></a>
+                            <a href="?=base_url('admin/' . $controller_route . '/DeactivateUserlist/')?>" class="btn btn-outline-success btn-sm">Deactivated ?=$title?>s</a>
                         </h5>
-                    <?php }?>
+                    ?php }?> -->
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
+                        <table id="simpletable" class="table nowrap general_table_style">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -77,7 +92,22 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <a href="<?=base_url('admin/' . $controller_route . '/change-salarybox-status/'.encoded($row->$primary_key))?>" class="badge bg-danger" title="Salarybox Off <?=$title?>" onclick="return confirm('Do You Want To Salarybox On This <?=$title?>');"><i class="fa fa-times"></i> Salarybox Off</a>
                                         <?php }?>
                                     </td>
-                                    <td><?=$row->attendence_type?></td>
+                                    <td>
+                                        <ul>
+                                            <?php
+                                            $attendence_type = json_decode($row->attendence_type);
+                                            if(count($attendence_type) > 0){ for($a=0;$a<count($attendence_type);$a++){
+                                                if($attendence_type[$a] == 0){
+                                                    $attnType = 'WORK FROM HOME';
+                                                } else {
+                                                    $getOfficeLocation = $common_model->find_data('office_locations', 'row', ['id' => $attendence_type[$a]], 'name');
+                                                    $attnType = (($getOfficeLocation)?$getOfficeLocation->name:'');
+                                                }
+                                            ?>
+                                                <li><small><?=$attnType?></small></li>
+                                            <?php } }?>
+                                        </ul>
+                                    </td>
                                     <td>
                                         <?php if(checkModuleFunctionAccess(4,22)){ ?>
                                         <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>

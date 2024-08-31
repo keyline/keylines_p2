@@ -1051,8 +1051,8 @@ class User extends BaseController {
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <div class="table-responsive">
-                                <table class="table general_table_style table-bordered">
+                            <div class="table-responsive table-card">
+                                <table class="table general_table_style">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -1068,10 +1068,10 @@ class User extends BaseController {
                 $sl = 1;
                 foreach ($rows as $record) {
                     $html .= '<tr>
-                                <td class="text-center">' . $sl++ . '</td>
+                                <td>' . $sl++ . '</td>
                                 <td>' . esc($record->projectName) . '</td>
-                                <td class="text-center">' . esc($record->date_added) . '</td>
-                                <td class="text-center">' . esc($record->hour) . ':' . esc($record->min) . '</td>
+                                <td>' . esc($record->date_added) . '</td>
+                                <td>' . esc($record->hour) . ':' . esc($record->min) . '</td>
                                 <td>' . esc($record->description) . '</td>
                                 <td>' . esc($record->effortName) . '</td>
                             </tr>';
@@ -1121,8 +1121,8 @@ class User extends BaseController {
                     </div>
                     <div class="modal-body">
                         <div class="container">
-                            <div class="table-responsive">
-                                <table class="table general_table_style table-bordered">
+                            <div class="table-responsive table-card">
+                                <table class="table general_table_style">
                                     <thead>
                                         <tr>                                            
                                             <th>Image</th>                                                                                       
@@ -1407,6 +1407,8 @@ class User extends BaseController {
                 'encryption_api_secret_key'         => $this->request->getPost('encryption_api_secret_key'),
                 'encryption_api_secret_iv'          => $this->request->getPost('encryption_api_secret_iv'),
                 'encryption_api_encrypt_method'     => $this->request->getPost('encryption_api_encrypt_method'),
+                'google_map_api_code'               => $this->request->getPost('google_map_api_code'),
+                'allow_punch_distance'              => $this->request->getPost('allow_punch_distance'),
                 'sunday'                            => $sundayJson,
                 'monday'                            => $mondayJson,
                 'tuesday'                           => $tuesdayJson,
