@@ -1259,24 +1259,25 @@ class User extends BaseController {
         {
             $user_id                = $this->session->get('user_id');
             $user_type              = $this->session->get('user_type');
-            /* profile image */
-                $file = $this->request->getFile('image');
-                $originalName = $file->getClientName();
-                $fieldName = 'image';
-                if($file!='') {
-                    $upload_array = $this->common_model->upload_single_file($fieldName,$originalName,'user','image');
-                    if($upload_array['status']) {
-                        $profile_image = $upload_array['newFilename'];
-                    } else {
-                        $this->session->setFlashdata('error_message', $upload_array['message']);
-                        return redirect()->to('/admin/settings');
-                    }
-                } else {
-                    $site_setting = $this->common_model->find_data('user','row');
-                    $profile_image = $site_setting->profile_image;
-                }
-            /* profile image */
+            
             if($user_type != 'CLIENT'){
+                /* profile image */
+                    $file = $this->request->getFile('image');
+                    $originalName = $file->getClientName();
+                    $fieldName = 'image';
+                    if($file!='') {
+                        $upload_array = $this->common_model->upload_single_file($fieldName,$originalName,'user','image');
+                        if($upload_array['status']) {
+                            $profile_image = $upload_array['newFilename'];
+                        } else {
+                            $this->session->setFlashdata('error_message', $upload_array['message']);
+                            return redirect()->to('/admin/settings');
+                        }
+                    } else {
+                        $site_setting = $this->common_model->find_data('user','row');
+                        $profile_image = $site_setting->profile_image;
+                    }
+                /* profile image */
                 $fields = [
                     'name'              => $this->request->getPost('name'),
                     'email'             => $this->request->getPost('email'),
@@ -1295,7 +1296,7 @@ class User extends BaseController {
                     'email_2'             => $this->pro->encrypt($this->request->getPost('email_2')),
                     'phone_1'            => $this->pro->encrypt($this->request->getPost('phone_1')),
                     'phone_2'            => $this->pro->encrypt($this->request->getPost('phone_2')),
-                    'profile_image'     => $profile_image,
+                    // 'profile_image'     => $profile_image,
                 ];
                 $this->common_model->save_data('client', $fields, $user_id, 'id');
             }
