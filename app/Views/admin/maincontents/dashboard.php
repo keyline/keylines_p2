@@ -346,7 +346,7 @@
                                                 $punchOut = null; // Handle cases where punchOut is empty
                                             }
                                         
-                                            $comparison_time = date('H:i', strtotime($application_settings->mark_later_after));
+                                           echo $comparison_time = date('H:i', strtotime($application_settings->mark_later_after)); die;
                                           ?>
                                        <td>
                                        <!-- <p onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')"><?php if ($punchIn > 0) { ?><span class="badge <?= (($punchIn <= 10) ? 'badge-tracker-success' : 'badge-tracker-danger') ?> d-block h-100" style="cursor:pointer;"><span class="mt-3">IN: <?= date('H:i', strtotime($punchIn)) ?></span><?php } ?></p>                                                                                 
