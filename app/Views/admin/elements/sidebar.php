@@ -267,9 +267,8 @@ $userId             = $session->user_id;
             </li>
             <?php } ?>
             <?php if(checkModuleAccess(26)){
-                  $sql       = "SELECT is_desklog_use FROM `application_settings`";
+                $sql       = "SELECT is_desklog_use FROM `application_settings`";
                 $desklog    = $db->query($sql)->getRow();
-                //  pr($desklog);
                 if($desklog->is_desklog_use == 1){ ?>
             <li>
                 <a class="<?= (($pageSegment == 'reports' && $paramerId == 'desklog-report-view') ? 'active' : '') ?>" href="<?= base_url('admin/reports/desklog-report-view') ?>">
@@ -277,24 +276,26 @@ $userId             = $session->user_id;
                 </a>
             </li>
             <?php } } ?>
-            <li>
-              <a class="<?= (($pageSegment == 'attendance-report') ? 'active' : '') ?>" href="<?= base_url('admin/attendance-report') ?>">
-                <i class="fa fa-arrow-right"></i>
-                <span>Attendance</span>
-              </a>        
-            </li>
-            <li>
-              <a class="<?= (($pageSegment == 'email-logs') ? 'active' : '') ?>" href="<?= base_url('admin/email-logs') ?>">
-                <i class="fa fa-arrow-right"></i>
-                <span>Email Logs</span>
-              </a>        
-            </li>
-            <li>
-              <a class="<?= (($pageSegment == 'login-logs') ? 'active' : '') ?>" href="<?= base_url('admin/login-logs') ?>">
-                <i class="fa fa-arrow-right"></i>
-                <span>Login Logs</span>
-              </a>        
-            </li>
+            <?php if ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') { ?>
+              <li>
+                <a class="<?= (($pageSegment == 'attendance-report') ? 'active' : '') ?>" href="<?= base_url('admin/attendance-report') ?>">
+                  <i class="fa fa-arrow-right"></i>
+                  <span>Attendance</span>
+                </a>        
+              </li>
+              <li>
+                <a class="<?= (($pageSegment == 'email-logs') ? 'active' : '') ?>" href="<?= base_url('admin/email-logs') ?>">
+                  <i class="fa fa-arrow-right"></i>
+                  <span>Email Logs</span>
+                </a>        
+              </li>
+              <li>
+                <a class="<?= (($pageSegment == 'login-logs') ? 'active' : '') ?>" href="<?= base_url('admin/login-logs') ?>">
+                  <i class="fa fa-arrow-right"></i>
+                  <span>Login Logs</span>
+                </a>        
+              </li>
+          <?php }?>
         </ul>
     </li>
   <?php } ?>  
@@ -384,7 +385,7 @@ $userId             = $session->user_id;
   
 
   <?php //if (checkModuleAccess(11)) { ?>
-    <?php //if ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') { ?>
+    <?php if ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') { ?>
         <li>
           <div class="iocn-link">
             <a class="<?= (($pageSegment == 'settings') ? '' : 'collapsed') ?> <?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="javascript:void(0)">
@@ -419,35 +420,5 @@ $userId             = $session->user_id;
               </li>
             </ul>
         </li>        
-  <?php //} ?>
-  
-  <!-- <li>
-    <div class="iocn-link">
-      <a href="javascript:void(0)">
-        <i class='bx bx-collection'></i>
-        <span class="link_name">Category</span>
-      </a>
-      <i class='bx bxs-chevron-down arrow ms-auto'></i>
-    </div>
-    <ul class="sub-menu">
-      <li><a class="link_name" href="javascript:void(0)">Category</a></li>
-      <li><a href="javascript:void(0)">HTML & CSS</a></li>
-      <li><a href="javascript:void(0)">JavaScript</a></li>
-      <li><a href="javascript:void(0)">PHP & MySQL</a></li>
-    </ul>
-  </li> -->
-
-
-  <!-- <li>
-    <div class="profile-details">
-      <div class="profile-content">
-        <img src="image/profile.jpg" alt="profileImg">
-      </div>
-      <div class="name-job">
-        <div class="profile_name">Prem Shahi</div>
-        <div class="job">Web Desginer</div>
-      </div>
-      <i class='bx bx-log-out'></i>
-    </div>
-  </li> -->
+  <?php } ?>
 </ul>

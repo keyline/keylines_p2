@@ -19,8 +19,11 @@ class User extends BaseController {
                     $conditions = array(
                         'email'  => $this->request->getPost('email')
                         );
+                    // echo $this->pro->decrypt('C+MjEJRD6htGGKkEGFPuDYuShcUqbV0s5lWLc0cMJn0=');
+                    // echo '<br>';
+                    // echo $this->pro->encrypt($this->request->getPost('email'));
                     $conditions2 = array(
-                        'email_1'  => $this->request->getPost('email')
+                        'email_1'  => $this->pro->encrypt($this->request->getPost('email'))
                         );
                     $checkEmail = $this->common_model->find_data('user', 'row', $conditions);
                     $checkclientEmail = $this->common_model->find_data('client', 'row', $conditions2);
@@ -87,20 +90,21 @@ class User extends BaseController {
                             $this->session->setFlashdata('error_message','Account Deactivated !!!');
                             return redirect()->to(base_url("admin"));
                         }
-                    } 
-                    elseif($checkclientEmail) {
+                    } elseif($checkclientEmail) {
                         $user_type = 'CLIENT';
                         $user_name = $checkclientEmail->name;
                         //if($checkclientEmail->status == '1'){
+
                             if($checkclientEmail->password_md5 == md5($this->request->getPost('password'))){
                                 $session_data = array(
                                                     'user_id'           => $checkclientEmail->id,
                                                     'user_type'         => $user_type,
-                                                    'username'          => $checkclientEmail->name,
-                                                    'name'              => $checkclientEmail->name,
-                                                    'email'             => $checkclientEmail->email_1,                                                    
+                                                    'username'          => $this->pro->decrypt($checkclientEmail->name),
+                                                    'name'              => $this->pro->decrypt($checkclientEmail->name),
+                                                    'email'             => $this->pro->decrypt($checkclientEmail->email_1),                                                    
                                                     'is_admin_login'    => $checkclientEmail->login_access
                                                     );
+                                // pr($checkclientEmail);
                                 // pr($session_data);
                                 $this->session->set($session_data);
                                 
@@ -145,9 +149,7 @@ class User extends BaseController {
                         //     $this->session->setFlashdata('error_message','Account Deactivated !!!');
                         //     return redirect()->to(base_url("admin"));
                         // }
-                    }
-                    
-                    else {
+                    } else {
                         $userActivityData = [
                             'user_email'        => '',
                             'user_name'         => '',
@@ -159,8 +161,7 @@ class User extends BaseController {
                         $this->common_model->save_data('user_activities', $userActivityData, '','activity_id');
                         $this->session->setFlashdata('error_message','We Don\'t Recognize Your Email Address !!!');
                         return redirect()->to(base_url("admin"));
-                    }                
-                    
+                    }
                 } else {
                     $data['validation'] = $this->validator;
                 }
