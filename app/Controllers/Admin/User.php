@@ -1258,6 +1258,7 @@ class User extends BaseController {
         public function profileSetting()
         {
             $user_id                = $this->session->get('user_id');
+            $user_type              = $this->session->get('user_type');
             /* profile image */
                 $file = $this->request->getFile('image');
                 $originalName = $file->getClientName();
@@ -1275,17 +1276,30 @@ class User extends BaseController {
                     $profile_image = $site_setting->profile_image;
                 }
             /* profile image */
-            $fields = [
-                'name'              => $this->request->getPost('name'),
-                'email'             => $this->request->getPost('email'),
-                'phone1'            => $this->request->getPost('phone1'),
-                'phone2'            => $this->request->getPost('phone2'),
-                'hour_cost'         => $this->request->getPost('hour_cost'),
-                'dob'               => $this->request->getPost('dob'),
-                'doj'               => $this->request->getPost('doj'),
-                'profile_image'     => $profile_image,
-            ];
-            $this->common_model->save_data('user', $fields, $user_id, 'id');
+            if($user_type != 'CLIENT'){
+                $fields = [
+                    'name'              => $this->request->getPost('name'),
+                    'email'             => $this->request->getPost('email'),
+                    'phone1'            => $this->request->getPost('phone1'),
+                    'phone2'            => $this->request->getPost('phone2'),
+                    'hour_cost'         => $this->request->getPost('hour_cost'),
+                    'dob'               => $this->request->getPost('dob'),
+                    'doj'               => $this->request->getPost('doj'),
+                    'profile_image'     => $profile_image,
+                ];
+                $this->common_model->save_data('user', $fields, $user_id, 'id');
+            } else {
+                $fields = [
+                    'name'              => $this->pro->encrypt($this->request->getPost('name')),
+                    'email_1'             => $this->pro->encrypt($this->request->getPost('email_1')),
+                    'email_2'             => $this->pro->encrypt($this->request->getPost('email_2')),
+                    'phone_1'            => $this->pro->encrypt($this->request->getPost('phone_1')),
+                    'phone_2'            => $this->pro->encrypt($this->request->getPost('phone_2')),
+                    'profile_image'     => $profile_image,
+                ];
+                $this->common_model->save_data('client', $fields, $user_id, 'id');
+            }
+            
             $this->session->setFlashdata('success_message', 'Profile Settings Updated Successfully !!!');
             return redirect()->to('/admin/settings');
         }
