@@ -1,0 +1,87 @@
+.maze, .whatwg {
+	overflow:auto;
+	width:100%;
+}
+.maze, .maze canvas {
+	cursor:url(/images/cursors/aero_pen_l.cur), crosshair;
+	-webkit-user-select:none;
+	-khtml-user-select:none;
+	-moz-user-select:none;
+	-o-user-select:none;
+	user-select:none;
+	-webkit-user-drag:none;
+}
+.maze-clear {
+	color:#f00;
+	cursor:pointer;
+	font-weight:bold;
+	text-decoration:underline;
+}
+.maze-clear:hover {
+	text-decoration:none;
+}
+
+.view-cols > ul {
+	display:inline-block;
+	margin-right:50px;
+	padding:0;
+	vertical-align:top;
+}
+.view-cols > ul li {
+	list-style:none;
+}
+
+.applies {
+	border-collapse:separate;
+	border-spacing:0;
+}
+
+.row-1st th {
+	border-top:1px solid #333;
+}
+.cell-1st {
+	border-left:1px solid #333;
+}
+.applies th {
+	font-weight:bold;
+}
+.cell-hidden {
+	display:none;
+}
+.footnote {
+	font-size:0.8em;
+}
+
+.game-box {
+	border:3px double #ebebeb;
+	overflow:auto;
+	width:100%;
+}
+.game-map {
+	background:url(map.jpg) 0 0 no-repeat;
+	border:none;
+	border-collapse:collapse;
+	border-spacing:0;
+	height:2000px;
+	margin:0;
+	padding:0;
+	width:2000px;
+}
+.game-map td {
+	background:#000;
+	height:50px;
+	padding:0;
+	width:50px;
+}
+.game-map .explored {
+	background:none;
+}
+.game-map .current {
+	background:url(game-objects.png) 0 50% no-repeat;
+}
+.game-map .current.s {
+	background-position:-50px 50%;
+}
+.game-map .fortress {
+	background:url(game-objects.png) -100px 50% no-repeat;
+}
