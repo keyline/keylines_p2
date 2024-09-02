@@ -388,8 +388,13 @@ div.dt-container div.dt-layout-cell{
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 55555;
+  z-index: 1;
   margin: 0 auto;
+  line-height: 9px;
+  text-align: center;
+}
+.clone-head-table-wrap{
+  top: 70px !important;
 }
 .btn-approv,
 .btn-not-approv{
@@ -579,6 +584,13 @@ div.dt-container div.dt-layout-cell{
   justify-content: center;
   align-items: center;
 }
+.bg-custom-primary{
+  background: #EDEFFF;
+  border: 1px solid #0C24FF;
+  padding: 5px 10px;
+  border-radius: 100px;
+  color: #0C24FF
+}
 
 .dotted-badge{
   width: 7px;
@@ -611,6 +623,12 @@ div.dt-container div.dt-layout-cell{
 }
 
 /* custom badge css end*/
+
+/* custom bg color css */
+.bg-custom-success{
+  background: #4CAB4F !important;
+}
+
 .lagend-list li{
   color: #696969;
   font-family: 'lato';
