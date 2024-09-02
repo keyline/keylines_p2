@@ -388,10 +388,13 @@ div.dt-container div.dt-layout-cell{
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 55555;
+  z-index: 1;
   margin: 0 auto;
   line-height: 9px;
   text-align: center;
+}
+.clone-head-table-wrap{
+  top: 70px !important;
 }
 .btn-approv,
 .btn-not-approv{

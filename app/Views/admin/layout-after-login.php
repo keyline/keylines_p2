@@ -326,9 +326,9 @@
         //     });
         // }
     </script>
-    <script src="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.js"></script>
 <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.css">
+<script src="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.js"></script>
 <!-- 
 <script src="https://amphiluke.github.io/jquery-plugins/floatingscroll/jquery.floatingscroll.min.js"></script>
 <script src="https://amphiluke.github.io/jquery-plugins/floatingscroll/floatingscroll-demo.js"></script> -->
@@ -423,8 +423,16 @@
 <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/floatingscroll-demo.js"></script>
 <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.dragscroll.min.js"></script>
 <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.kinetic.min.js"></script>
+<script src="<?= getenv('app.adminAssetsURL') ?>assets/js/freeze-table.min.js"></script>
+
 
 <script type="text/javascript">
+    $(".fixed-header").freezeTable({
+        freezeColumn:false,
+        fixedNavbar:'.fixed-table-head',
+        container:false,
+
+    });
 
     $('.drag').dragScroll({
     });

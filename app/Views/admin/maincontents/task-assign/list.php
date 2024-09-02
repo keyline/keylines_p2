@@ -33,6 +33,10 @@ $controller_route       = $moduleDetail['controller_route'];
         border: 1px solid #e4f3ff;
         color: #000;
     }
+    .task-assign-table th,
+    .task-assign-table td{
+        padding: 12px 8px !important; 
+    }
     .task-assign-table td{
         text-align: center
     }
@@ -201,7 +205,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                                     <div class="accordion-body">
                                         <div class="rows">
-                                            <div class="dt-responsive table-responsive whatwg drag-box">
+                                            <div class="dt-responsive table-responsive whatwg drag-box fixed-header">
                                                 <table id="wrapper" class="table nowrap general_table_style task-assign-table applies drag">
                                                     <thead>
                                                         <tr>
@@ -235,7 +239,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
                                                                     $totalBooked    = '[' . $totalBooked . ']';
                                                                     ?>
-                                                                    <th style="background-color: <?=$dept->header_color?>;"><?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span></th>
+                                                                    <th style="background-color: <?=$dept->header_color?>;">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                        </div>
+                                                                    </th>
                                                                 <?php } } ?>
                                                             <?php } } ?>
                                                         </tr>
@@ -368,10 +376,10 @@ $controller_route       = $moduleDetail['controller_route'];
                                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
                                     <div class="accordion-body">
                                         <div class="rows">
-                                            <div class="dt-responsive table-responsive whatwg drag-box">
+                                            <div class="dt-responsive table-responsive whatwg drag-box fixed-header">
                                                 
                                                 <table id="myTable input-type-attr-summary wrapper2"  class="table general_table_style task-assign-table applies drag">
-                                                    <thead>
+                                                    <thead class="fixed-table-head">
                                                         <tr>
                                                             <?php if($departments){ foreach($departments as $dept){?>
                                                                 <?php
@@ -402,7 +410,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
                                                                     $totalBooked    = '[' . $totalBooked . ']';
                                                                     ?>
-                                                                    <th style="background-color: <?=$dept->header_color?>;"><?=$teamMember->name?> <br><span id="total-time-<?=$teamMember->id?>"><?=$totalBooked?></span></th>
+                                                                    <th style="background-color: <?=$dept->header_color?>;">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <?=$teamMember->name?> <br><span id="total-time-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                        </div>
+                                                                    </th>
                                                                 <?php } } ?>
                                                             <?php } } ?>
                                                         </tr>

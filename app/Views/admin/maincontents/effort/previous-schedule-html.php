@@ -7,9 +7,9 @@ $pro                        = new Pro();
 $generalSetting             = $common_model->find_data('general_settings', 'row');
 ?>
 <div class="rows">
-    <div class="dt-responsive table-responsive whatwg drag-box">
+    <div class="dt-responsive table-responsive whatwg drag-box fixed-header">
         <table id="wrapper" class="table general_table_style task-assign-table applies drag">
-            <thead>
+            <thead class="fixed-table-head">
                 <tr>
                     <?php if($departments){ foreach($departments as $dept){?>
                         <?php
@@ -41,7 +41,11 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                             $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
                             $totalBooked    = '[' . $totalBooked . ']';
                             ?>
-                            <th style="background-color: <?=$dept->header_color?>;"><?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span></th>
+                            <th style="background-color: <?=$dept->header_color?>;">
+                                <div class="d-flex justify-content-between">
+                                    <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                </div>
+                            </th>
                         <?php } } ?>
                     <?php } } ?>
                 </tr>
@@ -153,7 +157,12 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
 </div>
 
 <script type="text/javascript">
+    $(".fixed-header").freezeTable({
+        freezeColumn:false,
+        fixedNavbar:'.fixed-table-head',
+        container:false,
 
+    });
     $('.drag').dragScroll({
     });
 
