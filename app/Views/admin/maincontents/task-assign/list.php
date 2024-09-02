@@ -10,7 +10,9 @@ $controller_route       = $moduleDetail['controller_route'];
 ?>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.css">
 <script src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/choices.min.js"></script>
-<link rel="stylesheet" href="https://amphiluke.github.io//jquery-plugins/floatingscroll/jquery.floatingscroll.css"/>
+<!-- <link rel="stylesheet" href="https://amphiluke.github.io//jquery-plugins/floatingscroll/jquery.floatingscroll.css"/> -->
+
+<link rel="stylesheet" href="style.css">
 <style type="text/css">
     #simpletable_filter{
         float: right;
@@ -28,6 +30,14 @@ $controller_route       = $moduleDetail['controller_route'];
     .input-group > .card{
         width: 250px !important;
         vertical-align: top !important;
+        border: 1px solid #e4f3ff;
+        color: #000;
+    }
+    .task-assign-table td{
+        text-align: center
+    }
+    .field_wrapper{
+        width: 250px;
     }
     .input-group > .card{
         margin-bottom: 5px;
@@ -71,7 +81,16 @@ $controller_route       = $moduleDetail['controller_route'];
         border: 1px solid #ffc107;
     }
     .bg-default{
-        background-color: #a5a4a070;
+        background-color: #fff;
+    }
+    .accordion-item{
+        border-radius: 8px;
+        border: none;
+        margin-bottom: 8px
+    }
+    .accordion-header,
+    .accordion-button{
+        border-radius: 8px;
     }
 </style>
 <div class="maze" style="display: none;">
@@ -118,22 +137,24 @@ $controller_route       = $moduleDetail['controller_route'];
 <section class="task-section">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-12">
-                <form method="POST" action="">
-                    <div class="row" style="border:1px solid #ffc107; padding: 10px; border-radius: 10px; margin-bottom: 10px;">
-                        <div class="col-md-3">
-                            <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
-                                <!-- <option value="0">Only Mine</option> -->
-                                <?php if($all_departments){ foreach($all_departments as $dept){?>
-                                    <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
-                                <?php } }?>
-                            </select>
+            <div class="col-12 table-card">
+                <div class="filtrable-box card-header">
+                    <form method="POST" action="">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
+                                    <!-- <option value="0">Only Mine</option> -->
+                                    <?php if($all_departments){ foreach($all_departments as $dept){?>
+                                        <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
+                                    <?php } }?>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn-success btn-md"><i class="fa fa-filter"></i> Filter</button>
+                            </div>
                         </div>
-                        <div class="col-md-1">
-                            <button type="submit" class="btn btn-success btn-sm"><i class="fa fa-filter"></i> Filter</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
             <div class="col-12">
                 <!-- <div class="card mb-3">
@@ -151,7 +172,7 @@ $controller_route       = $moduleDetail['controller_route'];
                 </div> -->
 
 
-                <div class="card">
+                <div class="card table-card">
                     <div class="card-body">
                         <div class="accordion" id="accordionPanelsStayOpenExample">
                             <?php
@@ -161,7 +182,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 <div class="accordion-item">
                                     <h2 class="accordion-header" id="panelsStayOpen-headingThree">
                                       <button class="accordion-button accordion-button-prev bg-default collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapse<?=$k?>" aria-expanded="false" aria-controls="panelsStayOpen-collapse<?=$k?>" data-task-date="<?=$singleDate?>">
-                                        <h6 class="badge bg-primary mb-2"><?=date_format(date_create($singleDate), "M d, Y l")?></h6>
+                                        <h6 class="badge bg-custom-primary"><?=date_format(date_create($singleDate), "M d, Y l")?></h6>
                                       </button>
                                     </h2>
                                     <div id="panelsStayOpen-collapse<?=$k?>" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
@@ -173,15 +194,15 @@ $controller_route       = $moduleDetail['controller_route'];
                             <?php } }?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                    <button class="accordion-button bg-warning" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                        <h6 class="badge bg-primary mb-2"><?=date('M d, Y - l', strtotime("-1 days"));?></h6>
+                                    <button class="accordion-button bg-custom-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                        <h6 class="badge bg-custom-primary"><?=date('M d, Y - l', strtotime("-1 days"));?></h6>
                                     </button>
                                 </h2>
                                 <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                                     <div class="accordion-body">
                                         <div class="rows">
-                                            <div class="dt-responsive table-responsive">
-                                                <table class="table table-bordered nowrap general_table_style task-assign-table">
+                                            <div class="dt-responsive table-responsive whatwg drag-box">
+                                                <table id="wrapper" class="table nowrap general_table_style task-assign-table applies drag">
                                                     <thead>
                                                         <tr>
                                                             <?php if($departments){ foreach($departments as $dept){?>
@@ -340,16 +361,16 @@ $controller_route       = $moduleDetail['controller_route'];
                             </div>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
-                                    <button class="accordion-button bg-warning" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
-                                        <h6 class="badge bg-success mb-2"><?=date('M d, Y - l')?></h6>
+                                    <button class="accordion-button bg-custom-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+                                        <h6 class="badge bg-custom-primary"><?=date('M d, Y - l')?></h6>
                                     </button>
                                 </h2>
                                 <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingTwo">
                                     <div class="accordion-body">
                                         <div class="rows">
-                                            <div class="dt-responsive table-responsive">
+                                            <div class="dt-responsive table-responsive whatwg drag-box">
                                                 
-                                                <table id="myTable input-type-attr-summary" class="table applies table-bordered nowrap general_table_style task-assign-table">
+                                                <table id="myTable input-type-attr-summary wrapper2"  class="table general_table_style task-assign-table applies drag">
                                                     <thead>
                                                         <tr>
                                                             <?php if($departments){ foreach($departments as $dept){?>

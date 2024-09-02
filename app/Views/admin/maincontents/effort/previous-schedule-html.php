@@ -7,8 +7,8 @@ $pro                        = new Pro();
 $generalSetting             = $common_model->find_data('general_settings', 'row');
 ?>
 <div class="rows">
-    <div class="dt-responsive table-responsive">
-        <table class="table table-bordered nowrap general_table_style task-assign-table">
+    <div class="dt-responsive table-responsive whatwg drag-box">
+        <table id="wrapper" class="table general_table_style task-assign-table applies drag">
             <thead>
                 <tr>
                     <?php if($departments){ foreach($departments as $dept){?>
@@ -151,3 +151,46 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
         </table>
     </div> 
 </div>
+
+<script type="text/javascript">
+
+    $('.drag').dragScroll({
+    });
+
+    $('#wrapper2').kinetic({
+        cursor:'grab',
+        decelerate:true,
+        triggerHardware:false,
+        threshold: 0,
+ 
+        // enable x/y scrolling
+        y:true,
+        x:true,
+        
+        // animation speed
+        slowdown: 0.9,
+        // max velocity speed
+        maxvelocity: 40,
+        
+        // FPS
+        throttleFPS: 60,
+        
+        // inverts movement direction
+        invert:false,
+        
+        // default CSS classes
+        movingClass: {    up:'kinetic-moving-up',
+            down:'kinetic-moving-down',
+            left:'kinetic-moving-left',
+            right:'kinetic-moving-right'
+        },
+        deceleratingClass: {
+            up:'kinetic-decelerating-up',
+            down:'kinetic-decelerating-down',
+            left:'kinetic-decelerating-left',
+            right:'kinetic-decelerating-right'
+        },
+
+
+});
+</script>

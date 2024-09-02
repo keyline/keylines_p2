@@ -329,9 +329,9 @@
     <script src="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.js"></script>
 <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.css">
-
+<!-- 
 <script src="https://amphiluke.github.io/jquery-plugins/floatingscroll/jquery.floatingscroll.min.js"></script>
-<script src="https://amphiluke.github.io/jquery-plugins/floatingscroll/floatingscroll-demo.js"></script>
+<script src="https://amphiluke.github.io/jquery-plugins/floatingscroll/floatingscroll-demo.js"></script> -->
 <script type="text/javascript">
 			$(function() {
 				//load stickyTable with overflowy option
@@ -419,6 +419,53 @@
         });
     </script>
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
+    <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.floatingscroll.min.js"></script>
+<script src="<?= getenv('app.adminAssetsURL') ?>assets/js/floatingscroll-demo.js"></script>
+<script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.dragscroll.min.js"></script>
+<script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.kinetic.min.js"></script>
+
+<script type="text/javascript">
+
+    $('.drag').dragScroll({
+    });
+
+    $('#wrapper2').kinetic({
+        cursor:'grab',
+        decelerate:true,
+        triggerHardware:false,
+        threshold: 0,
+ 
+        // enable x/y scrolling
+        y:true,
+        x:true,
+        
+        // animation speed
+        slowdown: 0.9,
+        // max velocity speed
+        maxvelocity: 40,
+        
+        // FPS
+        throttleFPS: 60,
+        
+        // inverts movement direction
+        invert:false,
+        
+        // default CSS classes
+        movingClass: {    up:'kinetic-moving-up',
+            down:'kinetic-moving-down',
+            left:'kinetic-moving-left',
+            right:'kinetic-moving-right'
+        },
+        deceleratingClass: {
+            up:'kinetic-decelerating-up',
+            down:'kinetic-decelerating-down',
+            left:'kinetic-decelerating-left',
+            right:'kinetic-decelerating-right'
+        },
+
+
+});
+</script>
 </body>
 
 </html>
