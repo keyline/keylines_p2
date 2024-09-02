@@ -164,31 +164,31 @@ $user_type = session('user_type');
                     <div class="row mb-3">
                       <label for="name" class="col-md-4 col-lg-3 col-form-label">Name</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" name="name" class="form-control" id="name" value="<?= $client->name ?>">
+                        <input type="text" name="name" class="form-control" id="name" value="<?= $pro->decrypt($client->name) ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="email" class="col-md-4 col-lg-3 col-form-label">Primary Email</label>
+                      <label for="email_1" class="col-md-4 col-lg-3 col-form-label">Primary Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" name="email" class="form-control" id="email" value="<?= $client->email_1 ?>">
+                        <input type="text" name="email_1" class="form-control" id="email_1" value="<?= $pro->decrypt($client->email_1) ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="email" class="col-md-4 col-lg-3 col-form-label">Secondary Email</label>
+                      <label for="email_2" class="col-md-4 col-lg-3 col-form-label">Secondary Email</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" name="email" class="form-control" id="email" value="<?= $client->email_2 ?>">
+                        <input type="text" name="email_2" class="form-control" id="email_2" value="<?= $pro->decrypt($client->email_2) ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="phone1" class="col-md-4 col-lg-3 col-form-label">Phone 1</label>
+                      <label for="phone_1" class="col-md-4 col-lg-3 col-form-label">Phone 1</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" name="phone1" class="form-control" id="phone1" value="<?= $client->phone_1 ?>">
+                        <input type="text" name="phone_1" class="form-control" id="phone_1" value="<?= $pro->decrypt($client->phone_1) ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="phone2" class="col-md-4 col-lg-3 col-form-label">Phone 2</label>
+                      <label for="phone_2" class="col-md-4 col-lg-3 col-form-label">Phone 2</label>
                       <div class="col-md-8 col-lg-9">
-                        <input type="text" name="phone2" class="form-control" id="phone2" value="<?= $client->phone_2 ?>">
+                        <input type="text" name="phone_2" class="form-control" id="phone_2" value="<?= $pro->decrypt($client->phone_2) ?>">
                       </div>
                     </div>
                     <div class="text-center">
