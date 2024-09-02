@@ -1726,6 +1726,7 @@ class ApiController extends BaseController
                                 $address                = $this->geolocationaddress($latitude, $longitude);
                                 $attendanceGivenStatus  = 1;
                             } else {
+                                $address                    = $this->geolocationaddress($latitude, $longitude);
                                 $getDistance                = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
                                 $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
                                 $allow_punch_distance       = $application_setting->allow_punch_distance;
