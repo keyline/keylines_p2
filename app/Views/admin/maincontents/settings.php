@@ -489,6 +489,12 @@ $user_type = session('user_type');
                       <input name="mark_later_after" type="number" class="form-control" id="mark_later_after" value="<?= $application_setting->mark_later_after ?>">
                     </div>
                   </div>
+                  <div class="row mb-3">
+                    <label for="currency" class="col-md-4 col-lg-3 col-form-label">Currency</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="currency" type="text" class="form-control" id="currency" value="<?= $application_setting->currency ?>">
+                    </div>
+                  </div>
 
                   <div class="row mb-3">
                     <label for="week_off" class="col-form-label">Week Off</label>

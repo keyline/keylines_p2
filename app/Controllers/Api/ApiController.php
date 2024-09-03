@@ -1722,33 +1722,34 @@ class ApiController extends BaseController
 
                         $attendence_type = json_decode($getUser->attendence_type);
                         if(!empty($attendence_type)){
-                            if(in_array(0, $attendence_type)){
-                                $address                = $this->geolocationaddress($latitude, $longitude);
-                                $attendanceGivenStatus  = 1;
-                            } else {
-                                $address                    = $this->geolocationaddress($latitude, $longitude);
-                                $getDistance                = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
-                                $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
-                                $allow_punch_distance       = $application_setting->allow_punch_distance;
-                                if(!empty($getDistance)){
-                                    if($getDistance['status']){
-                                        $distance = $getDistance['distance'];
-                                        if($distance <= $allow_punch_distance){
-                                            $attendanceGivenStatus  = 1;
-                                            $apiMessage             = 'Attendance Status Enable !!!';
-                                        } else {
-                                            $attendanceGivenStatus  = 0;
-                                            $apiMessage             = 'You are '.($distance / 1000).' kms away. Please stay within '.$allow_punch_distance.' meters from office !!!';
-                                        }
-                                    } else {
-                                        $attendanceGivenStatus  = 0;
-                                        $apiMessage             = 'You are far away from office !!!'; 
-                                    }
-                                } else {
-                                    $attendanceGivenStatus  = 0;
-                                    $apiMessage             = 'You are far away from office !!!';
-                                }
-                            }
+                            // if(in_array(0, $attendence_type)){
+                            //     $address                = $this->geolocationaddress($latitude, $longitude);
+                            //     $attendanceGivenStatus  = 1;
+                            // } else {
+                            //     $address                    = $this->geolocationaddress($latitude, $longitude);
+                            //     $getDistance                = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
+                            //     $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+                            //     $allow_punch_distance       = $application_setting->allow_punch_distance;
+                            //     if(!empty($getDistance)){
+                            //         if($getDistance['status']){
+                            //             $distance = $getDistance['distance'];
+                            //             if($distance <= $allow_punch_distance){
+                            //                 $attendanceGivenStatus  = 1;
+                            //                 $apiMessage             = 'Attendance Status Enable !!!';
+                            //             } else {
+                            //                 $attendanceGivenStatus  = 0;
+                            //                 $apiMessage             = 'You are '.($distance / 1000).' kms away. Please stay within '.$allow_punch_distance.' meters from office !!!';
+                            //             }
+                            //         } else {
+                            //             $attendanceGivenStatus  = 0;
+                            //             $apiMessage             = 'You are far away from office !!!'; 
+                            //         }
+                            //     } else {
+                            //         $attendanceGivenStatus  = 0;
+                            //         $apiMessage             = 'You are far away from office !!!';
+                            //     }
+                            // }
+                            $attendanceGivenStatus  = 1;
 
                             if($attendanceGivenStatus){
                                 $punch_date = date('Y-m-d');
@@ -2362,60 +2363,134 @@ class ApiController extends BaseController
             }
             return $address;
         }
-        public function getGeolocationDistance($lat, $long, $attn_type){
-            $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
-            $google_map_api_code        = $application_setting->google_map_api_code;
+        public function getGeolocationDistance(){
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $this->isJSON(file_get_contents('php://input'));
+            $requestData        = $this->extract_json(file_get_contents('php://input'));        
+            $requiredFields     = ['latitude', 'longitude', 'userImage'];
+            $headerData         = $this->request->headers();
+            if (!$this->validateArray($requiredFields, $requestData)){
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $Authorization              = $headerData['Authorization'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    if($getUser){
+                        $lat                        = $requestData['latitude'];
+                        $long                       = $requestData['longitude'];
+                        $attn_type                  = json_decode($getUser->attendence_type);
 
-            // Your Google Maps API key
-            $apiKey         = $google_map_api_code;
+                        $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+                        $google_map_api_code        = $application_setting->google_map_api_code;
+                        $apiKey                     = $google_map_api_code;
 
-            // Coordinates of the first point
-            // $latitudeFrom   = '40.748817';
-            // $longitudeFrom  = '-73.985428';
-            $latitudeFrom   = $lat;
-            $longitudeFrom  = $long;
-            $returnData     = [];
-            if(!empty($attn_type)){
-                for($l=0;$l<count($attn_type);$l++){
-                    $getOfficeLocation  = $this->common_model->find_data('office_locations', 'row', ['id' => $attn_type[$l]], 'latitude,longitude');
-                    $latitude           = (($getOfficeLocation)?$getOfficeLocation->latitude:'');
-                    $longitude          = (($getOfficeLocation)?$getOfficeLocation->longitude:'');
+                        $latitudeFrom               = $lat;
+                        $longitudeFrom              = $long;
+                        $returnData                 = [];
 
-                    // Coordinates of the second point
-                    // $latitudeTo     = '40.689247';
-                    // $longitudeTo    = '-74.044502';
-                    $latitudeTo     = $latitude;
-                    $longitudeTo    = $longitude;
-                    // Google Maps Distance Matrix API URL
-                    $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=$apiKey";
-                    // Send a GET request to the API
-                    $response       = file_get_contents($url);
-                    $data           = json_decode($response, true);
-                    // pr($data,0);
-                    // Extract distance from the response
-                    if ($data['status'] === 'OK') {
-                        if($data['rows'][0]['elements'][0]['status'] === 'OK'){
-                            $distance = $data['rows'][0]['elements'][0]['distance']['value']; // Distance in meters
-                            // echo "Distance: " . $distance . " meters";
-                            $returnData     = [
-                                'status'    => TRUE,
-                                'distance'  => $distance,
-                            ];
+                        if(in_array(0, $attn_type)){
+                            $apiMessage             = 'Attendance Status Enable !!!';
+                            http_response_code(200);
+                            $apiStatus              = TRUE;
+                            $apiExtraField          = 'response_code';
+                            $apiExtraData           = http_response_code();
+                        } else {
+                            for($l=0;$l<count($attn_type);$l++){
+                                $getOfficeLocation  = $this->common_model->find_data('office_locations', 'row', ['id' => $attn_type[$l]], 'latitude,longitude');
+                                $latitude           = (($getOfficeLocation)?$getOfficeLocation->latitude:'');
+                                $longitude          = (($getOfficeLocation)?$getOfficeLocation->longitude:'');
+
+                                // Coordinates of the second point
+                                // $latitudeTo     = '40.689247';
+                                // $longitudeTo    = '-74.044502';
+                                $latitudeTo     = $latitude;
+                                $longitudeTo    = $longitude;
+                                // Google Maps Distance Matrix API URL
+                                $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=$apiKey";
+                                // Send a GET request to the API
+                                $response       = file_get_contents($url);
+                                $data           = json_decode($response, true);
+                                // Extract distance from the response                                
+
+                                if ($data['status'] === 'OK') {
+                                    if($data['rows'][0]['elements'][0]['status'] === 'OK'){
+                                        $distance = $data['rows'][0]['elements'][0]['distance']['value'];
+                                        $returnData     = [
+                                            'status'    => TRUE,
+                                            'distance'  => $distance,
+                                        ];
+                                        $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+                                        $allow_punch_distance       = $application_setting->allow_punch_distance;
+                                        if(!empty($returnData)){
+                                            if($returnData['status']){
+                                                $distance = $returnData['distance'];
+                                                if($distance <= $allow_punch_distance){
+                                                    $apiMessage             = 'Attendance Status Enable !!!';
+                                                    http_response_code(200);
+                                                    $apiStatus              = TRUE;
+                                                    $apiExtraField          = 'response_code';
+                                                    $apiExtraData           = http_response_code();
+                                                } else {
+                                                    $apiMessage             = 'You are '.($distance / 1000).' kms away. Please stay within '.$allow_punch_distance.' meters from office !!!';
+                                                    http_response_code(200);
+                                                    $apiStatus              = FALSE;
+                                                    $apiExtraField          = 'response_code';
+                                                    $apiExtraData           = http_response_code();
+                                                }
+                                            } else {
+                                                $apiMessage             = 'You are far away from office !!!';
+                                                http_response_code(200);
+                                                $apiStatus              = FALSE;
+                                                $apiExtraField          = 'response_code';
+                                                $apiExtraData           = http_response_code();
+                                            }
+                                        } else {
+                                            $apiMessage             = 'You are far away from office !!!';
+                                            http_response_code(200);
+                                            $apiStatus              = FALSE;
+                                            $apiExtraField          = 'response_code';
+                                            $apiExtraData           = http_response_code();
+                                        }
+                                    }
+                                } else {
+                                    http_response_code(200);
+                                    $apiStatus          = FALSE;
+                                    $apiMessage         = 'You are far away from office !!!';
+                                    $apiExtraField      = 'response_code';
+                                    $apiExtraData       = http_response_code();
+                                }
+                            }
                         }
                     } else {
-                        // echo "Error: " . $data['status'];
-                        // $returnData[]     = [
-                        //     'status'    => FALSE,
-                        //     'distance'  => '',
-                        // ];
-                        return $returnData;
+                        $apiStatus          = FALSE;
+                        http_response_code(200);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
                     }
-                }
-                // die;
-                return $returnData;
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
             } else {
-                return $returnData;
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
             }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
     /* after login */
     

@@ -615,7 +615,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-5">
                                     <div class="input-group mb-1">
-                                        <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave0" value="0" onchange="myFunction()" checked><label for="leave0" style="margin-left : 3px;">NO LEAVE</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave0" value="0" onchange="myFunction()" checked><label for="leave0" style="margin-left : 3px;">PRESENT</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave1" value="1" onchange="myFunction()"><label for="leave1" style="margin-left : 3px;">HALFDAY LEAVE</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave2" value="2" onchange="myFunction()"><label for="leave2" style="margin-left : 3px;">FULLDAY LEAVE</label></span>
                                     </div>
