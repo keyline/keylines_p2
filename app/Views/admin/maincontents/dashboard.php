@@ -393,12 +393,12 @@
                               <div class="col-md-5">
                                  <div class="card-header-right">
                                     <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list">
-                                       <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - T</li>
-                                       <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - D</li>
-                                       <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - T</li>
-                                       <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - D</li>
-                                       <li>T : Keyline Tracker</li>
-                                       <li>D : Desktop Tracker</li>
+                                       <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                       <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                       <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                       <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                       <li><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> : Keyline Tracker</li>
+                                       <li><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon">: Desktop Tracker</li>
                                     </ul>
                                  </div>
                               </div>
