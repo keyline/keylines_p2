@@ -69,10 +69,12 @@ th,td{
 .dashboard .modal-body{
   padding: 0;
 }
-.table.dataTable th{
+/* .table.dataTable th{
   text-align: center;
+} */
+.table.dataTable th[aria-label="Role Name: Activate to sort"]{
+  text-align: left;
 }
-
 /* table style css */
 .table-card {
   background: transparent;
@@ -83,6 +85,9 @@ th,td{
   background: #fff;
   border-radius: 8px;
   margin-bottom: 16px;
+}
+.table-card .card-header2{
+  padding: 10px 20px;
 }
 .card-header-left p{
   padding: 8px 16px;
@@ -133,7 +138,13 @@ th,td{
   padding: 23px 8px !important;
 }
 .general_table_style td{
-  padding: 6px 8px !important;
+  padding: 23px 8px !important;
+}
+.general_table_style.padding-y-10 th{
+  padding: 15px 8px !important
+}
+.general_table_style.padding-y-10 td{
+  padding: 10px 8px !important
 }
 .general_table_style td h6{
   font-size: 11px !important;
@@ -306,6 +317,13 @@ table.dataTable thead>tr>th.dt-orderable-asc:hover, table.dataTable thead>tr>th.
   border-radius: 8px;
   margin-bottom: 16px;
 }
+.dt-layout-row.dt-layout-table{
+  background: transparent !important;
+  padding: 0 !important;
+}
+table.dataTable th.dt-type-numeric, table.dataTable th.dt-type-date, table.dataTable td.dt-type-numeric, table.dataTable td.dt-type-date{
+  text-align: left !important;
+} 
 div.dt-container div.dt-layout-cell{
   padding: 0 !important;
 }

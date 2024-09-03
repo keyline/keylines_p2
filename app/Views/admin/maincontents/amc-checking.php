@@ -29,11 +29,11 @@ $controller_route   = $moduleDetail['controller_route'];
             <?php }?>
         </div>
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card table-card">
                 <div class="card-body">                    
                     <?php if(checkModuleFunctionAccess(6,33)){ ?>
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered table-fit general_table_style">
+                        <table id="simpletable" class="table table-fit general_table_style padding-y-10">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -64,7 +64,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         if($chk_date == null){
                                             echo '<span class="label label-danger">Never Checked</span>';
                                         }else if($days_between->format("%a") > $dayspan){
-                                        echo '<b>'.$days_between->format("%a").' Days </b><span class="badge bg-danger">Overdue</span>';
+                                        echo '<b>'.$days_between->format("%a").' Days </b><span class="badge badge-tracker-danger">Overdue</span>';
                                         }else{
                                           echo $days_between->format("%a");  
                                         }

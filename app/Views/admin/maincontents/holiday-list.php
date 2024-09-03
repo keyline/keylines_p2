@@ -107,19 +107,19 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="col-md-6"> 
                 <div class="card">                                           
                     <div class="row">
-                        <div class="portlet box green portlet-right">
+                        <div class="portlet box green portlet-right card table-card">
                             <div class="portlet-title">
                                 <div class="caption">
                                 </div>
                                 <div class="tools">
                                     <!-- Button trigger modal -->
-                                    <button type="button" class="btn btn-success btn-sm mb-3" data-bs-toggle="modal" data-bs-target="#holidayAddModal">
+                                    <button type="button" class="btn btn-success btn-sm m-3" data-bs-toggle="modal" data-bs-target="#holidayAddModal">
                                       Add New Event
                                     </button>
                                 </div>
                             </div>
                             <div class="portlet-body">
-                                <table class="table table-striped table-bordered table-hover table-condensed" id="event-table">
+                                <table class="table general_table_style padding-y-10" id="event-table">
                                     <thead>
                                         <tr>
                                             <th>#</th>
