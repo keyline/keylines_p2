@@ -2384,16 +2384,16 @@ class ApiController extends BaseController
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
                     if($getUser){
-                        $latitude   = $requestData['latitude'];
-                        $longitude  = $requestData['longitude'];
+                        $lat                        = $requestData['latitude'];
+                        $long                       = $requestData['longitude'];
 
                         $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
                         $google_map_api_code        = $application_setting->google_map_api_code;
-                        $apiKey         = $google_map_api_code;
+                        $apiKey                     = $google_map_api_code;
 
-                        $latitudeFrom   = $lat;
-                        $longitudeFrom  = $long;
-                        $returnData     = [];
+                        $latitudeFrom               = $lat;
+                        $longitudeFrom              = $long;
+                        $returnData                 = [];
 
                         if(!empty($attn_type)){
                             for($l=0;$l<count($attn_type);$l++){
