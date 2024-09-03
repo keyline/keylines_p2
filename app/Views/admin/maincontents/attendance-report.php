@@ -68,15 +68,43 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
         </div> -->
         <!-- Left side columns -->
+        <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
+            <div class="col-md-12">
+                <div class="card table-card">
+                    <div class="card-header">
+                        <div class="row">
+                            <div class="col-md-4">
+                            <div class="card-header-left">
+                                <ul class="d-flex align-items-center gap-2">                                    
+                                    <li>
+                                        <p class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#presentModal">Present (<?=$total_present_user->user_count?>)</p>
+                                    </li>
+                                    <li>
+                                        <p class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#AbsentModal">Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
+                                    </li>                                    
+                                </ul>
+                            </div>
+                            </div>
+                            <div class="col-md-8">
+                            <div class="card-header-right">
+
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+
         <div class="col-md-12">
-            <div class="card">
+            <div class="card table-card">
                 <div class="card-header text-dark">
                     <h6 class="fw-bold text-center heading_style">Last 7 Days Attendance Report</h6>
                 </div>
                 <div class="card-body">
                     <div class="row">
                         <div class="col-xxl-12 col-md-12 table-responsive">
-                            <table class="table table-bordered general_table_style">
+                            <table class="table general_table_style padding-y-10">
                                 <thead>
                                     <tr>
                                         <th>#</th>
@@ -155,6 +183,35 @@ $controller_route   = $moduleDetail['controller_route'];
     <div class="modal fade" id="myModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog wide-modal modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content" id="modalBody2">
+            </div>
+        </div>
+    </div>
+
+    <!--Present Modal -->
+    <div class="modal fade" id="presentModal" tabindex="-1" aria-labelledby="presentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="presentModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...1
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Absent Modal -->
+    <div class="modal fade" id="AbsentModal" tabindex="-1" aria-labelledby="AbsentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AbsentModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...2
+                </div>
             </div>
         </div>
     </div>

@@ -29,16 +29,18 @@ $controller_route   = $moduleDetail['controller_route'];
             <?php }?>
         </div>
         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
+            <div class="card table-card">
+                <div class="card-header">
                     <?php if (checkModuleFunctionAccess(30, 83)) { ?>
-                    <h5 class="card-title">
-                        <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
-                    </h5>
+                        <h5>
+                            <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
+                        </h5>
                     <?php } ?>
+                </div>
+                <div class="card-body">
                     <div class="dt-responsive table-responsive">
                         <?php if (checkModuleFunctionAccess(30, 82)) { ?>
-                            <table id="simpletable" class="table table-bordered nowrap general_table_style">
+                            <table id="simpletable" class="table general_table_style padding-y-10">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>

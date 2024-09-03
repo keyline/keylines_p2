@@ -146,31 +146,31 @@
                <!-- End Vendors Card -->
                <?php   } ?>
                   <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
-               <div class="col-md-12">
-                  <div class="card table-card">
-                     <div class="card-header">
-                        <div class="row">
-                           <div class="col-md-4">
-                              <div class="card-header-left">
-                                 <ul class="d-flex align-items-center gap-2">                                    
-                                    <li>
-                                       <p>Present (<?=$total_present_user->user_count?>)</p>
-                                    </li>
-                                    <li>
-                                       <p>Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
-                                    </li>                                    
-                                 </ul>
-                              </div>
-                           </div>
-                           <div class="col-md-8">
-                              <div class="card-header-right">
+                     <div class="col-md-12">
+                        <div class="card table-card">
+                           <div class="card-header">
+                              <div class="row">
+                                 <div class="col-md-4">
+                                    <div class="card-header-left">
+                                       <ul class="d-flex align-items-center gap-2">                                    
+                                          <li>
+                                             <p>Present (<?=$total_present_user->user_count?>)</p>
+                                          </li>
+                                          <li>
+                                             <p>Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
+                                          </li>                                    
+                                       </ul>
+                                    </div>
+                                 </div>
+                                 <div class="col-md-8">
+                                    <div class="card-header-right">
 
+                                    </div>
+                                 </div>
                               </div>
                            </div>
                         </div>
                      </div>
-                  </div>
-               </div>
                <?php } ?>
 
                <div class="col-md-12">
@@ -178,7 +178,7 @@
                   <div class="card table-card">
                      <div class="card-header">
                         <div class="row align-items-center">
-                           <div class="col-md-7">
+                           <div class="col-md-6">
                               <div class="card-header-left">
                                  <ul class="d-flex align-items-center">
                                     <li class="me-3"><h6 class="fw-bold heading_style">Monthly Effort Report <span id="year"><?= date('Y') ?></span></h6></li>
@@ -188,15 +188,15 @@
                                  </ul>
                               </div>
                            </div>
-                           <div class="col-md-5">
+                           <div class="col-md-6">
                               <div class="card-header-right">
                                  <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list">
-                                    <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - T</li>
-                                    <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - D</li>
-                                    <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - T</li>
-                                    <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - D</li>
-                                    <li>T : Keyline Tracker</li>
-                                    <li>D : Desktop Tracker</li>
+                                    <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                    <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                    <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                    <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                    <li><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> : Keyline Tracker</li>
+                                    <li><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> : Desktop Tracker</li>
                                  </ul>
                               </div>
                            </div>
@@ -393,12 +393,12 @@
                               <div class="col-md-5">
                                  <div class="card-header-right">
                                     <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list">
-                                       <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - T</li>
-                                       <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - D</li>
-                                       <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - T</li>
-                                       <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - D</li>
-                                       <li>T : Keyline Tracker</li>
-                                       <li>D : Desktop Tracker</li>
+                                       <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                       <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                       <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                       <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                       <li><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> : Keyline Tracker</li>
+                                       <li><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon">: Desktop Tracker</li>
                                     </ul>
                                  </div>
                               </div>

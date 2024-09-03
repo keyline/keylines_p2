@@ -27,7 +27,7 @@ $user_type = session('user_type');
       <?php }?>
     </div>
     <div class="col-xl-12">
-      <div class="card">
+      <div class="card table-card">
         <div class="card-body pt-3">
 
           <ul class="nav nav-tabs nav-tabs-bordered">
@@ -46,7 +46,7 @@ $user_type = session('user_type');
           </ul>
           <div class="tab-content pt-2">
             <div class="tab-pane fade show active profile-overview table-responsive" id="tab1">
-              <table class="table datatable table-striped table-bordered general_table_style">
+              <table class="table datatable general_table_style padding-y-10">
                 <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -84,7 +84,7 @@ $user_type = session('user_type');
               </table>
             </div>
             <div class="tab-pane fade profile-overview table-responsive" id="tab2">
-              <table class="table datatable table-striped table-bordered general_table_style">
+              <table class="table datatable general_table_style padding-y-10">
                 <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -122,7 +122,7 @@ $user_type = session('user_type');
               </table>
             </div>
             <div class="tab-pane fade profile-overview table-responsive" id="tab3">
-              <table class="table datatable table-striped table-bordered general_table_style">
+              <table class="table datatable general_table_style padding-y-10">
                 <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -160,7 +160,7 @@ $user_type = session('user_type');
               </table>
             </div>
             <div class="tab-pane fade profile-overview table-responsive" id="tab4">
-              <table class="table datatable table-striped table-bordered general_table_style">
+              <table class="table datatable general_table_style padding-y-10">
                 <thead>
                     <tr>
                       <th scope="col">#</th>
