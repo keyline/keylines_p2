@@ -81,7 +81,12 @@ class EffortController extends BaseController {
             $requestData    = $this->request->getPost();
             // pr($requestData);die;
             $user_id                = $this->session->get('user_id');
-            $date_task              = $requestData['date_task'];
+            if (array_key_exists("date_task",$requestData)){
+                $date_task              = $requestData['date_task'];
+            } else {
+                $date_task              = $requestData['date_added'][0];
+            }
+            
             $assigned_task_id       = $requestData['assigned_task_id'];
             $date_added             = $requestData['date_added'];
             $project                = $requestData['project'];
@@ -378,7 +383,7 @@ class EffortController extends BaseController {
                     }
                 }
             }           
-            $this->session->setFlashdata('success_message', 'Effort Submitted successfully');
+            $this->session->setFlashdata('success_message', 'Effort Submitted Successfully For ' . date_format(date_create($date_task), "M d, Y"));
             return redirect()->to('/admin/'.$this->data['controller_route'].'/effort-success');
         }
         echo $this->layout_after_login($title,$page_name,$data);
