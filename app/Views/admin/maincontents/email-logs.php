@@ -27,10 +27,10 @@ $user_type = session('user_type');
       <?php }?>
     </div>
     <div class="col-xl-12">
-      <div class="card">
+      <div class="card table-card">
         <div class="card-body pt-3">
           <div class="dt-responsive table-responsive">
-            <table id="simpletable" class="table datatable table-striped table-bordered general_table_style">
+            <table id="simpletable" class="table datatable general_table_style padding-y-10">
                 <thead>
                     <tr>
                         <th scope="col">#</th>
