@@ -4,14 +4,18 @@ $primary_key        = $moduleDetail['primary_key'];
 $controller_route   = $moduleDetail['controller_route'];
 ?>
 <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
-<div class="pagetitle">
-    <h1><?=$page_header?></h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
-            <li class="breadcrumb-item active"><?=$page_header?></li>
-        </ol>
-    </nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="pagetitle">
+            <h1><?=$page_header?></h1>
+            <nav>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
+                    <li class="breadcrumb-item active"><?=$page_header?></li>
+                </ol>
+            </nav>
+        </div>
+    </div>
 </div>
 <?php if(checkModuleFunctionAccess(18,26)){ ?>
 <section class="section">
@@ -31,7 +35,7 @@ $controller_route   = $moduleDetail['controller_route'];
             <?php }?>
         </div>
         <div class="col-lg-12">
-            <div class="card">
+            <div class="cards">
                 <div class="card-body">
                     <!--<h5 class="card-title">-->
                     <!--    <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm">Add <?=$title?></a>-->
@@ -39,14 +43,14 @@ $controller_route   = $moduleDetail['controller_route'];
                     <div class="row">
                         <div class="col-md-3">
                         <?php foreach($departments as $row){?>
-                            <div class="card">
-                                <div class="card-header text-dark bg-dark-info">                       
+                            <div class="card table-card">
+                                <div class="card-header card-header2 text-dark bg-dark-info">                       
                                     <h6 class="fw-bold text-center heading_style"><?=$row->deprt_name?></h6>                            
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="dt-responsive table-responsive">
-                                            <table class="table table-bordered nowrap general_table_style">
+                                            <table class="table nowrap general_table_style padding-y-10">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>                                                
@@ -77,14 +81,14 @@ $controller_route   = $moduleDetail['controller_route'];
                         <?php } ?>
                         </div>
                         <div class="col-md-9">
-                            <div class="card">
-                                <div class="card-header text-dark bg-dark-info">                       
+                            <div class="card table-card">
+                                <div class="card-header card-header2 text-dark bg-dark-info">                       
                                     <h6 class="fw-bold text-center heading_style">All Members</h6>                            
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="dt-responsive table-responsive">
-                                            <table class="table table-bordered nowrap general_table_style">
+                                            <table class="table nowrap general_table_style padding-y-10">
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">#</th>                                                
@@ -110,7 +114,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         <td><?=$row->name;?></td>
                                                         <td><?=$single_dept_type?></td>
                                                         <td><?=(($department_name)?$department_name->deprt_name:'')?></td>
-                                                        <td class="text-center">
+                                                        <td>
                                                         <?php if(checkModuleFunctionAccess(18,27)){ ?>
                                                             <a href="#exampleModal<?=$row->id?>" role="button" type="button" class="btn btn-outline-primary btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal<?=$row->id?>">
                                                                 <i class="fa fa-edit"></i>

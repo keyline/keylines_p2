@@ -30,12 +30,12 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
         <?php if (checkModuleFunctionAccess(8, 50)) { ?>
             <div class="col-lg-12">
-                <div class="card">
+                <div class="card table-card">
                     <div class="card-body">
                         <!-- <h5 class="card-title">
                         <a href="<?= base_url('admin/' . $controller_route . '/add/') ?>" class="btn btn-outline-success btn-sm">Add <?= $title ?></a>
                     </h5> -->
-                        <table class="table datatable general_table_style table-striped table-bordered">
+                        <table class="table datatable general_table_style padding-y-10">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
@@ -58,11 +58,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td><?= $row->entity_name ?></td>
                                             <td>
                                                 <?= $row->email ?><br>
-                                                <span class="badge <?= (($row->is_email_verify) ? 'bg-success' : 'bg-danger') ?>"><?= (($row->is_email_verify) ? 'APPROVED' : 'PENDING') ?></span>
+                                                <span class="badge <?= (($row->is_email_verify) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><?= (($row->is_email_verify) ? 'APPROVED' : 'PENDING') ?></span>
                                             </td>
                                             <td>
                                                 <?= $row->phone ?><br>
-                                                <span class="badge <?= (($row->is_phone_verify) ? 'bg-success' : 'bg-danger') ?>"><?= (($row->is_phone_verify) ? 'APPROVED' : 'PENDING') ?></span>
+                                                <span class="badge <?= (($row->is_phone_verify) ? 'badge-tracker-success' : 'badge-tracker-danger') ?>"><?= (($row->is_phone_verify) ? 'APPROVED' : 'PENDING') ?></span>
                                             </td>
                                             <td><?= $row->comments ?></td>
                                             <td>
@@ -77,7 +77,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td>
                                                 <?php if (checkModuleFunctionAccess(8, 48)) { ?>
                                                     <?php if ($row->status) { ?>
-                                                        <span class="badge bg-success"><i class="fa fa-check"></i> APPROVED</span>
+                                                        <span class="badge badge-tracker-success"><i class="fa fa-check"></i> APPROVED</span>
                                                         <h6><?= date_format(date_create($row->approve_date), 'M d, Y h:i A') ?></h6>
                                                     <?php } else { ?>
                                                         <a href="<?= base_url('admin/' . $controller_route . '/change-status/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-danger btn-sm" title="Deactivate <?= $title ?>" onclick="return confirm('Do You Want To Activate This <?= $title ?>');"><i class="fa fa-times"></i> Click To Approve</a>

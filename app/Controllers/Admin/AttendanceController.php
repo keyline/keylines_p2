@@ -37,7 +37,10 @@ class AttendanceController extends BaseController
         $userId                     = $this->session->user_id;
         $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
         $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
+        $cu_date            = date('Y-m-d');
         $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+        $data['total_app_user']             = $this->db->query("SELECT COUNT(id) as user_count FROM `user` WHERE is_salarybox_user = '1'")->getRow();                
+                    $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
         $response = [];
         $year = [];
         $sl = 1;        
