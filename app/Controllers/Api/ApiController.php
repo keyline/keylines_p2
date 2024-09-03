@@ -1448,6 +1448,74 @@ class ApiController extends BaseController
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
+        public function getNotes()
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $this->isJSON(file_get_contents('php://input'));
+            $requestData        = $this->extract_json(file_get_contents('php://input'));        
+            $requiredFields     = ['page_no'];
+            $headerData         = $this->request->headers();
+            if (!$this->validateArray($requiredFields, $requestData)){              
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $Authorization              = $headerData['Authorization'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                $page_no                    = $requestData['page_no'];
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    if($getUser){
+                        $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
+                        $limit          = 15; // per page elements
+                        if($page_no == 1){
+                            $offset = 0;
+                        } else {
+                            $offset = (($limit * $page_no) - $limit); // ((15 * 3) - 15)
+                        }
+                        $attns  = $this->common_model->find_data('attendances', 'array', ['note!=' => '', 'user_id' => $uId], 'id,punch_date,note', '', '', $orderBy, $limit, $offset);
+                        if($attns){
+                            foreach($attns as $attn){
+                                $apiResponse[]        = [
+                                    'id'                    => $attn->id,
+                                    'description'           => $attn->note,
+                                    'punch_date'            => date_format(date_create($attn->punch_date), "M d, Y"),
+                                ];
+                            }
+                        }
+                        $apiStatus          = TRUE;
+                        http_response_code(200);
+                        $apiMessage         = 'Data Available !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(404);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
         public function updateProfileImage()
         {
             $apiStatus          = TRUE;
@@ -1652,82 +1720,124 @@ class ApiController extends BaseController
                             }
                         /* profile image */
 
-                        $address    = $this->geolocationaddress($latitude, $longitude);
-                        $punch_date = date('Y-m-d');
-                        if($punch_type == 1){
-                            $punch_in_time      = date('H:i:s');
-                            $punch_in_lat       = $latitude;
-                            $punch_in_lng       = $longitude;
-                            $punch_in_address   = $address;
+                        $attendence_type = json_decode($getUser->attendence_type);
+                        if(!empty($attendence_type)){
+                            if(in_array(0, $attendence_type)){
+                                $address                = $this->geolocationaddress($latitude, $longitude);
+                                $attendanceGivenStatus  = 1;
+                            } else {
+                                $address                    = $this->geolocationaddress($latitude, $longitude);
+                                $getDistance                = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
+                                $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+                                $allow_punch_distance       = $application_setting->allow_punch_distance;
+                                if(!empty($getDistance)){
+                                    if($getDistance['status']){
+                                        $distance = $getDistance['distance'];
+                                        if($distance <= $allow_punch_distance){
+                                            $attendanceGivenStatus  = 1;
+                                            $apiMessage             = 'Attendance Status Enable !!!';
+                                        } else {
+                                            $attendanceGivenStatus  = 0;
+                                            $apiMessage             = 'You are '.($distance / 1000).' kms away. Please stay within '.$allow_punch_distance.' meters from office !!!';
+                                        }
+                                    } else {
+                                        $attendanceGivenStatus  = 0;
+                                        $apiMessage             = 'You are far away from office !!!'; 
+                                    }
+                                } else {
+                                    $attendanceGivenStatus  = 0;
+                                    $apiMessage             = 'You are far away from office !!!';
+                                }
+                            }
 
-                            $from_time          = strtotime($punch_date." ".$punch_in_time);
-                            $to_time            = strtotime($punch_date." 23:59:00");
-                            $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+                            if($attendanceGivenStatus){
+                                $punch_date = date('Y-m-d');
+                                if($punch_type == 1){
+                                    $punch_in_time      = date('H:i:s');
+                                    $punch_in_lat       = $latitude;
+                                    $punch_in_lng       = $longitude;
+                                    $punch_in_address   = $address;
 
-                            $fields2 = [
-                                'punch_in_time'         => $punch_in_time,
-                                'punch_in_lat'          => $punch_in_lat,
-                                'punch_in_lng'          => $punch_in_lng,
-                                'punch_in_address'      => $punch_in_address,
-                                'punch_in_image'        => $user_image,
-                                'punch_out_time'        => '',
-                                'punch_out_lat'         => '',
-                                'punch_out_lng'         => '',
-                                'punch_out_address'     => '',
-                                'punch_out_image'       => '',
-                                'status'                => 1,
-                                'attendance_time'       => $attendance_time,
-                            ];
-                            // pr($fields2);
-                            $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                            $apiMessage         = 'Attendance Punch In Successfully !!!';
-                        } elseif($punch_type == 2){
-                            $punch_out_time      = date('H:i:s');
-                            $punch_out_lat       = $latitude;
-                            $punch_out_lng       = $longitude;
-                            $punch_out_address   = $address;
+                                    $from_time          = strtotime($punch_date." ".$punch_in_time);
+                                    $to_time            = strtotime($punch_date." 23:59:00");
+                                    $attendance_time    = round(abs($to_time - $from_time) / 60,2);
 
-                            $punch_in_time      = $checkPunchIn->punch_in_time;
-                            $from_time          = strtotime($punch_date." ".$punch_in_time);
-                            $to_time            = strtotime($punch_date." ".$punch_out_time);
-                            $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+                                    $fields2 = [
+                                        'punch_in_time'         => $punch_in_time,
+                                        'punch_in_lat'          => $punch_in_lat,
+                                        'punch_in_lng'          => $punch_in_lng,
+                                        'punch_in_address'      => $punch_in_address,
+                                        'punch_in_image'        => $user_image,
+                                        'punch_out_time'        => '',
+                                        'punch_out_lat'         => '',
+                                        'punch_out_lng'         => '',
+                                        'punch_out_address'     => '',
+                                        'punch_out_image'       => '',
+                                        'status'                => 1,
+                                        'attendance_time'       => $attendance_time,
+                                    ];
+                                    // pr($fields2);
+                                    $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+                                    $apiMessage         = 'Attendance Punch In Successfully !!!';
+                                    $apiStatus          = TRUE;
+                                    http_response_code(200);
+                                } elseif($punch_type == 2){
+                                    $punch_out_time      = date('H:i:s');
+                                    $punch_out_lat       = $latitude;
+                                    $punch_out_lng       = $longitude;
+                                    $punch_out_address   = $address;
 
-                            $fields2 = [
-                                'punch_out_time'        => $punch_out_time,
-                                'punch_out_lat'         => $punch_out_lat,
-                                'punch_out_lng'         => $punch_out_lng,
-                                'punch_out_address'     => $punch_out_address,
-                                'punch_out_image'       => $user_image,
-                                'status'                => 2,
-                                'attendance_time'       => $attendance_time,
-                            ];
-                            $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                            $apiMessage         = 'Punch Out Successfully !!!';
+                                    $punch_in_time      = $checkPunchIn->punch_in_time;
+                                    $from_time          = strtotime($punch_date." ".$punch_in_time);
+                                    $to_time            = strtotime($punch_date." ".$punch_out_time);
+                                    $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+
+                                    $fields2 = [
+                                        'punch_out_time'        => $punch_out_time,
+                                        'punch_out_lat'         => $punch_out_lat,
+                                        'punch_out_lng'         => $punch_out_lng,
+                                        'punch_out_address'     => $punch_out_address,
+                                        'punch_out_image'       => $user_image,
+                                        'status'                => 2,
+                                        'attendance_time'       => $attendance_time,
+                                    ];
+                                    $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+                                    $apiMessage         = 'Punch Out Successfully !!!';
+                                    $apiStatus          = TRUE;
+                                    http_response_code(200);
+                                } else {
+                                    $punch_out_time = date('H:i:s');
+                                    $punch_in_lat       = $latitude;
+                                    $punch_in_lng       = $longitude;
+                                    $punch_in_address   = $address;
+
+                                    $fields2 = [
+                                        'punch_out_time'        => $punch_out_time,
+                                        'punch_out_lat'         => $punch_out_lat,
+                                        'punch_out_lng'         => $punch_out_lng,
+                                        'punch_out_address'     => $punch_out_address,
+                                        'punch_out_image'       => $user_image,
+                                        'status'                => 2,
+                                    ];
+                                    $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+                                    $apiMessage         = 'Punch Out Successfully !!!';
+                                    $apiStatus          = TRUE;
+                                    http_response_code(200);
+                                }
+                            } else {
+                                $apiStatus          = FALSE;
+                                http_response_code(200);
+                            }
                         } else {
-                            $punch_out_time = date('H:i:s');
-                            $punch_in_lat       = $latitude;
-                            $punch_in_lng       = $longitude;
-                            $punch_in_address   = $address;
-
-                            $fields2 = [
-                                'punch_out_time'        => $punch_out_time,
-                                'punch_out_lat'         => $punch_out_lat,
-                                'punch_out_lng'         => $punch_out_lng,
-                                'punch_out_address'     => $punch_out_address,
-                                'punch_out_image'       => $user_image,
-                                'status'                => 2,
-                            ];
-                            $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                            $apiMessage         = 'Punch Out Successfully !!!';
-                        }
-
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
+                            $apiStatus          = FALSE;
+                            http_response_code(200);
+                            $apiMessage         = 'Please Contact System Administrator For Attendance Type Update !!!';
+                        }                        
                         $apiExtraField      = 'response_code';
                         $apiExtraData       = http_response_code();
                     } else {
                         $apiStatus          = FALSE;
-                        http_response_code(404);
+                        http_response_code(200);
                         $apiMessage         = 'User Not Found !!!';
                         $apiExtraField      = 'response_code';
                         $apiExtraData       = http_response_code();
@@ -2229,8 +2339,8 @@ class ApiController extends BaseController
         }
         public static function geolocationaddress($lat, $long)
         {
-            $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
-            $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=" . $application_setting->google_map_api_code;
+            // $application_setting        = $this->common_model->find_data('application_settings', 'row');
+            $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=AIzaSyBX7ODSt5YdPpUA252kxr459iV2UZwJwfQ";
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_URL, $geocode);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
@@ -2251,6 +2361,61 @@ class ApiController extends BaseController
                 $address = 'Not Found';
             }
             return $address;
+        }
+        public function getGeolocationDistance($lat, $long, $attn_type){
+            $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+            $google_map_api_code        = $application_setting->google_map_api_code;
+
+            // Your Google Maps API key
+            $apiKey         = $google_map_api_code;
+
+            // Coordinates of the first point
+            // $latitudeFrom   = '40.748817';
+            // $longitudeFrom  = '-73.985428';
+            $latitudeFrom   = $lat;
+            $longitudeFrom  = $long;
+            $returnData     = [];
+            if(!empty($attn_type)){
+                for($l=0;$l<count($attn_type);$l++){
+                    $getOfficeLocation  = $this->common_model->find_data('office_locations', 'row', ['id' => $attn_type[$l]], 'latitude,longitude');
+                    $latitude           = (($getOfficeLocation)?$getOfficeLocation->latitude:'');
+                    $longitude          = (($getOfficeLocation)?$getOfficeLocation->longitude:'');
+
+                    // Coordinates of the second point
+                    // $latitudeTo     = '40.689247';
+                    // $longitudeTo    = '-74.044502';
+                    $latitudeTo     = $latitude;
+                    $longitudeTo    = $longitude;
+                    // Google Maps Distance Matrix API URL
+                    $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=$apiKey";
+                    // Send a GET request to the API
+                    $response       = file_get_contents($url);
+                    $data           = json_decode($response, true);
+                    // pr($data,0);
+                    // Extract distance from the response
+                    if ($data['status'] === 'OK') {
+                        if($data['rows'][0]['elements'][0]['status'] === 'OK'){
+                            $distance = $data['rows'][0]['elements'][0]['distance']['value']; // Distance in meters
+                            // echo "Distance: " . $distance . " meters";
+                            $returnData     = [
+                                'status'    => TRUE,
+                                'distance'  => $distance,
+                            ];
+                        }
+                    } else {
+                        // echo "Error: " . $data['status'];
+                        // $returnData[]     = [
+                        //     'status'    => FALSE,
+                        //     'distance'  => '',
+                        // ];
+                        return $returnData;
+                    }
+                }
+                // die;
+                return $returnData;
+            } else {
+                return $returnData;
+            }
         }
     /* after login */
     

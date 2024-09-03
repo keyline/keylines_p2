@@ -65,7 +65,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <th scope="col">Work Mode</th>
                                     <th scope="col">Tracker User</th>
                                     <th scope="col">Salarybox User</th>
-                                    <th scope="col">Attendence Type</th>
+                                    <!-- <th scope="col">Attendence Type</th> -->
                                     <th scope="col">Action</th>
                                 </tr>
                             </thead>
@@ -92,7 +92,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <a href="<?=base_url('admin/' . $controller_route . '/change-salarybox-status/'.encoded($row->$primary_key))?>" class="badge bg-danger" title="Salarybox Off <?=$title?>" onclick="return confirm('Do You Want To Salarybox On This <?=$title?>');"><i class="fa fa-times"></i> Salarybox Off</a>
                                         <?php }?>
                                     </td>
-                                    <td>
+                                    <!-- <td>
                                         <ul>
                                             <?php
                                             $attendence_type = json_decode($row->attendence_type);
@@ -107,7 +107,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <li><small><?=$attnType?></small></li>
                                             <?php } }?>
                                         </ul>
-                                    </td>
+                                    </td> -->
                                     <td>
                                         <?php if(checkModuleFunctionAccess(4,22)){ ?>
                                         <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>

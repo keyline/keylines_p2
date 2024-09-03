@@ -365,8 +365,9 @@ class User extends BaseController {
                     // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
                     $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
                     $users              = $this->db->query($sql11)->getResult();
-                    $deskloguser        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
-                    $desklog_user       = $deskloguser->is_desklog_use;
+                    $application_settings        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+                    //  pr($application_settings);
+                    $desklog_user       = $application_settings->is_desklog_use;
                     // $cu_date            = date('Y-m-d');
                 // }
 
@@ -1409,6 +1410,10 @@ class User extends BaseController {
                 'encryption_api_encrypt_method'     => $this->request->getPost('encryption_api_encrypt_method'),
                 'google_map_api_code'               => $this->request->getPost('google_map_api_code'),
                 'allow_punch_distance'              => $this->request->getPost('allow_punch_distance'),
+                'current_date_tasks_show_in_effort' => $this->request->getPost('current_date_tasks_show_in_effort'),
+                'monthly_minimum_effort_time'       => $this->request->getPost('monthly_minimum_effort_time'),
+                'daily_minimum_effort_time'         => $this->request->getPost('daily_minimum_effort_time'),
+                'mark_later_after'                  => $this->request->getPost('mark_later_after'),
                 'sunday'                            => $sundayJson,
                 'monday'                            => $mondayJson,
                 'tuesday'                           => $tuesdayJson,
