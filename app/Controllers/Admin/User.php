@@ -1390,25 +1390,25 @@ class User extends BaseController {
         public function applicationSetting()
         {
             $user_id                = $this->session->get('user_id');                        
-            $yes_no = isset($_POST['is_desklog_use']) ? $_POST['is_desklog_use'] : 0;
-            $approval = isset($_POST['is_task_approval']) ? $_POST['is_task_approval'] : 0;
-            $project_cost = isset($_POST['is_project_cost']) ? $_POST['is_project_cost'] : 0;
+            $yes_no                 = isset($_POST['is_desklog_use']) ? $_POST['is_desklog_use'] : 0;
+            $approval               = isset($_POST['is_task_approval']) ? $_POST['is_task_approval'] : 0;
+            $project_cost           = isset($_POST['is_project_cost']) ? $_POST['is_project_cost'] : 0;
             //  pr($this->request->getpost());
-            $sundaySelections = isset($_POST['sunday']) ? $_POST['sunday'] : [];
-            $mondaySelections = isset($_POST['monday']) ? $_POST['monday'] : [];
-            $tuesdaySelections = isset($_POST['tuesday']) ? $_POST['tuesday'] : [];
-            $wednesdaySelections = isset($_POST['wednesday']) ? $_POST['wednesday'] : [];
-            $thursdaySelections = isset($_POST['thursday']) ? $_POST['thursday'] : [];
-            $fridaySelections = isset($_POST['friday']) ? $_POST['friday'] : [];
-            $satardaySelections = isset($_POST['satarday']) ? $_POST['satarday'] : [];
+            $sundaySelections       = isset($_POST['sunday']) ? $_POST['sunday'] : [];
+            $mondaySelections       = isset($_POST['monday']) ? $_POST['monday'] : [];
+            $tuesdaySelections      = isset($_POST['tuesday']) ? $_POST['tuesday'] : [];
+            $wednesdaySelections    = isset($_POST['wednesday']) ? $_POST['wednesday'] : [];
+            $thursdaySelections     = isset($_POST['thursday']) ? $_POST['thursday'] : [];
+            $fridaySelections       = isset($_POST['friday']) ? $_POST['friday'] : [];
+            $satardaySelections     = isset($_POST['satarday']) ? $_POST['satarday'] : [];
             // pr($satardaySelections);
-            $sundayJson = json_encode($sundaySelections);
-            $mondayJson = json_encode($mondaySelections);
-            $tuesdayJson = json_encode($tuesdaySelections);
-            $wednesdayJson = json_encode($wednesdaySelections);
-            $thursdayJson = json_encode($thursdaySelections);
-            $fridayJson = json_encode($fridaySelections);
-            $satardayJson = json_encode($satardaySelections);
+            $sundayJson             = json_encode($sundaySelections);
+            $mondayJson             = json_encode($mondaySelections);
+            $tuesdayJson            = json_encode($tuesdaySelections);
+            $wednesdayJson          = json_encode($wednesdaySelections);
+            $thursdayJson           = json_encode($thursdaySelections);
+            $fridayJson             = json_encode($fridaySelections);
+            $satardayJson           = json_encode($satardaySelections);
             //  pr($sundayJson);
             
             $fields = [                
@@ -1430,6 +1430,7 @@ class User extends BaseController {
                 'monthly_minimum_effort_time'       => $this->request->getPost('monthly_minimum_effort_time'),
                 'daily_minimum_effort_time'         => $this->request->getPost('daily_minimum_effort_time'),
                 'mark_later_after'                  => $this->request->getPost('mark_later_after'),
+                'currency'                          => $this->request->getPost('currency'),
                 'sunday'                            => $sundayJson,
                 'monday'                            => $mondayJson,
                 'tuesday'                           => $tuesdayJson,

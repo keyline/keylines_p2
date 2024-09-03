@@ -2386,6 +2386,7 @@ class ApiController extends BaseController
                     if($getUser){
                         $lat                        = $requestData['latitude'];
                         $long                       = $requestData['longitude'];
+                        $attn_type                  = json_decode($getUser->attendence_type);
 
                         $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
                         $google_map_api_code        = $application_setting->google_map_api_code;
@@ -2395,7 +2396,13 @@ class ApiController extends BaseController
                         $longitudeFrom              = $long;
                         $returnData                 = [];
 
-                        if(!empty($attn_type)){
+                        if(in_array(0, $attn_type)){
+                            $apiMessage             = 'Attendance Status Enable !!!';
+                            http_response_code(200);
+                            $apiStatus              = TRUE;
+                            $apiExtraField          = 'response_code';
+                            $apiExtraData           = http_response_code();
+                        } else {
                             for($l=0;$l<count($attn_type);$l++){
                                 $getOfficeLocation  = $this->common_model->find_data('office_locations', 'row', ['id' => $attn_type[$l]], 'latitude,longitude');
                                 $latitude           = (($getOfficeLocation)?$getOfficeLocation->latitude:'');
@@ -2461,12 +2468,6 @@ class ApiController extends BaseController
                                     $apiExtraData       = http_response_code();
                                 }
                             }
-                        } else {
-                            http_response_code(400);
-                            $apiStatus          = FALSE;
-                            $apiMessage         = $this->getResponseCode(http_response_code());
-                            $apiExtraField      = 'response_code';
-                            $apiExtraData       = http_response_code();
                         }
                     } else {
                         $apiStatus          = FALSE;
