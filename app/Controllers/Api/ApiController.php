@@ -1750,7 +1750,7 @@ class ApiController extends BaseController
                             //     }
                             // }
                             $attendanceGivenStatus  = 1;
-
+                            $address                = $this->geolocationaddress($latitude, $longitude);
                             if($attendanceGivenStatus){
                                 $punch_date = date('Y-m-d');
                                 if($punch_type == 1){
