@@ -529,7 +529,7 @@ class Home extends BaseController
                     'login_access'   => '0',
                     'last_login'     => date('Y-m-d')
                 );
-                 pr($postData); die;
+                //  pr($postData); die;
                 $this->common_model->save_data('client', $postData, '', '');
                 // echo $this->db->getLastQuery();die;
             }
