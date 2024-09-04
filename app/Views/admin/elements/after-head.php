@@ -32,8 +32,6 @@
 <link href="<?=getenv('app.adminAssetsURL')?>assets/css/local-admin.css" rel="stylesheet">
 <link href="<?=getenv('app.adminAssetsURL')?>assets/css/toastr.css" rel="stylesheet"/>
 
-<link rel="stylesheet" href="<?=getenv('app.adminAssetsURL')?>assets/css/jquery.floatingscroll.css">
-<link rel="stylesheet" href="<?=getenv('app.adminAssetsURL')?>assets/css/floatingscroll-demo.css">
 
 <style type="text/css">    
     .toast-success {

@@ -75,7 +75,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                         ?>
                                             <div class="input-group">
                                                 <div class="card">
-                                                    <div class="card-body" style="border: 1px solid <?=$work_status_border_color?>;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: <?=$work_status_color?>;">
+                                                    <div class="card-body" style="border: 1px solid <?=$work_status_border_color?>;width: 100%;padding: 8px;background-color: #fff;border-radius: 6px;text-align: left; box-shadow: 0 0 15px -13px #000; vertical-align: top;background-color: <?=$work_status_color?>;">
                                                         
                                                         <p class="mb-2">
                                                             <?php if($getTask->is_leave == 0){?>
