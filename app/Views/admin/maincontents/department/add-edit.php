@@ -34,11 +34,13 @@ $controller_route   = $moduleDetail['controller_route'];
             if($row){
               $deprt_name                   = $row->deprt_name;
               $header_color                 = $row->header_color;
+              $body_color                   = $row->body_color;
               $is_join_morning_meeting      = $row->is_join_morning_meeting;
               $rank                         = $row->rank;
             } else {
               $deprt_name                   = '';
               $header_color                 = '';
+              $body_color                   = '';
               $is_join_morning_meeting      = '';
               $rank                         = '';
             }
@@ -69,6 +71,18 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <div class="col-md-10 col-lg-10">
                                     <div class="general_form_right_box">
                                         <input type="color" name="header_color" class="form-control" id="header_color" value="<?=$header_color?>" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2 col-lg-2">
+                                    <div class="general_form_left_box">
+                                        <label for="body_color" class="col-form-label">Body Color</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="general_form_right_box">
+                                        <input type="color" name="body_color" class="form-control" id="body_color" value="<?=$body_color?>" required>
                                     </div>
                                 </div>
                             </div>

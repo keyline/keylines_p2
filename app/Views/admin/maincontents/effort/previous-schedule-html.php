@@ -57,7 +57,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                         $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                         if($teamMembers){ foreach($teamMembers as $teamMember){
                     ?>
-                        <td>
+                        <td style="background-color: <?=$dept->body_color?>;">
                             <div class="field_wrapper" id="name">
                                 <div class="row">
                                     <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>">
@@ -155,51 +155,3 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
         </table>
     </div> 
 </div>
-
-<script type="text/javascript">
-    $(".fixed-header").freezeTable({
-        freezeColumn:false,
-        fixedNavbar:'.fixed-table-head',
-        container:false,
-
-    });
-    $('.drag').dragScroll({
-    });
-
-    $('#wrapper2').kinetic({
-        cursor:'grab',
-        decelerate:true,
-        triggerHardware:false,
-        threshold: 0,
- 
-        // enable x/y scrolling
-        y:true,
-        x:true,
-        
-        // animation speed
-        slowdown: 0.9,
-        // max velocity speed
-        maxvelocity: 40,
-        
-        // FPS
-        throttleFPS: 60,
-        
-        // inverts movement direction
-        invert:false,
-        
-        // default CSS classes
-        movingClass: {    up:'kinetic-moving-up',
-            down:'kinetic-moving-down',
-            left:'kinetic-moving-left',
-            right:'kinetic-moving-right'
-        },
-        deceleratingClass: {
-            up:'kinetic-decelerating-up',
-            down:'kinetic-decelerating-down',
-            left:'kinetic-decelerating-left',
-            right:'kinetic-decelerating-right'
-        },
-
-
-});
-</script>

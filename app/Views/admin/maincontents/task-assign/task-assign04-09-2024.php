@@ -1,3 +1,4 @@
+
 <?php
 $user_type              = $session->user_type;
 $user_id                = $session->user_id;
@@ -25,14 +26,6 @@ $controller_route       = $moduleDetail['controller_route'];
         border: 1px solid #ff980073;
         padding: 10px;
     }
-    .task-assign-table tbody > tr{
-        background: transparent !important;
-    }
-    .task-section .accordion-header{
-        position: sticky;
-        top: 70px;
-        z-index: 5;
-    } 
     .task-assign-table th,
     .task-assign-table td,
     .input-group > .card{
@@ -111,7 +104,7 @@ $controller_route       = $moduleDetail['controller_route'];
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col">
             <div class="pagetitle">
                 <h5><?=$page_header?></h5>
                 <nav>
@@ -121,25 +114,6 @@ $controller_route       = $moduleDetail['controller_route'];
                         <li class="breadcrumb-item active"><?=$page_header?></li>
                     </ol>
                 </nav>
-            </div>
-        </div>
-        <div class="col-md-6">
-            <div class="filtrable-box">
-                <form method="POST" action="">
-                    <div class="row align-items-center">
-                        <div class="col-md-6">
-                            <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
-                                <!-- <option value="0">Only Mine</option> -->
-                                <?php if($all_departments){ foreach($all_departments as $dept){?>
-                                    <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
-                                <?php } }?>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <button type="submit" class="btn btn-success btn-md"><i class="fa fa-filter"></i> Filter</button>
-                        </div>
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -169,7 +143,23 @@ $controller_route       = $moduleDetail['controller_route'];
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 table-card">
-                
+                <div class="filtrable-box card-header">
+                    <form method="POST" action="">
+                        <div class="row align-items-center">
+                            <div class="col-md-3">
+                                <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
+                                    <!-- <option value="0">Only Mine</option> -->
+                                    <?php if($all_departments){ foreach($all_departments as $dept){?>
+                                        <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
+                                    <?php } }?>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <button type="submit" class="btn btn-success btn-md"><i class="fa fa-filter"></i> Filter</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="col-12">
                 <!-- <div class="card mb-3">
@@ -209,16 +199,16 @@ $controller_route       = $moduleDetail['controller_route'];
                             <?php } }?>
                             <div class="accordion-item">
                                 <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                    <button class="accordion-button bg-custom-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="false" aria-controls="panelsStayOpen-collapseOne">
+                                    <button class="accordion-button bg-custom-success" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
                                         <h6 class="badge bg-custom-primary"><?=date('M d, Y - l', strtotime("-1 days"));?></h6>
                                     </button>
                                 </h2>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
                                     <div class="accordion-body">
                                         <div class="rows">
                                             <div class="dt-responsive table-responsive whatwg drag-box fixed-header">
                                                 <table id="wrapper" class="table nowrap general_table_style task-assign-table applies drag">
-                                                    <thead class="fixed-table-head">
+                                                    <thead>
                                                         <tr>
                                                             <?php if($departments){ foreach($departments as $dept){?>
                                                                 <?php
@@ -266,7 +256,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                 $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                                             ?>
-                                                                <td style="background-color: <?=$dept->body_color?>;">
+                                                                <td>
                                                                     <div class="field_wrapper" id="name">
                                                                         <div class="row">
                                                                             <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>">
@@ -289,13 +279,13 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 <p class="mb-2">
                                                                                                     <?php if($getTask->is_leave == 0){?>
                                                                                                         <?php if($getTask->priority == 3){?>
-                                                                                                            <span class="card_priotty_item proiodty_high">H</span>
+                                                                                                            <span class="card_priotty_item proiodty_high">High</span>
                                                                                                         <?php }?>
                                                                                                         <?php if($getTask->priority == 2){?>
-                                                                                                            <span class="card_priotty_item proiodty_medium">M</span>
+                                                                                                            <span class="card_priotty_item proiodty_medium">Medium</span>
                                                                                                         <?php }?>
                                                                                                         <?php if($getTask->priority == 1){?>
-                                                                                                            <span class="card_priotty_item proiodty_low">L</span>
+                                                                                                            <span class="card_priotty_item proiodty_low">Low</span>
                                                                                                         <?php }?>
                                                                                                     <?php }?>
                                                                                                 </p>
@@ -347,7 +337,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 </div>
                                                                                                 
                                                                                                 <div class="d-flex justify-content-between">
-                                                                                                    <p class="mb-0 assign-name">By <?=$getTask->user_name?><span class="ms-1">(11:30 am)</span></p>
+                                                                                                    <p class="mb-0 assign-name"><?=$getTask->user_name?></p>
                                                                                                 </div>
 
                                                                                                 <?php if($application_settings->is_task_approval){?>
@@ -437,7 +427,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                 $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                                             ?>
-                                                                <td style="background-color: <?=$dept->body_color?>;">
+                                                                <td>
                                                                     <div class="field_wrapper" id="name">
                                                                         <div class="row">
                                                                             <div class="col-12" id="meeting-user-<?=$teamMember->id?>">
@@ -458,13 +448,13 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 <p class="mb-2">
                                                                                                     <?php if($getTask->is_leave == 0){?>
                                                                                                         <?php if($getTask->priority == 3){?>
-                                                                                                            <span class="card_priotty_item proiodty_high">H</span>
+                                                                                                            <span class="card_priotty_item proiodty_high">High</span>
                                                                                                         <?php }?>
                                                                                                         <?php if($getTask->priority == 2){?>
-                                                                                                            <span class="card_priotty_item proiodty_medium">M</span>
+                                                                                                            <span class="card_priotty_item proiodty_medium">Medium</span>
                                                                                                         <?php }?>
                                                                                                         <?php if($getTask->priority == 1){?>
-                                                                                                            <span class="card_priotty_item proiodty_low">L</span>
+                                                                                                            <span class="card_priotty_item proiodty_low">Low</span>
                                                                                                         <?php }?>
                                                                                                     <?php }?>
                                                                                                 </p>
@@ -513,9 +503,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     }
                                                                                                     ?>]
                                                                                                 </div>
-
+                                                                                                
                                                                                                 <div class="d-flex justify-content-between">
-                                                                                                    <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(11:30 am)</span></p>
+                                                                                                    <p class="mb-0 assign-name"><?=$getTask->user_name?></p>
                                                                                                     <?php if($getTask->work_status_id <= 0){?>
                                                                                                         <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
                                                                                                             <i class="fa-solid fa-pencil text-primary"></i>
@@ -626,7 +616,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-5">
                                     <div class="input-group mb-1">
-                                        <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave0" value="0" onchange="myFunction()" checked><label for="leave0" style="margin-left : 3px;">PRESENT</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave0" value="0" onchange="myFunction()" checked><label for="leave0" style="margin-left : 3px;">NO LEAVE</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave1" value="1" onchange="myFunction()"><label for="leave1" style="margin-left : 3px;">HALFDAY LEAVE</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave2" value="2" onchange="myFunction()"><label for="leave2" style="margin-left : 3px;">FULLDAY LEAVE</label></span>
                                     </div>

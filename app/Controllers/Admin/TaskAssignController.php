@@ -34,10 +34,10 @@ class TaskAssignController extends BaseController {
         $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
 
         $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
-        $data['all_departments']    = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+        $data['all_departments']    = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
 
         if(empty($data['tracker_depts_show'])){
-            $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+            $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
         } else {
             $tracker_depts_show_string = implode(",", $data['tracker_depts_show']);
             $data['departments']        = $this->db->query("SELECT * FROM `department` WHERE `id` IN ($tracker_depts_show_string) AND `is_join_morning_meeting` = 1 AND status = 1 ORDER BY rank ASC")->getResult();
@@ -164,13 +164,13 @@ class TaskAssignController extends BaseController {
 
                 if($requestData['is_leave'] == 0){
                     if($getTask->priority == 3){
-                        $priority = '<span class="card_priotty_item proiodty_high">High</span>';
+                        $priority = '<span class="card_priotty_item proiodty_high">H</span>';
                     }
                     if($getTask->priority == 2){
-                        $priority = '<span class="card_priotty_item proiodty_medium">Medium</span>';
+                        $priority = '<span class="card_priotty_item proiodty_medium">M</span>';
                     }
                     if($getTask->priority == 1){
-                        $priority = '<span class="card_priotty_item proiodty_low">Low</span>';
+                        $priority = '<span class="card_priotty_item proiodty_low">L</span>';
                     }
                 } else {
                     $priority = '';
@@ -422,13 +422,13 @@ class TaskAssignController extends BaseController {
 
                 if($requestData['is_leave'] == 0){
                     if($getTask->priority == 3){
-                        $priority = '<span class="card_priotty_item proiodty_high">High</span>';
+                        $priority = '<span class="card_priotty_item proiodty_high">H</span>';
                     }
                     if($getTask->priority == 2){
-                        $priority = '<span class="card_priotty_item proiodty_medium">Medium</span>';
+                        $priority = '<span class="card_priotty_item proiodty_medium">M</span>';
                     }
                     if($getTask->priority == 1){
-                        $priority = '<span class="card_priotty_item proiodty_low">Low</span>';
+                        $priority = '<span class="card_priotty_item proiodty_low">L</span>';
                     }
                 } else {
                     $priority = '';
