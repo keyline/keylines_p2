@@ -477,10 +477,12 @@ Draggable.create(".general_table_style", {
         });
     </script>
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
-    <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.floatingscroll.min.js"></script>
+    
+<link rel="stylesheet" href="<?=getenv('app.adminAssetsURL')?>assets/css/jquery.floatingscroll.css">
+<link rel="stylesheet" href="<?=getenv('app.adminAssetsURL')?>assets/css/floatingscroll-demo.css">
+ <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.floatingscroll.min.js"></script>
 <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/floatingscroll-demo.js"></script>
 <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.dragscroll.min.js"></script>
-<script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.kinetic.min.js"></script>
 <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/freeze-table.min.js"></script>
 
 
@@ -489,48 +491,11 @@ Draggable.create(".general_table_style", {
         freezeColumn:false,
         fixedNavbar:'.fixed-table-head',
         container:false,
-
     });
 
     $('.drag').dragScroll({
+
     });
-
-    $('#wrapper2').kinetic({
-        cursor:'grab',
-        decelerate:true,
-        triggerHardware:false,
-        threshold: 0,
- 
-        // enable x/y scrolling
-        y:true,
-        x:true,
-        
-        // animation speed
-        slowdown: 0.9,
-        // max velocity speed
-        maxvelocity: 40,
-        
-        // FPS
-        throttleFPS: 60,
-        
-        // inverts movement direction
-        invert:false,
-        
-        // default CSS classes
-        movingClass: {    up:'kinetic-moving-up',
-            down:'kinetic-moving-down',
-            left:'kinetic-moving-left',
-            right:'kinetic-moving-right'
-        },
-        deceleratingClass: {
-            up:'kinetic-decelerating-up',
-            down:'kinetic-decelerating-down',
-            left:'kinetic-decelerating-left',
-            right:'kinetic-decelerating-right'
-        },
-
-
-});
 </script>
 </body>
 
