@@ -143,6 +143,71 @@ $controller_route       = $moduleDetail['controller_route'];
     .choices__list.choices__list--dropdown{
         z-index: 6;
     }
+    .table-lagend-box{
+        padding: 10px 0;
+    }
+    .table-lagend{
+        width: 20px;
+        height: 20px;
+        margin: 0 5px;
+        display: inline-block;
+    }
+    .light-yellow{
+        background: #f0e9d9;
+    }
+    .dark-yellow{
+        background: #ce7c26;
+    }
+    .design-text{
+        color: #ce7c26;
+    }
+    .dev-text{
+        color: #6da0bd
+    }
+    .light-blue{
+        background: #dbf1fe;
+    }
+    .dark-blue{
+        background: #6da0bd;
+    }
+    .digi-text{
+        color: #6da0bd
+    }
+    .light-purple{
+        background: #dcc6ed;
+    }
+    .dark-purple{
+        background: #a57dc3;
+    }
+    .light-high{
+    background: #ff2525;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    font-size: 12px;
+    }
+    .dark-mid{
+    background: #1b81ff;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    font-size: 12px;
+        
+    }
+    .dark-low{
+    background: #989898;
+    border-radius: 50%;
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    font-size: 12px;
+        
+    }
 </style>
 <div class="maze" style="display: none;">
     <canvas id="mazecnv" width="1840" height="1086"></canvas>
@@ -413,6 +478,30 @@ $controller_route       = $moduleDetail['controller_route'];
                                                     </tbody>
                                                 </table>
                                             </div> 
+                                            <div class="col-12">
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-2">
+                                                        <div class="table-lagend-box">
+                                                            <p class="design-text d-flex align-items-center"> Design Team <span class="table-lagend light-yellow"></span> <span class="table-lagend dark-yellow"></span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="table-lagend-box">
+                                                            <p class="dev-text d-flex align-items-center"> Development Team <span class="table-lagend light-blue"></span> <span class="table-lagend dark-blue"></span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="table-lagend-box">
+                                                            <p class="digi-text d-flex align-items-center"> Digital Team <span class="table-lagend light-purple"></span> <span class="table-lagend dark-purple"></span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="table-lagend-box">
+                                                            <p class="d-flex align-items-center"> Priority: <span class="table-lagend light-high circle">H</span> <span class="table-lagend dark-mid circle">M</span> <span class="table-lagend dark-low circle">L</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -427,7 +516,6 @@ $controller_route       = $moduleDetail['controller_route'];
                                     <div class="accordion-body">
                                         <div class="rows">
                                             <div class="dt-responsive whatwg drag-box fixed-header">
-                                                
                                                 <table id="myTable input-type-attr-summary wrapper2"  class="table general_table_style task-assign-table applies drag">
                                                     <thead class="fixed-table-head">
                                                         <tr>
@@ -590,6 +678,30 @@ $controller_route       = $moduleDetail['controller_route'];
                                                     </tbody>
                                                 </table>
                                             </div> 
+                                            <div class="col-12">
+                                                <div class="row justify-content-center">
+                                                    <div class="col-md-2">
+                                                        <div class="table-lagend-box">
+                                                            <p class="design-text d-flex align-items-center"> Design Team <span class="table-lagend light-yellow"></span> <span class="table-lagend dark-yellow"></span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="table-lagend-box">
+                                                            <p class="dev-text d-flex align-items-center"> Development Team <span class="table-lagend light-blue"></span> <span class="table-lagend dark-blue"></span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="table-lagend-box">
+                                                            <p class="digi-text d-flex align-items-center"> Digital Team <span class="table-lagend light-purple"></span> <span class="table-lagend dark-purple"></span></p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-2">
+                                                        <div class="table-lagend-box">
+                                                            <p class="d-flex align-items-center"> Priority: <span class="table-lagend light-high circle">H</span> <span class="table-lagend dark-mid circle">M</span> <span class="table-lagend dark-low circle">L</span></p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

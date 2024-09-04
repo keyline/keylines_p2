@@ -153,5 +153,29 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                 </tr>
             </tbody>
         </table>
+        <div class="col-12">
+            <div class="row justify-content-center">
+                <div class="col-md-2">
+                    <div class="table-lagend-box">
+                        <p class="design-text d-flex align-items-center"> Design Team <span class="table-lagend light-yellow"></span> <span class="table-lagend dark-yellow"></span></p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="table-lagend-box">
+                        <p class="dev-text d-flex align-items-center"> Development Team <span class="table-lagend light-blue"></span> <span class="table-lagend dark-blue"></span></p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="table-lagend-box">
+                        <p class="digi-text d-flex align-items-center"> Digital Team <span class="table-lagend light-purple"></span> <span class="table-lagend dark-purple"></span></p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="table-lagend-box">
+                        <p class="d-flex align-items-center"> Priority: <span class="table-lagend light-high circle">H</span> <span class="table-lagend dark-mid circle">M</span> <span class="table-lagend dark-low circle">L</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div> 
 </div>
