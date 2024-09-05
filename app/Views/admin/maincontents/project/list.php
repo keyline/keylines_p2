@@ -49,25 +49,27 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
             <div class="col-lg-12">
                 <div class="card table-card">
-                    <div class="card-body">
+                    <div class="card-header">
                         <?php if(checkModuleFunctionAccess(5,29)){ ?>
-                        <div style="display: inline-flex;gap: 10px;">
-                        <h5 class="card-title">
-                            <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-primary btn-sm">Add <?=$title?></a>
-                        </h5>
-                        <h5 class="card-title">
-                            <a href="<?=base_url('admin/' . $controller_route . '/list/')?>" class="btn btn-outline-info btn-sm">All Projects</a>
-                        </h5>
-                        <h5 class="card-title">
-                            <a href="<?=base_url('admin/' . $controller_route . '/active-project/')?>" class="btn btn-outline-success btn-sm">Active Projects</a>
-                        </h5>
-                        <h5 class="card-title">
-                            <a href="<?=base_url('admin/' . $controller_route . '/inactive-project/')?>" class="btn btn-outline-danger btn-sm">Inactive Project</a>
-                        </h5>
-                        </div>
+                            <div style="display: inline-flex;gap: 10px;">
+                            <h5>
+                                <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-primary btn-sm">Add <?=$title?></a>
+                            </h5>
+                            <h5>
+                                <a href="<?=base_url('admin/' . $controller_route . '/list/')?>" class="btn btn-outline-info btn-sm">All Projects</a>
+                            </h5>
+                            <h5>
+                                <a href="<?=base_url('admin/' . $controller_route . '/active-project/')?>" class="btn btn-outline-success btn-sm">Active Projects</a>
+                            </h5>
+                            <h5>
+                                <a href="<?=base_url('admin/' . $controller_route . '/inactive-project/')?>" class="btn btn-outline-danger btn-sm">Inactive Project</a>
+                            </h5>
+                            </div>
                         <?php   } ?>
+                    </div>
+                    <div class="card-body">
                         <div class="dt-responsive table-responsive">
-                            <table id="simpletable" class="table general_table_style">
+                            <table id="simpletable" class="table general_table_style padding-y-10">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -114,11 +116,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <tr>
                                             <th scope="row"><?=$sl++?></th>
                                             <td>
-                                                <span class="badge bg-warning text-dark">Id: <?=$row->$primary_key?></span><b><?=$row->name?></b><a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($row->id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a><br>
-                                                <span class="badge bg-primary"><?=$row->project_status_name?></span>
-                                                <span class="badge bg-success"><?=(($row->start_date != '')?date_format(date_create($row->start_date), "M d, Y"):'')?></span><br>
-                                                Deadline: <?=(($row->deadline != '')?date_format(date_create($row->deadline), "M d, Y"):'')?><br>
-                                                Last Update: <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?><br>
+                                                <span class="badge bg-warning text-dark me-1">Id: <?=$row->$primary_key?></span><b><?=$row->name?></b><a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($row->id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a><br>
+                                                <span class="badge bg-primary me-1 my-1"><?=$row->project_status_name?></span>
+                                                <span class="badge bg-success me-1 my-1"><?=(($row->start_date != '')?date_format(date_create($row->start_date), "M d, Y"):'')?></span><br>
+                                                Deadline: <?=(($row->deadline != '')?date_format(date_create($row->deadline), "M d, Y"):'')?> /
+                                                Last Update: <?=(($row->date_modified != '')?date_format(date_create($row->date_modified), "M d, Y h:i A"):'')?>
                                                 <i class="fa fa-user" style="margin-left: 5px;"></i><b><?=$pro->decrypt($row->client_name)?></b> <br>
                                                 
                                                 <!-- ?=(($row->deadline != '')?date_format(date_create($row->deadline), "M d, Y"):'')?> -->
@@ -126,12 +128,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td><?=$row->assigned_name?><br><?=(($getClientService)?$getClientService->name:'')?></td>                                        
                                             <td>
                                                 <?php if($getProject){ if($getProject->project_time_type == 'Onetime'){?>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Fixed : <?=$assigned?> hrs</span></a><br>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked(Monthly) : <?=$current_month_booking?></span></a><br>
+                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Fixed : <?=$assigned?> hrs</span></a>
+
+                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked(Monthly) : <?=$current_month_booking?></span></a>
                                                     <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a>
                                                 <?php } elseif($getProject->project_time_type == 'Monthlytime'){?>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Monthly : <?=$assigned?> hrs</span></a><br>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked : <?=$current_month_booking?></span></a><br>
+                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Monthly : <?=$assigned?> hrs</span></a>
+                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked : <?=$current_month_booking?></span></a>
                                                     <!-- <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a> -->
                                                 <?php } }?>
                                             </td>
@@ -152,7 +155,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             </td> -->
                                             <td>
                                                 <?php if(checkModuleFunctionAccess(5,30)){ ?>
-                                                    <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a><br><br>
+                                                    <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
                                                 <?php  } ?>
                                                 <?php if(checkModuleFunctionAccess(5,57)){ ?>
                                                     <!-- <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a><br><br> -->
