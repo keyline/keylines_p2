@@ -15,7 +15,7 @@ $application_setting        = $common_model->find_data('application_settings', '
    address2Field = document.querySelector("#street_no1");
    postalField = document.querySelector("#zipcode1");
    autocomplete = new google.maps.places.Autocomplete(address1Field, {
-   componentRestrictions: { country: [] },
+   componentRestrictions: { country: ["in"] },
    fields: ["address_components", "geometry", "formatted_address"],
    types: ["address"],
    });
@@ -174,8 +174,8 @@ $application_setting        = $common_model->find_data('application_settings', '
                                 <div class="col-md-10 col-lg-10">
                                     <div class="general_form_right_box">
                                         <input type="text" name="address" class="form-control" id="address1" value="<?=$address?>" required>
-                                        <input type="hidden" name="latitude" class="form-control" id="lat1" value="<?=$latitude?>" required>
-                                        <input type="hidden" name="longitude" class="form-control" id="lng1" value="<?=$longitude?>" required>
+                                        <!-- <input type="hidden" name="latitude" class="form-control" id="lat1" value="<?=$latitude?>" required>
+                                        <input type="hidden" name="longitude" class="form-control" id="lng1" value="<?=$longitude?>" required> -->
                                     </div>
                                 </div>
                             </div>
@@ -248,6 +248,30 @@ $application_setting        = $common_model->find_data('application_settings', '
                                 <div class="col-md-10 col-lg-10">
                                     <div class="general_form_right_box">
                                         <input type="text" name="zipcode" class="form-control" id="zipcode1" maxlength="6" minlength="6" onkeypress="return isNumber(event)" value="<?=$zipcode?>" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2 col-lg-2">
+                                    <div class="general_form_left_box">
+                                        <label for="lat1" class="col-form-label">Latitude</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="general_form_right_box">
+                                        <input type="text" name="latitude" class="form-control" id="lat1" maxlength="6" minlength="6" onkeypress="return isNumber(event)" value="<?=$latitude?>" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mb-2">
+                                <div class="col-md-2 col-lg-2">
+                                    <div class="general_form_left_box">
+                                        <label for="lng1" class="col-form-label">Longitude</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-10 col-lg-10">
+                                    <div class="general_form_right_box">
+                                        <input type="text" name="longitude" class="form-control" id="lng1" maxlength="6" minlength="6" onkeypress="return isNumber(event)" value="<?=$longitude?>" required>
                                     </div>
                                 </div>
                             </div>

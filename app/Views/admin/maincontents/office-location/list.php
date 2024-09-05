@@ -48,6 +48,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th scope="col">Email</th>
                                         <th scope="col">Phone</th>
                                         <th scope="col">Address</th>
+                                        <th scope="col">Latitude</th>
+                                        <th scope="col">Longitude</th>
                                         <th scope="col">Action</th>
                                     </tr>
                                 </thead>
@@ -58,9 +60,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <td><?=$row->name?></td>
                                         <td><?=$row->email?></td>
                                         <td><?=$row->phone?></td>
-                                        <td>
-                                            <?=$row->address?>
-                                        </td>
+                                        <td><?=$row->address?></td>
+                                        <td><?=$row->latitude?></td>
+                                        <td><?=$row->longitude?></td>
                                         <td class="text-center">
                                             <?php if (checkModuleFunctionAccess(30, 84)) { ?>
                                             <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
