@@ -125,7 +125,7 @@ class TaskAssignController extends BaseController {
         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id', $join1, '', $order_by1);
+        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
         // pr($getTasks);
         $totalTime                  = 0;
         if($getTasks){
@@ -200,6 +200,12 @@ class TaskAssignController extends BaseController {
                                     </a>';
                 }
 
+                if($getTask->updated_at == ''){
+                    $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                } else {
+                    $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                }
+
                 $scheduleHTML .= '<div class="input-group">
                                     <div class="card">
                                         <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
@@ -214,7 +220,7 @@ class TaskAssignController extends BaseController {
                                                 [' .$hr. ' ' .$min. ']
                                             </div>
                                             <div class="d-flex justify-content-between">
-                                                <p class="mb-0 assign-name">'.$user_name.'</p>
+                                                <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
                                                 ' . $editBtn . '
                                             </div>
                                         </div>
@@ -232,13 +238,13 @@ class TaskAssignController extends BaseController {
 
         $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
         if(!$getLeaveTask){
-            $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                    <i class="fa-solid fa-plus-circle text-success"></i>
+            $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                    <i class="fa-solid fa-plus-circle"></i>
                             </a>';
         } else {
             if($getLeaveTask->is_leave == 1){
-                $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                    <i class="fa-solid fa-plus-circle text-success"></i>
+                $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                    <i class="fa-solid fa-plus-circle"></i>
                             </a>';
             }
         }
@@ -384,7 +390,7 @@ class TaskAssignController extends BaseController {
         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id', $join1, '', $order_by1);
+        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
         $totalTime                  = 0;
         if($getTasks){
             foreach($getTasks as $getTask){
@@ -458,6 +464,12 @@ class TaskAssignController extends BaseController {
                                     </a>';
                 }
 
+                if($getTask->updated_at == ''){
+                    $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                } else {
+                    $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                }
+
                 $scheduleHTML .= '<div class="input-group">
                                     <div class="card">
                                         <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
@@ -472,7 +484,7 @@ class TaskAssignController extends BaseController {
                                                 [' .$hr. ' ' .$min. ']
                                             </div>
                                             <div class="d-flex justify-content-between">
-                                                <p class="mb-0 assign-name">'.$user_name.'</p>
+                                                <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
                                                 ' . $editBtn . '
                                             </div>
                                         </div>
@@ -490,13 +502,13 @@ class TaskAssignController extends BaseController {
 
         $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
         if(!$getLeaveTask){
-            $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                    <i class="fa-solid fa-plus-circle text-success"></i>
+            $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                    <i class="fa-solid fa-plus-circle"></i>
                             </a>';
         } else {
             if($getLeaveTask->is_leave == 1){
-                $scheduleHTML .= '<a href="javascript:void(0);" class="task_edit_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                    <i class="fa-solid fa-plus-circle text-success"></i>
+                $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                    <i class="fa-solid fa-plus-circle"></i>
                             </a>';
             }
         }
