@@ -362,6 +362,7 @@ div.dt-container div.dt-layout-cell{
 }
 .task-section th{
   font-size: 10px;
+  color: #fff !important
 } 
 .task-section  td{
   padding: 0 5px
@@ -396,23 +397,15 @@ div.dt-container div.dt-layout-cell{
   position: relative;
 }
 .task_edit_btn{
-  width: 15px;
   height: 15px;
-  border: 1px solid #4154f1;
-  border-radius: 3px !important;
   position: relative;
-  bottom:0px;
-  right: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  bottom:5px;
+  right: 5px;
   z-index: 1;
   margin: 0 auto;
-  line-height: 9px;
-  text-align: center;
 }
 .clone-head-table-wrap{
-  top: 70px !important;
+  top: 122px !important;
 }
 .btn-approv,
 .btn-not-approv{
@@ -428,13 +421,12 @@ div.dt-container div.dt-layout-cell{
   z-index: 55555;
 }
 .assign-name{
-  font-size: 9px;
+  font-size: 11px;
   width: auto;
   box-shadow: 0 0 10px -5px #ccc;
 }
 .task_edit_btn i{
   color: #4154f1;
-  font-size: 8px;
 }
 .general_form_style {
   border: 2px solid #cdd8ff;

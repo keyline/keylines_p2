@@ -57,7 +57,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                         $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                         if($teamMembers){ foreach($teamMembers as $teamMember){
                     ?>
-                        <td>
+                        <td style="background-color: <?=$dept->body_color?>;">
                             <div class="field_wrapper" id="name">
                                 <div class="row">
                                     <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>">
@@ -75,7 +75,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                         ?>
                                             <div class="input-group">
                                                 <div class="card">
-                                                    <div class="card-body" style="border: 1px solid <?=$work_status_border_color?>;width: 100%;padding: 5px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top;background-color: <?=$work_status_color?>;">
+                                                    <div class="card-body" style="border: 1px solid <?=$work_status_border_color?>;width: 100%;padding: 8px;background-color: #fff;border-radius: 6px;text-align: left; box-shadow: 0 0 15px -13px #000; vertical-align: top;background-color: <?=$work_status_color?>;">
                                                         
                                                         <p class="mb-2">
                                                             <?php if($getTask->is_leave == 0){?>
@@ -153,53 +153,29 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                 </tr>
             </tbody>
         </table>
+        <div class="col-12">
+            <div class="row justify-content-center">
+                <div class="col-md-2">
+                    <div class="table-lagend-box">
+                        <p class="design-text d-flex align-items-center"> Design Team <span class="table-lagend light-yellow"></span> <span class="table-lagend dark-yellow"></span></p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="table-lagend-box">
+                        <p class="dev-text d-flex align-items-center"> Development Team <span class="table-lagend light-blue"></span> <span class="table-lagend dark-blue"></span></p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="table-lagend-box">
+                        <p class="digi-text d-flex align-items-center"> Digital Team <span class="table-lagend light-purple"></span> <span class="table-lagend dark-purple"></span></p>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="table-lagend-box">
+                        <p class="d-flex align-items-center"> Priority: <span class="table-lagend light-high circle">H</span> <span class="table-lagend dark-mid circle">M</span> <span class="table-lagend dark-low circle">L</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div> 
 </div>
-
-<script type="text/javascript">
-    $(".fixed-header").freezeTable({
-        freezeColumn:false,
-        fixedNavbar:'.fixed-table-head',
-        container:false,
-
-    });
-    $('.drag').dragScroll({
-    });
-
-    $('#wrapper2').kinetic({
-        cursor:'grab',
-        decelerate:true,
-        triggerHardware:false,
-        threshold: 0,
- 
-        // enable x/y scrolling
-        y:true,
-        x:true,
-        
-        // animation speed
-        slowdown: 0.9,
-        // max velocity speed
-        maxvelocity: 40,
-        
-        // FPS
-        throttleFPS: 60,
-        
-        // inverts movement direction
-        invert:false,
-        
-        // default CSS classes
-        movingClass: {    up:'kinetic-moving-up',
-            down:'kinetic-moving-down',
-            left:'kinetic-moving-left',
-            right:'kinetic-moving-right'
-        },
-        deceleratingClass: {
-            up:'kinetic-decelerating-up',
-            down:'kinetic-decelerating-down',
-            left:'kinetic-decelerating-left',
-            right:'kinetic-decelerating-right'
-        },
-
-
-});
-</script>

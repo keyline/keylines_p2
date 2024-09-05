@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Controllers;
+use App\Libraries\Pro;
 
 class Home extends BaseController
 {
@@ -505,18 +506,18 @@ class Home extends BaseController
                 $postData   = array(
                     'entried_by'     => 0,
                     'client_of'      => 0,
-                    'name'           => $name,
-                    'compnay'        => $company,
+                    'name'           => $this->pro->encrypt($name),
+                    'compnay'        => $this->pro->encrypt($company),
                     'address_1'      => $address1,
                     'state'          => $stateName,
                     'city'           => $cityName,
                     'country'        => $countryName,
                     'pin'            => $pin,
                     'address_2'      => $address2,
-                    'email_1'        => $email1,
-                    'email_2'        => $email2,
-                    'phone_1'        => $phone1,
-                    'phone_2'        => $phone2,
+                    'email_1'        => $this->pro->encrypt($email1),
+                    'email_2'        => $this->pro->encrypt($email2),
+                    'phone_1'        => $this->pro->encrypt($phone1),
+                    'phone_2'        => $this->pro->encrypt($phone2),
                     'dob_day'        => $dob,
                     'dob_month'      => '',
                     'dob_year'       => '',
@@ -528,6 +529,7 @@ class Home extends BaseController
                     'login_access'   => '0',
                     'last_login'     => date('Y-m-d')
                 );
+                //  pr($postData); die;
                 $this->common_model->save_data('client', $postData, '', '');
                 // echo $this->db->getLastQuery();die;
             }

@@ -47,6 +47,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th scope="col">#</th>
                                         <th scope="col">Department Name</th>
                                         <th scope="col">Header Color</th>
+                                        <th scope="col">Body Color</th>
                                         <th scope="col">Is Join Morning Meeting</th>
                                         <th scope="col">Rank</th>
                                         <th scope="col">Created At<br>Updated At</th>
@@ -59,6 +60,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th scope="row"><?=$sl++?></th>
                                         <td><?=$row->deprt_name?></td>
                                         <td><span style="border-radius: 50%; background-color: <?=$row->header_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                        <td><span style="border-radius: 50%; background-color: <?=$row->body_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                                         <td><?=(($row->is_join_morning_meeting)?'YES':'NO')?></td>
                                         <td><?=$row->rank?></td>
                                         <td class="text-center">
