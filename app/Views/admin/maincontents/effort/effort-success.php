@@ -3,18 +3,8 @@ $title              = $moduleDetail['title'];
 $primary_key        = $moduleDetail['primary_key'];
 $controller_route   = $moduleDetail['controller_route'];
 ?>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <style type="text/css">
-    /*body {
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        background-color: #f4f4f4;
-        font-family: Arial, sans-serif;
-    }*/
     .confetti-containers{   
         height: 100vh;
         overflow: hidden;
@@ -93,7 +83,7 @@ $controller_route   = $moduleDetail['controller_route'];
 </div>
 <section class="section">
     <div class="row">
-        <div class="col-xl-12">
+        <!-- <div class="col-xl-12">
             <?php if(session('success_message')){?>
                 <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
                     <?=session('success_message')?>
@@ -106,7 +96,17 @@ $controller_route   = $moduleDetail['controller_route'];
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             <?php }?>
-        </div>
+        </div> -->
+        <?php if(session('success_message')){?>
+            <script type="text/javascript">
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: '<?=session('success_message')?>',
+                    confirmButtonText: 'OK'
+                });
+            </script>
+        <?php }?>
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">

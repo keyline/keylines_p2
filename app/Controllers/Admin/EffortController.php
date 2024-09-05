@@ -81,7 +81,12 @@ class EffortController extends BaseController {
             $requestData    = $this->request->getPost();
             // pr($requestData);die;
             $user_id                = $this->session->get('user_id');
-            $date_task              = $requestData['date_task'];
+            if (array_key_exists("date_task",$requestData)){
+                $date_task              = $requestData['date_task'];
+            } else {
+                $date_task              = $requestData['date_added'][0];
+            }
+            
             $assigned_task_id       = $requestData['assigned_task_id'];
             $date_added             = $requestData['date_added'];
             $project                = $requestData['project'];
@@ -131,7 +136,6 @@ class EffortController extends BaseController {
                                 'project_cost'          => $description[$p],
                                 'created_at'            => date('Y-m-d H:i:s'),                                
                             );
-                            // pr($postData2);
                             $this->data['model']->save_data('project_cost', $postData2, '', 'id');
                         // scheduled task
                         /* morning meeting schedule update */
@@ -139,9 +143,9 @@ class EffortController extends BaseController {
                                 'project_id'            => $project[$p],
                                 'status_id'             => (($getProject)?$getProject->status:0),
                                 'user_id'               => $user_id,
-                                'description'           => $description[$p],
-                                'hour'                  => $hour[$p],
-                                'min'                   => $minute[$p],
+                                // 'description'           => $description[$p],
+                                // 'hour'                  => $hour[$p],
+                                // 'min'                   => $minute[$p],
                                 'work_home'             => 0,
                                 'effort_type'           => $effort_type[$p],
                                 'work_status_id'        => $work_status_id[$p],
@@ -378,7 +382,7 @@ class EffortController extends BaseController {
                     }
                 }
             }           
-            $this->session->setFlashdata('success_message', 'Effort Submitted successfully');
+            $this->session->setFlashdata('success_message', 'Effort Submitted Successfully For ' . date_format(date_create($date_task), "M d, Y"));
             return redirect()->to('/admin/'.$this->data['controller_route'].'/effort-success');
         }
         echo $this->layout_after_login($title,$page_name,$data);

@@ -379,7 +379,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action,morning_meetings.priority,morning_meetings.is_leave', $join1, '', $order_by1);
+                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
                                                                                 
                                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                                     $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
@@ -449,9 +449,15 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     }
                                                                                                     ?>]
                                                                                                 </div>
-                                                                                                
+                                                                                                <?php
+                                                                                                if($getTask->updated_at == ''){
+                                                                                                    $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                                                                                                } else {
+                                                                                                    $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                                                                                                }
+                                                                                                ?>
                                                                                                 <div class="d-flex justify-content-between">
-                                                                                                    <p class="mb-0 assign-name">By <?=$getTask->user_name?><span class="ms-1">(11:30 am)</span></p>
+                                                                                                    <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span></p>
                                                                                                 </div>
 
                                                                                                 <?php if($application_settings->is_task_approval){?>
@@ -572,7 +578,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave', $join1, '', $order_by1);
+                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
                                                                                 
                                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                                     $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
@@ -642,7 +648,14 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 </div>
 
                                                                                                 <div class="d-flex justify-content-between">
-                                                                                                    <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(11:30 am)</span></p>
+                                                                                                    <?php
+                                                                                                    if($getTask->updated_at == ''){
+                                                                                                        $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                                                                                                    } else {
+                                                                                                        $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                                                                                                    }
+                                                                                                    ?>
+                                                                                                    <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span></p>
                                                                                                     <?php if($getTask->work_status_id <= 0){?>
                                                                                                         <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
                                                                                                             <i class="fa-solid fa-edit text-primary"></i>
