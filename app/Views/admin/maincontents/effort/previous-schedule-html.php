@@ -66,7 +66,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-                                        $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action,morning_meetings.priority,morning_meetings.is_leave', $join1, '', $order_by1);
+                                        $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
                                         
                                         if($getTasks){ foreach($getTasks as $getTask){
                                             $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
@@ -80,13 +80,13 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                         <p class="mb-2">
                                                             <?php if($getTask->is_leave == 0){?>
                                                                 <?php if($getTask->priority == 3){?>
-                                                                    <span class="card_priotty_item proiodty_high">High</span>
+                                                                    <span class="card_priotty_item proiodty_high">H</span>
                                                                 <?php }?>
                                                                 <?php if($getTask->priority == 2){?>
-                                                                    <span class="card_priotty_item proiodty_medium">Medium</span>
+                                                                    <span class="card_priotty_item proiodty_medium">M</span>
                                                                 <?php }?>
                                                                 <?php if($getTask->priority == 1){?>
-                                                                    <span class="card_priotty_item proiodty_low">Low</span>
+                                                                    <span class="card_priotty_item proiodty_low">L</span>
                                                                 <?php }?>
                                                             <?php }?>
                                                         </p>
@@ -136,9 +136,15 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                             }
                                                             ?>]
                                                         </div>
-                                                        
+                                                        <?php
+                                                        if($getTask->updated_at == ''){
+                                                            $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                                                        } else {
+                                                            $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                                                        }
+                                                        ?>
                                                         <div class="d-flex justify-content-between">
-                                                            <p class="mb-0 assign-name"><?=$getTask->user_name?></p>
+                                                            <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span></p>
                                                         </div>
                                                     </div>
                                                 </div>

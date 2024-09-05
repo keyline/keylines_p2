@@ -136,7 +136,6 @@ class EffortController extends BaseController {
                                 'project_cost'          => $description[$p],
                                 'created_at'            => date('Y-m-d H:i:s'),                                
                             );
-                            // pr($postData2);
                             $this->data['model']->save_data('project_cost', $postData2, '', 'id');
                         // scheduled task
                         /* morning meeting schedule update */
@@ -144,9 +143,9 @@ class EffortController extends BaseController {
                                 'project_id'            => $project[$p],
                                 'status_id'             => (($getProject)?$getProject->status:0),
                                 'user_id'               => $user_id,
-                                'description'           => $description[$p],
-                                'hour'                  => $hour[$p],
-                                'min'                   => $minute[$p],
+                                // 'description'           => $description[$p],
+                                // 'hour'                  => $hour[$p],
+                                // 'min'                   => $minute[$p],
                                 'work_home'             => 0,
                                 'effort_type'           => $effort_type[$p],
                                 'work_status_id'        => $work_status_id[$p],
