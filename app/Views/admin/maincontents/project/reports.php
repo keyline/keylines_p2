@@ -1,15 +1,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.3/css/bootstrap-select.css" />
 
-<div class="pagetitle">
-    <h1><?= $page_header ?></h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
-            <li class="breadcrumb-item active"><?= $page_header ?></li>
-        </ol>
-    </nav>
-</div>
+
 <style type="text/css">
+    #myChart,
+    #myChart2{
+        background: #fff;
+    }
     .options {
         padding: 20px;
         background-color: rgba(191, 191, 191, 0.15);
@@ -39,7 +35,6 @@
         height: 50% !important;
     }
     table { page-break-inside:auto; }
-    td    { border:1px solid lightgray; }
     tr    { page-break-inside:auto; }
 
     @media(max-width: 767px) {
@@ -53,12 +48,26 @@
         background: #0d6efd;
     }
     .dropdown-toggle {
-        top: 8px;
+        /* top: 5px; */
+    }
+    .dropdown.bootstrap-select{
+        /* height: 37px */
     }
     
 </style>
 <section class="section">
-    <div class="container">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="pagetitle">
+                <h1><?= $page_header ?></h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
+                        <li class="breadcrumb-item active"><?= $page_header ?></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
         <div class="row">
             <div class="col-xl-12">
                 <?php if (session('success_message')) { ?>
@@ -76,7 +85,44 @@
             </div>
             
             <div class="col-lg-12">
-                <div class="card">
+                <div class="card table-card">
+                    <div class="card-header">
+                        <div style="display: inline-flex;gap: 10px;width: 100%; background: #fff; border-radius: 8px">
+                                <select class="selectpicker" onchange="selectProject(this.value)" data-show-subtext="true" data-live-search="true">
+                                    <optgroup label="">
+                                    <?php if ($all_projects) {
+                                        
+                                        foreach ($all_projects as $all_project) { ?>
+                                            <option <?= ($all_project->id == $project->id) ? 'selected' : '' ?> value="<?= base64_encode($all_project->id); ?>"><?= $all_project->name; ?> (<?= $all_project->project_status_name; ?>)</option>
+                                    <?php }
+                                    } ?>
+                                    </optgroup>                                        
+                                    <optgroup label="">
+                                    <?php if ($all_projects) {
+                                        
+                                        foreach ($all_closed_projects as $all_closed_project) { ?>
+                                            <option <?= ($all_closed_project->id == $project->id) ? 'selected' : '' ?> value="<?= base64_encode($all_closed_project->id); ?>"><?= $all_closed_project->name; ?> (<?= $all_closed_project->project_status_name; ?>)</option>
+                                    <?php }
+                                    } ?>
+                                    </optgroup>
+                                </select>
+                                <button class="btn btn-info btn-sm font-12">
+                                    <?php
+                                    $dateString = $project->start_date;
+                                    $timestamp = strtotime($dateString);
+                                    $formattedDate = date('l, F j, Y', $timestamp);
+                                    echo 'Started: ' . $formattedDate;
+                                    ?>
+                                </button>
+                            <?php if ($project->project_time_type == 'Onetime') {  ?>
+                                <button class="btn btn-success btn-sm font-12"> Fixed: <?= $project->hour . ' Hours' ?></button>
+                            <?php   } else {  ?>
+                                <button class="btn btn-success"> Monthly: <?= $project->hour_month . ' Hours' ?></button>
+                            <?php } ?>
+                            <a href="javascript: void(0)" style="font-size: 14px; background-color: #dcf5dc; padding: 4px; margin: 0px; text-align: center; padding: 5px; border-radius: 5px; background: #dcf5dc; margin-left: auto; float: right; text-transform: capitalize; display: flex; align-items: center"><?= $project->name; ?></a>
+                            
+                        </div>
+                    </div>
                     <div class="card-body">
                         <?php
                         $db = \Config\Database::connect();
@@ -85,7 +131,7 @@
                         if (!empty($result)) {
                         ?>
                             <div class="">
-                                <div style="display: inline-flex;gap: 10px;width: 100%;">
+                                <!-- <div style="display: inline-flex;gap: 10px;width: 100%; background: #fff; border-radius: 8px">
                                     <select class="selectpicker" onchange="selectProject(this.value)" data-show-subtext="true" data-live-search="true">
                                         <optgroup label="">
                                         <?php if ($all_projects) {
@@ -120,12 +166,12 @@
                                     <?php } ?>
                                     <h3 style="font-size: 15px; background-color: #dcf5dc; padding: 4px; margin: 0px; text-align: center; padding: 5px; border-radius: 5px; background: #dcf5dc; margin-left: auto; float: right;"><?= $project->name; ?></h3>
                                     
-                                </div>
+                                </div> -->
                                 <div class="">
-                                    <h4 style="margin: 20px;text-align: center;border: 2px solid beige;padding: 8px;border-radius: 13px;background: #dcf5dc;"><b>Total Hours Report Last 12 Months</b></h4>
-                                    <div id="chartContainer"  style="width: 100%; height: 200px;"></div>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-fit general_table_style table-responsive">
+                                    <h4 style="margin: 20px 0;text-align: center;padding: 8px;border-radius: 8px;background: #dcf5dc;"><b>Total Hours Report Last 12 Months</b></h4>
+                                    <div id="chartContainer"  style="width: 100%; height: 200px; background-color: transparent !important;"></div>
+                                    <div class="table-responsive mt-2">
+                                        <table class="table general_table_style padding-y-10">
                                             <thead>
                                                 <tr>
                                                     <?php if ($months) {
@@ -175,10 +221,10 @@
                                             </tbody>
                                         </table>
                                     </div>
-                                    <h4 style="margin: 20px;text-align: center;border: 2px solid beige;padding: 8px;border-radius: 13px;background: #dcf5dc;"><b>Total Hours Report (Effort-wise) Last 12 Months</b></h4>
+                                    <h4 style="margin: 20px 0;text-align: center;padding: 8px;border-radius: 8px;background: #dcf5dc;"><b>Total Hours Report (Effort-wise) Last 12 Months</b></h4>
                                     <canvas id="myChart" class="h-50"></canvas>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-fit general_table_style">
+                                    <div class="table-responsive mt-2">
+                                        <table class="table table-fit general_table_style  padding-y-10">
                                             <tr>
                                                 <th>Effort Type</th>
                                                 <?php if ($months) {
@@ -227,10 +273,10 @@
                                             } ?>
                                         </table>
                                     </div>
-                                    <h4 style="margin: 20px;text-align: center;border: 2px solid beige;padding: 8px;border-radius: 13px;background: #dcf5dc;"><b>Total Hours Report (User-wise) Last 12 Months</b></h4>
+                                    <h4 style="margin: 20px 0;text-align: center;padding: 8px;border-radius: 8px;background: #dcf5dc;"><b>Total Hours Report (User-wise) Last 12 Months</b></h4>
                                     <canvas id="myChart2" class="h-50"></canvas>
-                                    <div class="table-responsive">
-                                        <table class="table table-striped table-bordered table-fit table-responsive general_table_style">
+                                    <div class="table-responsive mt-2">
+                                        <table class="table  padding-y-10 general_table_style">
                                             <tr>
                                                 <th>Users </th>
                                                 <?php if ($months) {
