@@ -74,18 +74,20 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
         <?php if($is_search){?>
             <div class="col-xl-8">                           
-                    <div class="card mt-3">
-                        <div class="card-body pt-3">
-                            <h6 class="fw-bold">Payment Details </h6>
+                    <div class="card table-card mt-3">
+                        <div class="card-header">
+                            <h6>Payment Details </h6>
+                        </div>
+                        <div class="card-body">
                             <div class="dt-responsive table-responsive">
-                                <table id="simpletable" class="table table-bordered general_table_style">
+                                <table id="simpletable" class="table general_table_style  padding-y-10">
                                     <thead>
                                         <tr>
-                                            <th width="3%">#</th>
-                                            <th width="15%">Project Name</th>
-                                            <th width="15%">Payment Date</th>
-                                            <th width="10%">Amount</th>
-                                            <th width="7%">Comment</th>
+                                            <th>#</th>
+                                            <th>Project Name</th>
+                                            <th>Payment Date</th>
+                                            <th>Amount</th>
+                                            <th>Comment</th>
                                             <!-- <th width="30%">Action</th>                                         -->
                                         </tr>
                                     </thead>

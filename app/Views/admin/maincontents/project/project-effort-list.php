@@ -42,10 +42,10 @@ $controller_route   = $moduleDetail['controller_route'];
             <?php }?>
         </div>
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card table-card">
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered">
+                        <table id="simpletable" class="table general_table_style  padding-y-10">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>

@@ -42,7 +42,7 @@ p{
   margin: 0;
 }
 th,td{
-  font-size: 14px;
+  font-size: 12px;
 }
 
 /* surajit css */
@@ -81,7 +81,8 @@ th,td{
   box-shadow: none !important;
 }
 .table-card .card-header{
-  padding: 17px 20px;
+  /* padding: 17px 20px; */
+  padding: 10px 20px;
   background: #fff;
   border-radius: 8px;
   margin-bottom: 16px;
@@ -130,15 +131,16 @@ th,td{
 .general_table_style th,
 .general_table_style td{
   vertical-align: middle !important;
-  font-size: 14px !important;
+  font-size: 12px !important;
 }
 .general_table_style th{
   text-align: left;
   color: #6D6D6D;
-  padding: 23px 8px !important;
+  padding: 12px 8px !important;
 }
 .general_table_style td{
-  padding: 23px 8px !important;
+  /* padding: 23px 8px !important; */
+  padding: 12px 8px !important;
 }
 .general_table_style.padding-y-10 th{
   padding: 15px 8px !important
@@ -208,7 +210,8 @@ th,td{
 }
 .chart-info h4{
   font-family: "Inter", sans-serif;
-  font-size: 20px;
+  /* font-size: 20px; */
+  font-size: 16px;
   color: #2D2D2E
 }
 .chart-info p,
@@ -309,7 +312,8 @@ table.dataTable thead>tr>th.dt-orderable-asc:hover, table.dataTable thead>tr>th.
 }
 .dt-layout-row{
   display: flex;
-  padding: 16px 20px;
+  /* padding: 16px 20px; */
+  padding: 10px 20px;
   align-items: center;
   gap: 24px;
   align-self: stretch;
@@ -786,7 +790,7 @@ div.dt-container div.dt-layout-cell{
 .card-footer {
   border-color: #ebeef4;
   background-color: #fff;
-  color: #798eb3;
+  color: #000;
   padding: 5px 15px;
   border-bottom: none;
 }

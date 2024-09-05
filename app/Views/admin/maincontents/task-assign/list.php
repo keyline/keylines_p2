@@ -44,7 +44,7 @@ $controller_route       = $moduleDetail['controller_route'];
         z-index: 5;
     } 
     .task-section .accordion-body{
-        padding: 5px 0;
+        padding: 5px 15px;
     } 
     .task-assign-table{
         user-select: none;
