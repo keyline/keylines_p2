@@ -78,7 +78,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <table id="simpletable" class="table padding-y-10 general_table_style">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
+                                            <th width="3%">#</th>
                                             <th>Desklog Usrid</th>
                                             <th>Tracker User Id</th>
                                             <th>Email</th>

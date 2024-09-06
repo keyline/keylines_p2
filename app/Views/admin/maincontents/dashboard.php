@@ -542,7 +542,6 @@
                                                          },
                                                          background: {
                                                             enabled: true,
-                                                            foreColor: '#000',
                                                             padding: 4,
                                                             borderRadius: 2,
                                                             borderWidth: 1,

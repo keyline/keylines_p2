@@ -435,7 +435,7 @@ div.dt-container div.dt-layout-cell{
   color: #4154f1;
 }
 .general_form_style {
-  border: 2px solid #cdd8ff;
+  border: 2px solid #e4f3ff;
   padding-bottom: 5px;
   font-size: 12px !important;
 }
@@ -450,7 +450,7 @@ div.dt-container div.dt-layout-cell{
 }
 .general_form_right_box{
   padding: 3px;
-  background: #cdd8ff;
+  background: #e4f3ff;
   margin-left: -13px;
   margin-right: -13px;
   height: 100%;

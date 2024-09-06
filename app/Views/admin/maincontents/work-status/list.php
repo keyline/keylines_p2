@@ -58,8 +58,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <tr>
                                         <th scope="row"><?=$sl++?></th>
                                         <td><?=$row->name?></td>
-                                        <td><span style="border-radius: 50%; background-color: <?=$row->background_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                                        <td><span style="border-radius: 50%; background-color: <?=$row->border_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                        <td><span style="width: 15px; height: 15px; display: block; border-radius: 50%; background-color: <?=$row->background_color?>"></span></td>
+                                        <td><span style="width: 15px; height: 15px; display: block; border-radius: 50%; background-color: <?=$row->border_color?>"></span></td>
                                         <td><?=(($row->is_schedule)?'<span class="badge bg-success">YES</span>':'<span class="badge bg-danger">NO</span>')?></td>
                                         <td><?=(($row->is_reassign)?'<span class="badge bg-success">YES</span>':'<span class="badge bg-danger">NO</span>')?></td>
                                         <td class="text-center">
