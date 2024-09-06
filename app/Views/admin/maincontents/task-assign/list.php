@@ -48,7 +48,9 @@ $controller_route       = $moduleDetail['controller_route'];
     } 
     .task-section .accordion-body{
         padding: 5px 15px;
-        background: #7dd0f3;
+        background: #f0e9d9;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
     } 
     .task-assign-table{
         user-select: none;
@@ -216,15 +218,18 @@ $controller_route       = $moduleDetail['controller_route'];
         
     }
     .accordion-button:not(.collapsed){
-        background: #7dd0f3;
-        color: #fff;
+        background: #f0e9d9;
+        color: #000;
         box-shadow: none;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
+        border-top: 1px solid #ffb60f;
     }
-
+    .accordion-collapse{
+        border-radius: 8px;
+    }
     .accordion-button:not(.collapsed)::after{
-        filter: brightness(0) invert(1);
+        filter: brightness(1) invert(1);
     }
     .choices__inner{
         border-radius: 5px;
@@ -245,11 +250,18 @@ $controller_route       = $moduleDetail['controller_route'];
         background: #000;
         color: #fff
     }
+    .gray_body{
+        background: #f0f0f0;
+        margin: -20px -15px -42px;
+        padding: 20px 20px 35px;
+        border-radius: 12px
+    }
 </style>
 <div class="maze" style="display: none;">
     <canvas id="mazecnv" width="1840" height="1086"></canvas>
 </div>
 
+<div class="gray_body">
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
@@ -795,6 +807,7 @@ $controller_route       = $moduleDetail['controller_route'];
         </div>
     </div>
 <!-- reject task modal -->
+</div>
 
 <!-- <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
