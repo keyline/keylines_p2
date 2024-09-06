@@ -68,6 +68,7 @@ $controller_route   = $moduleDetail['controller_route'];
               $dob_day          = '';
               $dob_month        = '';
               $dob_year         = '';
+              $password         = '';
               $comment          = '';
               $reference        = '';
               $login_access     = '';

@@ -116,13 +116,13 @@
                <div class="col-xxl-4 col-md-6">
                   <div class="card info-card customers-card3">
                      <div class="card-body">
-                        <h5 class="card-title">Contacts (Lead) <span>| All Time</span></h5>
+                        <h5 class="card-title">Clients</h5>
                         <div class="d-flex align-items-center">
                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                               <i class="bi bi-people"></i>
                            </div>
                            <div class="ps-2">
-                              <h6><?= $total_clients ?> (<?= $total_clients_leads->count_lead ?>)</h6>
+                              <h6><?= $total_clients ?></h6>
                            </div>
                         </div>
                      </div>
