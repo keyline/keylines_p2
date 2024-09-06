@@ -48,6 +48,7 @@ $controller_route       = $moduleDetail['controller_route'];
     } 
     .task-section .accordion-body{
         padding: 5px 15px;
+        background: #7dd0f3;
     } 
     .task-assign-table{
         user-select: none;
@@ -138,6 +139,9 @@ $controller_route       = $moduleDetail['controller_route'];
     .accordion-button{
         border-radius: 8px;
     }
+    .accordion-button{
+        padding: 10px 15px;
+    }
     .task_add_btn i{
         font-size: 25px;
         color: #3ca936;
@@ -212,9 +216,13 @@ $controller_route       = $moduleDetail['controller_route'];
         
     }
     .accordion-button:not(.collapsed){
-        background: #4CAB4F;
+        background: #7dd0f3;
         color: #fff;
+        box-shadow: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
     }
+
     .accordion-button:not(.collapsed)::after{
         filter: brightness(0) invert(1);
     }
@@ -498,7 +506,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                     </tbody>
                                                 </table>
                                             </div> 
-                                            <div class="col-12">
+                                            <!-- <div class="col-12">
                                                 <div class="row justify-content-center">
                                                     <?php if($all_departments){ foreach($all_departments as $all_department){?>
                                                         <div class="col-md-2">
@@ -520,7 +528,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -723,7 +731,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                     </tbody>
                                                 </table>
                                             </div> 
-                                            <div class="col-12">
+                                            <!-- <div class="col-12">
                                                 <div class="row justify-content-center">
                                                     <?php if($all_departments){ foreach($all_departments as $all_department){?>
                                                         <div class="col-md-2">
@@ -745,7 +753,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
