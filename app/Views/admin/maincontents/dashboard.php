@@ -105,7 +105,7 @@
                               <i class="bi bi-people"></i>
                            </div>
                            <div class="ps-2">
-                              <h6><?= $total_active_projects ?><small></small></h6>
+                              <h6><?= $total_active_projects ?><small>(<?= $total_bill_projects ?>/<?= $total_nonbill_projects ?>)</small></h6>
                            </div>
                         </div>
                      </div>
@@ -130,7 +130,7 @@
                </div>
                <!-- End Plants Card -->
                <!-- Vendors Card -->
-               <div class="col-xxl-4 col-xl-12">
+               <!-- <div class="col-xxl-4 col-xl-12">
                   <div class="card info-card customers-card4">
                      <div class="card-body">
                         <h5 class="card-title">Billable/Non-Billable <span>| All Time</span></h5>
@@ -144,7 +144,7 @@
                         </div>
                      </div>
                   </div>
-               </div>
+               </div> -->
                <!-- End Vendors Card -->
                <?php   } ?>
                   <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
