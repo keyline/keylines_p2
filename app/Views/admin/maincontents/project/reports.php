@@ -204,7 +204,9 @@
                                                                 $project_cost               = $db->query($sql)->getRow();
                                                                 if($project_cost->is_project_cost == 1){ ?>
                                                                     <br>
-                                                                  <?php  echo'Rs:' ($total_hours_worked > 0 ) ? '<b>' . number_format($total_hours_worked) . '</b>'  : '' . number_format($total_hours_worked) . '';
+                                                                  <?php  
+                                                                  echo "Rs:";
+                                                                  echo ($total_hours_worked > 0 ) ? '<b>' . number_format($total_hours_worked) . '</b>'  : '' . number_format($total_hours_worked) . '';
                                                                 }                                                               
                                                                 $processedData[] = [
                                                                     'month' => $months[$index],
