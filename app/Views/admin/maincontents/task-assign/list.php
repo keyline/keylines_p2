@@ -218,6 +218,25 @@ $controller_route       = $moduleDetail['controller_route'];
     .accordion-button:not(.collapsed)::after{
         filter: brightness(0) invert(1);
     }
+    .choices__inner{
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        height: 48px;
+        overflow: auto
+    }
+    .filter-btn{
+        background: #424242;
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 5px
+    }
+    .filter-btn img{
+        margin-right: 5px;
+    }
+    .filter-btn:hover{
+        background: #000;
+        color: #fff
+    }
 </style>
 <div class="maze" style="display: none;">
     <canvas id="mazecnv" width="1840" height="1086"></canvas>
@@ -225,35 +244,35 @@ $controller_route       = $moduleDetail['controller_route'];
 
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-4 col-md-6">
-            <div class="pagetitle">
-                <h5><?=$page_header?></h5>
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="<?=base_url('admin/' . $controller_route . '/list/')?>"><?=$title?> List</a></li>
-                        <li class="breadcrumb-item active"><?=$page_header?></li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <div class="col-lg-8 col-md-6">
-            <div class="filtrable-box mb-3 mb-md-0">
-                <form method="POST" action="">
-                    <div class="row align-items-center">
-                        <div class="col-lg-4 col-md-6 col-sm-8">
-                            <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
-                                <!-- <option value="0">Only Mine</option> -->
-                                <?php if($all_departments){ foreach($all_departments as $dept){?>
-                                    <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
-                                <?php } }?>
-                            </select>
+        <div class="col-lg-12">
+            <div class="d-flex">
+                <div class="pagetitle me-5">
+                    <h5><?=$page_header?></h5>
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
+                            <li class="breadcrumb-item active"><a href="<?=base_url('admin/' . $controller_route . '/list/')?>"><?=$title?> List</a></li>
+                            <li class="breadcrumb-item active"><?=$page_header?></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="filtrable-box mb-3 mb-md-0 w-50">
+                    <form method="POST" action="">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
+                                    <!-- <option value="0">Only Mine</option> -->
+                                    <?php if($all_departments){ foreach($all_departments as $dept){?>
+                                        <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
+                                    <?php } }?>
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-sm-4" style="margin-left: -10px">
+                                <button type="submit" class="btn filter-btn"><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid" style="width: 15px"> Filter</button>
+                            </div>
                         </div>
-                        <div class="col-md-6 col-sm-4">
-                            <button type="submit" class="btn btn-success btn-md"><i class="fa fa-filter"></i> Filter</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -742,7 +761,7 @@ $controller_route       = $moduleDetail['controller_route'];
 
 <!-- lead activity modal -->
     <div class="modal fade" id="morningformModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999;">
-        <div class="modal-dialog" role="document" style="max-width: 50%; margin-top: 20px;">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 50%; margin-top: 20px;">
             <div class="modal-content">
                 <div class="modal-header" id="morningformTitle">
                     

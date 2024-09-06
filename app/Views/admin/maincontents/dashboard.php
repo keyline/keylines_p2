@@ -622,7 +622,6 @@
                                                                borderColor: '#ffc107',
                                                             },
                                                       },
-                                                      colors: ['#C5EEC5', '#FD6363'],
                                                       labels: ['Billable', 'Non-Billable'],
                                                       responsive: [{
                                                             breakpoint: 1300,
