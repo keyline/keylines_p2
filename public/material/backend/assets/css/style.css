@@ -150,13 +150,15 @@ th,td{
 }
 .general_table_style td h6{
   font-size: 11px !important;
-  margin-top: 5px !important;
+  /* margin-top: 5px !important; */
   padding: 5px 20px 0 !important;
 }
 .general_table_style  td a{
   color: #000
 }
-
+hr {
+  margin: 0.2rem 0
+}
 .heading_style{
   position: relative;
   color: #3D3D3D;
@@ -642,7 +644,9 @@ div.dt-container div.dt-layout-cell{
 .bg-custom-success{
   background: #4CAB4F !important;
 }
-
+.lagend-list{
+  max-width: 580px;
+}
 .lagend-list li{
   color: #696969;
   font-family: 'lato';

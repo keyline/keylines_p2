@@ -72,27 +72,27 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
                 <?php
                 if (!empty($dateWise)) { ?>
-                    <div class="card mt-3">
-                        <div class="card-body pt-3">
+                    <div class="card table-card">
+                        <div class="card-body">
                             <div class="dt-responsive table-responsive">
-                                <table id="simpletable" class="table table-bordered general_table_style">
+                                <table id="simpletable" class="table padding-y-10 general_table_style">
                                     <thead>
                                         <tr>
-                                            <th width="3%">#</th>
-                                            <th width="5%">Desklog Usrid</th>
-                                            <th width="5%">Tracker User Id</th>
-                                            <th width="10%">Email</th>
-                                            <th width="7%">Arrival At</th>
-                                            <th width="30%">Left At</th>
-                                            <th width="15%">Time At Work</th>
-                                            <th width="5%">Productive Time</th>
-                                            <th width="5%">Idle Time</th>
-                                            <th width="5%">Private Time</th>
-                                            <th width="5%">Total Time Allocated</th>
-                                            <th width="5%">Total Time Spended</th>
-                                            <th width="5%">Time Zone</th>
-                                            <th width="5%">App And Os</th>
-                                            <th width="5%">Insert Date</th>
+                                            <th>#</th>
+                                            <th>Desklog Usrid</th>
+                                            <th>Tracker User Id</th>
+                                            <th>Email</th>
+                                            <th>Arrival At</th>
+                                            <th>Left At</th>
+                                            <th>Time At Work</th>
+                                            <th>Productive Time</th>
+                                            <th>Idle Time</th>
+                                            <th>Private Time</th>
+                                            <th>Total Time Allocated</th>
+                                            <th>Total Time Spended</th>
+                                            <th>Time Zone</th>
+                                            <th>App And Os</th>
+                                            <th>Insert Date</th>
                                         </tr>
                                     </thead>
                                     <tbody>

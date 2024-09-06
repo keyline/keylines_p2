@@ -1212,17 +1212,19 @@ class ReportController extends BaseController
         $nonBillableHoursMin            = number_format($ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60), 2);
 
         $html = '';
-        $html = '<div class="card" id="project-container">
+        $html = '<div class="" id="project-container">
                     <div class="row">
-                        <div class="col md-6" style="padding: 12px;margin: 15px;margin-top:0px">
-                            <center><h6><b>ONGOING PROJECT</b></h6></center>
+                        <div class="col md-6">
+                            <div class="card-header card-header2">
+                                <h6 class="heading_style text-center">ONGOING PROJECT</h6>
+                            </div>
                             <div class="dt-responsive table-responsive">
-                                <table class="table table-bordered nowrap general_table_style" style="width: 100%">
+                                <table class="table padding-y-10 general_table_style" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <th width="1%">#</th>
-                                            <th width="5%">Project</th>
-                                            <th width="5%">Total Time</th>
+                                            <th width="3%">#</th>
+                                            <th>Project</th>
+                                            <th>Total Time</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
@@ -1234,15 +1236,15 @@ class ReportController extends BaseController
 
                 if ($ongoingProject->bill == 0) {
                     if ($ongoingProject->project_time_type == 'Onetime') {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success">Billable</span><span class="badge bg-info">Fixed</span></th>';
+                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
                     } else {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success">Billable</span><span class="badge bg-primary">Monthly</span></th>';
+                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
                     }
                 } else {
                     if ($ongoingProject->project_time_type == 'Onetime') {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
+                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
                     } else {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
+                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
                     }
                 }
 
@@ -1271,10 +1273,12 @@ class ReportController extends BaseController
                 </div>
             </div>';
 
-        $html .= '<div class="col md-6" style="padding: 12px;margin: 15px;margin-top:0px">
-                <center><h6><b>BILLABLE/NONBILLABLE HOURS</b></h6></center>
+        $html .= '<div class="col md-6">
+                    <div class="card-header card-header2">
+                        <h6 class="heading_style text-center">NONBILLABLE HOURS</h6>
+                    </div>
                 <div class="dt-responsive table-responsive">
-                    <table class="table general_table_style table-bordered nowrap" style="width: 100%">
+                    <table class="table general_table_style padding-y-10" style="width: 100%">
                         <thead>
                             <tr>
                                 <th width="1%">#</th>
@@ -1380,7 +1384,7 @@ class ReportController extends BaseController
                     <div class="modal-body">
                         <div class="container">
                             <div class="table-responsive">
-                                <table class="table general_table_style">
+                                <table class="table general_table_style padding-y-10">
                                     <thead>
                                         <tr>
                                             <th>ID</th>

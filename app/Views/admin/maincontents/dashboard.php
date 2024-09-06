@@ -178,7 +178,7 @@
                   <div class="card table-card">
                      <div class="card-header">
                         <div class="row align-items-center">
-                           <div class="col-md-6">
+                           <div class="col-lg-5 col-md-6">
                               <div class="card-header-left">
                                  <ul class="d-flex align-items-center">
                                     <li class="me-3"><h6 class="fw-bold heading_style">Monthly Effort Report <span id="year"><?= date('Y') ?></span></h6></li>
@@ -188,9 +188,9 @@
                                  </ul>
                               </div>
                            </div>
-                           <div class="col-md-6">
+                           <div class="col-lg-7 col-md-6">
                               <div class="card-header-right">
-                                 <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list">
+                                 <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
                                     <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
                                     <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
                                     <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
@@ -383,16 +383,16 @@
                         <div class="card-header">
                            <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
                            <div class="row align-items-center">
-                              <div class="col-md-7">
+                              <div class="col-lg-5 col-md-7">
                                  <div class="card-header-left">
                                     <ul class="d-flex align-items-center">
                                        <li class="me-3"><h6 class="fw-bold heading_style">Last 7 Days Report</h6></li>
                                     </ul>
                                  </div>
                               </div>
-                              <div class="col-md-5">
+                              <div class="col-lg-7 col-md-5">
                                  <div class="card-header-right">
-                                    <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list">
+                                    <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
                                        <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
                                        <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
                                        <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>

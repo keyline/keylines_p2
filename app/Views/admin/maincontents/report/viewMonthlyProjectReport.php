@@ -19,19 +19,19 @@
 <section class="section">
     <div class="row">
         <div class="col-lg-12">
-            <div class="card">
+            <div class="card table-card">
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered nowrap" style="width: 100%">
+                        <table id="simpletable" class="table general_table_style padding-y-10" style="width: 100%">
                             <thead>
                                 <tr>
-                                    <th width="1%">#</th>
-                                    <th width="5%">Project</th>
-                                    <th width="5%">Work Date</th>
-                                    <th width="2%">Time</th>
-                                    <th width="10%">Description</th>
-                                    <th width="10%">Type</th>
-                                    <th width="3%">Entry Date</th>
+                                    <th>#</th>
+                                    <th>Project</th>
+                                    <th>Work Date</th>
+                                    <th>Time</th>
+                                    <th>Description</th>
+                                    <th>Type</th>
+                                    <th>Entry Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -52,7 +52,7 @@
                                             <?php }?>
                                         </p>
                                     </td>
-                                    <td width="10%">
+                                    <td>
                                         <?=date_format(date_create($row->date_added), "d-m-Y")?>
                                         <!-- <p>
                                             <?php if($row->work_home == 1){?>
@@ -72,7 +72,7 @@
                                     <td><?=$row->hour?>:<?=$row->min?></td>
                                     <td><?=$row->description?></td>
                                     <td><?=(($getEffortType)?$getEffortType->name:'')?></td>
-                                    <td width="10%"><?=date_format(date_create($row->date_today), "d-m-Y h:i:s A")?></td>
+                                    <td><?=date_format(date_create($row->date_today), "d-m-Y h:i:s A")?></td>
                                 </tr>
                                 <?php } }?>
                             </tbody>
