@@ -63,7 +63,7 @@
                <div class="col-xxl-4 col-md-6">
                   <div class="card info-card revenue-card">
                      <div class="card-body">
-                        <h5 class="card-title">Total Employees <span>| All Time</span></h5>
+                        <h5 class="card-title">Total Employees</h5>
                         <!-- <h5 class="card-title">Total Active Users <span>| All Time</span></h5> -->
                         <div class="d-flex align-items-center">
                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
@@ -98,13 +98,14 @@
                <div class="col-xxl-4 col-md-6">
                   <div class="card info-card customers-card2">
                      <div class="card-body">
-                        <h5 class="card-title">Project (Prospect/Active/Lost) <span>| All Time</span></h5>
+                        <!-- <h5 class="card-title">Project (Prospect/Active/Lost) <span>| All Time</span></h5> -->
+                        <h5 class="card-title">Active Projects (Billable/Non-Billable)</h5>
                         <div class="d-flex align-items-center">
                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                               <i class="bi bi-people"></i>
                            </div>
                            <div class="ps-2">
-                              <h6><?= $total_projects ?> <small>(<?= $total_prospect_projects ?>/<?= $total_active_projects ?>/<?= $total_lost_projects ?>)</small></h6>
+                              <h6><?= $total_active_projects ?><small></small></h6>
                            </div>
                         </div>
                      </div>

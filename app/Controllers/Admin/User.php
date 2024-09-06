@@ -353,6 +353,7 @@ class User extends BaseController {
                     $data['total_projects']             = $this->common_model->find_data('project', 'count');
                     $data['total_prospect_projects']    = $this->common_model->find_data('project', 'count', ['type' => 'Prospect']);
                     $data['total_active_projects']      = $this->common_model->find_data('project', 'count', ['type' => 'Own', 'status<>' => '13']);
+                    echo $this->db->getLastquery();
                     $data['total_lost_projects']        = $this->common_model->find_data('project', 'count', ['type' => 'Lost']);
                     $data['total_nonbill_projects']     = $this->common_model->find_data('project', 'count', ['bill' => 1]);
                     $data['total_bill_projects']        = $this->common_model->find_data('project', 'count', ['bill' => 0, 'active' => 0]);
