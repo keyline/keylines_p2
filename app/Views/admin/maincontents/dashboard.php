@@ -539,6 +539,9 @@
                                                    },
                                                    dataLabels: {
                                                          enabled: true,
+                                                         dropShadow: {
+                                                            enabled: false  // Disable the box shadow here
+                                                         },
                                                          style: {
                                                             fontSize: '12px',
                                                          },
@@ -610,8 +613,12 @@
                                                       },
                                                       dataLabels: {
                                                             enabled: true,
+                                                            dropShadow: {
+                                                               enabled: false  // Disable the box shadow here
+                                                            },
                                                             style: {
                                                                fontSize: '12px',
+                                                               textShadow: 'none'
                                                             },
                                                             background: {
                                                                enabled: true,
@@ -622,6 +629,7 @@
                                                                borderColor: '#ffc107',
                                                             },
                                                       },
+                                                      colors: ['#C5EEC5', '#FD6363'],
                                                       labels: ['Billable', 'Non-Billable'],
                                                       responsive: [{
                                                             breakpoint: 1300,
@@ -680,6 +688,9 @@
                                                    },
                                                    dataLabels: {
                                                          enabled: true,
+                                                         dropShadow: {
+                                                            enabled: false  // Disable the box shadow here
+                                                         },
                                                          style: {
                                                             fontSize: '12px',
                                                          },
@@ -788,6 +799,9 @@
                                                                },
                                                                dataLabels: {
                                                                      enabled: true,
+                                                                     dropShadow: {
+                                                                        enabled: false  // Disable the box shadow here
+                                                                     },
                                                                      style: {
                                                                         fontSize: '12px',
                                                                      },
@@ -871,6 +885,9 @@
                                                                },
                                                                dataLabels: {
                                                                      enabled: true,
+                                                                     dropShadow: {
+                                                                        enabled: false  // Disable the box shadow here
+                                                                     },
                                                                      style: {
                                                                         fontSize: '12px',
                                                                      },
@@ -974,6 +991,9 @@
                                                                },
                                                                dataLabels: {
                                                                      enabled: true,
+                                                                     dropShadow: {
+                                                                        enabled: false  // Disable the box shadow here
+                                                                     },
                                                                      style: {
                                                                         fontSize: '12px',
                                                                      },
