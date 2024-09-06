@@ -43,7 +43,7 @@
             <div class="row mt-3">
                <?php if (checkModuleFunctionAccess(1, 75)) { ?>
                <!-- Companies Card -->
-               <div class="col-xxl-4 col-md-6">
+               <!-- <div class="col-xxl-4 col-md-6">
                   <div class="card info-card sales-card">
                      <div class="card-body">
                         <h5 class="card-title">Total Users <span>| All Time</span></h5>
@@ -52,18 +52,19 @@
                               <i class="bi bi-people"></i>
                            </div>
                            <div class="ps-2">
-                              <h6><?= $total_users ?></h6>
+                              <h6>?= $total_users ?></h6>
                            </div>
                         </div>
                      </div>
                   </div>
-               </div>
+               </div> -->
                <!-- End Companies Card -->
                <!-- Plants Card -->
                <div class="col-xxl-4 col-md-6">
                   <div class="card info-card revenue-card">
                      <div class="card-body">
-                        <h5 class="card-title">Total Active Users <span>| All Time</span></h5>
+                        <h5 class="card-title">Total Employees <span>| All Time</span></h5>
+                        <!-- <h5 class="card-title">Total Active Users <span>| All Time</span></h5> -->
                         <div class="d-flex align-items-center">
                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                               <i class="bi bi-people"></i>
@@ -77,7 +78,7 @@
                </div>
                <!-- End Plants Card -->
                <!-- Vendors Card -->
-               <div class="col-xxl-4 col-xl-12">
+               <!-- <div class="col-xxl-4 col-xl-12">
                   <div class="card info-card customers-card">
                      <div class="card-body">
                         <h5 class="card-title">Total Inactive Users <span>| All Time</span></h5>
@@ -86,12 +87,12 @@
                               <i class="bi bi-people"></i>
                            </div>
                            <div class="ps-2">
-                              <h6><?= $total_inactive_users ?></h6>
+                              <h6>?= $total_inactive_users ?></h6>
                            </div>
                         </div>
                      </div>
                   </div>
-               </div>
+               </div> -->
                <!-- End Vendors Card -->
                <!-- Companies Card -->
                <div class="col-xxl-4 col-md-6">
