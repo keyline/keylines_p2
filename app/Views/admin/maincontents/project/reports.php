@@ -205,7 +205,7 @@
                                                                 if($project_cost->is_project_cost == 1){ ?>
                                                                     <br>
                                                                   <?php  
-                                                                  echo '<i class="fa-solid fa-indian-rupee-sign"></i>';
+                                                                  echo '<i class="fa-solid fa-indian-rupee-sign"></i> ';
                                                                   echo ($total_hours_worked > 0 ) ? '<b>' . number_format($total_hours_worked) . '</b>'  : '' . number_format($total_hours_worked) . '';
                                                                 }                                                               
                                                                 $processedData[] = [
