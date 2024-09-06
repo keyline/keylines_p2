@@ -29,16 +29,18 @@ $controller_route   = $moduleDetail['controller_route'];
             <?php }?>
         </div>
         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
+            <div class="card table-card">
+                <div class="card-header">
                     <?php if (checkModuleFunctionAccess(30, 83)) { ?>
-                    <h5 class="card-title">
+                    <h5>
                         <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
                     </h5>
                     <?php } ?>
+                </div>
+                <div class="card-body">
                     <div class="dt-responsive table-responsive">
                         <?php if (checkModuleFunctionAccess(30, 82)) { ?>
-                            <table id="simpletable" class="table table-bordered nowrap general_table_style">
+                            <table id="simpletable" class="table padding-y-10 general_table_style">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
@@ -56,8 +58,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <tr>
                                         <th scope="row"><?=$sl++?></th>
                                         <td><?=$row->name?></td>
-                                        <td><span style="border-radius: 50%; background-color: <?=$row->background_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                                        <td><span style="border-radius: 50%; background-color: <?=$row->border_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                        <td><span style="width: 15px; height: 15px; display: block; border-radius: 50%; background-color: <?=$row->background_color?>"></span></td>
+                                        <td><span style="width: 15px; height: 15px; display: block; border-radius: 50%; background-color: <?=$row->border_color?>"></span></td>
                                         <td><?=(($row->is_schedule)?'<span class="badge bg-success">YES</span>':'<span class="badge bg-danger">NO</span>')?></td>
                                         <td><?=(($row->is_reassign)?'<span class="badge bg-success">YES</span>':'<span class="badge bg-danger">NO</span>')?></td>
                                         <td class="text-center">

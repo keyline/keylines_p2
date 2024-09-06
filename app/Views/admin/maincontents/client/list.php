@@ -29,23 +29,25 @@ $controller_route   = $moduleDetail['controller_route'];
             <?php } ?>
         </div>
         <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">
+            <div class="card table-card">
+                <div class="card-header">
+                    <h5>
                         <a href="<?= base_url('admin/' . $controller_route . '/add/') ?>" class="btn btn-outline-success btn-sm">Add <?= $title ?></a>
                         <!-- <a href="<?= base_url('admin/' . $controller_route . '/encrypt-info/') ?>" class="btn btn-info btn-sm" style="float: right;">Encrypt Client Email & Phone</a> -->
                     </h5>
+                </div>
+                <div class="card-body">
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered table-fit general_table_style">
+                        <table id="simpletable" class="table padding-y-10 general_table_style">
                             <thead>
                                 <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Address</th>
-                                    <th scope="col">Reference <br> Emails <br> Phones </th>
-                                    <th scope="col">Added<br>Last Login</th>
-                                    <th scope="col">Document</th>
-                                    <th scope="col">Action</th>
+                                    <th>#</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Reference Emails Phones </th>
+                                    <th>Added Last Login</th>
+                                    <th class="text-center">Document</th>
+                                    <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -59,9 +61,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <?php $projectCount = $common_model->find_data('project', 'count', ['client_id' => $row->id], 'id'); ?>
                                                 <a href="<?= base_url('admin/' . $controller_route . '/add-project/' . base64_encode($row->id)) ?>" target="_blank" class="btn btn-info btn-sm d-inline-flex align-items-center" style="height: 20px;font-size: 12px;">
                                                     <i class="bi bi-plus-circle me-1"></i> Add Project
-                                                </a>
-                                                <h6><span class="badge bg-warning"><?= $projectCount ?> Projects</span></h6>
-                                                <span class="badge <?= (($row->login_access == '1') ? 'bg-success' : 'bg-danger') ?>"><?= (($row->login_access == '1') ? ' Login Access: YES' : 'Login Access: NO') ?></span><br>
+                                                </a><br>
+                                                <span class="badge bg-warning mt-1"><?= $projectCount ?> Projects</span>
+                                                <span class="badge mt-1 <?= (($row->login_access == '1') ? 'bg-success' : 'bg-danger') ?>"><?= (($row->login_access == '1') ? ' Login Access: YES' : 'Login Access: NO') ?></span><br>
                                             </td>
                                             <td>
                                                 <span class="fw-bold"><?=$pro->decrypt($row->compnay)?></span><br>
@@ -69,12 +71,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <?= $row->address_2 ?>
                                             </td>
                                             <td>
-                                                <?=$row->reference ?><br>
-                                                <?=$pro->decrypt($row->email_1)?><br>
-                                                <?=$pro->decrypt($row->email_2)?> <br>
-
-                                                <?=$pro->decrypt($row->phone_1)?><br>
-                                                <?=$pro->decrypt($row->phone_2)?>
+                                                <p><?=$row->reference ?></p>
+                                                <p><?=$pro->decrypt($row->email_1)?></p>
+                                                <p><?=$pro->decrypt($row->email_2)?> </p>
+                                                <p><?=$pro->decrypt($row->phone_1)?></p>
+                                                <p><?=$pro->decrypt($row->phone_2)?></p>
                                                 <!-- <?=$pro->decrypt($row->encoded_email)?><br> -->
                                                 <!-- <?=$pro->decrypt($row->encoded_phone)?><br> -->
                                             </td>
@@ -84,14 +85,14 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <hr>
                                                 <?= (($row->last_login != '0000-00-00 00:00:00') ? date_format(date_create($row->last_login), "M d, Y h:i A") : '') ?>
                                             </td>
-                                            <td>
+                                            <td class="text-center">
                                                 <a href="<?= base_url('admin/' . $controller_route . '/add-proposal/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-success btn-sm" title="Add Proposal"><i class="fa fa-plus"></i></a>
                                                 <?php
                                                 $sql = "SELECT COUNT(file) as totalFile FROM proposal_files WHERE client_id=" . $row->$primary_key;
                                                 $res = $db->query($sql)->getRow();
                                                 if ($res->totalFile > 0) {   ?>
                                                     <a target="_blank" href="<?= base_url('admin/' . $controller_route . '/view-proposal/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-info btn-sm" title="View Proposal"><i class="fa fa-eye"></i></a>
-                                                    <span class="badge bg-success"> <?= 'Total Document: ' . $res->totalFile ?? null ?></span>
+                                                    <span class="badge bg-success mt-1"> <?= 'Total Document: ' . $res->totalFile ?? null ?></span>
                                                 <?php    }  ?>
                                             </td>
                                             <td>

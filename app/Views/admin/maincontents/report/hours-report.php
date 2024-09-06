@@ -65,7 +65,7 @@
 
                 <div class="card table-card" id="project-container">
                     <div class="row">
-                        <div class="col md-6" style="padding: 12px;margin: 15px;margin-top:0px">
+                        <div class="col md-6">
                             <div class="card-header card-header2">
                                 <h6 class="heading_style text-center">ONGOING PROJECT</h6>
                             </div>
@@ -111,7 +111,7 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col md-6" style="padding: 12px;margin: 15px;margin-top:0px">
+                        <div class="col md-6">
                             <div class="card-header card-header2">
                                 <h6 class="heading_style text-center">BILLABLE/NONBILLABLE HOURS</h6>
                             </div>

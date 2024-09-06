@@ -35,6 +35,9 @@ $controller_route       = $moduleDetail['controller_route'];
     .task-assign-table thead > th{
         background: transparent !important;
     }
+    .task-assign-table .fixed-table-head tr:first-child th{
+        padding: 5px 10px !important
+    }
     .fixed-table-head > tr{
         background-color: #e4f3ff !important;
     }
@@ -207,6 +210,13 @@ $controller_route       = $moduleDetail['controller_route'];
     align-items:center;
     font-size: 12px;
         
+    }
+    .accordion-button:not(.collapsed){
+        background: #4CAB4F;
+        color: #fff;
+    }
+    .accordion-button:not(.collapsed)::after{
+        filter: brightness(0) invert(1);
     }
 </style>
 <div class="maze" style="display: none;">
