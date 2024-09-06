@@ -30,8 +30,10 @@ class TaskAssignController extends BaseController {
         $page_name                  = 'task-assign/list';
 
         $user_id                    = $this->session->get('user_id');
-        $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show');
+        $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show,type');
         $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
+        $data['type']               = (($getUser)?$getUser->type:'');
+        $data['user_id']            = $user_id;
 
         $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
         $data['all_departments']    = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
@@ -95,7 +97,7 @@ class TaskAssignController extends BaseController {
         $apiExtraData       = '';
         $this->isJSON(file_get_contents('php://input'));
         $requestData        = $this->extract_json(file_get_contents('php://input'));
-        // pr($requestData);
+        
         $getProject         = $this->data['model']->find_data('project', 'row', ['id' => $requestData['project_id']], 'status,bill');
         $fields             = [
             'dept_id'       => $requestData['dept_id'],
@@ -106,7 +108,7 @@ class TaskAssignController extends BaseController {
             'min'           => $requestData['min'],
             'work_home'     => $requestData['work_home'],
             'date_added'    => $requestData['date_added'],
-            'priority'      => $requestData['priority'],
+            'priority'      => (($requestData['is_leave'] <= 0)?$requestData['priority']:3),
             'added_by'      => $this->session->get('user_id'),
             'bill'          => (($getProject)?$getProject->bill:1),
             'status_id'     => (($getProject)?$getProject->status:0),
@@ -118,142 +120,299 @@ class TaskAssignController extends BaseController {
             $fields['next_day_task_action'] = 1;
             $fields['is_leave']             = $requestData['is_leave'];
         }
-        // pr($fields);
-        $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
 
-        $scheduleHTML               = '';
-        $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
-        $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
-        $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-        $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
-        // pr($getTasks);
-        $totalTime                  = 0;
-        if($getTasks){
-            foreach($getTasks as $getTask){
-                $dept_id        = $getTask->dept_id;
-                $user_id        = $getTask->user_id;
-                $user_name      = $getTask->user_name;
-                $schedule_id    = $getTask->schedule_id;
-
-                $getWorkStatus                  = $this->common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
-                $work_status_color              = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
-                $work_status_border_color       = (($getWorkStatus)?$getWorkStatus->border_color:'#0c0c0c4a');
-
-                if($getTask->hour > 0) {
-                    if($getTask->hour == 1){
-                        $hr = $getTask->hour . " hr ";
-                    } else {
-                        $hr = $getTask->hour . " hrs ";
-                    }
+        $post_is_leave  = $requestData['is_leave'];
+        if($post_is_leave > 0){
+            // leave
+                $checkLeave     = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $requestData['user_id'], 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                $post_user_id   = $requestData['user_id'];
+                $getUser        = $this->common_model->find_data('user', 'row', ['id' => $post_user_id], 'name');
+                if($checkLeave){
+                $leave_name = '';
+                if($checkLeave->is_leave == 1){
+                    $leave_name = 'HALF DAY';
                 } else {
-                    $hr = $getTask->hour . " hr ";
+                    $leave_name = 'FULL DAY';
                 }
-                if($getTask->min > 0) {
-                    if($getTask->min == 1){
-                        $min = $getTask->min . " min";
-                    } else {
-                        $min = $getTask->min . " mins";
-                    }
-                } else {
-                    $min = $getTask->min . " min";
-                }
-                $tot_hour               = $getTask->hour * 60;
-                $tot_min                = $getTask->min;
-                $totMins                = $tot_hour + $tot_min;
-                $totalTime              += $totMins;
-
-                if($requestData['is_leave'] == 0){
-                    if($getTask->priority == 3){
-                        $priority = '<span class="card_priotty_item proiodty_high">H</span>';
-                    }
-                    if($getTask->priority == 2){
-                        $priority = '<span class="card_priotty_item proiodty_medium">M</span>';
-                    }
-                    if($getTask->priority == 1){
-                        $priority = '<span class="card_priotty_item proiodty_low">L</span>';
-                    }
-                } else {
-                    $priority = '';
-                }
-
-                if($getTask->project_name != ''){
-                    $projectName = $getTask->project_name;
-                } else {
-                    if($requestData['is_leave'] == 1){
-                        $projectName = 'HALFDAY LEAVE';
-                    } else {
-                        $projectName = 'FULLDAY LEAVE';
-                    }
-                }
-
-                if($requestData['is_leave'] == 0){
-                    $display = 'block';
-                } else {
-                    $display = 'none';
-                }
-
-                $editBtn    = '';
-                $effort_id  = $getTask->effort_id;
-                if($effort_id <= 0){
-                    $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
-                                    <i class="fa-solid fa-pencil text-primary"></i>
-                                    </a>';
-                }
-
-                if($getTask->updated_at == ''){
-                    $createdAt = date_format(date_create($getTask->created_at), "h:i a");
-                } else {
-                    $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
-                }
-
-                $scheduleHTML .= '<div class="input-group">
-                                    <div class="card">
-                                        <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
-                                            <p class="mb-2">
-                                                ' . $priority . '
-                                            </p>
-                                            <div class="mb-1 d-block">
-                                                <div class="card_projectname"><b>'.$projectName.' :</b> </div>
-                                                <div class="card_proj_info">'.$getTask->description.'</div>
-                                            </div>
-                                            <div class="card_projecttime">
-                                                [' .$hr. ' ' .$min. ']
-                                            </div>
-                                            <div class="d-flex justify-content-between">
-                                                <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
-                                                ' . $editBtn . '
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>';
-            }
-        }
-
-        $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-
-        $dept_id        = $requestData['dept_id'];
-        $user_id        = $requestData['user_id'];
-        $getUser        = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name');
-        $user_name      = (($getUser)?$getUser->name:'');
-
-        $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
-        if(!$getLeaveTask){
-            $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                    <i class="fa-solid fa-plus-circle"></i>
-                            </a>';
+                $apiStatus                          = FALSE;
+                http_response_code(200);
+                $apiMessage                         = 'You Have Already Applied For '.$leave_name.' Leave For '.(($getUser)?$getUser->name:'').'. Can\'t Assign More Leave !!!';
+            // leave
         } else {
-            if($getLeaveTask->is_leave == 1){
-                $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                    <i class="fa-solid fa-plus-circle"></i>
-                            </a>';
+                $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+
+                $scheduleHTML               = '';
+                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                $totalTime                  = 0;
+                if($getTasks){
+                    foreach($getTasks as $getTask){
+                        $dept_id        = $getTask->dept_id;
+                        $user_id        = $getTask->user_id;
+                        $user_name      = $getTask->user_name;
+                        $schedule_id    = $getTask->schedule_id;
+
+                        $getWorkStatus                  = $this->common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
+                        $work_status_color              = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
+                        $work_status_border_color       = (($getWorkStatus)?$getWorkStatus->border_color:'#0c0c0c4a');
+
+                        if($getTask->hour > 0) {
+                            if($getTask->hour == 1){
+                                $hr = $getTask->hour . " hr ";
+                            } else {
+                                $hr = $getTask->hour . " hrs ";
+                            }
+                        } else {
+                            $hr = $getTask->hour . " hr ";
+                        }
+                        if($getTask->min > 0) {
+                            if($getTask->min == 1){
+                                $min = $getTask->min . " min";
+                            } else {
+                                $min = $getTask->min . " mins";
+                            }
+                        } else {
+                            $min = $getTask->min . " min";
+                        }
+                        $tot_hour               = $getTask->hour * 60;
+                        $tot_min                = $getTask->min;
+                        $totMins                = $tot_hour + $tot_min;
+                        $totalTime              += $totMins;
+
+                        if($getTask->is_leave == 0){
+                            if($getTask->priority == 3){
+                                $priority = '<span class="card_priotty_item proiodty_high">H</span>';
+                            }
+                            if($getTask->priority == 2){
+                                $priority = '<span class="card_priotty_item proiodty_medium">M</span>';
+                            }
+                            if($getTask->priority == 1){
+                                $priority = '<span class="card_priotty_item proiodty_low">L</span>';
+                            }
+                        } else {
+                            $priority = '';
+                        }
+
+                        if($getTask->project_name != ''){
+                            $projectName = $getTask->project_name;
+                        } else {
+                            if($getTask->is_leave == 1){
+                                $projectName = 'HALFDAY LEAVE';
+                            } else {
+                                $projectName = 'FULLDAY LEAVE';
+                            }
+                        }
+
+                        if($getTask->is_leave == 0){
+                            $display = 'block';
+                        } else {
+                            $display = 'none';
+                        }
+
+                        $editBtn    = '';
+                        $effort_id  = $getTask->effort_id;
+                        if($effort_id <= 0){
+                            $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                                            <i class="fa-solid fa-pencil text-primary"></i>
+                                            </a>';
+                        }
+
+                        if($getTask->updated_at == ''){
+                            $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                        } else {
+                            $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                        }
+
+                        $scheduleHTML .= '<div class="input-group">
+                                            <div class="card">
+                                                <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
+                                                    <p class="mb-2">
+                                                        ' . $priority . '
+                                                    </p>
+                                                    <div class="mb-1 d-block">
+                                                        <div class="card_projectname"><b>'.$projectName.' :</b> </div>
+                                                        <div class="card_proj_info">'.$getTask->description.'</div>
+                                                    </div>
+                                                    <div class="card_projecttime">
+                                                        [' .$hr. ' ' .$min. ']
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
+                                                        ' . $editBtn . '
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>';
+                    }
+                }
+
+                $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+
+                $dept_id        = $requestData['dept_id'];
+                $user_id        = $requestData['user_id'];
+                $getUser        = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name');
+                $user_name      = (($getUser)?$getUser->name:'');
+
+                $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                if(!$getLeaveTask){
+                    $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                            <i class="fa-solid fa-plus-circle"></i>
+                                    </a>';
+                } else {
+                    if($getLeaveTask->is_leave == 1){
+                        $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                            <i class="fa-solid fa-plus-circle"></i>
+                                    </a>';
+                    }
+                }
+                $apiResponse['scheduleHTML']        = $scheduleHTML;
+                $apiResponse['totalTime']           = $totalBooked;
+                $apiStatus                          = TRUE;
+                http_response_code(200);
+                $apiMessage                         = 'Task Submitted Successfully !!!';
             }
+        } else {
+            // not leave
+                $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+
+                $scheduleHTML               = '';
+                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                // pr($getTasks);
+                $totalTime                  = 0;
+                if($getTasks){
+                    foreach($getTasks as $getTask){
+                        $dept_id        = $getTask->dept_id;
+                        $user_id        = $getTask->user_id;
+                        $user_name      = $getTask->user_name;
+                        $schedule_id    = $getTask->schedule_id;
+
+                        $getWorkStatus                  = $this->common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
+                        $work_status_color              = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
+                        $work_status_border_color       = (($getWorkStatus)?$getWorkStatus->border_color:'#0c0c0c4a');
+
+                        if($getTask->hour > 0) {
+                            if($getTask->hour == 1){
+                                $hr = $getTask->hour . " hr ";
+                            } else {
+                                $hr = $getTask->hour . " hrs ";
+                            }
+                        } else {
+                            $hr = $getTask->hour . " hr ";
+                        }
+                        if($getTask->min > 0) {
+                            if($getTask->min == 1){
+                                $min = $getTask->min . " min";
+                            } else {
+                                $min = $getTask->min . " mins";
+                            }
+                        } else {
+                            $min = $getTask->min . " min";
+                        }
+                        $tot_hour               = $getTask->hour * 60;
+                        $tot_min                = $getTask->min;
+                        $totMins                = $tot_hour + $tot_min;
+                        $totalTime              += $totMins;
+
+                        if($getTask->is_leave == 0){
+                            if($getTask->priority == 3){
+                                $priority = '<span class="card_priotty_item proiodty_high">H</span>';
+                            }
+                            if($getTask->priority == 2){
+                                $priority = '<span class="card_priotty_item proiodty_medium">M</span>';
+                            }
+                            if($getTask->priority == 1){
+                                $priority = '<span class="card_priotty_item proiodty_low">L</span>';
+                            }
+                        } else {
+                            $priority = '';
+                        }
+
+                        if($getTask->project_name != ''){
+                            $projectName = $getTask->project_name;
+                        } else {
+                            if($getTask->is_leave == 1){
+                                $projectName = 'HALFDAY LEAVE';
+                            } else {
+                                $projectName = 'FULLDAY LEAVE';
+                            }
+                        }
+
+                        if($getTask->is_leave == 0){
+                            $display = 'block';
+                        } else {
+                            $display = 'none';
+                        }
+
+                        $editBtn    = '';
+                        $effort_id  = $getTask->effort_id;
+                        if($effort_id <= 0){
+                            $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                                            <i class="fa-solid fa-pencil text-primary"></i>
+                                            </a>';
+                        }
+
+                        if($getTask->updated_at == ''){
+                            $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                        } else {
+                            $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                        }
+
+                        $scheduleHTML .= '<div class="input-group">
+                                            <div class="card">
+                                                <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
+                                                    <p class="mb-2">
+                                                        ' . $priority . '
+                                                    </p>
+                                                    <div class="mb-1 d-block">
+                                                        <div class="card_projectname"><b>'.$projectName.' :</b> </div>
+                                                        <div class="card_proj_info">'.$getTask->description.'</div>
+                                                    </div>
+                                                    <div class="card_projecttime">
+                                                        [' .$hr. ' ' .$min. ']
+                                                    </div>
+                                                    <div class="d-flex justify-content-between">
+                                                        <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
+                                                        ' . $editBtn . '
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>';
+                    }
+                }
+
+                $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+
+                $dept_id        = $requestData['dept_id'];
+                $user_id        = $requestData['user_id'];
+                $getUser        = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name');
+                $user_name      = (($getUser)?$getUser->name:'');
+
+                $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                if(!$getLeaveTask){
+                    $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                            <i class="fa-solid fa-plus-circle"></i>
+                                    </a>';
+                } else {
+                    if($getLeaveTask->is_leave == 1){
+                        $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                            <i class="fa-solid fa-plus-circle"></i>
+                                    </a>';
+                    }
+                }
+                // echo $scheduleHTML;die;
+                $apiResponse['scheduleHTML']        = $scheduleHTML;
+                $apiResponse['totalTime']           = $totalBooked;
+                $apiStatus                          = TRUE;
+                http_response_code(200);
+                $apiMessage                         = 'Task Submitted Successfully !!!';
+            // not leave
         }
-        // echo $scheduleHTML;die;
-        $apiResponse['scheduleHTML']        = $scheduleHTML;
-        $apiResponse['totalTime']           = $totalBooked;
-        $apiStatus                          = TRUE;
-        http_response_code(200);
-        $apiMessage                         = 'Task Submitted Successfully !!!';
+        
         $apiExtraField                      = 'response_code';
         $apiExtraData                       = http_response_code();
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
@@ -426,7 +585,7 @@ class TaskAssignController extends BaseController {
                 $totMins                = $tot_hour + $tot_min;
                 $totalTime              += $totMins;
 
-                if($requestData['is_leave'] == 0){
+                if($getTask->is_leave == 0){
                     if($getTask->priority == 3){
                         $priority = '<span class="card_priotty_item proiodty_high">H</span>';
                     }
@@ -443,14 +602,14 @@ class TaskAssignController extends BaseController {
                 if($getTask->project_name != ''){
                     $projectName = $getTask->project_name;
                 } else {
-                    if($requestData['is_leave'] == 1){
+                    if($getTask->is_leave == 1){
                         $projectName = 'HALFDAY LEAVE';
                     } else {
                         $projectName = 'FULLDAY LEAVE';
                     }
                 }
 
-                if($requestData['is_leave'] == 0){
+                if($getTask->is_leave == 0){
                     $display = 'block';
                 } else {
                     $display = 'none';
@@ -678,10 +837,10 @@ class TaskAssignController extends BaseController {
         $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
 
         $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
-        $data['all_departments']    = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+        $data['all_departments']    = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
 
         if(empty($data['tracker_depts_show'])){
-            $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color', '', '', $order_by);
+            $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
         } else {
             $tracker_depts_show_string  = implode(",", $data['tracker_depts_show']);
             $data['departments']        = $this->db->query("SELECT * FROM `department` WHERE `id` IN ($tracker_depts_show_string) AND `is_join_morning_meeting` = 1 AND status = 1 ORDER BY rank ASC")->getResult();

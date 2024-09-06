@@ -12,14 +12,14 @@ if ($row) {
         -webkit-appearance: none;
         -moz-appearance: none;
         appearance: none;
-        width: 20px;
-        height: 20px;
-        border: 2px solid #888;
-        background-color: #ccc;
+        width: 15px;
+        height: 15px;
+        border: 1px solid #ccc;
+        background-color: #fff;
         border-radius: 4px;
         display: inline-block;
         position: relative;
-        top: 4px;
+        top: 2px;
     }
 
     .gray-checkbox:checked {
@@ -29,13 +29,36 @@ if ($row) {
     .gray-checkbox:checked::after {
         content: '';
         position: absolute;
-        left: 5px;
-        top: 2px;
+        left: 4px;
+        top: 0px;
         width: 5px;
         height: 10px;
         border: solid white;
         border-width: 0 2px 2px 0;
         transform: rotate(45deg);
+    }
+    .nav-link{
+        color: #000;
+    }
+    .nav-link,
+    .permission-dropdown select,
+    .card-header{
+        font-size: 14px
+    }
+    .card-header{
+        margin-bottom: 0 !important;
+    }
+    .card-header .bg-success{
+        background: #4CAB4F !important;
+    }
+    .card-body span{
+        display: block;
+        font-size: 14px
+    }
+    .nav-pills .nav-link.active, .nav-pills .show>.nav-link,
+    .box-footer .btn{
+        background: #26A9E1 !important;
+        color: #fff;
     }
 </style>
 <script src="//cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
@@ -48,7 +71,7 @@ if ($row) {
                         <h5 class="m-b-10"><?php echo $page_header; ?></h5>
                     </div>
                     <ul class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?php echo base_url('admin/'); ?>/user"><i class="feather icon-home"></i></a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url('admin/'); ?>/user"><i class="feather icon-home"></i>Home</a></li>
                         <li class="breadcrumb-item"><a href="<?php echo base_url('admin/'); ?>/<?php echo $moduleDetail['controller']; ?>">Manage <?php echo $moduleDetail['module']; ?></a></li>
                         <li class="breadcrumb-item"><a href="#!"><?php echo $page_header; ?></a></li>
                     </ul>
@@ -58,9 +81,9 @@ if ($row) {
     </div>
     <div class="row">
         <div class="col-sm-12">
-            <div class="card">
+            <div class="card table-card">
                 <div class="card-header">
-                    <h5><?php echo $page_header; ?></h5>
+                    <h5 class="mb-2"><?php echo $page_header; ?></h5>
                     <?php if ($session->getFlashdata('success_message')) { ?>
                         <div class="alert alert-success alert-dismissible fade show" role="alert">
                             <strong>Success!</strong> <?php echo $session->getFlashdata('success_message'); ?>
@@ -73,33 +96,31 @@ if ($row) {
                             <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                         </div>
                     <?php } ?>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group permission-dropdown">
+                                <label for="role_name">Role Name *</label>
+                                <select name="role_name" class="form-control" id="role_name" <?= ((!empty($row)) ? 'disabled' : '') ?> required>
+                                    <option value="" selected>Select Type</option>
+                                    <?php if ($role_masters) {
+                                        foreach ($role_masters as $role_master) {   ?>
+                                            <option value="<?= $role_master->role_name; ?>" <?= (($role_name == $role_master->role_name) ? 'selected' : '') ?>><?= $role_master->role_name; ?></option>
+                                    <?php }
+                                    } ?>
+                                </select>
+                                <?php if ($row) { ?>
+                                    <input type="hidden" name="role_name_hidden" id="role_name_hidden" value="<?= htmlspecialchars($role_name) ?>">
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body">
+                <div class="card-body mt-3">
                     <form action="" method="post" enctype="multipart/form-data">
                         <div class="box-body">
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="role_name">Role Name *</label>
-                                        <select name="role_name" class="form-control" id="role_name" <?= ((!empty($row)) ? 'disabled' : '') ?> required>
-                                            <option value="" selected>Select Type</option>
-                                            <?php if ($role_masters) {
-                                                foreach ($role_masters as $role_master) {   ?>
-                                                    <option value="<?= $role_master->role_name; ?>" <?= (($role_name == $role_master->role_name) ? 'selected' : '') ?>><?= $role_master->role_name; ?></option>
-                                            <?php }
-                                            } ?>
-                                        </select>
-                                        <?php if ($row) { ?>
-                                            <input type="hidden" name="role_name_hidden" id="role_name_hidden" value="<?= htmlspecialchars($role_name) ?>">
-                                        <?php } ?>
-                                    </div>
-                                </div>
-                            </div>
-                            <br>
-                            <br>
-                            <div class="row">
                                 <div class="col-3">
-                                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical" style="background: #fff; border-radius: 8px">
                                         <?php if ($parentmodules) {
                                             $i = 1;
                                             foreach ($parentmodules as $parentmodule) { ?>
@@ -126,7 +147,7 @@ if ($row) {
                                                             <div class="card-header bg-success text-white">
                                                                 <?= $parentmodule->module_name ?>
                                                             </div>
-                                                            <div class="card-body">
+                                                            <div class="card-body p-3">
                                                                 <?php
                                                                 $functions    = $common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $parentmodule->id]);
                                                                 if ($functions) {
@@ -139,7 +160,7 @@ if ($row) {
                                                                             $checked = '';
                                                                         }
                                                                         ?>
-                                                                        <span class="text-dark mb-1" style="font-size: 20px; margin-right: 10px; width: 30%; display: inline-block;">
+                                                                        <span class="mb-1">
                                                                             <input type="checkbox" class="allow-interaction gray-checkbox" name="function_id[]" id="function<?= $function->function_id ?>" value="<?= $function->function_id ?>" <?= $checked ?>>
                                                                             <label for="function<?= $function->function_id ?>"><?= $function->function_name ?></label>
                                                                         </span>
@@ -161,7 +182,7 @@ if ($row) {
                                                                                 <?= $nestedMenu->module_name ?>
                                                                                 <input type="hidden" name="module_id[]" value="<?= $nestedMenu->id ?>">
                                                                             </div>
-                                                                            <div class="card-body">
+                                                                            <div class="card-body p-3">
                                                                                 <?php
                                                                                 $functions    = $common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $nestedMenu->id]);
                                                                                 if ($functions) {
@@ -174,7 +195,7 @@ if ($row) {
                                                                                             $checked = '';
                                                                                         }
                                                                                         ?>
-                                                                                        <span class="text-dark mb-3" style="font-size: 20px; margin-right: 10px; width: 30%; display: inline-block;">
+                                                                                        <span class="mb-1">
                                                                                             <input type="checkbox" class="allow-interaction gray-checkbox" name="function_id[]" id="function<?= $function->function_id ?>" value="<?= $function->function_id ?>" <?= $checked ?>>
                                                                                             <label for="function<?= $function->function_id ?>"><?= $function->function_name ?></label>
                                                                                         </span>
@@ -197,8 +218,8 @@ if ($row) {
                             </div>
                         </div>
                         <?php if (checkModuleFunctionAccess(14, 63) == False) { ?>
-                            <div class="box-footer">
-                                <input type="submit" class="btn btn-primary" name="submit" value="Submit">
+                            <div class="box-footer mt-3">
+                                <input type="submit" class="btn" name="submit" value="Submit">
                             </div>
                         <?php } ?>
                     </form>

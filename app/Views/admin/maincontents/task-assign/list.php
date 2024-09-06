@@ -35,6 +35,9 @@ $controller_route       = $moduleDetail['controller_route'];
     .task-assign-table thead > th{
         background: transparent !important;
     }
+    .task-assign-table .fixed-table-head tr:first-child th{
+        padding: 5px 10px !important
+    }
     .fixed-table-head > tr{
         background-color: #e4f3ff !important;
     }
@@ -45,6 +48,9 @@ $controller_route       = $moduleDetail['controller_route'];
     } 
     .task-section .accordion-body{
         padding: 5px 15px;
+        background: #f0e9d9;
+        border-bottom-left-radius: 8px;
+        border-bottom-right-radius: 8px;
     } 
     .task-assign-table{
         user-select: none;
@@ -135,6 +141,9 @@ $controller_route       = $moduleDetail['controller_route'];
     .accordion-button{
         border-radius: 8px;
     }
+    .accordion-button{
+        padding: 10px 15px;
+    }
     .task_add_btn i{
         font-size: 25px;
         color: #3ca936;
@@ -208,42 +217,82 @@ $controller_route       = $moduleDetail['controller_route'];
     font-size: 12px;
         
     }
+    .accordion-button:not(.collapsed){
+        background: #f0e9d9;
+        color: #000;
+        box-shadow: none;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top: 1px solid #ffb60f;
+    }
+    .accordion-collapse{
+        border-radius: 8px;
+    }
+    .accordion-button:not(.collapsed)::after{
+        filter: brightness(1) invert(1);
+    }
+    .choices__inner{
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        height: 48px;
+        overflow: auto
+    }
+    .filter-btn{
+        background: #424242;
+        color: #fff;
+        padding: 8px 20px;
+        border-radius: 5px
+    }
+    .filter-btn img{
+        margin-right: 5px;
+    }
+    .filter-btn:hover{
+        background: #000;
+        color: #fff
+    }
+    .gray_body{
+        background: #f0f0f0;
+        margin: -20px -15px -42px;
+        padding: 20px 20px 35px;
+        border-radius: 12px
+    }
 </style>
 <div class="maze" style="display: none;">
     <canvas id="mazecnv" width="1840" height="1086"></canvas>
 </div>
 
+<div class="gray_body">
 <div class="container-fluid">
     <div class="row">
-        <div class="col-lg-4 col-md-6">
-            <div class="pagetitle">
-                <h5><?=$page_header?></h5>
-                <nav>
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
-                        <li class="breadcrumb-item active"><a href="<?=base_url('admin/' . $controller_route . '/list/')?>"><?=$title?> List</a></li>
-                        <li class="breadcrumb-item active"><?=$page_header?></li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-        <div class="col-lg-8 col-md-6">
-            <div class="filtrable-box mb-3 mb-md-0">
-                <form method="POST" action="">
-                    <div class="row align-items-center">
-                        <div class="col-lg-4 col-md-6 col-sm-8">
-                            <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
-                                <!-- <option value="0">Only Mine</option> -->
-                                <?php if($all_departments){ foreach($all_departments as $dept){?>
-                                    <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
-                                <?php } }?>
-                            </select>
+        <div class="col-lg-12">
+            <div class="d-flex">
+                <div class="pagetitle me-5">
+                    <h5><?=$page_header?></h5>
+                    <nav>
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
+                            <li class="breadcrumb-item active"><a href="<?=base_url('admin/' . $controller_route . '/list/')?>"><?=$title?> List</a></li>
+                            <li class="breadcrumb-item active"><?=$page_header?></li>
+                        </ol>
+                    </nav>
+                </div>
+                <div class="filtrable-box mb-3 mb-md-0 w-50">
+                    <form method="POST" action="">
+                        <div class="row align-items-center">
+                            <div class="col-lg-4 col-md-6 col-sm-8">
+                                <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
+                                    <!-- <option value="0">Only Mine</option> -->
+                                    <?php if($all_departments){ foreach($all_departments as $dept){?>
+                                        <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
+                                    <?php } }?>
+                                </select>
+                            </div>
+                            <div class="col-md-6 col-sm-4" style="margin-left: -10px">
+                                <button type="submit" class="btn filter-btn"><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid" style="width: 15px"> Filter</button>
+                            </div>
                         </div>
-                        <div class="col-md-6 col-sm-4">
-                            <button type="submit" class="btn btn-success btn-md"><i class="fa fa-filter"></i> Filter</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -276,21 +325,6 @@ $controller_route       = $moduleDetail['controller_route'];
                 
             </div>
             <div class="col-12">
-                <!-- <div class="card mb-3">
-                    <div class="card-body">
-                        <h6 class="badge bg-primary mb-2"><?=date('M d, Y - l', strtotime("-1 days"));?></h6>
-                        
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="badge bg-success mb-2"><?=date('M d, Y - l')?></h6>
-                        
-                    </div>
-                </div> -->
-
-
                 <div class="card table-card">
                     <div class="card-body">
                         <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -484,30 +518,29 @@ $controller_route       = $moduleDetail['controller_route'];
                                                     </tbody>
                                                 </table>
                                             </div> 
-                                            <div class="col-12">
+                                            <!-- <div class="col-12">
                                                 <div class="row justify-content-center">
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="design-text d-flex align-items-center"> Design Team <span class="table-lagend light-yellow"></span> <span class="table-lagend dark-yellow"></span></p>
+                                                    <?php if($all_departments){ foreach($all_departments as $all_department){?>
+                                                        <div class="col-md-2">
+                                                            <div class="table-lagend-box">
+                                                                <p class="design-text d-flex align-items-center" style="color: <?=$all_department->header_color?>;"> <?=$all_department->deprt_name?> Team 
+                                                                    <span class="table-lagend light-yellow" style="background: <?=$all_department->body_color?>;"></span>
+                                                                    <span class="table-lagend dark-yellow" style="background: <?=$all_department->header_color?>;"></span>
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    <?php } }?>
                                                     <div class="col-md-2">
                                                         <div class="table-lagend-box">
-                                                            <p class="dev-text d-flex align-items-center"> Development Team <span class="table-lagend light-blue"></span> <span class="table-lagend dark-blue"></span></p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="digi-text d-flex align-items-center"> Digital Team <span class="table-lagend light-purple"></span> <span class="table-lagend dark-purple"></span></p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="d-flex align-items-center"> Priority: <span class="table-lagend light-high circle">H</span> <span class="table-lagend dark-mid circle">M</span> <span class="table-lagend dark-low circle">L</span></p>
+                                                            <p class="d-flex align-items-center"> Priority: 
+                                                                <span class="table-lagend light-high circle">H</span>
+                                                                <span class="table-lagend dark-mid circle">M</span>
+                                                                <span class="table-lagend dark-low circle">L</span>
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -569,6 +602,19 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                 <?php
                                                                 $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
+                                                                    if($type == 'SUPER ADMIN'){
+                                                                        $alterIcon = 1;
+                                                                    } elseif($type == 'ADMIN'){
+                                                                        $alterIcon = 1;
+                                                                    } elseif($type == 'USER'){
+                                                                        if($user_id == $teamMember->id){
+                                                                            $alterIcon = 1;
+                                                                        } else {
+                                                                            $alterIcon = 0;
+                                                                        }
+                                                                    } else {
+                                                                        $alterIcon = 0;
+                                                                    }
                                                             ?>
                                                                 <td style="background-color: <?=$dept->body_color?>;">
                                                                     <div class="field_wrapper" id="name">
@@ -657,9 +703,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     ?>
                                                                                                     <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span></p>
                                                                                                     <?php if($getTask->work_status_id <= 0){?>
-                                                                                                        <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
-                                                                                                            <i class="fa-solid fa-edit text-primary"></i>
-                                                                                                        </a>
+                                                                                                        <?php if($alterIcon){?>
+                                                                                                            <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
+                                                                                                                <i class="fa-solid fa-pencil text-primary"></i>
+                                                                                                            </a>
+                                                                                                        <?php }?>
                                                                                                     <?php }?>
                                                                                                 </div>
                                                                                             </div>
@@ -670,15 +718,19 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php
                                                                                 $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
                                                                                 if(!$getLeaveTask){
+                                                                                    if($alterIcon){
                                                                                 ?>
-                                                                                    <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
-                                                                                        <i class="fa-solid fa-plus-circle"></i>
-                                                                                    </a>
-                                                                                <?php } else {?>
-                                                                                    <?php if($getLeaveTask->is_leave == 1){?>
                                                                                         <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                             <i class="fa-solid fa-plus-circle"></i>
                                                                                         </a>
+                                                                                    <?php }?>
+                                                                                <?php } else {?>
+                                                                                    <?php if($getLeaveTask->is_leave == 1){?>
+                                                                                        <?php if($alterIcon){?>
+                                                                                            <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                                <i class="fa-solid fa-plus-circle"></i>
+                                                                                            </a>
+                                                                                        <?php }?>
                                                                                     <?php }?>
                                                                                 <?php }?>
                                                                             </div>
@@ -691,30 +743,29 @@ $controller_route       = $moduleDetail['controller_route'];
                                                     </tbody>
                                                 </table>
                                             </div> 
-                                            <div class="col-12">
+                                            <!-- <div class="col-12">
                                                 <div class="row justify-content-center">
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="design-text d-flex align-items-center"> Design Team <span class="table-lagend light-yellow"></span> <span class="table-lagend dark-yellow"></span></p>
+                                                    <?php if($all_departments){ foreach($all_departments as $all_department){?>
+                                                        <div class="col-md-2">
+                                                            <div class="table-lagend-box">
+                                                                <p class="design-text d-flex align-items-center" style="color: <?=$all_department->header_color?>;"> <?=$all_department->deprt_name?> Team 
+                                                                    <span class="table-lagend light-yellow" style="background: <?=$all_department->body_color?>;"></span>
+                                                                    <span class="table-lagend dark-yellow" style="background: <?=$all_department->header_color?>;"></span>
+                                                                </p>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    <?php } }?>
                                                     <div class="col-md-2">
                                                         <div class="table-lagend-box">
-                                                            <p class="dev-text d-flex align-items-center"> Development Team <span class="table-lagend light-blue"></span> <span class="table-lagend dark-blue"></span></p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="digi-text d-flex align-items-center"> Digital Team <span class="table-lagend light-purple"></span> <span class="table-lagend dark-purple"></span></p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="d-flex align-items-center"> Priority: <span class="table-lagend light-high circle">H</span> <span class="table-lagend dark-mid circle">M</span> <span class="table-lagend dark-low circle">L</span></p>
+                                                            <p class="d-flex align-items-center"> Priority: 
+                                                                <span class="table-lagend light-high circle">H</span>
+                                                                <span class="table-lagend dark-mid circle">M</span>
+                                                                <span class="table-lagend dark-low circle">L</span>
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            </div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -730,7 +781,7 @@ $controller_route       = $moduleDetail['controller_route'];
 
 <!-- lead activity modal -->
     <div class="modal fade" id="morningformModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999;">
-        <div class="modal-dialog" role="document" style="max-width: 50%; margin-top: 20px;">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 50%; margin-top: 20px;">
             <div class="modal-content">
                 <div class="modal-header" id="morningformTitle">
                     
@@ -756,6 +807,7 @@ $controller_route       = $moduleDetail['controller_route'];
         </div>
     </div>
 <!-- reject task modal -->
+</div>
 
 <!-- <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -867,6 +919,10 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
                     $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
+                } else {
+                    $('#morningMeetingForm').trigger("reset");
+                    $('#morningformModal').modal('hide');
+                    toastAlert("error", res.message);
                 }
             },
             error: function(xhr, status, error) {
