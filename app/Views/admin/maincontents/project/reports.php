@@ -205,7 +205,7 @@
                                                                 if($project_cost->is_project_cost == 1){ ?>
                                                                     <br>
                                                                   <?php  
-                                                                  echo "Rs:";
+                                                                  echo '<i class="fa-solid fa-indian-rupee-sign"></i>';
                                                                   echo ($total_hours_worked > 0 ) ? '<b>' . number_format($total_hours_worked) . '</b>'  : '' . number_format($total_hours_worked) . '';
                                                                 }                                                               
                                                                 $processedData[] = [
@@ -265,6 +265,7 @@
                                                                     $hours              = floor($minutes / 60);
                                                                     $remainingMinutes   = $minutes % 60;
                                                                     $totalHours         = $totHours + $hours;
+                                                                    echo '<img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">';
                                                                     echo ($totalHours > 0 || $remainingMinutes > 0) ? '<b>' . $totalHours  . ':' . $remainingMinutes . '</b>'  : '' . $totalHours  . ':' . $remainingMinutes . '';
                                                                     $effortTypeData['data'][] = $totalHours;
                                                                     ?>
@@ -315,6 +316,7 @@
                                                                     $hours              = floor($minutes / 60);
                                                                     $remainingMinutes   = $minutes % 60;
                                                                     $totalHours         = $totHours + $hours;
+                                                                    echo '<img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">';
                                                                     echo ($totalHours > 0 || $remainingMinutes > 0) ? '<b>' . $totalHours  . ':' . $remainingMinutes . '</b>'  : '' . $totalHours  . ':' . $remainingMinutes . '';
                                                                     $userWiseData['data'][] = $totalHours;
                                                                     ?>
