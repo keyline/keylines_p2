@@ -161,24 +161,23 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
         </table>
         <div class="col-12">
             <div class="row justify-content-center">
-                <div class="col-md-2">
-                    <div class="table-lagend-box">
-                        <p class="design-text d-flex align-items-center"> Design Team <span class="table-lagend light-yellow"></span> <span class="table-lagend dark-yellow"></span></p>
+                <?php if($all_departments){ foreach($all_departments as $all_department){?>
+                    <div class="col-md-2">
+                        <div class="table-lagend-box">
+                            <p class="design-text d-flex align-items-center" style="color: <?=$all_department->header_color?>;"> <?=$all_department->deprt_name?> Team 
+                                <span class="table-lagend light-yellow" style="background: <?=$all_department->body_color?>;"></span>
+                                <span class="table-lagend dark-yellow" style="background: <?=$all_department->header_color?>;"></span>
+                            </p>
+                        </div>
                     </div>
-                </div>
+                <?php } }?>
                 <div class="col-md-2">
                     <div class="table-lagend-box">
-                        <p class="dev-text d-flex align-items-center"> Development Team <span class="table-lagend light-blue"></span> <span class="table-lagend dark-blue"></span></p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="table-lagend-box">
-                        <p class="digi-text d-flex align-items-center"> Digital Team <span class="table-lagend light-purple"></span> <span class="table-lagend dark-purple"></span></p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="table-lagend-box">
-                        <p class="d-flex align-items-center"> Priority: <span class="table-lagend light-high circle">H</span> <span class="table-lagend dark-mid circle">M</span> <span class="table-lagend dark-low circle">L</span></p>
+                        <p class="d-flex align-items-center"> Priority: 
+                            <span class="table-lagend light-high circle">H</span>
+                            <span class="table-lagend dark-mid circle">M</span>
+                            <span class="table-lagend dark-low circle">L</span>
+                        </p>
                     </div>
                 </div>
             </div>
