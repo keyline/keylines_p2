@@ -307,7 +307,7 @@
                   <?php if (checkModuleFunctionAccess(1, 67)) { ?>
                   <div class="card table-card">
                      <div class="card-header">
-                        <h6 class="fw-bold heading_style">Last 7 Days Attendance Report</h6>
+                        <h6 class="fw-bold heading_style">Attendance Report</h6>
                      </div>
                      <div class="card-body">
                         <div class="rows">
@@ -388,7 +388,8 @@
                               <div class="col-lg-5 col-md-7">
                                  <div class="card-header-left">
                                     <ul class="d-flex align-items-center">
-                                       <li class="me-3"><h6 class="fw-bold heading_style">Last 7 Days Report</h6></li>
+                                       <!-- <li class="me-3"><h6 class="fw-bold heading_style">Last 7 Days Report</h6></li> -->
+                                       <li class="me-3"><h6 class="fw-bold heading_style">Effort Report</h6></li>
                                     </ul>
                                  </div>
                               </div>
@@ -539,6 +540,9 @@
                                                    },
                                                    dataLabels: {
                                                          enabled: true,
+                                                         dropShadow: {
+                                                            enabled: false  // Disable the box shadow here
+                                                         },
                                                          style: {
                                                             fontSize: '12px',
                                                          },
@@ -610,18 +614,23 @@
                                                       },
                                                       dataLabels: {
                                                             enabled: true,
+                                                            dropShadow: {
+                                                               enabled: false  // Disable the box shadow here
+                                                            },
                                                             style: {
                                                                fontSize: '12px',
+                                                               textShadow: 'none'
                                                             },
                                                             background: {
                                                                enabled: true,
                                                                foreColor: '#000',
-                                                               padding: 4,
+                                                               padding: 5,
                                                                borderRadius: 2,
                                                                borderWidth: 1,
-                                                               borderColor: '#ffc107',
+                                                               borderColor: '#ffc107'
                                                             },
                                                       },
+                                                      colors: ['#C5EEC5', '#FD6363'],
                                                       labels: ['Billable', 'Non-Billable'],
                                                       responsive: [{
                                                             breakpoint: 1300,
@@ -680,6 +689,9 @@
                                                    },
                                                    dataLabels: {
                                                          enabled: true,
+                                                         dropShadow: {
+                                                            enabled: false  // Disable the box shadow here
+                                                         },
                                                          style: {
                                                             fontSize: '12px',
                                                          },
@@ -731,7 +743,7 @@
                               <ul class="d-flex align-items-center">
                                  <!-- <li class="me-3"><h6 class="fw-bold heading_style">User Graph</h6></li> -->
                                  <li>
-                                    <p>Billable & Non-Billable for User</p>
+                                    <p>Billable & Non-Billable Effort</p>
                                  </li>
                               </ul>
                            </div>
@@ -788,6 +800,9 @@
                                                                },
                                                                dataLabels: {
                                                                      enabled: true,
+                                                                     dropShadow: {
+                                                                        enabled: false  // Disable the box shadow here
+                                                                     },
                                                                      style: {
                                                                         fontSize: '12px',
                                                                      },
@@ -871,6 +886,9 @@
                                                                },
                                                                dataLabels: {
                                                                      enabled: true,
+                                                                     dropShadow: {
+                                                                        enabled: false  // Disable the box shadow here
+                                                                     },
                                                                      style: {
                                                                         fontSize: '12px',
                                                                      },
@@ -974,6 +992,9 @@
                                                                },
                                                                dataLabels: {
                                                                      enabled: true,
+                                                                     dropShadow: {
+                                                                        enabled: false  // Disable the box shadow here
+                                                                     },
                                                                      style: {
                                                                         fontSize: '12px',
                                                                      },
