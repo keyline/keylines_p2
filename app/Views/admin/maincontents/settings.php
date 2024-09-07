@@ -492,7 +492,9 @@ $user_type = session('user_type');
                   <div class="row mb-3">
                     <label for="currency" class="col-md-4 col-lg-3 col-form-label">Currency</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="currency" type="text" class="form-control" id="currency" value="<?= $application_setting->currency ?>">
+                      <select name="currency" class="form-control" id="currency">
+                        <option value="INR" <?=(($application_setting->currency == 'INR')?'selected':'')?>>INR</option>
+                      </select>
                     </div>
                   </div>
 

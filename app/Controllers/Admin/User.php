@@ -1430,7 +1430,7 @@ class User extends BaseController {
                 'current_date_tasks_show_in_effort' => $this->request->getPost('current_date_tasks_show_in_effort'),
                 'monthly_minimum_effort_time'       => $this->request->getPost('monthly_minimum_effort_time'),
                 'daily_minimum_effort_time'         => $this->request->getPost('daily_minimum_effort_time'),
-                'mark_later_after'                  => $this->request->getPost('mark_later_after'),
+                'mark_later_after'                  => date_format(date_create($this->request->getPost('mark_later_after')), "H:i:s"),
                 'currency'                          => $this->request->getPost('currency'),
                 'sunday'                            => $sundayJson,
                 'monday'                            => $mondayJson,
