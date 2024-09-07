@@ -135,19 +135,16 @@ class EffortController extends BaseController {
                                 $project_cost       =  $row->total_hours_worked;
                             }  
                             $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project[$p], 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
-                            if(!$exsistingProjectCost){
-                                // echo "new data entry"; die;
+                            if(!$exsistingProjectCost){                               
                                 $postData2   = array(
                                     'project_id'            => $project[$p],
                                     'month'                 => $month ,
                                     'year'                  => $year,
                                     'project_cost'          => $project_cost,
                                     'created_at'            => date('Y-m-d H:i:s'),                                
-                                );
-                                  pr($postData2);
+                                );                                  
                                     $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
-                                } else {
-                                    //  echo "exsisting data update"; die;
+                                } else {                                    
                                     $id         = $exsistingProjectCost->id;
                                     $postData2   = array(
                                         'project_id'            => $project[$p],
@@ -155,13 +152,9 @@ class EffortController extends BaseController {
                                         'year'                  => $year,
                                         'project_cost'          => $project_cost,
                                         'updated_at'            => date('Y-m-d H:i:s'),                                
-                                    );
-                                      pr($postData2);
+                                    );                                    
                                     $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');
-                                }
-
-                            
-                            $this->data['model']->save_data('project_cost', $postData2, '', 'id');
+                                }                                                        
                         // scheduled task
                         /* morning meeting schedule update */
                             $morningScheduleData = [
