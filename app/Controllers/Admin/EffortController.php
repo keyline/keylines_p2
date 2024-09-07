@@ -126,7 +126,7 @@ class EffortController extends BaseController {
                                 'hour_rate'             => $user_cost,
                                 'cost'                  => number_format($projectCost, 2, '.', ''),
                             );
-                            pr($postData);
+                            // pr($postData);
                                                         
                             $effort_id              = $this->data['model']->save_data('timesheet', $postData, '', 'id');
                             $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project[$p]."";
@@ -136,6 +136,7 @@ class EffortController extends BaseController {
                             }  
                             $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project[$p], 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
                             if(!$exsistingProjectCost){
+                                echo "new data entry"; die;
                                 $postData2   = array(
                                     'project_id'            => $project[$p],
                                     'month'                 => $month ,
@@ -146,7 +147,7 @@ class EffortController extends BaseController {
                                   pr($postData2);
                                     $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
                                 } else {
-                                    // echo "exsisting data update"; die;
+                                     echo "exsisting data update"; die;
                                     $id         = $exsistingProjectCost->id;
                                     $postData2   = array(
                                         'project_id'            => $project[$p],
@@ -155,7 +156,7 @@ class EffortController extends BaseController {
                                         'project_cost'          => $project_cost,
                                         'updated_at'            => date('Y-m-d H:i:s'),                                
                                     );
-                                    //  pr($postData2);
+                                      pr($postData2);
                                     $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');
                                 }
 
