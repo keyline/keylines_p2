@@ -128,7 +128,7 @@
                                                 $current_date_tasks_show_in_effort  = $application_setting->current_date_tasks_show_in_effort;
                                                 if($currentDate != $morningSchedule->date_added){
                                             ?>
-                                                <form id="myForm" method="POST" action="" enctype="multipart/form-data" data-show-date-alert="<?=$morningSchedule->date_added?>">
+                                                <form id="scheduleForm" method="POST" action="" enctype="multipart/form-data" data-show-date-alert="<?=$morningSchedule->date_added?>">
                                                     <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
                                                         <div class="col-md-12"><span style="text-transform: uppercase; color:#54f504ed; font-weight:bold; display: flex; justify-content: center;">scheduled task for&nbsp;<strong><?=date_format(date_create($singleDate), "M d, Y l")?></strong></span></div>
                                                     </div>
@@ -556,6 +556,38 @@
 </script>
 <script>
     document.getElementById('myForm').addEventListener('submit', function(e) {
+        event.preventDefault(); // Prevent the form from submitting
+        var show_date_alert = $(this).attr('data-show-date-alert');
+        console.log(show_date_alert);
+        var date = new Date(show_date_alert);
+        var formattedDate = date.toLocaleDateString('en-GB', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric'
+        });
+        var dayNames    = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+        var dayName     = dayNames[date.getDay()];
+        // Check if the form is valid (this will trigger the browser's validation)
+        if (this.checkValidity()) {
+            Swal.fire({
+                title: 'Are you sure?',
+                html: "You are submitting tasks for <strong>" + formattedDate + " (" + dayName + ")</strong>",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#4CAF50',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, submit it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        } else {
+            // If the form is not valid, manually trigger validation
+            this.reportValidity();
+        }
+    });
+    document.getElementById('scheduleForm').addEventListener('submit', function(e) {
         event.preventDefault(); // Prevent the form from submitting
         var show_date_alert = $(this).attr('data-show-date-alert');
         console.log(show_date_alert);
