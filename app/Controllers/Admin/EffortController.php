@@ -136,7 +136,7 @@ class EffortController extends BaseController {
                             }  
                             $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project[$p], 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
                             if(!$exsistingProjectCost){
-                                echo "new data entry"; die;
+                                // echo "new data entry"; die;
                                 $postData2   = array(
                                     'project_id'            => $project[$p],
                                     'month'                 => $month ,
@@ -147,7 +147,7 @@ class EffortController extends BaseController {
                                   pr($postData2);
                                     $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
                                 } else {
-                                     echo "exsisting data update"; die;
+                                    //  echo "exsisting data update"; die;
                                     $id         = $exsistingProjectCost->id;
                                     $postData2   = array(
                                         'project_id'            => $project[$p],
