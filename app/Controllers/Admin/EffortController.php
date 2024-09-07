@@ -79,7 +79,7 @@ class EffortController extends BaseController {
 
         if($this->request->getMethod() == 'post') {
             $requestData    = $this->request->getPost();
-            pr($requestData);die;
+            // pr($requestData);die;
             $user_id                = $this->session->get('user_id');
             if (array_key_exists("date_task",$requestData)){
                 $date_task              = $requestData['date_task'];
