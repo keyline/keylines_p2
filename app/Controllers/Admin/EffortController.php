@@ -79,7 +79,7 @@ class EffortController extends BaseController {
 
         if($this->request->getMethod() == 'post') {
             $requestData    = $this->request->getPost();
-            // pr($requestData);die;
+            pr($requestData);die;
             $user_id                = $this->session->get('user_id');
             if (array_key_exists("date_task",$requestData)){
                 $date_task              = $requestData['date_task'];
@@ -126,16 +126,40 @@ class EffortController extends BaseController {
                                 'hour_rate'             => $user_cost,
                                 'cost'                  => number_format($projectCost, 2, '.', ''),
                             );
-                            
-                            $effort_id             = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                            pr($postData);
+                                                        
+                            $effort_id              = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                            $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project[$p]."";
+                            $rows                   = $this->db->query($projectcost)->getResult(); 
+                            foreach($rows as $row){
+                                $project_cost       =  $row->total_hours_worked;
+                            }  
+                            $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project[$p], 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+                            if(!$exsistingProjectCost){
+                                $postData2   = array(
+                                    'project_id'            => $project[$p],
+                                    'month'                 => $month ,
+                                    'year'                  => $year,
+                                    'project_cost'          => $project_cost,
+                                    'created_at'            => date('Y-m-d H:i:s'),                                
+                                );
+                                  pr($postData2);
+                                    $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
+                                } else {
+                                    // echo "exsisting data update"; die;
+                                    $id         = $exsistingProjectCost->id;
+                                    $postData2   = array(
+                                        'project_id'            => $project[$p],
+                                        'month'                 => $month ,
+                                        'year'                  => $year,
+                                        'project_cost'          => $project_cost,
+                                        'updated_at'            => date('Y-m-d H:i:s'),                                
+                                    );
+                                    //  pr($postData2);
+                                    $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');
+                                }
 
-                            $postData2   = array(
-                                'project_id'            => $project[$p],
-                                'month'                 => $month,
-                                'year'                  => $year,
-                                'project_cost'          => $description[$p],
-                                'created_at'            => date('Y-m-d H:i:s'),                                
-                            );
+                            
                             $this->data['model']->save_data('project_cost', $postData2, '', 'id');
                         // scheduled task
                         /* morning meeting schedule update */
