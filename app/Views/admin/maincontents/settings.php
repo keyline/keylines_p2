@@ -407,7 +407,7 @@ $user_type = session('user_type');
                     </div>
                   </div>
                   <div class="row mb-3">
-                    <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Is Desklog Use</label>
+                    <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Use Desklog</label>
                     <div class="col-md-8 col-lg-9">
                       <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" name="is_desklog_use" id="is_desklog_user" value="1" <?=(($application_setting->is_desklog_use == 1)?'checked':'')?>>
@@ -416,7 +416,7 @@ $user_type = session('user_type');
                     </div>
                   </div>  
                   <div class="row mb-3">
-                    <label for="is_task_approval" class="col-md-4 col-lg-3 col-form-label">Is Task Approval</label>
+                    <label for="is_task_approval" class="col-md-4 col-lg-3 col-form-label">Task Approval Process</label>
                     <div class="col-md-8 col-lg-9">
                       <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" name="is_task_approval" id="is_task_approval1" value="1" <?=(($application_setting->is_task_approval == 1)?'checked':'')?>>
@@ -425,7 +425,7 @@ $user_type = session('user_type');
                     </div>
                   </div>
                   <div class="row mb-3">
-                    <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Is Project Cost</label>
+                    <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Unit Cost Calculation</label>
                     <div class="col-md-8 col-lg-9">
                       <div class="form-check form-switch">
                         <input class="form-check-input" type="checkbox" role="switch" name="is_project_cost" id="is_project_cost" value="1" <?=(($application_setting->is_project_cost == 1)?'checked':'')?>>
@@ -486,7 +486,7 @@ $user_type = session('user_type');
                   <div class="row mb-3">
                     <label for="mark_later_after" class="col-md-4 col-lg-3 col-form-label">Mark Later After (24 hrs)</label>
                     <div class="col-md-8 col-lg-9">
-                      <input name="mark_later_after" type="number" class="form-control" id="mark_later_after" value="<?= $application_setting->mark_later_after ?>">
+                      <input name="mark_later_after" type="time" class="form-control" id="mark_later_after" value="<?= $application_setting->mark_later_after ?>">
                     </div>
                   </div>
                   <div class="row mb-3">
