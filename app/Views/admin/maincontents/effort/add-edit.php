@@ -120,7 +120,7 @@
                                         $morningSchedules   = $common_model->find_data('morning_meetings', 'array', ['user_id' => $user_id, 'effort_id' => 0, 'is_leave' => 0, 'date_added' => $singleDate], '', '', '', $order_by2);
                                         if($morningSchedules){
                                     ?>
-                                            <form id="myForm" method="POST" action="" enctype="multipart/form-data">
+                                            <form id="myForm" method="POST" action="" enctype="multipart/form-data" data-show-date-alert="<?=$morningSchedule->date_added?>">
                                                 <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
                                                     <div class="col-md-12"><span style="text-transform: uppercase; color:#54f504ed; font-weight:bold; display: flex; justify-content: center;">scheduled task for&nbsp;<strong><?=date_format(date_create($singleDate), "M d, Y l")?></strong></span></div>
                                                 </div>
@@ -134,6 +134,7 @@
                                                 ?>
                                                         <div class="row" style="border:2px solid #032e49; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;">
                                                             <h5 class="badge bg-warning text-dark" style="width: auto; margin-left: 13px; ">Scheduled Task <?=$ms?></h5>
+                                                            <input type="hidden" id="show_date_alert" value="<?=$morningSchedule->date_added?>">
                                                             <input type="hidden" name="assigned_task_id[]" value="<?=$morningSchedule->id?>">
                                                             <input type="hidden" name="date_added[]" value="<?=$morningSchedule->date_added?>">
 
@@ -143,14 +144,6 @@
                                                             <div class="col-md-12">
                                                                 <label class="control-label">Project</label>
                                                                 <br>
-                                                                <!-- <select name="project[]" data-index="0" class="select_proj form-control" style="font-size: 12px;" autocomplete="off" required onchange="getProjectInfo(this.value, 0);">
-                                                                    <option value="" selected="">Select Project</option>
-                                                                    <hr>
-                                                                    <?php if($projects){ foreach($projects as $project){?>
-                                                                        <option value="<?=$project->id?>" <?=(($project->id == $morningSchedule->project_id)?'selected':'')?>><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
-                                                                        <hr>
-                                                                    <?php } }?>
-                                                                </select> -->
                                                                 <?php
                                                                 $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
                                                                 $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
@@ -293,7 +286,7 @@
                                     <?php } } ?>
                                 <!-- scheduled tasks -->
                             </div>
-                            <form id="myForm" method="POST" action="" enctype="multipart/form-data">
+                            <form id="myForm" method="POST" action="" enctype="multipart/form-data" data-show-date-alert="<?=date('Y-m-d')?>">
                                 <div class="row" style="border:1px solid #010f1a; padding: 15px 0; border-radius: 5px; margin-top: 10px; margin-bottom: 10px;background-color: #010f1a;">
                                     <div class="col-md-12"><span style="text-transform: uppercase; color:#ffc107ed; font-weight:bold; display: flex; justify-content: center;">new task for&nbsp;<span id="new-task-date-text"><?=date('M d, Y l')?></span></span></div>
                                 </div>
@@ -303,6 +296,7 @@
                                         <br>
                                         <input class="form-control form-control-inline" size="16" type="date" name="date_task" id="date_task" min="<?=$days_ago?>" max="<?=date('Y-m-d')?>" data-date-format="dd/mm/yyyy" value="<?=date('Y-m-d')?>" onchange="getTrackerDate(this.value, '<?=date('Y-m-d')?>');" onkeydown="return false" autocomplete="off" required>
                                         <div class="fill_up_date" style="color: red;"></div>
+                                        <input type="hidden" id="show_date_alert" value="<?=date('Y-m-d')?>">
                                     </div>
                                     <div class="col-md-3">
                                         <div class="dailyhour_cal">
@@ -563,8 +557,9 @@
 <script>
     document.getElementById('myForm').addEventListener('submit', function(e) {
         event.preventDefault(); // Prevent the form from submitting
-        var date_task = $('#date_task').val();
-        var date = new Date(date_task);
+        var show_date_alert = $(this).attr('data-show-date-alert');
+        console.log(show_date_alert);
+        var date = new Date(show_date_alert);
         var formattedDate = date.toLocaleDateString('en-GB', {
             day: '2-digit',
             month: '2-digit',
@@ -572,9 +567,6 @@
         });
         var dayNames    = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
         var dayName     = dayNames[date.getDay()];
-        // console.log(formattedDate); // Output: "22/08/2024" (DD/MM/YYYY)
-        // alert(formattedDate);
-
         // Check if the form is valid (this will trigger the browser's validation)
         if (this.checkValidity()) {
             Swal.fire({
@@ -587,7 +579,6 @@
                 confirmButtonText: 'Yes, submit it!'
             }).then((result) => {
                 if (result.isConfirmed) {
-                    // document.getElementById('myForm').submit(); // Submit the form if confirmed
                     this.submit();
                 }
             });
@@ -595,6 +586,5 @@
             // If the form is not valid, manually trigger validation
             this.reportValidity();
         }
-        
     });
 </script>
