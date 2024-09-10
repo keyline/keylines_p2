@@ -1438,14 +1438,12 @@ class ReportController extends BaseController
 
     public function desklogReport()
     {
-        // $data['moduleDetail']       = $this->data;
-        // $title                      = 'Manage ' . $this->data['title'] . ' : Desklog Report';
-        // $page_name                  = 'report/desklog-report';
-        if ($this->request->getMethod() == 'post') {
+        $form_type = $this->request->getPost('form_type');
 
+        if ($form_type == 'fetch_backlog_date') {
+            // Handle the first form submission (Fetching backlog date)
             $date              = $this->request->getPost('date');  
-            $data['date']      = $date;         
-        }        
+        }               
         $apiSettings  = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);            
         // $apiUrl = 'https://api.desklog.io/api/v2/app_usage_attendance';
         $apiUrl = $apiSettings->api_url;
@@ -1454,7 +1452,7 @@ class ReportController extends BaseController
         // $cu_date = date('d-m-Y'); // Or however you are getting the current date
             $cu_date = date('d-m-Y', strtotime($date)); // Or however you are getting the current date
 
-        $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
+        echo $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date; die;
         $response = file_get_contents($url);
         $data = json_decode($response, true);
         // pr($data);
