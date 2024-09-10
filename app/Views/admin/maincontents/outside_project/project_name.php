@@ -58,7 +58,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <option value="" selected>Select Project</option>
                                     <?php if ($projects) {
                                         foreach ($projects as $row) { ?>
-                                            <option value="<?= $row->id ?>" <?= (($fetch_project_id == $row->id) ? 'selected' : '') ?>><?= $row->name ?> (<?= $row->client_name ?>) - <?= $row->project_status_name ?></option>
+                                            <option value="<?= $row->id ?>" <?= (($fetch_project_id == $row->id) ? 'selected' : '') ?>><?= $row->name ?> (<?= $pro->decrypt($row->client_name) ?>) - <?= $row->project_status_name ?></option>
                                             <hr>
                                     <?php }
                                     } ?>                                    

@@ -68,6 +68,7 @@ $controller_route   = $moduleDetail['controller_route'];
               $dob_day          = '';
               $dob_month        = '';
               $dob_year         = '';
+              $password         = '';
               $comment          = '';
               $reference        = '';
               $login_access     = '';
@@ -137,7 +138,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <label for="phone_2" class="col-form-label">Phone 2</label>
-                                <input type="text" name="phone_2" class="form-control" id="phone_2" value="<?=$phone_2?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
+                                <input type="text" name="phone_2" class="form-control" id="phone_2" value="<?=$phone_2?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)" autofill="off">
                             </div>
 
                             <div class="col-lg-4 col-md-4">
@@ -183,7 +184,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <label for="password" class="col-form-label">Password <small class="text-danger">*</small></label>
-                                <input type="password" name="password" class="form-control" id="password" required value="<?=$password?>" >
+                                <input type="password" name="password" class="form-control" id="password" required value="<?=$password?>"  autofill="off">
                                 <?php if($row){?><small>Leave blank if do not want to update</small><?php }?>
                             </div>
 
