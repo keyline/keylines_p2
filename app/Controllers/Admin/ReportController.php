@@ -1441,25 +1441,26 @@ class ReportController extends BaseController
         if ($this->request->getMethod() == 'post') {
 
             $date              = $this->request->getPost('date');
-            pr($date);
+            // pr($date);
             // $dateWise                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $is_date_range . '%']);
             // $data['dateWise']           = $dateWise;
             //  print_r($data['dateWise']);
             //  var_dump($data['dateWise']);
-            $data['is_date_range']      = $is_date_range;
+            // $data['is_date_range']      = $is_date_range;
         }
-
+        // $is_date_range'      = $date;
         $apiSettings  = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);            
         // $apiUrl = 'https://api.desklog.io/api/v2/app_usage_attendance';
         $apiUrl = $apiSettings->api_url;
         // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
         $appKey = $apiSettings->api_key;
-        $cu_date = date('d-m-Y'); // Or however you are getting the current date
-           // $cu_date = "20-08-2024"; // Or however you are getting the current date
+        // $cu_date = date('d-m-Y'); // Or however you are getting the current date
+            $cu_date = date('d-m-Y', strtotime($date)); // Or however you are getting the current date
 
-        $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
+        echo $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date; die;
         $response = file_get_contents($url);
         $data = json_decode($response, true);
+        pr($data);
         if ($data) {
             foreach ($data as $item) {
                 $db_date = date_format(date_create($cu_date), "Y-m-d");
