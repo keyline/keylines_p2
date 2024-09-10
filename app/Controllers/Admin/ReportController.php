@@ -1438,6 +1438,9 @@ class ReportController extends BaseController
 
     public function desklogReport()
     {
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage ' . $this->data['title'] . ' : Desklog Report';
+        $page_name                  = 'report/desklog-report';
         if ($this->request->getMethod() == 'post') {
 
             $date              = $this->request->getPost('date');  
@@ -1508,7 +1511,8 @@ class ReportController extends BaseController
             }
         }
         $this->session->setFlashdata('success_message', 'Data fetched and saved successfully.');
-        return redirect()->to('/admin/reports/desklog-report-view/');
+        echo $this->layout_after_login($title, $page_name, $data);
+        // return redirect()->to('/admin/reports/desklog-report-view/');
     }
 
     public function show()
