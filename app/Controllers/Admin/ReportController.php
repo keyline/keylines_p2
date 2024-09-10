@@ -1440,8 +1440,8 @@ class ReportController extends BaseController
     {
         if ($this->request->getMethod() == 'post') {
 
-            $is_date_range              = $this->request->getPost('is_date_range');
-            pr($is_date_range);
+            $date              = $this->request->getPost('date');
+            pr($date);
             // $dateWise                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $is_date_range . '%']);
             // $data['dateWise']           = $dateWise;
             //  print_r($data['dateWise']);

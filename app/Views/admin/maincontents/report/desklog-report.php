@@ -54,12 +54,12 @@ $controller_route   = $moduleDetail['controller_route'];
                             <!-- <input type="hidden" name="mode" value="advance_search"> -->
                             <div class="row mb-3 align-items-center">
                                 <div class="col-md-6 col-lg-6">
-                                    <label for="is_date_range">Date</label>
-                                    <input type="date" id="is_date_range" name="is_date_range" class="form-control" value="<?= $is_date_range ?>" required>
+                                    <label for="date">Date</label>
+                                    <input type="date" id="date" name="date" class="form-control" value="<?= $date ?>" required>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>Fetch Backlog Date From Desklog</button>                                        
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Fetch Backlog Date From Desklog</button>                                        
                                     </div>
                                 </div>
                             </div>
