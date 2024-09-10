@@ -2432,7 +2432,7 @@ class ApiController extends BaseController
                                         if(!empty($returnData)){
                                             if($returnData['status']){
                                                 $distance = $returnData['distance'];
-                                                if($distance <= $allow_punch_distance){
+                                                if($distance <= 1500){
                                                     $apiMessage             = 'Attendance Status Enable !!!';
                                                     http_response_code(200);
                                                     $apiStatus              = TRUE;
