@@ -50,7 +50,7 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body pt-3">
-                    <form method="POST" action="" enctype="multipart/form-data">
+                    <form method="POST" action="<?= base_url('admin/reports/get-desklog-report') ?>" enctype="multipart/form-data">
                             <!-- <input type="hidden" name="mode" value="advance_search"> -->
                             <div class="row mb-3 align-items-center">
                                 <div class="col-md-6 col-lg-6">
