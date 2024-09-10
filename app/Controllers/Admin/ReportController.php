@@ -1477,8 +1477,8 @@ class ReportController extends BaseController
                     );
                     $user_email                     = $item['email'];
                     $data['user']                   = $this->data['model']->find_data('user', 'array', ['status!=' => 3, 'email' => $user_email]);
-                      pr($data['user'][0]['id']);
-                    echo $user_id                        = $data['user'][0]->id; die;
+                    //   pr($data['user'][0]['id']);
+                    $user_id                        = $data['user'][0]->id;
                     $postData['tracker_user_id']    = $user_id;
                     $postData['insert_date']        = $db_date;
 
