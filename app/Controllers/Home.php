@@ -181,7 +181,7 @@ class Home extends BaseController
               $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
             $response = file_get_contents($url);
             $data = json_decode($response, true);  
-              pr($data);      
+            //   pr($data);      
             } catch (Exception $e) {
                 // Log the error message
                 log_message('error', 'API call failed: ' . $e->getMessage());
