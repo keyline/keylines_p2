@@ -1438,6 +1438,17 @@ class ReportController extends BaseController
 
     public function desklogReport()
     {
+        if ($this->request->getMethod() == 'post') {
+
+            $is_date_range              = $this->request->getPost('is_date_range');
+            pr($is_date_range);
+            // $dateWise                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $is_date_range . '%']);
+            // $data['dateWise']           = $dateWise;
+            //  print_r($data['dateWise']);
+            //  var_dump($data['dateWise']);
+            $data['is_date_range']      = $is_date_range;
+        }
+
         $apiSettings  = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);            
         // $apiUrl = 'https://api.desklog.io/api/v2/app_usage_attendance';
         $apiUrl = $apiSettings->api_url;

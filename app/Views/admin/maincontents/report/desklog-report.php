@@ -50,6 +50,20 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body pt-3">
+                    <form method="POST" action="" enctype="multipart/form-data">
+                            <!-- <input type="hidden" name="mode" value="advance_search"> -->
+                            <div class="row mb-3 align-items-center">
+                                <div class="col-md-6 col-lg-6">
+                                    <label for="is_date_range">Date</label>
+                                    <input type="date" id="is_date_range" name="is_date_range" class="form-control" value="<?= $is_date_range ?>" required>
+                                </div>
+                                <div class="col-md-6 col-lg-6">
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i>Fetch Backlog Date From Desklog</button>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
                         <a href="<?= base_url('admin/reports/get-desklog-report') ?>" class="btn btn-success btn-sm" onclick="return confirm('Do you want to fetch data from desklog ?');">Fetch Current Date Date From Desklog</a>
                         <form method="POST" action="" enctype="multipart/form-data">
                             <input type="hidden" name="mode" value="advance_search">
