@@ -55,7 +55,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="row mb-3 align-items-center">
                                 <div class="col-md-6 col-lg-6">
                                     <label for="date">Date</label>
-                                    <input type="date" id="date" name="date" class="form-control" value="<?= $date ?>" required>
+                                    <input type="date" id="date" name="date" class="form-control" required>
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <div class="text-center">
