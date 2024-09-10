@@ -263,7 +263,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                     <!--Work Mode field -->
-                                    <div class="col-md-2 col-lg-2">
+                                    <!-- <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
                                             <label for="work_mode" class="col-form-label">Work Mode <span class="text-danger">*</span></label>
                                         </div>  
@@ -277,7 +277,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <option value="Hybrid" <?=(($work_mode == 'Hybrid')?'selected':'')?>>Hybrid</option>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!--Tracker User field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
@@ -293,7 +293,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!--Salarybox User field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
-                                            <label for="is_salarybox_user" class="col-form-label">Mobileapp User <span class="text-danger">*</span></label>
+                                            <label for="is_salarybox_user" class="col-form-label">Mobile App User <span class="text-danger">*</span></label>
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
