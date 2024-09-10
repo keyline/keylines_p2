@@ -1452,7 +1452,7 @@ class ReportController extends BaseController
         // $cu_date = date('d-m-Y'); // Or however you are getting the current date
             $cu_date = date('d-m-Y', strtotime($date)); // Or however you are getting the current date
 
-        echo $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date; die;
+        $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
         $response = file_get_contents($url);
         $data = json_decode($response, true);
         // pr($data);
