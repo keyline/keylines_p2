@@ -65,7 +65,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                         </form>
                         <!-- <a href="<?= base_url('admin/reports/get-desklog-report') ?>" class="btn btn-success btn-sm" onclick="return confirm('Do you want to fetch data from desklog ?');">Fetch Current Date Date From Desklog</a> -->
-                        <form method="POST" action="" enctype="multipart/form-data">
+                        <form method="POST" action="<?= base_url('admin/reports/desklog-report-view') ?>" enctype="multipart/form-data">
                             <input type="hidden" name="mode" value="advance_search">
                             <div class="row mb-3 align-items-center">
                                 <div class="col-md-6 col-lg-6">
@@ -74,10 +74,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-6 col-lg-6">
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
-                                        <?php if (!empty($dateWise)) { ?>
-                                            <a href="<?= base_url('admin/reports/advance-search') ?>" class="btn btn-secondary"><i class="fa fa-refresh"></i> Reset</a>
-                                        <?php } ?>
+                                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>                                       
                                     </div>
                                 </div>
                             </div>
