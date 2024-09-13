@@ -16,7 +16,7 @@ class CreatorJwt
             // 'exp'               => time() + (30 * 24 * 60 * 60) // 30 days
             'exp'               => time() + 60 // 30 days
         );
-        pr($data);
+        // pr($data);
         $jwt = JWT::encode($data, $this->key);
         return $jwt;
     }    
