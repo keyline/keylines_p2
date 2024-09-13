@@ -2578,7 +2578,7 @@ class ApiController extends BaseController
             // 'exp'               => time() + (30 * 24 * 60 * 60) // 30 days
             'exp'               => time() + 60 // 30 days
         );
-        // pr($token);
+        pr($token);
         return JWT::encode($token, TOKEN_SECRET, 'HS256');
     }
     /*
