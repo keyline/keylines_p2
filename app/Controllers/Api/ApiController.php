@@ -2577,7 +2577,7 @@ class ApiController extends BaseController
             'phone'             => $phone,
             'exp'               => time() + (30 * 24 * 60 * 60) // 30 days
         );
-        // pr($token);
+        pr($token);
         return JWT::encode($token, TOKEN_SECRET, 'HS256');
     }
     /*
@@ -2589,7 +2589,7 @@ class ApiController extends BaseController
         $headers    = apache_request_headers();
         if (isset($appAccessToken) && !empty($appAccessToken)) :
             $userdata = $this->matchToken($appAccessToken);
-            // pr($userdata);
+            pr($userdata);
             // echo $appAccessToken;
             if ($userdata['status']) :
                 $checkToken =  $this->common_model->find_data('ecomm_user_devices', 'row', ['app_access_token' => $appAccessToken]);
