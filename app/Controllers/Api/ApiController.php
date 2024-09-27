@@ -2345,7 +2345,7 @@ class ApiController extends BaseController
             $apiResponse        = [];
             $this->isJSON(file_get_contents('php://input'));
             $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['page_no'];
+            $requiredFields     = [];
             $headerData         = $this->request->headers();
             if (!$this->validateArray($requiredFields, $requestData)){              
                 $apiStatus          = FALSE;
