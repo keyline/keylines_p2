@@ -2577,7 +2577,7 @@ class ApiController extends BaseController
             'phone'             => $phone,
             'exp'               => time() + (30 * 24 * 60 * 60) // 30 days
         );
-        pr($token);
+        // pr($token);
         return JWT::encode($token, TOKEN_SECRET, 'HS256');
     }
     /*
@@ -2640,10 +2640,12 @@ class ApiController extends BaseController
 
         try{
             $key = "1234567890qwertyuiopmnbvcxzasdfghjkl";
-            $decoded = JWT::decode($token, $key, array('HS256'));
+            // $decoded = JWT::decode($token, $key, array('HS256'));
+            $objOfJwt           = new CreatorJwt();
+            $decoded   = $objOfJwt->DecodeToken($token);
             // $decodedData = (array) $decoded;
         } catch (\Exception $e) {
-            echo 'Caught exception: ',  $e->getMessage(), "\n";
+            // echo 'Caught exception: ',  $e->getMessage(), "\n";
             return array('status' => FALSE, 'data' => '');
         }
         return array('status' => TRUE, 'data' => $decoded);
