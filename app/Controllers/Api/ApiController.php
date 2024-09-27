@@ -2643,7 +2643,7 @@ class ApiController extends BaseController
             $decoded = JWT::decode($token, $key, array('HS256'));
             // $decodedData = (array) $decoded;
         } catch (\Exception $e) {
-            //echo 'Caught exception: ',  $e->getMessage(), "\n";
+            echo 'Caught exception: ',  $e->getMessage(), "\n";
             return array('status' => FALSE, 'data' => '');
         }
         return array('status' => TRUE, 'data' => $decoded);
