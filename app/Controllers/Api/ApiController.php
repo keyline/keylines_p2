@@ -2589,20 +2589,20 @@ class ApiController extends BaseController
         $headers    = apache_request_headers();
         if (isset($appAccessToken) && !empty($appAccessToken)) :
             $userdata = $this->matchToken($appAccessToken);
-            pr($userdata);
+            // pr($userdata);
             // echo $appAccessToken;
             if ($userdata['status']) :
                 $checkToken =  $this->common_model->find_data('ecomm_user_devices', 'row', ['app_access_token' => $appAccessToken]);
                 // echo $this->db->getLastQuery();
                 // pr($checkToken);
                 if (!empty($checkToken)) :
-                    if ($userdata['data']->exp && $userdata['data']->exp > time()) :
-                        $tokenStatus = array(TRUE, $userdata['data']->id, $userdata['data']->email, $userdata['data']->phone, $userdata['data']->exp);
+                    if ($userdata['data']['exp'] && $userdata['data']['exp'] > time()) :
+                        $tokenStatus = array(TRUE, $userdata['data']['id'], $userdata['data']['email'], $userdata['data']['phone'], $userdata['data']['exp']);
                     else :
-                        $tokenStatus = array(FALSE, 'Token Has Expired 1 !!!');
+                        $tokenStatus = array(FALSE, 'Token Has Expired !!!');
                     endif;
                 else :
-                    $tokenStatus = array(FALSE, 'Token Has Expired 2 !!!');
+                    $tokenStatus = array(FALSE, 'Token Has Expired !!!');
                 endif;
             else :
                 $tokenStatus = array(FALSE, 'Token Not Found !!!');
