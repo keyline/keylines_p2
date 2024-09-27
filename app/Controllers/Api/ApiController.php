@@ -2361,7 +2361,7 @@ class ApiController extends BaseController
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
                     if($getUser){
-                        $last7Days          = $this->getLastNDays($no_of_days, 'Y-m-d');
+                        $last7Days          = $this->getLastNDaysAscending($no_of_days, 'Y-m-d');
                         if(!empty($last7Days)){
                             for($t=0;$t<count($last7Days);$t++){
                                 $loopDate                   = $last7Days[$t];
@@ -2592,6 +2592,15 @@ class ApiController extends BaseController
             $dateArray[] = date($format, mktime(0,0,0,$m,($de-$i),$y)); 
         }
         return array_reverse($dateArray);
+    }
+    public function getLastNDaysAscending($days, $format = 'd/m'){
+        $m = date("m"); $de= date("d"); $y= date("Y");
+        $dateArray = array();
+        for($i=0; $i<=$days-1; $i++){
+            $dateArray[] = date($format, mktime(0,0,0,$m,($de-$i),$y)); 
+        }
+        return $dateArray;
+        // return array_reverse($dateArray);
     }
     /*
     Get http response code
