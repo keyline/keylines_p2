@@ -2345,7 +2345,7 @@ class ApiController extends BaseController
             $apiResponse        = [];
             $this->isJSON(file_get_contents('php://input'));
             $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = [];
+            $requiredFields     = ['no_of_days'];
             $headerData         = $this->request->headers();
             if (!$this->validateArray($requiredFields, $requestData)){              
                 $apiStatus          = FALSE;
@@ -2355,19 +2355,24 @@ class ApiController extends BaseController
                 $Authorization              = $headerData['Authorization'];
                 $app_access_token           = $this->extractToken($Authorization);
                 $getTokenValue              = $this->tokenAuth($app_access_token);
-                
+                $no_of_days                 = $requestData['no_of_days'];
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
                     if($getUser){
-                        pr($getUser);
-                        $apiResponse[]        = [
-                            'id'                    => $attn->id,
-                            'description'           => $attn->note,
-                            'punch_date'            => date_format(date_create($attn->punch_date), "M d, Y"),
-                        ];
+                        $last7Days          = $this->getLastNDays($no_of_days, 'Y-m-d');
+                        if(!empty($last7Days)){
+                            for($t=0;$t<count($last7Days);$t++){
+                                $loopDate           = $last7Days[$t];
+                                $tasks              = [];
 
+                                $apiResponse[]      = [
+                                    'task_date'       => date_format(date_create($loopDate), "M d, Y"),
+                                    'tasks'           => $tasks
+                                ];
+                            }
+                        }
                         $apiStatus          = TRUE;
                         http_response_code(200);
                         $apiMessage         = 'Data Available !!!';
