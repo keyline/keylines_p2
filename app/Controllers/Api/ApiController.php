@@ -2394,7 +2394,7 @@ class ApiController extends BaseController
 
                                 $apiResponse[]              = [
                                     'task_date'       => date_format(date_create($loopDate), "M d, Y"),
-                                    'total_time'      => $total_time,
+                                    'total_time'      => number_format($total_time,2),
                                     'tasks'           => $tasks
                                 ];
                             }
