@@ -2377,7 +2377,8 @@ class ApiController extends BaseController
                                         $tothour                = $getTask->hour * 60;
                                         $totmin                 = $getTask->min;
                                         $totalMin               = ($tothour + $totmin);
-                                        $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                        // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                        $booked_effort          = $totalMin;
                                         $total_time             += $booked_effort;
 
                                         $tasks[]            = [
@@ -2394,7 +2395,7 @@ class ApiController extends BaseController
 
                                 $apiResponse[]              = [
                                     'task_date'       => date_format(date_create($loopDate), "M d, Y"),
-                                    'total_time'      => number_format($total_time,2),
+                                    'total_time'      => intdiv($total_time, 60).'.'. ($total_time % 60),
                                     'tasks'           => $tasks
                                 ];
                             }
