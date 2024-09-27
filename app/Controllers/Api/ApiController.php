@@ -2371,8 +2371,20 @@ class ApiController extends BaseController
                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
                                 $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $uId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
-                                pr($getTasks);
-                                
+                                if($getTasks){
+                                    foreach($getTasks as $getTask){
+                                        $tasks[]            = [
+                                            'project_name'  => $getTask->project_name,
+                                            'description'   => $getTask->description,
+                                            'hour'          => $getTask->hour,
+                                            'min'           => $getTask->min,
+                                            'user_name'     => $getTask->user_name,
+                                            'is_leave'      => $getTask->is_leave,
+                                            'created_at'    => date_format(date_create($getTask->created_at), "h:i a"),
+                                        ];
+                                    }
+                                }
+
                                 $apiResponse[]              = [
                                     'task_date'       => date_format(date_create($loopDate), "M d, Y"),
                                     'tasks'           => $tasks
