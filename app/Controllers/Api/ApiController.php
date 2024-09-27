@@ -2338,6 +2338,97 @@ class ApiController extends BaseController
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
+        public function getTasks()
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $this->isJSON(file_get_contents('php://input'));
+            $requestData        = $this->extract_json(file_get_contents('php://input'));        
+            $requiredFields     = ['no_of_days'];
+            $headerData         = $this->request->headers();
+            if (!$this->validateArray($requiredFields, $requestData)){              
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $Authorization              = $headerData['Authorization'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                $no_of_days                 = $requestData['no_of_days'];
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    if($getUser){
+                        $last7Days          = $this->getLastNDaysAscending($no_of_days, 'Y-m-d');
+                        if(!empty($last7Days)){
+                            for($t=0;$t<count($last7Days);$t++){
+                                $loopDate                   = $last7Days[$t];
+                                $tasks                      = [];
+                                $total_time                 = 0;
+
+                                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+                                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+                                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+                                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $uId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                if($getTasks){
+                                    foreach($getTasks as $getTask){
+                                        $tothour                = $getTask->hour * 60;
+                                        $totmin                 = $getTask->min;
+                                        $totalMin               = ($tothour + $totmin);
+                                        // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                        $booked_effort          = $totalMin;
+                                        $total_time             += $booked_effort;
+
+                                        $tasks[]            = [
+                                            'project_name'  => $getTask->project_name,
+                                            'description'   => $getTask->description,
+                                            'hour'          => $getTask->hour,
+                                            'min'           => $getTask->min,
+                                            'user_name'     => $getTask->user_name,
+                                            'is_leave'      => $getTask->is_leave,
+                                            'created_at'    => date_format(date_create($getTask->created_at), "h:i a"),
+                                        ];
+                                    }
+                                }
+
+                                $apiResponse[]              = [
+                                    'task_date'       => date_format(date_create($loopDate), "M d, Y"),
+                                    'total_time'      => intdiv($total_time, 60).'.'. ($total_time % 60),
+                                    'tasks'           => $tasks
+                                ];
+                            }
+                        }
+                        $apiStatus          = TRUE;
+                        http_response_code(200);
+                        $apiMessage         = 'Data Available !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(404);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+
         public static function geolocationaddress($lat, $long)
         {
             // $application_setting        = $this->common_model->find_data('application_settings', 'row');
@@ -2502,6 +2593,15 @@ class ApiController extends BaseController
         }
         return array_reverse($dateArray);
     }
+    public function getLastNDaysAscending($days, $format = 'd/m'){
+        $m = date("m"); $de= date("d"); $y= date("Y");
+        $dateArray = array();
+        for($i=0; $i<=$days-1; $i++){
+            $dateArray[] = date($format, mktime(0,0,0,$m,($de-$i),$y)); 
+        }
+        return $dateArray;
+        // return array_reverse($dateArray);
+    }
     /*
     Get http response code
     Author : Subhomoy
@@ -2596,13 +2696,13 @@ class ApiController extends BaseController
                 // echo $this->db->getLastQuery();
                 // pr($checkToken);
                 if (!empty($checkToken)) :
-                    if ($userdata['data']->exp && $userdata['data']->exp > time()) :
-                        $tokenStatus = array(TRUE, $userdata['data']->id, $userdata['data']->email, $userdata['data']->phone, $userdata['data']->exp);
+                    if ($userdata['data']['exp'] && $userdata['data']['exp'] > time()) :
+                        $tokenStatus = array(TRUE, $userdata['data']['id'], $userdata['data']['email'], $userdata['data']['phone'], $userdata['data']['exp']);
                     else :
-                        $tokenStatus = array(FALSE, 'Token Has Expired 1 !!!');
+                        $tokenStatus = array(FALSE, 'Token Has Expired !!!');
                     endif;
                 else :
-                    $tokenStatus = array(FALSE, 'Token Has Expired 2 !!!');
+                    $tokenStatus = array(FALSE, 'Token Has Expired !!!');
                 endif;
             else :
                 $tokenStatus = array(FALSE, 'Token Not Found !!!');
@@ -2640,10 +2740,12 @@ class ApiController extends BaseController
 
         try{
             $key = "1234567890qwertyuiopmnbvcxzasdfghjkl";
-            $decoded = JWT::decode($token, $key, array('HS256'));
+            // $decoded = JWT::decode($token, $key, array('HS256'));
+            $objOfJwt           = new CreatorJwt();
+            $decoded   = $objOfJwt->DecodeToken($token);
             // $decodedData = (array) $decoded;
         } catch (\Exception $e) {
-            //echo 'Caught exception: ',  $e->getMessage(), "\n";
+            // echo 'Caught exception: ',  $e->getMessage(), "\n";
             return array('status' => FALSE, 'data' => '');
         }
         return array('status' => TRUE, 'data' => $decoded);

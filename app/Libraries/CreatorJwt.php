@@ -22,7 +22,7 @@ class CreatorJwt
     }    
    /*************This function DecodeToken token **************/
     public function DecodeToken($token)
-    {          
+    {
         $decoded = JWT::decode($token, $this->key, array('HS256'));
         $decodedData = (array) $decoded;
         return $decodedData;
