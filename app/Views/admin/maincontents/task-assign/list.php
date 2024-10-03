@@ -517,30 +517,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                            </div> 
-                                            <!-- <div class="col-12">
-                                                <div class="row justify-content-center">
-                                                    <?php if($all_departments){ foreach($all_departments as $all_department){?>
-                                                        <div class="col-md-2">
-                                                            <div class="table-lagend-box">
-                                                                <p class="design-text d-flex align-items-center" style="color: <?=$all_department->header_color?>;"> <?=$all_department->deprt_name?> Team 
-                                                                    <span class="table-lagend light-yellow" style="background: <?=$all_department->body_color?>;"></span>
-                                                                    <span class="table-lagend dark-yellow" style="background: <?=$all_department->header_color?>;"></span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    <?php } }?>
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="d-flex align-items-center"> Priority: 
-                                                                <span class="table-lagend light-high circle">H</span>
-                                                                <span class="table-lagend dark-mid circle">M</span>
-                                                                <span class="table-lagend dark-low circle">L</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -742,30 +719,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                            </div> 
-                                            <!-- <div class="col-12">
-                                                <div class="row justify-content-center">
-                                                    <?php if($all_departments){ foreach($all_departments as $all_department){?>
-                                                        <div class="col-md-2">
-                                                            <div class="table-lagend-box">
-                                                                <p class="design-text d-flex align-items-center" style="color: <?=$all_department->header_color?>;"> <?=$all_department->deprt_name?> Team 
-                                                                    <span class="table-lagend light-yellow" style="background: <?=$all_department->body_color?>;"></span>
-                                                                    <span class="table-lagend dark-yellow" style="background: <?=$all_department->header_color?>;"></span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    <?php } }?>
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="d-flex align-items-center"> Priority: 
-                                                                <span class="table-lagend light-high circle">H</span>
-                                                                <span class="table-lagend dark-mid circle">M</span>
-                                                                <span class="table-lagend dark-low circle">L</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

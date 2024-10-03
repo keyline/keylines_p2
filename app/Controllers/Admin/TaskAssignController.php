@@ -22,6 +22,7 @@ class TaskAssignController extends BaseController {
             'table_name'            => 'client',
             'primary_key'           => 'id'
         );
+        date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
     }
     public function task_list()
     {
