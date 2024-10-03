@@ -228,6 +228,11 @@ class TaskAssignController extends BaseController {
                             $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
                         }
 
+                        if($getTask->work_status_id <= 0){
+                            $addToEffort = '<br>
+                                            <span><a href="javascript:void(0);" class="badge bg-success text-light">Add To Effort</a></span>';
+                        }
+
                         $scheduleHTML .= '<div class="input-group">
                                             <div class="card">
                                                 <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
@@ -242,7 +247,7 @@ class TaskAssignController extends BaseController {
                                                         [' .$hr. ' ' .$min. ']
                                                     </div>
                                                     <div class="d-flex justify-content-between">
-                                                        <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
+                                                        <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span>' . $addToEffort . '</p>
                                                         ' . $editBtn . '
                                                     </div>
                                                 </div>
@@ -634,6 +639,11 @@ class TaskAssignController extends BaseController {
                     $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
                 }
 
+                if($getTask->work_status_id <= 0){
+                    $addToEffort = '<br>
+                                    <span><a href="javascript:void(0);" class="badge bg-success text-light">Add To Effort</a></span>';
+                }
+
                 $scheduleHTML .= '<div class="input-group">
                                     <div class="card">
                                         <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
@@ -648,7 +658,7 @@ class TaskAssignController extends BaseController {
                                                 [' .$hr. ' ' .$min. ']
                                             </div>
                                             <div class="d-flex justify-content-between">
-                                                <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
+                                                <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span>' . $addToEffort . '</p>
                                                 ' . $editBtn . '
                                             </div>
                                         </div>
