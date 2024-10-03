@@ -126,6 +126,10 @@ class TaskAssignController extends BaseController {
         }
 
         $post_is_leave  = $requestData['is_leave'];
+
+        $application_settings       = $this->common_model->find_data('application_settings', 'row');
+        $edit_time_after_task_add   = $application_settings->edit_time_after_task_add;
+
         if($post_is_leave > 0){
             // leave
                 $checkLeave     = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $requestData['user_id'], 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
@@ -153,9 +157,6 @@ class TaskAssignController extends BaseController {
                 $totalTime                  = 0;
                 if($getTasks){
                     foreach($getTasks as $getTask){
-                        $application_settings       = $this->common_model->find_data('application_settings', 'row');
-                        $edit_time_after_task_add   = $application_settings->edit_time_after_task_add;
-
                         $dept_id        = $getTask->dept_id;
                         $user_id        = $getTask->user_id;
                         $user_name      = $getTask->user_name;
@@ -585,6 +586,9 @@ class TaskAssignController extends BaseController {
         $totalTime                  = 0;
         if($getTasks){
             foreach($getTasks as $getTask){
+                $application_settings       = $this->common_model->find_data('application_settings', 'row');
+                $edit_time_after_task_add   = $application_settings->edit_time_after_task_add;
+                        
                 $dept_id        = $getTask->dept_id;
                 $user_id        = $getTask->user_id;
                 $user_name      = $getTask->user_name;
