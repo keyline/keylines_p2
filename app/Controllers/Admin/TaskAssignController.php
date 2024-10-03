@@ -113,6 +113,8 @@ class TaskAssignController extends BaseController {
             'added_by'      => $this->session->get('user_id'),
             'bill'          => (($getProject)?$getProject->bill:1),
             'status_id'     => (($getProject)?$getProject->status:0),
+            'created_at'    => date('Y-m-d H:i:s'),
+            'updated_at'    => date('Y-m-d H:i:s'),
         ];
         if($requestData['project_id'] == ''){
             $fields['effort_type']          = 0;
@@ -544,6 +546,7 @@ class TaskAssignController extends BaseController {
             'added_by'      => $this->session->get('user_id'),
             'bill'          => (($getProject)?$getProject->bill:1),
             'status_id'     => (($getProject)?$getProject->status:0),
+            'updated_at'    => date('Y-m-d H:i:s'),
         ];
         $this->data['model']->save_data('morning_meetings', $fields, $schedule_id, 'id');
 
