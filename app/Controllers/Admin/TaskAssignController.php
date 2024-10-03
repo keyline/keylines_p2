@@ -552,7 +552,6 @@ class TaskAssignController extends BaseController {
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
     }
     public function morning_meeting_schedule_update(){
-        date_default_timezone_set("Asia/Kolkata");
         $apiStatus          = TRUE;
         $apiMessage         = '';
         $apiResponse        = [];
