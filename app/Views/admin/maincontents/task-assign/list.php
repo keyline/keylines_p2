@@ -579,6 +579,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                 <?php
                                                                 $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
+                                                                    $application_settings    = $common_model->find_data('application_settings', 'row');
+                                                                    $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
                                                                     if($type == 'SUPER ADMIN'){
                                                                         $alterIcon = 1;
                                                                     } elseif($type == 'ADMIN'){
@@ -677,6 +679,17 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     } else {
                                                                                                         $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
                                                                                                     }
+
+                                                                                                    $time1 = new DateTime($getTask->created_at);
+                                                                                                    $time2 = new DateTime(date('Y-m-d H:i:s'));
+
+                                                                                                    // Get the difference
+                                                                                                    $interval = $time1->diff($time2);
+
+                                                                                                    // Convert the difference to total minutes
+                                                                                                    $minutes = ($interval->h * 60) + $interval->i;
+
+                                                                                                    echo "Difference in minutes: " . $minutes;
                                                                                                     ?>
                                                                                                     <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span></p>
                                                                                                     <?php if($getTask->work_status_id <= 0){?>
