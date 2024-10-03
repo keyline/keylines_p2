@@ -687,10 +687,12 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     // Convert the difference to total minutes
                                                                                                     $minutes = ($interval->h * 60) + $interval->i;
                                                                                                     ?>
-                                                                                                    <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span></p>
                                                                                                     <p class="mb-0 assign-name">
-                                                                                                        <a href="javascript:void(0);" class="btn btn-success btn-sm">Add To Effort</a>
+                                                                                                        By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
+                                                                                                        <br>
+                                                                                                        <span><a href="javascript:void(0);" class="badge bg-success">Add To Effort</a></span>
                                                                                                     </p>
+
                                                                                                     <?php if($getTask->work_status_id <= 0){?>
                                                                                                         <?php if($alterIcon){?>
                                                                                                             <?php if($minutes <= $edit_time_after_task_add){?>
