@@ -91,7 +91,6 @@ class TaskAssignController extends BaseController {
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function morning_meeting_schedule_submit(){
-        date_default_timezone_set("Asia/Kolkata");
         $apiStatus          = TRUE;
         $apiMessage         = '';
         $apiResponse        = [];
@@ -588,7 +587,7 @@ class TaskAssignController extends BaseController {
             foreach($getTasks as $getTask){
                 $application_settings       = $this->common_model->find_data('application_settings', 'row');
                 $edit_time_after_task_add   = $application_settings->edit_time_after_task_add;
-                        
+
                 $dept_id        = $getTask->dept_id;
                 $user_id        = $getTask->user_id;
                 $user_name      = $getTask->user_name;
