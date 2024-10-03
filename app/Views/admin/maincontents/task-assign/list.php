@@ -689,8 +689,10 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     ?>
                                                                                                     <p class="mb-0 assign-name">
                                                                                                         By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
-                                                                                                        <br>
-                                                                                                        <span><a href="javascript:void(0);" class="badge bg-success">Add To Effort</a></span>
+                                                                                                        <?php if($getTask->work_status_id <= 0){?>
+                                                                                                            <br>
+                                                                                                            <span><a href="javascript:void(0);" class="badge bg-success text-light">Add To Effort</a></span>
+                                                                                                        <?php }?>
                                                                                                     </p>
 
                                                                                                     <?php if($getTask->work_status_id <= 0){?>
