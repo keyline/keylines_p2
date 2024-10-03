@@ -2381,14 +2381,20 @@ class ApiController extends BaseController
                                         $booked_effort          = $totalMin;
                                         $total_time             += $booked_effort;
 
+                                        $work_status_id         = $getTask->work_status_id;
+                                        $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
+
                                         $tasks[]            = [
-                                            'project_name'  => $getTask->project_name,
-                                            'description'   => $getTask->description,
-                                            'hour'          => $getTask->hour,
-                                            'min'           => $getTask->min,
-                                            'user_name'     => $getTask->user_name,
-                                            'is_leave'      => $getTask->is_leave,
-                                            'created_at'    => date_format(date_create($getTask->created_at), "h:i a"),
+                                            'project_name'          => $getTask->project_name,
+                                            'description'           => $getTask->description,
+                                            'hour'                  => $getTask->hour,
+                                            'min'                   => $getTask->min,
+                                            'user_name'             => $getTask->user_name,
+                                            'is_leave'              => $getTask->is_leave,
+                                            'background_color'      => (($getWorkStatus)?$getWorkStatus->background_color:''),
+                                            'border_color'          => (($getWorkStatus)?$getWorkStatus->border_color:''),
+                                            'work_status_name'      => (($getWorkStatus)?$getWorkStatus->name:''),
+                                            'created_at'            => date_format(date_create($getTask->created_at), "h:i a"),
                                         ];
                                     }
                                 }
