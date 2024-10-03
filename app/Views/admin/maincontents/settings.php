@@ -529,6 +529,12 @@ $user_type = session('user_type');
                       </select>
                     </div>
                   </div>
+                  <div class="row mb-3">
+                    <label for="edit_time_after_task_add" class="col-md-4 col-lg-3 col-form-label">Edit Time After Task Add</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="edit_time_after_task_add" type="text" class="form-control" id="edit_time_after_task_add" value="<?= $application_setting->edit_time_after_task_add ?>" min="5" onkeypress="return isNumber(event)">
+                    </div>
+                  </div>
 
                   <div class="row mb-3">
                     <label for="week_off" class="col-form-label">Week Off</label>
@@ -1005,6 +1011,14 @@ $user_type = session('user_type');
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
+  function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+  }
   $(document).ready(function() {
     var maxField = 10; //Input fields increment limitation
     var addButton = $('.add_button1'); //Add button selector
