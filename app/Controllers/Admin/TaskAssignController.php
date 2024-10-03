@@ -152,6 +152,9 @@ class TaskAssignController extends BaseController {
                 $totalTime                  = 0;
                 if($getTasks){
                     foreach($getTasks as $getTask){
+                        $application_settings       = $this->common_model->find_data('application_settings', 'row');
+                        $edit_time_after_task_add   = $application_settings->edit_time_after_task_add;
+
                         $dept_id        = $getTask->dept_id;
                         $user_id        = $getTask->user_id;
                         $user_name      = $getTask->user_name;
@@ -214,12 +217,21 @@ class TaskAssignController extends BaseController {
                             $display = 'none';
                         }
 
+                        $time1      = new DateTime($getTask->created_at);
+                        $time2      = new DateTime(date('Y-m-d H:i:s'));
+                        // Get the difference
+                        $interval   = $time1->diff($time2);
+                        // Convert the difference to total minutes
+                        $minutes    = ($interval->h * 60) + $interval->i;
+
                         $editBtn    = '';
                         $effort_id  = $getTask->effort_id;
                         if($effort_id <= 0){
-                            $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                            if($minutes <= $edit_time_after_task_add){
+                                $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                             <i class="fa-solid fa-pencil text-primary"></i>
                                             </a>';
+                            }
                         }
 
                         if($getTask->updated_at == ''){
@@ -356,12 +368,21 @@ class TaskAssignController extends BaseController {
                             $display = 'none';
                         }
 
+                        $time1      = new DateTime($getTask->created_at);
+                        $time2      = new DateTime(date('Y-m-d H:i:s'));
+                        // Get the difference
+                        $interval   = $time1->diff($time2);
+                        // Convert the difference to total minutes
+                        $minutes    = ($interval->h * 60) + $interval->i;
+
                         $editBtn    = '';
                         $effort_id  = $getTask->effort_id;
                         if($effort_id <= 0){
-                            $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                            if($minutes <= $edit_time_after_task_add){
+                                $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                             <i class="fa-solid fa-pencil text-primary"></i>
                                             </a>';
+                            }
                         }
 
                         if($getTask->updated_at == ''){
@@ -625,12 +646,21 @@ class TaskAssignController extends BaseController {
                     $display = 'none';
                 }
 
+                $time1      = new DateTime($getTask->created_at);
+                $time2      = new DateTime(date('Y-m-d H:i:s'));
+                // Get the difference
+                $interval   = $time1->diff($time2);
+                // Convert the difference to total minutes
+                $minutes    = ($interval->h * 60) + $interval->i;
+
                 $editBtn    = '';
                 $effort_id  = $getTask->effort_id;
                 if($effort_id <= 0){
-                    $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                    if($minutes <= $edit_time_after_task_add){
+                        $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                     <i class="fa-solid fa-pencil text-primary"></i>
                                     </a>';
+                    }
                 }
 
                 if($getTask->updated_at == ''){
