@@ -22,7 +22,6 @@ class TaskAssignController extends BaseController {
             'table_name'            => 'client',
             'primary_key'           => 'id'
         );
-        date_default_timezone_set("Asia/Kolkata");   //India time (GMT+5:30)
     }
     public function task_list()
     {
@@ -91,6 +90,7 @@ class TaskAssignController extends BaseController {
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function morning_meeting_schedule_submit(){
+        date_default_timezone_set("Asia/Kolkata");
         $apiStatus          = TRUE;
         $apiMessage         = '';
         $apiResponse        = [];
@@ -523,6 +523,7 @@ class TaskAssignController extends BaseController {
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
     }
     public function morning_meeting_schedule_update(){
+        date_default_timezone_set("Asia/Kolkata");
         $apiStatus          = TRUE;
         $apiMessage         = '';
         $apiResponse        = [];
