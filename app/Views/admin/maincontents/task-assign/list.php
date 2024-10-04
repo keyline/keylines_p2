@@ -992,6 +992,43 @@ $controller_route       = $moduleDetail['controller_route'];
             }
         });
     }
+    function submitEffortBookingForm(){
+        var base_url        = '<?=base_url()?>';
+        var dataJson        = {};
+        dataJson.dept_id                    = $('#dept_id').val();
+        dataJson.user_id                    = $('#user_id').val();
+        dataJson.schedule_id                = $('#schedule_id').val();
+        dataJson.date_added                 = $('#date_added').val();
+        dataJson.project_id                 = $('#project_id').val();
+        dataJson.description                = $('#description').val();
+        dataJson.hour                       = $('#hour').val();
+        dataJson.min                        = $('#min').val();
+        dataJson.priority                   = $('input[name="priority"]:checked').val();
+        dataJson.is_leave                   = 0;
+        dataJson.work_home                  = '';
+        var user_id                         = $('#user_id').val();
+        dataJson.effort_type                = $('#effort_type').val();
+        dataJson.work_status_id             = $('#work_status_id').val();
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    $('#morningMeetingForm').trigger("reset");
+                    $('#morningformModal').modal('hide');
+                    $('#meeting-user-' + user_id).empty();
+                    $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
 
     function approveTask(schedule_id, effort_id, user_id){
         var base_url                        = '<?=base_url()?>';
