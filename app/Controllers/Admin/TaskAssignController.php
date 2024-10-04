@@ -244,9 +244,11 @@ class TaskAssignController extends BaseController {
                                 $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
                             }
 
-                            if($getTask->work_status_id <= 0){
+                            if($getTask->work_status_id == 0){
                                 $addToEffort = '<br>
                                                 <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add To Effort</a></span>';
+                            } else {
+                                $addToEffort = '';
                             }
 
                             $scheduleHTML .= '<div class="input-group">
@@ -395,9 +397,11 @@ class TaskAssignController extends BaseController {
                                 $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
                             }
 
-                            if($getTask->work_status_id <= 0){
+                            if($getTask->work_status_id == 0){
                                 $addToEffort = '<br>
                                                 <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add To Effort</a></span>';
+                            } else {
+                                $addToEffort = '';
                             }
 
                             $scheduleHTML .= '<div class="input-group">
@@ -1072,9 +1076,11 @@ class TaskAssignController extends BaseController {
                         $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
                     }
 
-                    if($getTask->work_status_id <= 0){
+                    if($getTask->work_status_id == 0){
                         $addToEffort = '<br>
                                         <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add To Effort</a></span>';
+                    } else {
+                        $addToEffort = '';
                     }
 
                     $scheduleHTML .= '<div class="input-group">
