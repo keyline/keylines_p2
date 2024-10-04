@@ -691,7 +691,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                         By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
                                                                                                         <?php if($getTask->work_status_id <= 0){?>
                                                                                                             <br>
-                                                                                                            <span><a href="javascript:void(0);" class="badge bg-success text-light">Add To Effort</a></span>
+                                                                                                            <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add To Effort</a></span>
                                                                                                         <?php }?>
                                                                                                     </p>
 
@@ -784,9 +784,6 @@ $controller_route       = $moduleDetail['controller_route'];
 <!-- <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function() {
-        
-    });
     function openForm(deptId, userId, userName){
         $('#morningformModal').modal('show');
         var heading = '<h5>Task Schedule For <strong>' + userName + '</strong></h5>';
@@ -958,6 +955,35 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#meeting-user-' + user_id).empty();
                     $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
                     $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
+
+    function openEffortSubmitForm(deptId, userId, userName, scheduleId){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.dept_id                    = deptId;
+        dataJson.user_id                    = userId;
+        dataJson.schedule_id                = scheduleId;
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-schedule-prefill-effort-booking", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    var heading = '<h5>Task Effort Booking For <strong>' + userName + '</strong></h5>';
+                    var body    = res.data;
+                    $('#morningformModal').modal('show');
+                    $('#morningformTitle').empty();
+                    $('#morningformBody').empty();
+                    $('#morningformTitle').html(heading);
+                    $('#morningformBody').html(body);
                     toastAlert("success", res.message);
                 }
             },

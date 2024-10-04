@@ -153,6 +153,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['get', 'post'], "task-assign", "TaskAssignController::task_list");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-submit", "TaskAssignController::morning_meeting_schedule_submit");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-prefill", "TaskAssignController::morning_meeting_schedule_prefill");
+			$routes->match(['post'], "task-assign/morning-meeting-schedule-prefill-effort-booking", "TaskAssignController::morning_meeting_schedule_prefill_effort_booking");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-update", "TaskAssignController::morning_meeting_schedule_update");
 			$routes->match(['post'], "task-assign/morning-meeting-schedule-approve-task", "TaskAssignController::morning_meeting_schedule_approve_task");
 			$routes->match(['post'], "task-assign/morning-meeting-reschedule-task", "TaskAssignController::morning_meeting_reschedule_task");

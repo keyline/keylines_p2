@@ -88,6 +88,10 @@ class TaskAssignController extends BaseController {
             return redirect()->to('/admin/'.$this->data['controller_route']);
         }
 
+        $orderBy2[0]                = array('field' => 'name', 'type' => 'ASC');
+        $data['effortTypes']        = $this->data['model']->find_data('effort_type', 'array', ['status' => 1], 'id,name', '', '', $orderBy2);
+        $data['workStats']          = $this->data['model']->find_data('work_status', 'array', ['status' => 1, 'is_schedule' => 1], 'id,name', '', '', $orderBy2);
+
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function morning_meeting_schedule_submit(){
@@ -448,6 +452,110 @@ class TaskAssignController extends BaseController {
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
     }
     public function morning_meeting_schedule_prefill(){
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $apiExtraField      = '';
+        $apiExtraData       = '';
+        $this->isJSON(file_get_contents('php://input'));
+        $requestData        = $this->extract_json(file_get_contents('php://input'));
+
+        $order_by1[0]               = array('field' => 'project.name', 'type' => 'ASC');
+        $join1[0]                   = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+        $join1[1]                   = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+        $projects                   = $this->common_model->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join1, '', $order_by1);
+        
+        $dept_id                    = $requestData['dept_id'];
+        $user_id                    = $requestData['user_id'];
+        $schedule_id                = $requestData['schedule_id'];
+
+        $scheduleHTML               = '';
+        $getTask                    = $this->common_model->find_data('morning_meetings', 'row', ['id' => $schedule_id]);
+        if($getTask){
+            $checkedPriority1 = (($getTask->priority == 1)?'checked':'');
+            $checkedPriority2 = (($getTask->priority == 2)?'checked':'');
+            $checkedPriority3 = (($getTask->priority == 3)?'checked':'');
+
+            $checkedWorkFromHome0 = (($getTask->work_home == 0)?'checked':'');
+            $checkedWorkFromHome1 = (($getTask->work_home == 1)?'checked':'');
+
+            $currentDate            = date('Y-m-d'); 
+
+            $scheduleHTML           .= '<form id="morningMeetingForm">
+                                            <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
+                                            <input type="hidden" name="user_id" id="user_id" value="' . $getTask->user_id . '">
+                                            <input type="hidden" name="schedule_id" id="schedule_id" value="' . $schedule_id . '">
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="input-group mb-1">
+                                                        <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$currentDate.'" min="'.$currentDate.'" value="' . $getTask->date_added . '" required>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="input-group mb-1">
+                                                        <select name="project_id" id="project_id" class="form-control" required>
+                                                            <option value="" selected="">Select Project</option>
+                                                            <hr>';
+                                                            if($projects){ foreach($projects as $project){
+                                                                $selectedProject = (($project->id == $getTask->project_id)?'selected':'');
+                                    $scheduleHTML           .= '<option value="'.$project->id.'" '.$selectedProject.'>'.$project->name.' ('.$this->pro->decrypt($project->client_name).') - '.$project->project_status_name.'</option>
+                                                                <hr>';
+                                                            } }
+                            $scheduleHTML           .= '</select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12">
+                                                    <div class="input-group mb-1">
+                                                        <textarea name="description" id="description" placeholder="Description" class="form-control" rows="5" required>' . $getTask->description . '</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group mb-1">
+                                                        <select name="hour" class="form-control" id="hour" required>
+                                                            <option value="" selected>Select Hour</option>';
+                                                            for($h=0;$h<=8;$h++){
+                                                                $selectedHour = (($h == $getTask->hour)?'selected':'');
+                                    $scheduleHTML           .= '<option value="' . $h . '" ' . $selectedHour . '>' . $h . '</option>';
+                                                            }
+                            $scheduleHTML           .= '</select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group mb-1">
+                                                        <select name="min" class="form-control" id="min" required>
+                                                            <option value="" selected>Select Minute</option>';
+                                                            for($m=0;$m<=59;$m++){
+                                                                $selectedMinute = (($m == $getTask->min)?'selected':'');
+                                    $scheduleHTML           .= '<option value="' . $m . '" ' . $selectedMinute . '>' . $m . '</option>';
+                                                            }
+                            $scheduleHTML           .= '</select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="input-group mb-1">
+                                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required ' . $checkedPriority1 . '><label for="priority1" style="margin-left : 3px;">Priority LOW</label></span>
+                                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" required ' . $checkedPriority2 . '><label for="priority2" style="margin-left : 3px;">Priority MEDIUM</label></span>
+                                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required ' . $checkedPriority3 . '><label for="priority3" style="margin-left : 3px;">Priority HIGH</label></span>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="input-group mb-1">
+                                                        <button type="button" class="btn btn-success" onClick="submitEditForm();">Save</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>';
+        }
+        // echo $scheduleHTML;die;
+        $apiResponse                        = $scheduleHTML;
+        $apiStatus                          = TRUE;
+        http_response_code(200);
+        $apiMessage                         = 'Task Schedule Form Open For Modify !!!';
+        $apiExtraField                      = 'response_code';
+        $apiExtraData                       = http_response_code();
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
+    }
+    public function morning_meeting_schedule_prefill_effort_booking(){
         $apiStatus          = TRUE;
         $apiMessage         = '';
         $apiResponse        = [];
