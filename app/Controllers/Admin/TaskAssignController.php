@@ -870,28 +870,102 @@ class TaskAssignController extends BaseController {
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
         public function morning_meeting_effort_booking(){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $apiExtraField      = '';
-            $apiExtraData       = '';
+            $apiStatus                  = TRUE;
+            $apiMessage                 = '';
+            $apiResponse                = [];
+            $apiExtraField              = '';
+            $apiExtraData               = '';
             $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));
-            pr($requestData);
-            $schedule_id        = $requestData['schedule_id'];
-            $getProject         = $this->data['model']->find_data('project', 'row', ['id' => $requestData['project_id']], 'status,bill');
-            $fields             = [
-                'project_id'    => $requestData['project_id'],
-                'description'   => $requestData['description'],
-                'hour'          => $requestData['hour'],
-                'min'           => $requestData['min'],
-                'work_home'     => $requestData['work_home'],
-                'date_added'    => $requestData['date_added'],
-                'priority'      => $requestData['priority'],
-                'added_by'      => $this->session->get('user_id'),
-                'bill'          => (($getProject)?$getProject->bill:1),
-                'status_id'     => (($getProject)?$getProject->status:0),
-                'updated_at'    => date('Y-m-d H:i:s'),
+            $requestData                = $this->extract_json(file_get_contents('php://input'));
+            
+            $schedule_id                = $requestData['schedule_id'];
+            $user_id                    = $requestData['user_id'];
+            $dept_id                    = $requestData['dept_id'];
+            $date_added                 = $requestData['date_added'];
+            $project_id                 = $requestData['project_id'];
+            $description                = $requestData['description'];
+            $hour                       = $requestData['hour'];
+            $min                        = $requestData['min'];
+            $priority                   = $requestData['priority'];
+            $is_leave                   = $requestData['is_leave'];
+            $work_home                  = $requestData['work_home'];
+            $effort_type                = $requestData['effort_type'];
+            $work_status_id             = $requestData['work_status_id'];
+
+
+            $user_hour_cost             = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'id,hour_cost', '', '',);
+            $user_cost                  = $user_hour_cost->hour_cost;
+            $cal_usercost               = ($user_cost/60);
+
+            $getProject     = $this->data['model']->find_data('project', 'row', ['id' => $project_id], 'status,bill');
+            $getUser        = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'department');
+            $getWorkStatus  = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'is_reassign');
+
+            if (array_key_exists("date_task",$requestData)){
+                $date_task              = $requestData['date_task'];
+            } else {
+                $date_task              = $requestData['date_added'];
+            }
+            $year                   = date('Y', strtotime($date_task)); // 2024
+            $month                  = date('m', strtotime($date_task)); // 08
+
+            // scheduled task
+                $cal                    = (($hour*60) + $min); //converted to minutes
+                $projectCost            = floatval($cal_usercost * $cal);
+                $postData               = array(
+                    'project_id'            => $project_id,
+                    'status_id'             => (($getProject)?$getProject->status:0),
+                    'user_id'               => $user_id,
+                    'description'           => $description,
+                    'hour'                  => $hour,
+                    'min'                   => $min,
+                    'work_home'             => 0,
+                    'effort_type'           => $effort_type,
+                    'work_status_id'        => $work_status_id,
+                    'date_today'            => date('Y-m-d H:i:s'),
+                    'date_added'            => $date_added,
+                    'bill'                  => (($getProject)?$getProject->bill:1),
+                    'assigned_task_id'      => $schedule_id,
+                    'hour_rate'             => $user_cost,
+                    'cost'                  => number_format($projectCost, 2, '.', ''),
+                );
+                pr($postData);              
+                $effort_id              = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+
+                $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
+                $rows                   = $this->db->query($projectcost)->getResult(); 
+                foreach($rows as $row){
+                    $project_cost       =  $row->total_hours_worked;
+                }  
+                $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project_id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+                if(!$exsistingProjectCost){                               
+                    $postData2   = array(
+                        'project_id'            => $project_id,
+                        'month'                 => $month ,
+                        'year'                  => $year,
+                        'project_cost'          => $project_cost,
+                        'created_at'            => date('Y-m-d H:i:s'),                                
+                    );                                  
+                        $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
+                    } else {                                    
+                        $id         = $exsistingProjectCost->id;
+                        $postData2   = array(
+                            'project_id'            => $project_id,
+                            'month'                 => $month ,
+                            'year'                  => $year,
+                            'project_cost'          => $project_cost,
+                            'updated_at'            => date('Y-m-d H:i:s'),                                
+                        );                                    
+                        $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');
+                    }                                                        
+            // scheduled task
+            
+            $fields                     = [
+                'work_home'         => $requestData['work_home'],
+                'effort_type'       => $requestData['effort_type'],
+                'work_status_id'    => $requestData['work_status_id'],
+                'effort_id'         => $effort_id,
+                'updated_at'        => date('Y-m-d H:i:s'),
             ];
             $this->data['model']->save_data('morning_meetings', $fields, $schedule_id, 'id');
 
@@ -1042,7 +1116,7 @@ class TaskAssignController extends BaseController {
             $apiResponse['totalTime']           = $totalBooked;
             $apiStatus                          = TRUE;
             http_response_code(200);
-            $apiMessage                         = 'Task Modified Successfully !!!';
+            $apiMessage                         = 'Effort Booked Successfully !!!';
             $apiExtraField                      = 'response_code';
             $apiExtraData                       = http_response_code();
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
