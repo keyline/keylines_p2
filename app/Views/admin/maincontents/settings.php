@@ -1,6 +1,38 @@
 <?php
 $user_type = session('user_type');
 ?>
+<style type="text/css">
+  .password-container {
+      max-width: 100%;
+      margin: 0 auto;
+  }
+  input[type="password"] {
+      width: 50%;
+      padding: 5px;
+      margin-bottom: 10px;
+      border-radius: 5px;
+      border: 1px solid #555;
+      /*background-color: #444;
+      color: #fff;*/
+  }
+  .password-requirements {
+      list-style: none;
+      padding: 0;
+  }
+  .password-requirements li {
+      font-size: 12px;
+      margin-bottom: 5px;
+  }
+  .password-requirements .invalid {
+      color: red;
+  }
+  .password-requirements .valid {
+      color: green;
+  }
+  .password-strength {
+      font-weight: bold;
+  }
+</style>
 <div class="pagetitle">
   <h1><?= $page_header ?></h1>
   <nav>
@@ -497,6 +529,12 @@ $user_type = session('user_type');
                       </select>
                     </div>
                   </div>
+                  <div class="row mb-3">
+                    <label for="edit_time_after_task_add" class="col-md-4 col-lg-3 col-form-label">Edit Time After Task Add</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="edit_time_after_task_add" type="text" class="form-control" id="edit_time_after_task_add" value="<?= $application_setting->edit_time_after_task_add ?>" min="5" onkeypress="return isNumber(event)">
+                    </div>
+                  </div>
 
                   <div class="row mb-3">
                     <label for="week_off" class="col-form-label">Week Off</label>
@@ -615,26 +653,61 @@ $user_type = session('user_type');
               <div class="tab-pane fade pt-3" id="tab3">
                 <!-- change password Form -->
                 <form method="POST" action="<?= base_url('admin/change-password') ?>" enctype="multipart/form-data">
-                  <div class="row mb-3">
-                    <label for="old_password" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input type="password" name="old_password" class="form-control" id="old_password">
+                  <div class="password-container">
+                    <div class="row mb-3">
+                      <label for="password1" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input type="password" name="old_password" class="form-control" id="password1" oninput="validatePassword(this.value, 1);">
+                        <input type="hidden" id="score1" value="0">
+                        <div class="password-strength" id="password-strength1"></div>
+                        <ul class="password-requirements" id="password-requirements1">
+                            <li id="length1" class="invalid">Must be between 8 and 15 characters</li>
+                            <li id="digit1" class="invalid">Must contain at least one digit (0-9)</li>
+                            <li id="lowercase1" class="invalid">Must contain at least one lowercase letter (a-z)</li>
+                            <li id="uppercase1" class="invalid">Must contain at least one uppercase letter (A-Z)</li>
+                            <li id="symbol1" class="invalid">Must contain one of the following symbols: %~!@#$^*=+?[]{}</li>
+                            <li id="semicolon1" class="invalid">Must not contain the character `;`</li>
+                            <li id="space1" class="invalid">Can't start or end with a space</li>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="new_password" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input type="password" name="new_password" class="form-control" id="new_password">
+                    <div class="row mb-3">
+                      <label for="password2" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input type="password" name="new_password" class="form-control" id="password2" oninput="validatePassword(this.value, 2);">
+                        <input type="hidden" id="score2" value="0">
+                        <div class="password-strength" id="password-strength2"></div>
+                        <ul class="password-requirements" id="password-requirements1">
+                            <li id="length2" class="invalid">Must be between 8 and 15 characters</li>
+                            <li id="digit2" class="invalid">Must contain at least one digit (0-9)</li>
+                            <li id="lowercase2" class="invalid">Must contain at least one lowercase letter (a-z)</li>
+                            <li id="uppercase2" class="invalid">Must contain at least one uppercase letter (A-Z)</li>
+                            <li id="symbol2" class="invalid">Must contain one of the following symbols: %~!@#$^*=+?[]{}</li>
+                            <li id="semicolon2" class="invalid">Must not contain the character `;`</li>
+                            <li id="space2" class="invalid">Can't start or end with a space</li>
+                        </ul>
+                      </div>
                     </div>
-                  </div>
-                  <div class="row mb-3">
-                    <label for="confirm_password" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                    <div class="col-md-8 col-lg-9">
-                      <input type="password" name="confirm_password" class="form-control" id="confirm_password">
+                    <div class="row mb-3">
+                      <label for="password3" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                      <div class="col-md-8 col-lg-9">
+                        <input type="password" name="confirm_password" class="form-control" id="password3" oninput="validatePassword(this.value, 3);">
+                        <input type="hidden" id="score3" value="0">
+                        <div class="password-strength" id="password-strength3"></div>
+                        <ul class="password-requirements" id="password-requirements1">
+                            <li id="length3" class="invalid">Must be between 8 and 15 characters</li>
+                            <li id="digit3" class="invalid">Must contain at least one digit (0-9)</li>
+                            <li id="lowercase3" class="invalid">Must contain at least one lowercase letter (a-z)</li>
+                            <li id="uppercase3" class="invalid">Must contain at least one uppercase letter (A-Z)</li>
+                            <li id="symbol3" class="invalid">Must contain one of the following symbols: %~!@#$^*=+?[]{}</li>
+                            <li id="semicolon3" class="invalid">Must not contain the character `;`</li>
+                            <li id="space3" class="invalid">Can't start or end with a space</li>
+                        </ul>
+                      </div>
                     </div>
                   </div>
                   <div class="text-center">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="submit" class="btn btn-primary" id="submitBtn" disabled>Submit</button>
                   </div>
                 </form><!-- End change password Form -->
               </div>
@@ -938,6 +1011,14 @@ $user_type = session('user_type');
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
+  function isNumber(evt) {
+    evt = (evt) ? evt : window.event;
+    var charCode = (evt.which) ? evt.which : evt.keyCode;
+    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        return false;
+    }
+    return true;
+  }
   $(document).ready(function() {
     var maxField = 10; //Input fields increment limitation
     var addButton = $('.add_button1'); //Add button selector
@@ -1055,4 +1136,92 @@ $user_type = session('user_type');
       x--; //Decrement field counter
     });
   });
+
+  $(document).ready(function() {
+
+  });
+  function validatePassword(passwordVal, fieldNo){
+    let password = passwordVal;
+    let valid = true;
+
+    // Check password length
+    if (password.length >= 8 && password.length <= 15) {
+        $('#length' + fieldNo).removeClass('invalid').addClass('valid');
+    } else {
+        $('#length' + fieldNo).removeClass('valid').addClass('invalid');
+        valid = false;
+    }
+
+    // Check for at least one digit
+    if (/\d/.test(password)) {
+        $('#digit' + fieldNo).removeClass('invalid').addClass('valid');
+    } else {
+        $('#digit' + fieldNo).removeClass('valid').addClass('invalid');
+        valid = false;
+    }
+
+    // Check for at least one lowercase letter
+    if (/[a-z]/.test(password)) {
+        $('#lowercase' + fieldNo).removeClass('invalid').addClass('valid');
+    } else {
+        $('#lowercase' + fieldNo).removeClass('valid').addClass('invalid');
+        valid = false;
+    }
+
+    // Check for at least one uppercase letter
+    if (/[A-Z]/.test(password)) {
+        $('#uppercase' + fieldNo).removeClass('invalid').addClass('valid');
+    } else {
+        $('#uppercase' + fieldNo).removeClass('valid').addClass('invalid');
+        valid = false;
+    }
+
+    // Check for at least one symbol from the set
+    if (/[~!@#$%^*=+?\[\]{}]/.test(password)) {
+        $('#symbol' + fieldNo).removeClass('invalid').addClass('valid');
+    } else {
+        $('#symbol' + fieldNo).removeClass('valid').addClass('invalid');
+        valid = false;
+    }
+
+    // Check if it contains a semicolon
+    if (password.indexOf(';') === -1) {
+        $('#semicolon' + fieldNo).removeClass('invalid').addClass('valid');
+    } else {
+        $('#semicolon' + fieldNo).removeClass('valid').addClass('invalid');
+        valid = false;
+    }
+
+    // Check if it starts or ends with a space
+    if (!/^\s|\s$/.test(password)) {
+        $('#space' + fieldNo).removeClass('invalid').addClass('valid');
+    } else {
+        $('#space' + fieldNo).removeClass('valid').addClass('invalid');
+        valid = false;
+    }
+
+    // Determine the password strength
+    let strength = 'weak';
+    let score = '35';
+    if (password.length >= 8) {
+        strength = 'medium';
+        score = '75';
+    }
+    if (valid && password.length >= 13) {
+        strength = 'strong';
+        score = '100';
+    }
+    $('#score' +  + fieldNo).val(score);
+
+    let score1 = $('#score1').val();
+    console.log(score1);
+    let score2 = $('#score2').val();
+    let score3 = $('#score3').val();
+    $('#password-strength' + fieldNo).text(`Password strength: ${strength}`).css('color', strength === 'strong' ? 'green' : (strength === 'medium' ? 'orange' : 'red'));
+    if(score1 >= 75 && score2 >= 75 && score3 >= 75){
+      $('#submitBtn').attr('disabled', false);
+    } else {
+      $('#submitBtn').attr('disabled', true);
+    }
+  }
 </script>

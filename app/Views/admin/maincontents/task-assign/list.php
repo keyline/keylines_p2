@@ -517,30 +517,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                            </div> 
-                                            <!-- <div class="col-12">
-                                                <div class="row justify-content-center">
-                                                    <?php if($all_departments){ foreach($all_departments as $all_department){?>
-                                                        <div class="col-md-2">
-                                                            <div class="table-lagend-box">
-                                                                <p class="design-text d-flex align-items-center" style="color: <?=$all_department->header_color?>;"> <?=$all_department->deprt_name?> Team 
-                                                                    <span class="table-lagend light-yellow" style="background: <?=$all_department->body_color?>;"></span>
-                                                                    <span class="table-lagend dark-yellow" style="background: <?=$all_department->header_color?>;"></span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    <?php } }?>
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="d-flex align-items-center"> Priority: 
-                                                                <span class="table-lagend light-high circle">H</span>
-                                                                <span class="table-lagend dark-mid circle">M</span>
-                                                                <span class="table-lagend dark-low circle">L</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -602,6 +579,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                 <?php
                                                                 $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
+                                                                    $application_settings    = $common_model->find_data('application_settings', 'row');
+                                                                    $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
                                                                     if($type == 'SUPER ADMIN'){
                                                                         $alterIcon = 1;
                                                                     } elseif($type == 'ADMIN'){
@@ -700,13 +679,29 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     } else {
                                                                                                         $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
                                                                                                     }
+
+                                                                                                    $time1 = new DateTime($getTask->created_at);
+                                                                                                    $time2 = new DateTime(date('Y-m-d H:i:s'));
+                                                                                                    // Get the difference
+                                                                                                    $interval = $time1->diff($time2);
+                                                                                                    // Convert the difference to total minutes
+                                                                                                    $minutes = ($interval->h * 60) + $interval->i;
                                                                                                     ?>
-                                                                                                    <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span></p>
+                                                                                                    <p class="mb-0 assign-name">
+                                                                                                        By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
+                                                                                                        <?php if($getTask->work_status_id <= 0){?>
+                                                                                                            <br>
+                                                                                                            <span><a href="javascript:void(0);" class="badge bg-success text-light">Add To Effort</a></span>
+                                                                                                        <?php }?>
+                                                                                                    </p>
+
                                                                                                     <?php if($getTask->work_status_id <= 0){?>
                                                                                                         <?php if($alterIcon){?>
-                                                                                                            <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
-                                                                                                                <i class="fa-solid fa-pencil text-primary"></i>
-                                                                                                            </a>
+                                                                                                            <?php if($minutes <= $edit_time_after_task_add){?>
+                                                                                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
+                                                                                                                    <i class="fa-solid fa-pencil text-primary"></i>
+                                                                                                                </a>
+                                                                                                            <?php }?>
                                                                                                         <?php }?>
                                                                                                     <?php }?>
                                                                                                 </div>
@@ -742,30 +737,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                         </tr>
                                                     </tbody>
                                                 </table>
-                                            </div> 
-                                            <!-- <div class="col-12">
-                                                <div class="row justify-content-center">
-                                                    <?php if($all_departments){ foreach($all_departments as $all_department){?>
-                                                        <div class="col-md-2">
-                                                            <div class="table-lagend-box">
-                                                                <p class="design-text d-flex align-items-center" style="color: <?=$all_department->header_color?>;"> <?=$all_department->deprt_name?> Team 
-                                                                    <span class="table-lagend light-yellow" style="background: <?=$all_department->body_color?>;"></span>
-                                                                    <span class="table-lagend dark-yellow" style="background: <?=$all_department->header_color?>;"></span>
-                                                                </p>
-                                                            </div>
-                                                        </div>
-                                                    <?php } }?>
-                                                    <div class="col-md-2">
-                                                        <div class="table-lagend-box">
-                                                            <p class="d-flex align-items-center"> Priority: 
-                                                                <span class="table-lagend light-high circle">H</span>
-                                                                <span class="table-lagend dark-mid circle">M</span>
-                                                                <span class="table-lagend dark-low circle">L</span>
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div> -->
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

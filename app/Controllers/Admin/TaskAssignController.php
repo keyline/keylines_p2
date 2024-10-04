@@ -3,6 +3,7 @@ namespace App\Controllers\admin;
 use App\Controllers\BaseController;
 use App\Models\CommonModel;
 use CodeIgniter\CLI\Console;
+use DateTime;
 class TaskAssignController extends BaseController {
 
     private $model;  //This can be accessed by all class methods
@@ -112,6 +113,8 @@ class TaskAssignController extends BaseController {
             'added_by'      => $this->session->get('user_id'),
             'bill'          => (($getProject)?$getProject->bill:1),
             'status_id'     => (($getProject)?$getProject->status:0),
+            'created_at'    => date('Y-m-d H:i:s'),
+            'updated_at'    => date('Y-m-d H:i:s'),
         ];
         if($requestData['project_id'] == ''){
             $fields['effort_type']          = 0;
@@ -122,6 +125,10 @@ class TaskAssignController extends BaseController {
         }
 
         $post_is_leave  = $requestData['is_leave'];
+
+        $application_settings       = $this->common_model->find_data('application_settings', 'row');
+        $edit_time_after_task_add   = $application_settings->edit_time_after_task_add;
+
         if($post_is_leave > 0){
             // leave
                 $checkLeave     = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $requestData['user_id'], 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
@@ -211,18 +218,32 @@ class TaskAssignController extends BaseController {
                             $display = 'none';
                         }
 
+                        $time1      = new DateTime($getTask->created_at);
+                        $time2      = new DateTime(date('Y-m-d H:i:s'));
+                        // Get the difference
+                        $interval   = $time1->diff($time2);
+                        // Convert the difference to total minutes
+                        $minutes    = ($interval->h * 60) + $interval->i;
+
                         $editBtn    = '';
                         $effort_id  = $getTask->effort_id;
                         if($effort_id <= 0){
-                            $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                            if($minutes <= $edit_time_after_task_add){
+                                $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                             <i class="fa-solid fa-pencil text-primary"></i>
                                             </a>';
+                            }
                         }
 
                         if($getTask->updated_at == ''){
                             $createdAt = date_format(date_create($getTask->created_at), "h:i a");
                         } else {
                             $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                        }
+
+                        if($getTask->work_status_id <= 0){
+                            $addToEffort = '<br>
+                                            <span><a href="javascript:void(0);" class="badge bg-success text-light">Add To Effort</a></span>';
                         }
 
                         $scheduleHTML .= '<div class="input-group">
@@ -239,7 +260,7 @@ class TaskAssignController extends BaseController {
                                                         [' .$hr. ' ' .$min. ']
                                                     </div>
                                                     <div class="d-flex justify-content-between">
-                                                        <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
+                                                        <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span>' . $addToEffort . '</p>
                                                         ' . $editBtn . '
                                                     </div>
                                                 </div>
@@ -348,12 +369,21 @@ class TaskAssignController extends BaseController {
                             $display = 'none';
                         }
 
+                        $time1      = new DateTime($getTask->created_at);
+                        $time2      = new DateTime(date('Y-m-d H:i:s'));
+                        // Get the difference
+                        $interval   = $time1->diff($time2);
+                        // Convert the difference to total minutes
+                        $minutes    = ($interval->h * 60) + $interval->i;
+
                         $editBtn    = '';
                         $effort_id  = $getTask->effort_id;
                         if($effort_id <= 0){
-                            $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                            if($minutes <= $edit_time_after_task_add){
+                                $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                             <i class="fa-solid fa-pencil text-primary"></i>
                                             </a>';
+                            }
                         }
 
                         if($getTask->updated_at == ''){
@@ -542,6 +572,7 @@ class TaskAssignController extends BaseController {
             'added_by'      => $this->session->get('user_id'),
             'bill'          => (($getProject)?$getProject->bill:1),
             'status_id'     => (($getProject)?$getProject->status:0),
+            'updated_at'    => date('Y-m-d H:i:s'),
         ];
         $this->data['model']->save_data('morning_meetings', $fields, $schedule_id, 'id');
 
@@ -553,6 +584,9 @@ class TaskAssignController extends BaseController {
         $totalTime                  = 0;
         if($getTasks){
             foreach($getTasks as $getTask){
+                $application_settings       = $this->common_model->find_data('application_settings', 'row');
+                $edit_time_after_task_add   = $application_settings->edit_time_after_task_add;
+
                 $dept_id        = $getTask->dept_id;
                 $user_id        = $getTask->user_id;
                 $user_name      = $getTask->user_name;
@@ -615,18 +649,32 @@ class TaskAssignController extends BaseController {
                     $display = 'none';
                 }
 
+                $time1      = new DateTime($getTask->created_at);
+                $time2      = new DateTime(date('Y-m-d H:i:s'));
+                // Get the difference
+                $interval   = $time1->diff($time2);
+                // Convert the difference to total minutes
+                $minutes    = ($interval->h * 60) + $interval->i;
+
                 $editBtn    = '';
                 $effort_id  = $getTask->effort_id;
                 if($effort_id <= 0){
-                    $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                    if($minutes <= $edit_time_after_task_add){
+                        $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                     <i class="fa-solid fa-pencil text-primary"></i>
                                     </a>';
+                    }
                 }
 
                 if($getTask->updated_at == ''){
                     $createdAt = date_format(date_create($getTask->created_at), "h:i a");
                 } else {
                     $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                }
+
+                if($getTask->work_status_id <= 0){
+                    $addToEffort = '<br>
+                                    <span><a href="javascript:void(0);" class="badge bg-success text-light">Add To Effort</a></span>';
                 }
 
                 $scheduleHTML .= '<div class="input-group">
@@ -643,7 +691,7 @@ class TaskAssignController extends BaseController {
                                                 [' .$hr. ' ' .$min. ']
                                             </div>
                                             <div class="d-flex justify-content-between">
-                                                <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
+                                                <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span>' . $addToEffort . '</p>
                                                 ' . $editBtn . '
                                             </div>
                                         </div>

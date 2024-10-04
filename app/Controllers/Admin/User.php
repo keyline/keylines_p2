@@ -1432,6 +1432,7 @@ class User extends BaseController {
                 'daily_minimum_effort_time'         => $this->request->getPost('daily_minimum_effort_time'),
                 'mark_later_after'                  => date_format(date_create($this->request->getPost('mark_later_after')), "H:i:s"),
                 'currency'                          => $this->request->getPost('currency'),
+                'edit_time_after_task_add'          => $this->request->getPost('edit_time_after_task_add'),
                 'sunday'                            => $sundayJson,
                 'monday'                            => $mondayJson,
                 'tuesday'                           => $tuesdayJson,
