@@ -850,7 +850,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-12">
                                     <div class="input-group mb-1">
-                                        <button type="button" class="btn btn-success" onClick="submitForm();">Save</button>
+                                        <button type="button" class="btn btn-success btn-sm" onClick="submitForm();">Save</button>
                                     </div>
                                 </div>
                             </div>
