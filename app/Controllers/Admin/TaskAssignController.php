@@ -1066,8 +1066,8 @@ class TaskAssignController extends BaseController {
                     }
 
                     if($getTask->work_status_id <= 0){
-                        // $addToEffort = '<br>
-                        //                 <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add To Effort</a></span>';
+                        $addToEffort = '<br>
+                                        <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add To Effort</a></span>';
                     }
 
                     $scheduleHTML .= '<div class="input-group">
@@ -1084,7 +1084,7 @@ class TaskAssignController extends BaseController {
                                                     [' .$hr. ' ' .$min. ']
                                                 </div>
                                                 <div class="d-flex justify-content-between">
-                                                    <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span></p>
+                                                    <p class="mb-0 assign-name">By '.$user_name.' <span class="ms-1">('.$createdAt.')</span>' . $addToEffort . '</p>
                                                     ' . $editBtn . '
                                                 </div>
                                             </div>
