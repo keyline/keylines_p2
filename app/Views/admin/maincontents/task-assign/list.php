@@ -1009,25 +1009,33 @@ $controller_route       = $moduleDetail['controller_route'];
         var user_id                         = $('#user_id').val();
         dataJson.effort_type                = $('#effort_type').val();
         dataJson.work_status_id             = $('#work_status_id').val();
-        $.ajax({
-            type: 'POST',
-            url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
-            data: JSON.stringify(dataJson),
-            success: function(res) {
-                res = $.parseJSON(res);
-                if(res.success){
-                    $('#morningMeetingForm').trigger("reset");
-                    $('#morningformModal').modal('hide');
-                    $('#meeting-user-' + user_id).empty();
-                    $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
-                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
-                    toastAlert("success", res.message);
-                }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error); // Handle errors
+        if($('#effort_type').val() == ''){
+            toastAlert("error", "Please Select Effort Type !!!");
+        } else {
+            if($('#work_status_id').val() == ''){
+                toastAlert("error", "Please Select Work Status !!!");
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
+                    data: JSON.stringify(dataJson),
+                    success: function(res) {
+                        res = $.parseJSON(res);
+                        if(res.success){
+                            $('#morningMeetingForm').trigger("reset");
+                            $('#morningformModal').modal('hide');
+                            $('#meeting-user-' + user_id).empty();
+                            $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                            $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                            toastAlert("success", res.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error); // Handle errors
+                    }
+                });
             }
-        });
+        }
     }
 
     function approveTask(schedule_id, effort_id, user_id){
