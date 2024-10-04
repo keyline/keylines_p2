@@ -566,8 +566,8 @@ class TaskAssignController extends BaseController {
         $projects                   = $this->common_model->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join1, '', $order_by1);
 
         $orderBy2[0]                = array('field' => 'name', 'type' => 'ASC');
-        $data['effortTypes']        = $this->common_model->find_data('effort_type', 'array', ['status' => 1], 'id,name', '', '', $orderBy2);
-        $data['workStats']          = $this->common_model->find_data('work_status', 'array', ['status' => 1, 'is_schedule' => 1], 'id,name', '', '', $orderBy2);
+        $effortTypes                = $this->common_model->find_data('effort_type', 'array', ['status' => 1], 'id,name', '', '', $orderBy2);
+        $workStats                  = $this->common_model->find_data('work_status', 'array', ['status' => 1, 'is_schedule' => 1], 'id,name', '', '', $orderBy2);
         
         $dept_id                    = $requestData['dept_id'];
         $user_id                    = $requestData['user_id'];
