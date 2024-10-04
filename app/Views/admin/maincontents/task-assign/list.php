@@ -689,9 +689,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     ?>
                                                                                                     <p class="mb-0 assign-name">
                                                                                                         By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
-                                                                                                        <?php if($getTask->work_status_id <= 0){?>
-                                                                                                            <br>
-                                                                                                            <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add To Effort</a></span>
+                                                                                                        <?php if($getTask->work_status_id == 0){?>
+                                                                                                            <?php if($alterIcon){?>
+                                                                                                                <br>
+                                                                                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add To Effort</a></span>
+                                                                                                            <?php }?>
                                                                                                         <?php }?>
                                                                                                     </p>
 
