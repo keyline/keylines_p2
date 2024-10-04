@@ -88,10 +88,6 @@ class TaskAssignController extends BaseController {
             return redirect()->to('/admin/'.$this->data['controller_route']);
         }
 
-        $orderBy2[0]                = array('field' => 'name', 'type' => 'ASC');
-        $data['effortTypes']        = $this->data['model']->find_data('effort_type', 'array', ['status' => 1], 'id,name', '', '', $orderBy2);
-        $data['workStats']          = $this->data['model']->find_data('work_status', 'array', ['status' => 1, 'is_schedule' => 1], 'id,name', '', '', $orderBy2);
-
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function morning_meeting_schedule_submit(){
@@ -568,6 +564,10 @@ class TaskAssignController extends BaseController {
         $join1[0]                   = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
         $join1[1]                   = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
         $projects                   = $this->common_model->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join1, '', $order_by1);
+
+        $orderBy2[0]                = array('field' => 'name', 'type' => 'ASC');
+        $data['effortTypes']        = $this->common_model->find_data('effort_type', 'array', ['status' => 1], 'id,name', '', '', $orderBy2);
+        $data['workStats']          = $this->common_model->find_data('work_status', 'array', ['status' => 1, 'is_schedule' => 1], 'id,name', '', '', $orderBy2);
         
         $dept_id                    = $requestData['dept_id'];
         $user_id                    = $requestData['user_id'];
@@ -592,12 +592,12 @@ class TaskAssignController extends BaseController {
                                             <div class="row">
                                                 <div class="col-md-6">
                                                     <div class="input-group mb-1">
-                                                        <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$currentDate.'" min="'.$currentDate.'" value="' . $getTask->date_added . '" required>
+                                                        <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$currentDate.'" min="'.$currentDate.'" value="' . $getTask->date_added . '" required disabled>
                                                     </div>
                                                 </div>
                                                 <div class="col-6">
                                                     <div class="input-group mb-1">
-                                                        <select name="project_id" id="project_id" class="form-control" required>
+                                                        <select name="project_id" id="project_id" class="form-control" required disabled>
                                                             <option value="" selected="">Select Project</option>
                                                             <hr>';
                                                             if($projects){ foreach($projects as $project){
@@ -613,7 +613,7 @@ class TaskAssignController extends BaseController {
                                                         <textarea name="description" id="description" placeholder="Description" class="form-control" rows="5" required>' . $getTask->description . '</textarea>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-3">
                                                     <div class="input-group mb-1">
                                                         <select name="hour" class="form-control" id="hour" required>
                                                             <option value="" selected>Select Hour</option>';
@@ -624,7 +624,7 @@ class TaskAssignController extends BaseController {
                             $scheduleHTML           .= '</select>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6">
+                                                <div class="col-md-3">
                                                     <div class="input-group mb-1">
                                                         <select name="min" class="form-control" id="min" required>
                                                             <option value="" selected>Select Minute</option>';
@@ -642,9 +642,35 @@ class TaskAssignController extends BaseController {
                                                         <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required ' . $checkedPriority3 . '><label for="priority3" style="margin-left : 3px;">Priority HIGH</label></span>
                                                     </div>
                                                 </div>
+                                                <div class="col-6">
+                                                    <div class="input-group mb-1">
+                                                        <select name="effort_id" id="effort_id" class="form-control" required>
+                                                            <option value="" selected="">Select Effort Type</option>
+                                                            <hr>';
+                                                            if($effortTypes){ foreach($effortTypes as $effortType){
+                                                                $selectedEffortType = (($effortType->id == $getTask->effort_id)?'selected':'');
+                                    $scheduleHTML           .= '<option value="'.$effortType->id.'" '.$selectedEffortType.'>'.$effortType->name.'</option>
+                                                                <hr>';
+                                                            } }
+                            $scheduleHTML           .= '</select>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="input-group mb-1">
+                                                        <select name="work_status_id" id="work_status_id" class="form-control" required>
+                                                            <option value="" selected="">Select Work Status</option>
+                                                            <hr>';
+                                                            if($workStats){ foreach($workStats as $workStat){
+                                                                $selectedWorkStatus = (($workStat->id == $getTask->work_status_id)?'selected':'');
+                                    $scheduleHTML           .= '<option value="'.$workStat->id.'" '.$selectedWorkStatus.'>'.$workStat->name.'</option>
+                                                                <hr>';
+                                                            } }
+                            $scheduleHTML           .= '</select>
+                                                    </div>
+                                                </div>
                                                 <div class="col-md-12">
                                                     <div class="input-group mb-1">
-                                                        <button type="button" class="btn btn-success" onClick="submitEditForm();">Save</button>
+                                                        <button type="button" class="btn btn-success" onClick="submitEffortBookingForm();">Book Effort</button>
                                                     </div>
                                                 </div>
                                             </div>
@@ -654,7 +680,7 @@ class TaskAssignController extends BaseController {
         $apiResponse                        = $scheduleHTML;
         $apiStatus                          = TRUE;
         http_response_code(200);
-        $apiMessage                         = 'Task Schedule Form Open For Modify !!!';
+        $apiMessage                         = 'Scheduled Task Open For Effort Booking !!!';
         $apiExtraField                      = 'response_code';
         $apiExtraData                       = http_response_code();
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
