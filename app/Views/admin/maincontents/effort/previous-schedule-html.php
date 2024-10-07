@@ -24,6 +24,34 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                         <?php
                         $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                         if($teamMembers){ foreach($teamMembers as $teamMember){
+                            $application_settings    = $common_model->find_data('application_settings', 'row');
+                            $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
+                            if($type == 'SUPER ADMIN'){
+                                $alterIcon  = 1;
+                                if($user_id == $teamMember->id){
+                                    $effortIcon = 1;
+                                } else {
+                                    $effortIcon = 0;
+                                }
+                            } elseif($type == 'ADMIN'){
+                                $alterIcon  = 1;
+                                if($user_id == $teamMember->id){
+                                    $effortIcon = 1;
+                                } else {
+                                    $effortIcon = 0;
+                                }
+                            } elseif($type == 'USER'){
+                                if($user_id == $teamMember->id){
+                                    $alterIcon  = 1;
+                                    $effortIcon = 1;
+                                } else {
+                                    $alterIcon  = 0;
+                                    $effortIcon = 0;
+                                }
+                            } else {
+                                $alterIcon  = 0;
+                                $effortIcon = 0;
+                            }
                         ?>
                             <?php
                             $yesterday                  = $taskDate;
@@ -144,7 +172,15 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                         }
                                                         ?>
                                                         <div class="d-flex justify-content-between">
-                                                            <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span></p>
+                                                            <p class="mb-0 assign-name">
+                                                                By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
+                                                                <?php if($getTask->work_status_id == 0){?>
+                                                                    <?php if($effortIcon){?>
+                                                                        <br>
+                                                                        <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
+                                                                    <?php }?>
+                                                                <?php }?>
+                                                            </p>
                                                         </div>
                                                     </div>
                                                 </div>
