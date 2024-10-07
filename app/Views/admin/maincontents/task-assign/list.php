@@ -521,6 +521,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 <div class="d-flex justify-content-between">
                                                                                                     <p class="mb-0 assign-name">
                                                                                                         By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
+                                                                                                        <?php echo $getTask->work_status_id; ?>
                                                                                                         <?php if($getTask->work_status_id == 0){?>
                                                                                                             <?php if($effortIcon){?>
                                                                                                                 <br>
