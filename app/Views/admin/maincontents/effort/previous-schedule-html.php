@@ -48,10 +48,11 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                     $alterIcon  = 0;
                                     $effortIcon = 0;
                                 }
-                            } else {
-                                $alterIcon  = 0;
-                                $effortIcon = 0;
                             }
+                            //  else {
+                            //     $alterIcon  = 0;
+                            //     $effortIcon = 0;
+                            // }
                         ?>
                             <?php
                             $yesterday                  = $taskDate;
@@ -176,10 +177,10 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                                 By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
                                                                 <!-- <?=$getTask->work_status_id?>/<?=$effortIcon?>/<?=$user_id?>/<?=$type?>/<?=$teamMember->id?> -->
                                                                 <?php if($getTask->work_status_id == 0){?>
-                                                                    <?php //if($effortIcon){?>
+                                                                    <?php if($effortIcon == 1){?>
                                                                         <br>
                                                                         <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
-                                                                    <?php //}?>
+                                                                    <?php }?>
                                                                 <?php }?>
                                                             </p>
                                                         </div>
