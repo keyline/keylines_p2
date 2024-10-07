@@ -174,7 +174,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                         <div class="d-flex justify-content-between">
                                                             <p class="mb-0 assign-name">
                                                                 By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
-                                                                <?=$getTask->work_status_id?>/<?=$effortIcon?>/<?=$user_id?>/<?=$type?>
+                                                                <?=$getTask->work_status_id?>/<?=$effortIcon?>/<?=$user_id?>/<?=$type?>/<?=$teamMember->id?>
                                                                 <?php if($getTask->work_status_id == 0){?>
                                                                     <?php if($effortIcon){?>
                                                                         <br>
