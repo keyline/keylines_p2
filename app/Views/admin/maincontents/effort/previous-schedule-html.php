@@ -174,12 +174,12 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                         <div class="d-flex justify-content-between">
                                                             <p class="mb-0 assign-name">
                                                                 By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
-                                                                <?=$getTask->work_status_id?>/<?=$effortIcon?>/<?=$user_id?>/<?=$type?>/<?=$teamMember->id?>
+                                                                <!-- <?=$getTask->work_status_id?>/<?=$effortIcon?>/<?=$user_id?>/<?=$type?>/<?=$teamMember->id?> -->
                                                                 <?php if($getTask->work_status_id == 0){?>
-                                                                    <?php if($effortIcon){?>
+                                                                    <?php //if($effortIcon){?>
                                                                         <br>
                                                                         <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
-                                                                    <?php }?>
+                                                                    <?php //}?>
                                                                 <?php }?>
                                                             </p>
                                                         </div>
