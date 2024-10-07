@@ -27,10 +27,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                             $application_settings    = $common_model->find_data('application_settings', 'row');
                             $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
                             
-                            //  else {
-                            //     $alterIcon  = 0;
-                            //     $effortIcon = 0;
-                            // }
+                            
                         ?>
                             <?php
                             $yesterday                  = $taskDate;
@@ -177,7 +174,11 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                                         $alterIcon  = 0;
                                                                         $effortIcon = 0;
                                                                     }
+                                                                } else {
+                                                                    $alterIcon  = 0;
+                                                                    $effortIcon = 0;
                                                                 }
+                                                                echo $type;
                                                                 echo $effortIcon;
                                                                 ?>
                                                                 <?php if($getTask->work_status_id == 0){?>
