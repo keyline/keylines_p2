@@ -407,10 +407,18 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
                                                                     if($type == 'SUPER ADMIN'){
                                                                         $alterIcon  = 1;
-                                                                        $effortIcon = 0;
+                                                                        if($user_id == $teamMember->id){
+                                                                            $effortIcon = 1;
+                                                                        } else {
+                                                                            $effortIcon = 0;
+                                                                        }
                                                                     } elseif($type == 'ADMIN'){
                                                                         $alterIcon  = 1;
-                                                                        $effortIcon = 0;
+                                                                        if($user_id == $teamMember->id){
+                                                                            $effortIcon = 1;
+                                                                        } else {
+                                                                            $effortIcon = 0;
+                                                                        }
                                                                     } elseif($type == 'USER'){
                                                                         if($user_id == $teamMember->id){
                                                                             $alterIcon  = 1;
@@ -611,10 +619,18 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
                                                                     if($type == 'SUPER ADMIN'){
                                                                         $alterIcon  = 1;
-                                                                        $effortIcon = 0;
+                                                                        if($user_id == $teamMember->id){
+                                                                            $effortIcon = 1;
+                                                                        } else {
+                                                                            $effortIcon = 0;
+                                                                        }
                                                                     } elseif($type == 'ADMIN'){
                                                                         $alterIcon  = 1;
-                                                                        $effortIcon = 0;
+                                                                        if($user_id == $teamMember->id){
+                                                                            $effortIcon = 1;
+                                                                        } else {
+                                                                            $effortIcon = 0;
+                                                                        }
                                                                     } elseif($type == 'USER'){
                                                                         if($user_id == $teamMember->id){
                                                                             $alterIcon  = 1;
