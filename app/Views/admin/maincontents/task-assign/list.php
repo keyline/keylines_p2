@@ -524,7 +524,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                         <?php if($getTask->work_status_id == 0){?>
                                                                                                             <?php if($effortIcon){?>
                                                                                                                 <br>
-                                                                                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add To Effort</a></span>
+                                                                                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
                                                                                                             <?php }?>
                                                                                                         <?php }?>
                                                                                                     </p>
@@ -741,7 +741,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                         <?php if($getTask->work_status_id == 0){?>
                                                                                                             <?php if($effortIcon){?>
                                                                                                                 <br>
-                                                                                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add To Effort</a></span>
+                                                                                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
                                                                                                             <?php }?>
                                                                                                         <?php }?>
                                                                                                     </p>

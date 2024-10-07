@@ -246,7 +246,7 @@ class TaskAssignController extends BaseController {
 
                             if($getTask->work_status_id == 0){
                                 $addToEffort = '<br>
-                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add To Effort</a></span>';
+                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
                             } else {
                                 $addToEffort = '';
                             }
@@ -399,7 +399,7 @@ class TaskAssignController extends BaseController {
 
                             if($getTask->work_status_id == 0){
                                 $addToEffort = '<br>
-                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add To Effort</a></span>';
+                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
                             } else {
                                 $addToEffort = '';
                             }
@@ -688,7 +688,7 @@ class TaskAssignController extends BaseController {
 
                     if($getTask->work_status_id == 0){
                         $addToEffort = '<br>
-                                        <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add To Effort</a></span>';
+                                        <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
                     } else {
                         $addToEffort = '';
                     }
@@ -1078,7 +1078,7 @@ class TaskAssignController extends BaseController {
 
                     if($getTask->work_status_id == 0){
                         $addToEffort = '<br>
-                                        <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add To Effort</a></span>';
+                                        <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
                     } else {
                         $addToEffort = '';
                     }
