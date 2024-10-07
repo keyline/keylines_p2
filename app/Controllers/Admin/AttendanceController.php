@@ -84,10 +84,145 @@ class AttendanceController extends BaseController
                 ];
             }
         }
+        //monthly attendance
+        $data['month_fetch'] = '';
+        $form_type = $this->request->getPost('form_type');
+        // $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
+        // $getEvents          = $this->common_model->find_data('event', 'array', '', 'title,start_event', '', '', $orderBy);
+        // pr($getEvents);
+        if ($form_type == 'monthly_attendance_report') {
+
+            // Handle the first form submission (Fetching backlog date)
+            $month_fetch             = $this->request->getPost('month');             
+            $sql = "SELECT attendances.user_id, team.type as designation, department.deprt_name as team, 
+                    COUNT(DISTINCT attendances.punch_date) as present_count, user.name
+                    FROM attendances
+                    INNER JOIN team ON attendances.user_id = team.user_id  -- First join attendances with team
+                    INNER JOIN department ON team.dep_id = department.id   -- Then join team with department
+                    INNER JOIN user ON attendances.user_id = user.id       -- Finally join user to get the name
+                    WHERE punch_date LIKE '%$month_fetch%'  -- Filter for September 2024
+                    GROUP BY attendances.user_id, team.dep_id, team.type, department.deprt_name, user.name";
+            $rows = $this->db->query($sql)->getResult();
+            // pr($rows);
+            $data['monthlyAttendancereport'] = $rows;
+            $data['month_fetch']      = $month_fetch;
+
+            $year = date('Y', strtotime($month_fetch));
+            $month = date('m', strtotime($month_fetch));
+
+            // function getWorkingDays($year, $month) {
+            //     // Total days in the given month
+            //     $total_days_in_month = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
+            //     // Define week-offs: Sundays (day 0) and 2nd, 4th Saturdays (day 6)
+            //     $db = \Config\Database::connect();
+            //     $sql1 = "SELECT satarday FROM `application_settings`";
+            //     $week_off = $db->query($sql1)->getRow(); 
+            //     // pr($saturdays_off); // 2nd and 4th Saturdays
+            //     $saturdays_off = $week_off->satarday;
+            //     // pr($saturdays_off);
+            //     // Fetch all week-offs (e.g., Sundays and specific Saturdays) dynamically
+            //     // $weekOffs = getWeekOffs($year, $month);  // A function to get all week-offs for the given month
+            //     $holidays = getHolidays($year, $month);  // A function to get all holidays for the given month
+            
+            //     // Calculate total working days
+            //     $total_working_days = 0;
+            
+            //     for ($day = 1; $day <= $total_days_in_month; $day++) {
+            //         // Get the date for the current day
+            //         $current_date = "$year-$month-$day";
+            //          $day_of_week = date('w', strtotime($current_date));
+            //          // Skip Sundays (0)
+            //         if ($day_of_week == 0) {
+            //             continue;  // Skip this day, it's a Sunday
+            //         }
+
+            //         // Check if the current day is a Saturday
+            //         if ($day_of_week == 6) {
+            //             // Determine if it's the 2nd or 4th Saturday
+            //             $week_number = ceil($day / 7);  // Calculate the week number (1st, 2nd, etc.)
+                        
+            //             if (in_array($week_number, $saturdays_off)) {
+            //                 continue;  // Skip 2nd or 4th Saturday
+            //             }
+            //         }
+            
+            //         // If the current date is not a holiday or a week-off, count it as a working day
+            //         if (!in_array($current_date, $holidays)) {
+            //             $total_working_days++;
+            //         }
+            //     }
+            
+            //     return $total_working_days;
+            // }
+            function getWorkingDays($year, $month) {
+                // Total days in the given month
+                $total_days_in_month = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+                
+                // Connect to the database
+                $db = \Config\Database::connect();
+                
+                // Fetch week-off Saturdays (2nd and 4th) from the application settings
+                $sql1 = "SELECT satarday FROM `application_settings`";
+                $week_off = $db->query($sql1)->getRow();                                                
+                $saturdays_off = json_decode($week_off->satarday);
+                // pr(json_decode($week_off->satarday));
+                
+                
+                // Fetch holidays for the month
+                $holidays = getHolidays($year, $month);  // Ensure this returns an array of dates (YYYY-MM-DD)
+            
+                // Initialize total working days counter
+                $total_working_days = 0;
+            
+                for ($day = 1; $day <= $total_days_in_month; $day++) {
+                    // Get the date for the current day
+                    $current_date = "$year-$month-" . str_pad($day, 2, '0', STR_PAD_LEFT);
+                    
+                    // Get the day of the week: 0 (Sunday) to 6 (Saturday)
+                    $day_of_week = date('w', strtotime($current_date));
+            
+                    // Skip Sundays (0)
+                    if ($day_of_week == 0) {
+                        continue;  // Skip this day, it's a Sunday
+                    }
+            
+                    // Check if the current day is a Saturday (6)
+                    if ($day_of_week == 6) {
+                        // Determine if it's the 2nd or 4th Saturday
+                        $week_number = ceil($day / 7); // Calculate the week number (1st, 2nd, etc.) 
+                        
+                        // Skip if the Saturday is marked as a week-off
+                        if (in_array($week_number, $saturdays_off)) {
+                            continue;  // Skip this Saturday
+                        }
+                    }
+            
+                    // If the current date is not a holiday or a week-off, count it as a working day
+                    if (!in_array($current_date, $holidays)) {
+                        $total_working_days++;
+                    }
+                }
+            
+                return $total_working_days;
+            }                                    
+            function getHolidays($year, $month) {
+                // You can fetch this data from the database
+                // Example SQL query to fetch holidays dynamically for the given month
+                $db = \Config\Database::connect();
+                $holiday_count = "SELECT * FROM event WHERE MONTH(start_event) = $month AND YEAR(start_event) = $year"; 
+                $query = $db->query($holiday_count); 
+                $holidays = array_column($query->getResultArray(), 'start_event');               
+                return $holidays;
+            }                        
+            $working_days = getWorkingDays($year, $month);
+            $data['working_days'] = $working_days;
+            //  echo "Total working days: " . $working_days; die;
+            
+        } 
+        //monthly attendance         
         $data['year']        = $yearString;
         $data['arr']                        = $arr;
-        $data['last7DaysResponses']         = $last7DaysResponses;
-        // pr($data['last7DaysResponses']); die();
+        $data['last7DaysResponses']         = $last7DaysResponses;        
         echo $this->layout_after_login($title, $page_name, $data);
     }
     
@@ -231,4 +366,35 @@ class AttendanceController extends BaseController
     echo $html;
     }
     /* day-wise modal punchout list */
+
+    /* monthly attendance report */
+    public function monthlyAttendance()
+    {
+        $data['moduleDetail']       = $this->data;
+        $title                      = 'Manage ' . $this->data['title'];
+        $page_name                  = 'attendance-report';
+        $data['userType']           = $this->session->user_type;
+        $form_type = $this->request->getPost('form_type');
+
+        if ($form_type == 'monthly_attendance_report') {
+
+            // Handle the first form submission (Fetching backlog date)
+            $month              = $this->request->getPost('month'); 
+            $sql = "SELECT attendances.user_id, team.type as designation, department.deprt_name as team, 
+                    COUNT(attendances.punch_date) as present_count, user.name
+                    FROM attendances
+                    INNER JOIN team ON attendances.user_id = team.user_id  -- First join attendances with team
+                    INNER JOIN department ON team.dep_id = department.id   -- Then join team with department
+                    INNER JOIN user ON attendances.user_id = user.id       -- Finally join user to get the name
+                    WHERE punch_date LIKE '2024-09%'  -- Filter for September 2024
+                    GROUP BY attendances.user_id, team.dep_id, team.type, department.deprt_name, user.name";
+            $rows = $this->db->query($sql)->getResult();
+            // pr($rows);
+            $data['monthlyAttendancereport'] = $rows;
+            
+        }  
+        echo $this->layout_after_login($title, $page_name, $data);  
+    }
+    
+    /* monthly attendance report */
 }

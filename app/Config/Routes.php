@@ -216,6 +216,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 		// report
 		// attendance
 			$routes->match(['get', 'post'], "attendance-report", "AttendanceController::attendance");
+			// $routes->match(['get', 'post'], "monthly-attendance-report", "AttendanceController::monthlyAttendance");
 			$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
 			$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
 		// attendance
