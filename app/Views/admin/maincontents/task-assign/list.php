@@ -955,8 +955,9 @@ $controller_route       = $moduleDetail['controller_route'];
                 if(res.success){
                     $('#morningMeetingForm').trigger("reset");
                     $('#morningformModal').modal('hide');
-                    $('#meeting-user-' + user_id).empty();
-                    $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                    var date_added = $('#date_added').val();
+                    $('#meeting-user-' + user_id + '_' + date_added).empty();
+                    $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                     $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
                 } else {
