@@ -946,6 +946,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.is_leave                   = $('input[name="is_leave"]:checked').val();
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
+        var current_date                    = '<?=$current_date?>';
         $.ajax({
             type: 'POST',
             url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
@@ -956,8 +957,15 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#morningMeetingForm').trigger("reset");
                     $('#morningformModal').modal('hide');
                     var date_added = $('#date_added').val();
-                    $('#meeting-user-' + user_id + '_' + date_added).empty();
-                    $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                    // $('#meeting-user-' + user_id + '_' + date_added).empty();
+                    // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                    if(current_date == date_added){
+                        $('#meeting-user-' + user_id + '_' + date_added).empty();
+                        $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                    } else {
+                        $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
+                        $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                    }
                     $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
                 } else {
