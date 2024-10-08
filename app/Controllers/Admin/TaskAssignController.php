@@ -233,9 +233,11 @@ class TaskAssignController extends BaseController {
                             $effort_id  = $getTask->effort_id;
                             if($effort_id <= 0){
                                 if($minutes <= $edit_time_after_task_add){
-                                    $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                                    if($requestData['date_added'] == date('Y-m-d')){
+                                        $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                                 <i class="fa-solid fa-pencil text-primary"></i>
                                                 </a>';
+                                    }
                                 }
                             }
 
@@ -386,9 +388,11 @@ class TaskAssignController extends BaseController {
                             $effort_id  = $getTask->effort_id;
                             if($effort_id <= 0){
                                 if($minutes <= $edit_time_after_task_add){
-                                    $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
+                                    if($requestData['date_added'] == date('Y-m-d')){
+                                        $editBtn    = '<a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');" style="display:'.$display.'">
                                                 <i class="fa-solid fa-pencil text-primary"></i>
                                                 </a>';
+                                    }
                                 }
                             }
 
