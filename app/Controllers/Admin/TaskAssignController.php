@@ -941,7 +941,7 @@ class TaskAssignController extends BaseController {
                     'hour_rate'             => $user_cost,
                     'cost'                  => number_format($projectCost, 2, '.', ''),
                 );
-                pr($postData);
+                // pr($postData);
                 $effort_id              = $this->data['model']->save_data('timesheet', $postData, '', 'id');
 
                 $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
