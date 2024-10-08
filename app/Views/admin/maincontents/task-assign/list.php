@@ -1044,7 +1044,7 @@ $controller_route       = $moduleDetail['controller_route'];
             }
         });
     }
-    function submitEffortBookingForm(){
+    function submitEffortBookingForm(book_date){
         var base_url        = '<?=base_url()?>';
         var dataJson        = {};
         dataJson.dept_id                    = $('#dept_id').val();
@@ -1068,9 +1068,9 @@ $controller_route       = $moduleDetail['controller_route'];
                 toastAlert("error", "Please Select Work Status !!!");
             } else {
                 var current_date    = '<?=$current_date?>';
-                var date_added      = $('#date_added').val();
+                // var date_added      = $('#date_added').val();
                 console.log(current_date);
-                console.log(date_added);
+                console.log(book_date);
                 // $.ajax({
                 //     type: 'POST',
                 //     url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint

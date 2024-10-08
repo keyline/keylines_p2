@@ -866,7 +866,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="input-group mb-1">
-                                                            <button type="button" class="btn btn-success btn-sm" onClick="submitEffortBookingForm();"><i class="fa fa-paper-plane"></i> Book Effort</button>
+                                                            <button type="button" class="btn btn-success btn-sm" onClick="submitEffortBookingForm('.$currentDate.');"><i class="fa fa-paper-plane"></i> Book Effort</button>
                                                         </div>
                                                     </div>
                                                 </div>
