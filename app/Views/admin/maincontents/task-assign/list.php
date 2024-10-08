@@ -431,13 +431,13 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         $alterIcon  = 0;
                                                                         $effortIcon = 0;
                                                                     }
+                                                                    $yesterday                  = date('Y-m-d', strtotime("-1 days"));
                                                             ?>
                                                                 <td style="background-color: <?=$dept->body_color?>;">
                                                                     <div class="field_wrapper" id="name">
                                                                         <div class="row">
-                                                                            <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>">
+                                                                            <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>_<?=$yesterday?>">
                                                                                 <?php
-                                                                                $yesterday                  = date('Y-m-d', strtotime("-1 days"));
                                                                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
@@ -643,16 +643,17 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         $alterIcon  = 0;
                                                                         $effortIcon = 0;
                                                                     }
+                                                                    $today = date('Y-m-d');
                                                             ?>
                                                                 <td style="background-color: <?=$dept->body_color?>;">
                                                                     <div class="field_wrapper" id="name">
                                                                         <div class="row">
-                                                                            <div class="col-12" id="meeting-user-<?=$teamMember->id?>">
+                                                                            <div class="col-12" id="meeting-user-<?=$teamMember->id?>_<?=$today?>">
                                                                                 <?php
                                                                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $today], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
                                                                                 
                                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                                     $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
@@ -1066,25 +1067,29 @@ $controller_route       = $moduleDetail['controller_route'];
             if($('#work_status_id').val() == ''){
                 toastAlert("error", "Please Select Work Status !!!");
             } else {
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
-                    data: JSON.stringify(dataJson),
-                    success: function(res) {
-                        res = $.parseJSON(res);
-                        if(res.success){
-                            $('#morningMeetingForm').trigger("reset");
-                            $('#morningformModal').modal('hide');
-                            $('#meeting-user-' + user_id).empty();
-                            $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
-                            $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
-                            toastAlert("success", res.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error); // Handle errors
-                    }
-                });
+                var current_date    = '<?=$current_date?>';
+                var date_added      = $('#date_added').val();
+                console.log(current_date);
+                console.log(date_added);
+                // $.ajax({
+                //     type: 'POST',
+                //     url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
+                //     data: JSON.stringify(dataJson),
+                //     success: function(res) {
+                //         res = $.parseJSON(res);
+                //         if(res.success){
+                //             $('#morningMeetingForm').trigger("reset");
+                //             $('#morningformModal').modal('hide');
+                //             $('#meeting-user-' + user_id).empty();
+                //             $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                //             $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                //             toastAlert("success", res.message);
+                //         }
+                //     },
+                //     error: function(xhr, status, error) {
+                //         console.error('Error:', error); // Handle errors
+                //     }
+                // });
             }
         }
     }

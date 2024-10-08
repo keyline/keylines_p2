@@ -60,13 +60,13 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                         <?php
                         $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                         if($teamMembers){ foreach($teamMembers as $teamMember){
+                            $yesterday                  = $taskDate;
                     ?>
                         <td style="background-color: <?=$dept->body_color?>;">
                             <div class="field_wrapper" id="name">
                                 <div class="row">
-                                    <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>">
+                                    <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>_<?=$yesterday?>">
                                         <?php
-                                        $yesterday                  = $taskDate;
                                         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
