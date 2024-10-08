@@ -53,7 +53,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="row mb-2">
                                 <div class="col-md-2 col-lg-2">
                                     <div class="general_form_left_box">
-                                        <label for="name" class="col-form-label">Department Name</label>
+                                        <label for="name" class="col-form-label">Work Status Name</label>
                                     </div>
                                 </div>
                                 <div class="col-md-10 col-lg-10">
