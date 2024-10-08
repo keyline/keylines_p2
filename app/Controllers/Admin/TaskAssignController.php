@@ -1209,6 +1209,86 @@ class TaskAssignController extends BaseController {
             $apiExtraData                       = http_response_code();
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
+        public function calculateNextWorkingDate($givenDate){
+        // echo $givenDate;
+        $checkHoliday = $this->common_model->find_data('event', 'count', ['start_event' => $givenDate]);
+        if($checkHoliday > 0){
+            return true;
+        } else {
+            $applicationSetting = $this->common_model->find_data('application_settings', 'row');
+            $dayOfWeek = date("l", strtotime($givenDate));
+            if($dayOfWeek == 'Sunday'){
+                $dayNo          = 7;
+                $fieldName      = 'sunday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Monday'){
+                $dayNo          = 1;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Tuesday'){
+                $dayNo          = 2;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Wednesday'){
+                $dayNo          = 3;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Thursday'){
+                $dayNo          = 4;
+                $fieldName      = 'thursday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Friday'){
+                $dayNo          = 5;
+                $fieldName      = 'friday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Saturday'){
+                $dayNo          = 6;
+                $fieldName      = 'satarday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            }
+            // echo $getDayCount;
+            $fieldArray = json_decode($applicationSetting->$fieldName);
+            // pr($fieldArray,0);
+            if(in_array($getDayCount, $fieldArray)){
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    public function getDayCountInMonth($givenDate, $dayNo){
+        $date = $givenDate; // Example date
+        // $date = "2024-08-24"; // Example date
+
+        // Get the day of the month
+        $dayOfMonth = date("j", strtotime($date));
+
+        // Get the month and year from the date
+        $month = date("m", strtotime($date));
+        $year = date("Y", strtotime($date));
+
+        // Initialize the counter for Saturdays
+        $saturdayCount = 0;
+
+        for ($day = 1; $day <= $dayOfMonth; $day++) {
+            // Create a date string for each day of the month
+            $currentDate = "$year-$month-$day";
+            // echo date("N", strtotime('2024-08-25')).'<br>';
+            // Check if the current date is a Saturday
+            if (date("N", strtotime($currentDate)) == $dayNo) {
+                $saturdayCount++;
+            }
+        }
+
+        // Check if the provided date is a Saturday and count it
+        if (date("N", strtotime($date)) == $dayNo) {
+            // echo "The date $date is the $saturdayCount" . "th Saturday of the month.";
+            return $saturdayCount;
+        } else {
+            // echo "The date $date is not a Saturday.";
+            return 0;
+        }
+    }
     /* task effort booking */
     /* task approve/reject */
         public function morning_meeting_schedule_approve_task(){
