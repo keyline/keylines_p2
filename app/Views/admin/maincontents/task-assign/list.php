@@ -956,7 +956,7 @@ $controller_route       = $moduleDetail['controller_route'];
                 if(res.success){
                     $('#morningMeetingForm').trigger("reset");
                     $('#morningformModal').modal('hide');
-                    var date_added = $('#date_added').val();
+                    var date_added = dataJson.date_added;
 
                     console.log(current_date);
                     console.log(date_added);
