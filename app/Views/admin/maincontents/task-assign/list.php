@@ -544,6 +544,25 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                         </div>
                                                                                     </div>
                                                                                 <?php } }?>
+
+                                                                                <?php
+                                                                                $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                                                                                if(!$getLeaveTask){
+                                                                                    if($alterIcon){
+                                                                                ?>
+                                                                                        <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                            <i class="fa-solid fa-plus-circle"></i>
+                                                                                        </a>
+                                                                                    <?php }?>
+                                                                                <?php } else {?>
+                                                                                    <?php if($getLeaveTask->is_leave == 1){?>
+                                                                                        <?php if($alterIcon){?>
+                                                                                            <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                                <i class="fa-solid fa-plus-circle"></i>
+                                                                                            </a>
+                                                                                        <?php }?>
+                                                                                    <?php }?>
+                                                                                <?php }?>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1068,8 +1087,6 @@ $controller_route       = $moduleDetail['controller_route'];
                 toastAlert("error", "Please Select Work Status !!!");
             } else {
                 var current_date    = '<?=$current_date?>';
-                console.log(current_date);
-                console.log(book_date);
                 $.ajax({
                     type: 'POST',
                     url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
