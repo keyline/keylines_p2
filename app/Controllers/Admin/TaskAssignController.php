@@ -788,7 +788,7 @@ class TaskAssignController extends BaseController {
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$currentDate.'" min="'.$currentDate.'" value="' . $getTask->date_added . '" required disabled>
+                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
