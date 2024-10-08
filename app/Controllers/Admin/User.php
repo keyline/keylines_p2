@@ -1470,7 +1470,7 @@ class User extends BaseController {
                             $mailData   = [
                                 'name'      => $profile->name,
                                 'email'     => $profile->email,
-                                'password'  => $password,
+                                'password'  => $new_password,
                             ];
                             $general_settings           = $this->common_model->find_data('general_settings','row');
                             $to         = $profile->email;
