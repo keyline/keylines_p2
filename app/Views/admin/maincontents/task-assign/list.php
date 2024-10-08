@@ -957,6 +957,9 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#morningMeetingForm').trigger("reset");
                     $('#morningformModal').modal('hide');
                     var date_added = $('#date_added').val();
+
+                    console.log(current_date);
+                    console.log(date_added);
                     // $('#meeting-user-' + user_id + '_' + date_added).empty();
                     // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                     if(current_date == date_added){
