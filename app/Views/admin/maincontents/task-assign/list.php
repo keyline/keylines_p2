@@ -858,7 +858,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group mb-1">
-                                        <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="<?=date('Y-m-d')?>" min="<?=date('Y-m-d')?>" required>
+                                        <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="<?=date('Y-m-d')?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
