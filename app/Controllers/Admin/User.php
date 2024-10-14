@@ -370,6 +370,7 @@ class User extends BaseController {
                     $application_settings        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
                     //  pr($application_settings);
                     $desklog_user       = $application_settings->is_desklog_use;
+                    $data['desklog_user'] = $desklog_user;
                     // $cu_date            = date('Y-m-d');
                 // }
 
