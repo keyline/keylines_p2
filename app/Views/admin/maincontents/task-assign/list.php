@@ -403,13 +403,41 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                 <?php
                                                                 $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
+                                                                    $application_settings    = $common_model->find_data('application_settings', 'row');
+                                                                    $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
+                                                                    if($type == 'SUPER ADMIN'){
+                                                                        $alterIcon  = 1;
+                                                                        if($user_id == $teamMember->id){
+                                                                            $effortIcon = 1;
+                                                                        } else {
+                                                                            $effortIcon = 0;
+                                                                        }
+                                                                    } elseif($type == 'ADMIN'){
+                                                                        $alterIcon  = 1;
+                                                                        if($user_id == $teamMember->id){
+                                                                            $effortIcon = 1;
+                                                                        } else {
+                                                                            $effortIcon = 0;
+                                                                        }
+                                                                    } elseif($type == 'USER'){
+                                                                        if($user_id == $teamMember->id){
+                                                                            $alterIcon  = 1;
+                                                                            $effortIcon = 1;
+                                                                        } else {
+                                                                            $alterIcon  = 0;
+                                                                            $effortIcon = 0;
+                                                                        }
+                                                                    } else {
+                                                                        $alterIcon  = 0;
+                                                                        $effortIcon = 0;
+                                                                    }
+                                                                    $yesterday                  = date('Y-m-d', strtotime("-1 days"));
                                                             ?>
                                                                 <td style="background-color: <?=$dept->body_color?>;">
                                                                     <div class="field_wrapper" id="name">
                                                                         <div class="row">
-                                                                            <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>">
+                                                                            <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>_<?=$yesterday?>">
                                                                                 <?php
-                                                                                $yesterday                  = date('Y-m-d', strtotime("-1 days"));
                                                                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
@@ -491,7 +519,15 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 }
                                                                                                 ?>
                                                                                                 <div class="d-flex justify-content-between">
-                                                                                                    <p class="mb-0 assign-name">By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span></p>
+                                                                                                    <p class="mb-0 assign-name">
+                                                                                                        By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
+                                                                                                        <?php if($getTask->work_status_id == 0){?>
+                                                                                                            <?php if($effortIcon){?>
+                                                                                                                <br>
+                                                                                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
+                                                                                                            <?php }?>
+                                                                                                        <?php }?>
+                                                                                                    </p>
                                                                                                 </div>
 
                                                                                                 <?php if($application_settings->is_task_approval){?>
@@ -508,6 +544,25 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                         </div>
                                                                                     </div>
                                                                                 <?php } }?>
+
+                                                                                <?php
+                                                                                $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                                                                                if(!$getLeaveTask){
+                                                                                    if($alterIcon){
+                                                                                ?>
+                                                                                        <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                            <i class="fa-solid fa-plus-circle"></i>
+                                                                                        </a>
+                                                                                    <?php }?>
+                                                                                <?php } else {?>
+                                                                                    <?php if($getLeaveTask->is_leave == 1){?>
+                                                                                        <?php if($alterIcon){?>
+                                                                                            <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                                <i class="fa-solid fa-plus-circle"></i>
+                                                                                            </a>
+                                                                                        <?php }?>
+                                                                                    <?php }?>
+                                                                                <?php }?>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -582,28 +637,42 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $application_settings    = $common_model->find_data('application_settings', 'row');
                                                                     $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
                                                                     if($type == 'SUPER ADMIN'){
-                                                                        $alterIcon = 1;
+                                                                        $alterIcon  = 1;
+                                                                        if($user_id == $teamMember->id){
+                                                                            $effortIcon = 1;
+                                                                        } else {
+                                                                            $effortIcon = 0;
+                                                                        }
                                                                     } elseif($type == 'ADMIN'){
-                                                                        $alterIcon = 1;
+                                                                        $alterIcon  = 1;
+                                                                        if($user_id == $teamMember->id){
+                                                                            $effortIcon = 1;
+                                                                        } else {
+                                                                            $effortIcon = 0;
+                                                                        }
                                                                     } elseif($type == 'USER'){
                                                                         if($user_id == $teamMember->id){
-                                                                            $alterIcon = 1;
+                                                                            $alterIcon  = 1;
+                                                                            $effortIcon = 1;
                                                                         } else {
-                                                                            $alterIcon = 0;
+                                                                            $alterIcon  = 0;
+                                                                            $effortIcon = 0;
                                                                         }
                                                                     } else {
-                                                                        $alterIcon = 0;
+                                                                        $alterIcon  = 0;
+                                                                        $effortIcon = 0;
                                                                     }
+                                                                    $today = date('Y-m-d');
                                                             ?>
                                                                 <td style="background-color: <?=$dept->body_color?>;">
                                                                     <div class="field_wrapper" id="name">
                                                                         <div class="row">
-                                                                            <div class="col-12" id="meeting-user-<?=$teamMember->id?>">
+                                                                            <div class="col-12" id="meeting-user-<?=$teamMember->id?>_<?=$today?>">
                                                                                 <?php
                                                                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $today], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
                                                                                 
                                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                                     $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
@@ -690,9 +759,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     <p class="mb-0 assign-name">
                                                                                                         By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
                                                                                                         <?php if($getTask->work_status_id == 0){?>
-                                                                                                            <?php if($alterIcon){?>
+                                                                                                            <?php if($effortIcon){?>
                                                                                                                 <br>
-                                                                                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add To Effort</a></span>
+                                                                                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
                                                                                                             <?php }?>
                                                                                                         <?php }?>
                                                                                                     </p>
@@ -808,7 +877,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group mb-1">
-                                        <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="<?=date('Y-m-d')?>" min="<?=date('Y-m-d')?>" required>
+                                        <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="<?=date('Y-m-d')?>" max="<?=date('Y-m-d')?>" required>
                                     </div>
                                 </div>
                                 <div class="col-md-5">
@@ -877,6 +946,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.is_leave                   = $('input[name="is_leave"]:checked').val();
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
+        var current_date                    = '<?=$current_date?>';
         $.ajax({
             type: 'POST',
             url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
@@ -886,8 +956,16 @@ $controller_route       = $moduleDetail['controller_route'];
                 if(res.success){
                     $('#morningMeetingForm').trigger("reset");
                     $('#morningformModal').modal('hide');
-                    $('#meeting-user-' + user_id).empty();
-                    $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                    var date_added = dataJson.date_added;
+                    // $('#meeting-user-' + user_id + '_' + date_added).empty();
+                    // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                    if(current_date == date_added){
+                        $('#meeting-user-' + user_id + '_' + date_added).empty();
+                        $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                    } else {
+                        $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
+                        $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                    }
                     $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
                 } else {
@@ -994,7 +1072,7 @@ $controller_route       = $moduleDetail['controller_route'];
             }
         });
     }
-    function submitEffortBookingForm(){
+    function submitEffortBookingForm(book_date){
         var base_url        = '<?=base_url()?>';
         var dataJson        = {};
         dataJson.dept_id                    = $('#dept_id').val();
@@ -1017,6 +1095,7 @@ $controller_route       = $moduleDetail['controller_route'];
             if($('#work_status_id').val() == ''){
                 toastAlert("error", "Please Select Work Status !!!");
             } else {
+                var current_date    = '<?=$current_date?>';
                 $.ajax({
                     type: 'POST',
                     url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
@@ -1026,8 +1105,13 @@ $controller_route       = $moduleDetail['controller_route'];
                         if(res.success){
                             $('#morningMeetingForm').trigger("reset");
                             $('#morningformModal').modal('hide');
-                            $('#meeting-user-' + user_id).empty();
-                            $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                            if(current_date == book_date){
+                                $('#meeting-user-' + user_id + '_' + book_date).empty();
+                                $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                            } else {
+                                $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
+                                $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                            }
                             $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
                             toastAlert("success", res.message);
                         }

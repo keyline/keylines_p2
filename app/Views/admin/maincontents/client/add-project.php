@@ -9,7 +9,7 @@ $controller_route   = $moduleDetail['controller_route'];
     }
 </style>
 <div class="pagetitle">
-    <h1><?= $page_header ?> for <?= $clientDetail->name . '(' . $clientDetail->compnay . ')' ?></h1>
+    <h1><?= $page_header ?> for <?= $pro->decrypt($clientDetail->name) . '(' . $pro->decrypt($clientDetail->compnay) . ')' ?></h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
@@ -88,7 +88,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <label for="client_id" class="col-form-label">Contact <small class="text-danger">*</small></label>
-                                <input type="text" name="client_name" class="form-control" id="client_name" value="<?= $clientDetail->name . '(' . $clientDetail->compnay . ')' ?>" readonly required>
+                                <input type="text" name="client_name" class="form-control" id="client_name" value="<?=$pro->decrypt($clientDetail->name) . '(' . $pro->decrypt($clientDetail->compnay) . ')' ?>" readonly required>
                             </div>
 
                             <div class="col-lg-6 col-md-6">

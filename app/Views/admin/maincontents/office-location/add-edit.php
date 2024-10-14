@@ -259,7 +259,7 @@ $application_setting        = $common_model->find_data('application_settings', '
                                 </div>
                                 <div class="col-md-10 col-lg-10">
                                     <div class="general_form_right_box">
-                                        <input type="text" name="latitude" class="form-control" id="lat1" maxlength="6" minlength="6" onkeypress="return isNumber(event)" value="<?=$latitude?>" required>
+                                        <input type="text" name="latitude" class="form-control" id="lat1" value="<?=$latitude?>" required>
                                     </div>
                                 </div>
                             </div>
@@ -271,7 +271,7 @@ $application_setting        = $common_model->find_data('application_settings', '
                                 </div>
                                 <div class="col-md-10 col-lg-10">
                                     <div class="general_form_right_box">
-                                        <input type="text" name="longitude" class="form-control" id="lng1" maxlength="6" minlength="6" onkeypress="return isNumber(event)" value="<?=$longitude?>" required>
+                                        <input type="text" name="longitude" class="form-control" id="lng1" value="<?=$longitude?>" required>
                                     </div>
                                 </div>
                             </div>
@@ -305,3 +305,29 @@ $application_setting        = $common_model->find_data('application_settings', '
     var google_map_api_code = '<?=$google_map_api_code?>';
 </script>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBMbNCogNokCwVmJCRfefB6iCYUWv28LjQ&libraries=places&callback=initAutocomplete&libraries=places&v=weekly"></script>
+<script>
+    document.getElementById('lat1').addEventListener('input', function (e) {
+        const value = e.target.value;
+
+        // Replace any character that is not a digit or dot
+        e.target.value = value.replace(/[^0-9.]/g, '');
+
+        // Ensure only one dot is allowed
+        const parts = e.target.value.split('.');
+        if (parts.length > 2) {
+            e.target.value = parts[0] + '.' + parts.slice(1).join('');
+        }
+    });
+    document.getElementById('lng1').addEventListener('input', function (e) {
+        const value = e.target.value;
+
+        // Replace any character that is not a digit or dot
+        e.target.value = value.replace(/[^0-9.]/g, '');
+
+        // Ensure only one dot is allowed
+        const parts = e.target.value.split('.');
+        if (parts.length > 2) {
+            e.target.value = parts[0] + '.' + parts.slice(1).join('');
+        }
+    });
+</script>
