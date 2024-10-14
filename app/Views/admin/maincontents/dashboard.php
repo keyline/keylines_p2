@@ -194,11 +194,23 @@
                               <div class="card-header-right">
                                  <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
                                     <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                    <?php
+                                    if($response['deskloguser'] == 1){
+                                    ?>
                                     <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                    <?php } ?>
                                     <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                    <?php 
+                                    if($response['deskloguser'] == 1) {
+                                    ?>
                                     <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                    <?php } ?>
                                     <li><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> : Keyline Tracker</li>
+                                    <?php 
+                                    if($response['deskloguser'] == 1){
+                                    ?>
                                     <li><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> : Desktop Tracker</li>
+                                    <?php } ?>
                                  </ul>
                               </div>
                            </div>
@@ -397,11 +409,23 @@
                                  <div class="card-header-right">
                                     <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
                                        <li><span class="dots dots-bg-dark-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                       <?php
+                                       if($response['deskloguser'] == 1){
+                                       ?>
                                        <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                       <?php } ?>
                                        <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
+                                       <?php 
+                                       if($response['deskloguser'] == 1) {
+                                       ?>
                                        <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                       <?php } ?>
                                        <li><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> : Keyline Tracker</li>
-                                       <li><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon">: Desktop Tracker</li>
+                                       <?php 
+                                       if($response['deskloguser'] == 1){
+                                       ?>
+                                       <li><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> : Desktop Tracker</li>
+                                       <?php } ?>
                                     </ul>
                                  </div>
                               </div>
@@ -464,7 +488,7 @@
                                           if($report['booked_effort'] == 0)
                                           {
                                              echo '<span class="badge badge-tracker-holiday cursor-pointer"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '</span>';
-                                             echo '<span class="badge badge-tracker-holiday cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo ($report['deskloguser'] == 1) ? '<span class="badge badge-tracker-holiday cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">' : '';
                                              echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
                                              echo '</span>';
                                           }
