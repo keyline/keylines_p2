@@ -469,18 +469,18 @@
                                        <?php                                          
                                           if ($date_difference == 0 && $report['booked_effort'] != 0) {
                                              echo '<span class="badge badge-tracker-success cursor-pointer"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '' . ($report['booked_effort'] < $application_settings->daily_minimum_effort_time ? '<span class="dotted-badge"></span>' : '') . '</span>';
-                                             echo '<span class="badge badge-tracker-success cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo ($report['deskloguser'] == 1) ? '<span class="badge badge-tracker-success cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">' : '';
                                              echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
                                              echo '</span>';
                                           } 
                                           elseif ($date_difference > 1 && $report['booked_effort'] != 0) {
                                              echo '<span class="badge badge-tracker-warrning cursor-pointer"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '' . ($report['booked_effort'] < $application_settings->daily_minimum_effort_time ? '<span class="dotted-badge"></span>' : '') . '</span> ';
-                                             echo '<span class="badge badge-tracker-warrning cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo ($report['deskloguser'] == 1) ? '<span class="badge badge-tracker-warrning cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">' : '';
                                              echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
                                              echo '</span>';
                                           } elseif ($date_difference <= 1 && $report['booked_effort'] != 0) {
                                              echo '<span class="badge badge-desktime-success cursor-pointer"><img src="' . base_url('public/uploads/tracker-icon.webp') . '" alt="" class="tracker-icon">' . date("H:i", strtotime($report['booked_effort'])) . '' . ($report['booked_effort'] < $application_settings->daily_minimum_effort_time ? '<span class="dotted-badge"></span>' : '') . '</span> ';
-                                             echo '<span class="badge badge-desktime-success cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">';
+                                             echo ($report['deskloguser'] == 1) ? '<span class="badge badge-desktime-success cursor-pointer"><img src="' . base_url('public/uploads/desklog-icon.webp') . '" alt="" class="desklog-icon">' : '';
                                              echo ($report['deskloguser'] == 1) ? '' . $report['desklog_time'] : '';
                                              echo '</span>';
                                           }
