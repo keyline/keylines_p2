@@ -374,6 +374,7 @@ class User extends BaseController {
                 // }
 
                 $response = [];
+                $last7DaysAttendance = [];
                 $sl=1;
                 if($users){
                     foreach($users as $row){
@@ -551,7 +552,7 @@ class User extends BaseController {
                             $totalMin = ($tothour + $totmin);
                             $totalBooked12            = intdiv($totalMin, 60).'.'. ($totalMin % 60);
                         }  
-                        $last7DaysAttendance = [];
+                        
                         $arr                = [];
                         $arr = $this->getLastNDays(7, 'Y-m-d');
                         if (!empty($arr)) {
@@ -1469,7 +1470,7 @@ class User extends BaseController {
                             $mailData   = [
                                 'name'      => $profile->name,
                                 'email'     => $profile->email,
-                                'password'  => $password,
+                                'password'  => $new_password,
                             ];
                             $general_settings           = $this->common_model->find_data('general_settings','row');
                             $to         = $profile->email;
