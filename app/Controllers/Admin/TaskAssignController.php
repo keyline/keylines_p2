@@ -1030,7 +1030,7 @@ class TaskAssignController extends BaseController {
                     'created_at'    => date('Y-m-d H:i:s'),
                     'updated_at'    => date('Y-m-d H:i:s'),
                 ];
-                pr($fields);
+                // pr($fields);
                 $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
             // if backdated task not added
             // scheduled task
