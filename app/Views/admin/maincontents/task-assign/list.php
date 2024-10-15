@@ -1104,6 +1104,9 @@ $controller_route       = $moduleDetail['controller_route'];
                 toastAlert("error", "Please Select Work Status !!!");
             } else {
                 var current_date    = '<?=$current_date?>';
+                console.log(current_date);
+                console.log(book_date);
+                console.log(user_id);
                 $.ajax({
                     type: 'POST',
                     url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
