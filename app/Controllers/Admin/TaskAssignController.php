@@ -772,6 +772,7 @@ class TaskAssignController extends BaseController {
             $dept_id                    = $requestData['dept_id'];
             $user_id                    = $requestData['user_id'];
             $schedule_id                = $requestData['schedule_id'];
+            $current_date               = date('Y-m-d');
 
             $scheduleHTML               = '';
             $getTask                    = $this->common_model->find_data('morning_meetings', 'row', ['id' => $schedule_id]);
@@ -883,12 +884,12 @@ class TaskAssignController extends BaseController {
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="" required>
+                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="" min="' + $current_date + '" max="' + $current_date + '" required>
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="project_id" id="project_id" class="form-control" required disabled>
+                                                            <select name="project_id" id="project_id" class="form-control" required>
                                                                 <option value="" selected="">Select Project</option>
                                                                 <hr>';
                                                                 if($projects){ foreach($projects as $project){
