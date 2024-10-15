@@ -877,8 +877,8 @@ class TaskAssignController extends BaseController {
                                             </form>';
             } else {
                 $scheduleHTML           .= '<form id="morningMeetingForm">
-                                                <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
-                                                <input type="hidden" name="user_id" id="user_id" value="' . $getTask->user_id . '">
+                                                <input type="hidden" name="dept_id" id="dept_id" value="' . $dept_id . '">
+                                                <input type="hidden" name="user_id" id="user_id" value="' . $user_id . '">
                                                 <input type="hidden" name="schedule_id" id="schedule_id" value="">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -892,7 +892,6 @@ class TaskAssignController extends BaseController {
                                                                 <option value="" selected="">Select Project</option>
                                                                 <hr>';
                                                                 if($projects){ foreach($projects as $project){
-                                                                    $selectedProject = (($project->id == $getTask->project_id)?'selected':'');
                                         $scheduleHTML           .= '<option value="'.$project->id.'">'.$project->name.' ('.$this->pro->decrypt($project->client_name).') - '.$project->project_status_name.'</option>
                                                                     <hr>';
                                                                 } }
@@ -909,7 +908,6 @@ class TaskAssignController extends BaseController {
                                                             <select name="hour" class="form-control" id="hour" required>
                                                                 <option value="" selected>Select Hour</option>';
                                                                 for($h=0;$h<=8;$h++){
-                                                                    $selectedHour = (($h == $getTask->hour)?'selected':'');
                                         $scheduleHTML           .= '<option value="' . $h . '">' . $h . '</option>';
                                                                 }
                                 $scheduleHTML           .= '</select>
@@ -920,7 +918,6 @@ class TaskAssignController extends BaseController {
                                                             <select name="min" class="form-control" id="min" required>
                                                                 <option value="" selected>Select Minute</option>';
                                                                 for($m=0;$m<=59;$m++){
-                                                                    $selectedMinute = (($m == $getTask->min)?'selected':'');
                                         $scheduleHTML           .= '<option value="' . $m . '">' . $m . '</option>';
                                                                 }
                                 $scheduleHTML           .= '</select>
@@ -939,7 +936,6 @@ class TaskAssignController extends BaseController {
                                                                 <option value="" selected="">Select Effort Type</option>
                                                                 <hr>';
                                                                 if($effortTypes){ foreach($effortTypes as $effortType){
-                                                                    $selectedEffortType = (($effortType->id == $getTask->effort_type)?'selected':'');
                                         $scheduleHTML           .= '<option value="'.$effortType->id.'">'.$effortType->name.'</option>
                                                                     <hr>';
                                                                 } }
@@ -952,7 +948,6 @@ class TaskAssignController extends BaseController {
                                                                 <option value="" selected="">Select Work Status</option>
                                                                 <hr>';
                                                                 if($workStats){ foreach($workStats as $workStat){
-                                                                    $selectedWorkStatus = (($workStat->id == $getTask->work_status_id)?'selected':'');
                                         $scheduleHTML           .= '<option value="'.$workStat->id.'">'.$workStat->name.'</option>
                                                                     <hr>';
                                                                 } }
