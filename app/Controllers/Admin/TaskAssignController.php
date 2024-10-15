@@ -772,6 +772,7 @@ class TaskAssignController extends BaseController {
             $dept_id                    = $requestData['dept_id'];
             $user_id                    = $requestData['user_id'];
             $schedule_id                = $requestData['schedule_id'];
+            $task_date                  = $requestData['task_date'];
             $yesterday                  = date('Y-m-d', strtotime("-1 days"));
 
             $scheduleHTML               = '';
@@ -957,7 +958,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="input-group mb-1">
-                                                            <button type="button" class="btn btn-success btn-sm" onClick="submitEffortBookingForm();"><i class="fa fa-paper-plane"></i> Book Effort</button>
+                                                            <button type="button" class="btn btn-success btn-sm" onClick="submitEffortBookingForm('.$task_date.');"><i class="fa fa-paper-plane"></i> Book Effort</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1013,25 +1014,27 @@ class TaskAssignController extends BaseController {
             $month                  = date('m', strtotime($date_task)); // 08
 
             // if backdated task not added
-                $getProject         = $this->data['model']->find_data('project', 'row', ['id' => $project_id], 'status,bill');
-                $fields             = [
-                    'dept_id'       => $requestData['dept_id'],
-                    'user_id'       => $requestData['user_id'],
-                    'project_id'    => (($requestData['project_id'] != '')?$requestData['project_id']:0),
-                    'description'   => $requestData['description'],
-                    'hour'          => $requestData['hour'],
-                    'min'           => $requestData['min'],
-                    'work_home'     => $requestData['work_home'],
-                    'date_added'    => $requestData['date_added'],
-                    'priority'      => $requestData['priority'],
-                    'added_by'      => $this->session->get('user_id'),
-                    'bill'          => (($getProject)?$getProject->bill:1),
-                    'status_id'     => (($getProject)?$getProject->status:0),
-                    'created_at'    => date('Y-m-d H:i:s'),
-                    'updated_at'    => date('Y-m-d H:i:s'),
-                ];
-                // pr($fields);
-                $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+                if($schedule_id == ''){
+                    $getProject         = $this->data['model']->find_data('project', 'row', ['id' => $project_id], 'status,bill');
+                    $fields             = [
+                        'dept_id'       => $requestData['dept_id'],
+                        'user_id'       => $requestData['user_id'],
+                        'project_id'    => (($requestData['project_id'] != '')?$requestData['project_id']:0),
+                        'description'   => $requestData['description'],
+                        'hour'          => $requestData['hour'],
+                        'min'           => $requestData['min'],
+                        'work_home'     => $requestData['work_home'],
+                        'date_added'    => $requestData['date_added'],
+                        'priority'      => $requestData['priority'],
+                        'added_by'      => $this->session->get('user_id'),
+                        'bill'          => (($getProject)?$getProject->bill:1),
+                        'status_id'     => (($getProject)?$getProject->status:0),
+                        'created_at'    => date('Y-m-d H:i:s'),
+                        'updated_at'    => date('Y-m-d H:i:s'),
+                    ];
+                    // pr($fields);
+                    $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+                }
             // if backdated task not added
             // scheduled task
                 $cal                    = (($hour*60) + $min); //converted to minutes

@@ -553,14 +553,17 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                         <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                             <i class="fa-solid fa-plus-circle"></i>
                                                                                         </a> -->
-                                                                                        <a href="javascript:void(0);" class="task_add_btn" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                                                        <a href="javascript:void(0);" class="task_add_btn" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                             <i class="fa-solid fa-plus-circle"></i>
                                                                                         </a>
                                                                                     <?php }?>
                                                                                 <?php } else {?>
                                                                                     <?php if($getLeaveTask->is_leave == 1){?>
                                                                                         <?php if($alterIcon){?>
-                                                                                            <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                            <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                                <i class="fa-solid fa-plus-circle"></i>
+                                                                                            </a> -->
+                                                                                            <a href="javascript:void(0);" class="task_add_btn" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                                 <i class="fa-solid fa-plus-circle"></i>
                                                                                             </a>
                                                                                         <?php }?>
@@ -1053,6 +1056,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.dept_id                    = deptId;
         dataJson.user_id                    = userId;
         dataJson.schedule_id                = scheduleId;
+        dataJson.task_date                  = $(this).attr('data-taskdate');
         $.ajax({
             type: 'POST',
             url: base_url + "admin/task-assign/morning-meeting-schedule-prefill-effort-booking", // Replace with your server endpoint
