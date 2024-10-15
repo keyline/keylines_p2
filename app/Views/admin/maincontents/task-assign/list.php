@@ -553,7 +553,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                         <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                             <i class="fa-solid fa-plus-circle"></i>
                                                                                         </a> -->
-                                                                                        <a href="javascript:void(0);" class="task_add_btn" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">
+                                                                                        <a href="javascript:void(0);" class="task_add_btn" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                             <i class="fa-solid fa-plus-circle"></i>
                                                                                         </a>
                                                                                     <?php }?>
