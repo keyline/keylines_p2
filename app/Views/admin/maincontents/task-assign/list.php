@@ -546,7 +546,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php } }?>
 
                                                                                 <?php
-                                                                                $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                                                                                $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => $yesterday, 'is_leave>' => 0], 'is_leave');
                                                                                 if(!$getLeaveTask){
                                                                                     if($alterIcon){
                                                                                 ?>
