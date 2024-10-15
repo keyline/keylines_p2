@@ -1056,29 +1056,29 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.dept_id                    = deptId;
         dataJson.user_id                    = userId;
         dataJson.schedule_id                = scheduleId;
-        dataJson.task_date                  = $(this).attr('data-taskdate');
-        console.log($(this).data('taskdate'));
-        // $.ajax({
-        //     type: 'POST',
-        //     url: base_url + "admin/task-assign/morning-meeting-schedule-prefill-effort-booking", // Replace with your server endpoint
-        //     data: JSON.stringify(dataJson),
-        //     success: function(res) {
-        //         res = $.parseJSON(res);
-        //         if(res.success){
-        //             var heading = '<h5>Task Effort Booking For <strong>' + userName + '</strong></h5>';
-        //             var body    = res.data;
-        //             $('#morningformModal').modal('show');
-        //             $('#morningformTitle').empty();
-        //             $('#morningformBody').empty();
-        //             $('#morningformTitle').html(heading);
-        //             $('#morningformBody').html(body);
-        //             toastAlert("success", res.message);
-        //         }
-        //     },
-        //     error: function(xhr, status, error) {
-        //         console.error('Error:', error); // Handle errors
-        //     }
-        // });
+        dataJson.task_date                  = $('.task_add_btn').attr('data-taskdate');
+        
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-schedule-prefill-effort-booking", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    var heading = '<h5>Task Effort Booking For <strong>' + userName + '</strong></h5>';
+                    var body    = res.data;
+                    $('#morningformModal').modal('show');
+                    $('#morningformTitle').empty();
+                    $('#morningformBody').empty();
+                    $('#morningformTitle').html(heading);
+                    $('#morningformBody').html(body);
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
     }
     function submitEffortBookingForm(book_date){
         var base_url        = '<?=base_url()?>';
