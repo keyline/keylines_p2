@@ -1057,7 +1057,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.user_id                    = userId;
         dataJson.schedule_id                = scheduleId;
         dataJson.task_date                  = $(this).attr('data-taskdate');
-        console.log($(this).attr('data-taskdate'));
+        console.log($(this).data('taskdate'));
         // $.ajax({
         //     type: 'POST',
         //     url: base_url + "admin/task-assign/morning-meeting-schedule-prefill-effort-booking", // Replace with your server endpoint
