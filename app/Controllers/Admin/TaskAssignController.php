@@ -1012,6 +1012,27 @@ class TaskAssignController extends BaseController {
             $year                   = date('Y', strtotime($date_task)); // 2024
             $month                  = date('m', strtotime($date_task)); // 08
 
+            // if backdated task not added
+                $getProject         = $this->data['model']->find_data('project', 'row', ['id' => $project_id], 'status,bill');
+                $fields             = [
+                    'dept_id'       => $requestData['dept_id'],
+                    'user_id'       => $requestData['user_id'],
+                    'project_id'    => (($requestData['project_id'] != '')?$requestData['project_id']:0),
+                    'description'   => $requestData['description'],
+                    'hour'          => $requestData['hour'],
+                    'min'           => $requestData['min'],
+                    'work_home'     => $requestData['work_home'],
+                    'date_added'    => $requestData['date_added'],
+                    'priority'      => $requestData['priority'],
+                    'added_by'      => $this->session->get('user_id'),
+                    'bill'          => (($getProject)?$getProject->bill:1),
+                    'status_id'     => (($getProject)?$getProject->status:0),
+                    'created_at'    => date('Y-m-d H:i:s'),
+                    'updated_at'    => date('Y-m-d H:i:s'),
+                ];
+                pr($fields);
+                $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+            // if backdated task not added
             // scheduled task
                 $cal                    = (($hour*60) + $min); //converted to minutes
                 $projectCost            = floatval($cal_usercost * $cal);
