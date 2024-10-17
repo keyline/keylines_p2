@@ -83,7 +83,7 @@ class ProjectController extends BaseController {
         // $join[2]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_service', 'type' => 'inner'];
         $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['project.active!=' => 3,'active'=>1], $select, $join, '', $order_by);
                 // To print the last executed query
-echo $this->db->getLastQuery(); die;
+// echo $this->db->getLastQuery(); die;
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function add()
