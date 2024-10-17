@@ -153,7 +153,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <?php  } ?>
 
                                             <?php if(checkModuleFunctionAccess(5,57)){ ?>
-                                            <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
+                                            <!-- <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a> -->
                                             <?php } ?>
                                             <?php if($row->active == 0){?>
                                                 <?php if(checkModuleFunctionAccess(5,31)){ ?>
