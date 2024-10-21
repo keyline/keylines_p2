@@ -286,13 +286,13 @@ class TaskAssignController extends BaseController {
 
                     $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
                     if(!$getLeaveTask){
-                        $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                                <i class="fa-solid fa-plus-circle"></i>
+                        $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                                <i class="fa-solid fa-plus-circle"></i> Add Task
                                         </a>';
                     } else {
                         if($getLeaveTask->is_leave == 1){
-                            $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                                <i class="fa-solid fa-plus-circle"></i>
+                            $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                                <i class="fa-solid fa-plus-circle"></i> Add Task
                                         </a>';
                         }
                     }
@@ -730,13 +730,13 @@ class TaskAssignController extends BaseController {
 
             $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
             if(!$getLeaveTask){
-                $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                        <i class="fa-solid fa-plus-circle"></i>
+                $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                        <i class="fa-solid fa-plus-circle"></i> Add Task
                                 </a>';
             } else {
                 if($getLeaveTask->is_leave == 1){
-                    $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                        <i class="fa-solid fa-plus-circle"></i>
+                    $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                        <i class="fa-solid fa-plus-circle"></i> Add Task
                                 </a>';
                 }
             }
@@ -1289,13 +1289,13 @@ class TaskAssignController extends BaseController {
 
             $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
             if(!$getLeaveTask){
-                $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                        <i class="fa-solid fa-plus-circle"></i>
+                $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                        <i class="fa-solid fa-plus-circle"></i> Add Effort
                                 </a>';
             } else {
                 if($getLeaveTask->is_leave == 1){
-                    $scheduleHTML .= '<a href="javascript:void(0);" class="task_add_btn" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                        <i class="fa-solid fa-plus-circle"></i>
+                    $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                        <i class="fa-solid fa-plus-circle"></i> Add Effort
                                 </a>';
                 }
             }
