@@ -406,17 +406,19 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $application_settings    = $common_model->find_data('application_settings', 'row');
                                                                     $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
                                                                     if($type == 'SUPER ADMIN'){
-                                                                        $alterIcon  = 1;
                                                                         if($user_id == $teamMember->id){
+                                                                            $alterIcon  = 1;
                                                                             $effortIcon = 1;
                                                                         } else {
+                                                                            $alterIcon  = 0;
                                                                             $effortIcon = 0;
                                                                         }
                                                                     } elseif($type == 'ADMIN'){
-                                                                        $alterIcon  = 1;
                                                                         if($user_id == $teamMember->id){
+                                                                            $alterIcon  = 1;
                                                                             $effortIcon = 1;
                                                                         } else {
+                                                                            $alterIcon  = 0;
                                                                             $effortIcon = 0;
                                                                         }
                                                                     } elseif($type == 'USER'){
@@ -546,19 +548,25 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php } }?>
 
                                                                                 <?php
-                                                                                $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                                                                                $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => $yesterday, 'is_leave>' => 0], 'is_leave');
                                                                                 if(!$getLeaveTask){
                                                                                     if($alterIcon){
                                                                                 ?>
-                                                                                        <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                        <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                             <i class="fa-solid fa-plus-circle"></i>
+                                                                                        </a> -->
+                                                                                        <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                                                            <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                         </a>
                                                                                     <?php }?>
                                                                                 <?php } else {?>
                                                                                     <?php if($getLeaveTask->is_leave == 1){?>
                                                                                         <?php if($alterIcon){?>
-                                                                                            <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                            <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                                 <i class="fa-solid fa-plus-circle"></i>
+                                                                                            </a> -->
+                                                                                            <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                                                                <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                             </a>
                                                                                         <?php }?>
                                                                                     <?php }?>
@@ -786,15 +794,15 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 if(!$getLeaveTask){
                                                                                     if($alterIcon){
                                                                                 ?>
-                                                                                        <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
-                                                                                            <i class="fa-solid fa-plus-circle"></i>
+                                                                                        <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                            <i class="fa-solid fa-plus-circle"></i> Add Task
                                                                                         </a>
                                                                                     <?php }?>
                                                                                 <?php } else {?>
                                                                                     <?php if($getLeaveTask->is_leave == 1){?>
                                                                                         <?php if($alterIcon){?>
-                                                                                            <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
-                                                                                                <i class="fa-solid fa-plus-circle"></i>
+                                                                                            <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                                <i class="fa-solid fa-plus-circle"></i> Add Task
                                                                                             </a>
                                                                                         <?php }?>
                                                                                     <?php }?>
@@ -1050,6 +1058,8 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.dept_id                    = deptId;
         dataJson.user_id                    = userId;
         dataJson.schedule_id                = scheduleId;
+        dataJson.task_date                  = $('.task_add_btn-updated').attr('data-taskdate');
+        
         $.ajax({
             type: 'POST',
             url: base_url + "admin/task-assign/morning-meeting-schedule-prefill-effort-booking", // Replace with your server endpoint
@@ -1083,7 +1093,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.description                = $('#description').val();
         dataJson.hour                       = $('#hour').val();
         dataJson.min                        = $('#min').val();
-        dataJson.priority                   = $('input[name="priority"]:checked').val();
+        dataJson.priority                   = $('input[name="priority"]').val();
         dataJson.is_leave                   = 0;
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
@@ -1096,6 +1106,9 @@ $controller_route       = $moduleDetail['controller_route'];
                 toastAlert("error", "Please Select Work Status !!!");
             } else {
                 var current_date    = '<?=$current_date?>';
+                // console.log(current_date);
+                // console.log(book_date);
+                // console.log(user_id);
                 $.ajax({
                     type: 'POST',
                     url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
