@@ -221,14 +221,14 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                             if($alterIcon){
                                         ?>
                                                 <a href="javascript:void(0);" class="task_add_btn" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
-                                                    <i class="fa-solid fa-plus-circle"></i>
+                                                    <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                 </a>
                                             <?php }?>
                                         <?php } else {?>
                                             <?php if($getLeaveTask->is_leave == 1){?>
                                                 <?php if($alterIcon){?>
                                                     <a href="javascript:void(0);" class="task_add_btn" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
-                                                        <i class="fa-solid fa-plus-circle"></i>
+                                                        <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                     </a>
                                                 <?php }?>
                                             <?php }?>
