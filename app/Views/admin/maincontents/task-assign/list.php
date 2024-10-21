@@ -553,7 +553,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                         <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                             <i class="fa-solid fa-plus-circle"></i>
                                                                                         </a> -->
-                                                                                        <a href="javascript:void(0);" class="btn btn-sm btn-success" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                                                        <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                             <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                         </a>
                                                                                     <?php }?>
@@ -563,7 +563,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                             <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                                 <i class="fa-solid fa-plus-circle"></i>
                                                                                             </a> -->
-                                                                                            <a href="javascript:void(0);" class="btn btn-sm btn-success" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                                                            <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                                 <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                             </a>
                                                                                         <?php }?>
@@ -1056,7 +1056,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.dept_id                    = deptId;
         dataJson.user_id                    = userId;
         dataJson.schedule_id                = scheduleId;
-        dataJson.task_date                  = $('.task_add_btn').attr('data-taskdate');
+        dataJson.task_date                  = $('.task_add_btn-updated').attr('data-taskdate');
         
         $.ajax({
             type: 'POST',
