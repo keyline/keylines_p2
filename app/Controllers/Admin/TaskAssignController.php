@@ -771,7 +771,7 @@ class TaskAssignController extends BaseController {
             
             $dept_id                    = $requestData['dept_id'];
             $user_id                    = $requestData['user_id'];
-            $schedule_id                = $requestData['schedule_id'];
+            $schedule_id                = ((array_key_exists("schedule_id",$requestData))?$requestData['schedule_id']:'');
             $task_date                  = $requestData['task_date'];
             $yesterday                  = date('Y-m-d', strtotime("-1 days"));
 
