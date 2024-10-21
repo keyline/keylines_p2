@@ -815,7 +815,7 @@ class TaskAssignController extends BaseController {
                                                             <textarea name="description" id="description" placeholder="Description" class="form-control" rows="5" required>' . $getTask->description . '</textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-6">
                                                         <div class="input-group mb-1">
                                                             <select name="hour" class="form-control" id="hour" required>
                                                                 <option value="" selected>Select Hour</option>';
@@ -826,7 +826,7 @@ class TaskAssignController extends BaseController {
                                 $scheduleHTML           .= '</select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-6">
                                                         <div class="input-group mb-1">
                                                             <select name="min" class="form-control" id="min" required>
                                                                 <option value="" selected>Select Minute</option>';
@@ -839,9 +839,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required ' . $checkedPriority1 . '><label for="priority1" style="margin-left : 3px;">Priority LOW</label></span>
-                                                            <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" required ' . $checkedPriority2 . '><label for="priority2" style="margin-left : 3px;">Priority MEDIUM</label></span>
-                                                            <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required ' . $checkedPriority3 . '><label for="priority3" style="margin-left : 3px;">Priority HIGH</label></span>
+                                                            <input type="hidden" name="priority" id="priority" value="3">
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
