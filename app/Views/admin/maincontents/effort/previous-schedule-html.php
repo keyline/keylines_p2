@@ -216,6 +216,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                         <?php } }?>
 
                                         <?php
+                                        echo $type;die;
                                         if($type == 'SUPER ADMIN'){
                                             if($user_id == $teamMember->id){
                                                 $alterIcon  = 1;
