@@ -1093,7 +1093,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.description                = $('#description').val();
         dataJson.hour                       = $('#hour').val();
         dataJson.min                        = $('#min').val();
-        dataJson.priority                   = $('input[name="priority"]:checked').val();
+        dataJson.priority                   = $('input[name="priority"]').val();
         dataJson.is_leave                   = 0;
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
