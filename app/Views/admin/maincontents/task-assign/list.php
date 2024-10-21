@@ -553,7 +553,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                         <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                             <i class="fa-solid fa-plus-circle"></i>
                                                                                         </a> -->
-                                                                                        <a href="javascript:void(0);" class="task_add_btn" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                                                        <a href="javascript:void(0);" class="btn btn-sm btn-success" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                             <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                         </a>
                                                                                     <?php }?>
@@ -563,7 +563,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                             <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                                 <i class="fa-solid fa-plus-circle"></i>
                                                                                             </a> -->
-                                                                                            <a href="javascript:void(0);" class="task_add_btn" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                                                            <a href="javascript:void(0);" class="btn btn-sm btn-success" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                                 <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                             </a>
                                                                                         <?php }?>
@@ -792,14 +792,14 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 if(!$getLeaveTask){
                                                                                     if($alterIcon){
                                                                                 ?>
-                                                                                        <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                        <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                             <i class="fa-solid fa-plus-circle"></i> Add Task
                                                                                         </a>
                                                                                     <?php }?>
                                                                                 <?php } else {?>
                                                                                     <?php if($getLeaveTask->is_leave == 1){?>
                                                                                         <?php if($alterIcon){?>
-                                                                                            <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                            <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                                 <i class="fa-solid fa-plus-circle"></i> Add Task
                                                                                             </a>
                                                                                         <?php }?>
