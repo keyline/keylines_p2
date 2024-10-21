@@ -925,9 +925,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required><label for="priority1" style="margin-left : 3px;">Priority LOW</label></span>
-                                                            <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" required><label for="priority2" style="margin-left : 3px;">Priority MEDIUM</label></span>
-                                                            <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required><label for="priority3" style="margin-left : 3px;">Priority HIGH</label></span>
+                                                            <input type="hidden" name="priority" id="priority" value="3">
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
