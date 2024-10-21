@@ -837,13 +837,9 @@ class TaskAssignController extends BaseController {
                                 $scheduleHTML           .= '</select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="input-group mb-1">
-                                                            <input type="hidden" name="priority" id="priority" value="3">
-                                                        </div>
-                                                    </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
+                                                            <input type="hidden" name="priority" id="priority" value="3">
                                                             <select name="effort_type" id="effort_type" class="form-control" required>
                                                                 <option value="" selected="">Select Effort Type</option>
                                                                 <hr>';
@@ -923,13 +919,9 @@ class TaskAssignController extends BaseController {
                                 $scheduleHTML           .= '</select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-6">
-                                                        <div class="input-group mb-1">
-                                                            <input type="hidden" name="priority" id="priority" value="3">
-                                                        </div>
-                                                    </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
+                                                            <input type="hidden" name="priority" id="priority" value="3">
                                                             <select name="effort_type" id="effort_type" class="form-control" required>
                                                                 <option value="" selected="">Select Effort Type</option>
                                                                 <hr>';
