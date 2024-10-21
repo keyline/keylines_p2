@@ -1547,7 +1547,7 @@ class TaskAssignController extends BaseController {
             $user_id                    = $this->session->get('user_id');
             $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show,type');
             $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
-            $data['type']               = (($getUser)?$getUser->type:'');
+            echo $data['type']               = (($getUser)?$getUser->type:'');die;
             $data['user_id']            = $user_id;
 
             $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
