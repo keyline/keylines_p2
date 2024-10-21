@@ -903,7 +903,7 @@ class TaskAssignController extends BaseController {
                                                             <textarea name="description" id="description" placeholder="Description" class="form-control" rows="5" required></textarea>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-6">
                                                         <div class="input-group mb-1">
                                                             <select name="hour" class="form-control" id="hour" required>
                                                                 <option value="" selected>Select Hour</option>';
@@ -913,7 +913,7 @@ class TaskAssignController extends BaseController {
                                 $scheduleHTML           .= '</select>
                                                         </div>
                                                     </div>
-                                                    <div class="col-md-3">
+                                                    <div class="col-md-6">
                                                         <div class="input-group mb-1">
                                                             <select name="min" class="form-control" id="min" required>
                                                                 <option value="" selected>Select Minute</option>';
