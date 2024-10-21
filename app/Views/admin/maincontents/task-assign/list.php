@@ -406,17 +406,19 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $application_settings    = $common_model->find_data('application_settings', 'row');
                                                                     $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
                                                                     if($type == 'SUPER ADMIN'){
-                                                                        $alterIcon  = 1;
                                                                         if($user_id == $teamMember->id){
+                                                                            $alterIcon  = 1;
                                                                             $effortIcon = 1;
                                                                         } else {
+                                                                            $alterIcon  = 0;
                                                                             $effortIcon = 0;
                                                                         }
                                                                     } elseif($type == 'ADMIN'){
-                                                                        $alterIcon  = 1;
                                                                         if($user_id == $teamMember->id){
+                                                                            $alterIcon  = 1;
                                                                             $effortIcon = 1;
                                                                         } else {
+                                                                            $alterIcon  = 0;
                                                                             $effortIcon = 0;
                                                                         }
                                                                     } elseif($type == 'USER'){

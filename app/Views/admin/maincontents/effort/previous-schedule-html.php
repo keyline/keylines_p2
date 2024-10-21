@@ -217,17 +217,19 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
 
                                         <?php
                                         if($type == 'SUPER ADMIN'){
-                                            $alterIcon  = 1;
                                             if($user_id == $teamMember->id){
+                                                $alterIcon  = 1;
                                                 $effortIcon = 1;
                                             } else {
+                                                $alterIcon  = 0;
                                                 $effortIcon = 0;
                                             }
                                         } elseif($type == 'ADMIN'){
-                                            $alterIcon  = 1;
                                             if($user_id == $teamMember->id){
+                                                $alterIcon  = 1;
                                                 $effortIcon = 1;
                                             } else {
+                                                $alterIcon  = 0;
                                                 $effortIcon = 0;
                                             }
                                         } elseif($type == 'USER'){
