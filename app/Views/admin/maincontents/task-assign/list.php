@@ -518,9 +518,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 </div>
                                                                                                 <?php
                                                                                                 if($getTask->updated_at == ''){
-                                                                                                    $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                                                                                                    $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
                                                                                                 } else {
-                                                                                                    $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                                                                                                    $createdAt = date_format(date_create($getTask->updated_at), "d/m/y - h:i a");
                                                                                                 }
                                                                                                 ?>
                                                                                                 <div class="d-flex justify-content-between">
@@ -1266,6 +1266,10 @@ $controller_route       = $moduleDetail['controller_route'];
             $('#hour').attr('disabled', true);
             $('#min').attr('disabled', true);
             $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#hour').val('');
+            $('#min').val('');
         } else if(selectedValue == 2){
             var description = 'Full Day Leave Taken';
             $('#description').val(description);
@@ -1278,6 +1282,10 @@ $controller_route       = $moduleDetail['controller_route'];
             $('#hour').attr('disabled', true);
             $('#min').attr('disabled', true);
             $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#hour').val('');
+            $('#min').val('');
         }
     }
     $(document).ready(function(){    

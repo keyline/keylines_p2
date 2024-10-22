@@ -166,9 +166,9 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                         </div>
                                                         <?php
                                                         if($getTask->updated_at == ''){
-                                                            $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                                                            $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
                                                         } else {
-                                                            $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                                                            $createdAt = date_format(date_create($getTask->updated_at), "d/m/y - h:i a");
                                                         }
                                                         ?>
                                                         <div class="d-flex justify-content-between">
