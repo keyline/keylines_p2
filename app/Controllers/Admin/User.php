@@ -675,9 +675,9 @@ class User extends BaseController {
                 $data['last7DaysResponses']         = $last7DaysResponses;  
                 // echo "<pre>";   
                 // print_r($data['last7DaysResponses'])  ;die;       
-                       
-                if($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users){               
-                    $userGraph = [];          
+                $userGraph = [];
+
+                if($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users){
                     foreach($user as $row){   
                         // pr($row);       
                     $team = "SELECT team.*,department.deprt_name  FROM `team` INNER JOIN department on team.dep_id = department.id WHERE user_id = '$row->id'";
