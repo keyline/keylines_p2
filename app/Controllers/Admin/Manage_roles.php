@@ -105,6 +105,7 @@ class Manage_roles extends BaseController {
                             'role_name'                    => strtoupper($this->request->getPost('role_name_hidden')),
                             'updated_at'                   => date('Y-m-d H:i:s')
                         ];
+            pr($postData);
             $this->common_model->save_data('permission_roles', $postData, $id, 'id');
             $role_id = $id;
             $this->common_model->delete_data('permission_role_module_function', $role_id, 'role_id');
