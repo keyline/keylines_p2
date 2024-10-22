@@ -676,6 +676,7 @@ class User extends BaseController {
                 // echo "<pre>";   
                 // print_r($data['last7DaysResponses'])  ;die;       
                 $userGraph = [];
+                $AlluserGraph = [];
 
                 if($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users){
                     foreach($user as $row){   
@@ -852,7 +853,7 @@ class User extends BaseController {
 
                     }                    
                         //  pr($userGraph);  
-                      $AlluserGraph = [];
+                    
                        /* All user graph */
                      $yesterday_date = date('Y-m-d', strtotime("-1 days"));
                      $qry_yesterday_proj = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill  from timesheet where date_added = '$yesterday_date' group by timesheet.project_id" . " order by timesheet.date_added desc";
