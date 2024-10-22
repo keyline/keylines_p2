@@ -171,12 +171,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div>
                                     <div class="col-md-10 col-lg-10">
                                         <div class="general_form_right_box position-relative">
-                                            <input type="password" name="password" class="form-control" id="password" value="<?=$password?>" <?=((empty($row))?'required':'')?>>
-
-                                            <div class="eye position-absolute top-50 end-0 translate-middle">
+                                            <input type="password" name="password" class="form-control" id="password" <?=((empty($row))?'required':'')?> autocomplete="off">
+                                            <div class="eye position-absolute end-0 translate-middle" style="top: 35% !important;">
                                                 <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
                                                 <i class="fa fa-eye" id="hidePassword" style="cursor:pointer;display: none;"></i>
                                             </div>
+                                            <span class="text-primary">Leave blank if you do not want to change password</span>
                                         </div>
                                     </div>
                                     <!--Category field -->

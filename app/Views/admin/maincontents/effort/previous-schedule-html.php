@@ -26,8 +26,32 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                         if($teamMembers){ foreach($teamMembers as $teamMember){
                             $application_settings    = $common_model->find_data('application_settings', 'row');
                             $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
-                            
-                            
+                            if($type == 'SUPER ADMIN'){
+                                $alterIcon  = 1;
+                                if($user_id == $teamMember->id){
+                                    $effortIcon = 1;
+                                } else {
+                                    $effortIcon = 0;
+                                }
+                            } elseif($type == 'ADMIN'){
+                                $alterIcon  = 1;
+                                if($user_id == $teamMember->id){
+                                    $effortIcon = 1;
+                                } else {
+                                    $effortIcon = 0;
+                                }
+                            } elseif($type == 'USER'){
+                                if($user_id == $teamMember->id){
+                                    $alterIcon  = 1;
+                                    $effortIcon = 1;
+                                } else {
+                                    $alterIcon  = 0;
+                                    $effortIcon = 0;
+                                }
+                            } else {
+                                $alterIcon  = 0;
+                                $effortIcon = 0;
+                            }
                         ?>
                             <?php
                             $yesterday                  = $taskDate;
@@ -142,9 +166,9 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                         </div>
                                                         <?php
                                                         if($getTask->updated_at == ''){
-                                                            $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                                                            $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
                                                         } else {
-                                                            $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                                                            $createdAt = date_format(date_create($getTask->updated_at), "d/m/y - h:i a");
                                                         }
                                                         ?>
                                                         <div class="d-flex justify-content-between">
@@ -190,6 +214,61 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                 </div>
                                             </div>
                                         <?php } }?>
+
+                                        <?php
+                                        if($type == 'SUPER ADMIN'){
+                                            if($user_id == $teamMember->id){
+                                                $alterIcon  = 1;
+                                                $effortIcon = 1;
+                                            } else {
+                                                $alterIcon  = 0;
+                                                $effortIcon = 0;
+                                            }
+                                        } elseif($type == 'ADMIN'){
+                                            if($user_id == $teamMember->id){
+                                                $alterIcon  = 1;
+                                                $effortIcon = 1;
+                                            } else {
+                                                $alterIcon  = 0;
+                                                $effortIcon = 0;
+                                            }
+                                        } elseif($type == 'USER'){
+                                            if($user_id == $teamMember->id){
+                                                $alterIcon  = 1;
+                                                $effortIcon = 1;
+                                            } else {
+                                                $alterIcon  = 0;
+                                                $effortIcon = 0;
+                                            }
+                                        } else {
+                                            $alterIcon  = 0;
+                                            $effortIcon = 0;
+                                        }
+                                        ?>
+
+                                         <?php if($effortIcon == 1){?>
+                                            <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                <i class="fa-solid fa-plus-circle"></i> Add Effort
+                                            </a>
+                                        <?php }?>
+                                        <!-- <?php
+                                        $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => $yesterday, 'is_leave>' => 0], 'is_leave');
+                                        if(!$getLeaveTask){
+                                            if($alterIcon){
+                                        ?>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                    <i class="fa-solid fa-plus-circle"></i> Add Effort
+                                                </a>
+                                            <?php }?>
+                                        <?php } else {?>
+                                            <?php if($getLeaveTask->is_leave == 1){?>
+                                                <?php if($alterIcon){?>
+                                                    <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                        <i class="fa-solid fa-plus-circle"></i> Add Effort
+                                                    </a>
+                                                <?php }?>
+                                            <?php }?>
+                                        <?php }?> -->
                                     </div>
                                 </div>
                             </div>

@@ -183,12 +183,12 @@ class UserController extends BaseController {
                 }
             /* profile image */
             $password = $this->request->getPost('password');
-            if (!empty($password)) {
-               $newPassword = $password;
-            }
-            else{
-                $newPassword = md5($this->request->getPost('password'));
-            }
+            // if (!empty($password)) {
+            //    $newPassword = md5($password);
+            // }
+            // else{
+            //     $newPassword = md5($this->request->getPost('password'));
+            // }
             $attendence_type = $this->request->getPost('attendence_type');
             if(!empty($attendence_type)){
                 if(in_array(0, $attendence_type)){
@@ -199,29 +199,55 @@ class UserController extends BaseController {
             } else {
                 $attnType = array('0');
             }
-            $postData   = array(
-                'name'                  => $this->request->getPost('name'),
-                'email'                 => $this->request->getPost('email'),
-                'personal_email'        => $this->request->getPost('personal_email'),
-                'phone1'                => $this->request->getPost('phone1'),
-                'phone2'                => $this->request->getPost('phone2'),
-                'address'               => $this->request->getPost('address'),
-                'pincode'               => $this->request->getPost('pincode'),
-                'latitude'              => $this->request->getPost('latitude'),
-                'longitude'             => $this->request->getPost('longitude'),
-                'password'              => $newPassword,
-                'type'                  => $this->request->getPost('type'),
-                'role_id'               => $this->request->getPost('role_id'),
-                'category'              => $this->request->getPost('category'),                
-                'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
-                'doj'                   => date_format(date_create($this->request->getPost('doj')), "Y-m-d"),
-                'profile_image'         => $profile_image,
-                'status'                => $this->request->getPost('status'),
-                // 'work_mode'             => $this->request->getPost('work_mode'),
-                'is_tracker_user'       => $this->request->getPost('is_tracker_user'),
-                'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
-                'attendence_type'       => json_encode($attnType),
-            );
+            if($password != ''){
+                $postData   = array(
+                    'name'                  => $this->request->getPost('name'),
+                    'email'                 => $this->request->getPost('email'),
+                    'personal_email'        => $this->request->getPost('personal_email'),
+                    'phone1'                => $this->request->getPost('phone1'),
+                    'phone2'                => $this->request->getPost('phone2'),
+                    'address'               => $this->request->getPost('address'),
+                    'pincode'               => $this->request->getPost('pincode'),
+                    'latitude'              => $this->request->getPost('latitude'),
+                    'longitude'             => $this->request->getPost('longitude'),
+                    'password'              => md5($password),
+                    'type'                  => $this->request->getPost('type'),
+                    'role_id'               => $this->request->getPost('role_id'),
+                    'category'              => $this->request->getPost('category'),                
+                    'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
+                    'doj'                   => date_format(date_create($this->request->getPost('doj')), "Y-m-d"),
+                    'profile_image'         => $profile_image,
+                    'status'                => $this->request->getPost('status'),
+                    // 'work_mode'             => $this->request->getPost('work_mode'),
+                    'is_tracker_user'       => $this->request->getPost('is_tracker_user'),
+                    'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
+                    'attendence_type'       => json_encode($attnType),
+                );
+            } else {
+                $postData   = array(
+                    'name'                  => $this->request->getPost('name'),
+                    'email'                 => $this->request->getPost('email'),
+                    'personal_email'        => $this->request->getPost('personal_email'),
+                    'phone1'                => $this->request->getPost('phone1'),
+                    'phone2'                => $this->request->getPost('phone2'),
+                    'address'               => $this->request->getPost('address'),
+                    'pincode'               => $this->request->getPost('pincode'),
+                    'latitude'              => $this->request->getPost('latitude'),
+                    'longitude'             => $this->request->getPost('longitude'),
+                    // 'password'              => $newPassword,
+                    'type'                  => $this->request->getPost('type'),
+                    'role_id'               => $this->request->getPost('role_id'),
+                    'category'              => $this->request->getPost('category'),                
+                    'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
+                    'doj'                   => date_format(date_create($this->request->getPost('doj')), "Y-m-d"),
+                    'profile_image'         => $profile_image,
+                    'status'                => $this->request->getPost('status'),
+                    // 'work_mode'             => $this->request->getPost('work_mode'),
+                    'is_tracker_user'       => $this->request->getPost('is_tracker_user'),
+                    'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
+                    'attendence_type'       => json_encode($attnType),
+                );
+            }
             // pr($postData);
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'].' updated successfully');
