@@ -177,7 +177,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
                                                 <i class="fa fa-eye" id="hidePassword" style="cursor:pointer;display: none;"></i>
                                             </div>
-                                            <span class="text-primary">Leave blank if you do not want to change password</span>
+                                            <!-- <span class="text-primary">Leave blank if you do not want to change password</span> -->
                                         </div>
                                     </div>
                                     <!--Category field -->
