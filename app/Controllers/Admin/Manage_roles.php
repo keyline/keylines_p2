@@ -101,7 +101,7 @@ class Manage_roles extends BaseController {
         $data['functions']          = $this->common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $id]);
         $data['action']             = 'Update';
         if($this->request->getPost()){
-            pr($this->request->getPost());
+            // pr($this->request->getPost());
             $postData = [
                             'role_name'                    => strtoupper($this->request->getPost('role_name_hidden')),
                             'updated_at'                   => date('Y-m-d H:i:s')
@@ -126,8 +126,6 @@ class Manage_roles extends BaseController {
             $this->session->setFlashdata('success_message', $this->data['module'].' inserted successfully');
             return redirect()->to('/admin/'.$this->data['controller']);
         }
-
-         
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function view($id){
