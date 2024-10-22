@@ -1366,9 +1366,9 @@ $controller_route       = $moduleDetail['controller_route'];
               // console.log('The accordion is closed.');
             }
         });
-
-      $('#work_status_id').on('change', function(){
-        var work_status_id = $('#work_status_id').val();
+    });
+    function change_work_status(work_status_id){
+        console.log(work_status_id);
         if(work_status_id == 2){
             $('#hour').val(0);
             $('#min').val(0);
@@ -1376,6 +1376,5 @@ $controller_route       = $moduleDetail['controller_route'];
             $('#hour').val('');
             $('#min').val('');
         }
-      });
-    });
+    }
 </script>
