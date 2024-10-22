@@ -871,7 +871,7 @@ $controller_route       = $moduleDetail['controller_route'];
                             <input type="hidden" name="dept_id" id="dept_id" value="${deptId}">
                             <input type="hidden" name="user_id" id="user_id" value="${userId}">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-6">
                                     <div class="input-group mb-1">
                                         <select name="project_id" id="project_id" class="form-control" required>
                                             <option value="" selected="">Select Project</option>
@@ -881,14 +881,10 @@ $controller_route       = $moduleDetail['controller_route'];
                                                 <hr>
                                             <?php } }?>
                                         </select>
+                                        <input type="hidden" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="<?=date('Y-m-d')?>" max="<?=date('Y-m-d')?>" required>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="input-group mb-1">
-                                        <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="<?=date('Y-m-d')?>" max="<?=date('Y-m-d')?>" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="input-group mb-1">
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave0" value="0" onchange="myFunction()" checked><label for="leave0" style="margin-left : 3px;">PRESENT</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave1" value="1" onchange="myFunction()"><label for="leave1" style="margin-left : 3px;">HALFDAY LEAVE</label></span>
@@ -922,9 +918,10 @@ $controller_route       = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group mb-1">
-                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required><label for="priority1" style="margin-left : 3px;">Priority LOW</label></span>
-                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" checked required><label for="priority2" style="margin-left : 3px;">Priority MEDIUM</label></span>
-                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required><label for="priority3" style="margin-left : 3px;">Priority HIGH</label></span>
+                                        <span>Priority : </span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required><label for="priority1" style="margin-left : 3px;">LOW</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" checked required><label for="priority2" style="margin-left : 3px;">MEDIUM</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required><label for="priority3" style="margin-left : 3px;">HIGH</label></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
