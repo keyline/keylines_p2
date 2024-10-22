@@ -550,14 +550,15 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                     </div>
                                                                                 <?php } }?>
 
-                                                                                <?php
+                                                                                
+                                                                                <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                                                    <i class="fa-solid fa-plus-circle"></i> Add Effort
+                                                                                </a>
+                                                                                <!-- <?php
                                                                                 $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => $yesterday, 'is_leave>' => 0], 'is_leave');
                                                                                 if(!$getLeaveTask){
                                                                                     if($alterIcon){
                                                                                 ?>
-                                                                                        <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
-                                                                                            <i class="fa-solid fa-plus-circle"></i>
-                                                                                        </a> -->
                                                                                         <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                             <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                         </a>
@@ -565,15 +566,12 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php } else {?>
                                                                                     <?php if($getLeaveTask->is_leave == 1){?>
                                                                                         <?php if($alterIcon){?>
-                                                                                            <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
-                                                                                                <i class="fa-solid fa-plus-circle"></i>
-                                                                                            </a> -->
                                                                                             <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                                 <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                             </a>
                                                                                         <?php }?>
                                                                                     <?php }?>
-                                                                                <?php }?>
+                                                                                <?php }?> -->
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -792,7 +790,13 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                     </div>
                                                                                 <?php } }?>
 
-                                                                                <?php
+                                                                                <?php if($alterIcon){?>
+                                                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                        <i class="fa-solid fa-plus-circle"></i> Add Task
+                                                                                    </a>
+                                                                                <?php }?>
+
+                                                                                <!-- <?php
                                                                                 $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
                                                                                 if(!$getLeaveTask){
                                                                                     if($alterIcon){
@@ -809,7 +813,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                             </a>
                                                                                         <?php }?>
                                                                                     <?php }?>
-                                                                                <?php }?>
+                                                                                <?php }?> -->
                                                                             </div>
                                                                         </div>
                                                                     </div>
