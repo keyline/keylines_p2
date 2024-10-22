@@ -1048,6 +1048,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.is_leave                   = 0;
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
+        var date_added                      = $('#date_added').val();
         $.ajax({
             type: 'POST',
             url: base_url + "admin/task-assign/morning-meeting-schedule-update", // Replace with your server endpoint
@@ -1057,8 +1058,8 @@ $controller_route       = $moduleDetail['controller_route'];
                 if(res.success){
                     $('#morningMeetingForm').trigger("reset");
                     $('#morningformModal').modal('hide');
-                    $('#meeting-user-' + user_id).empty();
-                    $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                    $('#meeting-user-' + user_id + '_' + date_added).empty();
+                    $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                     $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
                 }
