@@ -956,52 +956,86 @@ $controller_route       = $moduleDetail['controller_route'];
         var user_id                         = $('#user_id').val();
         var current_date                    = '<?=$current_date?>';
 
-        if($('#project_id').val() != ''){
-            if($('#description').val() != ''){
-                if($('#hour').val() != ''){
-                    if($('#min').val() != ''){
-                        $.ajax({
-                            type: 'POST',
-                            url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
-                            data: JSON.stringify(dataJson),
-                            success: function(res) {
-                                res = $.parseJSON(res);
-                                if(res.success){
-                                    $('#morningMeetingForm').trigger("reset");
-                                    $('#morningformModal').modal('hide');
-                                    var date_added = dataJson.date_added;
-                                    // $('#meeting-user-' + user_id + '_' + date_added).empty();
-                                    // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
-                                    if(current_date == date_added){
-                                        $('#meeting-user-' + user_id + '_' + date_added).empty();
-                                        $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+        if($('input[name="priority"]:checked').val() == 0){
+            if($('#project_id').val() != ''){
+                if($('#description').val() != ''){
+                    if($('#hour').val() != ''){
+                        if($('#min').val() != ''){
+                            $.ajax({
+                                type: 'POST',
+                                url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
+                                data: JSON.stringify(dataJson),
+                                success: function(res) {
+                                    res = $.parseJSON(res);
+                                    if(res.success){
+                                        $('#morningMeetingForm').trigger("reset");
+                                        $('#morningformModal').modal('hide');
+                                        var date_added = dataJson.date_added;
+                                        // $('#meeting-user-' + user_id + '_' + date_added).empty();
+                                        // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        if(current_date == date_added){
+                                            $('#meeting-user-' + user_id + '_' + date_added).empty();
+                                            $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        } else {
+                                            $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
+                                            $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        }
+                                        $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                                        toastAlert("success", res.message);
                                     } else {
-                                        $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
-                                        $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        $('#morningMeetingForm').trigger("reset");
+                                        $('#morningformModal').modal('hide');
+                                        toastAlert("error", res.message);
                                     }
-                                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
-                                    toastAlert("success", res.message);
-                                } else {
-                                    $('#morningMeetingForm').trigger("reset");
-                                    $('#morningformModal').modal('hide');
-                                    toastAlert("error", res.message);
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error); // Handle errors
                                 }
-                            },
-                            error: function(xhr, status, error) {
-                                console.error('Error:', error); // Handle errors
-                            }
-                        });
+                            });
+                        } else {
+                            toastAlert("error", 'Please Select Minutes !!!');
+                        }
                     } else {
-                        toastAlert("error", 'Please Select Minutes !!!');
+                        toastAlert("error", 'Please Select Hour !!!');
                     }
                 } else {
-                    toastAlert("error", 'Please Select Hour !!!');
+                    toastAlert("error", 'Please Enter Description !!!');
                 }
             } else {
-                toastAlert("error", 'Please Enter Description !!!');
+                toastAlert("error", 'Please Select Project !!!');
             }
         } else {
-            toastAlert("error", 'Please Select Project !!!');
+            $.ajax({
+                    type: 'POST',
+                    url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
+                    data: JSON.stringify(dataJson),
+                    success: function(res) {
+                        res = $.parseJSON(res);
+                        if(res.success){
+                            $('#morningMeetingForm').trigger("reset");
+                            $('#morningformModal').modal('hide');
+                            var date_added = dataJson.date_added;
+                            // $('#meeting-user-' + user_id + '_' + date_added).empty();
+                            // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            if(current_date == date_added){
+                                $('#meeting-user-' + user_id + '_' + date_added).empty();
+                                $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            } else {
+                                $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
+                                $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            }
+                            $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                            toastAlert("success", res.message);
+                        } else {
+                            $('#morningMeetingForm').trigger("reset");
+                            $('#morningformModal').modal('hide');
+                            toastAlert("error", res.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error); // Handle errors
+                    }
+                });
         }
     }
 
