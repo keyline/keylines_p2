@@ -284,22 +284,18 @@ class TaskAssignController extends BaseController {
                     $getUser        = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name');
                     $user_name      = (($getUser)?$getUser->name:'');
 
-                    $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                    $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                    if(!$getLeaveTask){
+                        $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
                                                 <i class="fa-solid fa-plus-circle"></i> Add Task
                                         </a>';
-
-                    // $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
-                    // if(!$getLeaveTask){
-                    //     $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                    //                             <i class="fa-solid fa-plus-circle"></i> Add Task
-                    //                     </a>';
-                    // } else {
-                    //     if($getLeaveTask->is_leave == 1){
-                    //         $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                    //                             <i class="fa-solid fa-plus-circle"></i> Add Task
-                    //                     </a>';
-                    //     }
-                    // }
+                    } else {
+                        if($getLeaveTask->is_leave == 1){
+                            $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                                <i class="fa-solid fa-plus-circle"></i> Add Task
+                                        </a>';
+                        }
+                    }
                     $apiResponse['scheduleHTML']        = $scheduleHTML;
                     $apiResponse['totalTime']           = $totalBooked;
                     $apiStatus                          = TRUE;
@@ -733,21 +729,18 @@ class TaskAssignController extends BaseController {
             $getUser        = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name');
             $user_name      = (($getUser)?$getUser->name:'');
 
-            $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+            $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+            if(!$getLeaveTask){
+                $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
                                         <i class="fa-solid fa-plus-circle"></i> Add Task
                                 </a>';
-            // $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
-            // if(!$getLeaveTask){
-            //     $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-            //                             <i class="fa-solid fa-plus-circle"></i> Add Task
-            //                     </a>';
-            // } else {
-            //     if($getLeaveTask->is_leave == 1){
-            //         $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-            //                             <i class="fa-solid fa-plus-circle"></i> Add Task
-            //                     </a>';
-            //     }
-            // }
+            } else {
+                if($getLeaveTask->is_leave == 1){
+                    $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                        <i class="fa-solid fa-plus-circle"></i> Add Task
+                                </a>';
+                }
+            }
             $apiResponse['scheduleHTML']        = $scheduleHTML;
             $apiResponse['totalTime']           = $totalBooked;
             $apiStatus                          = TRUE;
