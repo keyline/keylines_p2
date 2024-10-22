@@ -256,6 +256,9 @@ $controller_route       = $moduleDetail['controller_route'];
         padding: 20px 20px 35px;
         border-radius: 12px
     }
+    .general_table_style td a {
+        color: #FFF;
+    }
 </style>
 <div class="maze" style="display: none;">
     <canvas id="mazecnv" width="1840" height="1086"></canvas>
@@ -515,9 +518,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 </div>
                                                                                                 <?php
                                                                                                 if($getTask->updated_at == ''){
-                                                                                                    $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                                                                                                    $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
                                                                                                 } else {
-                                                                                                    $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                                                                                                    $createdAt = date_format(date_create($getTask->updated_at), "d/m/y - h:i a");
                                                                                                 }
                                                                                                 ?>
                                                                                                 <div class="d-flex justify-content-between">
@@ -547,14 +550,16 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                     </div>
                                                                                 <?php } }?>
 
-                                                                                <?php
+                                                                                <?php if($alterIcon){?>
+                                                                                    <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
+                                                                                        <i class="fa-solid fa-plus-circle"></i> Add Effort
+                                                                                    </a>
+                                                                                <?php }?>
+                                                                                <!-- <?php
                                                                                 $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => $yesterday, 'is_leave>' => 0], 'is_leave');
                                                                                 if(!$getLeaveTask){
                                                                                     if($alterIcon){
                                                                                 ?>
-                                                                                        <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
-                                                                                            <i class="fa-solid fa-plus-circle"></i>
-                                                                                        </a> -->
                                                                                         <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                             <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                         </a>
@@ -562,15 +567,12 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php } else {?>
                                                                                     <?php if($getLeaveTask->is_leave == 1){?>
                                                                                         <?php if($alterIcon){?>
-                                                                                            <!-- <a href="javascript:void(0);" class="task_add_btn" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
-                                                                                                <i class="fa-solid fa-plus-circle"></i>
-                                                                                            </a> -->
                                                                                             <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                                 <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                             </a>
                                                                                         <?php }?>
                                                                                     <?php }?>
-                                                                                <?php }?>
+                                                                                <?php }?> -->
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -752,9 +754,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 <div class="d-flex justify-content-between">
                                                                                                     <?php
                                                                                                     if($getTask->updated_at == ''){
-                                                                                                        $createdAt = date_format(date_create($getTask->created_at), "h:i a");
+                                                                                                        $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
                                                                                                     } else {
-                                                                                                        $createdAt = date_format(date_create($getTask->updated_at), "h:i a");
+                                                                                                        $createdAt = date_format(date_create($getTask->updated_at), "d/m/y - h:i a");
                                                                                                     }
 
                                                                                                     $time1 = new DateTime($getTask->created_at);
@@ -789,7 +791,13 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                     </div>
                                                                                 <?php } }?>
 
-                                                                                <?php
+                                                                                <?php if($alterIcon){?>
+                                                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                        <i class="fa-solid fa-plus-circle"></i> Add Task
+                                                                                    </a>
+                                                                                <?php }?>
+
+                                                                                <!-- <?php
                                                                                 $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
                                                                                 if(!$getLeaveTask){
                                                                                     if($alterIcon){
@@ -806,7 +814,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                             </a>
                                                                                         <?php }?>
                                                                                     <?php }?>
-                                                                                <?php }?>
+                                                                                <?php }?> -->
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -871,7 +879,7 @@ $controller_route       = $moduleDetail['controller_route'];
                             <input type="hidden" name="dept_id" id="dept_id" value="${deptId}">
                             <input type="hidden" name="user_id" id="user_id" value="${userId}">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-6">
                                     <div class="input-group mb-1">
                                         <select name="project_id" id="project_id" class="form-control" required>
                                             <option value="" selected="">Select Project</option>
@@ -881,14 +889,10 @@ $controller_route       = $moduleDetail['controller_route'];
                                                 <hr>
                                             <?php } }?>
                                         </select>
+                                        <input type="hidden" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="<?=date('Y-m-d')?>" max="<?=date('Y-m-d')?>" required>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="input-group mb-1">
-                                        <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="<?=date('Y-m-d')?>" max="<?=date('Y-m-d')?>" required>
-                                    </div>
-                                </div>
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="input-group mb-1">
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave0" value="0" onchange="myFunction()" checked><label for="leave0" style="margin-left : 3px;">PRESENT</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave1" value="1" onchange="myFunction()"><label for="leave1" style="margin-left : 3px;">HALFDAY LEAVE</label></span>
@@ -922,9 +926,10 @@ $controller_route       = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-6">
                                     <div class="input-group mb-1">
-                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required><label for="priority1" style="margin-left : 3px;">Priority LOW</label></span>
-                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" checked required><label for="priority2" style="margin-left : 3px;">Priority MEDIUM</label></span>
-                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required><label for="priority3" style="margin-left : 3px;">Priority HIGH</label></span>
+                                        <span>Priority : </span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required><label for="priority1" style="margin-left : 3px;">LOW</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" checked required><label for="priority2" style="margin-left : 3px;">MEDIUM</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required><label for="priority3" style="margin-left : 3px;">HIGH</label></span>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -955,37 +960,88 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
         var current_date                    = '<?=$current_date?>';
-        $.ajax({
-            type: 'POST',
-            url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
-            data: JSON.stringify(dataJson),
-            success: function(res) {
-                res = $.parseJSON(res);
-                if(res.success){
-                    $('#morningMeetingForm').trigger("reset");
-                    $('#morningformModal').modal('hide');
-                    var date_added = dataJson.date_added;
-                    // $('#meeting-user-' + user_id + '_' + date_added).empty();
-                    // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
-                    if(current_date == date_added){
-                        $('#meeting-user-' + user_id + '_' + date_added).empty();
-                        $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+
+        if($('input[name="priority"]:checked').val() == 0){
+            if($('#project_id').val() != ''){
+                if($('#description').val() != ''){
+                    if($('#hour').val() != ''){
+                        if($('#min').val() != ''){
+                            $.ajax({
+                                type: 'POST',
+                                url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
+                                data: JSON.stringify(dataJson),
+                                success: function(res) {
+                                    res = $.parseJSON(res);
+                                    if(res.success){
+                                        $('#morningMeetingForm').trigger("reset");
+                                        $('#morningformModal').modal('hide');
+                                        var date_added = dataJson.date_added;
+                                        // $('#meeting-user-' + user_id + '_' + date_added).empty();
+                                        // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        if(current_date == date_added){
+                                            $('#meeting-user-' + user_id + '_' + date_added).empty();
+                                            $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        } else {
+                                            $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
+                                            $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        }
+                                        $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                                        toastAlert("success", res.message);
+                                    } else {
+                                        $('#morningMeetingForm').trigger("reset");
+                                        $('#morningformModal').modal('hide');
+                                        toastAlert("error", res.message);
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error); // Handle errors
+                                }
+                            });
+                        } else {
+                            toastAlert("error", 'Please Select Minutes !!!');
+                        }
                     } else {
-                        $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
-                        $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                        toastAlert("error", 'Please Select Hour !!!');
                     }
-                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
-                    toastAlert("success", res.message);
                 } else {
-                    $('#morningMeetingForm').trigger("reset");
-                    $('#morningformModal').modal('hide');
-                    toastAlert("error", res.message);
+                    toastAlert("error", 'Please Enter Description !!!');
                 }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error:', error); // Handle errors
+            } else {
+                toastAlert("error", 'Please Select Project !!!');
             }
-        });
+        } else {
+            $.ajax({
+                    type: 'POST',
+                    url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
+                    data: JSON.stringify(dataJson),
+                    success: function(res) {
+                        res = $.parseJSON(res);
+                        if(res.success){
+                            $('#morningMeetingForm').trigger("reset");
+                            $('#morningformModal').modal('hide');
+                            var date_added = dataJson.date_added;
+                            // $('#meeting-user-' + user_id + '_' + date_added).empty();
+                            // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            if(current_date == date_added){
+                                $('#meeting-user-' + user_id + '_' + date_added).empty();
+                                $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            } else {
+                                $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
+                                $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            }
+                            $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                            toastAlert("success", res.message);
+                        } else {
+                            $('#morningMeetingForm').trigger("reset");
+                            $('#morningformModal').modal('hide');
+                            toastAlert("error", res.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error); // Handle errors
+                    }
+                });
+        }
     }
 
     function openEditForm(deptId, userId, userName, scheduleId){
@@ -1031,6 +1087,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.is_leave                   = 0;
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
+        var date_added                      = $('#date_added').val();
         $.ajax({
             type: 'POST',
             url: base_url + "admin/task-assign/morning-meeting-schedule-update", // Replace with your server endpoint
@@ -1040,8 +1097,8 @@ $controller_route       = $moduleDetail['controller_route'];
                 if(res.success){
                     $('#morningMeetingForm').trigger("reset");
                     $('#morningformModal').modal('hide');
-                    $('#meeting-user-' + user_id).empty();
-                    $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                    $('#meeting-user-' + user_id + '_' + date_added).empty();
+                    $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                     $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
                 }
@@ -1248,6 +1305,10 @@ $controller_route       = $moduleDetail['controller_route'];
             $('#hour').attr('disabled', true);
             $('#min').attr('disabled', true);
             $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#hour').val('');
+            $('#min').val('');
         } else if(selectedValue == 2){
             var description = 'Full Day Leave Taken';
             $('#description').val(description);
@@ -1260,6 +1321,10 @@ $controller_route       = $moduleDetail['controller_route'];
             $('#hour').attr('disabled', true);
             $('#min').attr('disabled', true);
             $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#hour').val('');
+            $('#min').val('');
         }
     }
     $(document).ready(function(){    
