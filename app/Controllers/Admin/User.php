@@ -675,9 +675,10 @@ class User extends BaseController {
                 $data['last7DaysResponses']         = $last7DaysResponses;  
                 // echo "<pre>";   
                 // print_r($data['last7DaysResponses'])  ;die;       
-                       
-                if($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users){               
-                    $userGraph = [];          
+                $userGraph = [];
+                $AlluserGraph = [];
+
+                if($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users){
                     foreach($user as $row){   
                         // pr($row);       
                     $team = "SELECT team.*,department.deprt_name  FROM `team` INNER JOIN department on team.dep_id = department.id WHERE user_id = '$row->id'";
@@ -852,7 +853,7 @@ class User extends BaseController {
 
                     }                    
                         //  pr($userGraph);  
-                      $AlluserGraph = [];
+                    
                        /* All user graph */
                      $yesterday_date = date('Y-m-d', strtotime("-1 days"));
                      $qry_yesterday_proj = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill  from timesheet where date_added = '$yesterday_date' group by timesheet.project_id" . " order by timesheet.date_added desc";

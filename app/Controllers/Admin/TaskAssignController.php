@@ -854,7 +854,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="work_status_id" id="work_status_id" class="form-control" required>
+                                                            <select name="work_status_id" id="work_status_id" class="form-control" onchange="change_work_status(this.value);" required>
                                                                 <option value="" selected="">Select Work Status</option>
                                                                 <hr>';
                                                                 if($workStats){ foreach($workStats as $workStat){
