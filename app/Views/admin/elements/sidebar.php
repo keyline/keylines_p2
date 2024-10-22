@@ -196,18 +196,18 @@ $userId             = $session->user_id;
                 </a>
               </li>
                 <?php if ($admin->is_tracker_user) {  ?>
-                  <!-- <li>
+                  <li>
                     <a class="<?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/task-assign') ?>">
                       <i class="fa fa-arrow-right"></i>
                       <span>Task Assign</span>
                     </a>        
-                  </li>  -->                 
+                  </li>                  
                     <?php if(checkModuleAccess(19)){ ?>
-                    <li>
+                    <!-- <li>
                         <a class="<?= (($pageSegment == 'efforts' && $paramerId == 'add') ? 'active' : '') ?>" href="<?= base_url('admin/efforts/add') ?>">
                             <i class="fa fa-arrow-right"></i><span>Add My Effort</span>
                         </a>
-                    </li>
+                    </li> -->
                     <?php } ?>
                 <?php } ?>
                 <?php if(checkModuleAccess(20)){ ?>
