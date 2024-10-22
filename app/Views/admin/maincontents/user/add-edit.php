@@ -172,7 +172,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <div class="col-md-10 col-lg-10">
                                         <div class="general_form_right_box position-relative">
                                             <input type="password" name="password" class="form-control" id="password" <?=((empty($row))?'required':'')?>>
-                                            <div class="eye position-absolute top-50 end-0 translate-middle">
+                                            <div class="eye position-absolute top-35 end-0 translate-middle">
                                                 <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
                                                 <i class="fa fa-eye" id="hidePassword" style="cursor:pointer;display: none;"></i>
                                             </div>
