@@ -1152,7 +1152,7 @@ class TaskAssignController extends BaseController {
                             'created_at'            => $next_working_day.' 10:01:00',
                             'updated_at'            => $next_working_day.' 10:01:00',
                         ];
-                        pr($morningScheduleData2);
+                        // pr($morningScheduleData2);
                         $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
                     }
                 }
