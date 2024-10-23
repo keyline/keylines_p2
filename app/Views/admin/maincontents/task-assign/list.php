@@ -1381,9 +1381,6 @@ $controller_route       = $moduleDetail['controller_route'];
         if(work_status_id == 2){
             $('#hour').val(0);
             $('#min').val(0);
-        } else {
-            $('#hour').val('');
-            $('#min').val('');
         }
     }
 </script>
