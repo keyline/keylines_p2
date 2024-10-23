@@ -1090,7 +1090,8 @@ class TaskAssignController extends BaseController {
                     if($getWorkStatus->is_reassign){
                         /* next working data calculate */
                             // for($c=1;$c<=7;$c++){
-                                echo $date_added1 = date('Y-m-d', strtotime("+1 days"));die;
+                                echo $date_added1 = date('Y-m-d', strtotime("+1 days"));
+                                echo $date_added1 = date('Y-m-d', strtotime($date_added . ' +1 day'));die;
                                 if($this->calculateNextWorkingDate($date_added1)){
                                     $next_working_day = $date_added1;
                                 } else {
