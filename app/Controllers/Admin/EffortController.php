@@ -32,7 +32,7 @@ class EffortController extends BaseController {
         $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['user_id' => $user_id], '', '', '', $order_by);
         echo $this->layout_after_login($title,$page_name,$data);
     }
-    public function add()
+    public function addBackup()
     {
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Add';
