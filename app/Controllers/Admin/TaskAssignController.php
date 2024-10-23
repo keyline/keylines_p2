@@ -1090,7 +1090,7 @@ class TaskAssignController extends BaseController {
                     if($getWorkStatus->is_reassign){
                         /* next working data calculate */
                             // for($c=1;$c<=7;$c++){
-                                $date_added1 = date($date_added, strtotime("+1 days"));
+                                echo $date_added1 = date($date_added, strtotime("+1 days"));die;
                                 if($this->calculateNextWorkingDate($date_added1)){
                                     $next_working_day = $date_added1;
                                 } else {
@@ -1148,8 +1148,8 @@ class TaskAssignController extends BaseController {
                             'work_status_id'        => 0,
                             'priority'              => 3,
                             'effort_id'             => 0,
-                            'created_at'            => $next_working_day.' H:i:s',
-                            'updated_at'            => $next_working_day.' H:i:s',
+                            'created_at'            => $next_working_day.' 10:01:00',
+                            'updated_at'            => $next_working_day.' 10:01:00',
                         ];
                         pr($morningScheduleData2);
                         $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
