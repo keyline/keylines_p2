@@ -1162,34 +1162,43 @@ $controller_route       = $moduleDetail['controller_route'];
             if($('#work_status_id').val() == ''){
                 toastAlert("error", "Please Select Work Status !!!");
             } else {
-                var current_date    = '<?=$current_date?>';
-                // console.log(current_date);
-                // console.log(book_date);
-                // console.log(user_id);
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
-                    data: JSON.stringify(dataJson),
-                    success: function(res) {
-                        res = $.parseJSON(res);
-                        if(res.success){
-                            $('#morningMeetingForm').trigger("reset");
-                            $('#morningformModal').modal('hide');
-                            if(current_date == book_date){
-                                $('#meeting-user-' + user_id + '_' + book_date).empty();
-                                $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
-                            } else {
-                                $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
-                                $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
-                            }
-                            $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
-                            toastAlert("success", res.message);
+                if($('#description').val() == ''){
+                    toastAlert("error", "Please Enter Description !!!");
+                } else {
+                    if($('#hour').val() == ''){
+                        toastAlert("error", "Please Select Hours !!!");
+                    } else {
+                        if($('#min').val() == ''){
+                            toastAlert("error", "Please Select Minutes !!!");
+                        } else {
+                            var current_date    = '<?=$current_date?>';
+                            $.ajax({
+                                type: 'POST',
+                                url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
+                                data: JSON.stringify(dataJson),
+                                success: function(res) {
+                                    res = $.parseJSON(res);
+                                    if(res.success){
+                                        $('#morningMeetingForm').trigger("reset");
+                                        $('#morningformModal').modal('hide');
+                                        if(current_date == book_date){
+                                            $('#meeting-user-' + user_id + '_' + book_date).empty();
+                                            $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                        } else {
+                                            $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
+                                            $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                        }
+                                        $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                                        toastAlert("success", res.message);
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error);
+                                }
+                            });
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error); // Handle errors
                     }
-                });
+                }
             }
         }
     }

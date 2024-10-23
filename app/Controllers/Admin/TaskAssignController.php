@@ -1090,32 +1090,33 @@ class TaskAssignController extends BaseController {
                     if($getWorkStatus->is_reassign){
                         /* next working data calculate */
                             // for($c=1;$c<=7;$c++){
-                                $date_added1 = date('Y-m-d', strtotime("+1 days"));
+                                // echo $date_added1 = date('Y-m-d', strtotime("+1 days"));
+                                $date_added1 = date('Y-m-d', strtotime($date_added . ' +1 day'));
                                 if($this->calculateNextWorkingDate($date_added1)){
                                     $next_working_day = $date_added1;
                                 } else {
                                     // echo 'not working day';
-                                    $date_added2 = date('Y-m-d', strtotime("+2 days"));
+                                    $date_added2 = date('Y-m-d', strtotime($date_added . "+2 days"));
                                     if($this->calculateNextWorkingDate($date_added2)){
                                         $next_working_day = $date_added2;
                                     } else {
-                                        $date_added3 = date('Y-m-d', strtotime("+3 days"));
+                                        $date_added3 = date('Y-m-d', strtotime($date_added . "+3 days"));
                                         if($this->calculateNextWorkingDate($date_added3)){
                                             $next_working_day = $date_added3;
                                         } else {
-                                            $date_added4 = date('Y-m-d', strtotime("+4 days"));
+                                            $date_added4 = date('Y-m-d', strtotime($date_added . "+4 days"));
                                             if($this->calculateNextWorkingDate($date_added4)){
                                                 $next_working_day = $date_added4;
                                             } else {
-                                                $date_added5 = date('Y-m-d', strtotime("+5 days"));
+                                                $date_added5 = date('Y-m-d', strtotime($date_added . "+5 days"));
                                                 if($this->calculateNextWorkingDate($date_added5)){
                                                     $next_working_day = $date_added5;
                                                 } else {
-                                                    $date_added6 = date('Y-m-d', strtotime("+6 days"));
+                                                    $date_added6 = date('Y-m-d', strtotime($date_added . "+6 days"));
                                                     if($this->calculateNextWorkingDate($date_added6)){
                                                         $next_working_day = $date_added6;
                                                     } else {
-                                                        $date_added7 = date('Y-m-d', strtotime("+7 days"));
+                                                        $date_added7 = date('Y-m-d', strtotime($date_added . "+7 days"));
                                                         if($this->calculateNextWorkingDate($date_added7)){
                                                             $next_working_day = $date_added7;
                                                         } else {
@@ -1148,12 +1149,15 @@ class TaskAssignController extends BaseController {
                             'work_status_id'        => 0,
                             'priority'              => 3,
                             'effort_id'             => 0,
+                            'created_at'            => $next_working_day.' 10:01:00',
+                            'updated_at'            => $next_working_day.' 10:01:00',
                         ];
                         // pr($morningScheduleData2);
                         $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
                     }
                 }
             // Finish & Assign tomorrow
+            
 
             $scheduleHTML               = '';
             $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
