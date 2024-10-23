@@ -1377,11 +1377,14 @@ $controller_route       = $moduleDetail['controller_route'];
         });
     });
     function change_work_status(work_status_id){
-        console.log($('#hour').val());
-        console.log($('#min').val());
         if(work_status_id == 2){
             $('#hour').val(0);
             $('#min').val(0);
+        } else {
+            var hr = $('#hour').val();
+            var mn = $('#min').val();
+            $('#hour').val(hr);
+            $('#min').val(mn);
         }
     }
 </script>
