@@ -1045,7 +1045,7 @@ class TaskAssignController extends BaseController {
                     'hour_rate'             => $user_cost,
                     'cost'                  => number_format($projectCost, 2, '.', ''),
                 );
-                pr($postData);
+                // pr($postData);
                 $effort_id              = $this->data['model']->save_data('timesheet', $postData, '', 'id');
 
                 $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
@@ -1090,32 +1090,32 @@ class TaskAssignController extends BaseController {
                     if($getWorkStatus->is_reassign){
                         /* next working data calculate */
                             // for($c=1;$c<=7;$c++){
-                                $date_added1 = date('Y-m-d', strtotime("+1 days"));
+                                $date_added1 = date($date_added, strtotime("+1 days"));
                                 if($this->calculateNextWorkingDate($date_added1)){
                                     $next_working_day = $date_added1;
                                 } else {
                                     // echo 'not working day';
-                                    $date_added2 = date('Y-m-d', strtotime("+2 days"));
+                                    $date_added2 = date($date_added, strtotime("+2 days"));
                                     if($this->calculateNextWorkingDate($date_added2)){
                                         $next_working_day = $date_added2;
                                     } else {
-                                        $date_added3 = date('Y-m-d', strtotime("+3 days"));
+                                        $date_added3 = date($date_added, strtotime("+3 days"));
                                         if($this->calculateNextWorkingDate($date_added3)){
                                             $next_working_day = $date_added3;
                                         } else {
-                                            $date_added4 = date('Y-m-d', strtotime("+4 days"));
+                                            $date_added4 = date($date_added, strtotime("+4 days"));
                                             if($this->calculateNextWorkingDate($date_added4)){
                                                 $next_working_day = $date_added4;
                                             } else {
-                                                $date_added5 = date('Y-m-d', strtotime("+5 days"));
+                                                $date_added5 = date($date_added, strtotime("+5 days"));
                                                 if($this->calculateNextWorkingDate($date_added5)){
                                                     $next_working_day = $date_added5;
                                                 } else {
-                                                    $date_added6 = date('Y-m-d', strtotime("+6 days"));
+                                                    $date_added6 = date($date_added, strtotime("+6 days"));
                                                     if($this->calculateNextWorkingDate($date_added6)){
                                                         $next_working_day = $date_added6;
                                                     } else {
-                                                        $date_added7 = date('Y-m-d', strtotime("+7 days"));
+                                                        $date_added7 = date($date_added, strtotime("+7 days"));
                                                         if($this->calculateNextWorkingDate($date_added7)){
                                                             $next_working_day = $date_added7;
                                                         } else {
@@ -1148,8 +1148,10 @@ class TaskAssignController extends BaseController {
                             'work_status_id'        => 0,
                             'priority'              => 3,
                             'effort_id'             => 0,
+                            'created_at'            => $next_working_day.' H:i:s',
+                            'updated_at'            => $next_working_day.' H:i:s',
                         ];
-                        // pr($morningScheduleData2);
+                        pr($morningScheduleData2);
                         $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
                     }
                 }
