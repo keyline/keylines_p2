@@ -1157,6 +1157,7 @@ class TaskAssignController extends BaseController {
                     }
                 }
             // Finish & Assign tomorrow
+            
 
             $scheduleHTML               = '';
             $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');

@@ -1193,7 +1193,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     }
                                 },
                                 error: function(xhr, status, error) {
-                                    console.error('Error:', error); // Handle errors
+                                    console.error('Error:', error);
                                 }
                             });
                         }
