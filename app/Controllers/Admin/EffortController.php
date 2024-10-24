@@ -33,7 +33,7 @@ class EffortController extends BaseController {
 
         $select                     = 'timesheet.*, morning_meetings.description as assign_description, morning_meetings.hour as assign_hour, morning_meetings.min as assign_min';
         $data['rows']               = $this->data['model']->find_data('timesheet', 'array', ['timesheet.user_id' => $user_id, 'timesheet.date_added' => '2024-10-24'], $select, $join, '', $order_by);
-        pr($data['rows']);
+        // pr($data['rows']);
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function addBackup()
