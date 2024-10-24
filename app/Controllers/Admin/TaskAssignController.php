@@ -773,7 +773,7 @@ class TaskAssignController extends BaseController {
             $dept_id                    = $requestData['dept_id'];
             $user_id                    = $requestData['user_id'];
             $schedule_id                = ((array_key_exists("schedule_id",$requestData))?$requestData['schedule_id']:'');
-            $task_date                  = $requestData['task_date'];
+            echo $task_date                  = $requestData['task_date'];
             $yesterday                  = date('Y-m-d', strtotime("-1 days"));
 
             $scheduleHTML               = '';
@@ -793,6 +793,7 @@ class TaskAssignController extends BaseController {
                 } else {
                     $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>';
                 }
+                echo $inputDate;die;
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
