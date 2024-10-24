@@ -69,13 +69,13 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                             $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
                             $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
 
-                            $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);
+                            $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
                             if($checkAttnendance > 0){
                                 $attnBgColor = '#d1fa05';
                             } else {
                                 $attnBgColor = 'red';
                             }
-                            $checkBooking = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d')]);
+                            $checkBooking = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
                             if($checkBooking > 0){
                                 $trackerBgColor = '#d1fa05';
                             } else {
