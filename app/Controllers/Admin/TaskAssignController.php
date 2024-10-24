@@ -1293,7 +1293,7 @@ class TaskAssignController extends BaseController {
                 }
             }
             // echo $scheduleHTML;die;
-            $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+            $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
             
             $dept_id        = $requestData['dept_id'];
             $user_id        = $requestData['user_id'];
@@ -1325,8 +1325,20 @@ class TaskAssignController extends BaseController {
                     }
                 }
             }
+
+            $totalBookedTime                  = 0;
+            $bookings = $this->common_model->find_data('timesheet', 'array', ['user_id' => $user_id, 'date_added' => $date_added]);
+            if($bookings){ foreach($bookings as $booking){
+                $tot_hour               = $booking->hour * 60;
+                $tot_min                = $booking->min;
+                $totMins                = $tot_hour + $tot_min;
+                $totalBookedTime              += $totMins;
+            } }
+            $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+
             $apiResponse['scheduleHTML']        = $scheduleHTML;
-            $apiResponse['totalTime']           = $totalBooked;
+            $apiResponse['totalTime']           = $totalAssigned;
+            $apiResponse['totalBookedTime']     = $totalBooked;
             $apiStatus                          = TRUE;
             http_response_code(200);
             $apiMessage                         = 'Effort Booked Successfully !!!';

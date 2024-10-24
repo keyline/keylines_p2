@@ -1246,6 +1246,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                             $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
                                         }
                                         $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
+                                        $('#total-booked-time-' + user_id).html('[Booked : ' + res.data.totalBookedTime + ']');
                                         toastAlert("success", res.message);
                                     }
                                 },
