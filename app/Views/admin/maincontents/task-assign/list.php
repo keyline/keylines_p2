@@ -417,11 +417,24 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
-                                                                            <?=$teamMember->name?><br>
+                                                                            <div class="row">
+                                                                                <div class="col-md-12" style="text-align: center;">
+                                                                                    <span><?=$teamMember->name?></span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: left;">
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: right;">
+                                                                                    <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- <?=$teamMember->name?><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
                                                                             <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
-                                                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span> -->
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -685,8 +698,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
                                                                             <div class="row">
-                                                                                <div class="col-md-12">
-                                                                                    <span class="text-center"><?=$teamMember->name?></span>
+                                                                                <div class="col-md-12" style="text-align: center;">
+                                                                                    <span><?=$teamMember->name?></span>
                                                                                 </div>
                                                                                 <div class="col-md-6" style="text-align: left;">
                                                                                     <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
