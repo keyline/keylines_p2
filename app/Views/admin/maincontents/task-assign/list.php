@@ -632,8 +632,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
                                                                             <?=$teamMember->name?><br>
-                                                                            <span style="padding: 2px 8px; border-radius: 10px;background-color:red; color: #FFF;">PUNCH-IN</span><br>
-                                                                            <span style="padding: 2px 8px; border-radius: 10px;background-color:red; color: #FFF;">TRACKER</span><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:red; color: #FFF;">Punch-In</span><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:red; color: #FFF;">Tracker</span><br>
                                                                             <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span>
                                                                         </div>
                                                                     </th>
