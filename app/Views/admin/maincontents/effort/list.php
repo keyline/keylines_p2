@@ -98,7 +98,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <?php }?>
                                     </td>
                                     <td><?=$row->hour?>:<?=$row->min?></td>
-                                    <td><?=wordwrap($row->description,55,"<br>\n")?></td>
+                                    <td>
+                                        <?=wordwrap($row->description,55,"<br>\n")?><br>
+                                        <?php if($row->assign_description != ''){?>
+                                            <strong>Assigned : <?=wordwrap($row->assign_description,55,"<br>\n")?> (<?=$row->assign_hour?>:<?=$row->assign_min?>)</strong>
+                                        <?php }?>
+                                    </td>
                                     <td><?=(($getEffortType)?$getEffortType->name:'')?></td>
                                     <td><?=date_format(date_create($row->date_today), "d-m-Y h:i:s A")?></td>
                                     <td>
