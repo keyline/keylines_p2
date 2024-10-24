@@ -773,7 +773,7 @@ class TaskAssignController extends BaseController {
             $dept_id                    = $requestData['dept_id'];
             $user_id                    = $requestData['user_id'];
             $schedule_id                = ((array_key_exists("schedule_id",$requestData))?$requestData['schedule_id']:'');
-            echo $task_date                  = $requestData['task_date'];
+            $task_date                  = $requestData['task_date'];
             $yesterday                  = date('Y-m-d', strtotime("-1 days"));
 
             $scheduleHTML               = '';
@@ -793,7 +793,6 @@ class TaskAssignController extends BaseController {
                 } else {
                     $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>';
                 }
-                echo $inputDate;die;
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
@@ -880,6 +879,8 @@ class TaskAssignController extends BaseController {
                                                 </div>
                                             </form>';
             } else {
+                $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" value="' . $task_date . '" required>';
+
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $dept_id . '">
                                                 <input type="hidden" name="user_id" id="user_id" value="' . $user_id . '">
@@ -887,7 +888,7 @@ class TaskAssignController extends BaseController {
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="" max="' . $yesterday . '" required>
+                                                            ' . $inputDate . '
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
