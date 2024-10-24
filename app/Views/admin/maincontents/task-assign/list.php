@@ -1032,7 +1032,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     if(res.success){
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');
-                                        
+                                        console.log(date_added);
                                         // $('#meeting-user-' + user_id + '_' + date_added).empty();
                                         // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                                         if(current_date == date_added){
@@ -1042,6 +1042,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                                         }
+                                        console.log('#total-time-' + user_id + '_' + date_added);
                                         $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
                                         toastAlert("success", res.message);
                                     } else {
