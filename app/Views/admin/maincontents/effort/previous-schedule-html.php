@@ -98,8 +98,8 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                     <?=$teamMember->name?><br>
                                     <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
                                     <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
-                                    <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span><br>
-                                    <span id="total-booked-time-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                    <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
                                 </div>
                             </th>
                         <?php } } ?>

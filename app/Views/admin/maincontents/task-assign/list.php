@@ -420,8 +420,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                             <?=$teamMember->name?><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
-                                                                            <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span><br>
-                                                                            <span id="total-booked-time-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                            <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -680,14 +680,15 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     } }
                                                                     $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
                                                                     $totalBooked    = '[Booked : ' . $totalBooked . ']';
+                                                                    $today          = date('Y-m-d');
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
                                                                             <?=$teamMember->name?><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
-                                                                            <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span><br>
-                                                                            <span id="total-booked-time-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                            <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span>
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -1041,7 +1042,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                                         }
-                                        $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
+                                        $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
                                         toastAlert("success", res.message);
                                     } else {
                                         $('#morningMeetingForm').trigger("reset");
@@ -1155,7 +1156,7 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#morningformModal').modal('hide');
                     $('#meeting-user-' + user_id + '_' + date_added).empty();
                     $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
-                    $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
+                    $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
                 }
             },
@@ -1245,8 +1246,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                             $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
                                             $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
                                         }
-                                        $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
-                                        $('#total-booked-time-' + user_id).html('[Booked : ' + res.data.totalBookedTime + ']');
+                                        $('#total-time-' + user_id + '_' + book_date).html('[Assigned : ' + res.data.totalTime + ']');
+                                        $('#total-booked-time-' + user_id + '_' + book_date).html('[Booked : ' + res.data.totalBookedTime + ']');
                                         toastAlert("success", res.message);
                                     }
                                 },
