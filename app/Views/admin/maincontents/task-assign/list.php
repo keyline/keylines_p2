@@ -1017,7 +1017,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
         var current_date                    = '<?=$current_date?>';
-
+        var date_added                      = $('#date_added').val();
         if($('input[name="priority"]:checked').val() == 0){
             if($('#project_id').val() != ''){
                 if($('#description').val() != ''){
@@ -1032,7 +1032,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     if(res.success){
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');
-                                        var date_added = dataJson.date_added;
+                                        
                                         // $('#meeting-user-' + user_id + '_' + date_added).empty();
                                         // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                                         if(current_date == date_added){
