@@ -83,7 +83,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                             }
 
                             $totalBookedTime                  = 0;
-                            $bookings = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                            $bookings = $common_model->find_data('timesheet', 'array', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
                             if($bookings){ foreach($bookings as $booking){
                                 $tot_hour               = $booking->hour * 60;
                                 $tot_min                = $booking->min;
