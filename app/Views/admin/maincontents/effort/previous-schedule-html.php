@@ -66,12 +66,53 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                 $totMins                = $tot_hour + $tot_min;
                                 $totalTime              += $totMins;
                             } }
-                            $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-                            $totalBooked    = '[' . $totalBooked . ']';
+                            $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+                            $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
+
+                            $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
+                            if($checkAttnendance > 0){
+                                $attnBgColor = '#d1fa05';
+                            } else {
+                                $attnBgColor = 'red';
+                            }
+                            $checkBooking = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                            if($checkBooking > 0){
+                                $trackerBgColor = '#d1fa05';
+                            } else {
+                                $trackerBgColor = 'red';
+                            }
+
+                            $totalBookedTime                  = 0;
+                            $bookings = $common_model->find_data('timesheet', 'array', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                            if($bookings){ foreach($bookings as $booking){
+                                $tot_hour               = $booking->hour * 60;
+                                $tot_min                = $booking->min;
+                                $totMins                = $tot_hour + $tot_min;
+                                $totalBookedTime              += $totMins;
+                            } }
+                            $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+                            $totalBooked    = '[Booked : ' . $totalBooked . ']';
                             ?>
                             <th style="background-color: <?=$dept->header_color?>;">
                                 <div class="d-flex justify-content-between">
-                                    <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                    <div class="row">
+                                        <div class="col-md-12" style="text-align: center;">
+                                            <span><?=$teamMember->name?></span>
+                                        </div>
+                                        <div class="col-md-6" style="text-align: left;">
+                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
+                                        </div>
+                                        <div class="col-md-6" style="text-align: right;">
+                                            <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
+                                        </div>
+                                    </div>
+                                    <!-- <?=$teamMember->name?><br>
+                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
+                                    <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span> -->
                                 </div>
                             </th>
                         <?php } } ?>

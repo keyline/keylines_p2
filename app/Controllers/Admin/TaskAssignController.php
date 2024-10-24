@@ -786,7 +786,13 @@ class TaskAssignController extends BaseController {
                 $checkedWorkFromHome0 = (($getTask->work_home == 0)?'checked':'');
                 $checkedWorkFromHome1 = (($getTask->work_home == 1)?'checked':'');
 
-                $currentDate            = date('Y-m-d'); 
+                $currentDate            = date('Y-m-d');
+
+                if($schedule_id == ''){
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" value="' . $task_date . '" required>';
+                } else {
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>';
+                }
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
@@ -795,7 +801,7 @@ class TaskAssignController extends BaseController {
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>
+                                                            ' . $inputDate . '   
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
@@ -873,6 +879,8 @@ class TaskAssignController extends BaseController {
                                                 </div>
                                             </form>';
             } else {
+                $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" max="'.$task_date.'" value="' . $task_date . '" required>';
+
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $dept_id . '">
                                                 <input type="hidden" name="user_id" id="user_id" value="' . $user_id . '">
@@ -880,7 +888,7 @@ class TaskAssignController extends BaseController {
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="" max="' . $yesterday . '" required>
+                                                            ' . $inputDate . '
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
@@ -1285,7 +1293,7 @@ class TaskAssignController extends BaseController {
                 }
             }
             // echo $scheduleHTML;die;
-            $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+            $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
             
             $dept_id        = $requestData['dept_id'];
             $user_id        = $requestData['user_id'];
@@ -1295,18 +1303,42 @@ class TaskAssignController extends BaseController {
             $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
             $yesterday                      = $requestData['date_added'];
             if(!$getLeaveTask){
-                $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="'.$yesterday.'" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                        <i class="fa-solid fa-plus-circle"></i> Add Effort
-                                </a>';
-            } else {
-                if($getLeaveTask->is_leave == 1){
+                if($yesterday != date('Y-m-d')){
                     $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="'.$yesterday.'" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
                                         <i class="fa-solid fa-plus-circle"></i> Add Effort
                                 </a>';
+                } else {
+                    $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                        <i class="fa-solid fa-plus-circle"></i> Add Task
+                                    </a>';
+                }
+            } else {
+                if($getLeaveTask->is_leave == 1){
+                    if($yesterday != date('Y-m-d')){
+                        $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="'.$yesterday.'" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                        <i class="fa-solid fa-plus-circle"></i> Add Effort
+                                </a>';
+                    } else {
+                        $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                            <i class="fa-solid fa-plus-circle"></i> Add Task
+                                        </a>';
+                    }
                 }
             }
+
+            $totalBookedTime                  = 0;
+            $bookings = $this->common_model->find_data('timesheet', 'array', ['user_id' => $user_id, 'date_added' => $date_added]);
+            if($bookings){ foreach($bookings as $booking){
+                $tot_hour               = $booking->hour * 60;
+                $tot_min                = $booking->min;
+                $totMins                = $tot_hour + $tot_min;
+                $totalBookedTime              += $totMins;
+            } }
+            $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+
             $apiResponse['scheduleHTML']        = $scheduleHTML;
-            $apiResponse['totalTime']           = $totalBooked;
+            $apiResponse['totalTime']           = $totalAssigned;
+            $apiResponse['totalBookedTime']     = $totalBooked;
             $apiStatus                          = TRUE;
             http_response_code(200);
             $apiMessage                         = 'Effort Booked Successfully !!!';

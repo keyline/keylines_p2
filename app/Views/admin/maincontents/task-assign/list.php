@@ -388,12 +388,53 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         $totMins                = $tot_hour + $tot_min;
                                                                         $totalTime              += $totMins;
                                                                     } }
-                                                                    $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-                                                                    $totalBooked    = '[' . $totalBooked . ']';
+                                                                    $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+                                                                    $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
+
+                                                                    $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
+                                                                    if($checkAttnendance > 0){
+                                                                        $attnBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $attnBgColor = 'red';
+                                                                    }
+                                                                    $checkBooking = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                                                                    if($checkBooking > 0){
+                                                                        $trackerBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $trackerBgColor = 'red';
+                                                                    }
+
+                                                                    $totalBookedTime                  = 0;
+                                                                    $bookings = $common_model->find_data('timesheet', 'array', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                                                                    if($bookings){ foreach($bookings as $booking){
+                                                                        $tot_hour               = $booking->hour * 60;
+                                                                        $tot_min                = $booking->min;
+                                                                        $totMins                = $tot_hour + $tot_min;
+                                                                        $totalBookedTime              += $totMins;
+                                                                    } }
+                                                                    $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+                                                                    $totalBooked    = '[Booked : ' . $totalBooked . ']';
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
-                                                                            <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                            <div class="row">
+                                                                                <div class="col-md-12" style="text-align: center;">
+                                                                                    <span><?=$teamMember->name?></span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: left;">
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: right;">
+                                                                                    <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- <?=$teamMember->name?><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
+                                                                            <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span> -->
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -626,12 +667,54 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         $totMins                = $tot_hour + $tot_min;
                                                                         $totalTime              += $totMins;
                                                                     } }
-                                                                    $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-                                                                    $totalBooked    = '[' . $totalBooked . ']';
+                                                                    $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+                                                                    $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
+
+                                                                    $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);
+                                                                    if($checkAttnendance > 0){
+                                                                        $attnBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $attnBgColor = 'red';
+                                                                    }
+                                                                    $checkBooking = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d')]);
+                                                                    if($checkBooking > 0){
+                                                                        $trackerBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $trackerBgColor = 'red';
+                                                                    }
+
+                                                                    $totalBookedTime                  = 0;
+                                                                    $bookings = $common_model->find_data('timesheet', 'array', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d')]);
+                                                                    if($bookings){ foreach($bookings as $booking){
+                                                                        $tot_hour               = $booking->hour * 60;
+                                                                        $tot_min                = $booking->min;
+                                                                        $totMins                = $tot_hour + $tot_min;
+                                                                        $totalBookedTime              += $totMins;
+                                                                    } }
+                                                                    $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+                                                                    $totalBooked    = '[Booked : ' . $totalBooked . ']';
+                                                                    $today          = date('Y-m-d');
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
-                                                                            <?=$teamMember->name?> <br><span id="total-time-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                            <div class="row">
+                                                                                <div class="col-md-12" style="text-align: center;">
+                                                                                    <span><?=$teamMember->name?></span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: left;">
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: right;">
+                                                                                    <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
+                                                                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- <?=$teamMember->name?><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
+                                                                            <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span> -->
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -960,7 +1043,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
         var current_date                    = '<?=$current_date?>';
-
+        var date_added                      = $('#date_added').val();
         if($('input[name="priority"]:checked').val() == 0){
             if($('#project_id').val() != ''){
                 if($('#description').val() != ''){
@@ -975,9 +1058,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     if(res.success){
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');
-                                        var date_added = dataJson.date_added;
-                                        // $('#meeting-user-' + user_id + '_' + date_added).empty();
-                                        // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        
                                         if(current_date == date_added){
                                             $('#meeting-user-' + user_id + '_' + date_added).empty();
                                             $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
@@ -985,7 +1066,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                                         }
-                                        $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                                        
+                                        $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
                                         toastAlert("success", res.message);
                                     } else {
                                         $('#morningMeetingForm').trigger("reset");
@@ -1019,9 +1101,7 @@ $controller_route       = $moduleDetail['controller_route'];
                         if(res.success){
                             $('#morningMeetingForm').trigger("reset");
                             $('#morningformModal').modal('hide');
-                            var date_added = dataJson.date_added;
-                            // $('#meeting-user-' + user_id + '_' + date_added).empty();
-                            // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            
                             if(current_date == date_added){
                                 $('#meeting-user-' + user_id + '_' + date_added).empty();
                                 $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
@@ -1029,7 +1109,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
                                 $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                             }
-                            $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                            $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
                             toastAlert("success", res.message);
                         } else {
                             $('#morningMeetingForm').trigger("reset");
@@ -1099,7 +1179,7 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#morningformModal').modal('hide');
                     $('#meeting-user-' + user_id + '_' + date_added).empty();
                     $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
-                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                    $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
                 }
             },
@@ -1181,6 +1261,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     if(res.success){
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');
+
                                         if(current_date == book_date){
                                             $('#meeting-user-' + user_id + '_' + book_date).empty();
                                             $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
@@ -1188,7 +1269,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                             $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
                                             $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
                                         }
-                                        $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                                        $('#total-time-' + user_id + '_' + book_date).html('[Assigned : ' + res.data.totalTime + ']');
+                                        $('#total-booked-time-' + user_id + '_' + book_date).html('[Booked : ' + res.data.totalBookedTime + ']');
                                         toastAlert("success", res.message);
                                     }
                                 },
@@ -1278,7 +1360,7 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#taskRescheduleModal').modal('hide');
                     $('#meeting-user-' + user_id).empty();
                     $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
-                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                    $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
                     $('.action-' + schedule_id + '-' + user_id).hide();
                     toastAlert("success", res.message);
                 }
