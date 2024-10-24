@@ -388,12 +388,12 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         $totMins                = $tot_hour + $tot_min;
                                                                         $totalTime              += $totMins;
                                                                     } }
-                                                                    $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-                                                                    $totalBooked    = '[' . $totalBooked . ']';
+                                                                    $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+                                                                    $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
-                                                                            <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                            <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalAssigned?></span>
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -626,15 +626,15 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         $totMins                = $tot_hour + $tot_min;
                                                                         $totalTime              += $totMins;
                                                                     } }
-                                                                    $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-                                                                    $totalBooked    = '[' . $totalBooked . ']';
+                                                                    $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+                                                                    $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
                                                                             <?=$teamMember->name?><br>
-                                                                            <span style="padding: 2px 8px; border-radius: 10px;background-color:red; color: #FFF;">PUNCH-IN</span>
-                                                                            <span style="padding: 2px 8px; border-radius: 10px;background-color:red; color: #FFF;">TRACKER</span>
-                                                                            <span id="total-time-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px;background-color:red; color: #FFF;">PUNCH-IN</span><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px;background-color:red; color: #FFF;">TRACKER</span><br>
+                                                                            <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span>
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -988,7 +988,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                                         }
-                                        $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                                        $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
                                         toastAlert("success", res.message);
                                     } else {
                                         $('#morningMeetingForm').trigger("reset");
@@ -1032,7 +1032,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
                                 $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                             }
-                            $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                            $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
                             toastAlert("success", res.message);
                         } else {
                             $('#morningMeetingForm').trigger("reset");
@@ -1102,7 +1102,7 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#morningformModal').modal('hide');
                     $('#meeting-user-' + user_id + '_' + date_added).empty();
                     $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
-                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                    $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
                 }
             },
@@ -1191,7 +1191,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                             $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
                                             $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
                                         }
-                                        $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                                        $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
                                         toastAlert("success", res.message);
                                     }
                                 },
@@ -1281,7 +1281,7 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#taskRescheduleModal').modal('hide');
                     $('#meeting-user-' + user_id).empty();
                     $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
-                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                    $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
                     $('.action-' + schedule_id + '-' + user_id).hide();
                     toastAlert("success", res.message);
                 }

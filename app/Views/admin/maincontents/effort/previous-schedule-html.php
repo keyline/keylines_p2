@@ -66,12 +66,12 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                 $totMins                = $tot_hour + $tot_min;
                                 $totalTime              += $totMins;
                             } }
-                            $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-                            $totalBooked    = '[' . $totalBooked . ']';
+                            $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+                            $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
                             ?>
                             <th style="background-color: <?=$dept->header_color?>;">
                                 <div class="d-flex justify-content-between">
-                                    <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                    <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalAssigned?></span>
                                 </div>
                             </th>
                         <?php } } ?>
