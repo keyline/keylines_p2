@@ -64,10 +64,6 @@ $controller_route   = $moduleDetail['controller_route'];
                             </thead>
                             <tbody>
                                 <?php if($rows){ $sl=1; foreach($rows as $row){?>
-                                <?php
-                                // $getProject     = $common_model->find_data('project', 'row', ['id' => $row->project_id], 'name');
-                                // $getEffortType  = $common_model->find_data('effort_type', 'row', ['id' => $row->effort_type], 'name');
-                                ?>
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
                                     <td>
