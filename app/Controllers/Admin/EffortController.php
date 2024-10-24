@@ -27,9 +27,13 @@ class EffortController extends BaseController {
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'effort/list';
-        $order_by[0]                = array('field' => 'date_added', 'type' => 'desc');
-        $order_by[1]                = array('field' => 'id', 'type' => 'asc');
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['user_id' => $user_id], '', '', '', $order_by);
+        $order_by[0]                = array('field' => 'timesheet.date_added', 'type' => 'desc');
+        $order_by[1]                = array('field' => 'timesheet.id', 'type' => 'asc');
+        $join[0]                    = ['table' => 'morning_meetings', 'field' => 'effort_id', 'table_master' => 'timesheet', 'field_table_master' => 'id', 'type' => 'LEFT'];
+
+        $select                     = 'timesheet.*, morning_meetings.description as assign_description, morning_meetings.hour as assign_hour, morning_meetings.min as assign_min';
+        $data['rows']               = $this->data['model']->find_data('timesheet', 'array', ['timesheet.user_id' => $user_id, 'timesheet.date_added' => '2024-10-24'], '', $join, $select, $order_by);
+        pr($data['rows']);
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function addBackup()
