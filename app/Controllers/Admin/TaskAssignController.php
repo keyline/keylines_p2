@@ -786,7 +786,13 @@ class TaskAssignController extends BaseController {
                 $checkedWorkFromHome0 = (($getTask->work_home == 0)?'checked':'');
                 $checkedWorkFromHome1 = (($getTask->work_home == 1)?'checked':'');
 
-                $currentDate            = date('Y-m-d'); 
+                $currentDate            = date('Y-m-d');
+
+                if($schedule_id == ''){
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" value="' . $task_date . '" required>';
+                } else {
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>';
+                }
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
@@ -795,7 +801,7 @@ class TaskAssignController extends BaseController {
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>
+                                                            ' . $inputDate . '   
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
