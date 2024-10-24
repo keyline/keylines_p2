@@ -1213,8 +1213,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     if(res.success){
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');
-                                        console.log(current_date);
-                                        console.log(book_date);
+                                        
                                         if(current_date == book_date){
                                             $('#meeting-user-' + user_id + '_' + book_date).empty();
                                             $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
