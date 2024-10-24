@@ -403,13 +403,25 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     } else {
                                                                         $trackerBgColor = 'red';
                                                                     }
+
+                                                                    $totalBookedTime                  = 0;
+                                                                    $bookings = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                                                                    if($bookings){ foreach($bookings as $booking){
+                                                                        $tot_hour               = $booking->hour * 60;
+                                                                        $tot_min                = $booking->min;
+                                                                        $totMins                = $tot_hour + $tot_min;
+                                                                        $totalBookedTime              += $totMins;
+                                                                    } }
+                                                                    $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+                                                                    $totalBooked    = '[Booked : ' . $totalBooked . ']';
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
                                                                             <?=$teamMember->name?><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
-                                                                            <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span>
+                                                                            <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span><br>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>"><?=$totalBooked?></span>
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -657,13 +669,25 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     } else {
                                                                         $trackerBgColor = 'red';
                                                                     }
+
+                                                                    $totalBookedTime                  = 0;
+                                                                    $bookings = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d')]);
+                                                                    if($bookings){ foreach($bookings as $booking){
+                                                                        $tot_hour               = $booking->hour * 60;
+                                                                        $tot_min                = $booking->min;
+                                                                        $totMins                = $tot_hour + $tot_min;
+                                                                        $totalBookedTime              += $totMins;
+                                                                    } }
+                                                                    $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+                                                                    $totalBooked    = '[Booked : ' . $totalBooked . ']';
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
                                                                             <?=$teamMember->name?><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
                                                                             <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
-                                                                            <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span>
+                                                                            <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span><br>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>"><?=$totalBooked?></span>
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -1213,7 +1237,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     if(res.success){
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');
-                                        
+
                                         if(current_date == book_date){
                                             $('#meeting-user-' + user_id + '_' + book_date).empty();
                                             $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
