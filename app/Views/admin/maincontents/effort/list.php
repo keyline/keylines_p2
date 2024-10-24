@@ -101,6 +101,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <td>
                                         <?=wordwrap($row->description,55,"<br>\n")?><br>
                                         <?php if($row->assign_description != ''){?>
+                                            <hr>
                                             <strong>Assigned : <?=wordwrap($row->assign_description,55,"<br>\n")?> (<?=$row->assign_hour?>:<?=$row->assign_min?>)</strong>
                                         <?php }?>
                                     </td>
