@@ -686,13 +686,13 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         <div class="d-flex justify-content-between">
                                                                             <div class="row">
                                                                                 <div class="col-md-12">
-                                                                                    <?=$teamMember->name?>
+                                                                                    <span class="text-center"><?=$teamMember->name?></span>
                                                                                 </div>
-                                                                                <div class="col-md-6">
+                                                                                <div class="col-md-6" style="text-align: left;">
                                                                                     <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
                                                                                     <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
                                                                                 </div>
-                                                                                <div class="col-md-6">
+                                                                                <div class="col-md-6" style="text-align: right;">
                                                                                     <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
                                                                                     <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span>
                                                                                 </div>
