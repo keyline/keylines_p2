@@ -879,7 +879,7 @@ class TaskAssignController extends BaseController {
                                                 </div>
                                             </form>';
             } else {
-                $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" value="' . $task_date . '" required>';
+                $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" max="'.$task_date.'" value="' . $task_date . '" required>';
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $dept_id . '">
