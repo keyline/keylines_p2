@@ -55,7 +55,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <th>#</th>
                                     <th>Project</th>
                                     <th>Work Date</th>
-                                    <th>Time</th>
+                                    <!-- <th>Time</th> -->
                                     <th>Description</th>
                                     <th>Type</th>
                                     <th>Entry Date</th>
@@ -65,13 +65,13 @@ $controller_route   = $moduleDetail['controller_route'];
                             <tbody>
                                 <?php if($rows){ $sl=1; foreach($rows as $row){?>
                                 <?php
-                                $getProject     = $common_model->find_data('project', 'row', ['id' => $row->project_id], 'name');
-                                $getEffortType  = $common_model->find_data('effort_type', 'row', ['id' => $row->effort_type], 'name');
+                                // $getProject     = $common_model->find_data('project', 'row', ['id' => $row->project_id], 'name');
+                                // $getEffortType  = $common_model->find_data('effort_type', 'row', ['id' => $row->effort_type], 'name');
                                 ?>
                                 <tr>
                                     <th scope="row"><?=$sl++?></th>
                                     <td>
-                                        <?=(($getProject)?$getProject->name:'')?>
+                                        <?=$row->project_name?>
                                         <p>
                                             <?php if($row->bill == 0){?>
                                                 <span class="badge bg-success">Billable</span>
@@ -97,15 +97,15 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <span class="text-danger">(<?=$date_difference?>)</span>
                                         <?php }?>
                                     </td>
-                                    <td><?=$row->hour?>:<?=$row->min?></td>
+                                    <!-- <td><?=$row->hour?>:<?=$row->min?></td> -->
                                     <td>
-                                        <?=wordwrap($row->description,55,"<br>\n")?><br>
+                                        Booked : <?=wordwrap($row->description,55,"<br>\n")?> (<?=$row->hour?>:<?=$row->min?>)<br>
                                         <?php if($row->assign_description != ''){?>
                                             <hr>
                                             <strong>Assigned : <?=wordwrap($row->assign_description,55,"<br>\n")?> (<?=$row->assign_hour?>:<?=$row->assign_min?>)</strong>
                                         <?php }?>
                                     </td>
-                                    <td><?=(($getEffortType)?$getEffortType->name:'')?></td>
+                                    <td><?=$row->effort_type_name?></td>
                                     <td><?=date_format(date_create($row->date_today), "d-m-Y h:i:s A")?></td>
                                     <td>
                                         <?php if(checkModuleFunctionAccess(20,38)){ ?>
