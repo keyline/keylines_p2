@@ -390,10 +390,26 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     } }
                                                                     $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
                                                                     $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
+
+                                                                    $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);
+                                                                    if($checkAttnendance > 0){
+                                                                        $attnBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $attnBgColor = 'red';
+                                                                    }
+                                                                    $checkBooking = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d')]);
+                                                                    if($checkBooking > 0){
+                                                                        $trackerBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $trackerBgColor = 'red';
+                                                                    }
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
-                                                                            <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalAssigned?></span>
+                                                                            <?=$teamMember->name?><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
+                                                                            <span id="total-time-<?=$teamMember->id?>"><?=$totalAssigned?></span>
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
