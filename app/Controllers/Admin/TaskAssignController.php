@@ -1462,7 +1462,7 @@ class TaskAssignController extends BaseController {
                 $getAssignedTask            = $this->common_model->find_data('timesheet', 'row', ['id' => $effortId]);
                 $added_by                   = (($getAssignedTask)?$getAssignedTask->user_id:'');
                 $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
-                $subject                    = $generalSetting->site_name.' :: Effort Booked'.(($getAssignedTask)?date_format(date_create($getAssignedTask->date_today), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
+                $subject                    = $generalSetting->site_name.' :: Effort Booked '.(($getAssignedTask)?date_format(date_create($getAssignedTask->date_today), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
                 $mailData                   = [
                     'subject'                   => $subject,
                     'project_name'              => (($getProject)?$getProject->name:''),
