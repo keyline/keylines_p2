@@ -1459,11 +1459,9 @@ class TaskAssignController extends BaseController {
             /* mail function */
                 $generalSetting             = $this->common_model->find_data('general_settings', 'row');
                 $getProject                 = $this->common_model->find_data('project', 'row', ['id' => $requestData['project_id']], 'name');
-                echo $effortId;
                 $getAssignedTask            = $this->common_model->find_data('timesheet', 'row', ['id' => $effortId]);
-                echo $added_by                   = (($getAssignedTask)?$getAssignedTask->user_id:'');
+                $added_by                   = (($getAssignedTask)?$getAssignedTask->user_id:'');
                 $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
-                pr($getUser);
                 $subject                    = $generalSetting->site_name.' :: Effort Booked'.(($getAssignedTask)?date_format(date_create($getAssignedTask->date_today), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
                 $mailData                   = [
                     'subject'                   => $subject,
