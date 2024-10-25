@@ -537,7 +537,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     <div class="card_proj_info"><?=$getTask->description?><br></div>
                                                                                                     <?php if($getTask->booked_description != ''){?>
                                                                                                         <div class="card_proj_info">
-                                                                                                            (Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)<br>
+                                                                                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
                                                                                                         </div>
                                                                                                     <?php }?>
                                                                                                 </div>
@@ -821,7 +821,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     <div class="card_proj_info"><?=$getTask->description?><br></div>
                                                                                                     <?php if($getTask->booked_description != ''){?>
                                                                                                         <div class="card_proj_info">
-                                                                                                            (Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)<br>
+                                                                                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
                                                                                                         </div>
                                                                                                     <?php }?>
                                                                                                 </div>
