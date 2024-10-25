@@ -150,13 +150,15 @@ class TaskAssignController extends BaseController {
                     $apiMessage                         = 'You Have Already Applied For '.$leave_name.' Leave For '.(($getUser)?$getUser->name:'').'. Can\'t Assign More Leave !!!';
                 // leave
             } else {
-                    $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+                    $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
 
                     $scheduleHTML               = '';
                     $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                     $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                     $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                    $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $requestData['date_added']], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                    $join1[2]                   = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                    $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $requestData['date_added']], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                     $totalTime                  = 0;
                     if($getTasks){
                         foreach($getTasks as $getTask){
@@ -248,10 +250,21 @@ class TaskAssignController extends BaseController {
                             }
 
                             if($getTask->work_status_id == 0){
-                                $addToEffort = '<br>
+                                if($user_id == $this->session->get('user_id')){
+                                    $addToEffort = '<br>
                                                 <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
+                                } else {
+                                    $addToEffort = '';
+                                }
                             } else {
                                 $addToEffort = '';
+                            }
+
+                            $bookedEffort = '';
+                            if($getTask->booked_description != ''){
+                                $bookedEffort = '<div class="card_proj_info">
+                                                    <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : ' . $getTask->booked_description . ' - ' . $getTask->booked_hour . ':' . $getTask->booked_min . ')</span><br>
+                                                </div>';
                             }
 
                             $scheduleHTML .= '<div class="input-group">
@@ -263,6 +276,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="mb-1 d-block">
                                                             <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                             <div class="card_proj_info">'.$getTask->description.'</div>
+                                                            ' . $bookedEffort . '
                                                         </div>
                                                         <div class="card_projecttime">
                                                             [' .$hr. ' ' .$min. ']
@@ -304,13 +318,15 @@ class TaskAssignController extends BaseController {
                 }
             } else {
                 // not leave
-                    $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+                    $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
 
                     $scheduleHTML               = '';
                     $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                     $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                     $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                    $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $requestData['date_added']], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                    $join1[2]                   = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                    $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $requestData['date_added']], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                     // pr($getTasks);
                     $totalTime                  = 0;
                     if($getTasks){
@@ -403,10 +419,21 @@ class TaskAssignController extends BaseController {
                             }
 
                             if($getTask->work_status_id == 0){
-                                $addToEffort = '<br>
+                                if($user_id == $this->session->get('user_id')){
+                                    $addToEffort = '<br>
                                                 <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
+                                } else {
+                                    $addToEffort = '';
+                                }
                             } else {
                                 $addToEffort = '';
+                            }
+
+                            $bookedEffort = '';
+                            if($getTask->booked_description != ''){
+                                $bookedEffort = '<div class="card_proj_info">
+                                                    <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : ' . $getTask->booked_description . ' - ' . $getTask->booked_hour . ':' . $getTask->booked_min . ')</span><br>
+                                                </div>';
                             }
 
                             $scheduleHTML .= '<div class="input-group">
@@ -418,6 +445,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="mb-1 d-block">
                                                             <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                             <div class="card_proj_info">'.$getTask->description.'</div>
+                                                            ' . $bookedEffort . '
                                                         </div>
                                                         <div class="card_projecttime">
                                                             [' .$hr. ' ' .$min. ']
@@ -459,6 +487,38 @@ class TaskAssignController extends BaseController {
                     $apiMessage                         = 'Task Submitted Successfully !!!';
                 // not leave
             }
+
+            /* mail function */
+                $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+                $getProject                 = $this->common_model->find_data('project', 'row', ['id' => $requestData['project_id']], 'name');
+                $getAssignedTask            = $this->common_model->find_data('morning_meetings', 'row', ['id' => $schedule_id]);
+                $added_by                   = (($getAssignedTask)?$getAssignedTask->added_by:'');
+                $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
+                $subject                    = $generalSetting->site_name.' :: New Task Assigned '.(($getAssignedTask)?date_format(date_create($getAssignedTask->created_at), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
+                $mailData                   = [
+                    'subject'                   => $subject,
+                    'project_name'              => (($getProject)?$getProject->name:''),
+                    'hour'                      => $requestData['hour'],
+                    'min'                       => $requestData['min'],
+                    'description'               => $requestData['description'],
+                    'priority'                  => $requestData['priority'],
+                    'date_added'                => $requestData['date_added'],
+                    'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->updated_at), "M d, Y h:i a"):''),
+                    'added_by'                  => (($getUser)?$getUser->name:''),
+                ];
+                $message                    = view('email-templates/task-assigned', $mailData);
+                // echo $message;die;
+                $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                /* email log save */
+                    $postData2 = [
+                        'name'                  => (($getUser)?$getUser->name:''),
+                        'email'                 => (($getUser)?$getUser->email:''),
+                        'subject'               => $subject,
+                        'message'               => $message
+                    ];
+                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
+                /* email log save */
+            /* mail function */
             
             $apiExtraField                      = 'response_code';
             $apiExtraData                       = http_response_code();
@@ -599,7 +659,9 @@ class TaskAssignController extends BaseController {
             $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+            $join1[2]                   = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
             // pr($getTasks);
             $totalTime                  = 0;
             if($getTasks){
@@ -693,10 +755,21 @@ class TaskAssignController extends BaseController {
                     }
 
                     if($getTask->work_status_id == 0){
-                        $addToEffort = '<br>
+                        if($user_id == $this->session->get('user_id')){
+                            $addToEffort = '<br>
                                         <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
+                        } else {
+                            $addToEffort = '';
+                        }
                     } else {
                         $addToEffort = '';
+                    }
+
+                    $bookedEffort = '';
+                    if($getTask->booked_description != ''){
+                        $bookedEffort = '<div class="card_proj_info">
+                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : ' . $getTask->booked_description . ' - ' . $getTask->booked_hour . ':' . $getTask->booked_min . ')</span><br>
+                                        </div>';
                     }
 
                     $scheduleHTML .= '<div class="input-group">
@@ -708,6 +781,7 @@ class TaskAssignController extends BaseController {
                                                 <div class="mb-1 d-block">
                                                     <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                     <div class="card_proj_info">'.$getTask->description.'</div>
+                                                    ' . $bookedEffort . '
                                                 </div>
                                                 <div class="card_projecttime">
                                                     [' .$hr. ' ' .$min. ']
@@ -741,6 +815,38 @@ class TaskAssignController extends BaseController {
                                 </a>';
                 }
             }
+
+            /* mail function */
+                $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+                $getProject                 = $this->common_model->find_data('project', 'row', ['id' => $requestData['project_id']], 'name');
+                $getAssignedTask            = $this->common_model->find_data('morning_meetings', 'row', ['id' => $schedule_id]);
+                $added_by                   = (($getAssignedTask)?$getAssignedTask->added_by:'');
+                $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
+                $subject                    = $generalSetting->site_name.' :: Task Updated '.(($getAssignedTask)?date_format(date_create($getAssignedTask->created_at), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
+                $mailData                   = [
+                    'subject'                   => $subject,
+                    'project_name'              => (($getProject)?$getProject->name:''),
+                    'hour'                      => $requestData['hour'],
+                    'min'                       => $requestData['min'],
+                    'description'               => $requestData['description'],
+                    'priority'                  => $requestData['priority'],
+                    'date_added'                => $requestData['date_added'],
+                    'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->updated_at), "M d, Y h:i a"):''),
+                    'added_by'                  => (($getUser)?$getUser->name:''),
+                ];
+                $message                    = view('email-templates/task-assigned', $mailData);
+                // echo $message;die;
+                $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                /* email log save */
+                    $postData2 = [
+                        'name'                  => (($getUser)?$getUser->name:''),
+                        'email'                 => (($getUser)?$getUser->email:''),
+                        'subject'               => $subject,
+                        'message'               => $message
+                    ];
+                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
+                /* email log save */
+            /* mail function */
             $apiResponse['scheduleHTML']        = $scheduleHTML;
             $apiResponse['totalTime']           = $totalBooked;
             $apiStatus                          = TRUE;
@@ -1055,6 +1161,7 @@ class TaskAssignController extends BaseController {
                 );
                 // pr($postData);
                 $effort_id              = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                $effortId               = $effort_id;
 
                 $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
                 $rows                   = $this->db->query($projectcost)->getResult(); 
@@ -1165,13 +1272,14 @@ class TaskAssignController extends BaseController {
                     }
                 }
             // Finish & Assign tomorrow
-            
 
             $scheduleHTML               = '';
             $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $date_added], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+            $join1[2]                    = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $date_added], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
             $totalTime                  = 0;
             if($getTasks){
                 foreach($getTasks as $getTask){
@@ -1270,6 +1378,13 @@ class TaskAssignController extends BaseController {
                         $addToEffort = '';
                     }
 
+                    $bookedEffort = '';
+                    if($getTask->booked_description != ''){
+                        $bookedEffort = '<div class="card_proj_info">
+                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : ' . $getTask->booked_description . ' - ' . $getTask->booked_hour . ':' . $getTask->booked_min . ')</span><br>
+                                        </div>';
+                    }
+
                     $scheduleHTML .= '<div class="input-group">
                                         <div class="card">
                                             <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
@@ -1279,6 +1394,7 @@ class TaskAssignController extends BaseController {
                                                 <div class="mb-1 d-block">
                                                     <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                     <div class="card_proj_info">'.$getTask->description.'</div>
+                                                    ' . $bookedEffort . '
                                                 </div>
                                                 <div class="card_projecttime">
                                                     [' .$hr. ' ' .$min. ']
@@ -1339,6 +1455,38 @@ class TaskAssignController extends BaseController {
             $apiResponse['scheduleHTML']        = $scheduleHTML;
             $apiResponse['totalTime']           = $totalAssigned;
             $apiResponse['totalBookedTime']     = $totalBooked;
+
+            /* mail function */
+                $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+                $getProject                 = $this->common_model->find_data('project', 'row', ['id' => $requestData['project_id']], 'name');
+                $getAssignedTask            = $this->common_model->find_data('timesheet', 'row', ['id' => $effortId]);
+                $added_by                   = (($getAssignedTask)?$getAssignedTask->user_id:'');
+                $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
+                $subject                    = $generalSetting->site_name.' :: Effort Booked '.(($getAssignedTask)?date_format(date_create($getAssignedTask->date_today), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
+                $mailData                   = [
+                    'subject'                   => $subject,
+                    'project_name'              => (($getProject)?$getProject->name:''),
+                    'hour'                      => $requestData['hour'],
+                    'min'                       => $requestData['min'],
+                    'description'               => $requestData['description'],
+                    'date_added'                => $requestData['date_added'],
+                    'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->date_today), "M d, Y h:i a"):''),
+                    'added_by'                  => (($getUser)?$getUser->name:''),
+                ];
+                $message                    = view('email-templates/task-booked', $mailData);
+                // echo $message;die;
+                $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                /* email log save */
+                    $postData2 = [
+                        'name'                  => (($getUser)?$getUser->name:''),
+                        'email'                 => (($getUser)?$getUser->email:''),
+                        'subject'               => $subject,
+                        'message'               => $message
+                    ];
+                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
+                /* email log save */
+            /* mail function */
+
             $apiStatus                          = TRUE;
             http_response_code(200);
             $apiMessage                         = 'Effort Booked Successfully !!!';
