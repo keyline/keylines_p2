@@ -799,7 +799,7 @@ class TaskAssignController extends BaseController {
                     'description'               => $requestData['description'],
                     'priority'                  => $requestData['priority'],
                     'date_added'                => $requestData['date_added'],
-                    'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->created_at), "M d, Y"):''),
+                    'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->updated_at), "M d, Y h:i a"):''),
                     'added_by'                  => (($getUser)?$getUser->name:''),
                 ];
                 $message                    = view('email-templates/task-assigned', $mailData);
