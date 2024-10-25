@@ -1161,6 +1161,7 @@ class TaskAssignController extends BaseController {
                 );
                 // pr($postData);
                 $effort_id              = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                $effortId               = $effort_id
 
                 $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
                 $rows                   = $this->db->query($projectcost)->getResult(); 
@@ -1458,8 +1459,8 @@ class TaskAssignController extends BaseController {
             /* mail function */
                 $generalSetting             = $this->common_model->find_data('general_settings', 'row');
                 $getProject                 = $this->common_model->find_data('project', 'row', ['id' => $requestData['project_id']], 'name');
-                echo $effort_id;
-                $getAssignedTask            = $this->common_model->find_data('timesheet', 'row', ['id' => $effort_id]);
+                echo $effortId;
+                $getAssignedTask            = $this->common_model->find_data('timesheet', 'row', ['id' => $effortId]);
                 echo $added_by                   = (($getAssignedTask)?$getAssignedTask->user_id:'');
                 $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
                 pr($getUser);
