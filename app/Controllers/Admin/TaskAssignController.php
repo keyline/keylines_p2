@@ -150,7 +150,7 @@ class TaskAssignController extends BaseController {
                     $apiMessage                         = 'You Have Already Applied For '.$leave_name.' Leave For '.(($getUser)?$getUser->name:'').'. Can\'t Assign More Leave !!!';
                 // leave
             } else {
-                    $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+                    $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
 
                     $scheduleHTML               = '';
                     $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
@@ -318,7 +318,7 @@ class TaskAssignController extends BaseController {
                 }
             } else {
                 // not leave
-                    $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+                    $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
 
                     $scheduleHTML               = '';
                     $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
@@ -487,6 +487,38 @@ class TaskAssignController extends BaseController {
                     $apiMessage                         = 'Task Submitted Successfully !!!';
                 // not leave
             }
+
+            /* mail function */
+                $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+                $getProject                 = $this->common_model->find_data('project', 'row', ['id' => $requestData['project_id']], 'name');
+                $getAssignedTask            = $this->common_model->find_data('morning_meetings', 'row', ['id' => $schedule_id]);
+                $added_by                   = (($getAssignedTask)?$getAssignedTask->added_by:'');
+                $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
+                $subject                    = $generalSetting->site_name.' :: Task Updated '.(($getAssignedTask)?date_format(date_create($getAssignedTask->created_at), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
+                $mailData                   = [
+                    'subject'                   => $subject,
+                    'project_name'              => (($getProject)?$getProject->name:''),
+                    'hour'                      => $requestData['hour'],
+                    'min'                       => $requestData['min'],
+                    'description'               => $requestData['description'],
+                    'priority'                  => $requestData['priority'],
+                    'date_added'                => $requestData['date_added'],
+                    'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->updated_at), "M d, Y h:i a"):''),
+                    'added_by'                  => (($getUser)?$getUser->name:''),
+                ];
+                $message                    = view('email-templates/task-assigned', $mailData);
+                // echo $message;die;
+                $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                /* email log save */
+                    $postData2 = [
+                        'name'                  => (($getUser)?$getUser->name:''),
+                        'email'                 => (($getUser)?$getUser->email:''),
+                        'subject'               => $subject,
+                        'message'               => $message
+                    ];
+                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
+                /* email log save */
+            /* mail function */
             
             $apiExtraField                      = 'response_code';
             $apiExtraData                       = http_response_code();
@@ -803,7 +835,7 @@ class TaskAssignController extends BaseController {
                     'added_by'                  => (($getUser)?$getUser->name:''),
                 ];
                 $message                    = view('email-templates/task-assigned', $mailData);
-                echo $message;die;
+                // echo $message;die;
                 $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
                 /* email log save */
                     $postData2 = [
