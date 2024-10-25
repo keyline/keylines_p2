@@ -12,8 +12,8 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
 <body>
   <div style="padding: 20px;">
     <div style="text-align: center;"><img style="max-width: 250px;" src="<?=getenv('app.uploadsURL').$generalSetting->site_logo?>" alt="<?=$generalSetting->site_name?>"></div>    
-    <div style="background: #f5e6e6; padding: 15px;">
-      <h3 style="color: #E40E11; font-family: Arial; margin-top: 0"><?=$subject?></h3>
+    <div style="background: #8bc34a1c; padding: 15px;">
+      <h3 style="color: #009688; font-family: Arial; margin-top: 0"><?=$subject?></h3>
       <p><b><?=$added_by?>,</b></p>
       <p>Here is your Task Details -</p>
       <p><b>Project Name: </b><?=$project_name?></p>
