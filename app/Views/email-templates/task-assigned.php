@@ -17,7 +17,7 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
       <p><b><?=$added_by?>,</b></p>
       <p>Here is your Task Details -</p>
       <p><b>Project Name: </b><?=$project_name?></p>
-      <p><b>Assigned Time: </b><?=$date_added?> - <?=$hour?>:<?=$min?></p>
+      <p><b>Assigned Time: </b><?=$task_created?> - <?=$hour?>:<?=$min?></p>
       <p><b>Assigned By: </b><?=$added_by?></p>
       <p><b>Task description: </b><?=$description?></p>
       <p><b>Priority: </b>
