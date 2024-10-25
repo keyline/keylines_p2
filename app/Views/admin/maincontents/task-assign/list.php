@@ -487,7 +487,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                                                                $join1[2]                    = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                                                                                 
                                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                                     $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
@@ -532,7 +534,12 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     
                                                                                                 <div class="mb-1 d-block">
                                                                                                     <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div> 
+                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div>
+                                                                                                    <?php if($getTask->booked_description != ''){?>
+                                                                                                        <div class="card_proj_info">
+                                                                                                            (Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)<br>
+                                                                                                        </div>
+                                                                                                    <?php }?>
                                                                                                 </div>
 
                                                                                                 <div class="card_projecttime">
