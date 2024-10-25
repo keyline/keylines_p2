@@ -808,7 +808,7 @@ class TaskAssignController extends BaseController {
                 /* email log save */
                     $postData2 = [
                         'name'                  => (($getUser)?$getUser->name:''),
-                        'email'                 => (($getUser)?$getUser->email:'')
+                        'email'                 => (($getUser)?$getUser->email:''),
                         'subject'               => $subject,
                         'message'               => $message
                     ];
