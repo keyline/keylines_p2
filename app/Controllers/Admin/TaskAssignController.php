@@ -508,7 +508,7 @@ class TaskAssignController extends BaseController {
                 ];
                 $message                    = view('email-templates/task-assigned', $mailData);
                 // echo $message;die;
-                $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                // $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
                 /* email log save */
                     $postData2 = [
                         'name'                  => (($getUser)?$getUser->name:''),
@@ -836,7 +836,7 @@ class TaskAssignController extends BaseController {
                 ];
                 $message                    = view('email-templates/task-assigned', $mailData);
                 // echo $message;die;
-                $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                // $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
                 /* email log save */
                     $postData2 = [
                         'name'                  => (($getUser)?$getUser->name:''),
@@ -1475,7 +1475,7 @@ class TaskAssignController extends BaseController {
                 ];
                 $message                    = view('email-templates/task-booked', $mailData);
                 // echo $message;die;
-                $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                // $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
                 /* email log save */
                     $postData2 = [
                         'name'                  => (($getUser)?$getUser->name:''),
