@@ -599,7 +599,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="input-group mb-1">
                                                             <select name="min" class="form-control" id="min" required>
                                                                 <option value="" selected>Select Minute</option>';
-                                                                for($m=0;$m<=59;$m++){
+                                                                for($m=0;$m<=45;$m+15){
                                                                     $selectedMinute = (($m == $getTask->min)?'selected':'');
                                         $scheduleHTML           .= '<option value="' . $m . '" ' . $selectedMinute . '>' . $m . '</option>';
                                                                 }
@@ -943,7 +943,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="input-group mb-1">
                                                             <select name="min" class="form-control" id="min" required>
                                                                 <option value="" selected>Select Minute</option>';
-                                                                for($m=0;$m<=59;$m++){
+                                                                for($m=0;$m<=45;$m+15){
                                                                     $selectedMinute = (($m == $getTask->min)?'selected':'');
                                         $scheduleHTML           .= '<option value="' . $m . '" ' . $selectedMinute . '>' . $m . '</option>';
                                                                 }
@@ -1028,7 +1028,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="input-group mb-1">
                                                             <select name="min" class="form-control" id="min" required>
                                                                 <option value="" selected>Select Minute</option>';
-                                                                for($m=0;$m<=59;$m++){
+                                                                for($m=0;$m<=45;$m+15){
                                         $scheduleHTML           .= '<option value="' . $m . '">' . $m . '</option>';
                                                                 }
                                 $scheduleHTML           .= '</select>

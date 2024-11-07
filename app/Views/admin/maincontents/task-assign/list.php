@@ -1015,7 +1015,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     <div class="input-group mb-1">
                                         <select name="min" class="form-control" id="min" required>
                                             <option value="">Select Minute</option>
-                                            <?php for($m=0;$m<=59;$m++){?>
+                                            <?php for($m=0;$m<=45;$m+15){?>
                                                 <option value="<?=$m?>" <?=(($m == 0)?'selected':'')?>><?=$m?></option>
                                             <?php }?>
                                         </select>
