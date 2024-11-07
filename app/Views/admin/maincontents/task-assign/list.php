@@ -1506,7 +1506,7 @@ $controller_route       = $moduleDetail['controller_route'];
                     if(res.data.project_time_type == 'Onetime'){
                         html += '<div class="row">\
                                     <div class="col-md-4 col-sm-4">\
-                                        <div class="info-date" style="border: 1px solid #fff;margin-top: 10px;margin-bottom: 10px; padding: 10px;border-radius: 10px;background-color: #06a79d;color: #fff;text-align: center;"><span class="time-font"><b>Assigned Fixed :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.assigned + '</span></div>\
+                                        <div class="info-date" style="border: 1px solid #fff;margin-top: 10px;margin-bottom: 10px; padding: 5px;border-radius: 10px;background-color: #03312e;color: #fff;text-align: center;"><span class="time-font"><b>Assigned Fixed :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.assigned + '</span></div>\
                                     </div>\
                                     <div class="col-md-4 col-sm-4">\
                                         <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.current_month_booking + '</span></div>\
