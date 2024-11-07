@@ -978,7 +978,7 @@ $controller_route       = $moduleDetail['controller_route'];
                             <div class="row">
                                 <div class="col-6">
                                     <div class="input-group mb-1">
-                                        <select name="project_id" id="project_id" class="form-control" required>
+                                        <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required>
                                             <option value="" selected="">Select Project</option>
                                             <hr>
                                             <?php if($projects){ foreach($projects as $project){?>
@@ -994,6 +994,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave0" value="0" onchange="myFunction()" checked><label for="leave0" style="margin-left : 3px;">PRESENT</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave1" value="1" onchange="myFunction()"><label for="leave1" style="margin-left : 3px;">HALFDAY LEAVE</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave2" value="2" onchange="myFunction()"><label for="leave2" style="margin-left : 3px;">FULLDAY LEAVE</label></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
+                                        
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -1482,5 +1487,50 @@ $controller_route       = $moduleDetail['controller_route'];
             $('#hour').val(hr);
             $('#min').val(mn);
         }
+    }
+
+    function getProjectInfo(projectId, counter){
+        var base_url = '<?=base_url()?>';
+        $.ajax({
+            type: "POST",
+            url: base_url + "admin/efforts/get-project-info",
+            data: {projectId : projectId},
+            dataType: "JSON",
+            beforeSend: function () {
+               
+            },
+            success: function (res) {
+                var html = '';
+                $('#fill_up_project_' + counter).show();
+                if(res.success){
+                    if(res.data.project_time_type == 'Onetime'){
+                        html += '<div class="row">\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date" style="border: 1px solid #fff;margin-top: 10px;margin-bottom: 10px; padding: 10px;border-radius: 10px;background-color: #06a79d;color: #fff;text-align: center;"><span class="time-font"><b>Assigned Fixed :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.assigned + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.current_month_booking + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.total_booked + '</span></div>\
+                                    </div>\
+                                </div>';
+                    } else if(res.data.project_time_type == 'Monthlytime'){
+                        html += '<div class="row">\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Assigned Monthly :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.assigned + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.current_month_booking + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.total_booked + '</span></div>\
+                                    </div>\
+                                </div>';
+                    }  
+                    $('#fill_up_project_' + counter).html(html);
+                }
+            }
+        });
     }
 </script>
