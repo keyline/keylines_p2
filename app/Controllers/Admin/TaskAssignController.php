@@ -639,7 +639,7 @@ class TaskAssignController extends BaseController {
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12">
-                                                        <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
+                                                        <div class="fill_up_projectss" id="fill_up_project_0">
                                                             '.$bookedProjectHTML.'
                                                         </div>
                                                     </div>
