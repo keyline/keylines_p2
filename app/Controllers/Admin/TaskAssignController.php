@@ -554,7 +554,65 @@ class TaskAssignController extends BaseController {
                 $checkedWorkFromHome0 = (($getTask->work_home == 0)?'checked':'');
                 $checkedWorkFromHome1 = (($getTask->work_home == 1)?'checked':'');
 
-                $currentDate            = date('Y-m-d'); 
+                $currentDate            = date('Y-m-d');
+
+                $projectId              = $getTask->project_id;
+                $getProject             = $this->common_model->find_data('project', 'row', ['id' => $projectId]);
+                if($getProject){
+                    $assigned = 0;
+                    if($getProject->project_time_type == 'Onetime'){
+                        $assigned               = $getProject->hour;
+                        $current_month_booking  = $this->common_model->getProjectBooking($projectId, 'Monthlytime');
+                        $total_booked           = $this->common_model->getProjectBooking($projectId, 'Onetime');
+                    } elseif($getProject->project_time_type == 'Monthlytime'){
+                        $assigned               = $getProject->hour_month;
+                        $current_month_booking  = $this->common_model->getProjectBooking($projectId, 'Monthlytime');
+                        $total_booked           = $this->common_model->getProjectBooking($projectId, 'Onetime');
+                    }
+                    $apiResponse        = [
+                        'project_time_type'                     => $getProject->project_time_type,
+                        'assigned'                              => $assigned,
+                        'current_month_booking'                 => $current_month_booking,
+                        'total_booked'                          => $total_booked,
+                    ];
+                } else {
+                    $apiResponse = [];
+                }
+
+                $bookedProjectHTML = '';
+                if($apiResponse){
+                    $project_time_type      = $apiResponse['project_time_type'];
+                    $assigned               = $apiResponse['assigned'];
+                    $current_month_booking  = $apiResponse['current_month_booking'];
+                    $total_booked           = $apiResponse['total_booked'];
+
+                    if($project_time_type == 'Onetime'){
+                        $bookedProjectHTML .= '<div class="row">\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date" style="border: 1px solid #fff;margin-top: 10px;margin-bottom: 10px; padding: 5px;border-radius: 10px;background-color: #03312e;color: #fff;text-align: center;"><span class="time-font"><b>Assigned Fixed :</b><br class="d-none d-sm-block d-md-none"> ' . $assigned . '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' . $current_month_booking . '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' . $total_booked . '</span></div>\
+                                    </div>\
+                                </div>';
+                    } else if($project_time_type == 'Monthlytime'){
+                        $bookedProjectHTML .= '<div class="row">\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Assigned Monthly :</b><br class="d-none d-sm-block d-md-none"> ' . $assigned . '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' . $current_month_booking . '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' . $total_booked . '</span></div>\
+                                    </div>\
+                                </div>';
+                    }
+                }
+                
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
@@ -581,7 +639,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
-                                                            
+                                                            '.$bookedProjectHTML.'
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
