@@ -578,6 +578,7 @@ class TaskAssignController extends BaseController {
                 } else {
                     $apiResponse = [];
                 }
+                pr($apiResponse);
 
                 $bookedProjectHTML = '';
                 if($apiResponse){
