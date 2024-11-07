@@ -912,7 +912,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="project_id" id="project_id" class="form-control" required disabled>
+                                                            <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required disabled>
                                                                 <option value="" selected="">Select Project</option>
                                                                 <hr>';
                                                                 if($projects){ foreach($projects as $project){
@@ -921,6 +921,11 @@ class TaskAssignController extends BaseController {
                                                                     <hr>';
                                                                 } }
                                 $scheduleHTML           .= '</select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
+                                                            
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -999,7 +1004,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="project_id" id="project_id" class="form-control" required>
+                                                            <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required>
                                                                 <option value="" selected="">Select Project</option>
                                                                 <hr>';
                                                                 if($projects){ foreach($projects as $project){
@@ -1007,6 +1012,11 @@ class TaskAssignController extends BaseController {
                                                                     <hr>';
                                                                 } }
                                 $scheduleHTML           .= '</select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
+                                                            
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
