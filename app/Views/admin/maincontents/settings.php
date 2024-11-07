@@ -539,7 +539,7 @@ $user_type = session('user_type');
                   <div class="row mb-3">
                     <label for="week_off" class="col-form-label">Week Off</label>
                     <br>
-                    <div class="col-md-8 col-lg-9">
+                    <div class="col-md-12 col-lg-12">
                       <label for="sunday" class="col-md-4 col-lg-3 col-form-label">Sunday: </label>
                       <?php
                         $sunday_values = json_decode($application_setting->sunday, true);
@@ -547,10 +547,10 @@ $user_type = session('user_type');
                         for ($i = 1; $i <= 5; $i++) {
                             $checked        = in_array($i, $sunday_values) ? 'checked' : '';
                             $ordinal_number = ordinal($i);
-                            echo "<div class='form-check form-check-inline'>
+                            echo "<div class='col-md-8 col-lg-9'><div class='form-check form-check-inline'>
                                     <input class='form-check-input' name='sunday[]' type='checkbox' id='sunday_$i' value='$i' $checked>
                                     <label class='form-check-label' for='sunday_$i'>$ordinal_number</label>
-                                  </div>";
+                                  </div></div>";
                         }
                       ?>                      
                     </div>
