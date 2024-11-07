@@ -187,7 +187,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 	/* team */
 		// effort
 			$routes->match(['get'], "efforts/list", "EffortController::list");
-			$routes->match(['get', 'post'], "efforts/add", "EffortController::addBackup");
+			$routes->match(['get', 'post'], "efforts/addBackup", "EffortController::addBackup");
 			$routes->match(['get', 'post'], "efforts/effort-success", "EffortController::effortSuccess");
 			$routes->match(['get', 'post'], "efforts/edit/(:any)", "EffortController::edit/$1");
 			$routes->match(['get', 'post'], "efforts/view/(:any)", "EffortController::view/$1");
