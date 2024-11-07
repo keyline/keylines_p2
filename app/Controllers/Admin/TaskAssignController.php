@@ -594,7 +594,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-md-4 col-sm-4">
                                                         <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' . $current_month_booking . '</span></div>
-                                                    </div>\
+                                                    </div>
                                                     <div class="col-md-4 col-sm-4">
                                                         <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' . $total_booked . '</span></div>
                                                     </div>
@@ -613,7 +613,7 @@ class TaskAssignController extends BaseController {
                                                 </div>';
                     }
                 }
-                echo $bookedProjectHTML;die;
+                // echo $bookedProjectHTML;die;
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
