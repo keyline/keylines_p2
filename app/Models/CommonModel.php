@@ -109,8 +109,7 @@ class CommonModel extends Model
 		{			
 			$builder->where($field, $id);
 			$builder->update($postdata);
-            return $this->db->getLastQuery();
-            // return $this->db->affectedRows();
+            return $this->db->affectedRows();
 		}
     }
 
