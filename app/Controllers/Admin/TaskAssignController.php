@@ -150,13 +150,15 @@ class TaskAssignController extends BaseController {
                     $apiMessage                         = 'You Have Already Applied For '.$leave_name.' Leave For '.(($getUser)?$getUser->name:'').'. Can\'t Assign More Leave !!!';
                 // leave
             } else {
-                    $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+                    $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
 
                     $scheduleHTML               = '';
                     $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                     $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                     $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                    $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $requestData['date_added']], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                    $join1[2]                   = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                    $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $requestData['date_added']], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                     $totalTime                  = 0;
                     if($getTasks){
                         foreach($getTasks as $getTask){
@@ -248,10 +250,21 @@ class TaskAssignController extends BaseController {
                             }
 
                             if($getTask->work_status_id == 0){
-                                $addToEffort = '<br>
+                                if($user_id == $this->session->get('user_id')){
+                                    $addToEffort = '<br>
                                                 <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
+                                } else {
+                                    $addToEffort = '';
+                                }
                             } else {
                                 $addToEffort = '';
+                            }
+
+                            $bookedEffort = '';
+                            if($getTask->booked_description != ''){
+                                $bookedEffort = '<div class="card_proj_info">
+                                                    <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : ' . $getTask->booked_description . ' - ' . $getTask->booked_hour . ':' . $getTask->booked_min . ')</span><br>
+                                                </div>';
                             }
 
                             $scheduleHTML .= '<div class="input-group">
@@ -263,6 +276,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="mb-1 d-block">
                                                             <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                             <div class="card_proj_info">'.$getTask->description.'</div>
+                                                            ' . $bookedEffort . '
                                                         </div>
                                                         <div class="card_projecttime">
                                                             [' .$hr. ' ' .$min. ']
@@ -304,13 +318,15 @@ class TaskAssignController extends BaseController {
                 }
             } else {
                 // not leave
-                    $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
+                    $schedule_id = $this->data['model']->save_data('morning_meetings', $fields, '', 'id');
 
                     $scheduleHTML               = '';
                     $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                     $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                     $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                    $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $requestData['date_added']], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                    $join1[2]                   = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                    $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $requestData['date_added']], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                     // pr($getTasks);
                     $totalTime                  = 0;
                     if($getTasks){
@@ -403,10 +419,21 @@ class TaskAssignController extends BaseController {
                             }
 
                             if($getTask->work_status_id == 0){
-                                $addToEffort = '<br>
+                                if($user_id == $this->session->get('user_id')){
+                                    $addToEffort = '<br>
                                                 <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
+                                } else {
+                                    $addToEffort = '';
+                                }
                             } else {
                                 $addToEffort = '';
+                            }
+
+                            $bookedEffort = '';
+                            if($getTask->booked_description != ''){
+                                $bookedEffort = '<div class="card_proj_info">
+                                                    <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : ' . $getTask->booked_description . ' - ' . $getTask->booked_hour . ':' . $getTask->booked_min . ')</span><br>
+                                                </div>';
                             }
 
                             $scheduleHTML .= '<div class="input-group">
@@ -418,6 +445,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="mb-1 d-block">
                                                             <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                             <div class="card_proj_info">'.$getTask->description.'</div>
+                                                            ' . $bookedEffort . '
                                                         </div>
                                                         <div class="card_projecttime">
                                                             [' .$hr. ' ' .$min. ']
@@ -459,6 +487,38 @@ class TaskAssignController extends BaseController {
                     $apiMessage                         = 'Task Submitted Successfully !!!';
                 // not leave
             }
+
+            /* mail function */
+                $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+                $getProject                 = $this->common_model->find_data('project', 'row', ['id' => $requestData['project_id']], 'name');
+                $getAssignedTask            = $this->common_model->find_data('morning_meetings', 'row', ['id' => $schedule_id]);
+                $added_by                   = (($getAssignedTask)?$getAssignedTask->added_by:'');
+                $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
+                $subject                    = $generalSetting->site_name.' :: New Task Assigned '.(($getAssignedTask)?date_format(date_create($getAssignedTask->created_at), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
+                $mailData                   = [
+                    'subject'                   => $subject,
+                    'project_name'              => (($getProject)?$getProject->name:''),
+                    'hour'                      => $requestData['hour'],
+                    'min'                       => $requestData['min'],
+                    'description'               => $requestData['description'],
+                    'priority'                  => $requestData['priority'],
+                    'date_added'                => $requestData['date_added'],
+                    'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->updated_at), "M d, Y h:i a"):''),
+                    'added_by'                  => (($getUser)?$getUser->name:''),
+                ];
+                $message                    = view('email-templates/task-assigned', $mailData);
+                // echo $message;die;
+                // $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                /* email log save */
+                    $postData2 = [
+                        'name'                  => (($getUser)?$getUser->name:''),
+                        'email'                 => (($getUser)?$getUser->email:''),
+                        'subject'               => $subject,
+                        'message'               => $message
+                    ];
+                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
+                /* email log save */
+            /* mail function */
             
             $apiExtraField                      = 'response_code';
             $apiExtraData                       = http_response_code();
@@ -494,7 +554,65 @@ class TaskAssignController extends BaseController {
                 $checkedWorkFromHome0 = (($getTask->work_home == 0)?'checked':'');
                 $checkedWorkFromHome1 = (($getTask->work_home == 1)?'checked':'');
 
-                $currentDate            = date('Y-m-d'); 
+                $currentDate            = date('Y-m-d');
+
+                $projectId              = $getTask->project_id;
+                $getProject             = $this->common_model->find_data('project', 'row', ['id' => $projectId]);
+                if($getProject){
+                    $assigned = 0;
+                    if($getProject->project_time_type == 'Onetime'){
+                        $assigned               = $getProject->hour;
+                        $current_month_booking  = $this->common_model->getProjectBooking($projectId, 'Monthlytime');
+                        $total_booked           = $this->common_model->getProjectBooking($projectId, 'Onetime');
+                    } elseif($getProject->project_time_type == 'Monthlytime'){
+                        $assigned               = $getProject->hour_month;
+                        $current_month_booking  = $this->common_model->getProjectBooking($projectId, 'Monthlytime');
+                        $total_booked           = $this->common_model->getProjectBooking($projectId, 'Onetime');
+                    }
+                    $apiResponse        = [
+                        'project_time_type'                     => $getProject->project_time_type,
+                        'assigned'                              => $assigned,
+                        'current_month_booking'                 => $current_month_booking,
+                        'total_booked'                          => $total_booked,
+                    ];
+                } else {
+                    $apiResponse = [];
+                }
+
+
+                $bookedProjectHTML = '';
+                if(!empty($apiResponse)){
+                    $project_time_type      = $apiResponse['project_time_type'];
+                    $assigned               = $apiResponse['assigned'];
+                    $current_month_booking  = $apiResponse['current_month_booking'];
+                    $total_booked           = $apiResponse['total_booked'];
+
+                    if($project_time_type == 'Onetime'){
+                        $bookedProjectHTML .= '<div class="row">
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date" style="border: 1px solid #fff;margin-top: 10px;margin-bottom: 10px; padding: 5px;border-radius: 10px;background-color: #03312e;color: #fff;text-align: center;"><span class="time-font"><b>Assigned Fixed :</b><br class="d-none d-sm-block d-md-none"> ' . $assigned . '</span></div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' . $current_month_booking . '</span></div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' . $total_booked . '</span></div>
+                                                    </div>
+                                                </div>';
+                    } elseif($project_time_type == 'Monthlytime'){
+                        $bookedProjectHTML .= '<div class="row">
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Assigned Monthly :</b><br class="d-none d-sm-block d-md-none"> ' . $assigned . '</span></div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' . $current_month_booking . '</span></div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' . $total_booked . '</span></div>
+                                                    </div>
+                                                </div>';
+                    }
+                }
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
@@ -508,7 +626,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="project_id" id="project_id" class="form-control" required>
+                                                            <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required>
                                                                 <option value="" selected="">Select Project</option>
                                                                 <hr>';
                                                                 if($projects){ foreach($projects as $project){
@@ -517,6 +635,11 @@ class TaskAssignController extends BaseController {
                                                                     <hr>';
                                                                 } }
                                 $scheduleHTML           .= '</select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="fill_up_projectss" id="fill_up_project_0">
+                                                            '.$bookedProjectHTML.'
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -539,7 +662,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="input-group mb-1">
                                                             <select name="min" class="form-control" id="min" required>
                                                                 <option value="" selected>Select Minute</option>';
-                                                                for($m=0;$m<=59;$m++){
+                                                                for($m = 0; $m < 60; $m += 15){
                                                                     $selectedMinute = (($m == $getTask->min)?'selected':'');
                                         $scheduleHTML           .= '<option value="' . $m . '" ' . $selectedMinute . '>' . $m . '</option>';
                                                                 }
@@ -599,7 +722,9 @@ class TaskAssignController extends BaseController {
             $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+            $join1[2]                   = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => date('Y-m-d')], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
             // pr($getTasks);
             $totalTime                  = 0;
             if($getTasks){
@@ -693,10 +818,21 @@ class TaskAssignController extends BaseController {
                     }
 
                     if($getTask->work_status_id == 0){
-                        $addToEffort = '<br>
+                        if($user_id == $this->session->get('user_id')){
+                            $addToEffort = '<br>
                                         <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\', '.$schedule_id.');">Add Effort</a></span>';
+                        } else {
+                            $addToEffort = '';
+                        }
                     } else {
                         $addToEffort = '';
+                    }
+
+                    $bookedEffort = '';
+                    if($getTask->booked_description != ''){
+                        $bookedEffort = '<div class="card_proj_info">
+                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : ' . $getTask->booked_description . ' - ' . $getTask->booked_hour . ':' . $getTask->booked_min . ')</span><br>
+                                        </div>';
                     }
 
                     $scheduleHTML .= '<div class="input-group">
@@ -708,6 +844,7 @@ class TaskAssignController extends BaseController {
                                                 <div class="mb-1 d-block">
                                                     <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                     <div class="card_proj_info">'.$getTask->description.'</div>
+                                                    ' . $bookedEffort . '
                                                 </div>
                                                 <div class="card_projecttime">
                                                     [' .$hr. ' ' .$min. ']
@@ -741,6 +878,38 @@ class TaskAssignController extends BaseController {
                                 </a>';
                 }
             }
+
+            /* mail function */
+                $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+                $getProject                 = $this->common_model->find_data('project', 'row', ['id' => $requestData['project_id']], 'name');
+                $getAssignedTask            = $this->common_model->find_data('morning_meetings', 'row', ['id' => $schedule_id]);
+                $added_by                   = (($getAssignedTask)?$getAssignedTask->added_by:'');
+                $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
+                $subject                    = $generalSetting->site_name.' :: Task Updated '.(($getAssignedTask)?date_format(date_create($getAssignedTask->created_at), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
+                $mailData                   = [
+                    'subject'                   => $subject,
+                    'project_name'              => (($getProject)?$getProject->name:''),
+                    'hour'                      => $requestData['hour'],
+                    'min'                       => $requestData['min'],
+                    'description'               => $requestData['description'],
+                    'priority'                  => $requestData['priority'],
+                    'date_added'                => $requestData['date_added'],
+                    'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->updated_at), "M d, Y h:i a"):''),
+                    'added_by'                  => (($getUser)?$getUser->name:''),
+                ];
+                $message                    = view('email-templates/task-assigned', $mailData);
+                // echo $message;die;
+                // $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                /* email log save */
+                    $postData2 = [
+                        'name'                  => (($getUser)?$getUser->name:''),
+                        'email'                 => (($getUser)?$getUser->email:''),
+                        'subject'               => $subject,
+                        'message'               => $message
+                    ];
+                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
+                /* email log save */
+            /* mail function */
             $apiResponse['scheduleHTML']        = $scheduleHTML;
             $apiResponse['totalTime']           = $totalBooked;
             $apiStatus                          = TRUE;
@@ -786,7 +955,71 @@ class TaskAssignController extends BaseController {
                 $checkedWorkFromHome0 = (($getTask->work_home == 0)?'checked':'');
                 $checkedWorkFromHome1 = (($getTask->work_home == 1)?'checked':'');
 
-                $currentDate            = date('Y-m-d'); 
+                $currentDate            = date('Y-m-d');
+
+                if($schedule_id == ''){
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" value="' . $task_date . '" required>';
+                } else {
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>';
+                }
+
+                $projectId              = $getTask->project_id;
+                $getProject             = $this->common_model->find_data('project', 'row', ['id' => $projectId]);
+                if($getProject){
+                    $assigned = 0;
+                    if($getProject->project_time_type == 'Onetime'){
+                        $assigned               = $getProject->hour;
+                        $current_month_booking  = $this->common_model->getProjectBooking($projectId, 'Monthlytime');
+                        $total_booked           = $this->common_model->getProjectBooking($projectId, 'Onetime');
+                    } elseif($getProject->project_time_type == 'Monthlytime'){
+                        $assigned               = $getProject->hour_month;
+                        $current_month_booking  = $this->common_model->getProjectBooking($projectId, 'Monthlytime');
+                        $total_booked           = $this->common_model->getProjectBooking($projectId, 'Onetime');
+                    }
+                    $apiResponse        = [
+                        'project_time_type'                     => $getProject->project_time_type,
+                        'assigned'                              => $assigned,
+                        'current_month_booking'                 => $current_month_booking,
+                        'total_booked'                          => $total_booked,
+                    ];
+                } else {
+                    $apiResponse = [];
+                }
+
+
+                $bookedProjectHTML = '';
+                if(!empty($apiResponse)){
+                    $project_time_type      = $apiResponse['project_time_type'];
+                    $assigned               = $apiResponse['assigned'];
+                    $current_month_booking  = $apiResponse['current_month_booking'];
+                    $total_booked           = $apiResponse['total_booked'];
+
+                    if($project_time_type == 'Onetime'){
+                        $bookedProjectHTML .= '<div class="row">
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date" style="border: 1px solid #fff;margin-top: 10px;margin-bottom: 10px; padding: 5px;border-radius: 10px;background-color: #03312e;color: #fff;text-align: center;"><span class="time-font"><b>Assigned Fixed :</b><br class="d-none d-sm-block d-md-none"> ' . $assigned . '</span></div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' . $current_month_booking . '</span></div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' . $total_booked . '</span></div>
+                                                    </div>
+                                                </div>';
+                    } elseif($project_time_type == 'Monthlytime'){
+                        $bookedProjectHTML .= '<div class="row">
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Assigned Monthly :</b><br class="d-none d-sm-block d-md-none"> ' . $assigned . '</span></div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' . $current_month_booking . '</span></div>
+                                                    </div>
+                                                    <div class="col-md-4 col-sm-4">
+                                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' . $total_booked . '</span></div>
+                                                    </div>
+                                                </div>';
+                    }
+                }
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
@@ -795,12 +1028,12 @@ class TaskAssignController extends BaseController {
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>
+                                                            ' . $inputDate . '   
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="project_id" id="project_id" class="form-control" required disabled>
+                                                            <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required disabled>
                                                                 <option value="" selected="">Select Project</option>
                                                                 <hr>';
                                                                 if($projects){ foreach($projects as $project){
@@ -809,6 +1042,11 @@ class TaskAssignController extends BaseController {
                                                                     <hr>';
                                                                 } }
                                 $scheduleHTML           .= '</select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="fill_up_projectss" id="fill_up_project_0">
+                                                            '.$bookedProjectHTML.'
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -831,7 +1069,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="input-group mb-1">
                                                             <select name="min" class="form-control" id="min" required>
                                                                 <option value="" selected>Select Minute</option>';
-                                                                for($m=0;$m<=59;$m++){
+                                                                for($m = 0; $m < 60; $m += 15){
                                                                     $selectedMinute = (($m == $getTask->min)?'selected':'');
                                         $scheduleHTML           .= '<option value="' . $m . '" ' . $selectedMinute . '>' . $m . '</option>';
                                                                 }
@@ -854,7 +1092,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="work_status_id" id="work_status_id" class="form-control" required>
+                                                            <select name="work_status_id" id="work_status_id" class="form-control" onchange="change_work_status(this.value);" required>
                                                                 <option value="" selected="">Select Work Status</option>
                                                                 <hr>';
                                                                 if($workStats){ foreach($workStats as $workStat){
@@ -873,6 +1111,8 @@ class TaskAssignController extends BaseController {
                                                 </div>
                                             </form>';
             } else {
+                $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" max="'.$task_date.'" value="' . $task_date . '" required>';
+
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $dept_id . '">
                                                 <input type="hidden" name="user_id" id="user_id" value="' . $user_id . '">
@@ -880,12 +1120,12 @@ class TaskAssignController extends BaseController {
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
-                                                            <input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="" max="' . $yesterday . '" required>
+                                                            ' . $inputDate . '
                                                         </div>
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="project_id" id="project_id" class="form-control" required>
+                                                            <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required>
                                                                 <option value="" selected="">Select Project</option>
                                                                 <hr>';
                                                                 if($projects){ foreach($projects as $project){
@@ -893,6 +1133,11 @@ class TaskAssignController extends BaseController {
                                                                     <hr>';
                                                                 } }
                                 $scheduleHTML           .= '</select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
+                                                            
                                                         </div>
                                                     </div>
                                                     <div class="col-12">
@@ -914,7 +1159,7 @@ class TaskAssignController extends BaseController {
                                                         <div class="input-group mb-1">
                                                             <select name="min" class="form-control" id="min" required>
                                                                 <option value="" selected>Select Minute</option>';
-                                                                for($m=0;$m<=59;$m++){
+                                                                for($m = 0; $m < 60; $m += 15){
                                         $scheduleHTML           .= '<option value="' . $m . '">' . $m . '</option>';
                                                                 }
                                 $scheduleHTML           .= '</select>
@@ -1047,6 +1292,7 @@ class TaskAssignController extends BaseController {
                 );
                 // pr($postData);
                 $effort_id              = $this->data['model']->save_data('timesheet', $postData, '', 'id');
+                $effortId               = $effort_id;
 
                 $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
                 $rows                   = $this->db->query($projectcost)->getResult(); 
@@ -1090,32 +1336,33 @@ class TaskAssignController extends BaseController {
                     if($getWorkStatus->is_reassign){
                         /* next working data calculate */
                             // for($c=1;$c<=7;$c++){
-                                $date_added1 = date('Y-m-d', strtotime("+1 days"));
+                                // echo $date_added1 = date('Y-m-d', strtotime("+1 days"));
+                                $date_added1 = date('Y-m-d', strtotime($date_added . ' +1 day'));
                                 if($this->calculateNextWorkingDate($date_added1)){
                                     $next_working_day = $date_added1;
                                 } else {
                                     // echo 'not working day';
-                                    $date_added2 = date('Y-m-d', strtotime("+2 days"));
+                                    $date_added2 = date('Y-m-d', strtotime($date_added . "+2 days"));
                                     if($this->calculateNextWorkingDate($date_added2)){
                                         $next_working_day = $date_added2;
                                     } else {
-                                        $date_added3 = date('Y-m-d', strtotime("+3 days"));
+                                        $date_added3 = date('Y-m-d', strtotime($date_added . "+3 days"));
                                         if($this->calculateNextWorkingDate($date_added3)){
                                             $next_working_day = $date_added3;
                                         } else {
-                                            $date_added4 = date('Y-m-d', strtotime("+4 days"));
+                                            $date_added4 = date('Y-m-d', strtotime($date_added . "+4 days"));
                                             if($this->calculateNextWorkingDate($date_added4)){
                                                 $next_working_day = $date_added4;
                                             } else {
-                                                $date_added5 = date('Y-m-d', strtotime("+5 days"));
+                                                $date_added5 = date('Y-m-d', strtotime($date_added . "+5 days"));
                                                 if($this->calculateNextWorkingDate($date_added5)){
                                                     $next_working_day = $date_added5;
                                                 } else {
-                                                    $date_added6 = date('Y-m-d', strtotime("+6 days"));
+                                                    $date_added6 = date('Y-m-d', strtotime($date_added . "+6 days"));
                                                     if($this->calculateNextWorkingDate($date_added6)){
                                                         $next_working_day = $date_added6;
                                                     } else {
-                                                        $date_added7 = date('Y-m-d', strtotime("+7 days"));
+                                                        $date_added7 = date('Y-m-d', strtotime($date_added . "+7 days"));
                                                         if($this->calculateNextWorkingDate($date_added7)){
                                                             $next_working_day = $date_added7;
                                                         } else {
@@ -1148,6 +1395,8 @@ class TaskAssignController extends BaseController {
                             'work_status_id'        => 0,
                             'priority'              => 3,
                             'effort_id'             => 0,
+                            'created_at'            => $next_working_day.' 10:01:00',
+                            'updated_at'            => $next_working_day.' 10:01:00',
                         ];
                         // pr($morningScheduleData2);
                         $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
@@ -1159,7 +1408,9 @@ class TaskAssignController extends BaseController {
             $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $date_added], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+            $join1[2]                    = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $date_added], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
             $totalTime                  = 0;
             if($getTasks){
                 foreach($getTasks as $getTask){
@@ -1258,6 +1509,13 @@ class TaskAssignController extends BaseController {
                         $addToEffort = '';
                     }
 
+                    $bookedEffort = '';
+                    if($getTask->booked_description != ''){
+                        $bookedEffort = '<div class="card_proj_info">
+                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : ' . $getTask->booked_description . ' - ' . $getTask->booked_hour . ':' . $getTask->booked_min . ')</span><br>
+                                        </div>';
+                    }
+
                     $scheduleHTML .= '<div class="input-group">
                                         <div class="card">
                                             <div class="card-body" style="border: 1px solid ' . $work_status_border_color . ';width: 100%;padding: 5px;border-radius: 6px;text-align: left;vertical-align: top;background-color: ' . $work_status_color . ';">
@@ -1267,6 +1525,7 @@ class TaskAssignController extends BaseController {
                                                 <div class="mb-1 d-block">
                                                     <div class="card_projectname"><b>'.$projectName.' :</b> </div>
                                                     <div class="card_proj_info">'.$getTask->description.'</div>
+                                                    ' . $bookedEffort . '
                                                 </div>
                                                 <div class="card_projecttime">
                                                     [' .$hr. ' ' .$min. ']
@@ -1281,7 +1540,7 @@ class TaskAssignController extends BaseController {
                 }
             }
             // echo $scheduleHTML;die;
-            $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+            $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
             
             $dept_id        = $requestData['dept_id'];
             $user_id        = $requestData['user_id'];
@@ -1291,18 +1550,74 @@ class TaskAssignController extends BaseController {
             $getLeaveTask                   = $this->common_model->find_data('morning_meetings', 'row', ['user_id' => $user_id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
             $yesterday                      = $requestData['date_added'];
             if(!$getLeaveTask){
-                $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="'.$yesterday.'" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
-                                        <i class="fa-solid fa-plus-circle"></i> Add Effort
-                                </a>';
-            } else {
-                if($getLeaveTask->is_leave == 1){
+                if($yesterday != date('Y-m-d')){
                     $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="'.$yesterday.'" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
                                         <i class="fa-solid fa-plus-circle"></i> Add Effort
                                 </a>';
+                } else {
+                    $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                        <i class="fa-solid fa-plus-circle"></i> Add Task
+                                    </a>';
+                }
+            } else {
+                if($getLeaveTask->is_leave == 1){
+                    if($yesterday != date('Y-m-d')){
+                        $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="'.$yesterday.'" onclick="openEffortSubmitForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                        <i class="fa-solid fa-plus-circle"></i> Add Effort
+                                </a>';
+                    } else {
+                        $scheduleHTML .= '<a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" onclick="openForm('.$dept_id.', '.$user_id.', \''.$user_name.'\');">
+                                            <i class="fa-solid fa-plus-circle"></i> Add Task
+                                        </a>';
+                    }
                 }
             }
+
+            $totalBookedTime                  = 0;
+            $bookings = $this->common_model->find_data('timesheet', 'array', ['user_id' => $user_id, 'date_added' => $date_added]);
+            if($bookings){ foreach($bookings as $booking){
+                $tot_hour               = $booking->hour * 60;
+                $tot_min                = $booking->min;
+                $totMins                = $tot_hour + $tot_min;
+                $totalBookedTime              += $totMins;
+            } }
+            $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+
             $apiResponse['scheduleHTML']        = $scheduleHTML;
-            $apiResponse['totalTime']           = $totalBooked;
+            $apiResponse['totalTime']           = $totalAssigned;
+            $apiResponse['totalBookedTime']     = $totalBooked;
+
+            /* mail function */
+                $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+                $getProject                 = $this->common_model->find_data('project', 'row', ['id' => $requestData['project_id']], 'name');
+                $getAssignedTask            = $this->common_model->find_data('timesheet', 'row', ['id' => $effortId]);
+                $added_by                   = (($getAssignedTask)?$getAssignedTask->user_id:'');
+                $getUser                    = $this->common_model->find_data('user', 'row', ['id' => $added_by], 'name,email');
+                $subject                    = $generalSetting->site_name.' :: Effort Booked '.(($getAssignedTask)?date_format(date_create($getAssignedTask->date_today), "M d, Y"):'').' '.(($getProject)?$getProject->name:'').' - '.$requestData['hour'].':'.$requestData['min'];
+                $mailData                   = [
+                    'subject'                   => $subject,
+                    'project_name'              => (($getProject)?$getProject->name:''),
+                    'hour'                      => $requestData['hour'],
+                    'min'                       => $requestData['min'],
+                    'description'               => $requestData['description'],
+                    'date_added'                => $requestData['date_added'],
+                    'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->date_today), "M d, Y h:i a"):''),
+                    'added_by'                  => (($getUser)?$getUser->name:''),
+                ];
+                $message                    = view('email-templates/task-booked', $mailData);
+                // echo $message;die;
+                // $this->sendMail((($getUser)?$getUser->email:''), $subject, $message);
+                /* email log save */
+                    $postData2 = [
+                        'name'                  => (($getUser)?$getUser->name:''),
+                        'email'                 => (($getUser)?$getUser->email:''),
+                        'subject'               => $subject,
+                        'message'               => $message
+                    ];
+                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
+                /* email log save */
+            /* mail function */
+
             $apiStatus                          = TRUE;
             http_response_code(200);
             $apiMessage                         = 'Effort Booked Successfully !!!';

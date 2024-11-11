@@ -58,6 +58,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                             $order_by1[0]               = array('field' => 'morning_meetings.id', 'type' => 'ASC');
                             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'INNER'];
                             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
+
                             $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name', $join1, '', $order_by1);
                             $totalTime                  = 0;
                             if($getTasks){ foreach($getTasks as $getTask){
@@ -66,12 +67,53 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                 $totMins                = $tot_hour + $tot_min;
                                 $totalTime              += $totMins;
                             } }
-                            $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-                            $totalBooked    = '[' . $totalBooked . ']';
+                            $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+                            $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
+
+                            $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
+                            if($checkAttnendance > 0){
+                                $attnBgColor = '#d1fa05';
+                            } else {
+                                $attnBgColor = 'red';
+                            }
+                            $checkBooking = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                            if($checkBooking > 0){
+                                $trackerBgColor = '#d1fa05';
+                            } else {
+                                $trackerBgColor = 'red';
+                            }
+
+                            $totalBookedTime                  = 0;
+                            $bookings = $common_model->find_data('timesheet', 'array', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                            if($bookings){ foreach($bookings as $booking){
+                                $tot_hour               = $booking->hour * 60;
+                                $tot_min                = $booking->min;
+                                $totMins                = $tot_hour + $tot_min;
+                                $totalBookedTime              += $totMins;
+                            } }
+                            $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+                            $totalBooked    = '[Booked : ' . $totalBooked . ']';
                             ?>
                             <th style="background-color: <?=$dept->header_color?>;">
                                 <div class="d-flex justify-content-between">
-                                    <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                    <div class="row">
+                                        <div class="col-md-12" style="text-align: center;">
+                                            <span><?=$teamMember->name?></span>
+                                        </div>
+                                        <div class="col-md-6" style="text-align: left;">
+                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
+                                        </div>
+                                        <div class="col-md-6" style="text-align: right;">
+                                            <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
+                                        </div>
+                                    </div>
+                                    <!-- <?=$teamMember->name?><br>
+                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
+                                    <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span> -->
                                 </div>
                             </th>
                         <?php } } ?>
@@ -94,7 +136,9 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-                                        $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                        $join1[2]                    = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                                        $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                                         
                                         if($getTasks){ foreach($getTasks as $getTask){
                                             $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
@@ -139,7 +183,12 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                             
                                                         <div class="mb-1 d-block">
                                                             <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                            <div class="card_proj_info"><?=$getTask->description?><br></div> 
+                                                            <div class="card_proj_info"><?=$getTask->description?><br></div>
+                                                            <?php if($getTask->booked_description != ''){?>
+                                                                <div class="card_proj_info">
+                                                                    <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
+                                                                </div>
+                                                            <?php }?>
                                                         </div>
 
                                                         <div class="card_projecttime">

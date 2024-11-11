@@ -42,7 +42,9 @@ class DepartmentController extends BaseController {
             $postData   = array(
                 'deprt_name'                        => $this->request->getPost('deprt_name'),
                 'header_color'                      => $this->request->getPost('header_color'),
-                'body_color'                      => $this->request->getPost('body_color'),
+                'body_color'                        => $this->request->getPost('body_color'),
+                'badge_bgcolor'                     => $this->request->getPost('badge_bgcolor'),
+                'badge_fontcolor'                   => $this->request->getPost('badge_fontcolor'),
                 'is_join_morning_meeting'           => $this->request->getPost('is_join_morning_meeting'),
                 'rank'                              => $this->request->getPost('rank'),
             );
@@ -66,7 +68,9 @@ class DepartmentController extends BaseController {
             $postData   = array(
                 'deprt_name'                        => $this->request->getPost('deprt_name'),
                 'header_color'                      => $this->request->getPost('header_color'),
-                'body_color'                      => $this->request->getPost('body_color'),
+                'body_color'                        => $this->request->getPost('body_color'),
+                'badge_bgcolor'                     => $this->request->getPost('badge_bgcolor'),
+                'badge_fontcolor'                   => $this->request->getPost('badge_fontcolor'),
                 'is_join_morning_meeting'           => $this->request->getPost('is_join_morning_meeting'),
                 'rank'                              => $this->request->getPost('rank'),
             );

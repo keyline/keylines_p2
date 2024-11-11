@@ -1484,6 +1484,47 @@ class ReportController extends BaseController
 
                     // print_r($postData);die();
                     $record = $this->common_model->save_data('desklog_report', $postData, '', $this->data['primary_key']);
+
+                    $year = date('Y');
+                        $month  =   date('m');
+                        $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = '$month' AND user_id = '$user_id'";
+                        $getDesktimeHour = $this->db->query($sql10)->getRow();                        
+                        $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" . date('Y').'-'.date('m') . "%'";
+                        $getDesktime = $this->db->query($sql)->getResult();                        
+                        $totalHours = 0;
+                        $totalMinutes = 0;
+                        foreach ($getDesktime as $entry) {                            
+                            // Extract hours and minutes
+                            sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
+                            // Sum up hours and minutes
+                            $totalHours += $hours;
+                            $totalMinutes += $minutes;                           
+                        }
+                         $totalHours += intdiv($totalMinutes, 60);
+                         $totalMinutes = $totalMinutes % 60;   
+                         $MonthlyDesktime = $totalHours.'.'.$totalMinutes;                                                                
+                        if ($getDesktimeHour) {                               
+                        $postData = array(
+                            'total_desktime_hour' => $MonthlyDesktime,                                
+                        );                         
+                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
+                         $result7 = $getDesktimeHour->total_desktime_hour;
+                        }else{
+                            $postData = array(
+                                'month_upload' => $month,                                
+                                'year_upload' => $year,                                
+                                'user_id' => $user_id,                                
+                                'name' => $user_name,                                
+                                'email' => $user_email,
+                                'department' => $user_dept,
+                                'total_desktime_hour' => $MonthlyDesktime,
+                                'total_working_time' => $MonthlyDesktime,
+                                'added_on' => $db_date,                               
+                            );                             
+                            $insertData = $this->common_model->save_data('desktime_sheet_tracking',$postData,'','id');
+                            $result7 ='';
+                        }
+
                 } else {
                     $id = $existingRecord->id;
                     $postData   = array(
@@ -1506,6 +1547,50 @@ class ReportController extends BaseController
                     $postData['tracker_user_id'] = $user_id;
                     $postData['insert_date'] = $db_date;
                     $record = $this->common_model->save_data('desklog_report', $postData, $id, $this->data['primary_key']);
+
+                    $year = date('Y');
+                    $month  =   date('m');
+                    $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = '$month' AND user_id = '$user_id'";                     
+                    $getDesktimeHour = $this->db->query($sql10)->getRow();                        
+                    
+                    $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" . date('Y').'-'.date('m') . "%'";
+                    $getDesktime = $this->db->query($sql)->getResult();  
+                    // echo $this->db->getLastquery();die;                      
+                    $totalHours = 0;
+                    $totalMinutes = 0;
+                    foreach ($getDesktime as $entry) {                            
+                        // Extract hours and minutes
+                        sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
+                        // Sum up hours and minutes
+                        $totalHours += $hours;
+                        $totalMinutes += $minutes;                           
+                    }
+                     $totalHours += intdiv($totalMinutes, 60);
+                     $totalMinutes = $totalMinutes % 60;   
+                     $MonthlyDesktime = $totalHours.'.'.$totalMinutes;                                                                
+                    if ($getDesktimeHour) {                               
+                        $postData = array(
+                            'total_desktime_hour' => $MonthlyDesktime,                                
+                        );                         
+                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
+                        // pr($updateData);
+
+                        $result7 = $getDesktimeHour->total_desktime_hour;
+                    } else{
+                        $postData = array(
+                            'month_upload' => $month,                                
+                            'year_upload' => $year,                                
+                            'user_id' => $user_id,                                
+                            'name' => $user_name,                                
+                            'email' => $user_email,
+                            'department' => $user_dept,
+                            'total_desktime_hour' => $MonthlyDesktime,
+                            'total_working_time' => $MonthlyDesktime,
+                            'added_on' => $db_date,                               
+                        );                             
+                        $insertData = $this->common_model->save_data('desktime_sheet_tracking',$postData,'','id');
+                        $result7 ='';
+                    }
                 }
             }
         }

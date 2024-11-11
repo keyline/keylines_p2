@@ -48,6 +48,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th scope="col">Department Name</th>
                                         <th scope="col">Header Color</th>
                                         <th scope="col">Body Color</th>
+                                        <th scope="col">Badge Background Color</th>
+                                        <th scope="col">Badge Font Color</th>
                                         <th scope="col">Is Join Morning Meeting</th>
                                         <th scope="col">Rank</th>
                                         <th scope="col">Created At<br>Updated At</th>
@@ -59,8 +61,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <tr>
                                         <th scope="row"><?=$sl++?></th>
                                         <td><?=$row->deprt_name?></td>
-                                        <td><span style="border-radius: 50%; background-color: <?=$row->header_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
-                                        <td><span style="border-radius: 50%; background-color: <?=$row->body_color?>">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                        <td><span style="border-radius: 50%; background-color: <?=$row->header_color?>; border: 1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                        <td><span style="border-radius: 50%; background-color: <?=$row->body_color?>; border: 1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                        <td><span style="border-radius: 50%; background-color: <?=$row->badge_bgcolor?>; border: 1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
+                                        <td><span style="border-radius: 50%; background-color: <?=$row->badge_fontcolor?>; border: 1px solid #000;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></td>
                                         <td><?=(($row->is_join_morning_meeting)?'YES':'NO')?></td>
                                         <td><?=$row->rank?></td>
                                         <td class="text-center">

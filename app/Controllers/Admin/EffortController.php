@@ -27,12 +27,16 @@ class EffortController extends BaseController {
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'effort/list';
-        $order_by[0]                = array('field' => 'date_added', 'type' => 'desc');
-        $order_by[1]                = array('field' => 'id', 'type' => 'asc');
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['user_id' => $user_id], '', '', '', $order_by);
+        $order_by[0]                = array('field' => 'timesheet.date_added', 'type' => 'desc');
+        $order_by[1]                = array('field' => 'timesheet.id', 'type' => 'asc');
+        $join[0]                    = ['table' => 'morning_meetings', 'field' => 'effort_id', 'table_master' => 'timesheet', 'field_table_master' => 'id', 'type' => 'LEFT'];
+        $join[1]                    = ['table' => 'project', 'field' => 'id', 'table_master' => 'timesheet', 'field_table_master' => 'project_id', 'type' => 'INNER'];
+        $join[2]                    = ['table' => 'effort_type', 'field' => 'id', 'table_master' => 'timesheet', 'field_table_master' => 'effort_type', 'type' => 'INNER'];
+        $select                     = 'timesheet.*, morning_meetings.description as assign_description, morning_meetings.hour as assign_hour, morning_meetings.min as assign_min, project.name as project_name, effort_type.name as effort_type_name';
+        $data['rows']               = $this->data['model']->find_data('timesheet', 'array', ['timesheet.user_id' => $user_id], $select, $join, '', $order_by);
         echo $this->layout_after_login($title,$page_name,$data);
     }
-    public function add()
+    public function addBackup()
     {
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Add';

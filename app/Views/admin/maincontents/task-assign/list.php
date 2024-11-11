@@ -388,12 +388,53 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         $totMins                = $tot_hour + $tot_min;
                                                                         $totalTime              += $totMins;
                                                                     } }
-                                                                    $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-                                                                    $totalBooked    = '[' . $totalBooked . ']';
+                                                                    $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+                                                                    $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
+
+                                                                    $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
+                                                                    if($checkAttnendance > 0){
+                                                                        $attnBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $attnBgColor = 'red';
+                                                                    }
+                                                                    $checkBooking = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                                                                    if($checkBooking > 0){
+                                                                        $trackerBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $trackerBgColor = 'red';
+                                                                    }
+
+                                                                    $totalBookedTime                  = 0;
+                                                                    $bookings = $common_model->find_data('timesheet', 'array', ['user_id' => $teamMember->id, 'date_added' => $yesterday]);
+                                                                    if($bookings){ foreach($bookings as $booking){
+                                                                        $tot_hour               = $booking->hour * 60;
+                                                                        $tot_min                = $booking->min;
+                                                                        $totMins                = $tot_hour + $tot_min;
+                                                                        $totalBookedTime              += $totMins;
+                                                                    } }
+                                                                    $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+                                                                    $totalBooked    = '[Booked : ' . $totalBooked . ']';
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
-                                                                            <?=$teamMember->name?> <br><span id="total-time-previous-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                            <div class="row">
+                                                                                <div class="col-md-12" style="text-align: center;">
+                                                                                    <span><?=$teamMember->name?></span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: left;">
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: right;">
+                                                                                    <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- <?=$teamMember->name?><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
+                                                                            <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span> -->
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -446,7 +487,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'user_id', 'type' => 'INNER'];
-                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                                                                $join1[2]                    = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                                                                                 
                                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                                     $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
@@ -491,7 +534,12 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     
                                                                                                 <div class="mb-1 d-block">
                                                                                                     <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div> 
+                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div>
+                                                                                                    <?php if($getTask->booked_description != ''){?>
+                                                                                                        <div class="card_proj_info">
+                                                                                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
+                                                                                                        </div>
+                                                                                                    <?php }?>
                                                                                                 </div>
 
                                                                                                 <div class="card_projecttime">
@@ -626,12 +674,54 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                         $totMins                = $tot_hour + $tot_min;
                                                                         $totalTime              += $totMins;
                                                                     } }
-                                                                    $totalBooked    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
-                                                                    $totalBooked    = '[' . $totalBooked . ']';
+                                                                    $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
+                                                                    $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
+
+                                                                    $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);
+                                                                    if($checkAttnendance > 0){
+                                                                        $attnBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $attnBgColor = 'red';
+                                                                    }
+                                                                    $checkBooking = $common_model->find_data('timesheet', 'count', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d')]);
+                                                                    if($checkBooking > 0){
+                                                                        $trackerBgColor = '#d1fa05';
+                                                                    } else {
+                                                                        $trackerBgColor = 'red';
+                                                                    }
+
+                                                                    $totalBookedTime                  = 0;
+                                                                    $bookings = $common_model->find_data('timesheet', 'array', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d')]);
+                                                                    if($bookings){ foreach($bookings as $booking){
+                                                                        $tot_hour               = $booking->hour * 60;
+                                                                        $tot_min                = $booking->min;
+                                                                        $totMins                = $tot_hour + $tot_min;
+                                                                        $totalBookedTime              += $totMins;
+                                                                    } }
+                                                                    $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
+                                                                    $totalBooked    = '[Booked : ' . $totalBooked . ']';
+                                                                    $today          = date('Y-m-d');
                                                                     ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
-                                                                            <?=$teamMember->name?> <br><span id="total-time-<?=$teamMember->id?>"><?=$totalBooked?></span>
+                                                                            <div class="row">
+                                                                                <div class="col-md-12" style="text-align: center;">
+                                                                                    <span><?=$teamMember->name?></span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: left;">
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: right;">
+                                                                                    <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
+                                                                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- <?=$teamMember->name?><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
+                                                                            <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span> -->
                                                                         </div>
                                                                     </th>
                                                                 <?php } } ?>
@@ -682,7 +772,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                                                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                                                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $today], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                                                                $join1[2]                    = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $today], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                                                                                 
                                                                                 if($getTasks){ foreach($getTasks as $getTask){
                                                                                     $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
@@ -726,7 +818,12 @@ $controller_route       = $moduleDetail['controller_route'];
 
                                                                                                 <div class="mb-1 d-block">
                                                                                                     <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div> 
+                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div>
+                                                                                                    <?php if($getTask->booked_description != ''){?>
+                                                                                                        <div class="card_proj_info">
+                                                                                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
+                                                                                                        </div>
+                                                                                                    <?php }?>
                                                                                                 </div>
                                                                                                 <div class="card_projecttime">
                                                                                                     [<?php
@@ -881,7 +978,7 @@ $controller_route       = $moduleDetail['controller_route'];
                             <div class="row">
                                 <div class="col-6">
                                     <div class="input-group mb-1">
-                                        <select name="project_id" id="project_id" class="form-control" required>
+                                        <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required>
                                             <option value="" selected="">Select Project</option>
                                             <hr>
                                             <?php if($projects){ foreach($projects as $project){?>
@@ -897,6 +994,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave0" value="0" onchange="myFunction()" checked><label for="leave0" style="margin-left : 3px;">PRESENT</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave1" value="1" onchange="myFunction()"><label for="leave1" style="margin-left : 3px;">HALFDAY LEAVE</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave2" value="2" onchange="myFunction()"><label for="leave2" style="margin-left : 3px;">FULLDAY LEAVE</label></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
+                                        
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -918,7 +1020,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     <div class="input-group mb-1">
                                         <select name="min" class="form-control" id="min" required>
                                             <option value="">Select Minute</option>
-                                            <?php for($m=0;$m<=59;$m++){?>
+                                            <?php for($m = 0; $m < 60; $m += 15){?>
                                                 <option value="<?=$m?>" <?=(($m == 0)?'selected':'')?>><?=$m?></option>
                                             <?php }?>
                                         </select>
@@ -960,7 +1062,7 @@ $controller_route       = $moduleDetail['controller_route'];
         dataJson.work_home                  = '';
         var user_id                         = $('#user_id').val();
         var current_date                    = '<?=$current_date?>';
-
+        var date_added                      = $('#date_added').val();
         if($('input[name="priority"]:checked').val() == 0){
             if($('#project_id').val() != ''){
                 if($('#description').val() != ''){
@@ -975,9 +1077,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     if(res.success){
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');
-                                        var date_added = dataJson.date_added;
-                                        // $('#meeting-user-' + user_id + '_' + date_added).empty();
-                                        // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        
                                         if(current_date == date_added){
                                             $('#meeting-user-' + user_id + '_' + date_added).empty();
                                             $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
@@ -985,7 +1085,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
                                             $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                                         }
-                                        $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                                        
+                                        $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
                                         toastAlert("success", res.message);
                                     } else {
                                         $('#morningMeetingForm').trigger("reset");
@@ -1019,9 +1120,7 @@ $controller_route       = $moduleDetail['controller_route'];
                         if(res.success){
                             $('#morningMeetingForm').trigger("reset");
                             $('#morningformModal').modal('hide');
-                            var date_added = dataJson.date_added;
-                            // $('#meeting-user-' + user_id + '_' + date_added).empty();
-                            // $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            
                             if(current_date == date_added){
                                 $('#meeting-user-' + user_id + '_' + date_added).empty();
                                 $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
@@ -1029,7 +1128,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
                                 $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
                             }
-                            $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                            $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
                             toastAlert("success", res.message);
                         } else {
                             $('#morningMeetingForm').trigger("reset");
@@ -1099,7 +1198,7 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#morningformModal').modal('hide');
                     $('#meeting-user-' + user_id + '_' + date_added).empty();
                     $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
-                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                    $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
                     toastAlert("success", res.message);
                 }
             },
@@ -1162,34 +1261,45 @@ $controller_route       = $moduleDetail['controller_route'];
             if($('#work_status_id').val() == ''){
                 toastAlert("error", "Please Select Work Status !!!");
             } else {
-                var current_date    = '<?=$current_date?>';
-                // console.log(current_date);
-                // console.log(book_date);
-                // console.log(user_id);
-                $.ajax({
-                    type: 'POST',
-                    url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
-                    data: JSON.stringify(dataJson),
-                    success: function(res) {
-                        res = $.parseJSON(res);
-                        if(res.success){
-                            $('#morningMeetingForm').trigger("reset");
-                            $('#morningformModal').modal('hide');
-                            if(current_date == book_date){
-                                $('#meeting-user-' + user_id + '_' + book_date).empty();
-                                $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
-                            } else {
-                                $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
-                                $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
-                            }
-                            $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
-                            toastAlert("success", res.message);
+                if($('#description').val() == ''){
+                    toastAlert("error", "Please Enter Description !!!");
+                } else {
+                    if($('#hour').val() == ''){
+                        toastAlert("error", "Please Select Hours !!!");
+                    } else {
+                        if($('#min').val() == ''){
+                            toastAlert("error", "Please Select Minutes !!!");
+                        } else {
+                            var current_date    = '<?=$current_date?>';
+                            $.ajax({
+                                type: 'POST',
+                                url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
+                                data: JSON.stringify(dataJson),
+                                success: function(res) {
+                                    res = $.parseJSON(res);
+                                    if(res.success){
+                                        $('#morningMeetingForm').trigger("reset");
+                                        $('#morningformModal').modal('hide');
+
+                                        if(current_date == book_date){
+                                            $('#meeting-user-' + user_id + '_' + book_date).empty();
+                                            $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                        } else {
+                                            $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
+                                            $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                        }
+                                        $('#total-time-' + user_id + '_' + book_date).html('[Assigned : ' + res.data.totalTime + ']');
+                                        $('#total-booked-time-' + user_id + '_' + book_date).html('[Booked : ' + res.data.totalBookedTime + ']');
+                                        toastAlert("success", res.message);
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error);
+                                }
+                            });
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error); // Handle errors
                     }
-                });
+                }
             }
         }
     }
@@ -1269,7 +1379,7 @@ $controller_route       = $moduleDetail['controller_route'];
                     $('#taskRescheduleModal').modal('hide');
                     $('#meeting-user-' + user_id).empty();
                     $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
-                    $('#total-time-' + user_id).html('[' + res.data.totalTime + ']');
+                    $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
                     $('.action-' + schedule_id + '-' + user_id).hide();
                     toastAlert("success", res.message);
                 }
@@ -1367,4 +1477,60 @@ $controller_route       = $moduleDetail['controller_route'];
             }
         });
     });
+    function change_work_status(work_status_id){
+        if(work_status_id == 2){
+            $('#hour').val(0);
+            $('#min').val(0);
+        } else {
+            var hr = $('#hour').val();
+            var mn = $('#min').val();
+            $('#hour').val(hr);
+            $('#min').val(mn);
+        }
+    }
+
+    function getProjectInfo(projectId, counter){
+        var base_url = '<?=base_url()?>';
+        $.ajax({
+            type: "POST",
+            url: base_url + "admin/efforts/get-project-info",
+            data: {projectId : projectId},
+            dataType: "JSON",
+            beforeSend: function () {
+               
+            },
+            success: function (res) {
+                var html = '';
+                $('#fill_up_project_' + counter).show();
+                if(res.success){
+                    if(res.data.project_time_type == 'Onetime'){
+                        html += '<div class="row">\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date" style="border: 1px solid #fff;margin-top: 10px;margin-bottom: 10px; padding: 5px;border-radius: 10px;background-color: #03312e;color: #fff;text-align: center;"><span class="time-font"><b>Assigned Fixed :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.assigned + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.current_month_booking + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.total_booked + '</span></div>\
+                                    </div>\
+                                </div>';
+                    } else if(res.data.project_time_type == 'Monthlytime'){
+                        html += '<div class="row">\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Assigned Monthly :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.assigned + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.current_month_booking + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.total_booked + '</span></div>\
+                                    </div>\
+                                </div>';
+                    }  
+                    $('#fill_up_project_' + counter).html(html);
+                }
+            }
+        });
+    }
 </script>
