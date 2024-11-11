@@ -1525,9 +1525,27 @@ class ReportController extends BaseController
                     
                     $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" . date('Y').'-'.date('m') . "%'";
                     $getDesktime = $this->db->query($sql)->getResult();  
-                    echo $this->db->getLastquery();die;                      
+                    // echo $this->db->getLastquery();die;                      
                     $totalHours = 0;
                     $totalMinutes = 0;
+                    foreach ($getDesktime as $entry) {                            
+                        // Extract hours and minutes
+                        sscanf($entry->time_at_work, "%dh %dm", $hours, $minutes);                            
+                        // Sum up hours and minutes
+                        $totalHours += $hours;
+                        $totalMinutes += $minutes;                           
+                    }
+                     $totalHours += intdiv($totalMinutes, 60);
+                     $totalMinutes = $totalMinutes % 60;   
+                     $MonthlyDesktime = $totalHours.'.'.$totalMinutes;                                                                
+                    if ($getDesktimeHour) {                               
+                    $postData = array(
+                        'total_desktime_hour' => $MonthlyDesktime,                                
+                    );                         
+                    $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
+                    pr($updateData);
+
+                     $result7 = $getDesktimeHour->total_desktime_hour;
                 }
             }
         }
