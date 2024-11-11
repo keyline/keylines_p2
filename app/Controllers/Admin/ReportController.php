@@ -1520,9 +1520,9 @@ class ReportController extends BaseController
 
                     $year = date('Y');
                     $month  =   date('m');
-                    $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = '$month' AND user_id = '$user_id'";
-                     echo $this->db->getLastquery();die;
+                    $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = '$month' AND user_id = '$user_id'";                     
                     $getDesktimeHour = $this->db->query($sql10)->getRow();                        
+                    echo $this->db->getLastquery();die;
                     $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$user_id' and insert_date LIKE '%" . date('Y').'-'.date('m') . "%'";
                     $getDesktime = $this->db->query($sql)->getResult();                        
                     $totalHours = 0;
