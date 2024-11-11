@@ -1539,13 +1539,28 @@ class ReportController extends BaseController
                      $totalMinutes = $totalMinutes % 60;   
                      $MonthlyDesktime = $totalHours.'.'.$totalMinutes;                                                                
                     if ($getDesktimeHour) {                               
-                    $postData = array(
-                        'total_desktime_hour' => $MonthlyDesktime,                                
-                    );                         
-                    $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
-                    pr($updateData);
+                        $postData = array(
+                            'total_desktime_hour' => $MonthlyDesktime,                                
+                        );                         
+                        $updateData = $this->common_model->save_data('desktime_sheet_tracking',$postData,$getDesktimeHour->id,'id'); 
+                        pr($updateData);
 
-                     $result7 = $getDesktimeHour->total_desktime_hour;
+                        $result7 = $getDesktimeHour->total_desktime_hour;
+                    } else{
+                        $postData = array(
+                            'month_upload' => $month,                                
+                            'year_upload' => $year,                                
+                            'user_id' => $user_id,                                
+                            'name' => $user_name,                                
+                            'email' => $user_email,
+                            'department' => $user_dept,
+                            'total_desktime_hour' => $MonthlyDesktime,
+                            'total_working_time' => $MonthlyDesktime,
+                            'added_on' => $db_date,                               
+                        );                             
+                        $insertData = $this->common_model->save_data('desktime_sheet_tracking',$postData,'','id');
+                        $result7 ='';
+                    }
                 }
             }
         }
