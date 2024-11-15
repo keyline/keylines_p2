@@ -957,12 +957,11 @@ class TaskAssignController extends BaseController {
 
                 $currentDate            = date('Y-m-d');
 
-                // if($schedule_id == ''){
-                //     $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" value="' . $task_date . '" required>';
-                // } else {
-                //     $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>';
-                // }
-                $inputDate = '<input type="text" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" value="' . $task_date . '" required>';
+                if($schedule_id == ''){
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" value="' . $task_date . '" required>';
+                } else {
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>';
+                }
 
                 $projectId              = $getTask->project_id;
                 $getProject             = $this->common_model->find_data('project', 'row', ['id' => $projectId]);
@@ -1022,19 +1021,17 @@ class TaskAssignController extends BaseController {
                     }
                 }
 
-                // <div class="col-md-6">
-                //     <div class="input-group mb-1">
-                //         ' . $inputDate . '   
-                //     </div>
-                // </div>
-
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $getTask->dept_id . '">
                                                 <input type="hidden" name="user_id" id="user_id" value="' . $getTask->user_id . '">
                                                 <input type="hidden" name="schedule_id" id="schedule_id" value="' . $schedule_id . '">
                                                 <div class="row">
-                                                    <div class="col-12">
-                                                        ' . $inputDate . '
+                                                    <div class="col-md-6">
+                                                        <div class="input-group mb-1">
+                                                            ' . $inputDate . '   
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
                                                         <div class="input-group mb-1">
                                                             <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required disabled>
                                                                 <option value="" selected="">Select Project</option>
@@ -1114,15 +1111,19 @@ class TaskAssignController extends BaseController {
                                                 </div>
                                             </form>';
             } else {
-                $inputDate = '<input type="text" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" value="' . $task_date . '" required>';
+                $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" value="' . $task_date . '" required>';
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $dept_id . '">
                                                 <input type="hidden" name="user_id" id="user_id" value="' . $user_id . '">
                                                 <input type="hidden" name="schedule_id" id="schedule_id" value="">
                                                 <div class="row">
-                                                    <div class="col-12">
-                                                        ' . $inputDate . '
+                                                    <div class="col-md-6">
+                                                        <div class="input-group mb-1">
+                                                            ' . $inputDate . '
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
                                                         <div class="input-group mb-1">
                                                             <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required>
                                                                 <option value="" selected="">Select Project</option>
