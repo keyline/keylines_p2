@@ -188,7 +188,7 @@ class Home extends BaseController
             }            
             if ($data) {
             foreach ($data as $item) {
-                pr($data);
+                pr($item);
                 $db_date = date_format(date_create($cu_date), "Y-m-d");
                 $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%' . $db_date . '%']);
                 // echo $this->db->getLastquery();die;
