@@ -185,7 +185,8 @@ class Home extends BaseController
             } catch (Exception $e) {
                 // Log the error message
                 log_message('error', 'API call failed: ' . $e->getMessage());
-            }            
+            }   
+            pr($data) ;        
             if ($data) {
             foreach ($data as $item) {
                 pr($item);
