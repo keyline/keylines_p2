@@ -189,7 +189,7 @@ class Home extends BaseController
             echo $records_status  = $data['status'];
             $records         = $data['data'];
             pr($records,0);
-            if($recods_status){
+            if($records_status){
                 foreach ($records as $item) {
                     pr($item);
                     $db_date = date_format(date_create($cu_date), "Y-m-d");
