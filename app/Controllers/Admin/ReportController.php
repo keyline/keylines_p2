@@ -1439,25 +1439,25 @@ class ReportController extends BaseController
     public function desklogReport()
     {
         $form_type = $this->request->getPost('form_type');
-
         if ($form_type == 'fetch_backlog_date') {
             // Handle the first form submission (Fetching backlog date)
-            $date              = $this->request->getPost('date');  
+            $date           = $this->request->getPost('date');  
         }               
-        $apiSettings  = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);            
+        $apiSettings        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);            
         // $apiUrl = 'https://api.desklog.io/api/v2/app_usage_attendance';
-        $apiUrl = $apiSettings->api_url;
+        $apiUrl             = $apiSettings->api_url;
         // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
-        $appKey = $apiSettings->api_key;
+        $appKey             = $apiSettings->api_key;
         // $cu_date = date('d-m-Y'); // Or however you are getting the current date
-            $cu_date = date('d-m-Y', strtotime($date)); // Or however you are getting the current date
+        $cu_date            = date('d-m-Y', strtotime($date)); // Or however you are getting the current date
 
-        $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
-        $response = file_get_contents($url);
-        $data = json_decode($response, true);
-        // pr($data);
-        if ($data) {
-            foreach ($data as $item) {
+        $url                = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
+        $response           = file_get_contents($url);
+        $data               = json_decode($response, true);
+        $records_status     = $data['status'];
+        $records            = $data['data'];
+        if($records_status){
+            foreach ($records as $item) {
                 $db_date = date_format(date_create($cu_date), "Y-m-d");
                 $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%' . $db_date . '%']);
                 if (!$existingRecord) {
