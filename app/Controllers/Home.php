@@ -180,18 +180,16 @@ class Home extends BaseController
             
                 $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
                 $response = file_get_contents($url);
-                $data = json_decode($response, true);  
-                // pr($data);
+                $data = json_decode($response, true);
             } catch (Exception $e) {
                 // Log the error message
                 log_message('error', 'API call failed: ' . $e->getMessage());
             }
-            echo $records_status  = $data['status'];
+            $records_status  = $data['status'];
             $records         = $data['data'];
-            pr($records,0);
+            
             if($records_status){
                 foreach ($records as $item) {
-                    pr($item);
                     $db_date = date_format(date_create($cu_date), "Y-m-d");
                     $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%'.$db_date.'%']);
                     //    pr($existingRecord);
