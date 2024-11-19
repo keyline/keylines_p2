@@ -159,6 +159,34 @@ class AmcCheckingController extends BaseController {
         $postData2['cost']  = number_format($projectCost, 2, '.', '');
 
         $insertData2 = $this->common_model->save_data('timesheet',$postData2,'',$this->data['primary_key']);
+         echo $this->db->getLastquery();die;
+        $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
+        $rows                   = $this->db->query($projectcost)->getResult(); 
+        foreach($rows as $row){
+            $project_cost       =  $row->total_hours_worked;
+        }  
+        $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project_id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+        if(!$exsistingProjectCost){
+            $postData2   = array(
+                'project_id'            => $project_id,
+                'month'                 => $month ,
+                'year'                  => $year,
+                'project_cost'          => $project_cost,
+                'created_at'            => date('Y-m-d H:i:s'),                                
+            );                                  
+            $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
+        } else {
+            $id         = $exsistingProjectCost->id;
+            $postData2   = array(
+                'project_id'            => $project_id,
+                'month'                 => $month ,
+                'year'                  => $year,
+                'project_cost'          => $project_cost,
+                'updated_at'            => date('Y-m-d H:i:s'),                                
+            );                                    
+            $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');
+        }           
+
         $insertData = $this->common_model->save_data('amc_check',$postData,'',$this->data['primary_key']);
         $this->session->setFlashdata('success_message', ' AMC Site is Checked Successfully');
         return redirect()->to('/admin/'.$this->data['controller_route']);
