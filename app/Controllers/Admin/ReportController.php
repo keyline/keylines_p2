@@ -1089,7 +1089,8 @@ class ReportController extends BaseController
         switch ($day) {
             case 'today':
                 $today              = date('Y-m-d');
-
+                $startDate          = $today;
+                $endDate            = $today;
                 $sql1               = "SELECT timesheet.project_id,timesheet.date_added, project.name,project.project_time_type, timesheet.bill, SUM(timesheet.hour) AS total_hours, SUM(timesheet.min) AS total_minutes FROM `timesheet` LEFT JOIN project ON timesheet.project_id = project.id WHERE timesheet.`date_added` = '$today' GROUP BY timesheet.project_id, project.name ORDER BY `project`.`name` ASC";
                 $ongoingProjects    = $this->db->query($sql1)->getResult();
 
@@ -1099,7 +1100,8 @@ class ReportController extends BaseController
                 break;
             case 'yesterday':
                 $yesterday          = date('Y-m-d', strtotime('-1 day'));
-
+                $startDate          = $yesterday;
+                $endDate            = $yesterday;
                 $sql1               = "SELECT timesheet.project_id,timesheet.date_added, project.name,project.project_time_type, timesheet.bill, SUM(timesheet.hour) AS total_hours, SUM(timesheet.min) AS total_minutes FROM `timesheet` LEFT JOIN project ON timesheet.project_id = project.id WHERE timesheet.`date_added` = '$yesterday' GROUP BY timesheet.project_id, project.name ORDER BY `project`.`name` ASC";
                 $ongoingProjects    = $this->db->query($sql1)->getResult();
 
@@ -1209,6 +1211,7 @@ class ReportController extends BaseController
         $billabkeHoursMin               = number_format($ystrdtotbill_hour + ($ystrdtotbill_minute / 60), 2);
         $nonBillableHoursMin            = number_format($ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60), 2);
 
+        // echo $startDate.'||'.$endDate;die;
         $start_date_array   = explode("-", $startDate);
         $end_date_array     = explode("-", $endDate);
         $last_month_year    = $start_date_array[0];
