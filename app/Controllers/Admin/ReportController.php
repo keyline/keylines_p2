@@ -1234,9 +1234,17 @@ class ReportController extends BaseController
                                     <tbody>';
         if ($ongoingProjects) { $sl = 1; foreach ($ongoingProjects as $ongoingProject) {
                 /* cost calculation */
-                    echo $cost_sql1      = "SELECT * FROM `project_cost` WHERE month=$last_month_month AND year=$last_month_year AND project_id = $ongoingProject->project_id";
-                    $checkCost      = $this->db->query($cost_sql1)->getResult();
-                    pr($checkCost);
+                    $cost_sql1      = "SELECT project_cost FROM `project_cost` WHERE month=$last_month_month AND year=$last_month_year AND project_id = $ongoingProject->project_id";
+                    $checkCost      = $this->db->query($cost_sql1)->getRow();
+                    $project_cost   = 0;
+                    if($checkCost){
+                        $project_cost   = $checkCost->project_cost;
+                    } else {
+                        $date_added     = $last_month_year.'-'.$last_month_month;
+                        $cost_sql2      = "SELECT sum(cost) as total_cost FROM `timesheet` WHERE project_id=$ongoingProject->project_id AND date_added LIKE '%$date_added%'";
+                        $checkCost      = $this->db->query($cost_sql2)->getRow();
+                        $project_cost   = $checkCost->total_cost;
+                    }
                 /* cost calculation */
                 $html .= '<tr>
                             <th>' . $sl++ . '</th>';
@@ -1268,7 +1276,7 @@ class ReportController extends BaseController
                 $html .= $formattedTime;
 
                 $html .=    '</th>
-                            <th></th>
+                            <th>'.$project_cost.'</th>
                         </tr>';
             }
         } else {
