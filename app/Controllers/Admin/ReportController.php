@@ -1139,8 +1139,8 @@ class ReportController extends BaseController
                 $res_yesterday_proj = $this->db->query($sql2)->getResult();
                 break;
             case 'last_month':
-                $startDate  = date('Y-m-01', strtotime('first day of last month'));
-                $endDate    = date('Y-m-t', strtotime('last day of last month'));
+                echo $startDate  = date('Y-m-01', strtotime('first day of last month'));
+                echo $endDate    = date('Y-m-t', strtotime('last day of last month'));
 
                 $sql1               = "SELECT timesheet.project_id,timesheet.date_added, project.name,project.project_time_type, timesheet.bill, SUM(timesheet.hour) AS total_hours, SUM(timesheet.min) AS total_minutes FROM `timesheet` LEFT JOIN project ON timesheet.project_id = project.id WHERE timesheet.`date_added` BETWEEN '$startDate' AND '$endDate' GROUP BY timesheet.project_id, project.name ORDER BY `project`.`name` ASC";
                 $ongoingProjects    = $this->db->query($sql1)->getResult();
@@ -1168,8 +1168,6 @@ class ReportController extends BaseController
                 $sql2               = "SELECT timesheet.project_id, SUM(HOUR) hour, SUM(MIN) min, timesheet.bill FROM timesheet WHERE `date_added` BETWEEN '$startDate' AND '$endDate' GROUP BY timesheet.project_id ORDER BY timesheet.date_added DESC";
                 $res_yesterday_proj = $this->db->query($sql2)->getResult();
                 break;
-
-
             default:
                 # code...
                 break;
@@ -1225,47 +1223,47 @@ class ReportController extends BaseController
                                             <th width="3%">#</th>
                                             <th>Project</th>
                                             <th>Total Time</th>
+                                            <th>Total Cost</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
-        if ($ongoingProjects) {
-            $sl = 1;
-            foreach ($ongoingProjects as $ongoingProject) {
+        if ($ongoingProjects) { $sl = 1; foreach ($ongoingProjects as $ongoingProject) {
                 $html .= '<tr>
                             <th>' . $sl++ . '</th>';
 
-                if ($ongoingProject->bill == 0) {
-                    if ($ongoingProject->project_time_type == 'Onetime') {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
-                    } else {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
-                    }
-                } else {
-                    if ($ongoingProject->project_time_type == 'Onetime') {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
-                    } else {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
-                    }
-                }
+                            if ($ongoingProject->bill == 0) {
+                                if ($ongoingProject->project_time_type == 'Onetime') {
+                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
+                                }
+                            } else {
+                                if ($ongoingProject->project_time_type == 'Onetime') {
+                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
+                                }
+                            }
 
-                $totalHours         = (int) $ongoingProject->total_hours;
-                $totalMinutes       = (int) $ongoingProject->total_minutes;
-                $additionalHours    = intdiv($totalMinutes, 60);
-                $remainingMinutes   = $totalMinutes % 60;
-                $totalHours        += $additionalHours;
-                $formattedTime      = sprintf("%d hours %d minutes", $totalHours, $remainingMinutes);
+                            $totalHours         = (int) $ongoingProject->total_hours;
+                            $totalMinutes       = (int) $ongoingProject->total_minutes;
+                            $additionalHours    = intdiv($totalMinutes, 60);
+                            $remainingMinutes   = $totalMinutes % 60;
+                            $totalHours        += $additionalHours;
+                            $formattedTime      = sprintf("%d hours %d minutes", $totalHours, $remainingMinutes);
 
 
                 $html .= '<th style="cursor: pointer;" onclick="showWorkList(' . $ongoingProject->project_id . ', \'' . $day . '\' , ' . ($ongoingProject->bill == 0 ? '0' : '1') . ' , \'' . $formattedTime . '\')">';
 
                 $html .= $formattedTime;
 
-                $html .= '</th>
+                $html .=    '</th>
+                            <th></th>
                         </tr>';
             }
         } else {
             $html .= '<tr>
-                        <td colspan="3">No records found for the selected date.</td>
+                        <td colspan="4">No records found for the selected date.</td>
                      </tr>';
         }
         $html .= '</tbody>
@@ -1277,27 +1275,27 @@ class ReportController extends BaseController
                     <div class="card-header card-header2">
                         <h6 class="heading_style text-center">NONBILLABLE HOURS</h6>
                     </div>
-                <div class="dt-responsive table-responsive">
-                    <table class="table general_table_style padding-y-10" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th width="1%">#</th>
-                                <th width="5%">Billable Hour</th>
-                                <th width="5%">Nonbillable Hour</th>
-                            </tr>
-                        </thead>
-                        <tbody>     
-                            <tr>
-                                <th>1</th>';
-        $html .= '              <th>' . $billabkeHoursMin . '</th>
-                                <th>' . $nonBillableHoursMin . '</th>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="dt-responsive table-responsive">
+                        <table class="table general_table_style padding-y-10" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th width="1%">#</th>
+                                    <th width="5%">Billable Hour</th>
+                                    <th width="5%">Nonbillable Hour</th>
+                                </tr>
+                            </thead>
+                            <tbody>     
+                                <tr>
+                                    <th>1</th>';
+            $html .= '              <th>' . $billabkeHoursMin . '</th>
+                                    <th>' . $nonBillableHoursMin . '</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        </div>';
+            </div>';
         return $html;
     }
     public function showWorkList()
