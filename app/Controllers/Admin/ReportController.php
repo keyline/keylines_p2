@@ -1089,7 +1089,8 @@ class ReportController extends BaseController
         switch ($day) {
             case 'today':
                 $today              = date('Y-m-d');
-
+                $startDate          = $today;
+                $endDate            = $today;
                 $sql1               = "SELECT timesheet.project_id,timesheet.date_added, project.name,project.project_time_type, timesheet.bill, SUM(timesheet.hour) AS total_hours, SUM(timesheet.min) AS total_minutes FROM `timesheet` LEFT JOIN project ON timesheet.project_id = project.id WHERE timesheet.`date_added` = '$today' GROUP BY timesheet.project_id, project.name ORDER BY `project`.`name` ASC";
                 $ongoingProjects    = $this->db->query($sql1)->getResult();
 
@@ -1099,7 +1100,8 @@ class ReportController extends BaseController
                 break;
             case 'yesterday':
                 $yesterday          = date('Y-m-d', strtotime('-1 day'));
-
+                $startDate          = $yesterday;
+                $endDate            = $yesterday;
                 $sql1               = "SELECT timesheet.project_id,timesheet.date_added, project.name,project.project_time_type, timesheet.bill, SUM(timesheet.hour) AS total_hours, SUM(timesheet.min) AS total_minutes FROM `timesheet` LEFT JOIN project ON timesheet.project_id = project.id WHERE timesheet.`date_added` = '$yesterday' GROUP BY timesheet.project_id, project.name ORDER BY `project`.`name` ASC";
                 $ongoingProjects    = $this->db->query($sql1)->getResult();
 
@@ -1168,8 +1170,6 @@ class ReportController extends BaseController
                 $sql2               = "SELECT timesheet.project_id, SUM(HOUR) hour, SUM(MIN) min, timesheet.bill FROM timesheet WHERE `date_added` BETWEEN '$startDate' AND '$endDate' GROUP BY timesheet.project_id ORDER BY timesheet.date_added DESC";
                 $res_yesterday_proj = $this->db->query($sql2)->getResult();
                 break;
-
-
             default:
                 # code...
                 break;
@@ -1211,6 +1211,12 @@ class ReportController extends BaseController
         $billabkeHoursMin               = number_format($ystrdtotbill_hour + ($ystrdtotbill_minute / 60), 2);
         $nonBillableHoursMin            = number_format($ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60), 2);
 
+        // echo $startDate.'||'.$endDate;die;
+        $start_date_array   = explode("-", $startDate);
+        $end_date_array     = explode("-", $endDate);
+        $last_month_year    = $start_date_array[0];
+        $last_month_month   = $start_date_array[1];
+
         $html = '';
         $html = '<div class="" id="project-container">
                     <div class="row">
@@ -1225,47 +1231,71 @@ class ReportController extends BaseController
                                             <th width="3%">#</th>
                                             <th>Project</th>
                                             <th>Total Time</th>
+                                            <th>Total Cost</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
-        if ($ongoingProjects) {
-            $sl = 1;
-            foreach ($ongoingProjects as $ongoingProject) {
+        if ($ongoingProjects) { $sl = 1;$total_cost = 0;$billable_cost=0;$non_billable_cost=0; foreach ($ongoingProjects as $ongoingProject) {
+                /* cost calculation */
+                    // $cost_sql1      = "SELECT project_cost FROM `project_cost` WHERE month=$last_month_month AND year=$last_month_year AND project_id = $ongoingProject->project_id";
+                    // $checkCost      = $this->db->query($cost_sql1)->getRow();
+                    $project_cost   = 0;
+                    // if($checkCost){
+                    //     $project_cost   = $checkCost->project_cost;
+                    // } else {
+                    //     $date_added     = $last_month_year.'-'.$last_month_month;
+                    //     $cost_sql2      = "SELECT sum(cost) as total_cost FROM `timesheet` WHERE project_id=$ongoingProject->project_id AND date_added LIKE '%$date_added%'";
+                    //     $checkCost      = $this->db->query($cost_sql2)->getRow();
+                    //     $project_cost   = $checkCost->total_cost;
+                    // }
+                    $date_added     = $last_month_year.'-'.$last_month_month;
+                    $cost_sql2      = "SELECT sum(cost) as total_cost FROM `timesheet` WHERE project_id=$ongoingProject->project_id AND date_added >= '$startDate' AND date_added <= '$endDate'";
+                    $checkCost      = $this->db->query($cost_sql2)->getRow();
+                    $project_cost   = $checkCost->total_cost;
+                    $total_cost += $project_cost;
+                /* cost calculation */
                 $html .= '<tr>
                             <th>' . $sl++ . '</th>';
 
-                if ($ongoingProject->bill == 0) {
-                    if ($ongoingProject->project_time_type == 'Onetime') {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
-                    } else {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
-                    }
-                } else {
-                    if ($ongoingProject->project_time_type == 'Onetime') {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
-                    } else {
-                        $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
-                    }
-                }
+                            if ($ongoingProject->bill == 0) {
+                                if ($ongoingProject->project_time_type == 'Onetime') {
+                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
+                                }
+                                $billable_cost += $project_cost;
+                            } else {
+                                if ($ongoingProject->project_time_type == 'Onetime') {
+                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
+                                }
+                                $non_billable_cost += $project_cost;
+                            }
 
-                $totalHours         = (int) $ongoingProject->total_hours;
-                $totalMinutes       = (int) $ongoingProject->total_minutes;
-                $additionalHours    = intdiv($totalMinutes, 60);
-                $remainingMinutes   = $totalMinutes % 60;
-                $totalHours        += $additionalHours;
-                $formattedTime      = sprintf("%d hours %d minutes", $totalHours, $remainingMinutes);
+                            $totalHours         = (int) $ongoingProject->total_hours;
+                            $totalMinutes       = (int) $ongoingProject->total_minutes;
+                            $additionalHours    = intdiv($totalMinutes, 60);
+                            $remainingMinutes   = $totalMinutes % 60;
+                            $totalHours        += $additionalHours;
+                            $formattedTime      = sprintf("%d hours %d minutes", $totalHours, $remainingMinutes);
 
 
                 $html .= '<th style="cursor: pointer;" onclick="showWorkList(' . $ongoingProject->project_id . ', \'' . $day . '\' , ' . ($ongoingProject->bill == 0 ? '0' : '1') . ' , \'' . $formattedTime . '\')">';
 
                 $html .= $formattedTime;
 
-                $html .= '</th>
+                $html .=    '</th>
+                            <th>'.number_format($project_cost,2).'</th>
                         </tr>';
             }
+            $html .= '<tr>
+                        <th colspan="3" style="text-align:right; font-weight:bold;">Total</th>
+                        <th>'.number_format($total_cost,2).'</th>
+                    </tr>';
         } else {
             $html .= '<tr>
-                        <td colspan="3">No records found for the selected date.</td>
+                        <td colspan="4">No records found for the selected date.</td>
                      </tr>';
         }
         $html .= '</tbody>
@@ -1277,27 +1307,27 @@ class ReportController extends BaseController
                     <div class="card-header card-header2">
                         <h6 class="heading_style text-center">NONBILLABLE HOURS</h6>
                     </div>
-                <div class="dt-responsive table-responsive">
-                    <table class="table general_table_style padding-y-10" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th width="1%">#</th>
-                                <th width="5%">Billable Hour</th>
-                                <th width="5%">Nonbillable Hour</th>
-                            </tr>
-                        </thead>
-                        <tbody>     
-                            <tr>
-                                <th>1</th>';
-        $html .= '              <th>' . $billabkeHoursMin . '</th>
-                                <th>' . $nonBillableHoursMin . '</th>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="dt-responsive table-responsive">
+                        <table class="table general_table_style padding-y-10" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th width="1%">#</th>
+                                    <th width="5%">Billable Hour<br>Billable Cost</th>
+                                    <th width="5%">Nonbillable Hour<br>Nonbillable Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>     
+                                <tr>
+                                    <th>1</th>';
+            $html .= '              <th>' . $billabkeHoursMin . '<br>'.number_format($billable_cost,2).'</th>
+                                    <th>' . $nonBillableHoursMin . '<br>'.number_format($non_billable_cost,2).'</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
-        </div>
-        </div>';
+            </div>';
         return $html;
     }
     public function showWorkList()
@@ -1439,25 +1469,25 @@ class ReportController extends BaseController
     public function desklogReport()
     {
         $form_type = $this->request->getPost('form_type');
-
         if ($form_type == 'fetch_backlog_date') {
             // Handle the first form submission (Fetching backlog date)
-            $date              = $this->request->getPost('date');  
+            $date           = $this->request->getPost('date');  
         }               
-        $apiSettings  = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);            
+        $apiSettings        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);            
         // $apiUrl = 'https://api.desklog.io/api/v2/app_usage_attendance';
-        $apiUrl = $apiSettings->api_url;
+        $apiUrl             = $apiSettings->api_url;
         // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
-        $appKey = $apiSettings->api_key;
+        $appKey             = $apiSettings->api_key;
         // $cu_date = date('d-m-Y'); // Or however you are getting the current date
-            $cu_date = date('d-m-Y', strtotime($date)); // Or however you are getting the current date
+        $cu_date            = date('d-m-Y', strtotime($date)); // Or however you are getting the current date
 
-        $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
-        $response = file_get_contents($url);
-        $data = json_decode($response, true);
-        // pr($data);
-        if ($data) {
-            foreach ($data as $item) {
+        $url                = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
+        $response           = file_get_contents($url);
+        $data               = json_decode($response, true);
+        $records_status     = $data['status'];
+        $records            = $data['data'];
+        if($records_status){
+            foreach ($records as $item) {
                 $db_date = date_format(date_create($cu_date), "Y-m-d");
                 $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%' . $db_date . '%']);
                 if (!$existingRecord) {
