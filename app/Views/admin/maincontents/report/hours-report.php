@@ -76,37 +76,63 @@
                                             <th width="1%">#</th>
                                             <th width="5%">Project</th>
                                             <th width="5%">Total Time</th>
+                                            <th width="5%">Total Cost</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <?php if ($ongoingProjects) {
-                                            $sl = 1;
-                                            foreach ($ongoingProjects as $ongoingProject) { ?>
-                                                <tr>
-                                                    <th><?= $sl++; ?></th>
-                                                    <th>
-                                                        <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
-                                                            <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-info">Fixed</span>
-                                                        <?php } else {   ?>
-                                                            <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-primary">Monthly</span>
-                                                        <?php }     ?>
-                                                    </th>
-                                                    <?php
-                                                    $totalHours       = (int) $ongoingProject->total_hours;
-                                                    $totalMinutes     = (int) $ongoingProject->total_minutes;
+                                        <?php
+                                        $yesterday          = date('Y-m-d', strtotime('-1 day'));
+                                        $start_date_array   = explode("-", $yesterday);
+                                        $last_month_year    = $start_date_array[0];
+                                        $last_month_month   = $start_date_array[1];
+                                        ?>
+                                        <?php if ($ongoingProjects) { $sl = 1;$total_cost = 0;  foreach ($ongoingProjects as $ongoingProject) { ?>
+                                            <?php
+                                            /* cost calculation */
+                                                $cost_sql1      = "SELECT project_cost FROM `project_cost` WHERE month=$last_month_month AND year=$last_month_year AND project_id = $ongoingProject->project_id";
+                                                $checkCost      = $this->db->query($cost_sql1)->getRow();
+                                                $project_cost   = 0;
+                                                if($checkCost){
+                                                    $project_cost   = $checkCost->project_cost;
+                                                } else {
+                                                    $date_added     = $last_month_year.'-'.$last_month_month;
+                                                    $cost_sql2      = "SELECT sum(cost) as total_cost FROM `timesheet` WHERE project_id=$ongoingProject->project_id AND date_added LIKE '%$date_added%'";
+                                                    $checkCost      = $this->db->query($cost_sql2)->getRow();
+                                                    $project_cost   = $checkCost->total_cost;
+                                                }
+                                                $total_cost += $project_cost;
+                                            /* cost calculation */
+                                            ?>
+                                            <tr>
+                                                <th><?= $sl++; ?></th>
+                                                <th>
+                                                    <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
+                                                        <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-info">Fixed</span>
+                                                    <?php } else {   ?>
+                                                        <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-primary">Monthly</span>
+                                                    <?php }     ?>
+                                                </th>
+                                                <?php
+                                                $totalHours       = (int) $ongoingProject->total_hours;
+                                                $totalMinutes     = (int) $ongoingProject->total_minutes;
 
-                                                    $additionalHours  = intdiv($totalMinutes, 60);
-                                                    $remainingMinutes = $totalMinutes % 60;
+                                                $additionalHours  = intdiv($totalMinutes, 60);
+                                                $remainingMinutes = $totalMinutes % 60;
 
-                                                    $totalHours      += $additionalHours;
+                                                $totalHours      += $additionalHours;
 
-                                                    $formattedTime    = sprintf("%d Hours %d Minutes", $totalHours, $remainingMinutes);
-                                                    // echo $formattedTime;
-                                                    ?>
-                                                    <th style="cursor: pointer;" onclick="showWorkList(<?= $ongoingProject->project_id ?>,'yesterday',<?= $ongoingProject->bill == 0 ? '0' : '1' ?>,'<?= $formattedTime ?>')"><?= $formattedTime; ?></th>
-                                                </tr>
-                                        <?php }
-                                        } ?>
+                                                $formattedTime    = sprintf("%d Hours %d Minutes", $totalHours, $remainingMinutes);
+                                                // echo $formattedTime;
+                                                ?>
+                                                <th style="cursor: pointer;" onclick="showWorkList(<?= $ongoingProject->project_id ?>,'yesterday',<?= $ongoingProject->bill == 0 ? '0' : '1' ?>,'<?= $formattedTime ?>')"><?= $formattedTime; ?></th>
+                                                <th><?=number_format($project_cost,2)?></th>
+                                            </tr>
+                                        <?php } ?>
+                                            <tr>
+                                                <th colspan="3" style="text-align:right; font-weight:bold;">Total</th>
+                                                <th><?=number_format($total_cost,2)?></th>
+                                            </tr>
+                                    <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
