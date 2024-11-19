@@ -1209,8 +1209,10 @@ class ReportController extends BaseController
         $billabkeHoursMin               = number_format($ystrdtotbill_hour + ($ystrdtotbill_minute / 60), 2);
         $nonBillableHoursMin            = number_format($ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60), 2);
 
-        echo $startDate;
-        echo $endDate;
+        $start_date_array   = explode("-", $startDate);
+        $end_date_array     = explode("-", $endDate);
+        $last_month_year    = $start_date_array[0];
+        $last_month_month   = $start_date_array[1];
 
         $html = '';
         $html = '<div class="" id="project-container">
@@ -1231,6 +1233,11 @@ class ReportController extends BaseController
                                     </thead>
                                     <tbody>';
         if ($ongoingProjects) { $sl = 1; foreach ($ongoingProjects as $ongoingProject) {
+                /* cost calculation */
+                    echo $cost_sql1      = "SELECT * FROM `project_cost` WHERE month=$last_month_month AND year=$last_month_year AND project_id = $ongoingProject->project_id";
+                    $checkCost      = $this->db->query($cost_sql1)->getResult();
+                    pr($checkCost);
+                /* cost calculation */
                 $html .= '<tr>
                             <th>' . $sl++ . '</th>';
 
