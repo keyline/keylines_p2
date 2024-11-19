@@ -164,7 +164,7 @@ class AmcCheckingController extends BaseController {
         $insertData2 = $this->common_model->save_data('timesheet',$postData2,'',$this->data['primary_key']);
         
         $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$id."";
-         echo $this->db->getLastquery();die;
+        //  echo $this->db->getLastquery();die;
         $rows                   = $this->db->query($projectcost)->getResult(); 
         pr($rows);
         foreach($rows as $row){
