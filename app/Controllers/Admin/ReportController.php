@@ -1282,7 +1282,7 @@ class ReportController extends BaseController
             }
             $html .= '<tr>
                         <th colspan="3" style="text-align:right; font-weight:bold;">Total</th>
-                        <th>'.$total_cost.'</th>
+                        <th>'.number_format($total_cost,2).'</th>
                     </tr>';
         } else {
             $html .= '<tr>
