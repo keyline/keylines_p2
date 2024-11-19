@@ -87,7 +87,7 @@
                                         $last_month_month   = $start_date_array[1];
                                         $last_month_date    = $start_date_array[1];
                                         ?>
-                                        <?php if ($ongoingProjects) { $sl = 1;$total_cost = 0;  foreach ($ongoingProjects as $ongoingProject) { ?>
+                                        <?php if ($ongoingProjects) { $sl = 1; $total_cost = 0; $billable_cost=0; $non_billable_cost=0;   foreach ($ongoingProjects as $ongoingProject) { ?>
                                             <?php
                                             /* cost calculation */
                                                 $project_cost   = 0;
@@ -103,9 +103,16 @@
                                                 <th>
                                                     <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
                                                         <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-info">Fixed</span>
-                                                    <?php } else {   ?>
+                                                    <?php } else { ?>
                                                         <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-primary">Monthly</span>
-                                                    <?php }     ?>
+                                                    <?php } ?>
+                                                    <?php
+                                                    if ($ongoingProject->bill == 0) {
+                                                        $billable_cost += $project_cost;
+                                                    } else {
+                                                        $non_billable_cost += $project_cost;
+                                                    }
+                                                    ?>
                                                 </th>
                                                 <?php
                                                 $totalHours       = (int) $ongoingProject->total_hours;
@@ -141,15 +148,15 @@
                                     <thead>
                                         <tr>
                                             <th width="1%">#</th>
-                                            <th width="5%">Billable Hour</th>
-                                            <th width="5%">Nonbillable Hour</th>
+                                            <th width="5%">Billable Hour<br>Billable Cost</th>
+                                            <th width="5%">Nonbillable Hour<br>Nonbillable Cost</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
                                             <th>1</th>
-                                            <th><?= $yesterdayAllUserHourBill; ?></th>
-                                            <th><?= $yesterdayAllUserMinBill; ?></th>
+                                            <th><?= $yesterdayAllUserHourBill; ?><br><?=number_format($billable_cost,2)?></th>
+                                            <th><?= $yesterdayAllUserMinBill; ?><br><?=number_format($non_billable_cost,2)?></th>
                                         </tr>
                                     </tbody>
                                 </table>

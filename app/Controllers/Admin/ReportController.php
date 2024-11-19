@@ -1235,7 +1235,7 @@ class ReportController extends BaseController
                                         </tr>
                                     </thead>
                                     <tbody>';
-        if ($ongoingProjects) { $sl = 1;$total_cost = 0; foreach ($ongoingProjects as $ongoingProject) {
+        if ($ongoingProjects) { $sl = 1;$total_cost = 0;$billable_cost=0;$non_billable_cost=0; foreach ($ongoingProjects as $ongoingProject) {
                 /* cost calculation */
                     // $cost_sql1      = "SELECT project_cost FROM `project_cost` WHERE month=$last_month_month AND year=$last_month_year AND project_id = $ongoingProject->project_id";
                     // $checkCost      = $this->db->query($cost_sql1)->getRow();
@@ -1263,12 +1263,14 @@ class ReportController extends BaseController
                                 } else {
                                     $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
                                 }
+                                $billable_cost += $project_cost;
                             } else {
                                 if ($ongoingProject->project_time_type == 'Onetime') {
                                     $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
                                 } else {
                                     $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
                                 }
+                                $non_billable_cost += $project_cost;
                             }
 
                             $totalHours         = (int) $ongoingProject->total_hours;
@@ -1310,15 +1312,15 @@ class ReportController extends BaseController
                             <thead>
                                 <tr>
                                     <th width="1%">#</th>
-                                    <th width="5%">Billable Hour</th>
-                                    <th width="5%">Nonbillable Hour</th>
+                                    <th width="5%">Billable Hour<br>Billable Cost</th>
+                                    <th width="5%">Nonbillable Hour<br>Nonbillable Cost</th>
                                 </tr>
                             </thead>
                             <tbody>     
                                 <tr>
                                     <th>1</th>';
-            $html .= '              <th>' . $billabkeHoursMin . '</th>
-                                    <th>' . $nonBillableHoursMin . '</th>
+            $html .= '              <th>' . $billabkeHoursMin . '<br>'.number_format($billable_cost,2).'</th>
+                                    <th>' . $nonBillableHoursMin . '<br>'.number_format($non_billable_cost,2).'</th>
                                 </tr>
                             </tbody>
                         </table>
