@@ -166,30 +166,32 @@ class AmcCheckingController extends BaseController {
         $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$id."";
         //  echo $this->db->getLastquery();die;
         $rows                   = $this->db->query($projectcost)->getResult(); 
-        pr($rows);
+        // pr($rows);
         foreach($rows as $row){
             $project_cost       =  $row->total_hours_worked;
         }  
         $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
         if(!$exsistingProjectCost){
-            $postData2   = array(
-                'project_id'            => $project_id,
+            echo "new add"; die;
+            $postData3   = array(
+                'project_id'            => $id,
                 'month'                 => $month ,
                 'year'                  => $year,
                 'project_cost'          => $project_cost,
                 'created_at'            => date('Y-m-d H:i:s'),                                
             );                                  
-            $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
+            $project_cost_id             = $this->data['model']->save_data('project_cost', $postData3, '', 'id');
         } else {
+            echo "data update"; die;
             $id         = $exsistingProjectCost->id;
-            $postData2   = array(
-                'project_id'            => $project_id,
+            $postData3   = array(
+                'project_id'            => $id,
                 'month'                 => $month ,
                 'year'                  => $year,
                 'project_cost'          => $project_cost,
                 'updated_at'            => date('Y-m-d H:i:s'),                                
             );                                    
-            $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');
+            $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData3, $id, 'id');
         }           
 
         $insertData = $this->common_model->save_data('amc_check',$postData,'',$this->data['primary_key']);
