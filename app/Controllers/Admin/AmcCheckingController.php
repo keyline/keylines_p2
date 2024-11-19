@@ -158,14 +158,19 @@ class AmcCheckingController extends BaseController {
         $projectCost        = floatval($cal_usercost * $cal);
         $postData2['cost']  = number_format($projectCost, 2, '.', '');
 
+        $year                   = date('Y', strtotime($date_on)); // 2024
+        $month                  = date('m', strtotime($date_on)); // 08
+
         $insertData2 = $this->common_model->save_data('timesheet',$postData2,'',$this->data['primary_key']);
+        
+        $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$id."";
          echo $this->db->getLastquery();die;
-        $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
         $rows                   = $this->db->query($projectcost)->getResult(); 
+        pr($rows);
         foreach($rows as $row){
             $project_cost       =  $row->total_hours_worked;
         }  
-        $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project_id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+        $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
         if(!$exsistingProjectCost){
             $postData2   = array(
                 'project_id'            => $project_id,
