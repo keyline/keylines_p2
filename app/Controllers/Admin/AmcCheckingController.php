@@ -171,8 +171,7 @@ class AmcCheckingController extends BaseController {
             $project_cost       =  $row->total_hours_worked;
         }  
         $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
-        if(!$exsistingProjectCost){
-            echo "new add"; die;
+        if(!$exsistingProjectCost){            
             $postData3   = array(
                 'project_id'            => $id,
                 'month'                 => $month ,
@@ -181,8 +180,7 @@ class AmcCheckingController extends BaseController {
                 'created_at'            => date('Y-m-d H:i:s'),                                
             );                                  
             $project_cost_id             = $this->data['model']->save_data('project_cost', $postData3, '', 'id');
-        } else {
-            echo "data update"; die;
+        } else {            
             $id         = $exsistingProjectCost->id;
             $postData3   = array(
                 'project_id'            => $id,
