@@ -1276,7 +1276,7 @@ class ReportController extends BaseController
                 $html .= $formattedTime;
 
                 $html .=    '</th>
-                            <th>'.$project_cost.'</th>
+                            <th>'.number_format($project_cost,2).'</th>
                         </tr>';
             }
         } else {
