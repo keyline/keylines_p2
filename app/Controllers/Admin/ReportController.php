@@ -1139,8 +1139,8 @@ class ReportController extends BaseController
                 $res_yesterday_proj = $this->db->query($sql2)->getResult();
                 break;
             case 'last_month':
-                echo $startDate  = date('Y-m-01', strtotime('first day of last month'));
-                echo $endDate    = date('Y-m-t', strtotime('last day of last month'));
+                $startDate  = date('Y-m-01', strtotime('first day of last month'));
+                $endDate    = date('Y-m-t', strtotime('last day of last month'));
 
                 $sql1               = "SELECT timesheet.project_id,timesheet.date_added, project.name,project.project_time_type, timesheet.bill, SUM(timesheet.hour) AS total_hours, SUM(timesheet.min) AS total_minutes FROM `timesheet` LEFT JOIN project ON timesheet.project_id = project.id WHERE timesheet.`date_added` BETWEEN '$startDate' AND '$endDate' GROUP BY timesheet.project_id, project.name ORDER BY `project`.`name` ASC";
                 $ongoingProjects    = $this->db->query($sql1)->getResult();
@@ -1208,6 +1208,9 @@ class ReportController extends BaseController
         }
         $billabkeHoursMin               = number_format($ystrdtotbill_hour + ($ystrdtotbill_minute / 60), 2);
         $nonBillableHoursMin            = number_format($ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60), 2);
+
+        echo $startDate;
+        echo $endDate;
 
         $html = '';
         $html = '<div class="" id="project-container">
