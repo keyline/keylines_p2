@@ -1232,7 +1232,7 @@ class ReportController extends BaseController
                                         </tr>
                                     </thead>
                                     <tbody>';
-        if ($ongoingProjects) { $sl = 1; foreach ($ongoingProjects as $ongoingProject) {
+        if ($ongoingProjects) { $sl = 1;$total_cost = 0; foreach ($ongoingProjects as $ongoingProject) {
                 /* cost calculation */
                     $cost_sql1      = "SELECT project_cost FROM `project_cost` WHERE month=$last_month_month AND year=$last_month_year AND project_id = $ongoingProject->project_id";
                     $checkCost      = $this->db->query($cost_sql1)->getRow();
@@ -1245,6 +1245,7 @@ class ReportController extends BaseController
                         $checkCost      = $this->db->query($cost_sql2)->getRow();
                         $project_cost   = $checkCost->total_cost;
                     }
+                    $total_cost += $project_cost;
                 /* cost calculation */
                 $html .= '<tr>
                             <th>' . $sl++ . '</th>';
@@ -1279,6 +1280,10 @@ class ReportController extends BaseController
                             <th>'.number_format($project_cost,2).'</th>
                         </tr>';
             }
+            $html .= '<tr>
+                        <th colspan="3" style="text-align:right; font-weight:bold;">Total</th>
+                        <th>'.$total_cost.'</th>
+                    </tr>';
         } else {
             $html .= '<tr>
                         <td colspan="4">No records found for the selected date.</td>
