@@ -1222,9 +1222,12 @@ class ReportController extends BaseController
                     <div class="row">
                         <div class="col md-6">
                             <div class="card-header card-header2">
-                                <h6 class="heading_style text-center">ONGOING PROJECT</h6>
+                                <h6 class="heading_style text-center">
+                                    ONGOING PROJECT
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="printDiv();"><i class="fa fa-print"></i></button>
+                                </h6>
                             </div>
-                            <div class="dt-responsive table-responsive">
+                            <div class="dt-responsive table-responsive" id="DivIdToPrint">
                                 <table class="table padding-y-10 general_table_style" style="width: 100%">
                                     <thead>
                                         <tr>
