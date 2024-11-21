@@ -1216,6 +1216,8 @@ class ReportController extends BaseController
         $end_date_array     = explode("-", $endDate);
         $last_month_year    = $start_date_array[0];
         $last_month_month   = $start_date_array[1];
+        $fDate              = date_format(date_create($startDate), "M d, Y");
+        $tDate              = date_format(date_create($endDate), "M d, Y");
 
         $html = '';
         $html = '<div class="" id="project-container">
@@ -1230,6 +1232,10 @@ class ReportController extends BaseController
                             <div class="dt-responsive table-responsive" id="DivIdToPrint">
                                 <table class="table padding-y-10 general_table_style" style="width: 100%">
                                     <thead>
+                                        <tr>
+                                            <th colspan="2">From Date : <u>'.$fDate.'</u></th>
+                                            <th colspan="2">To Date : <u>'.$tDate.'</u></th>
+                                        </tr>
                                         <tr>
                                             <th width="3%">#</th>
                                             <th>Project</th>

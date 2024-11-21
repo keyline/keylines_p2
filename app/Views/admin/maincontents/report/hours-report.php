@@ -76,6 +76,10 @@
                                 <table class="table nowrap general_table_style padding-y-10" style="width: 100%">
                                     <thead>
                                         <tr>
+                                            <th colspan="2">From Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
+                                            <th colspan="2">To Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
+                                        </tr>
+                                        <tr>
                                             <th width="1%">#</th>
                                             <th width="5%">Project</th>
                                             <th width="5%">Total Time</th>
