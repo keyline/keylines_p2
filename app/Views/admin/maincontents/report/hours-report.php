@@ -67,9 +67,12 @@
                     <div class="row">
                         <div class="col md-6">
                             <div class="card-header card-header2">
-                                <h6 class="heading_style text-center">ONGOING PROJECT</h6>
+                                <h6 class="heading_style text-center">
+                                    ONGOING PROJECT
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="printDiv();"><i class="fa fa-print"></i></button>
+                                </h6>
                             </div>
-                            <div class="dt-responsive table-responsive">
+                            <div class="dt-responsive table-responsive" id="DivIdToPrint">
                                 <table class="table nowrap general_table_style padding-y-10" style="width: 100%">
                                     <thead>
                                         <tr>
@@ -196,7 +199,6 @@
     $(document).ready(function() {
         dayWiseListGenerate('yesterday');
     });
-
     function showWorkList(projectId, date, billable, hours) {
         $('#modalBody').html('');
         $.ajax({
@@ -217,5 +219,14 @@
                 console.error('Error fetching modal content:', error);
             }
         });
+    }
+    function printDiv()
+    {
+        var divToPrint=document.getElementById('DivIdToPrint');
+        var newWin=window.open('','Print-Window');
+        newWin.document.open();
+        newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+        newWin.document.close();
+        setTimeout(function(){newWin.close();},10);
     }
 </script>
