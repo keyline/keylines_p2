@@ -62,7 +62,7 @@
                         </form>
                     </div>
                 </div>
-
+                <?php $yesterday          = date('Y-m-d', strtotime('-1 day'));?>
                 <div class="card table-card" id="project-container">
                     <div class="row">
                         <div class="col md-6">
@@ -88,7 +88,6 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                        $yesterday          = date('Y-m-d', strtotime('-1 day'));
                                         $start_date_array   = explode("-", $yesterday);
                                         $last_month_year    = $start_date_array[0];
                                         $last_month_month   = $start_date_array[1];
