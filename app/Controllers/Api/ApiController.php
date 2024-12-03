@@ -2449,6 +2449,7 @@ class ApiController extends BaseController
             curl_close($ch);
             $output = json_decode($response);
             $dataarray = get_object_vars($output);
+            pr($dataarray);
             if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
                 if (isset($dataarray['results'][0]->formatted_address)) {
                     $address = $dataarray['results'][0]->formatted_address;
@@ -2511,7 +2512,7 @@ class ApiController extends BaseController
                                 $latitudeTo     = $latitude;
                                 $longitudeTo    = $longitude;
                                 // Google Maps Distance Matrix API URL
-                                $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=$apiKey";
+                                $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=AIzaSyBX7ODSt5YdPpUA252kxr459iV2UZwJwfQ";
                                 // Send a GET request to the API
                                 $response       = file_get_contents($url);
                                 $data           = json_decode($response, true);
