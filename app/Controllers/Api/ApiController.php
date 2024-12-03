@@ -2449,7 +2449,7 @@ class ApiController extends BaseController
             curl_close($ch);
             $output = json_decode($response);
             $dataarray = get_object_vars($output);
-            pr($dataarray);
+            // pr($dataarray);
             if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
                 if (isset($dataarray['results'][0]->formatted_address)) {
                     $address = $dataarray['results'][0]->formatted_address;
