@@ -229,7 +229,7 @@ class ApiController extends BaseController
                 }           
                 if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
                     $id         = $requestData['id'];
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $id]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $id, 'status' => '1']);
                     if($getUser){
                         $remember_token = rand(100000,999999);
                         $postData = [
@@ -300,7 +300,7 @@ class ApiController extends BaseController
                 }           
                 if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
                     $id         = $requestData['id'];
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $id]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $id, 'status' => '1']);
                     if($getUser){
                         if($requestData['password'] == $requestData['confirm_password']){
                             $this->common_model->save_data('user', ['password' => md5($requestData['password'])], $getUser->id, 'id');
@@ -680,7 +680,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         if($getUser->password == md5($old_password)){
                             if($new_password == $confirm_password){
@@ -751,7 +751,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $getCategory         = $this->common_model->find_data('user_category', 'row', ['id' => $getUser->category], 'name');                        
                         $apiResponse        = [
@@ -858,7 +858,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $checkPhoneExist = $this->common_model->find_data('user', 'row', ['phone' => $phone, 'id!=' => $uId]);
                         if($checkPhoneExist){
@@ -1275,7 +1275,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         // $this->common_model->save_data('user', ['status' => '3'], $uId, 'id');
                         // $this->common_model->delete_data('ecomm_user_devices', $uId, 'user_id');
@@ -1333,7 +1333,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $assignItems = $this->common_model->find_data('ecomm_company_items', 'array', ['company_id' => $getUser->parent_id, 'status' => 1, 'is_approved' => 1], 'id,alias_name,hsn,unit');
                         // pr($assignCategory);
@@ -1397,7 +1397,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
                         $limit          = 15; // per page elements
@@ -1469,7 +1469,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
                         $limit          = 15; // per page elements
@@ -1536,7 +1536,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $profile_image_post                            = $requestData['profile_image'];
                         /* profile image */
@@ -1609,7 +1609,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
                         $getEvents          = $this->common_model->find_data('event', 'array', '', 'title,start_event', '', '', $orderBy);
@@ -1670,7 +1670,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         // pr($requestData);die;
                         $punch_type = $requestData['punch_type'];
@@ -1878,7 +1878,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         
                         $attn_month_year    = explode("/", $requestData['attn_month_year']);
@@ -2141,7 +2141,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         
                         $attn_date      = $requestData['attn_date'];
@@ -2296,7 +2296,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $checkAttns  = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $note_date]);
                         $fields     = [
@@ -2359,7 +2359,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $last7Days          = $this->getLastNDaysAscending($no_of_days, 'Y-m-d');
                         if(!empty($last7Days)){
@@ -2449,6 +2449,7 @@ class ApiController extends BaseController
             curl_close($ch);
             $output = json_decode($response);
             $dataarray = get_object_vars($output);
+            // pr($dataarray);
             if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
                 if (isset($dataarray['results'][0]->formatted_address)) {
                     $address = $dataarray['results'][0]->formatted_address;
@@ -2479,7 +2480,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         $lat                        = $requestData['latitude'];
                         $long                       = $requestData['longitude'];
@@ -2511,7 +2512,7 @@ class ApiController extends BaseController
                                 $latitudeTo     = $latitude;
                                 $longitudeTo    = $longitude;
                                 // Google Maps Distance Matrix API URL
-                                $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=$apiKey";
+                                $url            = "https://maps.googleapis.com/maps/api/distancematrix/json?origins=$latitudeFrom,$longitudeFrom&destinations=$latitudeTo,$longitudeTo&key=AIzaSyBX7ODSt5YdPpUA252kxr459iV2UZwJwfQ";
                                 // Send a GET request to the API
                                 $response       = file_get_contents($url);
                                 $data           = json_decode($response, true);
