@@ -1670,7 +1670,7 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
                         // pr($requestData);die;
                         $punch_type = $requestData['punch_type'];
