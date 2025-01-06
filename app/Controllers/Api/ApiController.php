@@ -1611,8 +1611,9 @@ class ApiController extends BaseController
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
+                        $currentYear        = date('Y');
                         $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
-                        $getEvents          = $this->common_model->find_data('event', 'array', '', 'title,start_event', '', '', $orderBy);
+                        $getEvents          = $this->common_model->find_data('event', 'array', ['start_event LIKE' => '%'.$currentYear.'%'], 'title,start_event', '', '', $orderBy);
                         if($getEvents){
                             foreach($getEvents as $getEvent){
                                 $apiResponse[]        = [
