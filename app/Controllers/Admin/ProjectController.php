@@ -231,16 +231,16 @@ class ProjectController extends BaseController {
         // echo $startMonth                = explode("-", $data['project']->start_date)[1];
         // echo $startYear                = explode("-", $data['project']->start_date)[0];
         // Define the start date
-        $startDate = $data['project']->start_date;
+        $startDate = new DateTime($data['project']->start_date); // Convert to DateTime object
 
-        // Get the current date
-        $currentDate = date('Y-m-d');
+// Get the current date
+$currentDate = new DateTime(); // Current date as a DateTime object
 
-        // Calculate the difference
-        $interval = $startDate->diff($currentDate);
+// Calculate the difference
+$interval = $startDate->diff($currentDate);
 
-        // Get the total months count
-        echo $totalMonths = ($interval->y * 12) + $interval->m;
+// Get the total months count
+$totalMonths = ($interval->y * 12) + $interval->m;
         // pr($startMonth);
         pr($data['project']);        
         $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
