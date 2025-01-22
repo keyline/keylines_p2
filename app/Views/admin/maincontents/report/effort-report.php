@@ -55,22 +55,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         }
                                         echo '</select>';
                                     ?>
-                                    <!-- <select name="year" class="form-control" id="year" required>
-                                        <option value="2018" <?= (($year == '2018') ? 'selected' : '') ?>>2018</option>
-                                        <hr>
-                                        <option value="2019" <?= (($year == '2019') ? 'selected' : '') ?>>2019</option>
-                                        <hr>
-                                        <option value="2020" <?= (($year == '2020') ? 'selected' : '') ?>>2020</option>
-                                        <hr>
-                                        <option value="2021" <?= (($year == '2021') ? 'selected' : '') ?>>2021</option>
-                                        <hr>
-                                        <option value="2022" <?= (($year == '2022') ? 'selected' : '') ?>>2022</option>
-                                        <hr>
-                                        <option value="2023" <?= (($year == '2023') ? 'selected' : '') ?>>2023</option>
-                                        <hr>
-                                        <option value="2024" <?= (($year == '2024') ? 'selected' : '') ?>>2024</option>
-                                        <hr>
-                                    </select> -->
+                                    
                                 </div>
                                 <div class="col-md-6 col-lg-6" style="margin-top: 20px;">
                                     <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
