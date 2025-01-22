@@ -207,7 +207,7 @@
                                                                   <?php  
                                                                   echo '<i class="fa-solid fa-indian-rupee-sign" style="width: 15px;margin-left: 3px;"></i> ';
                                                                   echo ($total_hours_worked > 0 ) ? '<b>' . number_format($total_hours_worked) . '</b>'  : '' . number_format($total_hours_worked) . '';
-                                                                  echo 'average cost: '.$totalWorkedHours;
+                                                                //   echo 'average cost: '.$totalWorkedHours;
                                                                 }                                                               
                                                                 $processedData[] = [
                                                                     'month' => $months[$index],
