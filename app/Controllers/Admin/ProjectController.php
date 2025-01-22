@@ -230,7 +230,7 @@ class ProjectController extends BaseController {
         $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
         // Split the date and time
         // $datePart                  = explode(" ", $data['project']->date_added)[0]; // Extract '2024-01-08'
-        // echo $startMonth                = explode("-", $data['project']->start_date)[1];
+         $startMonth                = explode("-", $data['project']->start_date)[1];
         // echo $startYear                = explode("-", $data['project']->start_date)[0];
         // Define the start date
         $startDate = new DateTime($data['project']->start_date); // Convert to DateTime object
@@ -242,9 +242,9 @@ class ProjectController extends BaseController {
         $interval = $startDate->diff($currentDate);
 
         // Get the total months count
-        echo $totalMonths = ($interval->y * 12) + $interval->m;
+        $totalMonths = ($interval->y * 12) + $interval->m;
         // pr($startMonth);
-        pr($data['project']);        
+        // pr($data['project']);        
         $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
         // $data['all_projects']        = $this->data['model']->find_data('project', 'array', ['active' => 0], '', '', '', $order_by);
         $sql1                           = "SELECT project.*, project_status.name AS project_status_name FROM project, project_status WHERE project.status NOT IN (SELECT id FROM project_status WHERE id = 13) AND project.status = project_status.id ORDER BY project.name";
