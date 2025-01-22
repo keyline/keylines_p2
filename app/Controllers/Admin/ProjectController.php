@@ -226,7 +226,9 @@ class ProjectController extends BaseController {
     public function reports($id){
         $id                             = base64_decode($id);
         $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
-        echo $startMonth                    = (new DateTime($data['project']->date_added))->format('m');
+        // Split the date and time
+        echo $datePart                  = explode(" ", $data['project']->date_added)[0]; // Extract '2024-01-08'
+        echo $startMonth                = explode("-", $datePart);
         pr($data['project']);        
         $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
         // $data['all_projects']        = $this->data['model']->find_data('project', 'array', ['active' => 0], '', '', '', $order_by);
