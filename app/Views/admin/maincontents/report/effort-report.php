@@ -43,7 +43,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <div class="col-md-6 col-lg-6" id="day_type_row" style="display:'block'">
                                     <label for="year">Years</label>
                                     <?php
-                                    echo $year; die;
+                                    echo $year;
                                         $currentYear = date("Y"); // Get the current year
                                         $startYear = $currentYear - 7; // Calculate the starting year
                                         
