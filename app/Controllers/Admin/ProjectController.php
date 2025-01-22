@@ -242,7 +242,7 @@ class ProjectController extends BaseController {
         $interval = $startDate->diff($currentDate);
 
         // Get the total months count
-        $totalMonths = ($interval->y * 12) + $interval->m;
+        $totalMonths = ($interval->y * 12) + $interval->m + 1;
         // pr($startMonth);
         // pr($data['project']);        
         $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
@@ -261,6 +261,7 @@ class ProjectController extends BaseController {
         $data['usersData']              = $this->db->query($sql20)->getResult();
         
         $months                         = [];
+        $totalWorkedHours = 0;
         for ($i = 11; $i >= 0; $i--) {
             $date               = date("M-y", strtotime( date( 'Y-m-01' )." -$i months"));
             $numericDate        = date("Y-m", strtotime(date('Y-m-01') . " -$i months"));
@@ -269,6 +270,7 @@ class ProjectController extends BaseController {
             $months[]           = strtoupper($date);            
              $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
             $rows               = $this->db->query($sql)->getResult();
+            $totalWorkedHours += $rows[0]->total_hours_worked;
             
             $eachMonthHour[]    = $rows;
         }
@@ -277,6 +279,7 @@ class ProjectController extends BaseController {
         $data['id']             = $id;
         $data['months']         = $months;
         $data['eachMonthHour']  = $eachMonthHour;
+        $data['totalWorkedHours'] = $totalWorkedHours;
         $data['numeric_dates']  = $numeric_dates;
 
         echo $this->layout_after_login($title,$page_name,$data);
