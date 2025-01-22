@@ -483,7 +483,7 @@ class ReportController extends BaseController
                 }
 
                 $data['selectedyear']        = $yearString;
-                 print_r($data['selectedyear']); die;
+                 print_r($data['selectedyear']); 
                 $response[] = [
                     'sl_no'         => $sl++,
                     'userId'        => $row->id,
