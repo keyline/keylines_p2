@@ -47,10 +47,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                         $currentYear = date("Y"); // Get the current year
                                         $startYear = $currentYear - 7; // Calculate the starting year
                                         
-                                        echo '<select name="years" class="form-control" id="year" required>';
+                                        echo '<select name="year" class="form-control" id="year" required>';
                                         echo '<hr>';
                                         for ($allyear = $startYear; $allyear <= $currentYear; $allyear++) {
-                                            $selected = ($allyear == $year) ? 'selected' : '';
+                                            $selected = ($allyear == $selectedyear) ? 'selected' : '';
                                             echo "<option value='$allyear' $selected>$allyear</option>";
                                         }
                                         echo '</select>';
