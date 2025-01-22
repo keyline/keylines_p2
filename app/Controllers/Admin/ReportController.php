@@ -482,8 +482,7 @@ class ReportController extends BaseController
                     $totalBooked12            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
                 }
 
-                $data['selectedyear']        = $yearString;
-                 print_r($data['selectedyear']); 
+                $data['year']        = $yearString;
                 $response[] = [
                     'sl_no'         => $sl++,
                     'userId'        => $row->id,
