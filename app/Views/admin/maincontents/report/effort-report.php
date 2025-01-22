@@ -48,9 +48,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                         
                                         echo '<select name="years" class="form-control" id="year" required>';
                                         echo '<hr>';
-                                        for ($year = $startYear; $year <= $currentYear; $year++) {
-                                            $selected = ($year == $selectedYear) ? 'selected' : '';
-                                            echo "<option value='$year' $selected>$year</option>";
+                                        for ($allyear = $startYear; $allyear <= $currentYear; $allyear++) {
+                                            $selected = ($allyear == $year) ? 'selected' : '';
+                                            echo "<option value='$allyear' $selected>$allyear</option>";
                                         }
                                         echo '</select>';
                                     ?>
