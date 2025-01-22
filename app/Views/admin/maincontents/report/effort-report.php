@@ -76,7 +76,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     <div class="col-md-12">
                         <div class="card table-card">
                             <div class="card-header text-dark bg-dark-info">
-                                <h5 class="fw-bold text-center heading_style">Tracker Report <span id="year"><?= $year ?></span></h5>
+                                <h5 class="fw-bold text-center heading_style">Tracker Report <span id="year"><?= $selectedyear ?></span></h5>
                             </div>
                             <div class="card-body">
                                 <div class="row">
