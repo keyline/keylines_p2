@@ -305,7 +305,8 @@ class ReportController extends BaseController
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 1 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
                     // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result1 = floor($getDesktimeHour->total_desktime_hour);
+                    // $result1 = floor($getDesktimeHour->total_desktime_hour);
+                    $result1 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result1 = '';
                 }
