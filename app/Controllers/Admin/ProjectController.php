@@ -226,7 +226,8 @@ class ProjectController extends BaseController {
     public function reports($id){
         $id                             = base64_decode($id);
         $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
-        pr($data['project']);
+        echo $startMonth                    = new DateTime($data['project']->date_added)->format('m');
+        pr($data['project']);        
         $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
         // $data['all_projects']        = $this->data['model']->find_data('project', 'array', ['active' => 0], '', '', '', $order_by);
         $sql1                           = "SELECT project.*, project_status.name AS project_status_name FROM project, project_status WHERE project.status NOT IN (SELECT id FROM project_status WHERE id = 13) AND project.status = project_status.id ORDER BY project.name";
