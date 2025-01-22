@@ -228,9 +228,10 @@ class ProjectController extends BaseController {
         $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
         // Split the date and time
         $datePart                  = explode(" ", $data['project']->date_added)[0]; // Extract '2024-01-08'
-        $startMonth                = explode("-", $datePart);
-        pr($startMonth);
-        // pr($data['project']);        
+        echo $startMonth                = explode("-", $datePart)[1];
+        echo $startYear                = explode("-", $datePart)[0];
+        // pr($startMonth);
+        pr($data['project']);        
         $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
         // $data['all_projects']        = $this->data['model']->find_data('project', 'array', ['active' => 0], '', '', '', $order_by);
         $sql1                           = "SELECT project.*, project_status.name AS project_status_name FROM project, project_status WHERE project.status NOT IN (SELECT id FROM project_status WHERE id = 13) AND project.status = project_status.id ORDER BY project.name";
