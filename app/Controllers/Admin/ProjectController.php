@@ -227,9 +227,9 @@ class ProjectController extends BaseController {
         $id                             = base64_decode($id);
         $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
         // Split the date and time
-        $datePart                  = explode(" ", $data['project']->date_added)[0]; // Extract '2024-01-08'
-        echo $startMonth                = explode("-", $datePart)[1];
-        echo $startYear                = explode("-", $datePart)[0];
+        // $datePart                  = explode(" ", $data['project']->date_added)[0]; // Extract '2024-01-08'
+        echo $startMonth                = explode("-", $data['project']->start_date)[1];
+        echo $startYear                = explode("-", $data['project']->start_date)[0];
         // pr($startMonth);
         pr($data['project']);        
         $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
