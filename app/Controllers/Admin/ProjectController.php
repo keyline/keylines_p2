@@ -228,8 +228,19 @@ class ProjectController extends BaseController {
         $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
         // Split the date and time
         // $datePart                  = explode(" ", $data['project']->date_added)[0]; // Extract '2024-01-08'
-        echo $startMonth                = explode("-", $data['project']->start_date)[1];
-        echo $startYear                = explode("-", $data['project']->start_date)[0];
+        // echo $startMonth                = explode("-", $data['project']->start_date)[1];
+        // echo $startYear                = explode("-", $data['project']->start_date)[0];
+        // Define the start date
+        $startDate = $data['project']->start_date;
+
+        // Get the current date
+        $currentDate = date('Y-m-d');
+
+        // Calculate the difference
+        $interval = $startDate->diff($currentDate);
+
+        // Get the total months count
+        echo $totalMonths = ($interval->y * 12) + $interval->m;
         // pr($startMonth);
         pr($data['project']);        
         $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
