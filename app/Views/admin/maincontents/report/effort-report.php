@@ -44,7 +44,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <label for="year">Years</label>
                                     <?php
                                         $currentYear = date("Y"); // Get the current year
-                                        $startYear = $currentYear - 8; // Calculate the starting year
+                                        $startYear = $currentYear - 7; // Calculate the starting year
                                         
                                         echo '<select name="years" class="form-control" id="year" required>';
                                         echo '<hr>';
