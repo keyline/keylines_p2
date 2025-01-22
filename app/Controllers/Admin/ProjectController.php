@@ -242,7 +242,7 @@ class ProjectController extends BaseController {
         $data['usersData']              = $this->db->query($sql20)->getResult();
         
         $months                         = [];
-        for ($i = 13; $i >= 0; $i--) {
+        for ($i = 11; $i >= 0; $i--) {
             $date               = date("M-y", strtotime( date( 'Y-m-01' )." -$i months"));
             $numericDate        = date("Y-m", strtotime(date('Y-m-01') . " -$i months"));
             $monthData[]        = $date;
