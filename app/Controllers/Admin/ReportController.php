@@ -321,7 +321,8 @@ class ReportController extends BaseController
                 $feb_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear2%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 2 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result2 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result2 = '';
                 }
@@ -336,7 +337,8 @@ class ReportController extends BaseController
                 $mar_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id=$row->id and date_added LIKE '%$monthYear3%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 3 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result3 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result3 = '';
                 }
@@ -351,7 +353,8 @@ class ReportController extends BaseController
                 $apr_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear4%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 4 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result4 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result4 = '';
                 }
@@ -366,7 +369,8 @@ class ReportController extends BaseController
                 $may_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear5%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 5 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result5 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result5 = '';
                 }
@@ -381,7 +385,8 @@ class ReportController extends BaseController
                 $jun_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear6%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 6 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result6 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result6 = '';
                 }
@@ -396,7 +401,8 @@ class ReportController extends BaseController
                 $jul_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear7%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 7 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result7 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result7 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result7 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result7 = '';
                 }
@@ -411,7 +417,8 @@ class ReportController extends BaseController
                 $aug_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear8%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result8 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result8 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result8 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result8 = '';
                 }
@@ -426,7 +433,8 @@ class ReportController extends BaseController
                 $sep_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear9%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result9 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result9 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result9 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result9 = '';
                 }
@@ -441,7 +449,8 @@ class ReportController extends BaseController
                 $oct_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear10%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result10 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result10 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result10 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result10 = '';
                 }
@@ -456,7 +465,8 @@ class ReportController extends BaseController
                 $nov_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear11%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result11 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result11 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result11 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result11 = '';
                 }
@@ -471,7 +481,8 @@ class ReportController extends BaseController
                 $dec_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear12%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result12 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result12 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result12 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result12 = '';
                 }
