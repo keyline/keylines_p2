@@ -352,3 +352,46 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
         </div>
     </div> 
 </div>
+
+
+<script>
+    function addDragScroll(selector) {
+        const sliders = document.querySelectorAll(selector); // Select all matching elements
+
+        sliders.forEach(slider => {
+            let isDown = false;
+            let startX;
+            let scrollLeft;
+
+            slider.addEventListener('mousedown', (e) => {
+                isDown = true;
+                slider.classList.add('active');
+                startX = e.pageX - slider.offsetLeft;
+                scrollLeft = slider.scrollLeft;
+            });
+
+            slider.addEventListener('mouseleave', () => {
+                isDown = false;
+                slider.classList.remove('active');
+            });
+
+            slider.addEventListener('mouseup', () => {
+                isDown = false;
+                slider.classList.remove('active');
+            });
+
+            slider.addEventListener('mousemove', (e) => {
+                if (!isDown) return; // Exit if the mouse isn't down
+                e.preventDefault();
+                const x = e.pageX - slider.offsetLeft;
+                const walk = (x - startX) * 3; // Adjust scroll speed here
+                slider.scrollLeft = scrollLeft - walk;
+                console.log(walk);
+            });
+        });
+    }
+
+    // Call the function for each group of elements
+    addDragScroll('#panelsStayOpen-collapse0 .drag-box'); // For collapse0
+    addDragScroll('#panelsStayOpen-collapse1 .drag-box'); // For collapse1
+</script>
