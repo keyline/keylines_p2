@@ -216,8 +216,9 @@
                                                                 ];
                                                                 ?>
                                                             </td>
-                                                        <?php }
-                                                    } else {    ?>
+                                                        <?php }?>
+                                                        <td> <?php echo 'average cost: '.$totalWorkedHours; ?></td>
+                                                   <?php } else {    ?>
                                                         <th>
                                                             <?= 'Not found'; ?>
                                                         </th>
