@@ -216,13 +216,15 @@
                                                                 ];
                                                                 ?>
                                                             </td>
-                                                        <?php }?>
-                                                        <td> <?php echo 'average cost: '.$totalWorkedHours; ?></td>
+                                                        <?php }?>                                                        
                                                    <?php } else {    ?>
                                                         <th>
                                                             <?= 'Not found'; ?>
                                                         </th>
                                                     <?php } ?>
+                                                </tr>
+                                                <tr>
+                                                    <td> <?php echo 'average cost: '.$totalWorkedHours; ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
