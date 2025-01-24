@@ -224,7 +224,7 @@
                                                     <?php } ?>
                                                 </tr>
                                                 <tr>
-                                                    <td> <?php echo 'average cost: '.$totalWorkedHours; ?></td>
+                                                    <td> <?php echo 'average cost: '.number_format($totalWorkedHours); ?></td>
                                                 </tr>
                                             </tbody>
                                         </table>
