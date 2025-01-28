@@ -225,7 +225,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td> <?php echo 'average cost: '.number_format($totalWorkedHours / 12, 2); ?></td>
-                                                    <td> <?php echo 'average cost: '.$totalWorkedHours/12; ?></td>
+                                                    <!-- <td> <?php echo 'average cost: '.$totalWorkedHours/12; ?></td> -->
                                                 </tr>
                                             </tbody>
                                         </table>
