@@ -254,7 +254,7 @@ class ProjectController extends BaseController {
         $data['moduleDetail']           = $this->data;
         $title                          = 'Manage '.$this->data['title'];
         $page_name                      = 'project/reports';
-        $sql10                          = 'SELECT timesheet.id as timesheet_id, effort_type.id AS effort_type_id, effort_type.name FROM timesheet LEFT JOIN effort_type ON timesheet.effort_type = effort_type.id WHERE timesheet.project_id = '.$id.' AND date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY effort_type.name ORDER BY effort_type.id ASC';
+       echo $sql10                          = 'SELECT timesheet.id as timesheet_id, effort_type.id AS effort_type_id, effort_type.name FROM timesheet LEFT JOIN effort_type ON timesheet.effort_type = effort_type.id WHERE timesheet.project_id = '.$id.' AND date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY effort_type.name ORDER BY effort_type.id ASC'; die;
         $data['effortTypes']            = $this->db->query($sql10)->getResult();
 
         $sql20                          = 'SELECT timesheet.id as timesheet_id, user.id AS user_id, user.name FROM timesheet LEFT JOIN user ON timesheet.user_id = user.id WHERE timesheet.project_id = '.$id.' AND timesheet.date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY user.name ORDER BY user.name ASC';
