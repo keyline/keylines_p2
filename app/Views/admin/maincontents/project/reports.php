@@ -243,7 +243,7 @@
                                             $chartData = [];
                                             if ($effortTypes) {
                                                 foreach ($effortTypes as $effortType) {
-                                                    // pr($effortType);
+                                                     pr($effortType);
                                                     $effortTypeData = [
                                                         'label' => htmlspecialchars($effortType->name),
                                                         'data' => [],
