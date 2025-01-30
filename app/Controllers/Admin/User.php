@@ -365,7 +365,7 @@ class User extends BaseController {
                     $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
                     $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
                     // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
-                    $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
+                    $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.status != 3";
                     $users              = $this->db->query($sql11)->getResult();
                     $application_settings        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
                     //  pr($application_settings);
