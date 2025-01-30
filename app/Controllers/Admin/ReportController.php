@@ -273,7 +273,7 @@ class ReportController extends BaseController
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'] . ' : Effort Report';
         $page_name                  = 'report/effort-report';
-        $data['userType']                           = $this->session->user_type;
+        $data['userType']           = $this->session->user_type;
         // pr($data['userType']);
         $userType                   = $data['userType'];
         $userId                             = $this->session->user_id;
