@@ -271,7 +271,7 @@ class ProjectController extends BaseController {
              $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
             $rows               = $this->db->query($sql)->getResult();
             $monthcountsql      = "SELECT COUNT(DISTINCT DATE_FORMAT(date_added, '%Y-%m')) AS month_count FROM `timesheet` WHERE project_id = ".$id."";
-            $monthcountrows               = $this->db->query($monthcountsql)->getResult();
+            $monthcountrows     = $this->db->query($monthcountsql)->getRow();
             pr($monthcountrows);
             $totalWorkedHours += $rows[0]->total_hours_worked;            
             $eachMonthHour[]    = $rows;
