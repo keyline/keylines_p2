@@ -272,6 +272,7 @@ class ProjectController extends BaseController {
             $rows               = $this->db->query($sql)->getResult();
             $monthcountsql      = "SELECT COUNT(DISTINCT DATE_FORMAT(date_added, '%Y-%m')) AS month_count FROM `timesheet` WHERE project_id = ".$id."";
             $monthcountrows               = $this->db->query($monthcountsql)->getResult();
+            pr($monthcountrows);
             $totalWorkedHours += $rows[0]->total_hours_worked;            
             $eachMonthHour[]    = $rows;
         }
