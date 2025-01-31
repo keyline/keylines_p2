@@ -127,16 +127,20 @@ $controller_route   = $moduleDetail['controller_route'];
                                             </td>                                    
                                             <td><?=$row->assigned_name?><br><?=(($getClientService)?$getClientService->name:'')?></td>                                        
                                             <td>
-                                                <?php if($getProject){ if($getProject->project_time_type == 'Onetime'){?>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Fixed : <?=$assigned?> hrs</span></a>
-
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked(Monthly) : <?=$current_month_booking?></span></a>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a>
-                                                <?php } elseif($getProject->project_time_type == 'Monthlytime'){?>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Monthly : <?=$assigned?> hrs</span></a>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked : <?=$current_month_booking?></span></a>
-                                                    <!-- <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a> -->
-                                                <?php } }?>
+                                                <?php if($getProject){ ?>
+                                                    <button class="btn btn-primary btn-sm" onclick="toggleDetails(this)">Load More</button>
+                                                    <div class="project-details mt-2" style="display: none;">
+                                                        <?php if($getProject->project_time_type == 'Onetime'){?>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Fixed : <?=$assigned?> hrs</span></a>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked(Monthly) : <?=$current_month_booking?></span></a>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a>
+                                                        <?php } elseif($getProject->project_time_type == 'Monthlytime'){?>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Monthly : <?=$assigned?> hrs</span></a>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked : <?=$current_month_booking?></span></a>
+                                                        <!-- <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a> -->
+                                                        <?php } ?>
+                                                    </div>
+                                                <?php }?>
                                             </td>
                                             <!-- <td>
                                                 <?php if($getProject){  }?>
@@ -227,3 +231,16 @@ $controller_route   = $moduleDetail['controller_route'];
     </section>
 </div>
 <?PHP } ?>
+<script>
+function toggleDetails(button) {
+    let detailsDiv = button.nextElementSibling;
+
+    if (detailsDiv.style.display === "none") {
+        detailsDiv.style.display = "block";
+        button.textContent = "Show Less";
+    } else {
+        detailsDiv.style.display = "none";
+        button.textContent = "Load More";
+    }
+}
+</script>
