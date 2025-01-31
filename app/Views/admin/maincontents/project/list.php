@@ -130,11 +130,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <?php if($getProject){ if($getProject->project_time_type == 'Onetime'){?>
                                                     <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Fixed : <?=$assigned?> hrs</span></a>
 
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked(Monthly) : <?=$current_month_booking?></span></a>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a>
+                                                    <!-- <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked(Monthly) : <?=$current_month_booking?></span></a> -->
+                                                    <!-- <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a> -->
                                                 <?php } elseif($getProject->project_time_type == 'Monthlytime'){?>
                                                     <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Monthly : <?=$assigned?> hrs</span></a>
-                                                    <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked : <?=$current_month_booking?></span></a>
+                                                    <!-- <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked : <?=$current_month_booking?></span></a> -->
                                                     <!-- <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a> -->
                                                 <?php } }?>
                                             </td>
