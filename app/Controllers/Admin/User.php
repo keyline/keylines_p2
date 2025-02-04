@@ -389,7 +389,8 @@ class User extends BaseController {
                         //  pr($getDesktimeHour);
                         if ($getDesktimeHour) {
                         // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        $result1 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result1 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result1 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         } else{
                             $result1 ='';
                         }
