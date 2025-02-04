@@ -405,7 +405,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 2 AND user_id = '$row->id'")->getRow();
                         if ($getDesktimeHour) {
                         // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        $result2 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result2 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result2 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result2 ='';
                         }
@@ -420,7 +421,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 3 AND user_id = '$row->id'")->getRow();
                         if ($getDesktimeHour) {
                         // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        $result3 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result3 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result3 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result3 ='';
                         }
@@ -435,7 +437,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 4 AND user_id = '$row->id'")->getRow();
                         if ($getDesktimeHour) {
                         // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        $result4 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result4 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result4 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result4 ='';
                         }
@@ -450,7 +453,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 5 AND user_id = '$row->id'")->getRow();
                         if ($getDesktimeHour) {
                         // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        $result5 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result5 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result5 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result5 ='';
                         }
@@ -465,7 +469,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 6 AND user_id = '$row->id'")->getRow();
                         if ($getDesktimeHour) {
                         // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        $result6 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result6 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result6 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result6 ='';
                         }
@@ -481,7 +486,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query($sql10)->getRow();                                                
                         if ($getDesktimeHour) {                              
                         // $result7 = $getDesktimeHour->total_desktime_hour;  
-                        $result7 = (int)$getDesktimeHour->total_desktime_hour;                                              
+                        // $result7 = (int)$getDesktimeHour->total_desktime_hour; 
+                        $result7 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);                                             
                         }else{                           
                             $result7 ='';
                         }
@@ -496,7 +502,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 8 AND user_id = '$row->id'")->getRow();                        
                         if ($getDesktimeHour) {                        
                         // $result8 = $getDesktimeHour->total_desktime_hour;
-                        $result8 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result8 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result8 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result8 ='';
                         }
@@ -510,7 +517,8 @@ class User extends BaseController {
                         $sep_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear9%'")->getRow();
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 9 AND user_id = '$row->id'")->getRow();                        
                         if ($getDesktimeHour) {                        
-                        $result9 = $getDesktimeHour->total_desktime_hour;
+                        // $result9 = $getDesktimeHour->total_desktime_hour;
+                        $result9 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result9 ='';
                         }
@@ -525,7 +533,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 10 AND user_id = '$row->id'")->getRow();                        
                         if ($getDesktimeHour) {                        
                         // $result10 = $getDesktimeHour->total_desktime_hour;
-                        $result10 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result10 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result10 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result10 ='';
                         }
@@ -540,7 +549,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 11 AND user_id = '$row->id'")->getRow();                        
                         if ($getDesktimeHour) {                        
                         // $result11 = $getDesktimeHour->total_desktime_hour;
-                        $result11 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result11 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result11 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result11 ='';
                         }
@@ -555,7 +565,8 @@ class User extends BaseController {
                         $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 12 AND user_id = '$row->id'")->getRow();                        
                         if ($getDesktimeHour) {                        
                         // $result12 = $getDesktimeHour->total_desktime_hour;
-                        $result12 = (int)$getDesktimeHour->total_desktime_hour;
+                        // $result12 = (int)$getDesktimeHour->total_desktime_hour;
+                        $result12 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
                         }else{
                             $result12 ='';
                         }
