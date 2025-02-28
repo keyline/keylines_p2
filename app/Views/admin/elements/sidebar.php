@@ -252,13 +252,14 @@ $userId             = $session->user_id;
                 </a>
             </li>
             <?php } ?>
-            <?php if(checkModuleAccess(24)){ ?>
+            <?php if(checkModuleAccess(24)){
+              if ($userType == 'SUPER ADMIN') { ?>
             <li>
                 <a class="<?= (($pageSegment == 'reports' && $paramerId == 'hours-report') ? 'active' : '') ?>" href="<?= base_url('admin/reports/hours-report') ?>">
                     <i class="fa fa-arrow-right"></i><span>Project Effort</span>
                 </a>
             </li>
-            <?php } ?>
+            <?php } } ?>
             <?php if(checkModuleAccess(25)){ ?>
             <li>
                 <a class="<?= (($pageSegment == 'reports' && $paramerId == 'project-report') ? 'active' : '') ?>" href="<?= base_url('admin/reports/project-report') ?>">
