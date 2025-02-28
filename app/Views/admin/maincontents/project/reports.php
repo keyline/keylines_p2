@@ -114,7 +114,7 @@
                                     echo 'Started: ' . $formattedDate;
                                     ?>
                                 </button>
-                            <?php print_r($project);  die;
+                            <?php
                              if ($project->project_time_type == 'Onetime') {  ?>
                                 <button class="btn btn-success btn-sm font-12"> Fixed: <?= $project->hour . ' Hours' ?></button>
                                 <button class="btn btn-primary btn-sm font-12"> Total Cost: <?= $totalcost?></button>
