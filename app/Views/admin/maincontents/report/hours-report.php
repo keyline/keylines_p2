@@ -98,7 +98,8 @@
                                         $last_month_month   = $start_date_array[1];
                                         $last_month_date    = $start_date_array[1];
                                         ?>
-                                        <?php if ($ongoingProjects) { $sl = 1; $total_cost = 0; $billable_cost=0; $non_billable_cost=0;   foreach ($ongoingProjects as $ongoingProject) { ?>
+                                        <?php  print_r($ongoingProjects); die;
+                                        if ($ongoingProjects) { $sl = 1; $total_cost = 0; $billable_cost=0; $non_billable_cost=0;   foreach ($ongoingProjects as $ongoingProject) { ?>
                                             <?php
                                             /* cost calculation */
                                                 $project_cost   = 0;
