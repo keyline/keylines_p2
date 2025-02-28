@@ -228,7 +228,7 @@
                                                 </tr>                                                
                                             </tbody>
                                         </table>                                        
-                                        <button class="btn btn-success"> <?php echo 'Average cost: '.number_format($totalWorkedHours / $monthcountrows->month_count, 2); ?></button>                                        
+                                        <!-- <button class="btn btn-success"> <?php echo 'Average cost: '.number_format($totalWorkedHours / $monthcountrows->month_count, 2); ?></button>                                         -->
                                     </div>
                                     <h4 style="margin: 20px 0;text-align: center;padding: 8px;border-radius: 8px;background: #dcf5dc;"><b>Total Hours Report (Effort-wise) Last 12 Months</b></h4>
                                     <canvas id="myChart" class="h-50"></canvas>
