@@ -117,7 +117,7 @@
                             <?php print_r($project);  die;
                              if ($project->project_time_type == 'Onetime') {  ?>
                                 <button class="btn btn-success btn-sm font-12"> Fixed: <?= $project->hour . ' Hours' ?></button>
-                                <button class="btn btn-primary btn-sm font-12"> Total Cost: <?= $totalWorkedHours?></button>
+                                <button class="btn btn-primary btn-sm font-12"> Total Cost: <?= $totalcost?></button>
                             <?php   } else {  ?>
                                 <button class="btn btn-success"> Monthly: <?= $project->hour_month . ' Hours' ?></button>
                                 <button class="btn btn-primary btn-sm font-12"> Average cost : <?= number_format($totalWorkedHours / $monthcountrows->month_count, 2) ?></button>
