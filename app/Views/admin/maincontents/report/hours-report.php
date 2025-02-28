@@ -113,9 +113,9 @@
                                                 <th><?= $sl++; ?></th>
                                                 <th>
                                                     <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
-                                                        <?= $ongoingProject->name; ?>
+                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($row->id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
                                                     <?php } else { ?>
-                                                        <?= $ongoingProject->name; ?>
+                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($row->id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
                                                     <?php } ?>
                                                     <?php
                                                     if ($ongoingProject->bill == 0) {

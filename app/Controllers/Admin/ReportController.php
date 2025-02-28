@@ -1282,16 +1282,28 @@ class ReportController extends BaseController
 
                             if ($ongoingProject->bill == 0) {
                                 if ($ongoingProject->project_time_type == 'Onetime') {
-                                    $html .= '<th>' . $ongoingProject->name . '</th>';
+                                    $html .= '<th>' . $ongoingProject->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($row->id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
                                 } else {
-                                    $html .= '<th>' . $ongoingProject->name . '</th>';
+                                    $html .= '<th>' . $ongoingProject->name . 
+                                                '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($row->id)) . 
+                                                '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                                '</th>';
                                 }
                                 $billable_cost += $project_cost;
                             } else {
                                 if ($ongoingProject->project_time_type == 'Onetime') {
-                                    $html .= '<th>' . $ongoingProject->name . '</th>';
+                                    $html .= '<th>' . $ongoingProject->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($row->id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
                                 } else {
-                                    $html .= '<th>' . $ongoingProject->name . '</th>';
+                                    $html .= '<th>' . $ongoingProject->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($row->id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
                                 }
                                 $non_billable_cost += $project_cost;
                             }
