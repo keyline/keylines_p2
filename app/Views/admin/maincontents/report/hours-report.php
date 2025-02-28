@@ -98,7 +98,7 @@
                                         $last_month_month   = $start_date_array[1];
                                         $last_month_date    = $start_date_array[1];
                                         ?>
-                                        <?php  print_r($ongoingProjects); die;
+                                        <?php 
                                         if ($ongoingProjects) { $sl = 1; $total_cost = 0; $billable_cost=0; $non_billable_cost=0;   foreach ($ongoingProjects as $ongoingProject) { ?>
                                             <?php
                                             /* cost calculation */
@@ -114,9 +114,9 @@
                                                 <th><?= $sl++; ?></th>
                                                 <th>
                                                     <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
-                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($ongoingProject->id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
+                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($ongoingProject->project_id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
                                                     <?php } else { ?>
-                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($ongoingProject->id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
+                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($ongoingProject->project_id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
                                                     <?php } ?>
                                                     <?php
                                                     if ($ongoingProject->bill == 0) {

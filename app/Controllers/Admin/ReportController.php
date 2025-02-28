@@ -1283,12 +1283,12 @@ class ReportController extends BaseController
                             if ($ongoingProject->bill == 0) {
                                 if ($ongoingProject->project_time_type == 'Onetime') {
                                     $html .= '<th>' . $ongoingProject->name . 
-                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->id)) . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)) . 
                                             '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
                                             '</th>';
                                 } else {
                                     $html .= '<th>' . $ongoingProject->name . 
-                                                '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->id)) . 
+                                                '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)) . 
                                                 '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
                                                 '</th>';
                                 }
@@ -1296,12 +1296,12 @@ class ReportController extends BaseController
                             } else {
                                 if ($ongoingProject->project_time_type == 'Onetime') {
                                     $html .= '<th>' . $ongoingProject->name . 
-                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->id)) . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)) . 
                                             '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
                                             '</th>';
                                 } else {
                                     $html .= '<th>' . $ongoingProject->name . 
-                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->id)) . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)) . 
                                             '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
                                             '</th>';
                                 }
