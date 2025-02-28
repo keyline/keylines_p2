@@ -230,7 +230,7 @@ class ProjectController extends BaseController {
         $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
         $total_cost                = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE project_id=".$id."";
         $rowscost               = $this->db->query($total_cost)->getRow();
-         print_r($rowscost);die;
+        //  print_r($rowscost);die;
         // Split the date and time
         // $datePart                  = explode(" ", $data['project']->date_added)[0]; // Extract '2024-01-08'
          $startMonth                = explode("-", $data['project']->start_date)[1];
@@ -287,7 +287,7 @@ class ProjectController extends BaseController {
         $data['totalWorkedHours'] = $totalWorkedHours;
         $data['monthcountrows'] = $monthcountrows;
         $data['numeric_dates']  = $numeric_dates;
-        $data['totalcost']      = number_format($rowscost,2);
+        $data['totalcost']      = number_format($rowscost->total_hours_worked,2);
 
         echo $this->layout_after_login($title,$page_name,$data);
     }
