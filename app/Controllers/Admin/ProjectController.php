@@ -265,6 +265,7 @@ class ProjectController extends BaseController {
         
         $months                         = [];
         $totalWorkedHours = 0;
+        $totalmounthcount = 0;
         for ($i = 11; $i >= 0; $i--) {
             $date               = date("M-y", strtotime( date( 'Y-m-01' )." -$i months"));
             $numericDate        = date("Y-m", strtotime(date('Y-m-01') . " -$i months"));
@@ -277,9 +278,10 @@ class ProjectController extends BaseController {
             $monthcountrows     = $this->db->query($monthcountsql)->getRow();
              
             $totalWorkedHours += $rows[0]->total_hours_worked;            
+            $totalmounthcount += $monthcountrows[0]->month_count;            
             $eachMonthHour[]    = $rows;
         }
-        pr($monthcountrows);
+        pr($totalmounthcount);
          $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
         // pr($rows);
         $data['id']             = $id;
