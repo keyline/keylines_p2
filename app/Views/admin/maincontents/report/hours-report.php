@@ -73,7 +73,7 @@
                                 </h6>
                             </div>
                             <div class="dt-responsive table-responsive" id="DivIdToPrint">
-                                <table class="table nowrap general_table_style padding-y-10" style="width: 100%">
+                                <table id="simpletable" class="table nowrap general_table_style padding-y-10" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th colspan="2">From Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
@@ -82,6 +82,7 @@
                                         <tr>
                                             <th width="1%">#</th>
                                             <th width="5%">Project</th>
+                                            <th width="5%">Project Status</th>
                                             <th width="5%">Total Time</th>
                                             <th width="5%">Total Cost</th>
                                         </tr>
@@ -108,9 +109,9 @@
                                                 <th><?= $sl++; ?></th>
                                                 <th>
                                                     <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
-                                                        <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-info">Fixed</span>
+                                                        <?= $ongoingProject->name; ?>
                                                     <?php } else { ?>
-                                                        <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-primary">Monthly</span>
+                                                        <?= $ongoingProject->name; ?>
                                                     <?php } ?>
                                                     <?php
                                                     if ($ongoingProject->bill == 0) {
@@ -119,6 +120,13 @@
                                                         $non_billable_cost += $project_cost;
                                                     }
                                                     ?>
+                                                </th>
+                                                <th>
+                                                    <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
+                                                        <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-info">Fixed</span>
+                                                    <?php } else { ?>
+                                                        <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-primary">Monthly</span>
+                                                    <?php } ?>
                                                 </th>
                                                 <?php
                                                 $totalHours       = (int) $ongoingProject->total_hours;
