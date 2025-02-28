@@ -73,7 +73,7 @@
                                 </h6>
                             </div>
                             <div class="dt-responsive table-responsive" id="DivIdToPrint">
-                                <table id="simpletable" class="table nowrap general_table_style padding-y-10" style="width: 100%">
+                                <table class="table nowrap general_table_style padding-y-10" style="width: 100%">
                                     <thead>
                                         <tr>
                                             <th colspan="3">From Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
