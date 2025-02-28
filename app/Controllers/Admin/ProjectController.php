@@ -229,7 +229,7 @@ class ProjectController extends BaseController {
         $id                             = base64_decode($id);
         $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
         $total_cost                = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE project_id=".$id."";
-        $rowscost               = $this->db->query($total_cost)->getResult();
+        $rowscost               = $this->db->query($total_cost)->getRow();
         // print_r($rowscost);die;
         // Split the date and time
         // $datePart                  = explode(" ", $data['project']->date_added)[0]; // Extract '2024-01-08'
