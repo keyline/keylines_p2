@@ -1246,14 +1246,15 @@ class ReportController extends BaseController
                                 <table class="table padding-y-10 general_table_style" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <th colspan="2">From Date : <u>'.$fDate.'</u></th>
-                                            <th colspan="2">To Date : <u>'.$tDate.'</u></th>
+                                            <th colspan="3">From Date : <u>'.$fDate.'</u></th>
+                                            <th colspan="3">To Date : <u>'.$tDate.'</u></th>
                                         </tr>
                                         <tr>
                                             <th width="3%">#</th>
-                                            <th>Project</th>
-                                            <th>Total Time</th>
-                                            <th>Total Cost</th>
+                                            <th width="5%">Project</th>
+                                            <th width="5%">Project Status</th>
+                                            <th width="5%">Total Time</th>
+                                            <th width="5%">Total Cost</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
@@ -1281,16 +1282,16 @@ class ReportController extends BaseController
 
                             if ($ongoingProject->bill == 0) {
                                 if ($ongoingProject->project_time_type == 'Onetime') {
-                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                    $html .= '<th>' . $ongoingProject->name . '</th>';
                                 } else {
-                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
+                                    $html .= '<th>' . $ongoingProject->name . '</th>';
                                 }
                                 $billable_cost += $project_cost;
                             } else {
                                 if ($ongoingProject->project_time_type == 'Onetime') {
-                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                    $html .= '<th>' . $ongoingProject->name . '</th>';
                                 } else {
-                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
+                                    $html .= '<th>' . $ongoingProject->name . '</th>';
                                 }
                                 $non_billable_cost += $project_cost;
                             }
@@ -1301,6 +1302,22 @@ class ReportController extends BaseController
                             $remainingMinutes   = $totalMinutes % 60;
                             $totalHours        += $additionalHours;
                             $formattedTime      = sprintf("%d hours %d minutes", $totalHours, $remainingMinutes);
+
+                            if ($ongoingProject->bill == 0) {
+                                if ($ongoingProject->project_time_type == 'Onetime') {
+                                    $html .= '<th>  <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th>  <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
+                                }
+                                $billable_cost += $project_cost;
+                            } else {
+                                if ($ongoingProject->project_time_type == 'Onetime') {
+                                    $html .= '<th> <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th> <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
+                                }
+                                $non_billable_cost += $project_cost;
+                            }                
 
 
                 $html .= '<th style="cursor: pointer;" onclick="showWorkList(' . $ongoingProject->project_id . ', \'' . $day . '\' , ' . ($ongoingProject->bill == 0 ? '0' : '1') . ' , \'' . $formattedTime . '\')">';
