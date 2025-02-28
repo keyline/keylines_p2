@@ -1334,7 +1334,7 @@ class ReportController extends BaseController
                     </tr>';
         } else {
             $html .= '<tr>
-                        <td colspan="4">No records found for the selected date.</td>
+                        <td colspan="5">No records found for the selected date.</td>
                      </tr>';
         }
         $html .= '</tbody>
