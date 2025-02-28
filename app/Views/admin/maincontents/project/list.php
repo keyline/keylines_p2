@@ -2,6 +2,7 @@
 $title              = $moduleDetail['title'];
 $primary_key        = $moduleDetail['primary_key'];
 $controller_route   = $moduleDetail['controller_route'];
+$userType           = $session->user_type;
 ?>
 <style type="text/css">
     table.table-fit {
