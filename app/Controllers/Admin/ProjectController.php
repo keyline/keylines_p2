@@ -281,7 +281,7 @@ class ProjectController extends BaseController {
             $totalmounthcount += $monthcountrows[0]->month_count;            
             $eachMonthHour[]    = $rows;
         }
-        // pr($totalmounthcount);
+         pr($totalmounthcount);
          $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
         // pr($rows);
         $data['id']             = $id;
