@@ -244,6 +244,7 @@
                                             </tr>
                                             <?php
                                             $chartData = [];
+                                            pr($effortTypes);die;
                                             if ($effortTypes) {
                                                 foreach ($effortTypes as $effortType) {
                                                     //  pr($effortType);
