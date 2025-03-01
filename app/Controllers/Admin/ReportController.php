@@ -1010,7 +1010,7 @@ class ReportController extends BaseController
         $title     = 'Manage ' . $this->data['title'];
         $page_name = 'report/hours-report';
         $data      = [];
-        pr($this->request->getGet());
+        pr($this->request->getPost());
         $yesterday = date('Y-m-d', strtotime('-1 day'));
         // echo $yesterday;die;
         $sql1      = "  SELECT
