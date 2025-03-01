@@ -272,7 +272,7 @@ class ProjectController extends BaseController {
             $monthData[]        = $date;
             $numeric_dates[]    = $numericDate;
             $months[]           = strtoupper($date);            
-             $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
+             echo $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id.""; die;
             $rows               = $this->db->query($sql)->getResult();
             $monthcountsql      = "SELECT COUNT(DISTINCT DATE_FORMAT(date_added, '%Y-%m')) AS month_count FROM `timesheet` WHERE project_id = ".$id." and `date_added` LIKE '%".$numericDate."%'";
             $monthcountrows     = $this->db->query($monthcountsql)->getResult();
