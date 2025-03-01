@@ -1517,6 +1517,31 @@ class ReportController extends BaseController
         echo $html;
     }
 
+    public function fetchData()
+    {        
+        $startDate = $this->request->getPost('start_date');
+        $endDate = $this->request->getPost('end_date');
+
+        echo $query = "SELECT
+                            timesheet.project_id,
+                            SUM(HOUR) hour,
+                            SUM(MIN) min,
+                            timesheet.bill
+                        FROM
+                            timesheet
+                             WHERE date_added BETWEEN '$startDate' AND '$endDate'
+                             GROUP BY
+                            timesheet.project_id
+                        ORDER BY
+                            timesheet.date_added
+                        DESC"; die;
+
+        $projects = $this->db->query($query)->getResult();
+        pr($projects);
+
+        return $this->response->setJSON(['data' => $projects]);
+    }
+
     public function desklogReport()
     {
         $form_type = $this->request->getPost('form_type');

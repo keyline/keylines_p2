@@ -63,8 +63,8 @@
                                     <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="" style="height: 40px;">
                                     <span class="input-group-text">To</span>
                                     <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 40px;">
-                                </div>
-                                <button type="button" id="searchBtn" class="btn btn-primary mt-2">Search</button>
+                                    <button type="button" id="fetch_data" class="btn btn-primary mt-2">Search</button>
+                                </div>                                
                             </div>
                         </form>
                     </div>
@@ -98,7 +98,7 @@
                                             <th width="5%">Total Cost</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="table_body">
                                         <?php
                                         $start_date_array   = explode("-", $yesterday);
                                         $last_month_year    = $start_date_array[0];
@@ -255,3 +255,74 @@
     }
 </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script>
+$(document).ready(function () {
+    $('#fetch_data').click(function(){
+        let startDate = $('#search_range_from').val();
+        let endDate = $('#search_range_to').val();
+
+        if(startDate === "" || endDate === ""){
+            alert("Please select both dates.");
+            return;
+        }
+
+        $.ajax({
+            url: "<?= base_url('admin/reports/fetchData'); ?>",
+            type: "POST",
+            data: { start_date: startDate, end_date: endDate },
+            dataType: "json",
+            success: function(response) {
+                $('#from_date').text(startDate);
+                $('#to_date').text(endDate);
+
+                let tableBody = $("#table_body");
+                tableBody.empty();
+
+                if(response.data.length > 0) {
+                    let totalCost = 0;
+                    response.data.forEach((project, index) => {
+                        let totalHours = parseInt(project.total_hours) + Math.floor(parseInt(project.total_minutes) / 60);
+                        let remainingMinutes = parseInt(project.total_minutes) % 60;
+                        let formattedTime = `${totalHours} Hours ${remainingMinutes} Minutes`;
+
+                        totalCost += parseFloat(project.total_cost);
+
+                        tableBody.append(`
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>
+                                    ${project.name} 
+                                    <a target="_blank" href="<?= base_url('admin/projects/reports/') ?>${btoa(project.id)}">
+                                        <i class="fa fa-file" style="margin-left: 5px;"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    ${project.bill == 0 
+                                        ? '<span class="badge bg-success">Billable</span>' 
+                                        : '<span class="badge bg-danger">Non-Billable</span>'
+                                    }
+                                    ${project.project_time_type == 'Onetime' 
+                                        ? '<span class="badge bg-info">Fixed</span>' 
+                                        : '<span class="badge bg-primary">Monthly</span>'
+                                    }
+                                </td>
+                                <td>${formattedTime}</td>
+                                <td>${parseFloat(project.total_cost).toFixed(2)}</td>
+                            </tr>
+                        `);
+                    });
+
+                    tableBody.append(`
+                        <tr>
+                            <td colspan="3" style="text-align:right; font-weight:bold;">Total</td>
+                            <td>${totalCost.toFixed(2)}</td>
+                        </tr>
+                    `);
+                } else {
+                    tableBody.append(`<tr><td colspan="5" class="text-center">No data found for the selected range.</td></tr>`);
+                }
+            }
+        });
+    });
+});
+</script>
