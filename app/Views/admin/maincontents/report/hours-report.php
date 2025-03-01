@@ -60,9 +60,9 @@
                                 </div>
                                 <div class="col-md-6 col-lg-6 input-group input-daterange">
                                     <!-- <label for="search_range_from">Date Range</label> -->
-                                    <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="<?= $search_range_from ?>" style="height: 40px;">
+                                    <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="" style="height: 40px;">
                                     <span class="input-group-text">To</span>
-                                    <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="<?= $search_range_to ?>" max="<?= date('Y-m-d') ?>" style="height: 40px;">
+                                    <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 40px;">
                                 </div>
                             </div>
                         </form>
