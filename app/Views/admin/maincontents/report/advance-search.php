@@ -55,7 +55,7 @@ $controller_route   = $moduleDetail['controller_route'];
                         <form method="GET" action="" enctype="multipart/form-data">
                             <input type="hidden" name="mode" value="advance_search">
                             <div class="row mb-3 align-items-center">
-                                <?php if ($user == 'ADMIN' || $user == 'SUPER ADMIN' ) { ?>
+                                <?php if ($user == 'ADMIN' || $user == 'SUPER ADMIN') { ?>
                                     <div class="col-md-3 col-lg-3">
                                         <label for="search_user_id">User</label>
                                         <select name="search_user_id" class="form-control" id="search_user_id" required>
