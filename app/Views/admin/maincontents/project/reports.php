@@ -263,7 +263,7 @@
                                                                 <td>
                                                                     <?php
                                                                     $db = \Config\Database::connect();
-                                                                    echo $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins FROM `timesheet` WHERE `effort_type`=" . $effortType->effort_type_id . " AND `date_added` LIKE '%" . $numeric_date . "%' and project_id=" . $id . ""; die;
+                                                                    $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins FROM `timesheet` WHERE `effort_type`=" . $effortType->effort_type_id . " AND `date_added` LIKE '%" . $numeric_date . "%' and project_id=" . $id . "";
                                                                     $rowresult          = $db->query($sql)->getResult();
                                                                     $totHours           = $rowresult[0]->hours;
                                                                     $minutes            = $rowresult[0]->mins;
