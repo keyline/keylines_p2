@@ -64,6 +64,7 @@
                                     <span class="input-group-text">To</span>
                                     <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 40px;">
                                 </div>
+                                <button type="button" id="searchBtn" class="btn btn-primary mt-2">Search</button>
                             </div>
                         </form>
                     </div>
