@@ -1521,7 +1521,7 @@ class ReportController extends BaseController
     {        
         $startDate = $this->request->getPost('start_date');
         $endDate = $this->request->getPost('end_date');
-        pr($this->request->getPost());
+        // pr($this->request->getPost());
 
         echo $query = "SELECT
                             timesheet.project_id, timesheet.date_added, project.name,project.project_time_type, timesheet.bill, SUM(timesheet.hour) AS total_hours, SUM(timesheet.min) AS total_minutes
