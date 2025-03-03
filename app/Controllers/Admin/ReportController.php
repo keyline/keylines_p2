@@ -1533,7 +1533,7 @@ class ReportController extends BaseController
                              GROUP BY
                             timesheet.project_id, project.name
                         ORDER BY
-                            project.name ASC";
+                            project.name ASC"; die;
 
         $projects = $this->db->query($query)->getResult();
         pr($projects);
