@@ -228,6 +228,10 @@
             let endDate = $('#search_range_to').val();
             console.log(startDate);
             console.log(endDate);
+            if(startDate === "" || endDate === ""){
+                alert("Please select both dates.");
+                return;
+            }
         });
     });
 
