@@ -58,13 +58,12 @@
                                         <hr>
                                     </select>
                                 </div>
-                                <!-- <div class="col-md-6 col-lg-6 input-group input-daterange">
-                                     <label for="search_range_from">Date Range</label> 
+                                <div class="col-md-6 col-lg-6 input-group input-daterange">                                     
                                     <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="" style="height: 40px;">
                                     <span class="input-group-text">To</span>
                                     <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 40px;">
                                     <button type="button" id="fetch_data" class="btn btn-primary mt-2">Search</button>
-                                </div>                                 -->
+                                </div>                                
                             </div>
                         </form>
                     </div>
@@ -223,6 +222,15 @@
     $(document).ready(function() {
         dayWiseListGenerate('yesterday');
     });
+    $(document).ready(function() {
+        $('#fetch_data').click(function(){
+            let startDate = $('#search_range_from').val();
+            let endDate = $('#search_range_to').val();
+            console.log(startDate);
+            console.log(endDate);
+        });
+    });
+
     function showWorkList(projectId, date, billable, hours) {
         $('#modalBody').html('');
         $.ajax({
