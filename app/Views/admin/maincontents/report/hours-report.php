@@ -236,8 +236,8 @@
             }
 
             // Update displayed date range
-            $("#from_date_display").text(fromDate);
-            $("#to_date_display").text(toDate);
+            $("#from_date_display").text(startDate);
+            $("#to_date_display").text(endDate);
 
             $.ajax({
             url: "<?= base_url('admin/reports/fetchData'); ?>",
