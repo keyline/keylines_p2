@@ -232,6 +232,23 @@
                 alert("Please select both dates.");
                 return;
             }
+
+            // Update displayed date range
+            $("#from_date_display").text(fromDate);
+            $("#to_date_display").text(toDate);
+
+            $.ajax({
+            url: "<?= base_url('admin/reports/fetchData'); ?>",
+            type: "POST",
+            data: { start_date: startDate, end_date: endDate },
+            dataType: "json",
+            success: function(response) {
+                $("#table_body").html(response);
+                },
+                error: function() {
+                    alert("Error fetching data!");
+                }
+            });
         });
     });
 

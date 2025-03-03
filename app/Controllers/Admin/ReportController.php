@@ -1521,20 +1521,19 @@ class ReportController extends BaseController
     {        
         $startDate = $this->request->getPost('start_date');
         $endDate = $this->request->getPost('end_date');
+        pr($this->request->getPost());
 
         echo $query = "SELECT
-                            timesheet.project_id,
-                            SUM(HOUR) hour,
-                            SUM(MIN) min,
-                            timesheet.bill
+                            timesheet.project_id, timesheet.date_added, project.name,project.project_time_type, timesheet.bill, SUM(timesheet.hour) AS total_hours, SUM(timesheet.min) AS total_minutes
                         FROM
                             timesheet
-                             WHERE date_added BETWEEN '$startDate' AND '$endDate'
+                        LEFT JOIN 
+                            project ON timesheet.project_id = project.id
+                            WHERE date_added BETWEEN '$startDate' AND '$endDate'
                              GROUP BY
-                            timesheet.project_id
+                            timesheet.project_id, project.name
                         ORDER BY
-                            timesheet.date_added
-                        DESC"; die;
+                            project.name ASC"; die;                        
 
         $projects = $this->db->query($query)->getResult();
         pr($projects);
