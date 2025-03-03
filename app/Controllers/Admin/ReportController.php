@@ -1529,7 +1529,7 @@ class ReportController extends BaseController
                             timesheet
                         LEFT JOIN 
                             project ON timesheet.project_id = project.id
-                            WHERE date_added BETWEEN '$startDate' AND '$endDate'
+                            WHERE timesheet.date_added BETWEEN '$startDate' AND '$endDate'
                              GROUP BY
                             timesheet.project_id, project.name
                         ORDER BY
