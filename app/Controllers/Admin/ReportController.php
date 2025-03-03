@@ -1536,9 +1536,154 @@ class ReportController extends BaseController
                             project.name ASC";
 
         $projects = $this->db->query($query)->getResult();
-        pr($projects);
+        // pr($projects);
+        $html = '';
+        $html = '<div class="" id="project-container">
+                    <div class="row">
+                        <div class="col md-6">
+                            <div class="card-header card-header2">
+                                <h6 class="heading_style text-center">
+                                    ONGOING PROJECT
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="printDiv();"><i class="fa fa-print"></i></button>
+                                </h6>
+                            </div>
+                            <div class="dt-responsive table-responsive" id="DivIdToPrint">
+                                <table class="table padding-y-10 general_table_style" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3">From Date : <u>'.$startDate.'</u></th>
+                                            <th colspan="3">To Date : <u>'.$endDate.'</u></th>
+                                        </tr>
+                                        <tr>
+                                            <th width="3%">#</th>
+                                            <th width="5%">Project</th>
+                                            <th width="5%">Project Status</th>
+                                            <th width="5%">Total Time</th>
+                                            <th width="5%">Total Cost</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>';
+        if ($projects) { $sl = 1;$total_cost = 0;$billable_cost=0;$non_billable_cost=0; foreach ($projects as $project) {
+                /* cost calculation */
+                    // $cost_sql1      = "SELECT project_cost FROM `project_cost` WHERE month=$last_month_month AND year=$last_month_year AND project_id = $ongoingProject->project_id";
+                    // $checkCost      = $this->db->query($cost_sql1)->getRow();
+                    $project_cost   = 0;
+                    // if($checkCost){
+                    //     $project_cost   = $checkCost->project_cost;
+                    // } else {
+                    //     $date_added     = $last_month_year.'-'.$last_month_month;
+                    //     $cost_sql2      = "SELECT sum(cost) as total_cost FROM `timesheet` WHERE project_id=$ongoingProject->project_id AND date_added LIKE '%$date_added%'";
+                    //     $checkCost      = $this->db->query($cost_sql2)->getRow();
+                    //     $project_cost   = $checkCost->total_cost;
+                    // }                    
+                    $cost_sql2      = "SELECT sum(cost) as total_cost FROM `timesheet` WHERE project_id=$project->project_id AND date_added >= '$startDate' AND date_added <= '$endDate'";
+                    $checkCost      = $this->db->query($cost_sql2)->getRow();
+                    $project_cost   = $checkCost->total_cost;
+                    $total_cost += $project_cost;
+                /* cost calculation */
+                $html .= '<tr>
+                            <th>' . $sl++ . '</th>';
 
-        return $this->response->setJSON(['data' => $projects]);
+                            if ($project->bill == 0) {
+                                if ($project->project_time_type == 'Onetime') {
+                                    $html .= '<th>' . $project->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($project->project_id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
+                                } else {
+                                    $html .= '<th>' . $project->name . 
+                                                '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($project->project_id)) . 
+                                                '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                                '</th>';
+                                }
+                                $billable_cost += $project_cost;
+                            } else {
+                                if ($project->project_time_type == 'Onetime') {
+                                    $html .= '<th>' . $project->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($project->project_id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
+                                } else {
+                                    $html .= '<th>' . $project->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($project->project_id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
+                                }
+                                $non_billable_cost += $project_cost;
+                            }
+
+                            $totalHours         = (int) $project->total_hours;
+                            $totalMinutes       = (int) $project->total_minutes;
+                            $additionalHours    = intdiv($totalMinutes, 60);
+                            $remainingMinutes   = $totalMinutes % 60;
+                            $totalHours        += $additionalHours;
+                            $formattedTime      = sprintf("%d hours %d minutes", $totalHours, $remainingMinutes);
+
+                            if ($project->bill == 0) {
+                                if ($project->project_time_type == 'Onetime') {
+                                    $html .= '<th>  <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th>  <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
+                                }
+                                $billable_cost += $project_cost;
+                            } else {
+                                if ($project->project_time_type == 'Onetime') {
+                                    $html .= '<th> <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th> <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
+                                }
+                                $non_billable_cost += $project_cost;
+                            }                
+
+
+                $html .= '<th style="cursor: pointer;" onclick="showWorkList(' . $project->project_id . ', \'' . $day . '\' , ' . ($project->bill == 0 ? '0' : '1') . ' , \'' . $formattedTime . '\')">';
+
+                $html .= $formattedTime;
+
+                $html .=    '</th>
+                            <th>'.number_format($project_cost,2).'</th>
+                        </tr>';
+            }
+            $html .= '<tr>
+                        <th colspan="3" style="text-align:right; font-weight:bold;">Total</th>
+                        <th>'.number_format($total_cost,2).'</th>
+                    </tr>';
+        } else {
+            $html .= '<tr>
+                        <td colspan="5">No records found for the selected date.</td>
+                     </tr>';
+        }
+        $html .= '</tbody>
+                    </table>
+                </div>
+            </div>';
+
+        $html .= '<div class="col md-6">
+                    <div class="card-header card-header2">
+                        <h6 class="heading_style text-center">NONBILLABLE HOURS</h6>
+                    </div>
+                    <div class="dt-responsive table-responsive">
+                        <table class="table general_table_style padding-y-10" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th width="1%">#</th>
+                                    <th width="5%">Billable Hour<br>Billable Cost</th>
+                                    <th width="5%">Nonbillable Hour<br>Nonbillable Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>     
+                                <tr>
+                                    <th>1</th>';
+            $html .= '              <th>' . $billabkeHoursMin . '<br>'.number_format($billable_cost,2).'</th>
+                                    <th>' . $nonBillableHoursMin . '<br>'.number_format($non_billable_cost,2).'</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>';
+        return $html;
     }
 
     public function desklogReport()
