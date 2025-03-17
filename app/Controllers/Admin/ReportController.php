@@ -1536,7 +1536,43 @@ class ReportController extends BaseController
                             project.name ASC";
 
         $projects = $this->db->query($query)->getResult();
-         pr($projects);
+        //  pr($projects);
+         $i4               = 1;
+        $ystrdhr          = 0;
+        $ystrdmin         = 0;
+        $ystrdbill_hr     = 0;
+        $ystrdbill_min    = 0;
+        $ystrdnonbill_hr  = 0;
+        $ystrdnonbill_min = 0;
+
+        foreach ($projects as $row_yesterday_proj) {
+            if ($row_yesterday_proj->bill != '1') {
+                $ystrdbill_hr   = $ystrdbill_hr + $row_yesterday_proj->total_hours;
+                $ystrdbill_min  = $ystrdbill_min + $row_yesterday_proj->total_minutes;
+            } else {
+                $ystrdnonbill_hr    = $ystrdnonbill_hr + $row_yesterday_proj->total_hours;
+                $ystrdnonbill_min   = $ystrdnonbill_min + $row_yesterday_proj->total_minutes;
+            }
+            $i4++;
+        }
+        if ($ystrdbill_min < 60) {
+            $ystrdtotbill_hour      = $ystrdbill_hr;
+            $ystrdtotbill_minute    = $ystrdbill_min;
+        } else {
+            $ystrdtotbill_hour_res1 = floor($ystrdbill_min / 60);
+            $ystrdtotbill_minute    = $ystrdbill_min % 60;
+            $ystrdtotbill_hour      = $ystrdbill_hr + $ystrdtotbill_hour_res1;
+        }
+        if ($ystrdnonbill_min < 60) {
+            $ystrdtotnonbill_hour   = $ystrdnonbill_hr;
+            $ystrdtotnonbill_minute = $ystrdnonbill_min;
+        } else {
+            $ystrdtotnonbill_hour_res1  = floor($ystrdnonbill_min / 60);
+            $ystrdtotnonbill_minute     = $ystrdnonbill_min % 60;
+            $ystrdtotnonbill_hour       = $ystrdnonbill_hr + $ystrdtotnonbill_hour_res1;
+        }
+        $billabkeHoursMin               = number_format($ystrdtotbill_hour + ($ystrdtotbill_minute / 60), 2);
+        $nonBillableHoursMin            = number_format($ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60), 2);
         $html = '';
         $html = '<div class="" id="project-container">
                     <div class="row">
