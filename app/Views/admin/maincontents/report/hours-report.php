@@ -243,7 +243,7 @@
             url: "<?= base_url('admin/reports/fetchData'); ?>",
             type: "POST",
             data: { start_date: startDate, end_date: endDate },
-            dataType: "json",
+            dataType: "html",
             success: function(response) {
                 // console.log(response); // Print the response in the console
                 $("#table_body").html(response);
