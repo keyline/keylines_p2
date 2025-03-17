@@ -245,9 +245,12 @@
             data: { start_date: startDate, end_date: endDate },
             dataType: "json",
             success: function(response) {
+                console.log(response); // Print the response in the console
                 $("#table_body").html(response);
                 },
-                error: function() {
+                error: function(xhr, status, error) {
+                    console.log("Error: ", error); // Print the error message
+                    console.log("XHR: ", xhr.responseText); // Print full error response
                     alert("Error fetching data!");
                 }
             });
