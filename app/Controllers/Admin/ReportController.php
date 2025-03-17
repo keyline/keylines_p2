@@ -1536,7 +1536,7 @@ class ReportController extends BaseController
                             project.name ASC";
 
         $projects = $this->db->query($query)->getResult();
-        // pr($projects);
+         pr($projects);
         $html = '';
         $html = '<div class="" id="project-container">
                     <div class="row">
