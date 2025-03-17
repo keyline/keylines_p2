@@ -249,8 +249,8 @@
                 $("#table_body").html(response);
                 },
                 error: function(xhr, status, error) {
-                    console.log("Error: ", error); // Print the error message
-                    console.log("XHR: ", xhr.responseText); // Print full error response
+                    // console.log("Error: ", error); // Print the error message
+                    // console.log("XHR: ", xhr.responseText); // Print full error response
                     alert("Error fetching data!");
                 }
             });
