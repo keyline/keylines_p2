@@ -99,7 +99,7 @@
                                             <th width="5%">Total Cost</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="table_body">
+                                    <tbody>
                                         <?php
                                         $start_date_array   = explode("-", $yesterday);
                                         $last_month_year    = $start_date_array[0];
@@ -246,7 +246,7 @@
             dataType: "html",
             success: function(response) {
                 // console.log(response); // Print the response in the console
-                $("#table_body").html(response);
+                $("#project-container").html(response);
                 },
                 error: function(xhr, status, error) {
                     console.log("Error: ", error); // Print the error message
