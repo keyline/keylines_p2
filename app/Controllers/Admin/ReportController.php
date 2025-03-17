@@ -1636,7 +1636,7 @@ class ReportController extends BaseController
                             }                
 
 
-                $html .= '<th style="cursor: pointer;" onclick="showWorkList(' . $project->project_id . ', \'' . $day . '\' , ' . ($project->bill == 0 ? '0' : '1') . ' , \'' . $formattedTime . '\')">';
+                $html .= '<th style="cursor: pointer;" onclick="showWorkList(' . $project->project_id . ', \'' . $startDate .'-'. $endDate . '\' , ' . ($project->bill == 0 ? '0' : '1') . ' , \'' . $formattedTime . '\')">';
 
                 $html .= $formattedTime;
 
