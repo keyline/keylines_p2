@@ -274,12 +274,12 @@ class ReportController extends BaseController
         $title                      = 'Manage ' . $this->data['title'] . ' : Effort Report';
         $page_name                  = 'report/effort-report';
         $data['userType']           = $this->session->user_type;
-         pr($data['userType']);
+        //  pr($data['userType']);
         $userType                   = $data['userType'];
         $userId                             = $this->session->user_id;
         $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
         $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
-        if($data['userType'] == 'SUPERADMIN' || $data['userType'] == "ADMIN" ){
+        if($data['userType'] == 'SUPER ADMIN' || $data['userType'] == "ADMIN" ){
             $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
         }else{
             $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1,'id='=>$userId], 'id,name,status', '', '', $order_by);
