@@ -675,7 +675,7 @@ class User extends BaseController {
                 $data['last7DaysResponses']         = $last7DaysResponses;  
                 // echo "<pre>";   
                 // print_r($data['last7DaysResponses'])  ;die;       
-                $userGraph = [];
+                // $userGraph = [];
                 $AlluserGraph = [];
 
                 if($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users){
