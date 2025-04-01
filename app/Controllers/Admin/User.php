@@ -373,7 +373,7 @@ class User extends BaseController {
                     $data['desklog_user'] = $desklog_user;
                     // $cu_date            = date('Y-m-d');
                 // }
-
+                $userGraph = [];
                 $response = [];
                 $last7DaysAttendance = [];
                 $sl=1;
