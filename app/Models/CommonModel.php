@@ -90,7 +90,7 @@ class CommonModel extends Model
                 $result = $query->getNumRows();
                 break;
         }
-        // echo $this->db->getLastQuery();die;
+        echo $this->db->getLastQuery();die;
         return $result;
 
     }
