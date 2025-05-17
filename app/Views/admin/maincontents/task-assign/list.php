@@ -393,6 +393,7 @@ $controller_route       = $moduleDetail['controller_route'];
 
                                                                     $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
                                                                     $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
+                                                                    pr($checkAttnendancetime);
                                                                     if($checkAttnendancetime){
                                                                         $punchInTime = date_format(date_create($checkAttnendancetime->punch_in), "h:i A");                                                                       
                                                                     } 
