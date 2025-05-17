@@ -684,7 +684,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
                                                                     $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
 
-                                                                    $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);
+                                                                    $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);                                                                    
+                                                                    $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);
+                                                                    dd($checkAttnendancetime);
                                                                     if($checkAttnendance > 0){
                                                                         $attnBgColor = '#d1fa05';
                                                                     } else {
