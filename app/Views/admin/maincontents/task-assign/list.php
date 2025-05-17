@@ -686,7 +686,7 @@ $controller_route       = $moduleDetail['controller_route'];
 
                                                                     $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);                                                                    
                                                                     $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);
-                                                                    dd($checkAttnendancetime);
+                                                                    dd($checkAttnendance);
                                                                     if($checkAttnendance > 0){
                                                                         $attnBgColor = '#d1fa05';
                                                                     } else {
