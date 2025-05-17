@@ -391,8 +391,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $totalAssigned    = intdiv($totalTime, 60) . ':' . ($totalTime % 60);
                                                                     $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
 
-                                                                    $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
+                                                                    $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);                                                                
                                                                     $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
+                                                                    echo $this->db->last_query();
                                                                     pr($checkAttnendancetime);
                                                                     if($checkAttnendancetime){
                                                                         $punchInTime = date_format(date_create($checkAttnendancetime->punch_in), "h:i A");                                                                       
