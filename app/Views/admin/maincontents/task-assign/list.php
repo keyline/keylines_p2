@@ -392,6 +392,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
 
                                                                     $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
+                                                                    $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
                                                                     if($checkAttnendance > 0){
                                                                         $attnBgColor = '#d1fa05';
                                                                     } else {
@@ -422,7 +423,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                     <span><?=$teamMember->name?></span>
                                                                                 </div>
                                                                                 <div class="col-md-6" style="text-align: left;">
-                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In: <?=$checkAttnendancetime?></span><br>
                                                                                     <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
                                                                                 </div>
                                                                                 <div class="col-md-6" style="text-align: right;">
