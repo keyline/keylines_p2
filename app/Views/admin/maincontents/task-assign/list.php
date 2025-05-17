@@ -392,7 +392,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $totalAssigned    = '[Assigned : ' . $totalAssigned . ']';
 
                                                                     $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);                                                                
-                                                                    $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
+                                                                    $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]); die;
                                                                     // echo $this->db->last_query();
                                                                     // pr($checkAttnendancetime);
                                                                     if($checkAttnendancetime){
