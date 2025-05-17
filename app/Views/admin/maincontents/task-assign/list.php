@@ -686,7 +686,8 @@ $controller_route       = $moduleDetail['controller_route'];
 
                                                                     $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);                                                                    
                                                                     $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);
-                                                                    $sql = "SELECT * FROM attendances WHERE user_id = $teamMember->id AND punch_date = 'date('Y-m-d')' LIMIT 1";
+                                                                    $current =date('Y-m-d');
+                                                                    $sql = "SELECT * FROM attendances WHERE user_id = $teamMember->id AND punch_date = $current LIMIT 1";
                                                                     echo $sql;
                                                                     
                                                                     if($checkAttnendance > 0){
