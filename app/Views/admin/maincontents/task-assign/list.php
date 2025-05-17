@@ -393,7 +393,7 @@ $controller_route       = $moduleDetail['controller_route'];
 
                                                                     $checkAttnendance = $common_model->find_data('attendances', 'count', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);                                                                
                                                                     $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => $yesterday]);
-                                                                    dd($checkAttnendancetime);
+                                                                    dd($checkAttnendance);
                                                                     // echo $this->db->last_query();
                                                                     // pr($checkAttnendancetime);
                                                                     if($checkAttnendancetime){
