@@ -396,9 +396,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     // dd($checkAttnendance);
                                                                     // echo $this->db->last_query();
                                                                     // pr($checkAttnendancetime);
-                                                                    if($checkAttnendancetime){
-                                                                        $punchInTime = date_format(date_create($checkAttnendancetime->punch_in), "h:i A");                                                                       
-                                                                    } 
+                                                                    // if($checkAttnendancetime){
+                                                                    //     $punchInTime = date_format(date_create($checkAttnendancetime->punch_in), "h:i A");                                                                       
+                                                                    // } 
                                                                     if($checkAttnendance > 0){
                                                                         $attnBgColor = '#d1fa05';
                                                                     } else {
