@@ -692,7 +692,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     
                                                                     if($checkAttnendance > 0){
                                                                         $checkAttnendancetime = $common_model->find_data('attendances', 'row', ['user_id' => $teamMember->id, 'punch_date' => date('Y-m-d')]);
-                                                                        $punchInTime = date_format(date_create($checkAttnendancetime->punch_in), "h:i A");
+                                                                        $punchInTime = date_format(date_create($checkAttnendancetime->punch_in_time), "h:i A");
                                                                         $attnBgColor = '#d1fa05';
                                                                     } else {
                                                                         $attnBgColor = 'red';
