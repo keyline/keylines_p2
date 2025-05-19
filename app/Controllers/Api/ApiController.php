@@ -1681,7 +1681,7 @@ class ApiController extends BaseController
                                     'id'              => $getEmployee->id,
                                     'name'            => $getEmployee->name,
                                     'email'           => $getEmployee->email,
-                                    'phone'           => $getEmployee->phone,
+                                    'phone'           => $getEmployee->phone1,
                                     'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
                                     'department'      => (($department)?$department->deprt_name:''),
                                     'punch_in_time'   => (($punch_time)?$punch_time->punch_in_time:''),
