@@ -283,7 +283,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['post'], "delete-account", "ApiController::deleteAccount");
 			$routes->match(['post'], "update-profile-image", "ApiController::updateProfileImage");
 			$routes->match(['post'], "get-holiday", "ApiController::getHoliday");
-			$routes->match(['post'], "get-employee", "ApiController::getEmployee");
+			$routes->match(['get'], "get-employee", "ApiController::getEmployee");
 			$routes->match(['post'], "get-geolocation-distance", "ApiController::getGeolocationDistance");
 			$routes->match(['post'], "mark-attendance", "ApiController::markAttendance");
 			$routes->match(['post'], "get-month-attendance", "ApiController::getMonthAttendance");
