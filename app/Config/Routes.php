@@ -210,6 +210,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 				$routes->match(['get', 'post'], "reports/hours-report", "ReportController::hoursReport");
 				$routes->match(['get', 'post'], "reports/dayWiseListUpdate", "ReportController::dayWiseListUpdate");
 				$routes->match(['get', 'post'], "reports/showWorkList", "ReportController::showWorkList");	
+				$routes->match(['get', 'post'], "reports/fetchData", "ReportController::fetchData");	
 				$routes->match(['get', 'post'], "reports/get-desklog-report", "ReportController::desklogReport");
 				$routes->match(['get', 'post'], "reports/desklog-report-view", "ReportController::show");
 

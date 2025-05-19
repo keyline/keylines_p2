@@ -2,6 +2,8 @@
 namespace App\Controllers\admin;
 use App\Controllers\BaseController;
 use App\Models\CommonModel;
+use DateTime;
+
 class ProjectController extends BaseController {
 
     private $model;  //This can be accessed by all class methods
@@ -226,6 +228,26 @@ class ProjectController extends BaseController {
     public function reports($id){
         $id                             = base64_decode($id);
         $data['project']                = $this->data['model']->find_data('project', 'row', ['id' => $id], '', '', '', '');
+        $total_cost                = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE project_id=".$id."";
+        $rowscost               = $this->db->query($total_cost)->getRow();
+        //  print_r($rowscost);die;
+        // Split the date and time
+        // $datePart                  = explode(" ", $data['project']->date_added)[0]; // Extract '2024-01-08'
+         $startMonth                = explode("-", $data['project']->start_date)[1];
+        // echo $startYear                = explode("-", $data['project']->start_date)[0];
+        // Define the start date
+        $startDate = new DateTime($data['project']->start_date); // Convert to DateTime object
+
+        // Get the current date
+        $currentDate = new DateTime(); // Current date as a DateTime object
+
+        // Calculate the difference
+        $interval = $startDate->diff($currentDate);
+
+        // Get the total months count
+        $totalMonths = ($interval->y * 12) + $interval->m + 1;
+        // pr($startMonth);
+        // pr($data['project']);        
         $order_by[0]                    = array('field' => 'name', 'type' => 'ASC');
         // $data['all_projects']        = $this->data['model']->find_data('project', 'array', ['active' => 0], '', '', '', $order_by);
         $sql1                           = "SELECT project.*, project_status.name AS project_status_name FROM project, project_status WHERE project.status NOT IN (SELECT id FROM project_status WHERE id = 13) AND project.status = project_status.id ORDER BY project.name";
@@ -235,30 +257,40 @@ class ProjectController extends BaseController {
         $data['moduleDetail']           = $this->data;
         $title                          = 'Manage '.$this->data['title'];
         $page_name                      = 'project/reports';
-        $sql10                          = 'SELECT timesheet.id as timesheet_id, effort_type.id AS effort_type_id, effort_type.name FROM timesheet LEFT JOIN effort_type ON timesheet.effort_type = effort_type.id WHERE timesheet.project_id = '.$id.' AND date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY effort_type.name ORDER BY effort_type.id ASC';
+       $sql10                          = 'SELECT timesheet.id as timesheet_id, effort_type.id AS effort_type_id, effort_type.name FROM timesheet LEFT JOIN effort_type ON timesheet.effort_type = effort_type.id WHERE timesheet.project_id = '.$id.' AND date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY effort_type.name ORDER BY effort_type.id ASC';
         $data['effortTypes']            = $this->db->query($sql10)->getResult();
 
         $sql20                          = 'SELECT timesheet.id as timesheet_id, user.id AS user_id, user.name FROM timesheet LEFT JOIN user ON timesheet.user_id = user.id WHERE timesheet.project_id = '.$id.' AND timesheet.date_added BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR) AND CURDATE() GROUP BY user.name ORDER BY user.name ASC';
         $data['usersData']              = $this->db->query($sql20)->getResult();
         
         $months                         = [];
-        for ($i = 13; $i >= 0; $i--) {
+        $totalWorkedHours = 0;
+        $totalmounthcount = 0;
+        for ($i = 11; $i >= 0; $i--) {
             $date               = date("M-y", strtotime( date( 'Y-m-01' )." -$i months"));
             $numericDate        = date("Y-m", strtotime(date('Y-m-01') . " -$i months"));
             $monthData[]        = $date;
             $numeric_dates[]    = $numericDate;
             $months[]           = strtoupper($date);            
-             $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
+            $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
             $rows               = $this->db->query($sql)->getResult();
-            
+            $monthcountsql      = "SELECT COUNT(DISTINCT DATE_FORMAT(date_added, '%Y-%m')) AS month_count FROM `timesheet` WHERE project_id = ".$id." and `date_added` LIKE '%".$numericDate."%'";
+            $monthcountrows     = $this->db->query($monthcountsql)->getResult();
+             
+            $totalWorkedHours += $rows[0]->total_hours_worked;            
+            $totalmounthcount += $monthcountrows[0]->month_count;            
             $eachMonthHour[]    = $rows;
         }
-         $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
+        //  pr($totalmounthcount);
+        //  $sql                = "SELECT SUM(hour) as hours,SUM(min) as mins, SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$numericDate."%' and project_id=".$id."";
         // pr($rows);
         $data['id']             = $id;
         $data['months']         = $months;
         $data['eachMonthHour']  = $eachMonthHour;
+        $data['totalWorkedHours'] = $totalWorkedHours;
+        $data['monthcountrows'] = $totalmounthcount;
         $data['numeric_dates']  = $numeric_dates;
+        $data['totalcost']      = number_format($rowscost->total_hours_worked,2);
 
         echo $this->layout_after_login($title,$page_name,$data);
     }
