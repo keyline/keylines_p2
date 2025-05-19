@@ -4,6 +4,7 @@ use App\Controllers\BaseController;
 use App\Models\CommonModel;
 use App\Libraries\CreatorJwt;
 use App\Libraries\JWT;
+use App\Libraries\ExpiredException;
 
 class ApiController extends BaseController
 {
