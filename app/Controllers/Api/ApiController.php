@@ -1666,9 +1666,9 @@ class ApiController extends BaseController
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
                     if($getEmployees){
-                        $apiResponse[]        = [
-                            '$getEmployees' => $getEmployees,
-                        ];
+                        // $apiResponse[]        = [
+                        //     '$getEmployees' => $getEmployees,
+                        // ];
                         // pr($getEmployees);die;
                         // $currentYear        = date('Y');
                         // $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
@@ -1677,16 +1677,16 @@ class ApiController extends BaseController
                             foreach($getEmployees as $getEmployee){
                                 $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,status');
                                 $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'name');
-                                // $apiResponse[]        = [
-                                //     'id'              => $getEmployee->id,
-                                //     'name'            => $getEmployee->name,
-                                //     'email'           => $getEmployee->email,
-                                //     'phone'           => $getEmployee->phone,
-                                //     'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
-                                //     'department'      => (($department)?$department->name:''),
-                                //     'punch_in_time'   => (($punch_time)?$punch_time->punch_in_time:''),
-                                //     'punch_status'    => (($punch_time)?$punch_time->status:''),
-                                // ];
+                                $apiResponse[]        = [
+                                    'id'              => $getEmployee->id,
+                                    // 'name'            => $getEmployee->name,
+                                    'email'           => $getEmployee->email,
+                                    'phone'           => $getEmployee->phone,
+                                    'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
+                                    // 'department'      => (($department)?$department->name:''),
+                                    'punch_in_time'   => (($punch_time)?$punch_time->punch_in_time:''),
+                                    'punch_status'    => (($punch_time)?$punch_time->status:''),
+                                ];
                             }
                         // }
 
