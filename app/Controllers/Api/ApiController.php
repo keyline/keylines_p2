@@ -4,7 +4,6 @@ use App\Controllers\BaseController;
 use App\Models\CommonModel;
 use App\Libraries\CreatorJwt;
 use App\Libraries\JWT;
-use App\Libraries\ExpiredException;
 
 class ApiController extends BaseController
 {
@@ -1677,14 +1676,14 @@ class ApiController extends BaseController
                         // if($getEvents){
                             foreach($getEmployees as $getEmployee){
                                 $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,status');
-                                $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'name');
+                                $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
                                 $apiResponse[]        = [
                                     'id'              => $getEmployee->id,
-                                    // 'name'            => $getEmployee->name,
+                                    'name'            => $getEmployee->name,
                                     'email'           => $getEmployee->email,
                                     'phone'           => $getEmployee->phone,
                                     'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
-                                    // 'department'      => (($department)?$department->name:''),
+                                    'department'      => (($department)?$department->deprt_name:''),
                                     'punch_in_time'   => (($punch_time)?$punch_time->punch_in_time:''),
                                     'punch_status'    => (($punch_time)?$punch_time->status:''),
                                 ];
