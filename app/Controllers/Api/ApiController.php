@@ -1651,7 +1651,7 @@ class ApiController extends BaseController
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
-        public function employee()
+        public function getEmployee()
         {
             $apiStatus          = TRUE;
             $apiMessage         = '';
