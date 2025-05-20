@@ -2615,20 +2615,21 @@ class ApiController extends BaseController
                 $getTokenValue              = $this->tokenAuth($app_access_token);
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
+                    $getUserId = $requestData['id'];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
                     if($getUser){
                         
                         $attn_date      = $requestData['attn_date'];
                         $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                        $checkAttn      = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
+                        $checkAttn      = $this->common_model->find_data('attendances', 'row', ['user_id' => $getUserId, 'punch_date' => $attn_date], '', '', '', $orderBy);
                         if($checkAttn){
                             // $attendance_time = $checkAttn->attendance_time;
                             
 
                             $attnDatas          = [];
                             $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                            $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
+                            $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $getUserId, 'punch_date' => $attn_date], '', '', '', $orderBy);
                             $tot_attn_time      = 0;
                             if($attnList){
                                 foreach($attnList as $attnRow){
@@ -2669,7 +2670,7 @@ class ApiController extends BaseController
                             $isFullday  = 0;
                             $isLate     = 0;
                             $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                            $getFirstAttn       = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
+                            $getFirstAttn       = $this->common_model->find_data('attendances', 'row', ['user_id' => $getUserId, 'punch_date' => $attn_date], '', '', '', $orderBy);
 
                             if($tot_attn_time < 240){
                                 $isAbsent   = 1;
@@ -2695,8 +2696,7 @@ class ApiController extends BaseController
                                 }
                             }
 
-                            $apiResponse        = [
-                                'id'                    => $getUser->id,
+                            $apiResponse        = [                                
                                 'punch_date'            => date_format(date_create($checkAttn->punch_date), "M d, Y"),
                                 'punch_in_time'         => date_format(date_create($checkAttn->punch_in_time), "h:i A"),
                                 'punch_in_address'      => $checkAttn->punch_in_address,
