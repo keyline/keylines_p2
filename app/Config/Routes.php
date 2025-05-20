@@ -289,7 +289,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['post'], "get-month-attendance", "ApiController::getMonthAttendance");
 			$routes->match(['post'], "get-month-attendance-new", "ApiController::getMonthAttendanceNew");
 			$routes->match(['post'], "get-single-attendance", "ApiController::getSingleAttendance");
-			$routes->match(['post'], "get-single-attendance-new", "ApiController::getSingleAttendanceNewgetSingleAttendanceNew");
+			$routes->match(['post'], "get-single-attendance-new", "ApiController::getSingleAttendanceNew");
 			
 			$routes->match(['post'], "get-notifications", "ApiController::getNotifications");
 			$routes->match(['post'], "get-notes", "ApiController::getNotes");
