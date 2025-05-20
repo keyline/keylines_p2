@@ -755,6 +755,7 @@ class ApiController extends BaseController
                     if($getUser){
                         $getCategory         = $this->common_model->find_data('user_category', 'row', ['id' => $getUser->category], 'name');                        
                         $apiResponse        = [
+                            'id'                                    => $getUser->id,
                             'type'                                  => $getUser->type,
                             'name'                                  => $getUser->name,
                             'email'                                 => $getUser->email,
