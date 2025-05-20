@@ -2199,7 +2199,9 @@ class ApiController extends BaseController
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+                     $getUserId = $requestData['id'];                     
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
+                   
                     if($getUser){
                         
                         $attn_month_year    = explode("/", $requestData['attn_month_year']);
@@ -2232,11 +2234,11 @@ class ApiController extends BaseController
                                     $disableTouchEvent = 0;
                                 }
 
-                                $checkAttn = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $punch_date]);
+                                $checkAttn = $this->common_model->find_data('attendances', 'row', ['user_id' => $getUserId, 'punch_date' => $punch_date]);
                                 if($checkAttn){
                                     $disableTouchEvent  = 0;
                                     $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                                    $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $punch_date], 'attendance_time', '', '', $orderBy);
+                                    $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $getUserId, 'punch_date' => $punch_date], 'attendance_time', '', '', $orderBy);
                                     $tot_attn_time      = 0;
                                     if($attnList){
                                         foreach($attnList as $attnRow){
@@ -2383,12 +2385,12 @@ class ApiController extends BaseController
                                 if(!empty($last7Days)){
                                     for($t=0;$t<count($last7Days);$t++){
                                         $loopDate           = $last7Days[$t];
-                                        $dayWiseBooked      = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$uId' and date_added LIKE '$loopDate'")->getRow();
+                                        $dayWiseBooked      = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$getUserId' and date_added LIKE '$loopDate'")->getRow();
                                         $tothour                = $dayWiseBooked->tothour * 60;
                                         $totmin                 = $dayWiseBooked->totmin;
                                         $totalMin               = ($tothour + $totmin);
                                         $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
-                                        $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desklog_report` where tracker_user_id='$uId' and insert_date LIKE '%$loopDate%'")->getRow();
+                                        $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desklog_report` where tracker_user_id='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
                                         // echo $this->db->getLastQuery();
                                         $desklog_time           = (($getDesklogTime)?$getDesklogTime->time_at_work:'');
                                         $desklog_time1           = str_replace("m","",$desklog_time);
@@ -2403,8 +2405,7 @@ class ApiController extends BaseController
                                 }
                             /* last 7 days tracker report */
 
-                            $apiResponse        = [
-                                'id'                => $getUser->id,
+                            $apiResponse        = [                                
                                 'present_count'     => $present_count,
                                 'halfday_count'     => $halfday_count,
                                 'late_count'        => $late_count,
