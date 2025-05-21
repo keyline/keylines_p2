@@ -1668,7 +1668,7 @@ class ApiController extends BaseController
                     $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
                     if($getEmployees){                        
                         foreach($getEmployees as $getEmployee){
-                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,status');
+                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status');
                             $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
                             $apiResponse[]        = [
                                 'id'              => $getEmployee->id,
@@ -1678,7 +1678,8 @@ class ApiController extends BaseController
                                 'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
                                 'department'      => (($department)?$department->deprt_name:''),
                                 'punch_in_time'   => (($punch_time)?$punch_time->punch_in_time:''),
-                                'punch_status'    => (($punch_time)?$punch_time->status:''),
+                                'punch_out_time'  => (($punch_time)?$punch_time->punch_out_time:''),
+                                'punch_status'    => $punch_time->status,
                             ];
                         }                       
                         $apiStatus          = TRUE;
