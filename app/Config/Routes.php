@@ -295,6 +295,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['post'], "get-notes", "ApiController::getNotes");
 			$routes->match(['post'], "update-note", "ApiController::updateNote");
 			$routes->match(['post'], "get-tasks", "ApiController::getTasks");
+			$routes->match(['post'], "get-tasks-new", "ApiController::getTasksNew");
 		// after login
 	});
 /* API */
