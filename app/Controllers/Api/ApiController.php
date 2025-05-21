@@ -1679,7 +1679,7 @@ class ApiController extends BaseController
                                 'department'      => (($department)?$department->deprt_name:''),
                                 'punch_in_time'   => (($punch_time)?$punch_time->punch_in_time:''),
                                 'punch_out_time'  => (($punch_time)?$punch_time->punch_out_time:''),
-                                'punch_status'    => $punch_time->status,
+                                'punch_status'    => $punch_time['status'],
                             ];
                         }                       
                         $apiStatus          = TRUE;
