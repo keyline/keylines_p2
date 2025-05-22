@@ -127,7 +127,7 @@ class Home extends BaseController
                 foreach($dateWises as $dateWise){
                     $userId             = $dateWise->tracker_user_id;
                     $getuser          = $this->common_model->find_data('user', 'row', ['id' => $userId]);
-                    pr($getuser);
+                    pr($getuser); die;
                     $checkTrackerFillup = $this->db->query("SELECT sum(hour) as totHr, sum(min) as totMin FROM `timesheet` WHERE `user_id` = '$userId' and date_added = '$yesterdayDate'")->getRow();
                     if($checkTrackerFillup->totHr != '' || $checkTrackerFillup->totMin != ''){
                         $hourMin                    = ($checkTrackerFillup->totHr * 60);
