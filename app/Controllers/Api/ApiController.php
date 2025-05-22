@@ -1670,7 +1670,7 @@ class ApiController extends BaseController
                     if($getEmployees){                        
                         foreach($getEmployees as $getEmployee){
                             $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status', '', '', '', $orderBy);
+                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status', '', '', $orderBy);
                             $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
                             $punchout = ($punch_time) ? DateTime::createFromFormat('H:i:s', $punch_time->punch_out_time) : false;
                             $apiResponse[]        = [
