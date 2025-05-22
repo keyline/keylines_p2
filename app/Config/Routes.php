@@ -10,6 +10,7 @@ $routes->post('/delete-account-request', 'Home::deleteAccountRequest');
 $routes->post('/get-email-otp', 'Home::getEmailOTP');
 $routes->post('/get-phone-otp', 'Home::getPhoneOTP');
 $routes->get('/daily-tracker-fillup-report', 'Home::dailyTrackerFillupReport');
+$routes->get('/daily-desklog-report', 'Home::dailyDesklogReport');
 $routes->match(['get'], "/fetch-desklog-report", "Home::fetchDesklogReport");
 
 $routes->get('/client-details', 'Home::clientDetails');
