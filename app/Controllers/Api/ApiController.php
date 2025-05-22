@@ -20,6 +20,7 @@ class ApiController extends BaseController
                 $generalSetting = $this->common_model->find_data('general_settings', 'row');
                 if($generalSetting){
                     $apiResponse = [
+                        'company_name'              => $generalSetting->company_name,
                         'site_name'                 => $generalSetting->site_name,
                         'site_phone'                => $generalSetting->site_phone,
                         'site_mail'                 => $generalSetting->site_mail,
