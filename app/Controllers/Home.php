@@ -116,6 +116,59 @@ class Home extends BaseController
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
     /* cron report */
+        public function dailyDesklogReport(){
+            $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
+
+            $filledUsers                = [];
+            $notFilledUsers             = [];
+            // $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
+            $dateWises                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $yesterdayDate . '%']);            
+            if($dateWises){
+                foreach($dateWises as $dateWise){
+                    $userId             = $dateWise->tracker_user_id;
+                    $getuser          = $this->common_model->find_data('user', 'row', ['id' => $userId]);
+                    pr($getuser);
+                    $checkTrackerFillup = $this->db->query("SELECT sum(hour) as totHr, sum(min) as totMin FROM `timesheet` WHERE `user_id` = '$userId' and date_added = '$yesterdayDate'")->getRow();
+                    if($checkTrackerFillup->totHr != '' || $checkTrackerFillup->totMin != ''){
+                        $hourMin                    = ($checkTrackerFillup->totHr * 60);
+                        $totMin                     = $checkTrackerFillup->totMin;
+                        $totalMins                  = ($hourMin + $totMin);
+                        $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);
+                        $filledUsers[]              = [
+                            'name' => $getUser->name,
+                            'time' => $totalBooked
+                        ];
+                    } else {
+                        $notFilledUsers[]                = [
+                            'name' => $getUser->name,
+                            'time' => '0:0'
+                        ];
+                    }
+                }
+            }
+            $mailData                   = [
+                'yesterday_date'    => $yesterdayDate,
+                'filledUsers'       => $filledUsers,
+                'notFilledUsers'    => $notFilledUsers,
+            ];
+            $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+            $subject                    = $generalSetting->site_name.' :: Tracker Booked Status - '.date_format(date_create($yesterdayDate), "M d, Y");
+            $message                    = view('email-templates/cron-daily-tracker-fillup',$mailData);
+            // echo $message;die;
+            /* email log save */
+                $postData2 = [
+                    'name'                  => $generalSetting->site_name,
+                    'email'                 => $generalSetting->system_email,
+                    'subject'               => $subject,
+                    'message'               => $message
+                ];
+                $this->common_model->save_data('email_logs', $postData2, '', 'id');
+            /* email log save */
+                
+            if($this->sendMail($generalSetting->system_email, $subject, $message)){
+                echo "Email Sent !!!";
+            }
+        }
         public function dailyTrackerFillupReport(){
             $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
 
