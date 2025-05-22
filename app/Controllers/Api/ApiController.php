@@ -754,9 +754,11 @@ class ApiController extends BaseController
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+                    $generalSetting = $this->common_model->find_data('general_settings', 'row');
                     if($getUser){
                         $getCategory         = $this->common_model->find_data('user_category', 'row', ['id' => $getUser->category], 'name');                        
                         $apiResponse        = [
+                            'company_name'                          => $generalSetting->company_name,
                             'id'                                    => $getUser->id,
                             'type'                                  => $getUser->type,
                             'name'                                  => $getUser->name,
