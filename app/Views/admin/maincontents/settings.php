@@ -233,11 +233,17 @@ $user_type = session('user_type');
                 <!-- general settings Form -->
                 <form method="POST" action="<?= base_url('admin/general-settings') ?>" enctype="multipart/form-data">
                   <div class="row mb-3">
+                    <label for="company_name" class="col-md-4 col-lg-3 col-form-label">Company Name</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="company_name" type="text" class="form-control" id="company_name" value="<?= $setting->company_name ?>">
+                    </div>
+                  </div>
+                  <div class="row mb-3">
                     <label for="site_name" class="col-md-4 col-lg-3 col-form-label">Site Name</label>
                     <div class="col-md-8 col-lg-9">
                       <input name="site_name" type="text" class="form-control" id="site_name" value="<?= $setting->site_name ?>">
                     </div>
-                  </div>
+                  </div>                  
                   <div class="row mb-3">
                     <label for="site_phone" class="col-md-4 col-lg-3 col-form-label">Site Phone</label>
                     <div class="col-md-8 col-lg-9">
