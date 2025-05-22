@@ -1678,7 +1678,7 @@ class ApiController extends BaseController
                                 'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
                                 'department'      => (($department)?$department->deprt_name:''),
                                 'punch_in_time'   => (($punch_time)? date('h:i a', strtotime($punch_time->punch_in_time)) :''),
-                                'punch_out_time'  => (($punch_time)? date('h i a', strtotime($punch_time->punch_out_time)) :''),
+                                'punch_out_time'  => (($punch_time)? date('h:i a', strtotime($punch_time->punch_out_time)) :''),
                                 'punch_status'    => (($punch_time)? (int)$punch_time->status:0),
                             ];
                         }                       
