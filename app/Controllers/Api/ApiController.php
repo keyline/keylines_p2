@@ -1669,7 +1669,7 @@ class ApiController extends BaseController
                     $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
                     if($getEmployees){                        
                         foreach($getEmployees as $getEmployee){
-                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status');
+                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status',['id' => 'desc']);
                             $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
                             $punchout = ($punch_time) ? DateTime::createFromFormat('H:i:s', $punch_time->punch_out_time) : false;
                             $apiResponse[]        = [
@@ -1680,7 +1680,7 @@ class ApiController extends BaseController
                                 'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
                                 'department'      => (($department)?$department->deprt_name:''),
                                 'punch_in_time'   => (($punch_time)? date('h:i a', strtotime($punch_time->punch_in_time)) :''),
-                                'punch_out_time'  => (($punchout) ? $punchout->format('g:i A') : ''),
+                                'punch_out_time'  => (($punchout) ? $punchout->format('g:i a') : ''),
                                 'punch_status'    => (($punch_time)? (int)$punch_time->status:0),
                             ];
                         }                       
