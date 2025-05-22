@@ -119,31 +119,21 @@ class Home extends BaseController
         public function dailyDesklogReport(){
             $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
 
-            $filledUsers                = [];
+            $userdata                = [];
             $notFilledUsers             = [];
             // $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
             $dateWises                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $yesterdayDate . '%']);            
             if($dateWises){
                 foreach($dateWises as $dateWise){
-                    $userId             = $dateWise->tracker_user_id;
-                    $getuser          = $this->common_model->find_data('user', 'row', ['id' => $userId]);
-                    pr($getuser); die;
-                    $checkTrackerFillup = $this->db->query("SELECT sum(hour) as totHr, sum(min) as totMin FROM `timesheet` WHERE `user_id` = '$userId' and date_added = '$yesterdayDate'")->getRow();
-                    if($checkTrackerFillup->totHr != '' || $checkTrackerFillup->totMin != ''){
-                        $hourMin                    = ($checkTrackerFillup->totHr * 60);
-                        $totMin                     = $checkTrackerFillup->totMin;
-                        $totalMins                  = ($hourMin + $totMin);
-                        $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);
-                        $filledUsers[]              = [
+                    $userId             = $dateWise->desklog_usrid;
+                    $getuser           = $this->common_model->find_data('user', 'row', ['id' => $userId]);
+                    $userdata[]              = [
                             'name' => $getUser->name,
-                            'time' => $totalBooked
+                            'time_at_work' => $dateWise->time_at_work,
+                            'productive_time' => $dateWise->productive_time,
+                            'clock_in' => $dateWise->arrival_at,
+                            'clock_out' => $dateWise->left_at,
                         ];
-                    } else {
-                        $notFilledUsers[]                = [
-                            'name' => $getUser->name,
-                            'time' => '0:0'
-                        ];
-                    }
                 }
             }
             $mailData                   = [
