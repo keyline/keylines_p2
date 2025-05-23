@@ -142,12 +142,12 @@ class Home extends BaseController
                         }
                         $userdata[]              = [
                             'name' => $getUser->name,
-                            'booked time' => $totalBooked,
+                            'booked_time' => $totalBooked,
                             'punch_in' => $dateWise->punch_in_time,
                             'punch_out' => $dateWise->punch_out_time,
                             'time_at_work' => $time_at_work,
                         ];
-                        pr($userdata);die;
+                        // pr($userdata);die;
                     }
                 }
             }

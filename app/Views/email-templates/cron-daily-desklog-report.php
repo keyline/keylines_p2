@@ -48,7 +48,7 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
             <th>Arrival At</th>
             <th>Left At</th>
             <th>Time At Work</th>
-            <th>Productive Time</th>            
+            <th>Booked Time</th>            
           </tr>
         </thead>
         <tbody>
@@ -56,10 +56,10 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
               foreach ($userdata as $res) { ?>
                   <tr>                      
                       <td><?= $res['name'] ?></td>
-                      <td><?= $res['clock_in'] ?></td>
-                      <td><?= $res['clock_out'] ?></td>
+                      <td><?= $res['punch_in'] ?></td>
+                      <td><?= $res['punch_out'] ?></td>
                       <td><?= $res['time_at_work'] ?></td>
-                      <td><?= $res['productive_time'] ?></td>                                  
+                      <td><?= $res['booked_time'] ?></td>                                  
                   </tr>                  
           <?php } }?>          
         </tbody>
