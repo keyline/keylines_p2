@@ -128,7 +128,7 @@ class Home extends BaseController
                     $userId             = $dateWise->desklog_usrid;
                     $getuser           = $this->common_model->find_data('user', 'row', ['id' => $userId]);
                     $userdata[]              = [
-                            'name' => $getUser->name,
+                            'name' => $getuser->name,
                             'time_at_work' => $dateWise->time_at_work,
                             'productive_time' => $dateWise->productive_time,
                             'clock_in' => $dateWise->arrival_at,
