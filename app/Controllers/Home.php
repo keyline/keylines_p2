@@ -150,7 +150,7 @@ class Home extends BaseController
                             'punch_out' => $dateWise->punch_out_time,
                             'time_at_work' => $time_at_work,
                         ];
-                        pr($userdata);die;
+                        // pr($userdata);die;
                 }
             }
             $mailData                   = [
