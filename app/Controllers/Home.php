@@ -119,23 +119,28 @@ class Home extends BaseController
         public function dailyDesklogReport(){
             $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
 
-            $userdata                = [];
-            $notFilledUsers             = [];
+            $userdata                = [];            
             // $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
-            $dateWises                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $yesterdayDate . '%']);            
+            $dateWises                   = $this->common_model->find_data('attendances', 'array', ['punch_date LIKE' => '%' . $yesterdayDate . '%']);            
             if($dateWises){
                 foreach($dateWises as $dateWise){
-                    $userId             = $dateWise->tracker_user_id;
-                    $getuser           = $this->common_model->find_data('user', 'row', ['id' => $userId]);
-                    // pr($getuser);die;
-                    $userdata[]              = [
-                            'name' => $getuser->name,
-                            'time_at_work' => $dateWise->time_at_work,
-                            'productive_time' => $dateWise->productive_time,
-                            'clock_in' => $dateWise->arrival_at,
-                            'clock_out' => $dateWise->left_at,
+                    $userId             = $dateWise->user_id;
+                    $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
+                    $getUsers                   = $this->common_model->find_data('user', 'array', ['status' => '1', 'is_tracker_user' => '1', 'id' => $userId], 'id,name', '', '', $orderBy);
+                     $checkTrackerFillup = $this->db->query("SELECT sum(hour) as totHr, sum(min) as totMin FROM `timesheet` WHERE `user_id` = '$userId' and date_added = '$yesterdayDate'")->getRow();
+                    if($checkTrackerFillup->totHr != '' || $checkTrackerFillup->totMin != ''){
+                        $hourMin                    = ($checkTrackerFillup->totHr * 60);
+                        $totMin                     = $checkTrackerFillup->totMin;
+                        $totalMins                  = ($hourMin + $totMin);
+                        $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);
+                        $userdata[]              = [
+                            'name' => $getUsers->name,
+                            'booked time' => $totalBooked,
+                            'punch_in' => $dateWise->punch_in,
+                            'punch_out' => $dateWise->punch_out,
                         ];
-                        // pr($userdata);die;
+                        pr($userdata);die;
+                    }
                 }
             }
             $mailData                   = [
