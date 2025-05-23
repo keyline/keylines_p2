@@ -125,7 +125,7 @@ class Home extends BaseController
             $dateWises                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $yesterdayDate . '%']);            
             if($dateWises){
                 foreach($dateWises as $dateWise){
-                    $userId             = $dateWise->desklog_usrid;
+                    $userId             = $dateWise->tracker_user_id;
                     $getuser           = $this->common_model->find_data('user', 'row', ['id' => $userId]);
                     pr($getuser);die;
                     $userdata[]              = [
