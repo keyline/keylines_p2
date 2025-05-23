@@ -139,7 +139,7 @@ class Home extends BaseController
                     // Default values
                     $punchIn = '';
                     $punchOut = '';
-                    $time_at_work = 'No punch out time';
+                    $time_at_work = '-';
 
                     if (is_object($dateWise)) {
                         $punchIn = $dateWise->punch_in_time;

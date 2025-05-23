@@ -56,8 +56,8 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
               foreach ($userdata as $res) { ?>
                   <tr>                      
                       <td><?= $res['name'] ?></td>
-                      <td><?= $res['punch_in'] ?></td>
-                      <td><?= $res['punch_out'] ?></td>
+                      <td><?= (new DateTime($res['punch_in']))->format("g:i a") ?></td>
+                      <td><?= (new DateTime($res['punch_out']))->format("g:i a") ?></td>
                       <td><?= $res['time_at_work'] ?></td>
                       <td><?= $res['booked_time'] ?></td>                                  
                   </tr>                  
