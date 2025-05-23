@@ -28,8 +28,8 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
           </tr>
         </thead>
         <tbody>
-          <?php pr($userdata); die; if ($userdata) {              
-              foreach ($userdata as $res) { ?>
+          <?php if ($userdata) {              
+              foreach ($userdata as $res) { pr($res); die;?>
                   <tr>                      
                       <td><?= $res->name ?></td>
                       <td><?= $res->clock_in ?></td>
