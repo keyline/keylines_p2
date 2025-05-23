@@ -138,12 +138,11 @@ class Home extends BaseController
             }
             $mailData                   = [
                 'yesterday_date'    => $yesterdayDate,
-                'filledUsers'       => $filledUsers,
-                'notFilledUsers'    => $notFilledUsers,
+                'userdata'       => $userdata,                
             ];
             $generalSetting             = $this->common_model->find_data('general_settings', 'row');
-            $subject                    = $generalSetting->site_name.' :: Tracker Booked Status - '.date_format(date_create($yesterdayDate), "M d, Y");
-            $message                    = view('email-templates/cron-daily-tracker-fillup',$mailData);
+            $subject                    = $generalSetting->site_name.' :: Desklog Attendance Report - Daily - '.date_format(date_create($yesterdayDate), "M d, Y");
+            $message                    = view('email-templates/cron-daily-desklog-report',$mailData);
             // echo $message;die;
             /* email log save */
                 $postData2 = [
