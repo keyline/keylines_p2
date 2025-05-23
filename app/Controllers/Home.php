@@ -127,7 +127,7 @@ class Home extends BaseController
                 foreach($dateWises as $dateWise){
                     $userId             = $dateWise->tracker_user_id;
                     $getuser           = $this->common_model->find_data('user', 'row', ['id' => $userId]);
-                    pr($getuser);die;
+                    // pr($getuser);die;
                     $userdata[]              = [
                             'name' => $getuser->name,
                             'time_at_work' => $dateWise->time_at_work,
@@ -135,6 +135,7 @@ class Home extends BaseController
                             'clock_in' => $dateWise->arrival_at,
                             'clock_out' => $dateWise->left_at,
                         ];
+                        pr($userdata);die;
                 }
             }
             $mailData                   = [
