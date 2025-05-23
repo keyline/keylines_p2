@@ -159,7 +159,7 @@ class Home extends BaseController
                         'booked_time' => $totalBooked,
                         'punch_in' => $punchIn?date("g:i a", strtotime($punchIn)) : '',
                         'punch_out' => $punchOut?date("g:i a", strtotime($punchOut)) : '',
-                        'time_at_work' => $time_at_work,
+                        'time_at_work' => preg_replace('/\s*\d{1,2}s/', '', $time_at_work),
                     ];                    
                         // pr($userdata);die;
                 }
