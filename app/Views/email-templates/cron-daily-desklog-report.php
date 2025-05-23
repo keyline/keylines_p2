@@ -53,7 +53,7 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
         </thead>
         <tbody>
           <?php if ($userdata) {              
-              foreach ($userdata as $res) { pr($res) ; die;?>
+              foreach ($userdata as $res) { ?>
                   <tr>                      
                       <td><?= $res['name'] ?></td>
                       <td><?= $res['punch_in'] ?></td>
