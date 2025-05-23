@@ -31,11 +31,11 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
           <?php if ($userdata) {              
               foreach ($userdata as $res) { ?>
                   <tr>                      
-                      <td><?= $res->name ?></td>
-                      <td><?= $res->clock_in ?></td>
-                      <td><?= $res->clock_out ?></td>
-                      <td><?= $res->time_at_work ?></td>
-                      <td><?= $res->productive_time ?></td>                                  
+                      <td><?= $res['name'] ?></td>
+                      <td><?= $res['clock_in'] ?></td>
+                      <td><?= $res['clock_out'] ?></td>
+                      <td><?= $res['time_at_work'] ?></td>
+                      <td><?= $res['productive_time'] ?></td>                                  
                   </tr>                  
           <?php } }?>          
         </tbody>
