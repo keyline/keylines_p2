@@ -155,7 +155,8 @@ class Home extends BaseController
                         } catch (Exception $e) {
                             // Handle the exception if needed
                             // $time_at_work = "No punch out time";
-                            pr($e->getMessage());
+                            pr($e->getMessage().''.$userId);
+
                         }
                     
                         // pr($userdata);die;
