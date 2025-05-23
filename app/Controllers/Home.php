@@ -3,6 +3,7 @@
 namespace App\Controllers;
 use App\Libraries\Pro;
 use DateTime;
+use Exception;
 
 class Home extends BaseController
 {
@@ -143,13 +144,20 @@ class Home extends BaseController
                         } else {
                             $time_at_work = "No punch out time";
                         }
-                    $userdata[]              = [
+                        try {
+                            $userdata[]              = [
                             'name' => $getUser->name,
                             'booked_time' => $totalBooked,
                             'punch_in' => $dateWise->punch_in_time,
                             'punch_out' => $dateWise->punch_out_time,
                             'time_at_work' => $time_at_work,
                         ];
+                        } catch (Exception $e) {
+                            // Handle the exception if needed
+                            // $time_at_work = "No punch out time";
+                            pr($e->getMessage());
+                        }
+                    
                         pr($userdata);die;
                 }
             }
