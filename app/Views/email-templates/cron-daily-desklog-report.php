@@ -8,6 +8,31 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
 <head>
 <meta charset="utf-8">
 <title><?=$generalSetting->site_name?></title>
+<style>
+    .general_table_style {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px; /* adds space between rows */
+      font-family: Arial, sans-serif;
+    }
+    .general_table_style th, .general_table_style td {
+      padding: 12px 20px;
+      text-align: left;
+    }
+    .general_table_style thead th {
+      background-color: #4a235a;
+      color: white;
+      font-weight: bold;
+      border-bottom: 2px solid #ddd;
+    }
+    .general_table_style tbody td {
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+    .general_table_style tbody tr:hover td {
+      background-color: #f2f2f2;
+    }
+  </style>
 </head>
 <body>
   <div style="padding: 20px;">
