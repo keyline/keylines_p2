@@ -4,6 +4,7 @@ use App\Controllers\BaseController;
 use App\Models\CommonModel;
 use App\Libraries\CreatorJwt;
 use App\Libraries\JWT;
+use DateTime;
 
 class ApiController extends BaseController
 {
@@ -19,6 +20,7 @@ class ApiController extends BaseController
                 $generalSetting = $this->common_model->find_data('general_settings', 'row');
                 if($generalSetting){
                     $apiResponse = [
+                        'company_name'              => $generalSetting->company_name,
                         'site_name'                 => $generalSetting->site_name,
                         'site_phone'                => $generalSetting->site_phone,
                         'site_mail'                 => $generalSetting->site_mail,
@@ -752,9 +754,11 @@ class ApiController extends BaseController
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+                    $generalSetting = $this->common_model->find_data('general_settings', 'row');
                     if($getUser){
                         $getCategory         = $this->common_model->find_data('user_category', 'row', ['id' => $getUser->category], 'name');                        
                         $apiResponse        = [
+                            'company_name'                          => $generalSetting->company_name,
                             'id'                                    => $getUser->id,
                             'type'                                  => $getUser->type,
                             'name'                                  => $getUser->name,
@@ -1668,8 +1672,10 @@ class ApiController extends BaseController
                     $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
                     if($getEmployees){                        
                         foreach($getEmployees as $getEmployee){
-                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,status');
+                            $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
+                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status', '', '', $orderBy);
                             $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
+                            $punchout = ($punch_time) ? DateTime::createFromFormat('H:i:s', $punch_time->punch_out_time) : false;
                             $apiResponse[]        = [
                                 'id'              => $getEmployee->id,
                                 'name'            => $getEmployee->name,
@@ -1677,8 +1683,9 @@ class ApiController extends BaseController
                                 'phone'           => $getEmployee->phone1,
                                 'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
                                 'department'      => (($department)?$department->deprt_name:''),
-                                'punch_in_time'   => (($punch_time)?$punch_time->punch_in_time:''),
-                                'punch_status'    => (($punch_time)?$punch_time->status:''),
+                                'punch_in_time'   => (($punch_time)? date('h:i a', strtotime($punch_time->punch_in_time)) :''),
+                                'punch_out_time'  => (($punchout) ? $punchout->format('g:i a') : ''),
+                                'punch_status'    => (($punch_time)? (int)$punch_time->status:0),
                             ];
                         }                       
                         $apiStatus          = TRUE;
@@ -2848,6 +2855,103 @@ class ApiController extends BaseController
                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
                                 $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $uId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                if($getTasks){
+                                    foreach($getTasks as $getTask){
+                                        $tothour                = $getTask->hour * 60;
+                                        $totmin                 = $getTask->min;
+                                        $totalMin               = ($tothour + $totmin);
+                                        // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                        $booked_effort          = $totalMin;
+                                        $total_time             += $booked_effort;
+
+                                        $work_status_id         = $getTask->work_status_id;
+                                        $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
+
+                                        $tasks[]            = [
+                                            'project_name'          => $getTask->project_name,
+                                            'description'           => $getTask->description,
+                                            'hour'                  => $getTask->hour,
+                                            'min'                   => $getTask->min,
+                                            'user_name'             => $getTask->user_name,
+                                            'is_leave'              => $getTask->is_leave,
+                                            'background_color'      => (($getWorkStatus)?$getWorkStatus->background_color:''),
+                                            'border_color'          => (($getWorkStatus)?$getWorkStatus->border_color:''),
+                                            'work_status_name'      => (($getWorkStatus)?$getWorkStatus->name:''),
+                                            'created_at'            => date_format(date_create($getTask->created_at), "h:i a"),
+                                        ];
+                                    }
+                                }
+
+                                $apiResponse[]              = [
+                                    'task_date'       => date_format(date_create($loopDate), "M d, Y"),
+                                    'total_time'      => intdiv($total_time, 60).'.'. ($total_time % 60),
+                                    'tasks'           => $tasks
+                                ];
+                            }
+                        }
+                        $apiStatus          = TRUE;
+                        http_response_code(200);
+                        $apiMessage         = 'Data Available !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(404);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function getTasksNew()
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $this->isJSON(file_get_contents('php://input'));
+            $requestData        = $this->extract_json(file_get_contents('php://input'));        
+            $requiredFields     = ['no_of_days', 'id'];
+            $headerData         = $this->request->headers();
+            if (!$this->validateArray($requiredFields, $requestData)){              
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $Authorization              = $headerData['Authorization'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                $no_of_days                 = $requestData['no_of_days'];
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $getUserId = $requestData['id'];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
+                    if($getUser){
+                        $last7Days          = $this->getLastNDaysAscending($no_of_days, 'Y-m-d');
+                        if(!empty($last7Days)){
+                            for($t=0;$t<count($last7Days);$t++){
+                                $loopDate                   = $last7Days[$t];
+                                $tasks                      = [];
+                                $total_time                 = 0;
+
+                                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+                                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+                                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+                                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
                                 if($getTasks){
                                     foreach($getTasks as $getTask){
                                         $tothour                = $getTask->hour * 60;

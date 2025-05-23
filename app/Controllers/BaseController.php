@@ -187,7 +187,7 @@ abstract class BaseController extends Controller
             endif;
             // $mailLibrary->addCC('sudip.keyline@gmail.com', 'KDPL System');
             // $mailLibrary->addCC('subhomoy@keylines.net', 'Subhomoy Samanta');
-            // $mailLibrary->addCC('deblina@keylines.net', 'Deblina Das');
+            $mailLibrary->addCC('deblina@keylines.net', 'Deblina Das');
             $mailLibrary->WordWrap      = 5000;
             $mailLibrary->Subject       = $subject;
             $mailLibrary->Body          = $message;

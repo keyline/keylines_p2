@@ -1386,6 +1386,7 @@ class User extends BaseController {
                 }
             /* favicon */
             $fields = [
+                'company_name'                  => $this->request->getPost('company_name'),
                 'site_name'                     => $this->request->getPost('site_name'),
                 'site_phone'                    => $this->request->getPost('site_phone'),
                 'site_mail'                     => $this->request->getPost('site_mail'),
