@@ -18,8 +18,7 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
     <div style=" margin: 20px 0; background: #e6eee5; padding: 20px;">      
       <table id="simpletable" class="table padding-y-10 general_table_style">
         <thead>
-          <tr>
-            <th style="width: 3%">#</th>            
+          <tr>                        
             <th>Name</th>
             <th>Arrival At</th>
             <th>Left At</th>
