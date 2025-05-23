@@ -133,8 +133,9 @@ class Home extends BaseController
                         $hourMin                    = ($checkTrackerFillup->totHr * 60);
                         $totMin                     = $checkTrackerFillup->totMin;
                         $totalMins                  = ($hourMin + $totMin);
-                        $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);
-                        if (!empty($dateWise->punch_in_time) && !empty($dateWise->punch_out_time)) {
+                        $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);                                                
+                    }
+                    if (!empty($dateWise->punch_in_time) && !empty($dateWise->punch_out_time)) {
                             $in = new DateTime($dateWise->punch_in_time);
                             $out = new DateTime($dateWise->punch_out_time);
                             $interval = $in->diff($out);
@@ -142,15 +143,14 @@ class Home extends BaseController
                         } else {
                             $time_at_work = "No punch out time";
                         }
-                        $userdata[]              = [
+                    $userdata[]              = [
                             'name' => $getUser->name,
                             'booked_time' => $totalBooked,
                             'punch_in' => $dateWise->punch_in_time,
                             'punch_out' => $dateWise->punch_out_time,
                             'time_at_work' => $time_at_work,
                         ];
-                        // pr($userdata);die;
-                    }
+                        pr($userdata);die;
                 }
             }
             $mailData                   = [
