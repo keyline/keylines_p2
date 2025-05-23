@@ -135,7 +135,7 @@ class Home extends BaseController
                             'clock_in' => $dateWise->arrival_at,
                             'clock_out' => $dateWise->left_at,
                         ];
-                        pr($userdata);die;
+                        // pr($userdata);die;
                 }
             }
             $mailData                   = [
