@@ -127,21 +127,21 @@ class Home extends BaseController
                 foreach($getUsers as $getUser){
                     $userId             = $getUser->id;
                     $dateWise          = $this->common_model->find_data('attendances', 'row', ['punch_date LIKE' => '%' . $yesterdayDate . '%', 'user_id' => $userId]);                                
-                    pr($dateWise);die;
+                    // pr($dateWise);die;
                      $checkTrackerFillup = $this->db->query("SELECT sum(hour) as totHr, sum(min) as totMin FROM `timesheet` WHERE `user_id` = '$userId' and date_added = '$yesterdayDate'")->getRow();
                     if($checkTrackerFillup->totHr != '' || $checkTrackerFillup->totMin != ''){
                         $hourMin                    = ($checkTrackerFillup->totHr * 60);
                         $totMin                     = $checkTrackerFillup->totMin;
                         $totalMins                  = ($hourMin + $totMin);
                         $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);
-                        if (!empty($dateWise->punch_out_time)) {
-                            $in = new DateTime($dateWise->punch_in_time);
-                            $out = new DateTime($dateWise->punch_out_time);
-                            $interval = $in->diff($out);
-                            $time_at_work = $interval->format('%Hh %Im %Ss');
-                        } else {
-                            $time_at_work = "No punch out time";
-                        }
+                        if (!empty($dateWise->punch_in_time) && !empty($dateWise->punch_out_time)) {
+    $in = new DateTime($dateWise->punch_in_time);
+    $out = new DateTime($dateWise->punch_out_time);
+    $interval = $in->diff($out);
+    $time_at_work = $interval->format('%Hh %Im %Ss');
+} else {
+    $time_at_work = "No punch out time";
+}
                         $userdata[]              = [
                             'name' => $getUser->name,
                             'booked_time' => $totalBooked,
