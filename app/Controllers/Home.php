@@ -136,29 +136,31 @@ class Home extends BaseController
                         $totalMins                  = ($hourMin + $totMin);
                         $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);                                                
                     }
-                    if (!empty($dateWise->punch_in_time) && !empty($dateWise->punch_out_time)) {
-                            $in = new DateTime($dateWise->punch_in_time);
-                            $out = new DateTime($dateWise->punch_out_time);
+                    // Default values
+                    $punchIn = '';
+                    $punchOut = '';
+                    $time_at_work = 'No punch out time';
+
+                    if (is_object($dateWise)) {
+                        $punchIn = $dateWise->punch_in_time;
+                        $punchOut = $dateWise->punch_out_time;
+
+                        if (!empty($punchIn) && !empty($punchOut)) {
+                            $in = new DateTime($punchIn);
+                            $out = new DateTime($punchOut);
                             $interval = $in->diff($out);
                             $time_at_work = $interval->format('%Hh %Im %Ss');
-                        } else {
-                            $time_at_work = "No punch out time";
                         }
-                        try {
-                            $userdata[]              = [
-                            'name' => $getUser->name,
-                            'booked_time' => $totalBooked,
-                            'punch_in' =>isset($dateWise) ? $dateWise->punch_in_time : '',
-                            'punch_out' => isset($dateWise) ? $dateWise->punch_out_time : '',
-                            'time_at_work' => $time_at_work,
-                        ];
-                        } catch (Exception $e) {
-                            // Handle the exception if needed
-                            // $time_at_work = "No punch out time";
-                            pr($e->getMessage().''.$userId);
+                    }
 
-                        }
-                    
+                    // Add to result array
+                    $userdata[] = [
+                        'name' => $getUser->name,
+                        'booked_time' => $totalBooked,
+                        'punch_in' => $punchIn,
+                        'punch_out' => $punchOut,
+                        'time_at_work' => $time_at_work,
+                    ];                    
                         // pr($userdata);die;
                 }
             }
