@@ -125,8 +125,7 @@ class Home extends BaseController
             if($getUsers){
                 foreach($getUsers as $getUser){
                     $userId             = $getUser->id;
-                    $dateWise          = $this->common_model->find_data('attendances', 'row', ['punch_date LIKE' => '%' . $yesterdayDate . '%', 'user_id' => $userId]);            
-                    pr($dateWise);die;
+                    $dateWise          = $this->common_model->find_data('attendances', 'row', ['punch_date LIKE' => '%' . $yesterdayDate . '%', 'user_id' => $userId]);                                
                      $checkTrackerFillup = $this->db->query("SELECT sum(hour) as totHr, sum(min) as totMin FROM `timesheet` WHERE `user_id` = '$userId' and date_added = '$yesterdayDate'")->getRow();
                     if($checkTrackerFillup->totHr != '' || $checkTrackerFillup->totMin != ''){
                         $hourMin                    = ($checkTrackerFillup->totHr * 60);
@@ -136,8 +135,8 @@ class Home extends BaseController
                         $userdata[]              = [
                             'name' => $getUser->name,
                             'booked time' => $totalBooked,
-                            'punch_in' => $dateWise->punch_in,
-                            'punch_out' => $dateWise->punch_out,
+                            'punch_in' => $dateWise->punch_in_time,
+                            'punch_out' => $dateWise->punch_out_time,
                         ];
                         pr($userdata);die;
                     }
