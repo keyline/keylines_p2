@@ -158,7 +158,7 @@ class Home extends BaseController
                             pr($e->getMessage());
                         }
                     
-                        pr($userdata);die;
+                        // pr($userdata);die;
                 }
             }
             $mailData                   = [
