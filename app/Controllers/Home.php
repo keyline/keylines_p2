@@ -119,14 +119,13 @@ class Home extends BaseController
         public function dailyDesklogReport(){
             $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
 
-            $userdata                = [];            
-            // $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
-            $dateWises                   = $this->common_model->find_data('attendances', 'array', ['punch_date LIKE' => '%' . $yesterdayDate . '%']);            
-            if($dateWises){
-                foreach($dateWises as $dateWise){
-                    $userId             = $dateWise->user_id;
-                    $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
-                    $getUsers                   = $this->common_model->find_data('user', 'array', ['status' => '1', 'is_tracker_user' => '1', 'id' => $userId], 'id,name', '', '', $orderBy);
+            $userdata                = [];                        
+            $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
+            $getUsers                   = $this->common_model->find_data('user', 'array', ['status' => '1', 'is_tracker_user' => '1'], 'id,name', '', '', $orderBy);            
+            if($getUsers){
+                foreach($getUsers as $getUser){
+                    $userId             = $getUser->user_id;
+                    $dateWise          = $this->common_model->find_data('attendances', 'row', ['punch_date LIKE' => '%' . $yesterdayDate . '%', 'user_id' => $userId]);            
                      $checkTrackerFillup = $this->db->query("SELECT sum(hour) as totHr, sum(min) as totMin FROM `timesheet` WHERE `user_id` = '$userId' and date_added = '$yesterdayDate'")->getRow();
                     if($checkTrackerFillup->totHr != '' || $checkTrackerFillup->totMin != ''){
                         $hourMin                    = ($checkTrackerFillup->totHr * 60);
@@ -134,7 +133,7 @@ class Home extends BaseController
                         $totalMins                  = ($hourMin + $totMin);
                         $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);
                         $userdata[]              = [
-                            'name' => $getUsers->name,
+                            'name' => $getUser->name,
                             'booked time' => $totalBooked,
                             'punch_in' => $dateWise->punch_in,
                             'punch_out' => $dateWise->punch_out,
