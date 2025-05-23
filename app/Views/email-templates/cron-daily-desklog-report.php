@@ -28,7 +28,7 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
           </tr>
         </thead>
         <tbody>
-          <?php if ($userdata) {              
+          <?php pr($userdata); die; if ($userdata) {              
               foreach ($userdata as $res) { ?>
                   <tr>                      
                       <td><?= $res->name ?></td>
