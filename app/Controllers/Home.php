@@ -148,8 +148,8 @@ class Home extends BaseController
                             $userdata[]              = [
                             'name' => $getUser->name,
                             'booked_time' => $totalBooked,
-                            'punch_in' => $dateWise->punch_in_time,
-                            'punch_out' => $dateWise->punch_out_time,
+                            'punch_in' =>isset($dateWise) ? $dateWise->punch_in_time : '',
+                            'punch_out' => isset($dateWise) ? $dateWise->punch_out_time : '',
                             'time_at_work' => $time_at_work,
                         ];
                         } catch (Exception $e) {
