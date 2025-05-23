@@ -157,9 +157,9 @@ class Home extends BaseController
                     $userdata[] = [
                         'name' => $getUser->name,
                         'booked_time' => $totalBooked,
-                        'punch_in' => (new DateTime($punchIn))->format("g:i a"),
-                        'punch_out' => (new DateTime($punchOut))->format("g:i a"),
-                        'time_at_work' => $time_at_work,
+                        'punch_in' => $punchIn?date("g:i a", strtotime($punchIn)) : '',
+                        'punch_out' => $punchOut?date("g:i a", strtotime($punchOut)) : '',
+                        'time_at_work' => $time_at_work?date("g:i a", strtotime($time_at_work)) : '',
                     ];                    
                         // pr($userdata);die;
                 }
