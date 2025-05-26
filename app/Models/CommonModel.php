@@ -601,7 +601,15 @@ class CommonModel extends Model
         if($attachment != ''){
             $email->attach($attachment);
         }
-        $email->send();
+        // Send email and return the result (true/false)
+        if (!$email->send()) {
+            // Log the error for debugging (optional)
+            log_message('error', 'Email sending error: ' . $email->printDebugger(['headers']));
+
+            // Return false so the calling function knows it failed
+            return false;
+        }
+        // $email->send();
         return true;
     }
 
