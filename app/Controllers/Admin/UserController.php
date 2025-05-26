@@ -130,6 +130,13 @@ class UserController extends BaseController {
                 ];
                 $message                    = view('email-templates/signup', $mailData);
                 $this->sendMail($this->request->getPost('email'), $subject, $message);
+                // Check if the email was sent successfully
+                if (!$mailSent) {
+                    // Email not sent – show an error and redirect back                    
+                    return redirect()->to('/admin/'.$this->data['controller_route'].'/add-edit');
+                    $this->session->setFlashdata('error_message', ' User is not added. Please fix your SMTP setup.');
+                }
+
                 /* email log save */
                     $postData2 = [
                         'name'                  => $this->request->getPost('name'),
