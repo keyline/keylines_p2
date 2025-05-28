@@ -40,6 +40,8 @@ class AmcCheckingController extends BaseController {
                                         on project.id = tab1.project_id where project.status IN ('9', '4') and  project.deadline >= '$currentdate' order by DATE(tab1.last_amcdate)";
         $data['rows']               = $this->db->query($sql)->getResult();         
         $date_on                    = date('Y-m-d H:i:s');
+        $year                   = date('Y', strtotime($date_on)); // 2024
+        $month                  = date('m', strtotime($date_on)); // 08
         $today_date                 = date('Y-m-d');
         if($this->request->getMethod() == 'post') {     
             // pr($this->request->getPost());      
@@ -100,6 +102,32 @@ class AmcCheckingController extends BaseController {
             );
             $insertData3 = $this->common_model->save_data('assigned_task',$postData3,'',$this->data['primary_key']);
             $insertData2 = $this->common_model->save_data('timesheet',$postData2,'',$this->data['primary_key']);
+            $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";            
+            $rows                   = $this->db->query($projectcost)->getResult();             
+            foreach($rows as $row){
+                $project_cost       =  $row->total_hours_worked;
+            }  
+            $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project_id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+            if(!$exsistingProjectCost){            
+                $postData4   = array(
+                    'project_id'            => $project_id,
+                    'month'                 => $month ,
+                    'year'                  => $year,
+                    'project_cost'          => $project_cost,
+                    'created_at'            => date('Y-m-d H:i:s'),                                
+                );                                  
+                $project_cost_id             = $this->data['model']->save_data('project_cost', $postData4, '', 'id');
+            } else {            
+                $id         = $exsistingProjectCost->id;
+                $postData4   = array(
+                    'project_id'            => $project_id,
+                    'month'                 => $month ,
+                    'year'                  => $year,
+                    'project_cost'          => $project_cost,
+                    'updated_at'            => date('Y-m-d H:i:s'),                                
+                );                                    
+                $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData4, $id, 'id');
+            } 
             $insertData = $this->common_model->save_data('amc_check',$postData,'',$this->data['primary_key']);
             $mailData                   = [
                 'assign_user'       => $assign_user->name,
@@ -158,7 +186,40 @@ class AmcCheckingController extends BaseController {
         $projectCost        = floatval($cal_usercost * $cal);
         $postData2['cost']  = number_format($projectCost, 2, '.', '');
 
+        $year                   = date('Y', strtotime($date_on)); // 2024
+        $month                  = date('m', strtotime($date_on)); // 08
+
         $insertData2 = $this->common_model->save_data('timesheet',$postData2,'',$this->data['primary_key']);
+        
+        $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$id."";
+        //  echo $this->db->getLastquery();die;
+        $rows                   = $this->db->query($projectcost)->getResult(); 
+        // pr($rows);
+        foreach($rows as $row){
+            $project_cost       =  $row->total_hours_worked;
+        }  
+        $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+        if(!$exsistingProjectCost){            
+            $postData3   = array(
+                'project_id'            => $id,
+                'month'                 => $month ,
+                'year'                  => $year,
+                'project_cost'          => $project_cost,
+                'created_at'            => date('Y-m-d H:i:s'),                                
+            );                                  
+            $project_cost_id             = $this->data['model']->save_data('project_cost', $postData3, '', 'id');
+        } else {            
+            $id         = $exsistingProjectCost->id;
+            $postData3   = array(
+                'project_id'            => $id,
+                'month'                 => $month ,
+                'year'                  => $year,
+                'project_cost'          => $project_cost,
+                'updated_at'            => date('Y-m-d H:i:s'),                                
+            );                                    
+            $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData3, $id, 'id');
+        }           
+
         $insertData = $this->common_model->save_data('amc_check',$postData,'',$this->data['primary_key']);
         $this->session->setFlashdata('success_message', ' AMC Site is Checked Successfully');
         return redirect()->to('/admin/'.$this->data['controller_route']);

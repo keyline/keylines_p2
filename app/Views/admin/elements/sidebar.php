@@ -136,7 +136,7 @@ $userId             = $session->user_id;
       <a class="<?= (($pageSegment == 'projects') ? 'active' : '') ?>" 
           href="javascript:void(0)">
           <i class="fas fa-project-diagram"></i>
-          <span class="link_name">Projects</span>
+          <span class="link_name">Projects and Clients</span>
           <i class='bx bxs-chevron-down arrow ms-auto'></i>
         </a>
       </div>                                    
@@ -144,7 +144,7 @@ $userId             = $session->user_id;
           <li>
             <a class="<?= (($pageSegment == 'projects') ? '' : 'collapsed') ?> <?= (($pageSegment == 'projects') ? 'active' : '') ?>"
               href="javascript:void(0)">
-              <span class="link_name">Projects</span>
+              <span class="link_name">Projects and Clients</span>
             </a>
           </li>  
           <li>
@@ -152,31 +152,39 @@ $userId             = $session->user_id;
               <i class="fa fa-arrow-right"></i>
               <span>Project List</span>
             </a>             
-          <li>        
+          </li>        
           <li>
             <a class="<?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
               <i class="fa fa-arrow-right"></i>
               <span>Add Expenses</span>
             </a>             
+          </li>
           <li>
             <a class="<?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
               <i class="fa fa-arrow-right"></i>
               <span>AMC Checking</span>
             </a>             
+          </li>
+          <li>
+            <a class="<?= (($pageSegment == 'clients') ? 'active' : '') ?>" href="<?= base_url('admin/clients/list') ?>">
+              <i class="fa fa-arrow-right"></i>
+              <span>Clients</span>
+            </a>             
+          </li>
         </ul>
     </li>
   <?php } ?>
-  <?php if (checkModuleAccess(6)) { ?>
+  <!-- ?php if (checkModuleAccess(6)) { ?>
     <li>
-        <a class="<?= (($pageSegment == 'clients') ? 'active' : '') ?>" href="<?= base_url('admin/clients/list') ?>">
+        <a class="?= (($pageSegment == 'clients') ? 'active' : '') ?>" href="?= base_url('admin/clients/list') ?>">
           <i class="fas fa-store"></i>
           <span class="link_name">Clients</span>
         </a>
         <ul class="sub-menu blank">
-          <li><a class="link_name" href="<?= base_url('admin/clients/list') ?>">Clients</a></li>
+          <li><a class="link_name" href="?= base_url('admin/clients/list') ?>">Clients</a></li>
         </ul>
     </li>
-  <?php } ?>
+  ?php } ?> -->
 
   <?php if($userType != 'CLIENT'){ ?>
     <?php if (checkModuleAccess(7) || checkModuleAccess(19) || checkModuleAccess(20)) { ?>
@@ -252,13 +260,14 @@ $userId             = $session->user_id;
                 </a>
             </li>
             <?php } ?>
-            <?php if(checkModuleAccess(24)){ ?>
+            <?php if(checkModuleAccess(24)){
+              if ($userType == 'SUPER ADMIN') { ?>
             <li>
                 <a class="<?= (($pageSegment == 'reports' && $paramerId == 'hours-report') ? 'active' : '') ?>" href="<?= base_url('admin/reports/hours-report') ?>">
                     <i class="fa fa-arrow-right"></i><span>Project Effort</span>
                 </a>
             </li>
-            <?php } ?>
+            <?php } } ?>
             <?php if(checkModuleAccess(25)){ ?>
             <li>
                 <a class="<?= (($pageSegment == 'reports' && $paramerId == 'project-report') ? 'active' : '') ?>" href="<?= base_url('admin/reports/project-report') ?>">

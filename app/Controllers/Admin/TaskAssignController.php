@@ -958,9 +958,9 @@ class TaskAssignController extends BaseController {
                 $currentDate            = date('Y-m-d');
 
                 if($schedule_id == ''){
-                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" value="' . $task_date . '" required>';
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" value="' . $task_date . '" required>';
                 } else {
-                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" min="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>';
+                    $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$getTask->date_added.'" value="' . $getTask->date_added . '" required disabled>';
                 }
 
                 $projectId              = $getTask->project_id;
@@ -1111,7 +1111,7 @@ class TaskAssignController extends BaseController {
                                                 </div>
                                             </form>';
             } else {
-                $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" min="'.$task_date.'" max="'.$task_date.'" value="' . $task_date . '" required>';
+                $inputDate = '<input type="date" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="'.$task_date.'" value="' . $task_date . '" required>';
 
                 $scheduleHTML           .= '<form id="morningMeetingForm">
                                                 <input type="hidden" name="dept_id" id="dept_id" value="' . $dept_id . '">

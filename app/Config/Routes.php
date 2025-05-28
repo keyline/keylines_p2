@@ -10,6 +10,7 @@ $routes->post('/delete-account-request', 'Home::deleteAccountRequest');
 $routes->post('/get-email-otp', 'Home::getEmailOTP');
 $routes->post('/get-phone-otp', 'Home::getPhoneOTP');
 $routes->get('/daily-tracker-fillup-report', 'Home::dailyTrackerFillupReport');
+$routes->get('/daily-desklog-report', 'Home::dailyDesklogReport');
 $routes->match(['get'], "/fetch-desklog-report", "Home::fetchDesklogReport");
 
 $routes->get('/client-details', 'Home::clientDetails');
@@ -210,6 +211,7 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 				$routes->match(['get', 'post'], "reports/hours-report", "ReportController::hoursReport");
 				$routes->match(['get', 'post'], "reports/dayWiseListUpdate", "ReportController::dayWiseListUpdate");
 				$routes->match(['get', 'post'], "reports/showWorkList", "ReportController::showWorkList");	
+				$routes->match(['get', 'post'], "reports/fetchData", "ReportController::fetchData");	
 				$routes->match(['get', 'post'], "reports/get-desklog-report", "ReportController::desklogReport");
 				$routes->match(['get', 'post'], "reports/desklog-report-view", "ReportController::show");
 
@@ -282,15 +284,19 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 			$routes->match(['post'], "delete-account", "ApiController::deleteAccount");
 			$routes->match(['post'], "update-profile-image", "ApiController::updateProfileImage");
 			$routes->match(['post'], "get-holiday", "ApiController::getHoliday");
+			$routes->match(['get'], "get-employee", "ApiController::getEmployee");
 			$routes->match(['post'], "get-geolocation-distance", "ApiController::getGeolocationDistance");
 			$routes->match(['post'], "mark-attendance", "ApiController::markAttendance");
 			$routes->match(['post'], "get-month-attendance", "ApiController::getMonthAttendance");
+			$routes->match(['post'], "get-month-attendance-new", "ApiController::getMonthAttendanceNew");
 			$routes->match(['post'], "get-single-attendance", "ApiController::getSingleAttendance");
+			$routes->match(['post'], "get-single-attendance-new", "ApiController::getSingleAttendanceNew");
 			
 			$routes->match(['post'], "get-notifications", "ApiController::getNotifications");
 			$routes->match(['post'], "get-notes", "ApiController::getNotes");
 			$routes->match(['post'], "update-note", "ApiController::updateNote");
 			$routes->match(['post'], "get-tasks", "ApiController::getTasks");
+			$routes->match(['post'], "get-tasks-new", "ApiController::getTasksNew");
 		// after login
 	});
 /* API */

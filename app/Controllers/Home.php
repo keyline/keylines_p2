@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 use App\Libraries\Pro;
+use DateTime;
+use Exception;
 
 class Home extends BaseController
 {
@@ -116,6 +118,76 @@ class Home extends BaseController
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
     /* cron report */
+        public function dailyDesklogReport(){
+            $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
+
+            $userdata                = [];                        
+            $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
+            $getUsers                   = $this->common_model->find_data('user', 'array', ['status' => '1', 'is_tracker_user' => '1'], 'id,name', '', '', $orderBy);            
+            if($getUsers){
+                foreach($getUsers as $getUser){
+                    $userId             = $getUser->id;
+                    $dateWise          = $this->common_model->find_data('attendances', 'row', ['punch_date LIKE' => '%' . $yesterdayDate . '%', 'user_id' => $userId]);                                
+                    // pr($dateWise->punch_in_time);die;
+                    // Always define $totalBooked
+                    $totalBooked = '-';
+                     $checkTrackerFillup = $this->db->query("SELECT sum(hour) as totHr, sum(min) as totMin FROM `timesheet` WHERE `user_id` = '$userId' and date_added = '$yesterdayDate'")->getRow();
+                    if($checkTrackerFillup->totHr != '' || $checkTrackerFillup->totMin != ''){
+                        $hourMin                    = ($checkTrackerFillup->totHr * 60);
+                        $totMin                     = $checkTrackerFillup->totMin;
+                        $totalMins                  = ($hourMin + $totMin);
+                        $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);                                                
+                    }
+                    // Default values
+                    $punchIn = '';
+                    $punchOut = '';
+                    $time_at_work = '-';
+
+                    if (is_object($dateWise)) {
+                        $punchIn = $dateWise->punch_in_time;
+                        $punchOut = $dateWise->punch_out_time;
+
+                        if (!empty($punchIn) && !empty($punchOut)) {
+                            $in = new DateTime($punchIn);
+                            $out = new DateTime($punchOut);
+                            $interval = $in->diff($out);
+                            $time_at_work = $interval->format('%Hh %Im %Ss');
+                        }
+                    }
+
+                    // Add to result array
+                    $userdata[] = [
+                        'name' => $getUser->name,
+                        'booked_time' => $totalBooked,
+                        'punch_in' => $punchIn?date("g:i a", strtotime($punchIn)) : '',
+                        'punch_out' => $punchOut?date("g:i a", strtotime($punchOut)) : '',
+                        'time_at_work' => preg_replace('/\s*\d{1,2}s/', '', $time_at_work),
+                    ];                    
+                        // pr($userdata);die;
+                }
+            }
+            $mailData                   = [
+                'yesterday_date'    => $yesterdayDate,
+                'userdata'       => $userdata,                
+            ];
+            $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+            $subject                    = $generalSetting->site_name.' :: Desklog Attendance Report - Daily - '.date_format(date_create($yesterdayDate), "M d, Y");
+            $message                    = view('email-templates/cron-daily-desklog-report',$mailData);
+            // echo $message;die;
+            /* email log save */
+                $postData2 = [
+                    'name'                  => $generalSetting->site_name,
+                    'email'                 => $generalSetting->system_email,
+                    'subject'               => $subject,
+                    'message'               => $message
+                ];
+                $this->common_model->save_data('email_logs', $postData2, '', 'id');
+            /* email log save */
+                
+            if($this->sendMail($generalSetting->system_email, $subject, $message)){
+                echo "Email Sent !!!";
+            }
+        }
         public function dailyTrackerFillupReport(){
             $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
 
@@ -171,28 +243,28 @@ class Home extends BaseController
         {                           
             try {
                 $apiSettings  = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);            
-            // $apiUrl = 'https://api.desklog.io/api/v2/app_usage_attendance';
-            $apiUrl = $apiSettings->api_url;
-            // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
-            $appKey = $apiSettings->api_key;
+                // $apiUrl = 'https://api.desklog.io/api/v2/app_usage_attendance';
+                $apiUrl = $apiSettings->api_url;
+                // $appKey = '0srjzz9r2x4isr1j2i0eg8f4u5ndmhilvbr5w3t5';
+                $appKey = $apiSettings->api_key;
                 $cu_date = date('d-m-Y'); // Or however you are getting the current date
                 // $cu_date = '07-09-2024';
             
-              $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
-            $response = file_get_contents($url);
-            $data = json_decode($response, true);  
-            //   pr($data);      
+                $url = $apiUrl . '?appKey=' . $appKey . '&date=' . $cu_date;
+                $response = file_get_contents($url);
+                $data = json_decode($response, true);
             } catch (Exception $e) {
                 // Log the error message
                 log_message('error', 'API call failed: ' . $e->getMessage());
-            }            
-            if($data){
-                foreach ($data as $item) {
+            }
+            $records_status  = $data['status'];
+            $records         = $data['data'];
+            
+            if($records_status){
+                foreach ($records as $item) {
                     $db_date = date_format(date_create($cu_date), "Y-m-d");
                     $existingRecord = $this->common_model->find_data('desklog_report', 'row', ['desklog_usrid' => $item['id'], 'insert_date LIKE' => '%'.$db_date.'%']);
-                    //    pr($existingRecord);
                     if(!$existingRecord){
-                        // echo "user insert"; die;
                         $postData   = array(
                             'desklog_usrid' => $item['id'],                
                             'email' => $item['email'],
