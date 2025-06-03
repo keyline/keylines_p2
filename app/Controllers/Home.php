@@ -116,6 +116,48 @@ class Home extends BaseController
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
     /* cron report */
+        public function dailyDesklogReport(){
+            $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
+
+            $userdata                = [];
+            $notFilledUsers             = [];
+            // $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
+            $dateWises                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $yesterdayDate . '%']);            
+            if($dateWises){
+                foreach($dateWises as $dateWise){
+                    $userId             = $dateWise->desklog_usrid;
+                    $getuser           = $this->common_model->find_data('user', 'row', ['id' => $userId]);
+                    $userdata[]              = [
+                            'name' => $getUser->name,
+                            'time_at_work' => $dateWise->time_at_work,
+                            'productive_time' => $dateWise->productive_time,
+                            'clock_in' => $dateWise->arrival_at,
+                            'clock_out' => $dateWise->left_at,
+                        ];
+                }
+            }
+            $mailData                   = [
+                'yesterday_date'    => $yesterdayDate,
+                'userdata'       => $userdata,                
+            ];
+            $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+            $subject                    = $generalSetting->site_name.' :: Desklog Attendance Report - Daily - '.date_format(date_create($yesterdayDate), "M d, Y");
+            $message                    = view('email-templates/cron-daily-desklog-report',$mailData);
+            // echo $message;die;
+            /* email log save */
+                $postData2 = [
+                    'name'                  => $generalSetting->site_name,
+                    'email'                 => $generalSetting->system_email,
+                    'subject'               => $subject,
+                    'message'               => $message
+                ];
+                $this->common_model->save_data('email_logs', $postData2, '', 'id');
+            /* email log save */
+                
+            if($this->sendMail($generalSetting->system_email, $subject, $message)){
+                echo "Email Sent !!!";
+            }
+        }
         public function dailyTrackerFillupReport(){
             $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
 

@@ -273,13 +273,13 @@ class ReportController extends BaseController
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'] . ' : Effort Report';
         $page_name                  = 'report/effort-report';
-        $data['userType']                           = $this->session->user_type;
-        // pr($data['userType']);
+        $data['userType']           = $this->session->user_type;
+        //  pr($data['userType']);
         $userType                   = $data['userType'];
         $userId                             = $this->session->user_id;
         $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
         $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
-        if($data['userType'] == 'SUPERADMIN' || $data['userType'] == "ADMIN" ){
+        if($data['userType'] == 'SUPER ADMIN' || $data['userType'] == "ADMIN" ){
             $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
         }else{
             $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1,'id='=>$userId], 'id,name,status', '', '', $order_by);
@@ -304,7 +304,9 @@ class ReportController extends BaseController
                 $jan_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear1%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 1 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result1 = floor($getDesktimeHour->total_desktime_hour);
+                    $result1 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result1 = '';
                 }
@@ -319,7 +321,8 @@ class ReportController extends BaseController
                 $feb_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear2%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 2 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result2 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result2 = '';
                 }
@@ -334,7 +337,8 @@ class ReportController extends BaseController
                 $mar_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id=$row->id and date_added LIKE '%$monthYear3%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 3 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result3 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result3 = '';
                 }
@@ -349,7 +353,8 @@ class ReportController extends BaseController
                 $apr_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear4%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 4 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result4 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result4 = '';
                 }
@@ -364,7 +369,8 @@ class ReportController extends BaseController
                 $may_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear5%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 5 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result5 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result5 = '';
                 }
@@ -379,7 +385,8 @@ class ReportController extends BaseController
                 $jun_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear6%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 6 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result6 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result6 = '';
                 }
@@ -394,7 +401,8 @@ class ReportController extends BaseController
                 $jul_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear7%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 7 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result7 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result7 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result7 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result7 = '';
                 }
@@ -409,7 +417,8 @@ class ReportController extends BaseController
                 $aug_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear8%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result8 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result8 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result8 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result8 = '';
                 }
@@ -424,7 +433,8 @@ class ReportController extends BaseController
                 $sep_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear9%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result9 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result9 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result9 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result9 = '';
                 }
@@ -439,7 +449,8 @@ class ReportController extends BaseController
                 $oct_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear10%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result10 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result10 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result10 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result10 = '';
                 }
@@ -454,7 +465,8 @@ class ReportController extends BaseController
                 $nov_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear11%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result11 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result11 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result11 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result11 = '';
                 }
@@ -469,7 +481,8 @@ class ReportController extends BaseController
                 $dec_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear12%'")->getRow();
                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
                 if ($getDesktimeHour) {
-                    $result12 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    // $result12 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    $result12 = (int)$getDesktimeHour->total_desktime_hour;
                 } else {
                     $result12 = '';
                 }
@@ -997,7 +1010,7 @@ class ReportController extends BaseController
         $title     = 'Manage ' . $this->data['title'];
         $page_name = 'report/hours-report';
         $data      = [];
-
+        // pr($this->request->getPost());
         $yesterday = date('Y-m-d', strtotime('-1 day'));
         // echo $yesterday;die;
         $sql1      = "  SELECT
@@ -1233,14 +1246,15 @@ class ReportController extends BaseController
                                 <table class="table padding-y-10 general_table_style" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <th colspan="2">From Date : <u>'.$fDate.'</u></th>
-                                            <th colspan="2">To Date : <u>'.$tDate.'</u></th>
+                                            <th colspan="3">From Date : <u>'.$fDate.'</u></th>
+                                            <th colspan="3">To Date : <u>'.$tDate.'</u></th>
                                         </tr>
                                         <tr>
                                             <th width="3%">#</th>
-                                            <th>Project</th>
-                                            <th>Total Time</th>
-                                            <th>Total Cost</th>
+                                            <th width="5%">Project</th>
+                                            <th width="5%">Project Status</th>
+                                            <th width="5%">Total Time</th>
+                                            <th width="5%">Total Cost</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
@@ -1268,16 +1282,28 @@ class ReportController extends BaseController
 
                             if ($ongoingProject->bill == 0) {
                                 if ($ongoingProject->project_time_type == 'Onetime') {
-                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                    $html .= '<th>' . $ongoingProject->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
                                 } else {
-                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
+                                    $html .= '<th>' . $ongoingProject->name . 
+                                                '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)) . 
+                                                '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                                '</th>';
                                 }
                                 $billable_cost += $project_cost;
                             } else {
                                 if ($ongoingProject->project_time_type == 'Onetime') {
-                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                    $html .= '<th>' . $ongoingProject->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
                                 } else {
-                                    $html .= '<th>' . $ongoingProject->name . ' <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
+                                    $html .= '<th>' . $ongoingProject->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
                                 }
                                 $non_billable_cost += $project_cost;
                             }
@@ -1288,6 +1314,22 @@ class ReportController extends BaseController
                             $remainingMinutes   = $totalMinutes % 60;
                             $totalHours        += $additionalHours;
                             $formattedTime      = sprintf("%d hours %d minutes", $totalHours, $remainingMinutes);
+
+                            if ($ongoingProject->bill == 0) {
+                                if ($ongoingProject->project_time_type == 'Onetime') {
+                                    $html .= '<th>  <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th>  <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
+                                }
+                                $billable_cost += $project_cost;
+                            } else {
+                                if ($ongoingProject->project_time_type == 'Onetime') {
+                                    $html .= '<th> <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th> <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
+                                }
+                                $non_billable_cost += $project_cost;
+                            }                
 
 
                 $html .= '<th style="cursor: pointer;" onclick="showWorkList(' . $ongoingProject->project_id . ', \'' . $day . '\' , ' . ($ongoingProject->bill == 0 ? '0' : '1') . ' , \'' . $formattedTime . '\')">';
@@ -1304,7 +1346,7 @@ class ReportController extends BaseController
                     </tr>';
         } else {
             $html .= '<tr>
-                        <td colspan="4">No records found for the selected date.</td>
+                        <td colspan="5">No records found for the selected date.</td>
                      </tr>';
         }
         $html .= '</tbody>
@@ -1473,6 +1515,211 @@ class ReportController extends BaseController
                         </div>
                     </div>';
         echo $html;
+    }
+
+    public function fetchData()
+    {        
+        $startDate = $this->request->getPost('start_date');
+        $endDate = $this->request->getPost('end_date');
+        // pr($this->request->getPost());
+
+        $query = "SELECT
+                            timesheet.project_id, timesheet.date_added, project.name,project.project_time_type, timesheet.bill, SUM(timesheet.hour) AS total_hours, SUM(timesheet.min) AS total_minutes
+                        FROM
+                            timesheet
+                        LEFT JOIN 
+                            project ON timesheet.project_id = project.id
+                            WHERE timesheet.date_added BETWEEN '$startDate' AND '$endDate'
+                             GROUP BY
+                            timesheet.project_id, project.name
+                        ORDER BY
+                            project.name ASC";
+
+        $projects = $this->db->query($query)->getResult();
+        //  pr($projects);
+         $i4               = 1;
+        $ystrdhr          = 0;
+        $ystrdmin         = 0;
+        $ystrdbill_hr     = 0;
+        $ystrdbill_min    = 0;
+        $ystrdnonbill_hr  = 0;
+        $ystrdnonbill_min = 0;
+
+        foreach ($projects as $row_yesterday_proj) {
+            if ($row_yesterday_proj->bill != '1') {
+                $ystrdbill_hr   = $ystrdbill_hr + $row_yesterday_proj->total_hours;
+                $ystrdbill_min  = $ystrdbill_min + $row_yesterday_proj->total_minutes;
+            } else {
+                $ystrdnonbill_hr    = $ystrdnonbill_hr + $row_yesterday_proj->total_hours;
+                $ystrdnonbill_min   = $ystrdnonbill_min + $row_yesterday_proj->total_minutes;
+            }
+            $i4++;
+        }
+        if ($ystrdbill_min < 60) {
+            $ystrdtotbill_hour      = $ystrdbill_hr;
+            $ystrdtotbill_minute    = $ystrdbill_min;
+        } else {
+            $ystrdtotbill_hour_res1 = floor($ystrdbill_min / 60);
+            $ystrdtotbill_minute    = $ystrdbill_min % 60;
+            $ystrdtotbill_hour      = $ystrdbill_hr + $ystrdtotbill_hour_res1;
+        }
+        if ($ystrdnonbill_min < 60) {
+            $ystrdtotnonbill_hour   = $ystrdnonbill_hr;
+            $ystrdtotnonbill_minute = $ystrdnonbill_min;
+        } else {
+            $ystrdtotnonbill_hour_res1  = floor($ystrdnonbill_min / 60);
+            $ystrdtotnonbill_minute     = $ystrdnonbill_min % 60;
+            $ystrdtotnonbill_hour       = $ystrdnonbill_hr + $ystrdtotnonbill_hour_res1;
+        }
+        $billabkeHoursMin               = number_format($ystrdtotbill_hour + ($ystrdtotbill_minute / 60), 2);
+        $nonBillableHoursMin            = number_format($ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60), 2);
+        $html = '';
+        $html = '<div class="" id="project-container">
+                    <div class="row">
+                        <div class="col md-6">
+                            <div class="card-header card-header2">
+                                <h6 class="heading_style text-center">
+                                    ONGOING PROJECT
+                                    <button type="button" class="btn btn-primary btn-sm" onclick="printDiv();"><i class="fa fa-print"></i></button>
+                                </h6>
+                            </div>
+                            <div class="dt-responsive table-responsive" id="DivIdToPrint">
+                                <table class="table padding-y-10 general_table_style" style="width: 100%">
+                                    <thead>
+                                        <tr>
+                                            <th colspan="3">From Date : <u>'.$startDate.'</u></th>
+                                            <th colspan="3">To Date : <u>'.$endDate.'</u></th>
+                                        </tr>
+                                        <tr>
+                                            <th width="3%">#</th>
+                                            <th width="5%">Project</th>
+                                            <th width="5%">Project Status</th>
+                                            <th width="5%">Total Time</th>
+                                            <th width="5%">Total Cost</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>';
+        if ($projects) { $sl = 1;$total_cost = 0;$billable_cost=0;$non_billable_cost=0; foreach ($projects as $project) {
+                /* cost calculation */
+                    // $cost_sql1      = "SELECT project_cost FROM `project_cost` WHERE month=$last_month_month AND year=$last_month_year AND project_id = $ongoingProject->project_id";
+                    // $checkCost      = $this->db->query($cost_sql1)->getRow();
+                    $project_cost   = 0;
+                    // if($checkCost){
+                    //     $project_cost   = $checkCost->project_cost;
+                    // } else {
+                    //     $date_added     = $last_month_year.'-'.$last_month_month;
+                    //     $cost_sql2      = "SELECT sum(cost) as total_cost FROM `timesheet` WHERE project_id=$ongoingProject->project_id AND date_added LIKE '%$date_added%'";
+                    //     $checkCost      = $this->db->query($cost_sql2)->getRow();
+                    //     $project_cost   = $checkCost->total_cost;
+                    // }                    
+                    $cost_sql2      = "SELECT sum(cost) as total_cost FROM `timesheet` WHERE project_id=$project->project_id AND date_added >= '$startDate' AND date_added <= '$endDate'";
+                    $checkCost      = $this->db->query($cost_sql2)->getRow();
+                    $project_cost   = $checkCost->total_cost;
+                    $total_cost += $project_cost;
+                /* cost calculation */
+                $html .= '<tr>
+                            <th>' . $sl++ . '</th>';
+
+                            if ($project->bill == 0) {
+                                if ($project->project_time_type == 'Onetime') {
+                                    $html .= '<th>' . $project->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($project->project_id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
+                                } else {
+                                    $html .= '<th>' . $project->name . 
+                                                '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($project->project_id)) . 
+                                                '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                                '</th>';
+                                }
+                                $billable_cost += $project_cost;
+                            } else {
+                                if ($project->project_time_type == 'Onetime') {
+                                    $html .= '<th>' . $project->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($project->project_id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
+                                } else {
+                                    $html .= '<th>' . $project->name . 
+                                            '<a target="_blank" href="' . base_url('admin/projects/reports/' . base64_encode($project->project_id)) . 
+                                            '"><i class="fa fa-file" style="margin-left: 5px;"></i></a>' . 
+                                            '</th>';
+                                }
+                                $non_billable_cost += $project_cost;
+                            }
+
+                            $totalHours         = (int) $project->total_hours;
+                            $totalMinutes       = (int) $project->total_minutes;
+                            $additionalHours    = intdiv($totalMinutes, 60);
+                            $remainingMinutes   = $totalMinutes % 60;
+                            $totalHours        += $additionalHours;
+                            $formattedTime      = sprintf("%d hours %d minutes", $totalHours, $remainingMinutes);
+
+                            if ($project->bill == 0) {
+                                if ($project->project_time_type == 'Onetime') {
+                                    $html .= '<th>  <span class="badge bg-success mx-1">Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th>  <span class="badge bg-success mx-1">Billable</span><span class="badge bg-primary">Monthly</span></th>';
+                                }
+                                $billable_cost += $project_cost;
+                            } else {
+                                if ($project->project_time_type == 'Onetime') {
+                                    $html .= '<th> <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Fixed</span></th>';
+                                } else {
+                                    $html .= '<th> <span class="badge bg-danger mx-1">Non-Billable</span><span class="badge bg-info">Monthly</span></th>';
+                                }
+                                $non_billable_cost += $project_cost;
+                            }                
+
+
+                $html .= '<th style="cursor: pointer;" onclick="showWorkList(' . $project->project_id . ', \'' . $startDate .'-'. $endDate . '\' , ' . ($project->bill == 0 ? '0' : '1') . ' , \'' . $formattedTime . '\')">';
+
+                $html .= $formattedTime;
+
+                $html .=    '</th>
+                            <th>'.number_format($project_cost,2).'</th>
+                        </tr>';
+            }
+            $html .= '<tr>
+                        <th colspan="3" style="text-align:right; font-weight:bold;">Total</th>
+                        <th>'.number_format($total_cost,2).'</th>
+                    </tr>';
+        } else {
+            $html .= '<tr>
+                        <td colspan="5">No records found for the selected date.</td>
+                     </tr>';
+        }
+        $html .= '</tbody>
+                    </table>
+                </div>
+            </div>';
+
+        $html .= '<div class="col md-6">
+                    <div class="card-header card-header2">
+                        <h6 class="heading_style text-center">NONBILLABLE HOURS</h6>
+                    </div>
+                    <div class="dt-responsive table-responsive">
+                        <table class="table general_table_style padding-y-10" style="width: 100%">
+                            <thead>
+                                <tr>
+                                    <th width="1%">#</th>
+                                    <th width="5%">Billable Hour<br>Billable Cost</th>
+                                    <th width="5%">Nonbillable Hour<br>Nonbillable Cost</th>
+                                </tr>
+                            </thead>
+                            <tbody>     
+                                <tr>
+                                    <th>1</th>';
+            $html .= '              <th>' . $billabkeHoursMin . '<br>'.number_format($billable_cost,2).'</th>
+                                    <th>' . $nonBillableHoursMin . '<br>'.number_format($non_billable_cost,2).'</th>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            </div>';
+        return $html;
     }
 
     public function desklogReport()

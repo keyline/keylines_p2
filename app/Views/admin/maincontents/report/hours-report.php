@@ -38,7 +38,7 @@
                         <form method="GET" action="" enctype="multipart/form-data">
                             <input type="hidden" name="mode" value="advance_search">
                             <div class="row mb-3 align-items-center">
-                                <div class="col-md-12 col-lg-12" id="day_type_row">
+                                <div class="col-md-6 col-lg-6" id="day_type_row">
                                     <select name="search_day_id" class="form-control" onchange="dayWiseListGenerate(this.value)">
                                         <option value="today">Today</option>
                                         <hr>
@@ -57,8 +57,16 @@
                                         <option value="last_30_days">Last 30 Days</option>
                                         <hr>
                                     </select>
-                                </div>
+                                </div>                                                             
                             </div>
+                        </form>
+                        <form method="POST" action="" enctype="multipart/form-data">
+                            <div class="col-md-6 col-lg-6 input-group input-daterange">                                     
+                            <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="" style="height: 40px;">
+                            <span class="input-group-text">To</span>
+                            <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 40px;">
+                            <button type="button" id="fetch_data" class="btn btn-primary mt-2">Search</button>
+                        </div>   
                         </form>
                     </div>
                 </div>
@@ -76,12 +84,17 @@
                                 <table class="table nowrap general_table_style padding-y-10" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <th colspan="2">From Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
-                                            <th colspan="2">To Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
+                                            <th colspan="3">From Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
+                                            <th colspan="3">To Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
                                         </tr>
+                                        <!-- <caption>
+                                            From Date: <u><?=date_format(date_create($yesterday), "M d, Y")?></u> | 
+                                            To Date: <u><?=date_format(date_create($yesterday), "M d, Y")?></u>
+                                        </caption> -->
                                         <tr>
                                             <th width="1%">#</th>
                                             <th width="5%">Project</th>
+                                            <th width="5%">Project Status</th>
                                             <th width="5%">Total Time</th>
                                             <th width="5%">Total Cost</th>
                                         </tr>
@@ -93,7 +106,8 @@
                                         $last_month_month   = $start_date_array[1];
                                         $last_month_date    = $start_date_array[1];
                                         ?>
-                                        <?php if ($ongoingProjects) { $sl = 1; $total_cost = 0; $billable_cost=0; $non_billable_cost=0;   foreach ($ongoingProjects as $ongoingProject) { ?>
+                                        <?php 
+                                        if ($ongoingProjects) { $sl = 1; $total_cost = 0; $billable_cost=0; $non_billable_cost=0;   foreach ($ongoingProjects as $ongoingProject) { ?>
                                             <?php
                                             /* cost calculation */
                                                 $project_cost   = 0;
@@ -108,9 +122,9 @@
                                                 <th><?= $sl++; ?></th>
                                                 <th>
                                                     <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
-                                                        <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-info">Fixed</span>
+                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($ongoingProject->project_id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
                                                     <?php } else { ?>
-                                                        <?= $ongoingProject->name; ?> <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-primary">Monthly</span>
+                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($ongoingProject->project_id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
                                                     <?php } ?>
                                                     <?php
                                                     if ($ongoingProject->bill == 0) {
@@ -119,6 +133,13 @@
                                                         $non_billable_cost += $project_cost;
                                                     }
                                                     ?>
+                                                </th>
+                                                <th>
+                                                    <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
+                                                        <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-info">Fixed</span>
+                                                    <?php } else { ?>
+                                                        <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-primary">Monthly</span>
+                                                    <?php } ?>
                                                 </th>
                                                 <?php
                                                 $totalHours       = (int) $ongoingProject->total_hours;
@@ -138,6 +159,7 @@
                                         <?php } ?>
                                             <tr>
                                                 <th colspan="3" style="text-align:right; font-weight:bold;">Total</th>
+                                                <!-- <th>-</th> -->
                                                 <th><?=number_format($total_cost,2)?></th>
                                             </tr>
                                     <?php } ?>
@@ -181,7 +203,7 @@
         </div>
     <?php } ?>
 </section>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
     function dayWiseListGenerate(value) {
         console.log("Selected value: " + value);
@@ -202,6 +224,39 @@
     $(document).ready(function() {
         dayWiseListGenerate('yesterday');
     });
+    $(document).ready(function() {
+        $('#fetch_data').click(function(){
+            let startDate = $('#search_range_from').val();
+            let endDate = $('#search_range_to').val();
+            console.log(startDate);
+            console.log(endDate);
+            if(startDate === "" || endDate === ""){
+                alert("Please select both dates.");
+                return;
+            }
+
+            // Update displayed date range
+            $("#from_date_display").text(startDate);
+            $("#to_date_display").text(endDate);
+
+            $.ajax({
+            url: "<?= base_url('admin/reports/fetchData'); ?>",
+            type: "POST",
+            data: { start_date: startDate, end_date: endDate },
+            dataType: "html",
+            success: function(response) {
+                // console.log(response); // Print the response in the console
+                $("#project-container").html(response);
+                },
+                error: function(xhr, status, error) {
+                    console.log("Error: ", error); // Print the error message
+                    console.log("XHR: ", xhr.responseText); // Print full error response
+                    alert("Error fetching data!");
+                }
+            });
+        });
+    });
+
     function showWorkList(projectId, date, billable, hours) {
         $('#modalBody').html('');
         $.ajax({
@@ -233,3 +288,76 @@
         setTimeout(function(){newWin.close();},10);
     }
 </script>
+
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<!-- <script>
+$(document).ready(function () {
+    $('#fetch_data').click(function(){
+        let startDate = $('#search_range_from').val();
+        let endDate = $('#search_range_to').val();
+
+        if(startDate === "" || endDate === ""){
+            alert("Please select both dates.");
+            return;
+        }
+
+        $.ajax({
+            url: "<?= base_url('admin/reports/fetchData'); ?>",
+            type: "POST",
+            data: { start_date: startDate, end_date: endDate },
+            dataType: "json",
+            success: function(response) {
+                $('#from_date').text(startDate);
+                $('#to_date').text(endDate);
+
+                let tableBody = $("#table_body");
+                tableBody.empty();
+
+                if(response.data.length > 0) {
+                    let totalCost = 0;
+                    response.data.forEach((project, index) => {
+                        let totalHours = parseInt(project.total_hours) + Math.floor(parseInt(project.total_minutes) / 60);
+                        let remainingMinutes = parseInt(project.total_minutes) % 60;
+                        let formattedTime = `${totalHours} Hours ${remainingMinutes} Minutes`;
+
+                        totalCost += parseFloat(project.total_cost);
+
+                        tableBody.append(`
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>
+                                    ${project.name} 
+                                    <a target="_blank" href="<?= base_url('admin/projects/reports/') ?>${btoa(project.id)}">
+                                        <i class="fa fa-file" style="margin-left: 5px;"></i>
+                                    </a>
+                                </td>
+                                <td>
+                                    ${project.bill == 0 
+                                        ? '<span class="badge bg-success">Billable</span>' 
+                                        : '<span class="badge bg-danger">Non-Billable</span>'
+                                    }
+                                    ${project.project_time_type == 'Onetime' 
+                                        ? '<span class="badge bg-info">Fixed</span>' 
+                                        : '<span class="badge bg-primary">Monthly</span>'
+                                    }
+                                </td>
+                                <td>${formattedTime}</td>
+                                <td>${parseFloat(project.total_cost).toFixed(2)}</td>
+                            </tr>
+                        `);
+                    });
+
+                    tableBody.append(`
+                        <tr>
+                            <td colspan="3" style="text-align:right; font-weight:bold;">Total</td>
+                            <td>${totalCost.toFixed(2)}</td>
+                        </tr>
+                    `);
+                } else {
+                    tableBody.append(`<tr><td colspan="5" class="text-center">No data found for the selected range.</td></tr>`);
+                }
+            }
+        });
+    });
+});
+</script> -->

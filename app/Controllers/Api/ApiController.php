@@ -4,6 +4,7 @@ use App\Controllers\BaseController;
 use App\Models\CommonModel;
 use App\Libraries\CreatorJwt;
 use App\Libraries\JWT;
+use DateTime;
 
 class ApiController extends BaseController
 {
@@ -19,6 +20,7 @@ class ApiController extends BaseController
                 $generalSetting = $this->common_model->find_data('general_settings', 'row');
                 if($generalSetting){
                     $apiResponse = [
+                        'company_name'              => $generalSetting->company_name,
                         'site_name'                 => $generalSetting->site_name,
                         'site_phone'                => $generalSetting->site_phone,
                         'site_mail'                 => $generalSetting->site_mail,
@@ -752,9 +754,12 @@ class ApiController extends BaseController
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+                    $generalSetting = $this->common_model->find_data('general_settings', 'row');
                     if($getUser){
                         $getCategory         = $this->common_model->find_data('user_category', 'row', ['id' => $getUser->category], 'name');                        
                         $apiResponse        = [
+                            'company_name'                          => $generalSetting->company_name,
+                            'id'                                    => $getUser->id,
                             'type'                                  => $getUser->type,
                             'name'                                  => $getUser->name,
                             'email'                                 => $getUser->email,
@@ -1611,8 +1616,9 @@ class ApiController extends BaseController
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                     if($getUser){
+                        $currentYear        = date('Y');
                         $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
-                        $getEvents          = $this->common_model->find_data('event', 'array', '', 'title,start_event', '', '', $orderBy);
+                        $getEvents          = $this->common_model->find_data('event', 'array', ['start_event LIKE' => '%'.$currentYear.'%'], 'title,start_event', '', '', $orderBy);
                         if($getEvents){
                             foreach($getEvents as $getEvent){
                                 $apiResponse[]        = [
@@ -1622,6 +1628,66 @@ class ApiController extends BaseController
                             }
                         }
 
+                        $apiStatus          = TRUE;
+                        http_response_code(200);
+                        $apiMessage         = 'Data Available !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(404);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function getEmployee()
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $headerData         = $this->request->headers();
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $Authorization              = $headerData['Authorization'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
+                    if($getEmployees){                        
+                        foreach($getEmployees as $getEmployee){
+                            $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
+                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status', '', '', $orderBy);
+                            $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
+                            $punchout = ($punch_time) ? DateTime::createFromFormat('H:i:s', $punch_time->punch_out_time) : false;
+                            $apiResponse[]        = [
+                                'id'              => $getEmployee->id,
+                                'name'            => $getEmployee->name,
+                                'email'           => $getEmployee->email,
+                                'phone'           => $getEmployee->phone1,
+                                'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
+                                'department'      => (($department)?$department->deprt_name:''),
+                                'punch_in_time'   => (($punch_time)? date('h:i a', strtotime($punch_time->punch_in_time)) :''),
+                                'punch_out_time'  => (($punchout) ? $punchout->format('g:i a') : ''),
+                                'punch_status'    => (($punch_time)? (int)$punch_time->status:0),
+                            ];
+                        }                       
                         $apiStatus          = TRUE;
                         http_response_code(200);
                         $apiMessage         = 'Data Available !!!';
@@ -2121,6 +2187,270 @@ class ApiController extends BaseController
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
+        public function getMonthAttendanceNew(){
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $this->isJSON(file_get_contents('php://input'));
+            $requestData        = $this->extract_json(file_get_contents('php://input'));        
+            $requiredFields     = ['attn_month_year', 'id'];
+            $headerData         = $this->request->headers();
+            if (!$this->validateArray($requiredFields, $requestData)){              
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $Authorization              = $headerData['Authorization'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                     $getUserId = $requestData['id'];                     
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
+                   
+                    if($getUser){
+                        
+                        $attn_month_year    = explode("/", $requestData['attn_month_year']);
+                        $month              = $attn_month_year[0];
+                        $year               = $attn_month_year[1];
+
+                        $list=array();
+
+                        for($d=1; $d<=31; $d++)
+                        {
+                            $time=mktime(12, 0, 0, $month, $d, $year);          
+                            if (date('m', $time)==$month)       
+                                $list[]=date('Y-m-d', $time);
+                        }
+                        $markDates          = [];
+                        $trackerLast7Days   = [];
+                        if(!empty($list)){
+                            $present_count  = 0;
+                            $halfday_count  = 0;
+                            $late_count     = 0;
+                            $absent_count   = 0;
+
+                            for($p=0;$p<count($list);$p++){
+                                $punch_date = $list[$p];
+
+                                $today = date('Y-m-d');
+                                if($punch_date >= $today){
+                                    $disableTouchEvent = 1;
+                                } else {
+                                    $disableTouchEvent = 0;
+                                }
+
+                                $checkAttn = $this->common_model->find_data('attendances', 'row', ['user_id' => $getUserId, 'punch_date' => $punch_date]);
+                                if($checkAttn){
+                                    $disableTouchEvent  = 0;
+                                    $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
+                                    $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $getUserId, 'punch_date' => $punch_date], 'attendance_time', '', '', $orderBy);
+                                    $tot_attn_time      = 0;
+                                    if($attnList){
+                                        foreach($attnList as $attnRow){
+                                            $tot_attn_time      += $attnRow->attendance_time;
+                                        }
+                                    }
+                                    $attendance_time    = $tot_attn_time;
+                                    $isAbsent           = 0;
+                                    $isHalfday          = 0;
+                                    $isFullday          = 0;
+                                    $isLate             = 0;
+                                    if($attendance_time < 240){
+                                        $isAbsent       = 1;
+                                        $isHalfday      = 0;
+                                        $isFullday      = 0;
+                                        if($checkAttn->punch_in_time > '10:00:58'){
+                                            $isLate     = 1;
+                                        }
+                                    } elseif($attendance_time >= 240 && $attendance_time < 480){
+                                        $isAbsent       = 0;
+                                        $isHalfday      = 1;
+                                        $isFullday      = 0;
+                                        if($checkAttn->punch_in_time > '10:00:58'){
+                                            $isLate     = 1;
+                                        }
+                                    } elseif($attendance_time >= 480){
+                                        $isAbsent       = 0;
+                                        $isHalfday      = 0;
+                                        $isFullday      = 1;
+                                        if($checkAttn->punch_in_time > '10:00:58'){
+                                            $isLate     = 1;
+                                        }
+                                    }
+
+                                    // .Present - #469148
+                                    // .Absent - #F41F22
+                                    // .Half Day- #E4AA39
+                                    // .Late - #1e81b0
+                                    // .Punchout Pending - #76E21B
+                                    // .Holiday - #D623EA
+                                    // .Disabled -#D5d5ce
+
+                                    if($disableTouchEvent){
+                                        $backgroundColor = '#D5d5ce';
+                                    } else {
+                                        $checkHoliday = $this->common_model->find_data('event', 'row', ['start_event' => $punch_date]);
+                                        if($checkHoliday){
+                                            $backgroundColor = '#469148';
+                                            $disableTouchEvent = 0;
+                                            // $present_count++;
+                                        } else {
+                                            if($isAbsent){
+                                                $backgroundColor = '#F41F22';
+                                                $absent_count++;
+                                            }
+                                            if($isHalfday){
+                                                $backgroundColor = '#E4AA39';
+                                                $halfday_count++;
+                                                // $present_count++;
+                                            }
+                                            if($isFullday){
+                                                $backgroundColor = '#469148';
+                                                // $present_count++;
+                                            }
+                                            if($checkAttn->status == 1){
+                                                $backgroundColor = '#76E21B';
+                                                // $present_count++;
+                                            }
+                                            if($checkAttn->punch_in_time > '10:00:58'){
+                                                $backgroundColor = '#1e81b0';
+                                                $late_count++;
+                                                
+                                            }
+                                        }
+                                        $present_count++;
+                                    }
+                                    
+                                    $markDates[]        = [
+                                        $punch_date => [
+                                            'marked' => 0,
+                                            'disabled' => 0,
+                                            'disableTouchEvent' => $disableTouchEvent,
+                                            'customStyles' => [
+                                                'container' => [
+                                                    'backgroundColor' => $backgroundColor,
+                                                    'width' => 'WIDTH * 0.1',
+                                                    'height' => 'WIDTH * 0.1',
+                                                    'borderRadius' => 5,
+                                                    'justifyContent' => 'center',
+                                                    'alignItems' => 'center',
+                                                ]
+                                            ]
+                                        ]
+                                    ];
+                                } else {
+                                    $isAbsent   = 1;
+                                    $isHalfday  = 0;
+                                    $isFullday  = 0;
+                                    $isLate     = 0;
+                                    if($disableTouchEvent){
+                                        $backgroundColor = '#D5d5ce';
+                                    } else {
+                                        $checkHoliday = $this->common_model->find_data('event', 'row', ['start_event' => $punch_date]);
+                                        if($checkHoliday){
+                                            $backgroundColor = '#D623EA';
+                                            $disableTouchEvent = 1;
+                                        } else {
+                                            if($isAbsent){
+                                                $backgroundColor = '#F41F22';
+                                                $absent_count++;
+                                            }
+                                            if($isHalfday){
+                                                $backgroundColor = '#E4AA39';
+                                                $halfday_count++;
+                                                $present_count++;
+                                            }
+                                            if($isFullday){
+                                                $backgroundColor = '#469148';
+                                            }
+                                        }
+                                    }
+                                    $markDates[]        = [
+                                        $punch_date => [
+                                            'marked' => 0,
+                                            'disabled' => 0,
+                                            'disableTouchEvent' => $disableTouchEvent,
+                                            'customStyles' => [
+                                                'container' => [
+                                                    'backgroundColor' => $backgroundColor,
+                                                    'width' => 'WIDTH * 0.1',
+                                                    'height' => 'WIDTH * 0.1',
+                                                    'borderRadius' => 5,
+                                                    'justifyContent' => 'center',
+                                                    'alignItems' => 'center',
+                                                ]
+                                            ]
+                                        ]
+                                    ];
+                                }
+                            }
+                            $applicationSetting     = $this->common_model->find_data('application_settings', 'row');
+                            /* last 7 days tracker report */
+                                $last7Days          = $this->getLastNDays(7, 'Y-m-d');
+                                if(!empty($last7Days)){
+                                    for($t=0;$t<count($last7Days);$t++){
+                                        $loopDate           = $last7Days[$t];
+                                        $dayWiseBooked      = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$getUserId' and date_added LIKE '$loopDate'")->getRow();
+                                        $tothour                = $dayWiseBooked->tothour * 60;
+                                        $totmin                 = $dayWiseBooked->totmin;
+                                        $totalMin               = ($tothour + $totmin);
+                                        $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                        $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desklog_report` where tracker_user_id='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
+                                        // echo $this->db->getLastQuery();
+                                        $desklog_time           = (($getDesklogTime)?$getDesklogTime->time_at_work:'');
+                                        $desklog_time1           = str_replace("m","",$desklog_time);
+                                        $desklog_time2           = str_replace("h ",".",$desklog_time1);
+                                        $trackerLast7Days[]     = [
+                                            'date_no'       => date_format(date_create($last7Days[$t]), "M d, Y"),
+                                            'day_name'      => date('D', strtotime($last7Days[$t])),
+                                            'booked_time'   => $booked_effort,
+                                            'desklog_time'  => (($desklog_time != '')?$desklog_time2:$desklog_time)
+                                        ];
+                                    }
+                                }
+                            /* last 7 days tracker report */
+
+                            $apiResponse        = [                                
+                                'present_count'     => $present_count,
+                                'halfday_count'     => $halfday_count,
+                                'late_count'        => $late_count,
+                                'absent_count'      => $absent_count,
+                                'is_desklog_use'    => $applicationSetting->is_desklog_use,
+                                'markDates'         => $markDates,
+                                'trackerLast7Days'  => $trackerLast7Days,
+                            ];
+
+                            $apiStatus          = TRUE;
+                            http_response_code(200);
+                            $apiMessage         = 'Data Available !!!';
+                            $apiExtraField      = 'response_code';
+                            $apiExtraData       = http_response_code();
+                        }
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(404);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
         public function getSingleAttendance()
         {
             $apiStatus          = TRUE;
@@ -2273,6 +2603,159 @@ class ApiController extends BaseController
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
+        public function getSingleAttendanceNew()
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $this->isJSON(file_get_contents('php://input'));
+            $requestData        = $this->extract_json(file_get_contents('php://input'));        
+            $requiredFields     = ['attn_date','id'];
+            $headerData         = $this->request->headers();
+            if (!$this->validateArray($requiredFields, $requestData)){              
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $Authorization              = $headerData['Authorization'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $getUserId = $requestData['id'];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
+                    if($getUser){
+                        
+                        $attn_date      = $requestData['attn_date'];
+                        $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
+                        $checkAttn      = $this->common_model->find_data('attendances', 'row', ['user_id' => $getUserId, 'punch_date' => $attn_date], '', '', '', $orderBy);
+                        if($checkAttn){
+                            // $attendance_time = $checkAttn->attendance_time;
+                            
+
+                            $attnDatas          = [];
+                            $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
+                            $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $getUserId, 'punch_date' => $attn_date], '', '', '', $orderBy);
+                            $tot_attn_time      = 0;
+                            if($attnList){
+                                foreach($attnList as $attnRow){
+                                    if($attnRow->status == 1){
+                                        $attnDatas[]          = [
+                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                            'label'                 => 'In',
+                                            'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
+                                            'address'               => (($attnRow->punch_in_address != '')?$attnRow->punch_in_address:''),
+                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->punch_in_image,
+                                            'type'                  => 1
+                                        ];
+                                    }
+                                    if($attnRow->status == 2){
+                                        $attnDatas[]          = [
+                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                            'label'                 => 'In',
+                                            'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
+                                            'address'               => (($attnRow->punch_in_address != '')?$attnRow->punch_in_address:''),
+                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->punch_in_image,
+                                            'type'                  => 1
+                                        ];
+                                        $attnDatas[]          = [
+                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                            'label'                 => 'Out',
+                                            'time'                  => (($attnRow->punch_out_time != '')?date_format(date_create($attnRow->punch_out_time), "h:i A"):''),
+                                            'address'               => (($attnRow->punch_out_address != '')?$attnRow->punch_out_address:''),
+                                            'image'                 => (($attnRow->punch_out_image != '')?getenv('app.uploadsURL').'user/'.$attnRow->punch_out_image:''),
+                                            'type'                  => 2
+                                        ];
+                                    }
+                                    $tot_attn_time      += $attnRow->attendance_time;
+                                }
+                            }
+
+                            $isAbsent   = 0;
+                            $isHalfday  = 0;
+                            $isFullday  = 0;
+                            $isLate     = 0;
+                            $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
+                            $getFirstAttn       = $this->common_model->find_data('attendances', 'row', ['user_id' => $getUserId, 'punch_date' => $attn_date], '', '', '', $orderBy);
+
+                            if($tot_attn_time < 240){
+                                $isAbsent   = 1;
+                                $isHalfday  = 0;
+                                $isFullday  = 0;
+                                if($getFirstAttn->punch_in_time > '10:00:58'){
+                                    $isLate     = 1;
+                                }
+                            } elseif($tot_attn_time >= 240 && $tot_attn_time < 480){
+                                $isAbsent   = 0;
+                                $isHalfday  = 1;
+                                $isFullday  = 0;
+
+                                if($getFirstAttn->punch_in_time > '10:00:58'){
+                                    $isLate     = 1;
+                                }
+                            } elseif($tot_attn_time >= 480){
+                                $isAbsent   = 0;
+                                $isHalfday  = 0;
+                                $isFullday  = 1;
+                                if($getFirstAttn->punch_in_time > '10:00:58'){
+                                    $isLate     = 1;
+                                }
+                            }
+
+                            $apiResponse        = [                                
+                                'punch_date'            => date_format(date_create($checkAttn->punch_date), "M d, Y"),
+                                'punch_in_time'         => date_format(date_create($checkAttn->punch_in_time), "h:i A"),
+                                'punch_in_address'      => $checkAttn->punch_in_address,
+                                'punch_in_image'        => getenv('app.uploadsURL').'user/'.$checkAttn->punch_in_image,
+                                'punch_out_time'        => (($checkAttn->punch_out_time != '')?date_format(date_create($checkAttn->punch_out_time), "h:i A"):''),
+                                'punch_out_address'     => (($checkAttn->punch_out_address != '')?$checkAttn->punch_out_address:''),
+                                'punch_out_image'       => (($checkAttn->punch_out_image != '')?getenv('app.uploadsURL').'user/'.$checkAttn->punch_out_image:''),
+                                'isAbsent'              => $isAbsent,
+                                'isHalfday'             => $isHalfday,
+                                'isFullday'             => $isFullday,
+                                'isLate'                => $isLate,
+                                'note'                  => (($checkAttn->note != '')?$checkAttn->note:''),
+                                'status'                => $checkAttn->status,
+                                'attendance_time'       => $tot_attn_time,
+                                'attnDatas'             => $attnDatas
+                            ];
+
+                            $apiStatus          = TRUE;
+                            http_response_code(200);
+                            $apiMessage         = 'Attendance Available !!!';
+                            $apiExtraField      = 'response_code';
+                            $apiExtraData       = http_response_code();
+                        } else {
+                            $apiStatus          = FALSE;
+                            http_response_code(200);
+                            $apiMessage         = 'You Are Absent !!!';
+                            $apiExtraField      = 'response_code';
+                            $apiExtraData       = http_response_code();
+                        }
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(404);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
         public function updateNote()
         {
             $apiStatus          = TRUE;
@@ -2372,6 +2855,103 @@ class ApiController extends BaseController
                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
                                 $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $uId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                if($getTasks){
+                                    foreach($getTasks as $getTask){
+                                        $tothour                = $getTask->hour * 60;
+                                        $totmin                 = $getTask->min;
+                                        $totalMin               = ($tothour + $totmin);
+                                        // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                        $booked_effort          = $totalMin;
+                                        $total_time             += $booked_effort;
+
+                                        $work_status_id         = $getTask->work_status_id;
+                                        $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
+
+                                        $tasks[]            = [
+                                            'project_name'          => $getTask->project_name,
+                                            'description'           => $getTask->description,
+                                            'hour'                  => $getTask->hour,
+                                            'min'                   => $getTask->min,
+                                            'user_name'             => $getTask->user_name,
+                                            'is_leave'              => $getTask->is_leave,
+                                            'background_color'      => (($getWorkStatus)?$getWorkStatus->background_color:''),
+                                            'border_color'          => (($getWorkStatus)?$getWorkStatus->border_color:''),
+                                            'work_status_name'      => (($getWorkStatus)?$getWorkStatus->name:''),
+                                            'created_at'            => date_format(date_create($getTask->created_at), "h:i a"),
+                                        ];
+                                    }
+                                }
+
+                                $apiResponse[]              = [
+                                    'task_date'       => date_format(date_create($loopDate), "M d, Y"),
+                                    'total_time'      => intdiv($total_time, 60).'.'. ($total_time % 60),
+                                    'tasks'           => $tasks
+                                ];
+                            }
+                        }
+                        $apiStatus          = TRUE;
+                        http_response_code(200);
+                        $apiMessage         = 'Data Available !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(404);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function getTasksNew()
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $this->isJSON(file_get_contents('php://input'));
+            $requestData        = $this->extract_json(file_get_contents('php://input'));        
+            $requiredFields     = ['no_of_days', 'id'];
+            $headerData         = $this->request->headers();
+            if (!$this->validateArray($requiredFields, $requestData)){              
+                $apiStatus          = FALSE;
+                $apiMessage         = 'All Data Are Not Present !!!';
+            }
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $Authorization              = $headerData['Authorization'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                $no_of_days                 = $requestData['no_of_days'];
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $getUserId = $requestData['id'];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
+                    if($getUser){
+                        $last7Days          = $this->getLastNDaysAscending($no_of_days, 'Y-m-d');
+                        if(!empty($last7Days)){
+                            for($t=0;$t<count($last7Days);$t++){
+                                $loopDate                   = $last7Days[$t];
+                                $tasks                      = [];
+                                $total_time                 = 0;
+
+                                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+                                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+                                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+                                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
                                 if($getTasks){
                                     foreach($getTasks as $getTask){
                                         $tothour                = $getTask->hour * 60;

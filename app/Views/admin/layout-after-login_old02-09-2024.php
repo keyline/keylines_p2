@@ -421,7 +421,7 @@
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.floatingscroll.min.js"></script>
 <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/floatingscroll-demo.js"></script>
-<script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.dragscroll.min.js"></script>
+<!-- <script src="?= getenv('app.adminAssetsURL') ?>assets/js/jquery.dragscroll.min.js"></script> -->
 <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.kinetic.min.js"></script>
 <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/freeze-table.min.js"></script>
 
@@ -434,10 +434,10 @@
 
     });
 
-    $('.drag').dragScroll({
-    });
+    // $('.drag').dragScroll({
+    // });
 
-    $('#wrapper2').kinetic({
+    $('.drag').kinetic({
         cursor:'grab',
         decelerate:true,
         triggerHardware:false,
@@ -470,10 +470,9 @@
             left:'kinetic-decelerating-left',
             right:'kinetic-decelerating-right'
         },
-
-
-});
+    });
 </script>
+
 </body>
 
 </html>
