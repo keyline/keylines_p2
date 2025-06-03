@@ -8,6 +8,19 @@ use DateTime;
 
 class ApiController extends BaseController
 {
+    public function __construct() {
+        parent::__construct();
+        // Allow from any origin
+        header("Access-Control-Allow-Origin: *");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
+        // For preflight requests
+        if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
+            // You can specify max age or other headers here
+            die(); // Exit early for OPTIONS
+        }
+    }
+
     /* before login */
         public function getAppSetting(){
             $apiStatus          = TRUE;
