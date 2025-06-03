@@ -5,6 +5,12 @@ Options -Indexes
 # Rewrite engine
 # ----------------------------------------------------------------------
 
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Origin "http://localhost:3000"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
+
 # Turning on the rewrite engine is necessary for the following rules and features.
 # FollowSymLinks must be enabled for this to work.
 <IfModule mod_rewrite.c>
