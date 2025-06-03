@@ -124,6 +124,10 @@ abstract class BaseController extends Controller
     */    
     public function response_to_json($success = TRUE, $message = "success", $data = NULL, $extraField = NULL, $extraData = NULL)
     {
+        // Allow from any origin (for development)
+        header("Access-Control-Allow-Origin: http://localhost:3000");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
         $response = ["success" => $success, "message" => $message, "data" => $data];
         if ($extraField != NULL && $extraData != NULL) {
             $response[$extraField] = $extraData;
