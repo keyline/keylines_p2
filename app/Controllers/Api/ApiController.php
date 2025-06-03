@@ -57,6 +57,15 @@ class ApiController extends BaseController
                 $apiExtraField      = 'response_code';
                 $apiExtraData       = http_response_code();
             }
+            // CORS headers for immediate effect
+            header('Access-Control-Allow-Origin: http://localhost:3000');
+            header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+            header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+            // Handle preflight request
+            if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+                return $this->response->setStatusCode(200);
+            }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
         public function getStaticPages(){
