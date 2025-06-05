@@ -1703,9 +1703,9 @@ class User extends BaseController
             echo 'Invalid mobile number. Please enter a valid 10-digit Indian mobile number.';
             return;
         }
-
-        $message                    = 'This is a test SMS sent on ' . date('Y-m-d H:i:s');
-        $result                     = $this->common_model->sendSMS($number, '91' . $message);
+        $otp = random_int(100000, 999999);
+        $message                    = "Dear $number, $otp is you verification OTP for registration at KEYLINE";
+        $result                     = $this->common_model->sendSMS('91' . $number, $message);
         if ($result['success']) {
             echo '<pre>';
             print_r($result['response']);
