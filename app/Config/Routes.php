@@ -301,5 +301,13 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
 	$routes->match(['post'], "get-tasks", "ApiController::getTasks");
 	$routes->match(['post'], "get-tasks-new", "ApiController::getTasksNew");
 	// after login
+
+
+	//_______ screenshots api before login_______
+
+	// Base64‐only endpoint:
+	$routes->post('screenshot/base64', 'Screenshots\ScreenshotsUploadController::uploadBase64');
+	// multipart/form‐data (file)‐only endpoint:
+	$routes->post('screenshot/upload', 'Screenshots\ScreenshotsUploadController::uploadFile');
 });
 /* API */
