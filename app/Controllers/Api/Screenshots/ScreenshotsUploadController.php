@@ -122,4 +122,23 @@ class ScreenshotsUploadController extends ResourceController
             return $this->failServerError($e->getMessage());
         }
     }
+
+    // list all images
+    public function list()
+    {
+        $data = $this->imageService->listAll();
+        if (empty($data)) {
+            return $this->respond([
+                'status' => 'success',
+                'message' => 'No images found.',
+                'data' => []
+            ]);
+        } else {
+            return $this->respond([
+                'status' => 'success',
+                'message' => 'Images retrieved successfully.',
+                'data' => $data
+            ]);
+        }
+    }
 }

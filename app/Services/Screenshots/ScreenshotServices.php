@@ -35,7 +35,7 @@ class ScreenshotServices
         //  Determine how the “image” was passed
         // ─────────────────────────────────────────────────────────────
         $hasFile   = (isset($data['image']) && $data['image'] instanceof UploadedFile);
-    
+
         $hasBase64 = (
             isset($data['image'])
             && is_array($data['image'])
@@ -161,7 +161,7 @@ class ScreenshotServices
         // ─────────────────────────────────────────────────────────────
         //  Insert record into database via AppModel
         // ─────────────────────────────────────────────────────────────
-        // Store “image_path” relative to writable/, e.g. “uploads/apps/2025/06/abcdef1234567890.png”
+
         $relativePath =  "{$year}/{$day}/{$filename}";
 
         $insertData = [
@@ -171,7 +171,7 @@ class ScreenshotServices
             'active_app_url' => $data['app_url'],
             'image_name'     => $relativePath,
             'idle_status'    => 1,
-            'time_stamp'     => Time::now('UTC')->toDateTimeString(),
+            'time_stamp'     => Time::now()->toDateTimeString(),
         ];
 
         $newId = $this->imageModel->insert($insertData);
@@ -184,5 +184,31 @@ class ScreenshotServices
 
         $insertData['id'] = $newId;
         return $insertData;
+    }
+
+
+    // get the list of all rows
+    public function listAll(): array
+    {
+        try {
+            $images = $this->imageModel->findAll();
+
+            if (!is_array($images)) {
+                return [];
+            }
+
+            return array_map(function ($image) {
+                $image['image_name'] = base_url($this->uploadDir . $image['image_name']);
+                return $image;
+            }, $images);
+        } catch (\Throwable $e) {
+            log_message('error', 'Image list failed: ' . $e->getMessage());
+
+            return [
+                'status' => false,
+                'message' => 'Failed to retrieve images.',
+                'error' => ENVIRONMENT !== 'production' ? $e->getMessage() : null,
+            ];
+        }
     }
 }
