@@ -128,6 +128,7 @@ nb-configuration.xml
 
 /.php-cs-fixer.php
 /public/uploads/user
+/public/uploads/screenshot
 
 # Whitelisting public/vendor folder for frontend assets
 !public/material/*
