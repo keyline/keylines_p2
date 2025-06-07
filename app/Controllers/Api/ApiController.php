@@ -1870,8 +1870,8 @@ class ApiController extends BaseController
                                     http_response_code(200);
                                     // 👇 Send Push Notification
                                     $messageData = [
-                                        'title' => 'Punch Out Successful',
-                                        'body' => 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A'),
+                                        'title' => 'Punch In Successful',
+                                        'body' => 'Hello ' . $getUser->name . ', your punch-in was recorded at ' . date('h:i A'),
                                         'vibrate' => 1,
                                         'sound' => 1,
                                         'click_action' => ''
@@ -1879,6 +1879,7 @@ class ApiController extends BaseController
                                     if (!empty($deviceToken)) {
                                         $this->pushNotification($deviceToken, $messageData);
                                     }
+
                                 } elseif($punch_type == 2){
                                     $punch_out_time      = date('H:i:s');
                                     $punch_out_lat       = $latitude;
