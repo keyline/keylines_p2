@@ -1672,7 +1672,7 @@ class ApiController extends BaseController
                     $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
                     if($getEmployees){                        
                         foreach($getEmployees as $getEmployee){
-                            $orderBy[0]     = ['field' => 'punch_in_time', 'type' => 'DESC'];
+                            $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
                             $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status', '', '', $orderBy);
                             $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
                             $punchout = ($punch_time) ? DateTime::createFromFormat('H:i:s', $punch_time->punch_out_time) : false;
@@ -1687,7 +1687,11 @@ class ApiController extends BaseController
                                 'punch_out_time'  => (($punchout) ? $punchout->format('g:i a') : ''),
                                 'punch_status'    => (($punch_time)? (int)$punch_time->status:0),
                             ];
-                        }                       
+                        }   
+                        // Sort the array by punch_in_time DESC (latest first)
+                        usort($apiResponse, function ($a, $b) {
+                            return strtotime($b['punch_in_time']) - strtotime($a['punch_in_time']);
+                        });                    
                         $apiStatus          = TRUE;
                         http_response_code(200);
                         $apiMessage         = 'Data Available !!!';
