@@ -2,6 +2,7 @@
 
 namespace App\Controllers\Api\Screenshots;
 
+use App\Libraries\AuthTrait;
 use App\Services\Screenshots\ScreenshotServices;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\API\ResponseTrait;
@@ -12,12 +13,44 @@ use Exception;
 class ScreenshotsUploadController extends ResourceController
 {
     use ResponseTrait;
+    use AuthTrait;
 
     protected $imageService;
 
     public function __construct()
     {
         $this->imageService = new ScreenshotServices();
+    }
+
+    public function authCheck()
+    {
+        $headerData         = $this->request->headers();
+
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization             = $headerData['Authorization'];
+            $app_access_token          = $this->extractToken($Authorization);
+            $authResponse              = $this->tokenAuth($app_access_token);
+            if (!$authResponse['status']) {
+                return $this->respond(['status' => false, 'message' => $authResponse['data']], 401);
+            }
+
+            // ______________________________________________________________
+
+
+            // logical code goes here..
+
+            return $this->respond([
+                'status' => true,
+                'message' => 'Token Verified',
+                'user_id' => $this->userId,
+                'email' => $this->userEmail
+            ]);
+
+            // ______________________________________________________________
+
+        } else {
+            return $this->respond(['status' => false, 'message' => 'Key Not Matched'], 401);
+        }
     }
 
 
