@@ -4,6 +4,7 @@ use App\Controllers\BaseController;
 use App\Models\CommonModel;
 use App\Libraries\CreatorJwt;
 use App\Libraries\JWT;
+use CodeIgniter\CLI\Console;
 use DateTime;
 
 class ApiController extends BaseController
@@ -1840,7 +1841,8 @@ class ApiController extends BaseController
                                 $punch_date = date('Y-m-d');
                                 $orderBy = [['field' => 'id', 'type' => 'DESC']];
                                 $user_device = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $uId],'','', '', $orderBy);
-                                $deviceToken = $user_device->device_token; // added
+                                $deviceToken = $user_device->fcm_token; // added
+                                pr($deviceToken);die;
                                 if($punch_type == 1){
                                     $punch_in_time      = date('H:i:s');
                                     $punch_in_lat       = $latitude;
