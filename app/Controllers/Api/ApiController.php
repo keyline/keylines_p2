@@ -1842,7 +1842,7 @@ class ApiController extends BaseController
                                 $orderBy = [['field' => 'id', 'type' => 'DESC']];
                                 $user_device = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $uId],'','', '', $orderBy);
                                 $deviceToken = $user_device->fcm_token; // added
-                                // pr($deviceToken);die;
+                                pr($deviceToken);die;
                                 if($punch_type == 1){
                                     $punch_in_time      = date('H:i:s');
                                     $punch_in_lat       = $latitude;
