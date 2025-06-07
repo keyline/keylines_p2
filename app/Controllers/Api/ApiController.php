@@ -1838,6 +1838,7 @@ class ApiController extends BaseController
                             $address                = $this->geolocationaddress($latitude, $longitude);
                             if($attendanceGivenStatus){
                                 $punch_date = date('Y-m-d');
+                                $deviceToken = $getUser->device_token; // added
                                 if($punch_type == 1){
                                     $punch_in_time      = date('H:i:s');
                                     $punch_in_lat       = $latitude;
@@ -1864,9 +1865,20 @@ class ApiController extends BaseController
                                     ];
                                     // pr($fields2);
                                     $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                                    $apiMessage         = 'Attendance Punch In Successfully !!!';
+                                    $apiMessage         = 'Attendance Punch In Successfully !!!';                                    
                                     $apiStatus          = TRUE;
                                     http_response_code(200);
+                                    // 👇 Send Push Notification
+                                    $messageData = [
+                                        'title' => 'Punch Out Successful',
+                                        'body' => 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A'),
+                                        'vibrate' => 1,
+                                        'sound' => 1,
+                                        'click_action' => ''
+                                    ];
+                                    if (!empty($deviceToken)) {
+                                        $this->pushNotification($deviceToken, $messageData);
+                                    }
                                 } elseif($punch_type == 2){
                                     $punch_out_time      = date('H:i:s');
                                     $punch_out_lat       = $latitude;
@@ -1891,6 +1903,17 @@ class ApiController extends BaseController
                                     $apiMessage         = 'Punch Out Successfully !!!';
                                     $apiStatus          = TRUE;
                                     http_response_code(200);
+                                    // 👇 Send Push Notification
+                                    $messageData = [
+                                        'title' => 'Punch Out Successful',
+                                        'body' => 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A'),
+                                        'vibrate' => 1,
+                                        'sound' => 1,
+                                        'click_action' => ''
+                                    ];
+                                    if (!empty($deviceToken)) {
+                                        $this->pushNotification($deviceToken, $messageData);
+                                    }
                                 } else {
                                     $punch_out_time = date('H:i:s');
                                     $punch_in_lat       = $latitude;
@@ -1909,6 +1932,17 @@ class ApiController extends BaseController
                                     $apiMessage         = 'Punch Out Successfully !!!';
                                     $apiStatus          = TRUE;
                                     http_response_code(200);
+                                    // 👇 Send Push Notification
+                                    $messageData = [
+                                        'title' => 'Punch Out Successful',
+                                        'body' => 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A'),
+                                        'vibrate' => 1,
+                                        'sound' => 1,
+                                        'click_action' => ''
+                                    ];
+                                    if (!empty($deviceToken)) {
+                                        $this->pushNotification($deviceToken, $messageData);
+                                    }
                                 }
                             } else {
                                 $apiStatus          = FALSE;
