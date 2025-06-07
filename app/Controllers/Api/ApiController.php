@@ -1690,7 +1690,8 @@ class ApiController extends BaseController
                         }   
                         // Sort the array by punch_in_time DESC (latest first)
                         usort($apiResponse, function ($a, $b) {
-                            return strtotime($b['punch_in_time']) - strtotime($a['punch_in_time']);
+                            // return strtotime($b['punch_in_time']) - strtotime($a['punch_in_time']); //latest first 
+                            return strtotime($a['punch_in_time']) - strtotime($b['punch_in_time']); // oldest first
                         });                    
                         $apiStatus          = TRUE;
                         http_response_code(200);
