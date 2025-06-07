@@ -304,7 +304,8 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
 
 
 	//_______ screenshots api before login_______
-
+	// user authentication check:
+	$routes->post('screenshot/auth', 'Screenshots\ScreenshotsUploadController::authCheck');
 	// Base64‐only endpoint:
 	$routes->post('screenshot/base64', 'Screenshots\ScreenshotsUploadController::uploadBase64');
 	// multipart/form‐data (file)‐only endpoint:
