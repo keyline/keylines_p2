@@ -1688,11 +1688,25 @@ class ApiController extends BaseController
                                 'punch_status'    => (($punch_time)? (int)$punch_time->status:0),
                             ];
                         }   
-                        // Sort the array by punch_in_time DESC (latest first)
+                        // // Sort the array by punch_in_time DESC (latest first)
+                        // usort($apiResponse, function ($a, $b) {
+                        //     // return strtotime($b['punch_in_time']) - strtotime($a['punch_in_time']); //latest first 
+                        //     return strtotime($a['punch_in_time']) - strtotime($b['punch_in_time']); // oldest first
+                        // });   
                         usort($apiResponse, function ($a, $b) {
-                            // return strtotime($b['punch_in_time']) - strtotime($a['punch_in_time']); //latest first 
-                            return strtotime($a['punch_in_time']) - strtotime($b['punch_in_time']); // oldest first
-                        });                    
+                            $a_time = strtotime($a['punch_in_time']);
+                            $b_time = strtotime($b['punch_in_time']);
+
+                            // Handle missing punch_in_time: move to bottom
+                            if (empty($a['punch_in_time'])) return 1;
+                            if (empty($b['punch_in_time'])) return -1;
+
+                            // Sort by punch_in_time ascending (oldest first)
+                            return $a_time - $b_time;
+
+                            // Or for descending (latest first), use:
+                            // return $b_time - $a_time;
+                        });                 
                         $apiStatus          = TRUE;
                         http_response_code(200);
                         $apiMessage         = 'Data Available !!!';
