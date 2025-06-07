@@ -1872,16 +1872,11 @@ class ApiController extends BaseController
                                     $apiMessage         = 'Attendance Punch In Successfully !!!';                                    
                                     $apiStatus          = TRUE;
                                     http_response_code(200);
-                                    // 👇 Send Push Notification
-                                    $messageData = [
-                                        'title' => 'Punch In Successful',
-                                        'body' => 'Hello ' . $getUser->name . ', your punch-in was recorded at ' . date('h:i A'),
-                                        'vibrate' => 1,
-                                        'sound' => 1,
-                                        'click_action' => ''
-                                    ];
+                                    // Send Notification
                                     if (!empty($deviceToken)) {
-                                        $this->pushNotification($deviceToken, $messageData);
+                                        $title = 'Punch In Successful';
+                                        $body  = 'Hello ' . $getUser->name . ', your punch-in was recorded at ' . date('h:i A');
+                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance');
                                     }
 
                                 } elseif($punch_type == 2){
@@ -1908,16 +1903,11 @@ class ApiController extends BaseController
                                     $apiMessage         = 'Punch Out Successfully !!!';
                                     $apiStatus          = TRUE;
                                     http_response_code(200);
-                                    // 👇 Send Push Notification
-                                    $messageData = [
-                                        'title' => 'Punch Out Successful',
-                                        'body' => 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A'),
-                                        'vibrate' => 1,
-                                        'sound' => 1,
-                                        'click_action' => ''
-                                    ];
+                                    // Send Notification
                                     if (!empty($deviceToken)) {
-                                        $this->pushNotification($deviceToken, $messageData);
+                                        $title = 'Punch Out Successful';
+                                        $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
+                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance');
                                     }
                                 } else {
                                     $punch_out_time = date('H:i:s');
@@ -1937,16 +1927,11 @@ class ApiController extends BaseController
                                     $apiMessage         = 'Punch Out Successfully !!!';
                                     $apiStatus          = TRUE;
                                     http_response_code(200);
-                                    // 👇 Send Push Notification
-                                    $messageData = [
-                                        'title' => 'Punch Out Successful',
-                                        'body' => 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A'),
-                                        'vibrate' => 1,
-                                        'sound' => 1,
-                                        'click_action' => ''
-                                    ];
+                                    // Send Notification
                                     if (!empty($deviceToken)) {
-                                        $this->pushNotification($deviceToken, $messageData);
+                                        $title = 'Punch Out Successful';
+                                        $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
+                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance');
                                     }
                                 }
                             } else {

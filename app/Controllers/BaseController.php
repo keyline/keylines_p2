@@ -268,6 +268,73 @@ abstract class BaseController extends Controller
         $err    = curl_error($ch);
         curl_close($ch);
     }
+    public function sendCommonPushNotification($token, $title, $body, $type = '', $image = '')
+{
+    try {
+        // Load from .env or config file
+        $jsonCredentials = getenv('FIREBASE_CREDENTIALS');
+        if (!$jsonCredentials) {
+            log_message('error', 'Firebase credentials not found in environment variables.');
+            return false;
+        }
+
+        $credentialsArray = json_decode($jsonCredentials, true);
+        if (json_last_error() !== JSON_ERROR_NONE) {
+            log_message('error', 'Invalid JSON in FIREBASE_CREDENTIALS.');
+            return false;
+        }
+
+        $projectId = 'energic-abf74'; // Change as needed
+        $accessToken = $this->getAccessToken($credentialsArray);
+
+        // Build Notification
+        $notification = [
+            'title' => $title,
+            'body' => $body,
+        ];
+        if (!empty($image)) {
+            $notification['image'] = $image;
+        }
+
+        // Android/iOS common message
+        $message = [
+            'message' => [
+                'token' => $token,
+                'notification' => $notification,
+                'data' => [
+                    'type' => $type,
+                    // You can include 'image' => $image if needed in data
+                ]
+            ]
+        ];
+
+        // Optional: Build custom iOS payload (APNs)
+        $iosPayload = [
+            'aps' => [
+                'alert' => [
+                    'title' => $title,
+                    'body' => $body,
+                ],
+                'sound' => 'default',
+                'mutable-content' => 1
+            ]
+        ];
+        if (!empty($image)) {
+            $iosPayload['media-url'] = $image;
+        }
+
+        // Send both payloads
+        $this->sendFCMMessage($accessToken, $projectId, $message);
+        $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
+
+        return true;
+
+    } catch (Exception $e) {
+        log_message('error', 'FCM Push Error: ' . $e->getMessage());
+        return false;
+    }
+}
+
     // send push notification
     public function checkModuleAccess($id){
         $this->db           = \Config\Database::connect();
