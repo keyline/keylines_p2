@@ -11,6 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 use Psr\Log\LoggerInterface;
 use App\Models\CommonModel;
 use App\Libraries\Pro;
+use Google_Client;
 /**
  * Class BaseController
  *
@@ -267,73 +268,114 @@ abstract class BaseController extends Controller
         $result = curl_exec($ch);
         $err    = curl_error($ch);
         curl_close($ch);
+    }    
+
+public function getAccessToken($credentialsJson)
+    {
+        $client = new \Google_Client();
+        $client->setAuthConfig($credentialsJson);
+        $client->addScope('https://www.googleapis.com/auth/cloud-platform');
+        $client->setAccessType('offline');
+        $client->fetchAccessTokenWithAssertion();
+
+        return $client->getAccessToken();
     }
+
+    public function sendFCMMessage($accessToken, $projectId, $message)
+    {
+        $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
+
+        $headers = [
+            'Authorization: Bearer ' . $accessToken['access_token'],
+            'Content-Type: application/json',
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message));
+
+        $response = curl_exec($ch);
+
+        if ($response === false) {
+            throw new Exception(curl_error($ch));
+        }
+
+        curl_close($ch);
+
+        return $response;
+    }
+
     public function sendCommonPushNotification($token, $title, $body, $type = '', $image = '')
-{
-    try {
-        // Load from .env or config file
-        $jsonCredentials = getenv('FIREBASE_CREDENTIALS');
-        if (!$jsonCredentials) {
-            log_message('error', 'Firebase credentials not found in environment variables.');
-            return false;
-        }
+    {
+        try {
+            // Decode credentials from .env
+            $base64Credentials = getenv('FIREBASE_CREDENTIALS_BASE64');
+            if (!$base64Credentials) {
+                throw new Exception("Firebase credentials not found in environment variables.");
+            }
 
-        $credentialsArray = json_decode($jsonCredentials, true);
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            log_message('error', 'Invalid JSON in FIREBASE_CREDENTIALS.');
-            return false;
-        }
+            $json = base64_decode($base64Credentials);
+            $credentialsArray = json_decode($json, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception('Invalid JSON format in decoded credentials.');
+            }
 
-        $projectId = 'energic-abf74'; // Change as needed
-        $accessToken = $this->getAccessToken($credentialsArray);
+            $projectId = $credentialsArray['project_id'];
 
-        // Build Notification
-        $notification = [
-            'title' => $title,
-            'body' => $body,
-        ];
-        if (!empty($image)) {
-            $notification['image'] = $image;
-        }
+            // Get access token
+            $accessToken = $this->getAccessToken($credentialsArray);
 
-        // Android/iOS common message
-        $message = [
-            'message' => [
-                'token' => $token,
-                'notification' => $notification,
-                'data' => [
-                    'type' => $type,
-                    // You can include 'image' => $image if needed in data
-                ]
-            ]
-        ];
-
-        // Optional: Build custom iOS payload (APNs)
-        $iosPayload = [
-            'aps' => [
-                'alert' => [
-                    'title' => $title,
-                    'body' => $body,
+            // Message payload
+            $message = [
+                'message' => [
+                    'token' => $token,
+                    'data' => ['type' => $type],
+                    'notification' => [
+                        'title' => $title,
+                        'body' => $body,
+                    ],
                 ],
-                'sound' => 'default',
-                'mutable-content' => 1
-            ]
-        ];
-        if (!empty($image)) {
-            $iosPayload['media-url'] = $image;
+            ];
+
+            if (!empty($image)) {
+                $message['message']['notification']['image'] = $image;
+            }
+
+            // iOS payload (optional)
+            $iosPayload = [
+                'message' => [
+                    'token' => $token,
+                    'apns' => [
+                        'payload' => [
+                            'aps' => [
+                                'alert' => [
+                                    'title' => $title,
+                                    'body' => $body,
+                                ],
+                                'sound' => 'default',
+                                'mutable-content' => 1,
+                            ],
+                        ],
+                    ],
+                ],
+            ];
+
+            if (!empty($image)) {
+                $iosPayload['message']['apns']['fcm_options']['image'] = $image;
+            }
+
+            // Send notifications
+            $this->sendFCMMessage($accessToken, $projectId, $message);
+            $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
+
+            return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent successfully.']);
+
+        } catch (Exception $e) {
+            return $this->response->setJSON(['status' => false, 'error' => $e->getMessage()]);
         }
-
-        // Send both payloads
-        $this->sendFCMMessage($accessToken, $projectId, $message);
-        $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
-
-        return true;
-
-    } catch (Exception $e) {
-        log_message('error', 'FCM Push Error: ' . $e->getMessage());
-        return false;
     }
-}
 
     // send push notification
     public function checkModuleAccess($id){
