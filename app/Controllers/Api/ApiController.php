@@ -1838,7 +1838,9 @@ class ApiController extends BaseController
                             $address                = $this->geolocationaddress($latitude, $longitude);
                             if($attendanceGivenStatus){
                                 $punch_date = date('Y-m-d');
-                                $deviceToken = $getUser->device_token; // added
+                                $orderBy = [['field' => 'id', 'type' => 'DESC']];
+                                $user_device = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $uId, 'status' => 1],'','', '', $orderBy);
+                                $deviceToken = $user_device->device_token; // added
                                 if($punch_type == 1){
                                     $punch_in_time      = date('H:i:s');
                                     $punch_in_lat       = $latitude;
