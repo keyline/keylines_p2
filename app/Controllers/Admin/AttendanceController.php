@@ -272,6 +272,26 @@ class AttendanceController extends BaseController
         $data['form_type'] = $form_type;     
         echo $this->layout_after_login($title, $page_name, $data);
     }
+
+    public function SaveAttendance()
+    {
+        if($this->request->getMethod() == 'post') {  
+        $data = [
+            'employee_id' => $this->request->getPost('employee_id'),
+            'date'        => $this->request->getPost('date'),
+            'time'        => $this->request->getPost('time'),
+            'location'    => $this->request->getPost('location'),
+            'comment'     => $this->request->getPost('comment'),
+        ];
+        pr($data);
+
+        // Save into DB (assuming you have AttendanceModel)
+        $attendanceModel = new \App\Models\AttendanceModel();
+        $attendanceModel->insert($data);
+    }
+
+        return redirect()->to(base_url('admin/attendance-report'))->with('success', 'Attendance added successfully.');
+    }
     
     public function getLastNDays($days, $format = 'd/m')
     {
