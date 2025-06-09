@@ -21,7 +21,7 @@ $controller_route   = $moduleDetail['controller_route'];
         padding: 10px;
     }
     .badge {
-    display: inline-block;
+    display: inline-block !important;
     padding: 4px 8px;
     font-size: 12px;
     border-radius: 6px;
