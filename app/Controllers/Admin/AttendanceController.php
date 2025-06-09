@@ -298,7 +298,7 @@ class AttendanceController extends BaseController
                     'punch_in_image'          => 'no-image.jpg',
                 );
                 // pr($postData);
-                $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $user_id);
+                $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', 'id');
             }         
         }
         return redirect()->to(base_url('admin/attendance-report'))->with('success', 'Attendance added successfully.');
