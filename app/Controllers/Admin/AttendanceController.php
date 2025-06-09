@@ -90,7 +90,7 @@ class AttendanceController extends BaseController
         // $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
         // $getEvents          = $this->common_model->find_data('event', 'array', '', 'title,start_event', '', '', $orderBy);
         // pr($getEvents);
-        if ($form_type == 'monthly_attendance_report') {
+        if ($form_type == 'monthly_attendance_report' || $form_type == 'monthly_attendance_details_report') {
 
             // Handle the first form submission (Fetching backlog date)
             $month_fetch             = $this->request->getPost('month');             
@@ -252,6 +252,7 @@ class AttendanceController extends BaseController
                 $finalReport[] = $userRow;
             }
             $data['monthlyAttendancedetailsreport'] = $finalReport;
+            $data['form_type'] = $form_type;
             
             // pr($data['monthlyAttendancedetailsreport']);
             
