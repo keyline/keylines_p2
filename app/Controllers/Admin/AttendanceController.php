@@ -203,6 +203,7 @@ class AttendanceController extends BaseController
             $latetime = "SELECT mark_later_after FROM `application_settings`";
             $latetime_fetch = $db->query($latetime)->getRow();  
             $late_threshold = $latetime_fetch ? $latetime_fetch->mark_later_after : '10:00:00';
+            $grace_time = date('H:i:s', strtotime($late_threshold . ' +59 seconds'));
 
             // Calculate attendance summary
             $finalReport = [];
@@ -240,7 +241,7 @@ class AttendanceController extends BaseController
                     // Otherwise, check attendance
                     else {                        
                         if ($punchIn) {
-                            $status = (strtotime($punchIn) >= strtotime($late_threshold)) ? 'L' : 'P';
+                            $status = (strtotime($punchIn) >= strtotime($grace_time)) ? 'L' : 'P';
                             $userRow['present']++;
                             if ($status == 'L') $userRow['late']++;
                         } else {
