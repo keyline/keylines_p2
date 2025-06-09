@@ -35,7 +35,7 @@ $controller_route   = $moduleDetail['controller_route'];
     .bg-primary { background-color: #007bff; color: white; }
     .bg-light { background-color: #f8f9fa; color: black; }
     .legend-attandance {
-    max-width: auto;
+    max-width: auto !important;
 }
 </style>
 <div class="pagetitle">
