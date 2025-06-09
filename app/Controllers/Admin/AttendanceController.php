@@ -281,6 +281,7 @@ class AttendanceController extends BaseController
             $punch_in_time = $this->request->getPost('time');
             $exsistingRecord = $this->common_model->find_data('attendances', 'row', ['user_id' => $user_id, 'punch_date' => $punch_date]);
             // pr($exsistingRecord);
+            $id = $exsistingRecord ? $exsistingRecord->id : '';
             if(!$exsistingRecord) {
                 // echo "not exist";die;  
                 $from_time          = strtotime($punch_date." ".$punch_in_time);
@@ -299,7 +300,22 @@ class AttendanceController extends BaseController
                 );
                 // pr($postData);
                 $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', 'id');
-            }         
+            }  else{
+                $from_time          = strtotime($punch_date." ".$punch_in_time);
+                $to_time            = strtotime($punch_date." 23:59:00");
+                $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+                $postData   = array(
+                    'user_id'                 => $this->request->getPost('employee_id'),
+                    'punch_date'              => $this->request->getPost('date'),
+                    'punch_in_time'           => $this->request->getPost('time'),                                       
+                    'punch_in_address'        => $this->request->getPost('comment'),
+                    'note'                    => 'By admin',
+                    'status'                    => '1',
+                    'attendance_time'         => $attendance_time,
+                    'punch_in_image'          => 'no-image.jpg',
+                );
+                $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
+            }       
         }
         return redirect()->to(base_url('admin/attendance-report'))->with('success', 'Attendance added successfully.');
     }
