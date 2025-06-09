@@ -86,8 +86,8 @@ class AttendanceController extends BaseController
         }
         //monthly attendance
         $data['month_fetch'] = '';
-        $form_type = $this->request->getPost('form_type');
-        echo $form_type;
+        
+        
         // pr($form_type);
         // $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
         // $getEvents          = $this->common_model->find_data('event', 'array', '', 'title,start_event', '', '', $orderBy);
@@ -252,11 +252,13 @@ class AttendanceController extends BaseController
                 $finalReport[] = $userRow;
             }
             // $data['monthlyAttendancedetailsreport'] = $finalReport;
-            
+            $form_type = $this->request->getPost('form_type');
         if ($form_type == 'monthly_attendance_report') {                                            
             $data['monthlyAttendancereport'] = $rows;
+            pr($rows);
         } elseif ($form_type == 'monthly_details_report') {
             $data['monthlyAttendancedetailsreport'] = $finalReport;
+            pr($finalReport);
         } else {
             $data['monthlyAttendancereport'] = [];
             $data['monthlyAttendancedetailsreport'] = [];
