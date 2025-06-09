@@ -242,7 +242,7 @@ class AttendanceController extends BaseController
                 $finalReport[] = $userRow;
             }
             $data['monthlyAttendancedetailsreport'] = $finalReport;
-            pr($data['monthlyAttendancedetailsreport']);
+            // pr($data['monthlyAttendancedetailsreport']);
             
         } 
         //monthly attendance         
