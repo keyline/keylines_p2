@@ -20,6 +20,20 @@ $controller_route   = $moduleDetail['controller_route'];
         border: 1px solid #ff980073;
         padding: 10px;
     }
+    .badge {
+    display: inline-block;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    }
+    .bg-success { background-color: #28a745; color: white; }
+    .bg-warning { background-color: #ffc107; color: black; }
+    .bg-danger { background-color: #dc3545; color: white; }
+    .bg-secondary { background-color: #6c757d; color: white; }
+    .bg-info { background-color: #17a2b8; color: white; }
+    .bg-primary { background-color: #007bff; color: white; }
+    .bg-light { background-color: #f8f9fa; color: black; }
 </style>
 <div class="pagetitle">
     <h1><?=$page_header?></h1>
@@ -172,7 +186,18 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
-        <?php } elseif (($form_type ?? '') == 'monthly_details_report' && !empty($monthlyAttendancedetailsreport)) {?>
+        <?php } elseif (($form_type ?? '') == 'monthly_details_report' && !empty($monthlyAttendancedetailsreport)) {
+           
+        function getStatusClass($status) {
+            switch ($status) {
+                case 'P': return 'bg-success text-white';       // Green
+                case 'L': return 'bg-warning text-dark';        // Yellow
+                case 'A': return 'bg-danger text-white';        // Red                
+                case 'O': return 'bg-secondary text-white';     // Grey
+                case 'H': return 'bg-info text-white';          // Blue or Grey
+                case 'HP': return 'bg-primary text-white';      // Greenish Blue
+                default: return 'bg-light text-dark';           // Default
+            } } ?>
              <div class="card table-card">
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
@@ -199,7 +224,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td><?= $res['user_id'] ?></td>
                                             <td><?= $res['name'] ?></td>
                                             <?php foreach ($res['days'] as $status): ?>
-                                                <td class="<?= $status ?>"><?= $status ?></td>
+                                                <td class="<?= $status ?>">
+                                                    <span class="badge <?= getStatusClass($status) ?>"><?= $status ?></span>
+                                                </td>
                                             <?php endforeach; ?>                                            
                                             <td><?= $res['present'] ?></td>
                                             <td><?= $res['absent'] ?></td>
