@@ -259,8 +259,7 @@ class AttendanceController extends BaseController
         //monthly attendance         
         $data['year']        = $yearString;
         $data['arr']                        = $arr;
-        $data['last7DaysResponses']         = $last7DaysResponses;    
-        $data['form_type'] = $form_type;    
+        $data['last7DaysResponses']         = $last7DaysResponses;        
         echo $this->layout_after_login($title, $page_name, $data);
     }
     
