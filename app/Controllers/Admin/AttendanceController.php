@@ -279,22 +279,21 @@ class AttendanceController extends BaseController
             $user_id = $this->request->getPost('employee_id');
             $punch_date = $this->request->getPost('date');
             $exsistingRecord = $this->common_model->find_data('attendances', 'row', ['user_id' => $user_id, 'punch_date' => $punch_date]);
-            pr($exsistingRecord);
-        $data = [
-            'employee_id' => $this->request->getPost('employee_id'),
-            'date'        => $this->request->getPost('date'),
-            'time'        => $this->request->getPost('time'),
-            'location'    => $this->request->getPost('location'),
-            'comment'     => $this->request->getPost('comment'),
-        ];
-        // pr($data);
-        $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $user_id);
-
-        // Save into DB (assuming you have AttendanceModel)
-        $attendanceModel = new \App\Models\AttendanceModel();
-        $attendanceModel->insert($data);
-    }
-
+            // pr($exsistingRecord);
+            if(!$exsistingRecord) {
+                // echo "not exist";die;                
+                $postData   = array(
+                    'user_id'                 => $this->request->getPost('employee_id'),
+                    'punch_date'              => $this->request->getPost('date'),
+                    'punch_in_time'           => $this->request->getPost('time'),
+                    'punch_in_address'        => $this->request->getPost('location'),                    
+                    'note'                 => $this->request->getPost('comment'),
+                    'status'                 => '1',
+                );
+                // pr($postData);
+                $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $user_id);
+            }         
+        }
         return redirect()->to(base_url('admin/attendance-report'))->with('success', 'Attendance added successfully.');
     }
     
