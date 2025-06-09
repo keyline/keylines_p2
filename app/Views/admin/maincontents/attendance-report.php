@@ -210,7 +210,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <li><span class="badge bg-danger text-white">A</span> Absent</li>                                
                                 <li><span class="badge bg-secondary text-white">O</span> Week-off</li>                                
                                 <li><span class="badge bg-info text-white">H</span> Holiday</li>                                
-                                <li><span class="badge bg-primary text-white">H(p)</span> Holideay But working</li>                                                                                          
+                                <li><span class="badge bg-primary text-white">H(p)</span> Holiday But working</li>                                                                                          
+                                <li><span class="badge bg-light text-dark">O(p)</span> Week-off But working</li>                                                                                          
                             </ul>
                             </div>
                         </div>
