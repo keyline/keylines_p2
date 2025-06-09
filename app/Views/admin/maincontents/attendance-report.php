@@ -34,6 +34,7 @@ $controller_route   = $moduleDetail['controller_route'];
     .bg-info { background-color: #17a2b8; color: white; }
     .bg-primary { background-color: #007bff; color: white; }
     .bg-light { background-color: #f8f9fa; color: black; }
+    
 </style>
 <div class="pagetitle">
     <h1><?=$page_header?></h1>
@@ -204,7 +205,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     <div class="row align-items-center">                        
                         <div class="col-lg-12 col-md-12">
                             <div class="card-header-right">
-                            <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
+                            <ul class="d-flex justify-content-end gap-2 flex-wrap  ms-auto">
                                 <li><span class="badge bg-success text-white">P</span> Present</li>                                
                                 <li><span class="badge bg-warning text-dark">L</span> Late</li>                                
                                 <li><span class="badge bg-danger text-white">A</span> Absent</li>                                
