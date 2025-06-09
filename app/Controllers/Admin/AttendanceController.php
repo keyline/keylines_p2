@@ -317,7 +317,8 @@ class AttendanceController extends BaseController
                 $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             }       
         }
-        return redirect()->to(base_url('admin/attendance-report'))->with('success', 'Attendance added successfully.');
+        $this->session->setFlashdata('success_message', 'Attendance added successfully.');
+            return redirect()->to('/admin/attendance-report');        
     }
     
     public function getLastNDays($days, $format = 'd/m')

@@ -50,8 +50,23 @@ $controller_route   = $moduleDetail['controller_route'];
     </nav>
 </div>
 <!-- End Page Title -->
+ 
 <section class="section dashboard">
-    <div class="row">        
+    <div class="row">  
+        <div class="col-xl-12">
+            <?php if(session('success_message')){?>
+                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                    <?=session('success_message')?>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php }?>
+            <?php if(session('error_message')){?>
+                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                    <?=session('error_message')?>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php }?>
+        </div>      
         <!-- Left side columns -->
         <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
             <div class="col-md-12">
