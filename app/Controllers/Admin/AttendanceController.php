@@ -90,9 +90,7 @@ class AttendanceController extends BaseController
         // $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
         // $getEvents          = $this->common_model->find_data('event', 'array', '', 'title,start_event', '', '', $orderBy);
         // pr($getEvents);
-        if ($form_type == 'monthly_attendance_report' || $form_type == 'monthly_attendance_details_report') {
-
-            // Handle the first form submission (Fetching backlog date)
+        // Handle the first form submission (Fetching backlog date)
             $month_fetch             = $this->request->getPost('month');             
             $sql = "SELECT attendances.user_id, team.type as designation, department.deprt_name as team, 
                     COUNT(DISTINCT attendances.punch_date) as present_count, user.name
@@ -251,12 +249,16 @@ class AttendanceController extends BaseController
                 }
                 $finalReport[] = $userRow;
             }
+            // $data['monthlyAttendancedetailsreport'] = $finalReport;
+            
+        if ($form_type == 'monthly_attendance_report') {                                            
+            $data['monthlyAttendancereport'] = $rows;
+        } elseif ($form_type == 'monthly_details_report') {
             $data['monthlyAttendancedetailsreport'] = $finalReport;
-            $data['form_type'] = $form_type;
-            
-            // pr($data['monthlyAttendancedetailsreport']);
-            
-        } 
+        } else {
+            $data['monthlyAttendancereport'] = [];
+            $data['monthlyAttendancedetailsreport'] = [];
+        }
         //monthly attendance         
         $data['year']        = $yearString;
         $data['arr']                        = $arr;
