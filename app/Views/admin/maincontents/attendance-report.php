@@ -190,14 +190,14 @@ $controller_route   = $moduleDetail['controller_route'];
                                     foreach ($monthlyAttendancedetailsreport as $res) { ?>
                                         <tr>
                                             <td><?= $sl++ ?></td>
-                                            <td><?= $res->user_id ?></td>
-                                            <td><?= $res->name ?></td>
+                                            <td><?= $res['user_id'] ?></td>
+                                            <td><?= $res['name'] ?></td>
                                             <?php foreach ($res['days'] as $status): ?>
                                                 <td class="<?= $status ?>"><?= $status ?></td>
                                             <?php endforeach; ?>                                            
-                                            <td><?= $res->present ?></td>
-                                            <td><?= $res->absent ?></td>
-                                            <td><?= $res->late ?></td>                                                                                        
+                                            <td><?= $res['present'] ?></td>
+                                            <td><?= $res['absent'] ?></td>
+                                            <td><?= $res['late'] ?></td>                                                                                        
                                         </tr>
                                 <?php }
                                 } ?>
