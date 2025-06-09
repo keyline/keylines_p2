@@ -180,10 +180,11 @@ class AttendanceController extends BaseController
             $data['month_dates'] = $working_days['month_dates'];
             $dates = $working_days['month_dates'];
             //  echo "Total working days: " . $working_days; die;
-
+            // Connect to the database
+                $db = \Config\Database::connect();
             // Prepare attendance details data
             $attendance_map = [];
-            $results = $this->db->query("SELECT user_id, punch_date, punch_in_time
+            $results = $db->query("SELECT user_id, punch_date, punch_in_time
                                         FROM attendances
                                         WHERE punch_date LIKE '%$month_fetch%'")->getResult();
 
@@ -191,7 +192,7 @@ class AttendanceController extends BaseController
                 $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
             }
             $latetime = "SELECT mark_later_after FROM `application_settings`";
-            $latetime_fetch = $this->$db->query($latetime)->getRow();  
+            $latetime_fetch = $db->query($latetime)->getRow();  
             $late_threshold = $latetime_fetch ? $latetime_fetch->mark_later_after : '10:00:00';
 
             // Calculate attendance summary
