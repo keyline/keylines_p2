@@ -40,7 +40,7 @@ class AttendanceController extends BaseController
         $cu_date            = date('Y-m-d');
         $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
         $data['total_app_user']             = $this->db->query("SELECT COUNT(id) as user_count FROM `user` WHERE is_salarybox_user = '1'")->getRow();                
-                    $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
+        $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
         $response = [];
         $year = [];
         $sl = 1;        
@@ -110,50 +110,6 @@ class AttendanceController extends BaseController
             $year = date('Y', strtotime($month_fetch));
             $month = date('m', strtotime($month_fetch));
 
-            // function getWorkingDays($year, $month) {
-            //     // Total days in the given month
-            //     $total_days_in_month = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
-            //     // Define week-offs: Sundays (day 0) and 2nd, 4th Saturdays (day 6)
-            //     $db = \Config\Database::connect();
-            //     $sql1 = "SELECT satarday FROM `application_settings`";
-            //     $week_off = $db->query($sql1)->getRow(); 
-            //     // pr($saturdays_off); // 2nd and 4th Saturdays
-            //     $saturdays_off = $week_off->satarday;
-            //     // pr($saturdays_off);
-            //     // Fetch all week-offs (e.g., Sundays and specific Saturdays) dynamically
-            //     // $weekOffs = getWeekOffs($year, $month);  // A function to get all week-offs for the given month
-            //     $holidays = getHolidays($year, $month);  // A function to get all holidays for the given month
-            
-            //     // Calculate total working days
-            //     $total_working_days = 0;
-            
-            //     for ($day = 1; $day <= $total_days_in_month; $day++) {
-            //         // Get the date for the current day
-            //         $current_date = "$year-$month-$day";
-            //          $day_of_week = date('w', strtotime($current_date));
-            //          // Skip Sundays (0)
-            //         if ($day_of_week == 0) {
-            //             continue;  // Skip this day, it's a Sunday
-            //         }
-
-            //         // Check if the current day is a Saturday
-            //         if ($day_of_week == 6) {
-            //             // Determine if it's the 2nd or 4th Saturday
-            //             $week_number = ceil($day / 7);  // Calculate the week number (1st, 2nd, etc.)
-                        
-            //             if (in_array($week_number, $saturdays_off)) {
-            //                 continue;  // Skip 2nd or 4th Saturday
-            //             }
-            //         }
-            
-            //         // If the current date is not a holiday or a week-off, count it as a working day
-            //         if (!in_array($current_date, $holidays)) {
-            //             $total_working_days++;
-            //         }
-            //     }
-            
-            //     return $total_working_days;
-            // }
             function getWorkingDays($year, $month) {
                 // Total days in the given month
                 $total_days_in_month = cal_days_in_month(CAL_GREGORIAN, $month, $year);
@@ -173,10 +129,12 @@ class AttendanceController extends BaseController
             
                 // Initialize total working days counter
                 $total_working_days = 0;
+                $dates = [];
             
-                for ($day = 1; $day <= $total_days_in_month; $day++) {
+                for ($day = 1; $day <= $total_days_in_month; $day++) {                   
                     // Get the date for the current day
                     $current_date = "$year-$month-" . str_pad($day, 2, '0', STR_PAD_LEFT);
+                    $dates[] = $current_date;
                     
                     // Get the day of the week: 0 (Sunday) to 6 (Saturday)
                     $day_of_week = date('w', strtotime($current_date));
@@ -203,7 +161,10 @@ class AttendanceController extends BaseController
                     }
                 }
             
-                return $total_working_days;
+                return [
+                            'total_working_days' => $total_working_days,
+                            'month_dates' => $dates
+                        ];
             }                                    
             function getHolidays($year, $month) {
                 // You can fetch this data from the database
@@ -215,8 +176,52 @@ class AttendanceController extends BaseController
                 return $holidays;
             }                        
             $working_days = getWorkingDays($year, $month);
-            $data['working_days'] = $working_days;
+            $data['working_days'] = $working_days['total_working_days'];
+            $data['month_dates'] = $working_days['month_dates'];
+            $dates = $working_days['month_dates'];
             //  echo "Total working days: " . $working_days; die;
+
+            // Prepare attendance details data
+            $attendance_map = [];
+            $results = $this->db->query("SELECT user_id, punch_date, punch_in_time
+                                        FROM attendances
+                                        WHERE punch_date LIKE '%$month_fetch%'")->getResult();
+
+            foreach ($results as $r) {
+                $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
+            }
+            $latetime = "SELECT mark_later_after FROM `application_settings`";
+            $latetime_fetch = $db->query($latetime)->getRow();  
+            $late_threshold = $latetime_fetch ? $latetime_fetch->mark_later_after : '10:00:00';
+
+            // Calculate attendance summary
+            $finalReport = [];
+            foreach ($users as $user) {
+                $userRow = [
+                    'user_id' => $user->id,
+                    'name' => $user->name,                    
+                    'days' => [],
+                    'present' => 0,
+                    'absent' => 0,
+                    'late' => 0
+                ];
+
+                foreach ($dates as $date) {
+                    $status = 'A';
+                    $punchIn = $attendance_map[$user->id][$date] ?? null;
+                    if ($punchIn) {
+                        $status = (strtotime($punchIn) > strtotime($late_threshold)) ? 'L' : 'P';
+                        $userRow['present']++;
+                        if ($status == 'L') $userRow['late']++;
+                    } else {
+                        $userRow['absent']++;
+                    }
+                    $userRow['days'][] = $status;
+                }
+                $finalReport[] = $userRow;
+            }
+            $data['monthlyAttendancedetailsreport'] = $finalReport;
+            pr($data['monthlyAttendancedetailsreport']);
             
         } 
         //monthly attendance         
