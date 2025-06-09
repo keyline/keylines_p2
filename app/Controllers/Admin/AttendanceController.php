@@ -191,7 +191,7 @@ class AttendanceController extends BaseController
                 $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
             }
             $latetime = "SELECT mark_later_after FROM `application_settings`";
-            $latetime_fetch = $db->query($latetime)->getRow();  
+            $latetime_fetch = $this->$db->query($latetime)->getRow();  
             $late_threshold = $latetime_fetch ? $latetime_fetch->mark_later_after : '10:00:00';
 
             // Calculate attendance summary
