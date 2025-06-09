@@ -87,7 +87,7 @@ class AttendanceController extends BaseController
         //monthly attendance
         $data['month_fetch'] = '';
         $form_type = $this->request->getPost('form_type');
-        // pr($form_type);
+        pr($form_type);
         // $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
         // $getEvents          = $this->common_model->find_data('event', 'array', '', 'title,start_event', '', '', $orderBy);
         // pr($getEvents);
