@@ -30,8 +30,7 @@ class CreateAmcCheckTable extends Migration
             'status' => [
                 'type'       => 'INT',
                 'constraint' => 12,
-                // Note: CodeIgniter's Forge class does not support adding comments directly.
-                // You may need to run a separate SQL query to add comments if required.
+                'comment'    => '0 => ok, 1 => not ok',
             ],
             'date' => [
                 'type' => 'DATETIME',

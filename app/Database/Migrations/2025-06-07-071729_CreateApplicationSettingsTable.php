@@ -3,7 +3,7 @@
 namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
-use CodeIgniter\Database\RawSql;
+
 
 class CreateApplicationSettingsTable extends Migration
 {
@@ -50,16 +50,19 @@ class CreateApplicationSettingsTable extends Migration
                 'type'       => 'TINYINT',
                 'constraint' => 1,
                 'default'    => 1,
+                'comment'    => 'Indicates if Desklog is used',
             ],
             'is_task_approval' => [
                 'type'       => 'TINYINT',
                 'constraint' => 1,
                 'default'    => 1,
+                'comment'    => 'Indicates if task approval is required',
             ],
             'is_project_cost' => [
                 'type'       => 'TINYINT',
                 'constraint' => 1,
                 'null'       => false,
+                'comment'    => 'Indicates if project cost tracking is enabled',
             ],
             'encryption_api_secret_key' => [
                 'type'       => 'VARCHAR',
@@ -154,27 +157,23 @@ class CreateApplicationSettingsTable extends Migration
             ],
             'created_at' => [
                 'type'    => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
+                'null'    => true,
+                'default' => new \CodeIgniter\Database\RawSql('CURRENT_TIMESTAMP'),
             ],
             'updated_at' => [
                 'type'    => 'TIMESTAMP',
-                'default' => 'CURRENT_TIMESTAMP',
+                'null'    => true,
             ],
             'published' => [
                 'type'       => 'TINYINT',
                 'constraint' => 1,
                 'default'    => 1,
+                'comment'    => 'Indicates if the setting is published',
             ],
         ]);
 
         $this->forge->addKey('id', true); // Set 'id' as primary key
         $this->forge->createTable('application_settings');
-
-        // Add comments to specific columns
-        $this->db->query("ALTER TABLE `application_settings` MODIFY `is_desklog_use` TINYINT(1) COMMENT 'Indicates if Desklog is used'");
-        $this->db->query("ALTER TABLE `application_settings` MODIFY `is_task_approval` TINYINT(1) COMMENT 'Indicates if task approval is required'");
-        $this->db->query("ALTER TABLE `application_settings` MODIFY `is_project_cost` TINYINT(1) COMMENT 'Indicates if project cost tracking is enabled'");
-        $this->db->query("ALTER TABLE `application_settings` MODIFY `published` TINYINT(1) COMMENT 'Indicates if the setting is published'");
     }
 
     public function down()
