@@ -240,7 +240,7 @@ class AttendanceController extends BaseController
                     // Otherwise, check attendance
                     else {                        
                         if ($punchIn) {
-                            $status = (strtotime($punchIn) > strtotime($late_threshold)) ? 'L' : 'P';
+                            $status = (strtotime($punchIn) >= strtotime($late_threshold)) ? 'L' : 'P';
                             $userRow['present']++;
                             if ($status == 'L') $userRow['late']++;
                         } else {
