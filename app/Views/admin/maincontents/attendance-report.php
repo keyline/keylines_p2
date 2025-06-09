@@ -105,16 +105,16 @@ $controller_route   = $moduleDetail['controller_route'];
                     <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
                         <input type="hidden" name="form_type" value="monthly_attendance_report">
                             <div class="row mb-3 align-items-center">
-                                <div class="col-md-6 col-lg-6">
+                                <div class="col-md-4 col-lg-4">
                                     <label for="date">Month</label>
                                     <input type="month" id="month" name="month" class="form-control" value="<?= $month_fetch ?>" required>
                                 </div>
-                                <div class="col-md-6 col-lg-6">
+                                <div class="col-md-4 col-lg-4">
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
                                     </div>
                                 </div>
-                                <div class="col-md-6 col-lg-6">
+                                <div class="col-md-4 col-lg-4">
                                     <div class="text-center">
                                         <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Details Report</button>
                                     </div>
