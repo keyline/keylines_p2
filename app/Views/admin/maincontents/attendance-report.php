@@ -165,8 +165,8 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         <?php } ?>
-        <?php
-        if (!empty($monthlyAttendancedetailsreport)) { ?>
+        <?php 
+        if($form_type == 'monthly_details_report' && !empty($month_dates) && !empty($monthlyAttendancedetailsreport)) { ?>        
             <div class="card table-card">
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
@@ -206,7 +206,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
-        <?php } ?>
+        <?php }  ?>
         <div class="col-md-12">
             <div class="card table-card">
                 <div class="card-header text-dark">
