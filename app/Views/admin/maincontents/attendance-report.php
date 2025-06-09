@@ -205,12 +205,12 @@ $controller_route   = $moduleDetail['controller_route'];
                         <div class="col-lg-12 col-md-12">
                             <div class="card-header-right">
                             <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
-                                <li><span class="badge bg-success text-white"></span>Present</li>                                
-                                <li><span class="badge bg-warning text-dark"></span>Late</li>                                
-                                <li><span class="badge bg-danger text-white"></span>Absent</li>                                
-                                <li><span class="badge bg-secondary text-white"></span>Week-off</li>                                
-                                <li><span class="badge bg-info text-white"></span>Holiday</li>                                
-                                <li><span class="badge bg-primary text-white"></span>Holideay But working</li>                                                                                          
+                                <li><span class="badge bg-success text-white">P</span> Present</li>                                
+                                <li><span class="badge bg-warning text-dark">L</span> Late</li>                                
+                                <li><span class="badge bg-danger text-white">A</span> Absent</li>                                
+                                <li><span class="badge bg-secondary text-white">O</span> Week-off</li>                                
+                                <li><span class="badge bg-info text-white">H</span> Holiday</li>                                
+                                <li><span class="badge bg-primary text-white">H(p)</span> Holideay But working</li>                                                                                          
                             </ul>
                             </div>
                         </div>
