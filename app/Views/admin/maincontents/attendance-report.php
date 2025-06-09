@@ -382,7 +382,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             <select name="employee_id" id="employee_id" class="form-select" required>
                                 <option value="">Select Employee</option>
                                 <?php foreach ($users as $emp): ?>
-                                    <option value="<?= $emp['id'] ?>"><?= $emp['name'] ?> (<?= $emp['user_id'] ?>)</option>
+                                    <option value="<?= $emp->id ?>"><?= $emp->name ?> (<?= $emp->user_id ?>)</option>
                                 <?php endforeach; ?>
                             </select>
                         </div>
