@@ -199,6 +199,23 @@ $controller_route   = $moduleDetail['controller_route'];
                 default: return 'bg-light text-dark';           // Default
             } } ?>
              <div class="card table-card">
+                <div class="card-header">
+                    <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
+                    <div class="row align-items-center">                        
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card-header-right">
+                            <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
+                                <li><span class="badge bg-success text-white"></span>Present</li>                                
+                                <li><span class="badge bg-warning text-dark"></span>Late</li>                                
+                                <li><span class="badge bg-danger text-white"></span>Absent</li>                                
+                                <li><span class="badge bg-secondary text-white"></span>Week-off</li>                                
+                                <li><span class="badge bg-info text-white"></span>Holiday</li>                                
+                                <li><span class="badge bg-primary text-white"></span>Holideay But working</li>                                                                                          
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
                         <table id="simpletable" class="table padding-y-10 general_table_style">
