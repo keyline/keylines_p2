@@ -252,14 +252,15 @@ class AttendanceController extends BaseController
                 $finalReport[] = $userRow;
             }
             $data['monthlyAttendancedetailsreport'] = $finalReport;
-            $data['form_type'] = $form_type;
+            
             // pr($data['monthlyAttendancedetailsreport']);
             
         } 
         //monthly attendance         
         $data['year']        = $yearString;
         $data['arr']                        = $arr;
-        $data['last7DaysResponses']         = $last7DaysResponses;        
+        $data['last7DaysResponses']         = $last7DaysResponses;    
+        $data['form_type'] = $form_type;    
         echo $this->layout_after_login($title, $page_name, $data);
     }
     
