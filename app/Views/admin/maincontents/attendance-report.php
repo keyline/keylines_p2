@@ -134,6 +134,7 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
         </div>
         <?php
+        pr($form_type);
         if (!empty($monthlyAttendancereport)) { ?>
             <div class="card table-card">
                 <div class="card-body">

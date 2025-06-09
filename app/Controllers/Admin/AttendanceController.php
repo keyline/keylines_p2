@@ -255,10 +255,10 @@ class AttendanceController extends BaseController
             $form_type = $this->request->getPost('form_type');
         if ($form_type == 'monthly_attendance_report') {                                            
             $data['monthlyAttendancereport'] = $rows;
-            pr($rows);
+            // pr($rows);
         } elseif ($form_type == 'monthly_details_report') {
             $data['monthlyAttendancedetailsreport'] = $finalReport;
-            pr($finalReport);
+            // pr($finalReport);
         } else {
             $data['monthlyAttendancereport'] = [];
             $data['monthlyAttendancedetailsreport'] = [];
@@ -266,7 +266,8 @@ class AttendanceController extends BaseController
         //monthly attendance         
         $data['year']        = $yearString;
         $data['arr']                        = $arr;
-        $data['last7DaysResponses']         = $last7DaysResponses;        
+        $data['last7DaysResponses']         = $last7DaysResponses; 
+        $data['form_type'] = $form_type;     
         echo $this->layout_after_login($title, $page_name, $data);
     }
     
