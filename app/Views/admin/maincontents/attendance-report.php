@@ -129,13 +129,20 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-4 col-lg-4">
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                        <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
+                                        <button name="form_type" value="monthly_attendance_report" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                    </div>
+                                </div> 
+                                <div class="col-md-4 col-lg-4">
+                                    <div class="text-center">
+                                        <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
+                                        <button name="form_type" value="monthly_details_report" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Details Report</button>
                                     </div>
                                 </div>                                
                             </div>
                     </form>
                     <!-- Monthly Details Report Form -->
-                    <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
+                    <!-- <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
                         <input type="hidden" name="form_type" value="monthly_details_report">
                         <input type="hidden" name="month" value="<?= $month_fetch ?>">
                         <div class="row mb-3 align-items-center">
@@ -147,7 +154,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div>
                             </div>
                         </div>
-                    </form>
+                    </form> -->
                 </div>
             </div>
         </div>
