@@ -276,6 +276,10 @@ class AttendanceController extends BaseController
     public function SaveAttendance()
     {
         if($this->request->getMethod() == 'post') {  
+            $user_id = $this->request->getPost('employee_id');
+            $punch_date = $this->request->getPost('date');
+            $exsistingRecord = $this->common_model->find_data('attendances', 'row', ['user_id' => $user_id, 'punch_date' => $punch_date]);
+            pr($exsistingRecord);
         $data = [
             'employee_id' => $this->request->getPost('employee_id'),
             'date'        => $this->request->getPost('date'),
@@ -283,7 +287,8 @@ class AttendanceController extends BaseController
             'location'    => $this->request->getPost('location'),
             'comment'     => $this->request->getPost('comment'),
         ];
-        pr($data);
+        // pr($data);
+        $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $user_id);
 
         // Save into DB (assuming you have AttendanceModel)
         $attendanceModel = new \App\Models\AttendanceModel();
