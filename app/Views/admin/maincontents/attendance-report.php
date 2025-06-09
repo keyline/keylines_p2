@@ -51,43 +51,7 @@ $controller_route   = $moduleDetail['controller_route'];
 </div>
 <!-- End Page Title -->
 <section class="section dashboard">
-    <div class="row">
-        <!-- <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body pt-3">
-                    <form method="GET" action="" enctype="multipart/form-data">
-                        <input type="hidden" name="mode" value="year">
-                        <div class="row mb-3 align-items-center">                                                        
-                            <div class="col-md-6 col-lg-6" id="day_type_row" style="display:'block'">
-                                <label for="year">Years</label>
-                                <select name="year" class="form-control" id="year" required>
-                                    <option value="2018" ?=(($year == '2018')?'selected':'')?>>2018</option>
-                                    <hr>
-                                    <option value="2019" ?=(($year == '2019')?'selected':'')?>>2019</option>
-                                    <hr>
-                                    <option value="2020" ?=(($year == '2020')?'selected':'')?>>2020</option>
-                                    <hr>
-                                    <option value="2021" ?=(($year == '2021')?'selected':'')?>>2021</option>
-                                    <hr>
-                                    <option value="2022" ?=(($year == '2022')?'selected':'')?>>2022</option>
-                                    <hr>
-                                    <option value="2023" ?=(($year == '2023')?'selected':'')?>>2023</option>
-                                    <hr>
-                                    <option value="2024" ?=(($year == '2024')?'selected':'')?>>2024</option>
-                                    <hr>                                    
-                                </select>
-                            </div>                                                        
-                            <div class="col-md-6 col-lg-6" style="margin-top: 20px;">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
-                                <?php if(!empty($response)){?>
-                                    <a href="<?=base_url('admin/reports/advance-search')?>" class="btn btn-secondary"><i class="fa fa-refresh"></i> Reset</a>
-                                <?php }?>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div> -->
+    <div class="row">        
         <!-- Left side columns -->
         <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
             <div class="col-md-12">
@@ -119,7 +83,6 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
-
                     <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
                         <input type="hidden" name="form_type" value="monthly_attendance_report">
                             <div class="row mb-3 align-items-center">
@@ -349,8 +312,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         </div>
-        <!-- End Left side columns -->
-        
+        <!-- End Left side columns -->        
     </div>
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -365,7 +327,38 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 
-    <!-- Add Attendance Modal -->
+    
+
+    <!--Present Modal -->
+    <div class="modal fade" id="presentModal" tabindex="-1" aria-labelledby="presentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="presentModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...1
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Absent Modal -->
+    <div class="modal fade" id="AbsentModal" tabindex="-1" aria-labelledby="AbsentModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="AbsentModalLabel">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    ...2
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Add Attendance Modal -->
     <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
         <div class="modal-dialog">
             <form action="<?= base_url('admin/save-attendance') ?>" method="POST">
@@ -420,36 +413,6 @@ $controller_route   = $moduleDetail['controller_route'];
             </form>
         </div>
     </div>
-
-    <!--Present Modal -->
-    <div class="modal fade" id="presentModal" tabindex="-1" aria-labelledby="presentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="presentModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...1
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--Absent Modal -->
-    <div class="modal fade" id="AbsentModal" tabindex="-1" aria-labelledby="AbsentModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="AbsentModalLabel">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    ...2
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 <script>
     function punchin(userId, name, date, punchIn) {
         $('#modalBody1').html('');
