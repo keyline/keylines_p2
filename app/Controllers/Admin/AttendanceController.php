@@ -218,17 +218,27 @@ class AttendanceController extends BaseController
 
                 foreach ($dates as $date) {
                     $status = 'A';
+                    $punchIn = $attendance_map[$user->id][$date] ?? null;
                     // Check if the date is a holiday
                     if (in_array($date, $holiday_dates)) {
-                        $status = 'H';
+                        if ($punchIn) {
+                            $status = 'H(P)'; // Holiday + Present
+                            $userRow['present']++;
+                        } else {
+                            $status = 'H'; // Holiday
+                        }
                     }
                     // Check if it's a weekend day off (Sunday / configured Saturday)
                     elseif (in_array($date, $day_off_dates)) {
-                        $status = 'O';
+                        if ($punchIn) {
+                            $status = 'O(P)'; // Off + Present
+                            $userRow['present']++;
+                        } else {
+                            $status = 'O'; // Weekly Off
+                        }
                     }
                     // Otherwise, check attendance
-                    else {
-                        $punchIn = $attendance_map[$user->id][$date] ?? null;
+                    else {                        
                         if ($punchIn) {
                             $status = (strtotime($punchIn) > strtotime($late_threshold)) ? 'L' : 'P';
                             $userRow['present']++;
