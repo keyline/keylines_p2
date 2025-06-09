@@ -129,7 +129,8 @@ class AttendanceController extends BaseController
             
                 // Initialize total working days counter
                 $total_working_days = 0;
-                $dates = [];
+                $dates = [];  
+                $week_offs = []; //added              
             
                 for ($day = 1; $day <= $total_days_in_month; $day++) {                   
                     // Get the date for the current day
@@ -141,6 +142,7 @@ class AttendanceController extends BaseController
             
                     // Skip Sundays (0)
                     if ($day_of_week == 0) {
+                        $week_offs[] = $current_date;//added
                         continue;  // Skip this day, it's a Sunday
                     }
             
@@ -151,6 +153,7 @@ class AttendanceController extends BaseController
                         
                         // Skip if the Saturday is marked as a week-off
                         if (in_array($week_number, $saturdays_off)) {
+                            $week_offs[] = $current_date; //added
                             continue;  // Skip this Saturday
                         }
                     }
@@ -163,7 +166,9 @@ class AttendanceController extends BaseController
             
                 return [
                             'total_working_days' => $total_working_days,
-                            'month_dates' => $dates
+                            'month_dates' => $dates,
+                            'holidays' => $holidays,
+                            'week_offs' => $week_offs
                         ];
             }                                    
             function getHolidays($year, $month) {
@@ -175,10 +180,14 @@ class AttendanceController extends BaseController
                 $holidays = array_column($query->getResultArray(), 'start_event');               
                 return $holidays;
             }                        
-            $working_days = getWorkingDays($year, $month);
+            $working_days = getWorkingDays($year, $month);            
             $data['working_days'] = $working_days['total_working_days'];
             $data['month_dates'] = $working_days['month_dates'];
+            $data['holiday_dates'] = $working_days['holidays'];
+            $data['day_off_dates'] = $working_days['week_offs']; // Sundays & off-Saturdays
             $dates = $working_days['month_dates'];
+            $holiday_dates = $working_days['holidays'];
+            $day_off_dates = $working_days['week_offs']; // Sundays & off-Saturdays
             //  echo "Total working days: " . $working_days; die;
             // Connect to the database
                 $db = \Config\Database::connect();
@@ -209,13 +218,24 @@ class AttendanceController extends BaseController
 
                 foreach ($dates as $date) {
                     $status = 'A';
-                    $punchIn = $attendance_map[$user->id][$date] ?? null;
-                    if ($punchIn) {
-                        $status = (strtotime($punchIn) > strtotime($late_threshold)) ? 'L' : 'P';
-                        $userRow['present']++;
-                        if ($status == 'L') $userRow['late']++;
-                    } else {
-                        $userRow['absent']++;
+                    // Check if the date is a holiday
+                    if (in_array($date, $holiday_dates)) {
+                        $status = 'H';
+                    }
+                    // Check if it's a weekend day off (Sunday / configured Saturday)
+                    elseif (in_array($date, $day_off_dates)) {
+                        $status = 'O';
+                    }
+                    // Otherwise, check attendance
+                    else {
+                        $punchIn = $attendance_map[$user->id][$date] ?? null;
+                        if ($punchIn) {
+                            $status = (strtotime($punchIn) > strtotime($late_threshold)) ? 'L' : 'P';
+                            $userRow['present']++;
+                            if ($status == 'L') $userRow['late']++;
+                        } else {
+                            $userRow['absent']++;
+                        }
                     }
                     $userRow['days'][] = $status;
                 }
