@@ -123,28 +123,33 @@ $controller_route   = $moduleDetail['controller_route'];
                     <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
                         <input type="hidden" name="form_type" value="monthly_attendance_report">
                             <div class="row mb-3 align-items-center">
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-3 col-lg-3">
                                     <label for="date">Month</label>
                                     <input type="month" id="month" name="month" class="form-control" value="<?= $month_fetch ?>" required>
                                 </div>
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-3 col-lg-3">
                                     <div class="text-center">
                                         <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
-                                        <button name="form_type" value="monthly_attendance_report" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                        <button name="form_type" value="monthly_attendance_report" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
                                     </div>
                                 </div> 
-                                <div class="col-md-4 col-lg-4">
+                                <div class="col-md-3 col-lg-3">
                                     <div class="text-center">
                                         <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
-                                        <button name="form_type" value="monthly_details_report" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Details Report</button>
+                                        <button name="form_type" value="monthly_details_report" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
+                                    </div>
+                                </div>  
+                                <div class="col-md-3 col-lg-3">
+                                    <div class="text-center">                                        
+                                        <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
                                     </div>
                                 </div>                                
                             </div>
                     </form>
                     <!-- Monthly Details Report Form -->
-                    <!-- <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
+                    <!-- <form method="POST" action="?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
                         <input type="hidden" name="form_type" value="monthly_details_report">
-                        <input type="hidden" name="month" value="<?= $month_fetch ?>">
+                        <input type="hidden" name="month" value="?= $month_fetch ?>">
                         <div class="row mb-3 align-items-center">
                             <div class="col-md-4 col-lg-4 offset-md-4">
                                 <div class="text-center">
@@ -221,8 +226,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <li><span class="badge bg-danger text-white">A</span> Absent</li>                                
                                 <li><span class="badge bg-secondary text-white">O</span> Week-off</li>                                
                                 <li><span class="badge bg-info text-white">H</span> Holiday</li>                                
-                                <li><span class="badge bg-primary text-white">H(p)</span> Holiday But working</li>                                                                                          
-                                <li><span class="badge bg-light text-dark">O(p)</span> Week-off But working</li>                                                                                          
+                                <li><span class="badge bg-primary text-white">H(P)</span> Holiday But working</li>                                                                                          
+                                <li><span class="badge bg-light text-dark">O(P)</span> Week-off But working</li>                                                                                          
                             </ul>
                             </div>
                         </div>
@@ -357,6 +362,62 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="modal-dialog wide-modal modal-dialog-centered modal-dialog-scrollable">
             <div class="modal-content" id="modalBody2">
             </div>
+        </div>
+    </div>
+
+    <!-- Add Attendance Modal -->
+    <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="<?= base_url('admin/save-attendance') ?>" method="POST">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addAttendanceLabel">Add Attendance</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <!-- Employee Dropdown -->
+                        <div class="mb-3">
+                            <label for="employee_id" class="form-label">Employee</label>
+                            <select name="employee_id" id="employee_id" class="form-select" required>
+                                <option value="">Select Employee</option>
+                                <?php foreach ($users as $emp): ?>
+                                    <option value="<?= $emp['id'] ?>"><?= $emp['name'] ?> (<?= $emp['user_id'] ?>)</option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" name="date" id="date" class="form-control" required>
+                        </div>
+
+                        <!-- Time -->
+                        <div class="mb-3">
+                            <label for="time" class="form-label">Time</label>
+                            <input type="time" name="time" id="time" class="form-control" required>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <label for="location" class="form-label">Location</label>
+                            <input type="text" name="location" id="location" class="form-control">
+                        </div>
+
+                        <!-- Comment -->
+                        <div class="mb-3">
+                            <label for="comment" class="form-label">Comment</label>
+                            <textarea name="comment" id="comment" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save Attendance</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 

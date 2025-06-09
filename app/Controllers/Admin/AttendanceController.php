@@ -265,6 +265,7 @@ class AttendanceController extends BaseController
             $data['monthlyAttendancedetailsreport'] = [];
         }
         //monthly attendance         
+        $data['users'] = $users;
         $data['year']        = $yearString;
         $data['arr']                        = $arr;
         $data['last7DaysResponses']         = $last7DaysResponses; 
