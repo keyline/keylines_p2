@@ -195,7 +195,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 case 'A': return 'bg-danger text-white';        // Red                
                 case 'O': return 'bg-secondary text-white';     // Grey
                 case 'H': return 'bg-info text-white';          // Blue or Grey
-                case 'HP': return 'bg-primary text-white';      // Greenish Blue
+                case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
                 default: return 'bg-light text-dark';           // Default
             } } ?>
              <div class="card table-card">
