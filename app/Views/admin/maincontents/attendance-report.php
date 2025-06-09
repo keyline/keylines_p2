@@ -389,14 +389,8 @@ $controller_route   = $moduleDetail['controller_route'];
                         <!-- Time -->
                         <div class="mb-3">
                             <label for="time" class="form-label">Time</label>
-                            <input type="time" name="time" id="time" class="form-control" value="10:00" required>
-                        </div>
-
-                        <!-- Location -->
-                        <div class="mb-3">
-                            <label for="location" class="form-label">Location</label>
-                            <input type="text" name="location" id="location" class="form-control">
-                        </div>
+                            <input type="time" name="time" id="time" class="form-control" value="10:00:00" required>
+                        </div>                        
 
                         <!-- Comment -->
                         <div class="mb-3">

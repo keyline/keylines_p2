@@ -278,17 +278,24 @@ class AttendanceController extends BaseController
         if($this->request->getMethod() == 'post') {  
             $user_id = $this->request->getPost('employee_id');
             $punch_date = $this->request->getPost('date');
+            $punch_in_time = $this->request->getPost('time');
             $exsistingRecord = $this->common_model->find_data('attendances', 'row', ['user_id' => $user_id, 'punch_date' => $punch_date]);
             // pr($exsistingRecord);
             if(!$exsistingRecord) {
-                // echo "not exist";die;                
+                // echo "not exist";die;  
+                $from_time          = strtotime($punch_date." ".$punch_in_time);
+                $to_time            = strtotime($punch_date." 23:59:00");
+                $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+              
                 $postData   = array(
                     'user_id'                 => $this->request->getPost('employee_id'),
                     'punch_date'              => $this->request->getPost('date'),
-                    'punch_in_time'           => $this->request->getPost('time'),
-                    'punch_in_address'        => $this->request->getPost('location'),                    
-                    'note'                 => $this->request->getPost('comment'),
-                    'status'                 => '1',
+                    'punch_in_time'           => $this->request->getPost('time'),                                       
+                    'punch_in_address'        => $this->request->getPost('comment'),
+                    'note'                    => 'By admin',
+                    'status'                    => '1',
+                    'attendance_time'         => $attendance_time,
+                    'punch_in_image'          => 'no-image.jpg',
                 );
                 // pr($postData);
                 $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $user_id);
