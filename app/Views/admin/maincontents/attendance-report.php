@@ -173,8 +173,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         <?php } ?>
-        <?php 
-        if($form_type == 'monthly_details_report' && !empty($month_dates) && !empty($monthlyAttendancedetailsreport)) { ?>        
+        <?php if(($form_type ?? '') == 'monthly_details_report' && !empty($month_dates) && !empty($monthlyAttendanceDetailsReport)) { ?>       
             <div class="card table-card">
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
