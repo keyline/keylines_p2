@@ -383,13 +383,13 @@ $controller_route   = $moduleDetail['controller_route'];
                         <!-- Date -->
                         <div class="mb-3">
                             <label for="date" class="form-label">Date</label>
-                            <input type="date" name="date" id="date" class="form-control" required>
+                            <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
                         </div>
 
                         <!-- Time -->
                         <div class="mb-3">
                             <label for="time" class="form-label">Time</label>
-                            <input type="time" name="time" id="time" class="form-control" value="10:00 AM" required>
+                            <input type="time" name="time" id="time" class="form-control" value="10:00"required>
                         </div>
 
                         <!-- Location -->
