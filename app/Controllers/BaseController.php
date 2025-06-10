@@ -272,7 +272,7 @@ abstract class BaseController extends Controller
 
 public function getAccessToken($credentialsJson)
     {
-        $client = new \Google_Client();
+        $client = new Google_Client();
         $client->setAuthConfig($credentialsJson);
         $client->addScope('https://www.googleapis.com/auth/cloud-platform');
         $client->setAccessType('offline');
