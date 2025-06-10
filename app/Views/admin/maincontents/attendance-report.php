@@ -422,6 +422,11 @@ $controller_route   = $moduleDetail['controller_route'];
             </form>
         </div>
     </div>
+    <script>
+  // Set today's date as max
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById("date").setAttribute("max", today);
+</script>
 <script>
     function punchin(userId, name, date, punchIn) {
         $('#modalBody1').html('');
