@@ -334,66 +334,86 @@ abstract class BaseController extends Controller
                 $tokens = [$tokens];
             }
 
-            // Message payload
-            $message = [
-                'message' => [
-                    'token' => $tokens,
-                    'data' => ['type' => $type],
-                    'notification' => [
-                        'title' => $title,
-                        'body' => $body,
-                    ],
-                ],
-            ];
+            $results = []; // To store individual notification results
 
-            if (!empty($image)) {
-                $message['message']['notification']['image'] = $image;
-            }
-
-            // iOS payload (optional)
-            $iosPayload = [
-                'message' => [
-                    'token' => $tokens,
-                    'notification' => [
-                        'title' => $title,
-                        'body' => $body,
-                    ],
-                    'apns' => [
-                        'headers' => [
-                            'apns-priority' => '10',
-                        ],
-                        'payload' => [
-                            'aps' => [
-                                'alert' => [
-                                    'title' => $title,
-                                    'body' => $body,
-                                ],
-                                'sound' => 'default',
-                                'mutable-content' => 1,
+            foreach ($tokens as $token) {
+                 $messagePayload = [];
+                 if ($device_type === 'ANDROID') {
+                    $messagePayload = [
+                        'message' => [
+                            'token' => $token, // Individual token here
+                            'data' => ['type' => $type],
+                            'notification' => [
+                                'title' => $title,
+                                'body' => $body,
                             ],
                         ],
-                    ],
-                ],
-            ];
+                    ];
+                    if (!empty($image)) {
+                        $messagePayload['message']['notification']['image'] = $image;
+                    }
+                }elseif ($device_type === 'IO') {
+                    $messagePayload = [
+                        'message' => [
+                            'token' => $token, // Individual token here
+                            'notification' => [
+                                'title' => $title,
+                                'body' => $body,
+                            ],
+                            'apns' => [
+                                'headers' => [
+                                    'apns-priority' => '10',
+                                ],
+                                'payload' => [
+                                    'aps' => [
+                                        'alert' => [
+                                            'title' => $title,
+                                            'body' => $body,
+                                        ],
+                                        'sound' => 'default',
+                                        'mutable-content' => 1,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ];
+                    if (!empty($image)) {
+                        $messagePayload['message']['apns']['fcm_options'] = [
+                            'image' => $image
+                        ];
+                    }
+                }else {
+                    // Handle unsupported device type if necessary
+                    $results[$token] = ['status' => false, 'error' => 'Unsupported device type'];
+                    continue; // Skip to the next token
+                }
 
-            if (!empty($image)) {
-                $iosPayload['message']['apns']['fcm_options'] = [
-                    'image' => $image
-                ];
+                try {
+                    $response = $this->sendFCMMessage($accessToken, $projectId, $messagePayload);
+                    $results[$token] = ['status' => true, 'response' => json_decode($response, true)];
+                } catch (Exception $e) {
+                    $results[$token] = ['status' => false, 'error' => $e->getMessage()];
+                } 
             }
-
+           
 
             // Send notifications
-            // pr($device_type);
-            if( $device_type === 'ANDROID') {
-                $this->sendFCMMessage($accessToken, $projectId, $message);                               
-            }else if( $device_type === 'IO') {
-                // echo "ios";
-                 $ios_notification = $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
-                //  pr($ios_notification);
-            }            
+            // Check if any notifications failed
+            $allSucceeded = true;
+            foreach ($results as $tokenResult) {
+                if ($tokenResult['status'] === false) {
+                    $allSucceeded = false;
+                    break;
+                }
+            }
 
-            return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent successfully.']);
+            if ($allSucceeded) {
+                return $this->response->setJSON(['status' => true, 'message' => 'All push notifications sent successfully.', 'results' => $results]);
+            } else {
+                return $this->response->setJSON(['status' => false, 'message' => 'Some push notifications failed to send.', 'results' => $results]);
+            }           
+
+            // return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent successfully.']);
 
         } catch (Exception $e) {
             return $this->response->setJSON(['status' => false, 'error' => $e->getMessage()]);

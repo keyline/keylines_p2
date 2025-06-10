@@ -3381,20 +3381,59 @@ class ApiController extends BaseController
         }
         return array('status' => TRUE, 'data' => $decoded);
     }
+    // public function testnotification()
+    // {   $device_type = 'IO';
+    //     // $deviceToken = 'eyVgYIp_6UjnuHxHHWNA4J:APA91bHzlofx-hcT0dR07U4bZau7C0Gr8-dTSwPJpTTdNWGzDFdb0cMBRut0T3dXe4m1ojAIfSs0HhbpPS0ep4uHr8Zh2vpAWEJYbVKgXsMwLN6fke5TU3c'; // Example device token
+    //     $deviceTokens = [
+    //         'cIngd4RtRu-Akw7w3DtBzv:APA91bEI84X4Y5OmrhfUA6cWMuvcU17udBQef-LsSRe2kYnIsjU3J0-z19IijxFkFMWMcLt-VoOohnJT4YTZFhCAL5lwPFENFRLtb03mcNl3O-Rbfhgr_xY',
+    //         'c9g_qq3Pm07MsbluZlAZVK:APA91bE9J4nYUJ1o5ieMYthDRrUAv4pkdPLNRlKCiw9HjKjteV2qYYREzFlBANryNsrYKgG2kWIq4hrOj-LIZmLck5NAQ3QurDogls8Q8JAlNJZ3zB-DTC0', // Add more tokens as needed
+    //         'dH1dzsqwRo-W2xddfVgEff:APA91bFF_J8KzopsdTRNCaodnpO_OnxZlESalo5O98wAB24-iqorzxBVTm6-uwtkgeywyNt2SyeX2bL-gtPhuLh-9GFn6kVCc8LuT2ivLDs82gBdTRg6VN0',
+    //     ];
+    //     if (!empty($deviceToken)) {
+    //         $title = 'Test IOS Notification';
+    //         $body  = 'This is a test IOS notification sent from the API.';            
+    //         $notification = $this->sendCommonPushNotification($deviceTokens, $title, $body, 'attendance', '', $device_type);            
+    //         // var_dump($notification);
+    //         pr($notification);
+    //     }
+    // }
     public function testnotification()
-    {   $device_type = 'IO';
-        // $deviceToken = 'eyVgYIp_6UjnuHxHHWNA4J:APA91bHzlofx-hcT0dR07U4bZau7C0Gr8-dTSwPJpTTdNWGzDFdb0cMBRut0T3dXe4m1ojAIfSs0HhbpPS0ep4uHr8Zh2vpAWEJYbVKgXsMwLN6fke5TU3c'; // Example device token
-        $deviceTokens = [
-            'cIngd4RtRu-Akw7w3DtBzv:APA91bEI84X4Y5OmrhfUA6cWMuvcU17udBQef-LsSRe2kYnIsjU3J0-z19IijxFkFMWMcLt-VoOohnJT4YTZFhCAL5lwPFENFRLtb03mcNl3O-Rbfhgr_xY',
-            'c9g_qq3Pm07MsbluZlAZVK:APA91bE9J4nYUJ1o5ieMYthDRrUAv4pkdPLNRlKCiw9HjKjteV2qYYREzFlBANryNsrYKgG2kWIq4hrOj-LIZmLck5NAQ3QurDogls8Q8JAlNJZ3zB-DTC0', // Add more tokens as needed
-            'dH1dzsqwRo-W2xddfVgEff:APA91bFF_J8KzopsdTRNCaodnpO_OnxZlESalo5O98wAB24-iqorzxBVTm6-uwtkgeywyNt2SyeX2bL-gtPhuLh-9GFn6kVCc8LuT2ivLDs82gBdTRg6VN0',
+    {
+        // Fetch device tokens and their types from your database or some source
+        // For demonstration, let's create a hypothetical array:
+        $deviceRecords = [
+            ['token' => 'cIngd4RtRu-Akw7w3DtBzv:APA91bEI84X4Y5OmrhfUA6cWMuvcU17udBQef-LsSRe2kYnIsjU3J0-z19IijxFkFMWMcLt-VoOohnJT4YTZFhCAL5lwPFENFRLtb03mcNl3O-Rbfhgr_xY', 'device_type' => 'IO'],
+            ['token' => 'c9g_qq3Pm07MsbluZlAZVK:APA91bE9J4nYUJ1o5ieMYthDRrUAv4pkdPLNRlKCiw9HjKjteV2qYYREzFlBANryNsrYKgG2kWIq4hrOj-LIZmLck5NAQ3QurDogls8Q8JAlNJZ3zB-DTC0', 'device_type' => 'IO'],
+            ['token' => 'dH1dzsqwRo-W2xddfVgEff:APA91bFF_J8KzopsdTRNCaodnpO_OnxZlESalo5O98wAB24-iqorzxBVTm6-uwtkgeywyNt2SyeX2bL-gtPhuLh-9GFn6kVCc8LuT2ivLDs82gBdTRg6VN0', 'device_type' => 'IO'],
+            // Assuming you might have Android tokens too:
+            // ['token' => 'android_token_1', 'device_type' => 'ANDROID'],
+            // ['token' => 'android_token_2', 'device_type' => 'ANDROID'],
         ];
-        if (!empty($deviceToken)) {
-            $title = 'Test IOS Notification';
-            $body  = 'This is a test IOS notification sent from the API.';            
-            $notification = $this->sendCommonPushNotification($deviceTokens, $title, $body, 'attendance', '', $device_type);            
-            // var_dump($notification);
-            pr($notification);
+
+        if (!empty($deviceRecords)) {
+            $title = 'Test Notification';
+            $body  = 'This is a test notification sent from the API.';
+            $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
+
+            $allResults = [];
+            foreach ($deviceRecords as $record) {
+                $token = $record['token'];
+                $device_type = $record['device_type'];
+
+                // Call sendCommonPushNotification for each record
+                $notificationResponse = $this->sendCommonPushNotification(
+                    $token, // Pass single token
+                    $title,
+                    $body,
+                    'attendance',
+                    $image,
+                    $device_type // Pass device type for this specific token
+                );
+                $allResults[$token] = $notificationResponse->getJSON();
+            }
+            pr($allResults); // Show results for all notifications
+        } else {
+            return $this->response->setJSON(['status' => false, 'message' => 'No device records provided for notification.']);
         }
     }
 }
