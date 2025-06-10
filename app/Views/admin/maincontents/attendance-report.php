@@ -24,7 +24,7 @@ $controller_route   = $moduleDetail['controller_route'];
     display: inline-block !important;
     padding: 4px 8px;
     font-size: 12px;
-    border-radius: 6px;
+    border-radius: 4px;
     font-weight: bold;
     }
     .bg-success { background-color: #28a745; color: white; }
@@ -119,7 +119,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div>  
                                 <div class="col-md-3 col-lg-3">
                                     <div class="text-center">                                        
-                                        <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
                                     </div>
                                 </div>                                
                             </div>
@@ -146,7 +146,7 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="card table-card">
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table padding-y-10 general_table_style">
+                        <table id="simpletable" class="table padding-y-10 general_table_style attendance_table">
                             <thead>
                                 <tr>
                                     <th width="3%">#</th>
@@ -213,7 +213,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table padding-y-10 general_table_style">
+                        <table id="simpletable" class="table padding-y-10 general_table_style attendance_table">
                             <thead>
                                 <tr>
                                     <th width="3%">#</th>
