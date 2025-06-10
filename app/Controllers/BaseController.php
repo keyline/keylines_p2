@@ -305,7 +305,7 @@ abstract class BaseController extends Controller
 
         curl_close($ch);
 
-        return $response;
+        // return $response;
         pr($response);
     }
 
