@@ -3382,12 +3382,12 @@ class ApiController extends BaseController
         return array('status' => TRUE, 'data' => $decoded);
     }
     public function testnotification()
-    {
-        $deviceToken = 'cIngd4RtRu-Akw7w3DtBzv:APA91bEI84X4Y5OmrhfUA6cWMuvcU17udBQef-LsSRe2kYnIsjU3J0-z19IijxFkFMWMcLt-VoOohnJT4YTZFhCAL5lwPFENFRLtb03mcNl3O-Rbfhgr_xY'; // Example device token
+    {   $device_type = 'IO';
+        $deviceToken = 'c9g_qq3Pm07MsbluZlAZVK:APA91bE9J4nYUJ1o5ieMYthDRrUAv4pkdPLNRlKCiw9HjKjteV2qYYREzFlBANryNsrYKgG2kWIq4hrOj-LIZmLck5NAQ3QurDogls8Q8JAlNJZ3zB-DTC0'; // Example device token
         if (!empty($deviceToken)) {
             $title = 'Test mobile Notification';
             $body  = 'This is a test mobile notification sent from the API.';            
-            $notification = $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance');            
+            $notification = $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance', '', $device_type);            
             // var_dump($notification);
             pr($notification);
         }
