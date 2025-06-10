@@ -370,7 +370,7 @@ abstract class BaseController extends Controller
 
             // Send notifications
             $this->sendFCMMessage($accessToken, $projectId, $message);
-            $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
+            // $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
 
             return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent successfully.']);
 
