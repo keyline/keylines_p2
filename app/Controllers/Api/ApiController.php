@@ -3377,7 +3377,7 @@ class ApiController extends BaseController
             $orderBy = [['field' => 'id', 'type' => 'DESC']];
             $userdevice = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $user->id],'','', '', $orderBy);
             $deviceRecords = [
-            ['token' => $userdevice->fcm_token, 'device_type' => $userdevice->device_type],            
+            ['token' => $userdevice['fcm_token'], 'device_type' => $userdevice['device_type']],            
         ];
         }
         pr($deviceRecords);
