@@ -349,7 +349,14 @@ abstract class BaseController extends Controller
             $iosPayload = [
                 'message' => [
                     'token' => $token,
+                    'notification' => [
+                        'title' => $title,
+                        'body' => $body,
+                    ],
                     'apns' => [
+                        'headers' => [
+                            'apns-priority' => '10',
+                        ],
                         'payload' => [
                             'aps' => [
                                 'alert' => [
@@ -365,8 +372,11 @@ abstract class BaseController extends Controller
             ];
 
             if (!empty($image)) {
-                $iosPayload['message']['apns']['fcm_options']['image'] = $image;
+                $iosPayload['message']['apns']['fcm_options'] = [
+                    'image' => $image
+                ];
             }
+
 
             // Send notifications
             

@@ -3385,8 +3385,8 @@ class ApiController extends BaseController
     {   $device_type = 'IO';
         $deviceToken = 'c9g_qq3Pm07MsbluZlAZVK:APA91bE9J4nYUJ1o5ieMYthDRrUAv4pkdPLNRlKCiw9HjKjteV2qYYREzFlBANryNsrYKgG2kWIq4hrOj-LIZmLck5NAQ3QurDogls8Q8JAlNJZ3zB-DTC0'; // Example device token
         if (!empty($deviceToken)) {
-            $title = 'Test mobile Notification';
-            $body  = 'This is a test mobile notification sent from the API.';            
+            $title = 'Test IOS Notification';
+            $body  = 'This is a test IOS notification sent from the API.';            
             $notification = $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance', '', $device_type);            
             // var_dump($notification);
             pr($notification);
