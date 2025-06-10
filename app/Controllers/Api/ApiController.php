@@ -3383,7 +3383,7 @@ class ApiController extends BaseController
     }
     public function testnotification()
     {   $device_type = 'IO';
-        $deviceToken = 'c9g_qq3Pm07MsbluZlAZVK:APA91bE9J4nYUJ1o5ieMYthDRrUAv4pkdPLNRlKCiw9HjKjteV2qYYREzFlBANryNsrYKgG2kWIq4hrOj-LIZmLck5NAQ3QurDogls8Q8JAlNJZ3zB-DTC0'; // Example device token
+        $deviceToken = 'eyVgYIp_6UjnuHxHHWNA4J:APA91bHzlofx-hcT0dR07U4bZau7C0Gr8-dTSwPJpTTdNWGzDFdb0cMBRut0T3dXe4m1ojAIfSs0HhbpPS0ep4uHr8Zh2vpAWEJYbVKgXsMwLN6fke5TU3c'; // Example device token
         if (!empty($deviceToken)) {
             $title = 'Test IOS Notification';
             $body  = 'This is a test IOS notification sent from the API.';            
