@@ -3373,7 +3373,9 @@ class ApiController extends BaseController
     public function testnotification()
     {
         $orderBy = [['field' => 'id', 'type' => 'DESC']];
-        $AdminUsers = $this->common_model->find_data('user', 'array', ['status' => 1, 'type' => ['SUPER ADMIN', 'ADMIN']], '', '', '', $orderBy);
+         $AdminUsers         = $this->db->query("SELECT * FROM `user` WHERE `status` = 1 AND `type` IN ('SUPER ADMIN', 'ADMIN') ORDER BY `id` DESC")->getResult();
+                                        // echo $this->db->getLastQuery();
+        // $AdminUsers = $this->common_model->find_data('user', 'array', ['status' => 1, 'type' => ['SUPER ADMIN', 'ADMIN']], '', '', '', $orderBy);
         pr($AdminUsers); // Show all admin users for debugging
         // Fetch device tokens and their types from your database or some source
         // For demonstration, let's create a hypothetical array:
