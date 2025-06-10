@@ -1813,9 +1813,19 @@ class ApiController extends BaseController
                             if($attendanceGivenStatus){
                                 $punch_date = date('Y-m-d');
                                 $orderBy = [['field' => 'id', 'type' => 'DESC']];                                                                
-                                $user_device = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $uId],'','', '', $orderBy);
-                                $deviceToken = $user_device->fcm_token; // added
-                                $device_type = $user_device->device_type; // added
+                                $AdminUsers         = $this->db->query("SELECT * FROM `user` WHERE `status` = '1' AND `type` IN ('SUPER ADMIN', 'ADMIN') ORDER BY `id` DESC")->getResult();        
+                                foreach($AdminUsers as $user) {
+                                    $orderBy = [['field' => 'id', 'type' => 'DESC']];
+                                    $userdevice = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $user->id],'','', '', $orderBy);
+                                    if (!empty($userdevice) && isset($userdevice->fcm_token) && isset($userdevice->device_type)) {
+                                        // Add the token and device_type for this user to the collective array
+                                        $allLastUserDevices[] = [
+                                            'id' => $userdevice->user_id,
+                                            'token' => $userdevice->fcm_token,
+                                            'device_type' => $userdevice->device_type
+                                        ];
+                                    }
+                                }     
                                 // pr($deviceToken);die;
                                 if($punch_type == 1){
                                     $punch_in_time      = date('H:i:s');
@@ -1847,11 +1857,34 @@ class ApiController extends BaseController
                                     $apiStatus          = TRUE;
                                     http_response_code(200);
                                     // Send Notification
-                                    if (!empty($deviceToken)) {
-                                        $title = 'Punch In Successful';
-                                        $body  = 'Hello ' . $getUser->name . ', your punch-in was recorded at ' . date('h:i A');
-                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
+                                    if (!empty($allLastUserDevices)) {
+                                        $title = $getUser->name;
+                                        $body  = 'Punch In at ' . date('h:i A');
+                                        // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
+
+                                        $allResults = [];
+                                        foreach ($allLastUserDevices as $record) {
+                                            $token = $record['token'];
+                                            $device_type = $record['device_type'];
+
+                                            // Call sendCommonPushNotification for each record
+                                            $notificationResponse = $this->sendCommonPushNotification(
+                                                $token, // Pass single token
+                                                $title,
+                                                $body,
+                                                'attendance',
+                                                '',
+                                                $device_type // Pass device type for this specific token
+                                            );
+                                            $allResults[$token] = $notificationResponse->getJSON();
+                                        }
+                                        // pr($allResults); // Show results for all notifications
                                     }
+                                    // if (!empty($deviceToken)) {
+                                    //     $title = 'Punch In Successful';
+                                    //     $body  = 'Hello ' . $getUser->name . ', your punch-in was recorded at ' . date('h:i A');
+                                    //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
+                                    // }
 
                                 } elseif($punch_type == 2){
                                     $punch_out_time      = date('H:i:s');
@@ -1878,11 +1911,34 @@ class ApiController extends BaseController
                                     $apiStatus          = TRUE;
                                     http_response_code(200);
                                     // Send Notification
-                                    if (!empty($deviceToken)) {
-                                        $title = 'Punch Out Successful';
-                                        $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
-                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
+                                    if (!empty($allLastUserDevices)) {
+                                        $title = $getUser->name;
+                                        $body  = 'Punch Out at ' . date('h:i A');
+                                        // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
+
+                                        $allResults = [];
+                                        foreach ($allLastUserDevices as $record) {
+                                            $token = $record['token'];
+                                            $device_type = $record['device_type'];
+
+                                            // Call sendCommonPushNotification for each record
+                                            $notificationResponse = $this->sendCommonPushNotification(
+                                                $token, // Pass single token
+                                                $title,
+                                                $body,
+                                                'attendance',
+                                                '',
+                                                $device_type // Pass device type for this specific token
+                                            );
+                                            $allResults[$token] = $notificationResponse->getJSON();
+                                        }
+                                        // pr($allResults); // Show results for all notifications
                                     }
+                                    // if (!empty($deviceToken)) {
+                                    //     $title = 'Punch Out Successful';
+                                    //     $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
+                                    //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
+                                    // }
                                 } else {
                                     $punch_out_time = date('H:i:s');
                                     $punch_in_lat       = $latitude;
@@ -1902,11 +1958,34 @@ class ApiController extends BaseController
                                     $apiStatus          = TRUE;
                                     http_response_code(200);
                                     // Send Notification
-                                    if (!empty($deviceToken)) {
-                                        $title = 'Punch Out Successful';
-                                        $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
-                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
+                                    if (!empty($allLastUserDevices)) {
+                                        $title = $getUser->name;
+                                        $body  = 'Punch Out at ' . date('h:i A');
+                                        // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
+
+                                        $allResults = [];
+                                        foreach ($allLastUserDevices as $record) {
+                                            $token = $record['token'];
+                                            $device_type = $record['device_type'];
+
+                                            // Call sendCommonPushNotification for each record
+                                            $notificationResponse = $this->sendCommonPushNotification(
+                                                $token, // Pass single token
+                                                $title,
+                                                $body,
+                                                'attendance',
+                                                '',
+                                                $device_type // Pass device type for this specific token
+                                            );
+                                            $allResults[$token] = $notificationResponse->getJSON();
+                                        }
+                                        // pr($allResults); // Show results for all notifications
                                     }
+                                    // if (!empty($deviceToken)) {
+                                    //     $title = 'Punch Out Successful';
+                                    //     $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
+                                    //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
+                                    // }
                                 }
                             } else {
                                 $apiStatus          = FALSE;
