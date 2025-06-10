@@ -379,11 +379,12 @@ abstract class BaseController extends Controller
 
 
             // Send notifications
-            pr($device_type);
+            // pr($device_type);
             if( $device_type === 'ANDROID') {
                 $this->sendFCMMessage($accessToken, $projectId, $message);                               
             }else if( $device_type === 'IO') {
-                 $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
+                 $ios_notification = $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
+                 pr($ios_notification);
             }            
 
             return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent successfully.']);
