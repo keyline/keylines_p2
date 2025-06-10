@@ -40,7 +40,7 @@ class AttendanceController extends BaseController
         $cu_date            = date('Y-m-d');
         $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
         $data['total_app_user']             = $this->db->query("SELECT COUNT(id) as user_count FROM `user` WHERE is_salarybox_user = '1'")->getRow();                
-                    $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
+        $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
         $response = [];
         $year = [];
         $sl = 1;        
@@ -86,13 +86,13 @@ class AttendanceController extends BaseController
         }
         //monthly attendance
         $data['month_fetch'] = '';
-        $form_type = $this->request->getPost('form_type');
+        
+        
+        // pr($form_type);
         // $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
         // $getEvents          = $this->common_model->find_data('event', 'array', '', 'title,start_event', '', '', $orderBy);
         // pr($getEvents);
-        if ($form_type == 'monthly_attendance_report') {
-
-            // Handle the first form submission (Fetching backlog date)
+        // Handle the first form submission (Fetching backlog date)
             $month_fetch             = $this->request->getPost('month');             
             $sql = "SELECT attendances.user_id, team.type as designation, department.deprt_name as team, 
                     COUNT(DISTINCT attendances.punch_date) as present_count, user.name
@@ -110,50 +110,6 @@ class AttendanceController extends BaseController
             $year = date('Y', strtotime($month_fetch));
             $month = date('m', strtotime($month_fetch));
 
-            // function getWorkingDays($year, $month) {
-            //     // Total days in the given month
-            //     $total_days_in_month = cal_days_in_month(CAL_GREGORIAN, $month, $year); 
-            //     // Define week-offs: Sundays (day 0) and 2nd, 4th Saturdays (day 6)
-            //     $db = \Config\Database::connect();
-            //     $sql1 = "SELECT satarday FROM `application_settings`";
-            //     $week_off = $db->query($sql1)->getRow(); 
-            //     // pr($saturdays_off); // 2nd and 4th Saturdays
-            //     $saturdays_off = $week_off->satarday;
-            //     // pr($saturdays_off);
-            //     // Fetch all week-offs (e.g., Sundays and specific Saturdays) dynamically
-            //     // $weekOffs = getWeekOffs($year, $month);  // A function to get all week-offs for the given month
-            //     $holidays = getHolidays($year, $month);  // A function to get all holidays for the given month
-            
-            //     // Calculate total working days
-            //     $total_working_days = 0;
-            
-            //     for ($day = 1; $day <= $total_days_in_month; $day++) {
-            //         // Get the date for the current day
-            //         $current_date = "$year-$month-$day";
-            //          $day_of_week = date('w', strtotime($current_date));
-            //          // Skip Sundays (0)
-            //         if ($day_of_week == 0) {
-            //             continue;  // Skip this day, it's a Sunday
-            //         }
-
-            //         // Check if the current day is a Saturday
-            //         if ($day_of_week == 6) {
-            //             // Determine if it's the 2nd or 4th Saturday
-            //             $week_number = ceil($day / 7);  // Calculate the week number (1st, 2nd, etc.)
-                        
-            //             if (in_array($week_number, $saturdays_off)) {
-            //                 continue;  // Skip 2nd or 4th Saturday
-            //             }
-            //         }
-            
-            //         // If the current date is not a holiday or a week-off, count it as a working day
-            //         if (!in_array($current_date, $holidays)) {
-            //             $total_working_days++;
-            //         }
-            //     }
-            
-            //     return $total_working_days;
-            // }
             function getWorkingDays($year, $month) {
                 // Total days in the given month
                 $total_days_in_month = cal_days_in_month(CAL_GREGORIAN, $month, $year);
@@ -173,16 +129,20 @@ class AttendanceController extends BaseController
             
                 // Initialize total working days counter
                 $total_working_days = 0;
+                $dates = [];  
+                $week_offs = []; //added              
             
-                for ($day = 1; $day <= $total_days_in_month; $day++) {
+                for ($day = 1; $day <= $total_days_in_month; $day++) {                   
                     // Get the date for the current day
                     $current_date = "$year-$month-" . str_pad($day, 2, '0', STR_PAD_LEFT);
+                    $dates[] = $current_date;
                     
                     // Get the day of the week: 0 (Sunday) to 6 (Saturday)
                     $day_of_week = date('w', strtotime($current_date));
             
                     // Skip Sundays (0)
                     if ($day_of_week == 0) {
+                        $week_offs[] = $current_date;//added
                         continue;  // Skip this day, it's a Sunday
                     }
             
@@ -193,6 +153,7 @@ class AttendanceController extends BaseController
                         
                         // Skip if the Saturday is marked as a week-off
                         if (in_array($week_number, $saturdays_off)) {
+                            $week_offs[] = $current_date; //added
                             continue;  // Skip this Saturday
                         }
                     }
@@ -203,7 +164,12 @@ class AttendanceController extends BaseController
                     }
                 }
             
-                return $total_working_days;
+                return [
+                            'total_working_days' => $total_working_days,
+                            'month_dates' => $dates,
+                            'holidays' => $holidays,
+                            'week_offs' => $week_offs
+                        ];
             }                                    
             function getHolidays($year, $month) {
                 // You can fetch this data from the database
@@ -214,16 +180,145 @@ class AttendanceController extends BaseController
                 $holidays = array_column($query->getResultArray(), 'start_event');               
                 return $holidays;
             }                        
-            $working_days = getWorkingDays($year, $month);
-            $data['working_days'] = $working_days;
+            $working_days = getWorkingDays($year, $month);            
+            $data['working_days'] = $working_days['total_working_days'];
+            $data['month_dates'] = $working_days['month_dates'];
+            $data['holiday_dates'] = $working_days['holidays'];
+            $data['day_off_dates'] = $working_days['week_offs']; // Sundays & off-Saturdays
+            $dates = $working_days['month_dates'];
+            $holiday_dates = $working_days['holidays'];
+            $day_off_dates = $working_days['week_offs']; // Sundays & off-Saturdays
             //  echo "Total working days: " . $working_days; die;
-            
-        } 
+            // Connect to the database
+                $db = \Config\Database::connect();
+            // Prepare attendance details data
+            $attendance_map = [];
+            $results = $db->query("SELECT user_id, punch_date, punch_in_time
+                                        FROM attendances
+                                        WHERE punch_date LIKE '%$month_fetch%'")->getResult();
+
+            foreach ($results as $r) {
+                $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
+            }
+            $latetime = "SELECT mark_later_after FROM `application_settings`";
+            $latetime_fetch = $db->query($latetime)->getRow();  
+            $late_threshold = $latetime_fetch ? $latetime_fetch->mark_later_after : '10:00:00';
+            $grace_time = date('H:i:s', strtotime($late_threshold . ' +59 seconds'));
+
+            // Calculate attendance summary
+            $finalReport = [];
+            foreach ($users as $user) {
+                $userRow = [
+                    'user_id' => $user->id,
+                    'name' => $user->name,                    
+                    'days' => [],
+                    'present' => 0,
+                    'absent' => 0,
+                    'late' => 0
+                ];
+
+                foreach ($dates as $date) {
+                    $status = 'A';
+                    $punchIn = $attendance_map[$user->id][$date] ?? null;
+                    // Check if the date is a holiday
+                    if (in_array($date, $holiday_dates)) {
+                        if ($punchIn) {
+                            $status = 'H(P)'; // Holiday + Present
+                            $userRow['present']++;
+                        } else {
+                            $status = 'H'; // Holiday
+                        }
+                    }
+                    // Check if it's a weekend day off (Sunday / configured Saturday)
+                    elseif (in_array($date, $day_off_dates)) {
+                        if ($punchIn) {
+                            $status = 'O(P)'; // Off + Present
+                            $userRow['present']++;
+                        } else {
+                            $status = 'O'; // Weekly Off
+                        }
+                    }
+                    // Otherwise, check attendance
+                    else {                        
+                        if ($punchIn) {
+                            $status = (strtotime($punchIn) >= strtotime($grace_time)) ? 'L' : 'P';
+                            $userRow['present']++;
+                            if ($status == 'L') $userRow['late']++;
+                        } else {
+                            $userRow['absent']++;
+                        }
+                    }
+                    $userRow['days'][] = $status;
+                }
+                $finalReport[] = $userRow;
+            }
+            // $data['monthlyAttendancedetailsreport'] = $finalReport;
+            $form_type = $this->request->getPost('form_type');
+        if ($form_type == 'monthly_attendance_report') {                                            
+            $data['monthlyAttendancereport'] = $rows;
+            // pr($rows);
+        } elseif ($form_type == 'monthly_details_report') {
+            $data['monthlyAttendancedetailsreport'] = $finalReport;
+            // pr($finalReport);
+        } else {
+            $data['monthlyAttendancereport'] = [];
+            $data['monthlyAttendancedetailsreport'] = [];
+        }
         //monthly attendance         
+        $data['users'] = $users;
         $data['year']        = $yearString;
         $data['arr']                        = $arr;
-        $data['last7DaysResponses']         = $last7DaysResponses;        
+        $data['last7DaysResponses']         = $last7DaysResponses; 
+        $data['form_type'] = $form_type;     
         echo $this->layout_after_login($title, $page_name, $data);
+    }
+
+    public function SaveAttendance()
+    {
+        if($this->request->getMethod() == 'post') {  
+            $user_id = $this->request->getPost('employee_id');
+            $punch_date = $this->request->getPost('date');
+            $punch_in_time = $this->request->getPost('time');
+            $exsistingRecord = $this->common_model->find_data('attendances', 'row', ['user_id' => $user_id, 'punch_date' => $punch_date]);
+            // pr($exsistingRecord);
+            $id = $exsistingRecord ? $exsistingRecord->id : '';
+            if(!$exsistingRecord) {
+                // echo "not exist";die;  
+                $from_time          = strtotime($punch_date." ".$punch_in_time);
+                $to_time            = strtotime($punch_date." 23:59:00");
+                $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+              
+                $postData   = array(
+                    'user_id'                 => $this->request->getPost('employee_id'),
+                    'punch_date'              => $this->request->getPost('date'),
+                    'punch_in_time'           => $this->request->getPost('time'),                                       
+                    'punch_in_address'        => $this->request->getPost('comment'),
+                    'note'                    => 'By admin',
+                    'status'                    => '1',
+                    'attendance_time'         => $attendance_time,
+                    'punch_in_image'          => 'no-image.jpg',
+                );
+                // pr($postData);
+                $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', 'id');
+            }  else{
+                $from_time          = strtotime($punch_date." ".$punch_in_time);
+                $to_time            = strtotime($punch_date." 23:59:00");
+                $attendance_time    = round(abs($to_time - $from_time) / 60,2);
+                $postData   = array(
+                    'user_id'                 => $this->request->getPost('employee_id'),
+                    'punch_date'              => $this->request->getPost('date'),
+                    'punch_in_time'           => $this->request->getPost('time'),                                       
+                    'punch_in_address'        => $this->request->getPost('comment'),
+                    'note'                    => 'By admin',
+                    'status'                    => '1',
+                    'attendance_time'         => $attendance_time,
+                    'punch_in_image'          => 'no-image.jpg',
+                );
+                $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
+            }       
+        }
+        $this->session->setFlashdata('success_message', 'Attendance added successfully.');
+            return redirect()->to('/admin/attendance-report');        
     }
     
     public function getLastNDays($days, $format = 'd/m')

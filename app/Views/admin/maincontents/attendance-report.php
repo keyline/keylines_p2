@@ -20,6 +20,24 @@ $controller_route   = $moduleDetail['controller_route'];
         border: 1px solid #ff980073;
         padding: 10px;
     }
+    .badge {
+    display: inline-block !important;
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    }
+    .bg-success { background-color: #28a745; color: white; }
+    .bg-warning { background-color: #ffc107; color: black; }
+    .bg-danger { background-color: #dc3545; color: white; }
+    .bg-secondary { background-color: #6c757d; color: white; }
+    .bg-info { background-color: #17a2b8; color: white; }
+    .bg-primary { background-color: #007bff; color: white; }
+    .bg-light { background-color: #f8f9fa; color: black; }
+    .legend-attandance {
+    width: 100%;
+    max-width: 100% !important;
+}
 </style>
 <div class="pagetitle">
     <h1><?=$page_header?></h1>
@@ -32,44 +50,23 @@ $controller_route   = $moduleDetail['controller_route'];
     </nav>
 </div>
 <!-- End Page Title -->
+ 
 <section class="section dashboard">
-    <div class="row">
-        <!-- <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body pt-3">
-                    <form method="GET" action="" enctype="multipart/form-data">
-                        <input type="hidden" name="mode" value="year">
-                        <div class="row mb-3 align-items-center">                                                        
-                            <div class="col-md-6 col-lg-6" id="day_type_row" style="display:'block'">
-                                <label for="year">Years</label>
-                                <select name="year" class="form-control" id="year" required>
-                                    <option value="2018" ?=(($year == '2018')?'selected':'')?>>2018</option>
-                                    <hr>
-                                    <option value="2019" ?=(($year == '2019')?'selected':'')?>>2019</option>
-                                    <hr>
-                                    <option value="2020" ?=(($year == '2020')?'selected':'')?>>2020</option>
-                                    <hr>
-                                    <option value="2021" ?=(($year == '2021')?'selected':'')?>>2021</option>
-                                    <hr>
-                                    <option value="2022" ?=(($year == '2022')?'selected':'')?>>2022</option>
-                                    <hr>
-                                    <option value="2023" ?=(($year == '2023')?'selected':'')?>>2023</option>
-                                    <hr>
-                                    <option value="2024" ?=(($year == '2024')?'selected':'')?>>2024</option>
-                                    <hr>                                    
-                                </select>
-                            </div>                                                        
-                            <div class="col-md-6 col-lg-6" style="margin-top: 20px;">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
-                                <?php if(!empty($response)){?>
-                                    <a href="<?=base_url('admin/reports/advance-search')?>" class="btn btn-secondary"><i class="fa fa-refresh"></i> Reset</a>
-                                <?php }?>
-                            </div>
-                        </div>
-                    </form>
+    <div class="row">  
+        <div class="col-xl-12">
+            <?php if(session('success_message')){?>
+                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                    <?=session('success_message')?>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            </div>
-        </div> -->
+            <?php }?>
+            <?php if(session('error_message')){?>
+                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                    <?=session('error_message')?>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php }?>
+        </div>      
         <!-- Left side columns -->
         <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
             <div class="col-md-12">
@@ -101,26 +98,51 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
-
                     <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
                         <input type="hidden" name="form_type" value="monthly_attendance_report">
                             <div class="row mb-3 align-items-center">
-                                <div class="col-md-6 col-lg-6">
+                                <div class="col-md-3 col-lg-3">
                                     <label for="date">Month</label>
                                     <input type="month" id="month" name="month" class="form-control" value="<?= $month_fetch ?>" required>
                                 </div>
-                                <div class="col-md-6 col-lg-6">
+                                <div class="col-md-3 col-lg-3">
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                        <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
+                                        <button name="form_type" value="monthly_attendance_report" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
                                     </div>
-                                </div>
+                                </div> 
+                                <div class="col-md-3 col-lg-3">
+                                    <div class="text-center">
+                                        <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
+                                        <button name="form_type" value="monthly_details_report" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
+                                    </div>
+                                </div>  
+                                <div class="col-md-3 col-lg-3">
+                                    <div class="text-center">                                        
+                                        <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
+                                    </div>
+                                </div>                                
                             </div>
                     </form>
+                    <!-- Monthly Details Report Form -->
+                    <!-- <form method="POST" action="?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
+                        <input type="hidden" name="form_type" value="monthly_details_report">
+                        <input type="hidden" name="month" value="?= $month_fetch ?>">
+                        <div class="row mb-3 align-items-center">
+                            <div class="col-md-4 col-lg-4 offset-md-4">
+                                <div class="text-center">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa fa-paper-plane"></i> Monthly Details Report
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form> -->
                 </div>
             </div>
         </div>
         <?php
-        if (!empty($monthlyAttendancereport)) { ?>
+        if(($form_type ?? '') == 'monthly_attendance_report' && !empty($monthlyAttendancereport)) { ?>        
             <div class="card table-card">
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
@@ -158,7 +180,78 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
-        <?php } ?>
+        <?php } elseif (($form_type ?? '') == 'monthly_details_report' && !empty($monthlyAttendancedetailsreport)) {
+           
+        function getStatusClass($status) {
+            switch ($status) {
+                case 'P': return 'bg-success text-white';       // Green
+                case 'L': return 'bg-warning text-dark';        // Yellow
+                case 'A': return 'bg-danger text-white';        // Red                
+                case 'O': return 'bg-secondary text-white';     // Grey
+                case 'H': return 'bg-info text-white';          // Blue or Grey
+                case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
+                default: return 'bg-light text-dark';           // Default
+            } } ?>
+             <div class="card table-card">
+                <div class="card-header">
+                    <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
+                    <div class="row align-items-center">                        
+                        <div class="col-lg-12 col-md-12">
+                            <div class="card-header-right">
+                            <ul class="d-flex justify-content-end gap-2 flex-wrap legend-attandance lagend-list ms-auto">
+                                <li><span class="badge bg-success text-white">P</span> Present</li>                                
+                                <li><span class="badge bg-warning text-dark">L</span> Late</li>                                
+                                <li><span class="badge bg-danger text-white">A</span> Absent</li>                                
+                                <li><span class="badge bg-secondary text-white">O</span> Week-off</li>                                
+                                <li><span class="badge bg-info text-white">H</span> Holiday</li>                                
+                                <li><span class="badge bg-primary text-white">H(P)</span> Holiday But working</li>                                                                                          
+                                <li><span class="badge bg-light text-dark">O(P)</span> Week-off But working</li>                                                                                          
+                            </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="dt-responsive table-responsive">
+                        <table id="simpletable" class="table padding-y-10 general_table_style">
+                            <thead>
+                                <tr>
+                                    <th width="3%">#</th>
+                                    <th>EMP ID</th>
+                                    <th>Name</th>
+                                    <?php foreach ($month_dates as $date): ?>
+                                        <th><?= date('d', strtotime($date)) ?></th>
+                                    <?php endforeach; ?>                                    
+                                    <th>Present</th>
+                                    <th>Absent</th>   
+                                    <th>Late</th>                                 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($monthlyAttendancedetailsreport) {
+                                    $sl = 1;
+                                    foreach ($monthlyAttendancedetailsreport as $res) { ?>
+                                        <tr>
+                                            <td><?= $sl++ ?></td>
+                                            <td><?= $res['user_id'] ?></td>
+                                            <td><?= $res['name'] ?></td>
+                                            <?php foreach ($res['days'] as $status): ?>
+                                                <td class="<?= $status ?>">
+                                                    <span class="badge <?= getStatusClass($status) ?>"><?= $status ?></span>
+                                                </td>
+                                            <?php endforeach; ?>                                            
+                                            <td><?= $res['present'] ?></td>
+                                            <td><?= $res['absent'] ?></td>
+                                            <td><?= $res['late'] ?></td>                                                                                        
+                                        </tr>
+                                <?php }
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+       <?php } ?>        
         <div class="col-md-12">
             <div class="card table-card">
                 <div class="card-header text-dark">
@@ -234,8 +327,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         </div>
-        <!-- End Left side columns -->
-        
+        <!-- End Left side columns -->        
     </div>
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -249,6 +341,8 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
         </div>
     </div>
+
+    
 
     <!--Present Modal -->
     <div class="modal fade" id="presentModal" tabindex="-1" aria-labelledby="presentModalLabel" aria-hidden="true">
@@ -279,6 +373,60 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
+<!-- Add Attendance Modal -->
+    <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form action="<?= base_url('admin/save-attendance') ?>" method="POST">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addAttendanceLabel">Add Attendance</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                    </div>
+
+                    <div class="modal-body">
+                        <!-- Employee Dropdown -->
+                        <div class="mb-3">
+                            <label for="employee_id" class="form-label">Employee</label>
+                            <select name="employee_id" id="employee_id" class="form-select" required>
+                                <option value="">Select Employee</option>
+                                <?php foreach ($users as $emp): ?>
+                                    <option value="<?= $emp->id ?>"><?= $emp->name ?></option>
+                                <?php endforeach; ?>
+                            </select>
+                        </div>
+
+                        <!-- Date -->
+                        <div class="mb-3">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                        </div>
+
+                        <!-- Time -->
+                        <div class="mb-3">
+                            <label for="time" class="form-label">Time</label>
+                            <input type="time" name="time" id="time" class="form-control" step="1" value="10:00:00" required>
+                        </div>                        
+
+                        <!-- Comment -->
+                        <div class="mb-3">
+                            <label for="comment" class="form-label">Comment</label>
+                            <textarea name="comment" id="comment" class="form-control" rows="3"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save Attendance</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+  // Set today's date as max
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById("date").setAttribute("max", today);
+</script>
 <script>
     function punchin(userId, name, date, punchIn) {
         $('#modalBody1').html('');
