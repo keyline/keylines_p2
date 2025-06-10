@@ -309,7 +309,7 @@ abstract class BaseController extends Controller
         // pr($response);
     }
 
-    public function sendCommonPushNotification($token, $title, $body, $type = '', $image = '')
+    public function sendCommonPushNotification($token, $title, $body, $type = '', $image = '', $device_type)
     {
         try {
             // Decode credentials from .env
@@ -369,8 +369,12 @@ abstract class BaseController extends Controller
             }
 
             // Send notifications
-            $this->sendFCMMessage($accessToken, $projectId, $message);
-            // $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
+            
+            if( $device_type === 'ANDROID') {
+                $this->sendFCMMessage($accessToken, $projectId, $message);                               
+            }else if( $device_type === 'IO') {
+                 $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
+            }            
 
             return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent successfully.']);
 

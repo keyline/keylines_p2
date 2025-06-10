@@ -1842,6 +1842,7 @@ class ApiController extends BaseController
                                 $orderBy = [['field' => 'id', 'type' => 'DESC']];
                                 $user_device = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $uId],'','', '', $orderBy);
                                 $deviceToken = $user_device->fcm_token; // added
+                                $device_type = $user_device->device_type; // added
                                 // pr($deviceToken);die;
                                 if($punch_type == 1){
                                     $punch_in_time      = date('H:i:s');
@@ -1876,7 +1877,7 @@ class ApiController extends BaseController
                                     if (!empty($deviceToken)) {
                                         $title = 'Punch In Successful';
                                         $body  = 'Hello ' . $getUser->name . ', your punch-in was recorded at ' . date('h:i A');
-                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance');
+                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
                                     }
 
                                 } elseif($punch_type == 2){
@@ -1907,7 +1908,7 @@ class ApiController extends BaseController
                                     if (!empty($deviceToken)) {
                                         $title = 'Punch Out Successful';
                                         $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
-                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance');
+                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
                                     }
                                 } else {
                                     $punch_out_time = date('H:i:s');
@@ -1931,7 +1932,7 @@ class ApiController extends BaseController
                                     if (!empty($deviceToken)) {
                                         $title = 'Punch Out Successful';
                                         $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
-                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance');
+                                        $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
                                     }
                                 }
                             } else {
