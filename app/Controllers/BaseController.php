@@ -306,7 +306,7 @@ abstract class BaseController extends Controller
         curl_close($ch);
 
         return $response;
-        // pr($response);
+        pr($response);
     }
 
     public function sendCommonPushNotification($token, $title, $body, $type = '', $image = '', $device_type)
