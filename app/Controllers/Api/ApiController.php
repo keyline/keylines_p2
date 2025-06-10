@@ -3384,26 +3384,14 @@ class ApiController extends BaseController
                     'device_type' => $userdevice->device_type
                 ];
             }
-        }
-        pr($allLastUserDevices);
-        // Fetch device tokens and their types from your database or some source
-        // For demonstration, let's create a hypothetical array:
-        $deviceRecords = [
-            ['token' => 'cIngd4RtRu-Akw7w3DtBzv:APA91bEI84X4Y5OmrhfUA6cWMuvcU17udBQef-LsSRe2kYnIsjU3J0-z19IijxFkFMWMcLt-VoOohnJT4YTZFhCAL5lwPFENFRLtb03mcNl3O-Rbfhgr_xY', 'device_type' => 'IO'],
-            ['token' => 'c9g_qq3Pm07MsbluZlAZVK:APA91bE9J4nYUJ1o5ieMYthDRrUAv4pkdPLNRlKCiw9HjKjteV2qYYREzFlBANryNsrYKgG2kWIq4hrOj-LIZmLck5NAQ3QurDogls8Q8JAlNJZ3zB-DTC0', 'device_type' => 'IO'],
-            ['token' => 'dH1dzsqwRo-W2xddfVgEff:APA91bFF_J8KzopsdTRNCaodnpO_OnxZlESalo5O98wAB24-iqorzxBVTm6-uwtkgeywyNt2SyeX2bL-gtPhuLh-9GFn6kVCc8LuT2ivLDs82gBdTRg6VN0', 'device_type' => 'IO'],
-            // Assuming you might have Android tokens too:
-            // ['token' => 'android_token_1', 'device_type' => 'ANDROID'],
-            // ['token' => 'android_token_2', 'device_type' => 'ANDROID'],
-        ];
-
-        if (!empty($deviceRecords)) {
+        }        
+        if (!empty($allLastUserDevices)) {
             $title = 'Test Notification';
             $body  = 'This is a test notification sent from the API.';
             $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
 
             $allResults = [];
-            foreach ($deviceRecords as $record) {
+            foreach ($allLastUserDevices as $record) {
                 $token = $record['token'];
                 $device_type = $record['device_type'];
 
