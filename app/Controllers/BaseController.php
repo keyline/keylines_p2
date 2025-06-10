@@ -283,6 +283,7 @@ abstract class BaseController extends Controller
 
     public function sendFCMMessage($accessToken, $projectId, $message)
     {
+        pr($message);
         $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
 
         $headers = [

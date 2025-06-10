@@ -3387,7 +3387,8 @@ class ApiController extends BaseController
             $title = 'Test Notification';
             $body  = 'This is a test notification sent from the API.';            
             $notification = $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance');            
-            var_dump($notification);
+            // var_dump($notification);
+            pr($notification);
         }
     }
 }
