@@ -3379,6 +3379,7 @@ class ApiController extends BaseController
             if (!empty($userdevice) && isset($userdevice->fcm_token) && isset($userdevice->device_type)) {
                 // Add the token and device_type for this user to the collective array
                 $allLastUserDevices[] = [
+                    'id' => $userdevice->user_id,
                     'token' => $userdevice->fcm_token,
                     'device_type' => $userdevice->device_type
                 ];
