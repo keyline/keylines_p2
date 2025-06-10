@@ -3371,12 +3371,12 @@ class ApiController extends BaseController
     //     }
     // }
     public function testnotification()
-    {
-        $orderBy = [['field' => 'id', 'type' => 'DESC']];
-         $AdminUsers         = $this->db->query("SELECT * FROM `user` WHERE `status` = '1' AND `type` IN ('SUPER ADMIN', 'ADMIN') ORDER BY `id` DESC")->getResult();
-                                        // echo $this->db->getLastQuery();
-        // $AdminUsers = $this->common_model->find_data('user', 'array', ['status' => 1, 'type' => ['SUPER ADMIN', 'ADMIN']], '', '', '', $orderBy);
-        pr($AdminUsers); // Show all admin users for debugging
+    {        
+         $AdminUsers         = $this->db->query("SELECT * FROM `user` WHERE `status` = '1' AND `type` IN ('SUPER ADMIN', 'ADMIN') ORDER BY `id` DESC")->getResult();        
+        foreach($AdminUsers as $user) {
+            $userdevice = $this->common_model->find_data('ecomm_user_devices', 'array', ['user_id' => $user->id, 'device_type' => 'IO']);
+        }
+        pr($userdevice);
         // Fetch device tokens and their types from your database or some source
         // For demonstration, let's create a hypothetical array:
         $deviceRecords = [
