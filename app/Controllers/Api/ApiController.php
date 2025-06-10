@@ -1807,39 +1807,12 @@ class ApiController extends BaseController
                         /* profile image */
 
                         $attendence_type = json_decode($getUser->attendence_type);
-                        if(!empty($attendence_type)){
-                            // if(in_array(0, $attendence_type)){
-                            //     $address                = $this->geolocationaddress($latitude, $longitude);
-                            //     $attendanceGivenStatus  = 1;
-                            // } else {
-                            //     $address                    = $this->geolocationaddress($latitude, $longitude);
-                            //     $getDistance                = $this->getGeolocationDistance($latitude, $longitude, $attendence_type);
-                            //     $application_setting        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
-                            //     $allow_punch_distance       = $application_setting->allow_punch_distance;
-                            //     if(!empty($getDistance)){
-                            //         if($getDistance['status']){
-                            //             $distance = $getDistance['distance'];
-                            //             if($distance <= $allow_punch_distance){
-                            //                 $attendanceGivenStatus  = 1;
-                            //                 $apiMessage             = 'Attendance Status Enable !!!';
-                            //             } else {
-                            //                 $attendanceGivenStatus  = 0;
-                            //                 $apiMessage             = 'You are '.($distance / 1000).' kms away. Please stay within '.$allow_punch_distance.' meters from office !!!';
-                            //             }
-                            //         } else {
-                            //             $attendanceGivenStatus  = 0;
-                            //             $apiMessage             = 'You are far away from office !!!'; 
-                            //         }
-                            //     } else {
-                            //         $attendanceGivenStatus  = 0;
-                            //         $apiMessage             = 'You are far away from office !!!';
-                            //     }
-                            // }
+                        if(!empty($attendence_type)){                           
                             $attendanceGivenStatus  = 1;
                             $address                = $this->geolocationaddress($latitude, $longitude);
                             if($attendanceGivenStatus){
                                 $punch_date = date('Y-m-d');
-                                $orderBy = [['field' => 'id', 'type' => 'DESC']];
+                                $orderBy = [['field' => 'id', 'type' => 'DESC']];                                                                
                                 $user_device = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $uId],'','', '', $orderBy);
                                 $deviceToken = $user_device->fcm_token; // added
                                 $device_type = $user_device->device_type; // added
@@ -3399,6 +3372,9 @@ class ApiController extends BaseController
     // }
     public function testnotification()
     {
+        $orderBy = [['field' => 'id', 'type' => 'DESC']];
+        $AdminUsers = $this->common_model->find_data('user', 'array', ['status' => 1, 'type' => ['SUPER ADMIN', 'ADMIN']], '', '', '', $orderBy);
+        pr($AdminUsers); // Show all admin users for debugging
         // Fetch device tokens and their types from your database or some source
         // For demonstration, let's create a hypothetical array:
         $deviceRecords = [
