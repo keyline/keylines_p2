@@ -237,8 +237,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// holiday
 
 	// mobile-application
-	$routes->match(['get'], "mobile-application", "MobileController::show");
-	$routes->match(['get'], "mobile-notification", "ApiController::testnotification");
+	$routes->match(['get'], "mobile-application", "MobileController::show");	
 	// $routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
 	// $routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
 	// $routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
@@ -263,6 +262,8 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 /* ADMIN PANEL */
 /* API */
 $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes) {
+	//notification
+	$routes->match(['get'], "mobile-notification", "ApiController::testnotification");
 	// before login
 	$routes->match(['post'], "get-app-setting", "ApiController::getAppSetting");
 	$routes->match(['post'], "get-static-pages", "ApiController::getStaticPages");
