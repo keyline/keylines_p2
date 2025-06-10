@@ -283,7 +283,7 @@ abstract class BaseController extends Controller
 
     public function sendFCMMessage($accessToken, $projectId, $message)
     {
-        // pr($message);
+        pr($message);
         $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
 
         $headers = [
@@ -309,7 +309,7 @@ abstract class BaseController extends Controller
         // pr($response);
     }
 
-    public function sendCommonPushNotification($token, $title, $body, $type = '', $image = '', $device_type)
+    public function sendCommonPushNotification($tokens, $title, $body, $type = '', $image = '', $device_type)
     {
         try {
             // Decode credentials from .env
@@ -329,10 +329,15 @@ abstract class BaseController extends Controller
             // Get access token
             $accessToken = $this->getAccessToken($credentialsArray);
 
+            // Ensure $tokens is an array for consistent handling
+            if (!is_array($tokens)) {
+                $tokens = [$tokens];
+            }
+
             // Message payload
             $message = [
                 'message' => [
-                    'token' => $token,
+                    'token' => $tokens,
                     'data' => ['type' => $type],
                     'notification' => [
                         'title' => $title,
@@ -348,7 +353,7 @@ abstract class BaseController extends Controller
             // iOS payload (optional)
             $iosPayload = [
                 'message' => [
-                    'token' => $token,
+                    'token' => $tokens,
                     'notification' => [
                         'title' => $title,
                         'body' => $body,

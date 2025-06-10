@@ -3383,11 +3383,16 @@ class ApiController extends BaseController
     }
     public function testnotification()
     {   $device_type = 'IO';
-        $deviceToken = 'eyVgYIp_6UjnuHxHHWNA4J:APA91bHzlofx-hcT0dR07U4bZau7C0Gr8-dTSwPJpTTdNWGzDFdb0cMBRut0T3dXe4m1ojAIfSs0HhbpPS0ep4uHr8Zh2vpAWEJYbVKgXsMwLN6fke5TU3c'; // Example device token
+        // $deviceToken = 'eyVgYIp_6UjnuHxHHWNA4J:APA91bHzlofx-hcT0dR07U4bZau7C0Gr8-dTSwPJpTTdNWGzDFdb0cMBRut0T3dXe4m1ojAIfSs0HhbpPS0ep4uHr8Zh2vpAWEJYbVKgXsMwLN6fke5TU3c'; // Example device token
+        $deviceTokens = [
+            'cIngd4RtRu-Akw7w3DtBzv:APA91bEI84X4Y5OmrhfUA6cWMuvcU17udBQef-LsSRe2kYnIsjU3J0-z19IijxFkFMWMcLt-VoOohnJT4YTZFhCAL5lwPFENFRLtb03mcNl3O-Rbfhgr_xY',
+            'c9g_qq3Pm07MsbluZlAZVK:APA91bE9J4nYUJ1o5ieMYthDRrUAv4pkdPLNRlKCiw9HjKjteV2qYYREzFlBANryNsrYKgG2kWIq4hrOj-LIZmLck5NAQ3QurDogls8Q8JAlNJZ3zB-DTC0', // Add more tokens as needed
+            'dH1dzsqwRo-W2xddfVgEff:APA91bFF_J8KzopsdTRNCaodnpO_OnxZlESalo5O98wAB24-iqorzxBVTm6-uwtkgeywyNt2SyeX2bL-gtPhuLh-9GFn6kVCc8LuT2ivLDs82gBdTRg6VN0',
+        ];
         if (!empty($deviceToken)) {
             $title = 'Test IOS Notification';
             $body  = 'This is a test IOS notification sent from the API.';            
-            $notification = $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance', '', $device_type);            
+            $notification = $this->sendCommonPushNotification($deviceTokens, $title, $body, 'attendance', '', $device_type);            
             // var_dump($notification);
             pr($notification);
         }
