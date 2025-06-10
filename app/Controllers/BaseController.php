@@ -283,7 +283,7 @@ abstract class BaseController extends Controller
 
     public function sendFCMMessage($accessToken, $projectId, $message)
     {
-        // pr($message);
+        pr($message);
         $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
 
         $headers = [
@@ -305,8 +305,8 @@ abstract class BaseController extends Controller
 
         curl_close($ch);
 
-        // return $response;
-        pr($response);
+        return $response;
+        // pr($response);
     }
 
     public function sendCommonPushNotification($token, $title, $body, $type = '', $image = '', $device_type)
