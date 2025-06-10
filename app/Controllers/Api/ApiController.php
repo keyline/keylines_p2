@@ -3374,7 +3374,8 @@ class ApiController extends BaseController
     {        
          $AdminUsers         = $this->db->query("SELECT * FROM `user` WHERE `status` = '1' AND `type` IN ('SUPER ADMIN', 'ADMIN') ORDER BY `id` DESC")->getResult();        
         foreach($AdminUsers as $user) {
-            $userdevice = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $user->id]);
+            $orderBy = [['field' => 'id', 'type' => 'DESC']];
+            $userdevice = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $user->id],'','', '', $orderBy);
         }
         pr($userdevice);
         // Fetch device tokens and their types from your database or some source
