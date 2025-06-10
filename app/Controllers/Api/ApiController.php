@@ -3376,11 +3376,15 @@ class ApiController extends BaseController
         foreach($AdminUsers as $user) {
             $orderBy = [['field' => 'id', 'type' => 'DESC']];
             $userdevice = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $user->id],'','', '', $orderBy);
-            $deviceRecords = [
-            ['token' => $userdevice['fcm_token'], 'device_type' => $userdevice['device_type']],            
-        ];
+            if (!empty($userdevice) && isset($userdevice['fcm_token']) && isset($userdevice['device_type'])) {
+                // Add the token and device_type for this user to the collective array
+                $allLastUserDevices[] = [
+                    'token' => $userdevice['fcm_token'],
+                    'device_type' => $userdevice['device_type']
+                ];
+            }
         }
-        pr($deviceRecords);
+        pr($allLastUserDevices);
         // Fetch device tokens and their types from your database or some source
         // For demonstration, let's create a hypothetical array:
         $deviceRecords = [
