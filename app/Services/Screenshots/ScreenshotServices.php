@@ -47,13 +47,13 @@ class ScreenshotServices
         }
 
         // ─────────────────────────────────────────────────────────────
-        //  Build year/day‐only folder under writable/uploads/apps/YYYY/DD/
+        //  Build year/month‐only folder under writable/uploads/apps/YYYY/MM/
         // ─────────────────────────────────────────────────────────────
         $now    = Time::now('UTC');
         $year   = $now->getYear();
-        $day    = str_pad($now->getDay(), 2, '0', STR_PAD_LEFT); // day of month, two digits
+        $month  = str_pad($now->getMonth(), 2, '0', STR_PAD_LEFT); // month of year, two digits
 
-        $uploadDir = $this->uploadDir . "{$year}/{$day}/";
+        $uploadDir = $this->uploadDir . "{$year}/{$month}/";
 
         if (! is_dir($uploadDir)) {
             mkdir($uploadDir, 0755, true);
@@ -162,7 +162,7 @@ class ScreenshotServices
         //  Insert record into database via AppModel
         // ─────────────────────────────────────────────────────────────
 
-        $relativePath =  "{$year}/{$day}/{$filename}";
+        $relativePath =  "{$year}/{$month}/{$filename}";
 
         $insertData = [
             'user_id'        => $data['user_id'],

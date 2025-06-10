@@ -11,6 +11,7 @@ use PHPMailer\PHPMailer\Exception;
 use Psr\Log\LoggerInterface;
 use App\Models\CommonModel;
 use App\Libraries\Pro;
+use Google_Client;
 /**
  * Class BaseController
  *
@@ -267,7 +268,228 @@ abstract class BaseController extends Controller
         $result = curl_exec($ch);
         $err    = curl_error($ch);
         curl_close($ch);
+    }    
+
+    public function getAccessToken($credentialsJson)
+    {
+        $client = new Google_Client();
+        $client->setAuthConfig($credentialsJson);
+        $client->addScope('https://www.googleapis.com/auth/cloud-platform');
+        $client->setAccessType('offline');
+        $client->fetchAccessTokenWithAssertion();
+
+        return $client->getAccessToken();
     }
+
+    public function sendFCMMessage($accessToken, $projectId, $message)
+    {
+        // pr($message);
+        $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
+
+        $headers = [
+            'Authorization: Bearer ' . $accessToken['access_token'],
+            'Content-Type: application/json',
+        ];
+
+        $ch = curl_init($url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($message));
+
+        $response = curl_exec($ch);
+
+        if ($response === false) {
+            throw new Exception(curl_error($ch));
+        }
+
+        curl_close($ch);
+
+        return $response;
+        // pr($response);
+    }
+
+    public function sendCommonPushNotification($tokens, $title, $body, $type = '', $image = '', $device_type)
+    {
+        try {
+            // Decode credentials from .env
+            $base64Credentials = getenv('FIREBASE_CREDENTIALS_BASE64');
+            if (!$base64Credentials) {
+                throw new Exception("Firebase credentials not found in environment variables.");
+            }
+
+            $json = base64_decode($base64Credentials);
+            $credentialsArray = json_decode($json, true);
+            if (json_last_error() !== JSON_ERROR_NONE) {
+                throw new Exception('Invalid JSON format in decoded credentials.');
+            }
+
+            $projectId = $credentialsArray['project_id'];
+
+            // Get access token
+            $accessToken = $this->getAccessToken($credentialsArray);
+
+            // Ensure $tokens is an array for consistent handling
+            if (!is_array($tokens)) {
+                $tokens = [$tokens];
+            }
+
+            $results = []; // To store individual notification results
+
+            foreach ($tokens as $token) {
+                 $messagePayload = [];
+                 if ($device_type === 'ANDROID') {
+                    $messagePayload = [
+                        'message' => [
+                            'token' => $token, // Individual token here
+                            'data' => ['type' => $type],
+                            'notification' => [
+                                'title' => $title,
+                                'body' => $body,
+                            ],
+                        ],
+                    ];
+                    if (!empty($image)) {
+                        $messagePayload['message']['notification']['image'] = $image;
+                    }
+                }elseif ($device_type === 'IO') {
+                    $messagePayload = [
+                        'message' => [
+                            'token' => $token, // Individual token here
+                            'notification' => [
+                                'title' => $title,
+                                'body' => $body,
+                            ],
+                            'apns' => [
+                                'headers' => [
+                                    'apns-priority' => '10',
+                                ],
+                                'payload' => [
+                                    'aps' => [
+                                        'alert' => [
+                                            'title' => $title,
+                                            'body' => $body,
+                                        ],
+                                        'sound' => 'default',
+                                        'mutable-content' => 1,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ];
+                    if (!empty($image)) {
+                        $messagePayload['message']['apns']['fcm_options'] = [
+                            'image' => $image
+                        ];
+                    }
+                }else {
+                    // Handle unsupported device type if necessary
+                    $results[$token] = ['status' => false, 'error' => 'Unsupported device type'];
+                    continue; // Skip to the next token
+                }
+
+                try {
+                    $response = $this->sendFCMMessage($accessToken, $projectId, $messagePayload);
+                    $results[$token] = ['status' => true, 'response' => json_decode($response, true)];
+                } catch (Exception $e) {
+                    $results[$token] = ['status' => false, 'error' => $e->getMessage()];
+                } 
+            }
+           
+
+            // Send notifications
+            // Check if any notifications failed
+            $allSucceeded = true;
+            foreach ($results as $tokenResult) {
+                if ($tokenResult['status'] === false) {
+                    $allSucceeded = false;
+                    break;
+                }
+            }
+
+            if ($allSucceeded) {
+                return $this->response->setJSON(['status' => true, 'message' => 'All push notifications sent successfully.', 'results' => $results]);
+            } else {
+                return $this->response->setJSON(['status' => false, 'message' => 'Some push notifications failed to send.', 'results' => $results]);
+            }           
+
+            // return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent successfully.']);
+
+        } catch (Exception $e) {
+            return $this->response->setJSON(['status' => false, 'error' => $e->getMessage()]);
+        }
+    }
+//     public function sendCommonPushNotification($token, $title, $body, $type = '', $image = '')
+// {
+//     try {
+//         $base64Credentials = getenv('FIREBASE_CREDENTIALS_BASE64');
+//         if (!$base64Credentials) {
+//             throw new Exception("Firebase credentials not found.");
+//         }
+
+//         $json = base64_decode($base64Credentials);
+//         $credentialsArray = json_decode($json, true);
+//         if (json_last_error() !== JSON_ERROR_NONE) {
+//             throw new Exception("Invalid JSON in credentials.");
+//         }
+
+//         $projectId = $credentialsArray['project_id'];
+//         $accessToken = $this->getAccessToken($credentialsArray);
+
+//         $message = [
+//             'message' => [
+//                 'token' => $token,
+//                 'notification' => [
+//                     'title' => $title,
+//                     'body'  => $body,
+//                 ],
+//                 'data' => [
+//                     'type' => $type,
+//                     'title' => $title,
+//                     'body'  => $body,
+//                 ],
+//                 'android' => [
+//                     'notification' => [
+//                         'title' => $title,
+//                         'body'  => $body,
+//                         'sound' => 'default',
+//                         'image' => $image ?: null,
+//                     ]
+//                 ],
+//                 'apns' => [
+//                     'payload' => [
+//                         'aps' => [
+//                             'alert' => [
+//                                 'title' => $title,
+//                                 'body' => $body,
+//                             ],
+//                             'sound' => 'default',
+//                             'mutable-content' => 1,
+//                         ]
+//                     ],
+//                     'fcm_options' => [
+//                         'image' => $image ?: null,
+//                     ]
+//                 ],
+//             ]
+//         ];
+
+//         // Remove null image values if not set
+//         if (empty($image)) {
+//             unset($message['message']['android']['notification']['image']);
+//             unset($message['message']['apns']['fcm_options']['image']);
+//         }
+
+//         $this->sendFCMMessage($accessToken, $projectId, $message);
+
+//         return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent.']);
+
+//     } catch (Exception $e) {
+//         return $this->response->setJSON(['status' => false, 'error' => $e->getMessage()]);
+//     }
+// }
+
+
     // send push notification
     public function checkModuleAccess($id){
         $this->db           = \Config\Database::connect();
