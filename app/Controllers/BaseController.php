@@ -283,7 +283,7 @@ abstract class BaseController extends Controller
 
     public function sendFCMMessage($accessToken, $projectId, $message)
     {
-        pr($message);
+        // pr($message);
         $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
 
         $headers = [
@@ -379,7 +379,7 @@ abstract class BaseController extends Controller
 
 
             // Send notifications
-            
+            pr($device_type);
             if( $device_type === 'ANDROID') {
                 $this->sendFCMMessage($accessToken, $projectId, $message);                               
             }else if( $device_type === 'IO') {
