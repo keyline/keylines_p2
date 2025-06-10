@@ -238,7 +238,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 
 	// mobile-application
 	$routes->match(['get'], "mobile-application", "MobileController::show");
-	$routes->match(['get'], "mobile-notification", "AttendanceController::testnotification");
+	$routes->match(['get'], "mobile-notification", "ApiController::testnotification");
 	// $routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
 	// $routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
 	// $routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
