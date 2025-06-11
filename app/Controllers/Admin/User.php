@@ -364,6 +364,9 @@ class User extends BaseController
             // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                    
             $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
             $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
+            $user_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at = $cu_date";
+            $user_task_data = $this->db->query($user_task)->getResult();
+            pr($user_task_data);
             // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
             $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
             $users              = $this->db->query($sql11)->getResult();

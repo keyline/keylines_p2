@@ -176,30 +176,21 @@
                <?php } ?>
 
                <div class="col-md-12">
-                        <div class="card table-card">
-                           <div class="card-header">
-                              <div class="row">
-                                 <div class="col-md-4">
-                                    <div class="card-header-left">
-                                       <ul class="d-flex align-items-center gap-2">                                    
-                                          <li>
-                                             <p>Present (<?=$total_present_user->user_count?>)</p>
-                                          </li>
-                                          <li>
-                                             <p>Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
-                                          </li>                                    
-                                       </ul>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-8">
-                                    <div class="card-header-right">
-
-                                    </div>
-                                 </div>
+                  <div class="card table-card">
+                     <div class="card-header">
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="card-header-left">                                 
+                                 <ul class="d-flex align-items-center gap-2">                                    
+                                    <li>                                       
+                                    </li>                                                                       
+                                 </ul>
                               </div>
-                           </div>
+                           </div>                           
                         </div>
                      </div>
+                  </div>
+               </div>
 
                <div class="col-md-12">
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
