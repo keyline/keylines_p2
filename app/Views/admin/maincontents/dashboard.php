@@ -180,7 +180,8 @@
                      <div class="card-header">
                         <div class="row">
                            <div class="col-md-12">
-                              <div class="card-header-left">                                 
+                              <div class="card-header-left">
+                                 <?php pr($user_task_data); ?>                                 
                                  <ul class="d-flex align-items-center gap-2">                                    
                                     <li>                                       
                                     </li>                                                                       
