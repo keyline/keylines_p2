@@ -180,11 +180,13 @@
                      <div class="card-header">
                         <div class="row">
                            <div class="col-md-12">
-                              <div class="card-header-left">
-                                 <?php pr($user_task_data); ?>                                 
-                                 <ul class="d-flex align-items-center gap-2">                                    
-                                    <li>                                       
-                                    </li>                                                                       
+                              <div class="card-header-left">                                                                 
+                                 <ul class="d-flex align-items-center gap-2">   
+                                    <?php foreach($user_task_data as $task){ ?>                                 
+                                    <li>  
+                                       <h2><?=$task->project_name?></h2>                                     
+                                    </li>
+                                    <?php } ?>                                                                       
                                  </ul>
                               </div>
                            </div>                           
