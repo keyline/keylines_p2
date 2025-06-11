@@ -184,7 +184,8 @@
                                  <ul class="d-flex align-items-center gap-2">   
                                     <?php foreach($user_task_data as $task){ ?>                                 
                                     <li>  
-                                       <h2><?=$task->project_name?></h2>                                     
+                                       <h4><?=$task->description?></h4>  <br>
+                                       <p><i class="fa fa-clock-o" aria-hidden="true"></i> <?= $task->created_at?> <i class="fa fa-user" aria-hidden="true"></i> <?= $task->added_by?> <i class="fa fa-tag" aria-hidden="true"></i> <?= $task->project_name?> <i class="fa fa-flag" aria-hidden="true"></i> <?= $task->priority?></p>               
                                     </li>
                                     <?php } ?>                                                                       
                                  </ul>
