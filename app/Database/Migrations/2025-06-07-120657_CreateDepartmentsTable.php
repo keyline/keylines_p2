@@ -16,7 +16,7 @@ class CreateDepartmentsTable extends Migration
                 'unsigned'       => true,
                 'auto_increment' => true,
             ],
-            'dept_name' => [
+            'deprt_name' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 250,
                 'null'       => true,
