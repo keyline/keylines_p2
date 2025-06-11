@@ -57,20 +57,20 @@
                                         <option value="last_30_days">Last 30 Days</option>
                                         <hr>
                                     </select>
-                                </div>                                                             
+                                </div>
                             </div>
                         </form>
                         <form method="POST" action="" enctype="multipart/form-data">
-                            <div class="col-md-6 col-lg-6 input-group input-daterange">                                     
-                            <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="" style="height: 40px;">
-                            <span class="input-group-text">To</span>
-                            <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 40px;">
-                            <button type="button" id="fetch_data" class="btn btn-primary mt-2">Search</button>
-                        </div>   
+                            <div class="col-md-6 col-lg-6 input-group input-daterange">
+                                <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="" style="height: 40px;">
+                                <span class="input-group-text">To</span>
+                                <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 40px;">
+                                <button type="button" id="fetch_data" class="btn btn-primary mt-2">Search</button>
+                            </div>
                         </form>
                     </div>
                 </div>
-                <?php $yesterday          = date('Y-m-d', strtotime('-1 day'));?>
+                <?php $yesterday          = date('Y-m-d', strtotime('-1 day')); ?>
                 <div class="card table-card" id="project-container">
                     <div class="row">
                         <div class="col md-6">
@@ -84,12 +84,12 @@
                                 <table class="table nowrap general_table_style padding-y-10" style="width: 100%">
                                     <thead>
                                         <tr>
-                                            <th colspan="3">From Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
-                                            <th colspan="3">To Date : <u><?=date_format(date_create($yesterday), "M d, Y")?></u></th>
+                                            <th colspan="3">From Date : <u><?= date_format(date_create($yesterday), "M d, Y") ?></u></th>
+                                            <th colspan="3">To Date : <u><?= date_format(date_create($yesterday), "M d, Y") ?></u></th>
                                         </tr>
                                         <!-- <caption>
-                                            From Date: <u><?=date_format(date_create($yesterday), "M d, Y")?></u> | 
-                                            To Date: <u><?=date_format(date_create($yesterday), "M d, Y")?></u>
+                                            From Date: <u><?= date_format(date_create($yesterday), "M d, Y") ?></u> | 
+                                            To Date: <u><?= date_format(date_create($yesterday), "M d, Y") ?></u>
                                         </caption> -->
                                         <tr>
                                             <th width="1%">#</th>
@@ -106,63 +106,68 @@
                                         $last_month_month   = $start_date_array[1];
                                         $last_month_date    = $start_date_array[1];
                                         ?>
-                                        <?php 
-                                        if ($ongoingProjects) { $sl = 1; $total_cost = 0; $billable_cost=0; $non_billable_cost=0;   foreach ($ongoingProjects as $ongoingProject) { ?>
-                                            <?php
-                                            /* cost calculation */
+                                        <?php
+                                        if ($ongoingProjects) {
+                                            $sl = 1;
+                                            $total_cost = 0;
+                                            $billable_cost = 0;
+                                            $non_billable_cost = 0;
+                                            foreach ($ongoingProjects as $ongoingProject) { ?>
+                                                <?php
+                                                /* cost calculation */
                                                 $project_cost   = 0;
                                                 $date_added     = $yesterday;
                                                 $cost_sql2      = "SELECT sum(cost) as total_cost FROM `timesheet` WHERE project_id=$ongoingProject->project_id AND date_added LIKE '%$date_added%'";
                                                 $checkCost      = $db->query($cost_sql2)->getRow();
                                                 $project_cost   = $checkCost->total_cost;
                                                 $total_cost += $project_cost;
-                                            /* cost calculation */
-                                            ?>
-                                            <tr>
-                                                <th><?= $sl++; ?></th>
-                                                <th>
-                                                    <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
-                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($ongoingProject->project_id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
-                                                    <?php } else { ?>
-                                                        <?= $ongoingProject->name; ?> <a target="_blank" href="<?=base_url('admin/projects/reports/'. base64_encode($ongoingProject->project_id));?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
-                                                    <?php } ?>
-                                                    <?php
-                                                    if ($ongoingProject->bill == 0) {
-                                                        $billable_cost += $project_cost;
-                                                    } else {
-                                                        $non_billable_cost += $project_cost;
-                                                    }
-                                                    ?>
-                                                </th>
-                                                <th>
-                                                    <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
-                                                        <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-info">Fixed</span>
-                                                    <?php } else { ?>
-                                                        <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-primary">Monthly</span>
-                                                    <?php } ?>
-                                                </th>
-                                                <?php
-                                                $totalHours       = (int) $ongoingProject->total_hours;
-                                                $totalMinutes     = (int) $ongoingProject->total_minutes;
-
-                                                $additionalHours  = intdiv($totalMinutes, 60);
-                                                $remainingMinutes = $totalMinutes % 60;
-
-                                                $totalHours      += $additionalHours;
-
-                                                $formattedTime    = sprintf("%d Hours %d Minutes", $totalHours, $remainingMinutes);
-                                                // echo $formattedTime;
+                                                /* cost calculation */
                                                 ?>
-                                                <th style="cursor: pointer;" onclick="showWorkList(<?= $ongoingProject->project_id ?>,'yesterday',<?= $ongoingProject->bill == 0 ? '0' : '1' ?>,'<?= $formattedTime ?>')"><?= $formattedTime; ?></th>
-                                                <th><?=number_format($project_cost,2)?></th>
-                                            </tr>
-                                        <?php } ?>
+                                                <tr>
+                                                    <th><?= $sl++; ?></th>
+                                                    <th>
+                                                        <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
+                                                            <?= $ongoingProject->name; ?> <a target="_blank" href="<?= base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)); ?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
+                                                        <?php } else { ?>
+                                                            <?= $ongoingProject->name; ?> <a target="_blank" href="<?= base_url('admin/projects/reports/' . base64_encode($ongoingProject->project_id)); ?>"><i class="fa fa-file" style="margin-left: 5px;"></i></a>
+                                                        <?php } ?>
+                                                        <?php
+                                                        if ($ongoingProject->bill == 0) {
+                                                            $billable_cost += $project_cost;
+                                                        } else {
+                                                            $non_billable_cost += $project_cost;
+                                                        }
+                                                        ?>
+                                                    </th>
+                                                    <th>
+                                                        <?php if ($ongoingProject->project_time_type == 'Onetime') { ?>
+                                                            <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-info">Fixed</span>
+                                                        <?php } else { ?>
+                                                            <?= $ongoingProject->bill == 0 ? '<span class="badge bg-success">Billable</span>' : '<span class="badge bg-danger">Non-Billable</span>' ?><span class="badge bg-primary">Monthly</span>
+                                                        <?php } ?>
+                                                    </th>
+                                                    <?php
+                                                    $totalHours       = (int) $ongoingProject->total_hours;
+                                                    $totalMinutes     = (int) $ongoingProject->total_minutes;
+
+                                                    $additionalHours  = intdiv($totalMinutes, 60);
+                                                    $remainingMinutes = $totalMinutes % 60;
+
+                                                    $totalHours      += $additionalHours;
+
+                                                    $formattedTime    = sprintf("%d Hours %d Minutes", $totalHours, $remainingMinutes);
+                                                    // echo $formattedTime;
+                                                    ?>
+                                                    <th style="cursor: pointer;" onclick="showWorkList(<?= $ongoingProject->project_id ?>,'yesterday',<?= $ongoingProject->bill == 0 ? '0' : '1' ?>,'<?= $formattedTime ?>')"><?= $formattedTime; ?></th>
+                                                    <th><?= number_format($project_cost, 2) ?></th>
+                                                </tr>
+                                            <?php } ?>
                                             <tr>
                                                 <th colspan="3" style="text-align:right; font-weight:bold;">Total</th>
                                                 <!-- <th>-</th> -->
-                                                <th><?=number_format($total_cost,2)?></th>
+                                                <th><?= number_format($total_cost, 2) ?></th>
                                             </tr>
-                                    <?php } ?>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -183,8 +188,8 @@
                                     <tbody>
                                         <tr>
                                             <th>1</th>
-                                            <th><?= $yesterdayAllUserHourBill; ?><br><?=number_format($billable_cost,2)?></th>
-                                            <th><?= $yesterdayAllUserMinBill; ?><br><?=number_format($non_billable_cost,2)?></th>
+                                            <th><?= $yesterdayAllUserHourBill; ?><br><?= number_format($billable_cost ?? 0, 2) ?></th>
+                                            <th><?= $yesterdayAllUserMinBill; ?><br><?= number_format($non_billable_cost ?? 0, 2) ?></th>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -225,12 +230,12 @@
         dayWiseListGenerate('yesterday');
     });
     $(document).ready(function() {
-        $('#fetch_data').click(function(){
+        $('#fetch_data').click(function() {
             let startDate = $('#search_range_from').val();
             let endDate = $('#search_range_to').val();
             console.log(startDate);
             console.log(endDate);
-            if(startDate === "" || endDate === ""){
+            if (startDate === "" || endDate === "") {
                 alert("Please select both dates.");
                 return;
             }
@@ -240,13 +245,16 @@
             $("#to_date_display").text(endDate);
 
             $.ajax({
-            url: "<?= base_url('admin/reports/fetchData'); ?>",
-            type: "POST",
-            data: { start_date: startDate, end_date: endDate },
-            dataType: "html",
-            success: function(response) {
-                // console.log(response); // Print the response in the console
-                $("#project-container").html(response);
+                url: "<?= base_url('admin/reports/fetchData'); ?>",
+                type: "POST",
+                data: {
+                    start_date: startDate,
+                    end_date: endDate
+                },
+                dataType: "html",
+                success: function(response) {
+                    // console.log(response); // Print the response in the console
+                    $("#project-container").html(response);
                 },
                 error: function(xhr, status, error) {
                     console.log("Error: ", error); // Print the error message
@@ -278,14 +286,16 @@
             }
         });
     }
-    function printDiv()
-    {
-        var divToPrint=document.getElementById('DivIdToPrint');
-        var newWin=window.open('','Print-Window');
+
+    function printDiv() {
+        var divToPrint = document.getElementById('DivIdToPrint');
+        var newWin = window.open('', 'Print-Window');
         newWin.document.open();
-        newWin.document.write('<html><body onload="window.print()">'+divToPrint.innerHTML+'</body></html>');
+        newWin.document.write('<html><body onload="window.print()">' + divToPrint.innerHTML + '</body></html>');
         newWin.document.close();
-        setTimeout(function(){newWin.close();},10);
+        setTimeout(function() {
+            newWin.close();
+        }, 10);
     }
 </script>
 
