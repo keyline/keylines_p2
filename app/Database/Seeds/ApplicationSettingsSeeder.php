@@ -41,7 +41,7 @@ class ApplicationSettingsSeeder extends Seeder
             'published'                           => 1,
         ];
 
-        // Use Query Builder to perform an upsert (insert or update)  
+   
         $builder = $this->db->table('application_settings');
         $builder->upsert($data);
     }
