@@ -34,5 +34,6 @@ class DatabaseSeeder extends Seeder
         $this->call('UserCategorySeeder');
         $this->call('UserExtraSeeder');
         $this->call('WorkStatusSeeder');
+        $this->call('TimesheetSeeder');
     }
 }
