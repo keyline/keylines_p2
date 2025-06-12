@@ -161,7 +161,20 @@
                </div> -->
                <!-- End Vendors Card -->
                <?php   } ?>
-
+               <div class="col-xl-12">
+            <?php if(session('success_message')){?>
+                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                    <?=session('success_message')?>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php }?>
+            <?php if(session('error_message')){?>
+                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                    <?=session('error_message')?>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            <?php }?>
+        </div>
                <div class="col-md-12">
                   <div class="card table-cardcard table-card shadow-sm">
                      <div class="card-header">
