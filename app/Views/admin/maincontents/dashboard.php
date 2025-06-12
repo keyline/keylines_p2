@@ -180,7 +180,7 @@
                      <div class="card-header">
                         <div class="row">
                            <div class="col-md-12">
-                              <div class="card-details">                                                                                                                                                                                                       
+                              <div class="card-header-left card-details">                                                                                                                                                                                                       
                                  <h6><b><?=$task['description']?></b></h6>
                                  <p>
                                     <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 

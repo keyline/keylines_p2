@@ -98,9 +98,9 @@ th,td{
   font-size: 14px;
   font-weight: bold;
 }
-.card-details p{
+.card-header-left.card-details p{
   padding: 8px 16px;
-  /* background: #F6F6F6; */
+  background: transparent;
   border-radius: 100px;
   color: #3D3D3D;
   font-size: 14px;
