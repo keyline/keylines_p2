@@ -1094,7 +1094,7 @@ class User extends BaseController
                 'priority'          => $priority,     
                 'added_by'         => $added_by,         
                 );
-                pr($postData);
+                // pr($postData);
                 $record     = $this->data['model']->save_data('morning_meetings', $postData, '', 'id');
             }   
             $this->session->setFlashdata('success_message', 'Task added successfully.');
