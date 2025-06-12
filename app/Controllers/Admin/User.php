@@ -1076,6 +1076,8 @@ class User extends BaseController
         $added_by                = $this->session->get('user_id');
         if($this->request->getMethod() == 'post') {  
             $user_id     = $this->request->getPost('employee_id');
+            $department = $this->common_model->find_data('team', 'row', ['user_id' => $user_id]);
+            $department_id = $department ? $department->dep_id : 0;
             $task_assign_date  = $this->request->getPost('date');
             $fhour       = str_pad($this->request->getPost('fhour'), 2, '0', STR_PAD_LEFT);
             $fminute     = str_pad($this->request->getPost('fminute'), 2, '0', STR_PAD_LEFT);
@@ -1088,7 +1090,8 @@ class User extends BaseController
               
             $postData   = array(
                 'user_id'           => $user_id,
-                'project_id'        => $project_id,
+                'dept_id'           => $department_id,
+                'project_id'        => $project_id,                
                 'date_added'        => $task_assign_date,                
                 'description'  => $description,                                
                 'priority'          => $priority,     
