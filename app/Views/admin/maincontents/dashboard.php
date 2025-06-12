@@ -167,12 +167,60 @@
                      <div class="card-header">
                         <div class="row">
                            <div class="col-md-12">
-                              <div>                                                                                                                                                                                                       
-                                                                                                                                                                                                                             -->
+                              <div class="text-center">                                        
+                                    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
                               </div>
                            </div>                           
                         </div>
                      </div>
+                  </div>
+               </div>
+               <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                        <form action="<?= base_url('admin/save-attendance') ?>" method="POST">
+                           <div class="modal-content">
+                              <div class="modal-header">
+                                    <h5 class="modal-title" id="addAttendanceLabel">Add Attendance</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                              </div>
+
+                              <div class="modal-body">
+                                    <!-- Employee Dropdown -->
+                                    <div class="mb-3">
+                                       <label for="employee_id" class="form-label">Employee</label>
+                                       <select name="employee_id" id="employee_id" class="form-select" required>
+                                          <option value="">Select Employee</option>
+                                          <?php foreach ($users as $emp): ?>
+                                                <option value="<?= $emp->id ?>"><?= $emp->name ?></option>
+                                          <?php endforeach; ?>
+                                       </select>
+                                    </div>
+
+                                    <!-- Date -->
+                                    <div class="mb-3">
+                                       <label for="date" class="form-label">Date</label>
+                                       <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                                    </div>
+
+                                    <!-- Time -->
+                                    <div class="mb-3">
+                                       <label for="time" class="form-label">Time</label>
+                                       <input type="time" name="time" id="time" class="form-control" step="1" value="10:00:00" required>
+                                    </div>                        
+
+                                    <!-- Comment -->
+                                    <div class="mb-3">
+                                       <label for="comment" class="form-label">Comment</label>
+                                       <textarea name="comment" id="comment" class="form-control" rows="3"></textarea>
+                                    </div>
+                              </div>
+
+                              <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Save Attendance</button>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                              </div>
+                           </div>
+                        </form>
                   </div>
                </div>
                   
