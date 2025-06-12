@@ -72,12 +72,20 @@
                            <div class="ps-2">
                               <h6><?= $total_active_users ?></h6>
                            </div>
-                           <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                              <i class="bi bi-people"></i>
-                           </div>
-                           <div class="ps-2">
-                              <h6><?= $total_active_users ?></h6>
-                           </div>
+                           <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                 <i class="bi bi-person-fill-check"></i>
+                              </div>
+                              <div class="ps-2">
+                                 <h6><?=$total_present_user->user_count?></h6>
+                              </div>
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                 <i class="bi bi-person-x"></i>
+                              </div>
+                              <div class="ps-2">
+                                 <h6><?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?></h6>
+                              </div>
+                           <?php } ?>
                         </div>
                      </div>
                   </div>
