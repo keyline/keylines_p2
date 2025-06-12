@@ -380,7 +380,7 @@ class User extends BaseController
                     'id'            => $task_data->id,                    
                     'user_name'     => $user_details->name,                    
                     'project_name'  => $task_data->project_name,
-                    'pirority'      => $task_data->priority,  
+                    'priority'      => $task_data->priority,  
                     'description' => ucfirst($task_data->description),         
                     'created_at'    => $formattedDate,
                 ];
