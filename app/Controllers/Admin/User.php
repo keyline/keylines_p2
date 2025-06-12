@@ -386,7 +386,7 @@ class User extends BaseController
                 ];
             }
             $data['user_task_details'] = $user_task_details;
-            // pr($user_task_details);
+            pr($user_task_details);
             // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
             $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
             $users              = $this->db->query($sql11)->getResult();
