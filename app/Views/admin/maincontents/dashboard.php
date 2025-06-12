@@ -168,13 +168,7 @@
                         <div class="row">
                            <div class="col-md-12">
                               <div>                                                                                                                                                                                                       
-                                 <h6 class="mb-2"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
-                                 <p><?=$task['description']?></p>
-                                 <p class="card-details text-muted">
-                                    <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
-                                    <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
-                                    <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
-                                 </p>                                                                                                                                                                                            
+                                                                                                                                                                                                                             -->
                               </div>
                            </div>                           
                         </div>
