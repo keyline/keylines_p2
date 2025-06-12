@@ -168,7 +168,7 @@
                         <div class="row">
                            <div class="col-md-12">
                               <div class="text-center">                                        
-                                    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
+                                    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Task</button>                                    
                               </div>
                            </div>                           
                         </div>
