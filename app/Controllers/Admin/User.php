@@ -4,6 +4,7 @@ namespace App\Controllers\admin;
 
 use App\Controllers\BaseController;
 use App\Models\CommonModel;
+use DateTime;
 
 class User extends BaseController
 {
@@ -369,6 +370,11 @@ class User extends BaseController
             $user_task_details = [];
             foreach ($user_task_data as $task_data) {
                 $assign_by = $task_data->added_by;
+                $task_date = $task_data->created_at;
+                // Create DateTime object
+                $date = new DateTime($task_date);
+                // Format the date
+                $formattedDate = $date->format('d-M-y h:i A');
                 $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);
                 $user_task_details[] = [
                     'id'            => $task_data->id,                    
@@ -376,7 +382,7 @@ class User extends BaseController
                     'project_name'  => $task_data->project_name,
                     'pirority'      => $task_data->priority,  
                     'description' => $task_data->description,         
-                    'created_at'    => $task_data->created_at,
+                    'created_at'    => $formattedDate,
                 ];
             }
             $data['user_task_details'] = $user_task_details;
