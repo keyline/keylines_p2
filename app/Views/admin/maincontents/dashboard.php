@@ -190,7 +190,7 @@
                                        <label for="employee_id" class="form-label">Employee</label>
                                        <select name="employee_id" id="employee_id" class="form-select" required>
                                           <option value="">Select Employee</option>
-                                          <?php foreach ($users as $emp): ?>
+                                          <?php foreach ($employees as $emp): ?>
                                                 <option value="<?= $emp->id ?>"><?= $emp->name ?></option>
                                           <?php endforeach; ?>
                                        </select>
