@@ -161,33 +161,27 @@
                </div> -->
                <!-- End Vendors Card -->
                <?php   } ?>
-                  <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
-                     <div class="col-md-12">
-                        <div class="card table-card">
-                           <div class="card-header">
-                              <div class="row">
-                                 <div class="col-md-4">
-                                    <div class="card-header-left">
-                                       <ul class="d-flex align-items-center gap-2">                                    
-                                          <li>
-                                             <p>Present (<?=$total_present_user->user_count?>)</p>
-                                          </li>
-                                          <li>
-                                             <p>Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
-                                          </li>                                    
-                                       </ul>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-8">
-                                    <div class="card-header-right">
 
-                                    </div>
-                                 </div>
+               <div class="col-md-12">
+                  <div class="card table-cardcard table-card shadow-sm">
+                     <div class="card-header">
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div>                                                                                                                                                                                                       
+                                 <h6 class="mb-2"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                 <p><?=$task['description']?></p>
+                                 <p class="card-details text-muted">
+                                    <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
+                                    <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
+                                    <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                 </p>                                                                                                                                                                                            
                               </div>
-                           </div>
+                           </div>                           
                         </div>
                      </div>
-               <?php } ?>
+                  </div>
+               </div>
+                  
                <?php foreach($user_task_details as $task){ ?>  
                <div class="col-md-12">
                   <div class="card table-cardcard table-card shadow-sm">
