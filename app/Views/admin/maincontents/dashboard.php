@@ -196,6 +196,16 @@
                                        </select>
                                     </div>
 
+                                    <div class="mb-3">
+                                       <label for="project_id" class="form-label">Project</label>
+                                       <select name="project_id" id="project_id" class="form-select" required>
+                                          <option value="">Select project</option>
+                                          <?php foreach ($projects as $project): ?>
+                                                <option value="<?= $project->id ?>"><?= $project->name ?></option>
+                                          <?php endforeach; ?>
+                                       </select>
+                                    </div>
+
                                     <!-- Date -->
                                     <div class="mb-3">
                                        <label for="date" class="form-label">Date</label>
