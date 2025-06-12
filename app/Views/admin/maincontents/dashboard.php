@@ -72,6 +72,12 @@
                            <div class="ps-2">
                               <h6><?= $total_active_users ?></h6>
                            </div>
+                           <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                              <i class="bi bi-people"></i>
+                           </div>
+                           <div class="ps-2">
+                              <h6><?= $total_active_users ?></h6>
+                           </div>
                         </div>
                      </div>
                   </div>
