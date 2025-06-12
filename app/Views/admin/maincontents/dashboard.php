@@ -182,10 +182,10 @@
                            <div class="col-md-12">
                               <div class="card-header-left">                                                                 
                                  <ul class="d-flex align-items-center gap-2">   
-                                    <?php foreach($user_task_data as $task){ ?>                                 
+                                    <?php foreach($user_task_details as $task){ ?>                                 
                                     <li>  
                                        <h4><?=$task->description?></h4>  <br>
-                                       <p><i class="fa fa-clock-o" aria-hidden="true"></i> <?= $task->created_at?> <i class="fa fa-user" aria-hidden="true"></i> <?= $task->added_by?> <i class="fa fa-tag" aria-hidden="true"></i> <?= $task->project_name?> <i class="fa fa-flag" aria-hidden="true"></i> <?= $task->priority?></p>               
+                                       <p><i class="fa fa-clock-o" aria-hidden="true"></i> <?= $task->created_at?> <i class="fa fa-user" aria-hidden="true"></i> <?= $task->user_name?> <i class="fa fa-tag" aria-hidden="true"></i> <?= $task->project_name?> <i class="fa fa-flag" aria-hidden="true"></i> <?php if($task->priority == 1){ echo 'Low';} else if($task->priority == 2) {echo 'Medium';} else if($task->priority == 3) {echo 'High';} ?></p>               
                                     </li>
                                     <?php } ?>                                                                       
                                  </ul>
