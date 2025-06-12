@@ -174,32 +174,27 @@
                         </div>
                      </div>
                <?php } ?>
-
+               <?php foreach($user_task_details as $task){ ?>  
                <div class="col-md-12">
                   <div class="card table-card">
                      <div class="card-header">
                         <div class="row">
                            <div class="col-md-12">
-                              <div class="card-header-left">                                                                 
-                                 <ul class="d-flex align-items-center gap-2">   
-                                    <?php foreach($user_task_details as $task){ ?>                                 
-                                    <li>  
-                                       <h6><?=$task['description']?></h6>  <br>
-                                       <p>
-                                          <i class="fa fa-clock-o" aria-hidden="true"></i> <?= $task['created_at']?> 
-                                          <span><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
-                                          <span><i class="fa fa-tag" aria-hidden="true"></i> <?= $task['project_name']?></span>
-                                          <span><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
-                                       </p>               
-                                    </li>
-                                    <?php } ?>                                                                       
-                                 </ul>
+                              <div class="card-header-left">                                                                                                                                                                                                       
+                                 <h6><?=$task['description']?></h6>
+                                 <p>
+                                    <i class="fa fa-clock-o" aria-hidden="true"></i> <?= $task['created_at']?> 
+                                    <span><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
+                                    <span><i class="fa fa-tag" aria-hidden="true"></i> <?= $task['project_name']?></span>
+                                    <span><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                 </p>                                                                                                                                                                                            
                               </div>
                            </div>                           
                         </div>
                      </div>
                   </div>
                </div>
+               <?php } ?>
 
                <div class="col-md-12">
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
