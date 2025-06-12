@@ -365,7 +365,7 @@ class User extends BaseController
             $order_by[0]                        = array('field' => 'status', 'type' => 'DESC');
             $order_by[1]                        = array('field' => 'name', 'type' => 'ASC');
             $data['employees']                  = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
-            $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status');
+            $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
             // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                                
             $user_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$cu_date%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.id DESC";
             $user_task_data = $this->db->query($user_task)->getResult();
@@ -1071,6 +1071,36 @@ class User extends BaseController
         $page_name                          = 'dashboard';
         echo $this->layout_after_login($title, $page_name, $data);
     }
+    public function Savetask()
+    { 
+        $added_by                = $this->session->get('user_id');
+        if($this->request->getMethod() == 'post') {  
+            $user_id     = $this->request->getPost('employee_id');
+            $task_assign_date  = $this->request->getPost('date');
+            $fhour       = str_pad($this->request->getPost('fhour'), 2, '0', STR_PAD_LEFT);
+            $fminute     = str_pad($this->request->getPost('fminute'), 2, '0', STR_PAD_LEFT);
+            $task_assign_time  = $fhour . ':' . $fminute . ':00';
+
+            $project_id  = $this->request->getPost('project_id');
+            $status      = $this->request->getPost('status');
+            $description     = $this->request->getPost('description');
+            $priority    = $this->request->getPost('priority');                                                                                
+              
+            $postData   = array(
+                'user_id'           => $user_id,
+                'project_id'        => $project_id,
+                'date_added'        => $task_assign_date,                
+                'description'  => $description,                                
+                'priority'          => $priority,     
+                'added_by'         => $added_by,         
+                );
+                pr($postData);
+                $record     = $this->data['model']->save_data('morning_meetings', $postData, '', 'id');
+            }   
+            $this->session->setFlashdata('success_message', 'Task added successfully.');
+            return redirect()->to('/admin/dashboard');     
+        }
+
     /* day-wise modal list */
     public function dayWiseListRecords()
     {

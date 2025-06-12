@@ -1225,7 +1225,7 @@
 <!-- task add modal -->
 <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
    <div class="modal-dialog">                        
-         <form action="<?= base_url('admin/save-attendance') ?>" method="POST">
+         <form action="<?= base_url('admin/save-task') ?>" method="POST">
             <div class="modal-content">
                <div class="modal-header">
                   <h5 class="modal-title">Task Schedule</h5>
