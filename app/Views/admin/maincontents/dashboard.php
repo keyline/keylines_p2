@@ -181,7 +181,7 @@
                         <div class="row">
                            <div class="col-md-12">
                               <div>                                                                                                                                                                                                       
-                                 <h6><b><i class="fa fa-tag" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                 <h6 class="mb-2"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
                                  <p><?=$task['description']?></p>
                                  <p class="card-details">
                                     <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
