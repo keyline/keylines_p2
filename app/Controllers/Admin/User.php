@@ -1095,7 +1095,7 @@ class User extends BaseController
                 'added_by'         => $added_by,         
                 );
                 // pr($postData);
-                $record     = $this->data['model']->save_data('morning_meetings', $postData, '', 'id');
+                $record     = $this->common_model->save_data('morning_meetings', $postData, '', 'id');
             }   
             $this->session->setFlashdata('success_message', 'Task added successfully.');
             return redirect()->to('/admin/dashboard');     
