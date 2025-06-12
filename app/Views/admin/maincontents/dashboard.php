@@ -180,9 +180,9 @@
                      <div class="card-header">
                         <div class="row">
                            <div class="col-md-12">
-                              <div class="card-header-left card-details">                                                                                                                                                                                                       
+                              <div>                                                                                                                                                                                                       
                                  <h6><b><?=$task['description']?></b></h6>
-                                 <p>
+                                 <p class="card-details">
                                     <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
                                     <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
                                     <span class="ms-3"><i class="fa fa-tag" aria-hidden="true"></i> <?= $task['project_name']?></span>
