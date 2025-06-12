@@ -366,11 +366,21 @@ class User extends BaseController
             $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
             $user_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$cu_date%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.id DESC";
             $user_task_data = $this->db->query($user_task)->getResult();
+            $user_task_details = [];
             foreach ($user_task_data as $task_data) {
-                
+                $assign_by = $task_data->added_by;
+                $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);
+                $user_task_details[] = [
+                    'id'            => $task_data->id,                    
+                    'user_name'     => $user_details->name,                    
+                    'project_name'  => $task_data->project_name,
+                    'pirority'      => $task_data->priority,  
+                    'description' => $task_data->description,         
+                    'created_at'    => $task_data->created_at,
+                ];
             }
-            $data['user_task_data'] = $user_task_data;
-            pr($user_task_data);
+            $data['user_task_details'] = $user_task_details;
+            pr($user_task_details);
             // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
             $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
             $users              = $this->db->query($sql11)->getResult();
