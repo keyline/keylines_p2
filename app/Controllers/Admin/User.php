@@ -366,8 +366,11 @@ class User extends BaseController
             $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
             $user_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$cu_date%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.id DESC";
             $user_task_data = $this->db->query($user_task)->getResult();
+            foreach ($user_task_data as $task_data) {
+                
+            }
             $data['user_task_data'] = $user_task_data;
-            // pr($user_task_data);
+            pr($user_task_data);
             // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
             $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
             $users              = $this->db->query($sql11)->getResult();

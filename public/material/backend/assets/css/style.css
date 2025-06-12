@@ -1759,6 +1759,10 @@ div.dt-container div.dt-layout-cell{
   .add-effort .field_wrapper{
     margin: 13px;
   }
+  .logo img {
+    width: 100%;
+    max-height: 25px;
+}
 }
 @media (max-width: 575px) {
   .info-date{
