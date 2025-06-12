@@ -174,124 +174,7 @@
                         </div>
                      </div>
                   </div>
-               </div>
-               <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
-                  <div class="modal-dialog">                        
-                        <form action="<?= base_url('admin/save-attendance') ?>" method="POST">
-                           <div class="modal-content">
-                              <div class="modal-header">
-                                 <h5 class="modal-title">Task Schedule</h5>
-                                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                              </div>
-
-                              <div class="modal-body">
-                                 <!-- Project Dropdown -->
-                                 <div class="mb-3">
-                                 <label for="project_id" class="form-label">Select Project</label>
-                                 <select name="project_id" id="project_id" class="form-select" required>
-                                    <option value="">Select Project</option>
-                                    <?php foreach ($projects as $project): ?>
-                                       <option value="<?= $project->id ?>"><?= $project->name ?></option>
-                                    <?php endforeach; ?>
-                                 </select>
-                                 </div>
-
-                                 <!-- Employee Dropdown -->
-                                 <div class="mb-3">
-                                    <label for="employee_id" class="form-label">Employee</label>
-                                    <select name="employee_id" id="employee_id" class="form-select" required>
-                                       <option value="">Select Employee</option>
-                                       <?php foreach ($employees as $emp): ?>
-                                             <option value="<?= $emp->id ?>"><?= $emp->name ?></option>
-                                       <?php endforeach; ?>
-                                    </select>
-                                 </div>
-
-                                 <!-- Status Radio -->
-                                 <div class="mb-3">
-                                 <label class="form-label">Status</label><br>
-                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="status" id="present" value="PRESENT" checked>
-                                    <label class="form-check-label" for="present">PRESENT</label>
-                                 </div>
-                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="status" id="halfday" value="HALFDAY LEAVE">
-                                    <label class="form-check-label" for="halfday">HALFDAY LEAVE</label>
-                                 </div>
-                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="status" id="fullday" value="FULLDAY LEAVE">
-                                    <label class="form-check-label" for="fullday">FULLDAY LEAVE</label>
-                                 </div>
-                                 </div>
-
-                                 <!-- Description -->
-                                 <div class="mb-3">
-                                 <label for="description" class="form-label">Description</label>
-                                 <textarea name="description" id="description" class="form-control" rows="3"></textarea>
-                                 </div>
-
-                                 <!-- Date -->
-                                    <div class="mb-3">
-                                       <label for="date" class="form-label">Date</label>
-                                       <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
-                                    </div>
-
-                                    <!-- Time -->
-                                    <div class="mb-3">
-                                       <label for="time" class="form-label">Time</label>
-                                       <input type="time" name="time" id="time" class="form-control" step="1" value="10:00:00" required>
-                                    </div>     
-
-                                 <!-- Time Fields -->
-                                 <div class="row mb-3">
-                                 <div class="col">
-                                       <label for="fhour" class="form-label">Hour</label>
-                                       <select name="fhour" id="fhour" class="form-select">
-                                          <option value="">Select Hour</option>
-                                          <?php for ($i = 0; $i <= 12; $i++): ?>
-                                          <option value="<?= $i ?>"><?= $i ?></option>
-                                          <?php endfor; ?>
-                                       </select>
-                                    </div>
-                                    <div class="col">
-                                       <label for="fminute" class="form-label">Minute</label>
-                                       <select name="fminute" id="fminute" class="form-select">
-                                          <option value="">Select Minute</option>
-                                          <?php for ($i = 0; $i <= 45; $i+= 15): ?>
-                                          <option value="<?= $i ?>"><?= $i ?></option>
-                                          <?php endfor; ?>
-                                       </select>
-                                    </div>
-                                 </div>
-
-                                 <!-- Priority -->
-                                 <div class="mb-3">
-                                 <label class="form-label me-2">Priority:</label>
-                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="priority" id="low" value="1">
-                                    <label class="form-check-label" for="low">LOW</label>
-                                 </div>
-                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="priority" id="medium" value="2" checked>
-                                    <label class="form-check-label" for="medium">MEDIUM</label>
-                                 </div>
-                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="priority" id="high" value="3">
-                                    <label class="form-check-label" for="high">HIGH</label>
-                                 </div>
-                                 </div>
-                              </div>
-
-                              <div class="modal-footer">
-                                 <button type="submit" class="btn btn-success">Save</button>
-                                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                              </div>
-                           </div>
-                        </form>
-
-                  </div>
-               </div>
-                  
+               </div>                                 
                <?php foreach($user_task_details as $task){ ?>  
                <div class="col-md-12">
                   <div class="card table-cardcard table-card shadow-sm">
@@ -1339,6 +1222,123 @@
       </div>
    </div>
 </section>
+<!-- task add modal -->
+<div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
+   <div class="modal-dialog">                        
+         <form action="<?= base_url('admin/save-attendance') ?>" method="POST">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">Task Schedule</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+               </div>
+
+               <div class="modal-body">
+                  <!-- Project Dropdown -->
+                  <div class="mb-3">
+                  <label for="project_id" class="form-label">Select Project</label>
+                  <select name="project_id" id="project_id" class="form-select" required>
+                     <option value="">Select Project</option>
+                     <?php foreach ($projects as $project): ?>
+                        <option value="<?= $project->id ?>"><?= $project->name ?></option>
+                     <?php endforeach; ?>
+                  </select>
+                  </div>
+
+                  <!-- Employee Dropdown -->
+                  <div class="mb-3">
+                     <label for="employee_id" class="form-label">Employee</label>
+                     <select name="employee_id" id="employee_id" class="form-select" required>
+                        <option value="">Select Employee</option>
+                        <?php foreach ($employees as $emp): ?>
+                              <option value="<?= $emp->id ?>"><?= $emp->name ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                  </div>
+
+                  <!-- Status Radio -->
+                  <div class="mb-3">
+                  <label class="form-label">Status</label><br>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="status" id="present" value="PRESENT" checked>
+                     <label class="form-check-label" for="present">PRESENT</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="status" id="halfday" value="HALFDAY LEAVE">
+                     <label class="form-check-label" for="halfday">HALFDAY LEAVE</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="status" id="fullday" value="FULLDAY LEAVE">
+                     <label class="form-check-label" for="fullday">FULLDAY LEAVE</label>
+                  </div>
+                  </div>
+
+                  <!-- Description -->
+                  <div class="mb-3">
+                  <label for="description" class="form-label">Description</label>
+                  <textarea name="description" id="description" class="form-control" rows="3"></textarea>
+                  </div>
+
+                  <!-- Date -->
+                     <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                     </div>
+
+                     <!-- Time -->
+                     <div class="mb-3">
+                        <label for="time" class="form-label">Time</label>
+                        <input type="time" name="time" id="time" class="form-control" step="1" value="10:00:00" required>
+                     </div>     
+
+                  <!-- Time Fields -->
+                  <div class="row mb-3">
+                  <div class="col">
+                        <label for="fhour" class="form-label">Hour</label>
+                        <select name="fhour" id="fhour" class="form-select">
+                           <option value="">Select Hour</option>
+                           <?php for ($i = 0; $i <= 8; $i++): ?>
+                           <option value="<?= $i ?>"><?= $i ?></option>
+                           <?php endfor; ?>
+                        </select>
+                     </div>
+                     <div class="col">
+                        <label for="fminute" class="form-label">Minute</label>
+                        <select name="fminute" id="fminute" class="form-select">
+                           <option value="">Select Minute</option>
+                           <?php for ($i = 0; $i <= 45; $i+= 15): ?>
+                           <option value="<?= $i ?>"><?= $i ?></option>
+                           <?php endfor; ?>
+                        </select>
+                     </div>
+                  </div>
+
+                  <!-- Priority -->
+                  <div class="mb-3">
+                  <label class="form-label me-2">Priority:</label>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="priority" id="low" value="1">
+                     <label class="form-check-label" for="low">LOW</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="priority" id="medium" value="2" checked>
+                     <label class="form-check-label" for="medium">MEDIUM</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="priority" id="high" value="3">
+                     <label class="form-check-label" for="high">HIGH</label>
+                  </div>
+                  </div>
+               </div>
+
+               <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Save</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+               </div>
+            </div>
+         </form>
+
+   </div>
+</div>
 <script>
    function dayWiseList(userId, name, date, effort_time) {
        $('#modalBody').html('');
