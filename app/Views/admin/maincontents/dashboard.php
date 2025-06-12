@@ -176,61 +176,7 @@
                   </div>
                </div>
                <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
-                  <div class="modal-dialog">
-                        <form action="<?= base_url('admin/save-attendance') ?>" method="POST">
-                           <div class="modal-content">
-                              <div class="modal-header">
-                                    <h5 class="modal-title" id="addAttendanceLabel">Add Attendance</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                              </div>
-
-                              <div class="modal-body">
-                                    <!-- Employee Dropdown -->
-                                    <div class="mb-3">
-                                       <label for="employee_id" class="form-label">Employee</label>
-                                       <select name="employee_id" id="employee_id" class="form-select" required>
-                                          <option value="">Select Employee</option>
-                                          <?php foreach ($employees as $emp): ?>
-                                                <option value="<?= $emp->id ?>"><?= $emp->name ?></option>
-                                          <?php endforeach; ?>
-                                       </select>
-                                    </div>
-
-                                    <div class="mb-3">
-                                       <label for="project_id" class="form-label">Project</label>
-                                       <select name="project_id" id="project_id" class="form-select" required>
-                                          <option value="">Select project</option>
-                                          <?php foreach ($projects as $project): ?>
-                                                <option value="<?= $project->id ?>"><?= $project->name ?></option>
-                                          <?php endforeach; ?>
-                                       </select>
-                                    </div>
-
-                                    <!-- Date -->
-                                    <div class="mb-3">
-                                       <label for="date" class="form-label">Date</label>
-                                       <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
-                                    </div>
-
-                                    <!-- Time -->
-                                    <div class="mb-3">
-                                       <label for="time" class="form-label">Time</label>
-                                       <input type="time" name="time" id="time" class="form-control" step="1" value="10:00:00" required>
-                                    </div>                        
-
-                                    <!-- Comment -->
-                                    <div class="mb-3">
-                                       <label for="comment" class="form-label">Comment</label>
-                                       <textarea name="comment" id="comment" class="form-control" rows="3"></textarea>
-                                    </div>
-                              </div>
-
-                              <div class="modal-footer">
-                                    <button type="submit" class="btn btn-primary">Save Attendance</button>
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                              </div>
-                           </div>
-                        </form>
+                  <div class="modal-dialog">                        
                         <form action="<?= base_url('admin/save-attendance') ?>" method="POST">
                            <div class="modal-content">
                               <div class="modal-header">
@@ -283,6 +229,18 @@
                                  <label for="description" class="form-label">Description</label>
                                  <textarea name="description" id="description" class="form-control" rows="3"></textarea>
                                  </div>
+
+                                 <!-- Date -->
+                                    <div class="mb-3">
+                                       <label for="date" class="form-label">Date</label>
+                                       <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                                    </div>
+
+                                    <!-- Time -->
+                                    <div class="mb-3">
+                                       <label for="time" class="form-label">Time</label>
+                                       <input type="time" name="time" id="time" class="form-control" step="1" value="10:00:00" required>
+                                    </div>     
 
                                  <!-- Time Fields -->
                                  <div class="row mb-3">
