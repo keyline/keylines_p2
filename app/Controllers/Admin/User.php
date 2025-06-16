@@ -379,12 +379,16 @@ class User extends BaseController
                 $formattedDate = $date->format('d-M-y h:i A');
                 $assign_time = new DateTime($task_data->date_added);
                 $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);
+                $work_status = $this->common_model->find_data('work_status', 'row', ['id' => $task_data->work_status_id]);
                 $user_task_details[] = [
                     'id'            => $task_data->id,                    
                     'user_name'     => $user_details->name,                    
                     'project_name'  => $task_data->project_name,
                     'priority'      => $task_data->priority,  
-                    'description' => ucfirst($task_data->description),         
+                    'description'   => ucfirst($task_data->description),
+                    'work_status_id' => $task_data->work_status_id,       
+                    'work_status_background'   => $work_status->background_color,
+                    'work_status_border'   => $work_status->border_color,
                     'created_at'    => $formattedDate,
                     'assign_at'     => $assign_time->format('d-M-y'),
                 ];

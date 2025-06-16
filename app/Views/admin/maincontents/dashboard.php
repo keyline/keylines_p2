@@ -65,7 +65,7 @@
                      <div class="card-body">
                         <h5 class="card-title">Total Employees</h5>
                         <!-- <h5 class="card-title">Total Active Users <span>| All Time</span></h5> -->
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center gap-1">
                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                               <i class="bi bi-people"></i>
                            </div>
@@ -188,10 +188,27 @@
                      </div>
                   </div>
                </div>                                 
-               <?php foreach($user_task_details as $task){ ?>  
+               <?php foreach($user_task_details as $task){ 
+                  if($task['work_status_id'] == 1) {
+                     $task_background = $task['work_status_background'];
+                     $task_border = $task['work_status_border'];
+                  } else if($task['work_status_id'] == 2) {
+                     $task_background = $task['work_status_background'];
+                     $task_border = $task['work_status_border'];
+                  } else if($task['work_status_id'] == 3) {
+                     $task_background = $task['work_status_background'];
+                     $task_border = $task['work_status_border'];
+                  } else if($task['work_status_id'] == 4) {
+                     $task_background = $task['work_status_background'];
+                     $task_border = $task['work_status_border'];
+                  } else if($task['work_status_id'] == 5) {
+                     $task_background = $task['work_status_background'];
+                     $task_border = $task['work_status_border'];
+                  } 
+                  ?>  
                <div class="col-md-12">
                   <div class="card table-cardcard table-card shadow-sm">
-                     <div class="card-header">
+                     <div class="card-header" style="background-color: <?= $task_background ?>; border: 5px solid <?= $task_border ?>;">
                         <div class="row">
                            <div class="col-md-12">
                               <div>                                                                                                                                                                                                       
@@ -1259,7 +1276,7 @@
                   <?php if ($userType == 'ADMIN' || $userType == 'SUPER ADMIN') { ?>
                   <!-- Employee Dropdown -->
                   <div class="mb-3">
-                     <label for="employee_id" class="form-label">Employee</label>
+                     <label for="employee_id" class="form-label">Select Employee</label>
                      <select name="employee_id" id="employee_id" class="form-select select2" required>
                         <option value="">Select Employee</option>
                         <?php foreach ($employees as $emp): ?>
