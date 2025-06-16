@@ -11,6 +11,14 @@
         <?= $header ?>
     </header>
     <!-- End Header -->
+     <!-- Stable Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Stable Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <!-- ======= Sidebar ======= -->
    <div class="wrapper">
         <!-- <aside id="sidebar" class="sidebar"> -->
@@ -49,15 +57,6 @@
     <!-- <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/plugins/jquery.dataTables.min.js"></script>
         <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/plugins/dataTables.bootstrap4.min.js"></script> -->
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/pages/data-basic-custom.js"></script>
-
-    <!-- Stable Select2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Stable Select2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.0/dist/umd/simple-datatables.min.js"></script>
