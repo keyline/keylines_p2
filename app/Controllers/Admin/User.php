@@ -385,6 +385,7 @@ class User extends BaseController
                     'priority'      => $task_data->priority,  
                     'description' => ucfirst($task_data->description),         
                     'created_at'    => $formattedDate,
+                    'assign_at'     => $task_data->date_added,
                 ];
             }
             $data['user_task_details'] = $user_task_details;
