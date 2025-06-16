@@ -238,7 +238,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// holiday
 
 	// mobile-application
-	$routes->match(['get'], "mobile-application", "MobileController::show");	
+	$routes->match(['get'], "mobile-application", "MobileController::show");
 	// $routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
 	// $routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
 	// $routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
@@ -259,6 +259,9 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "notifications/send/(:any)", "NotificationController::send/$1");
 	$routes->match(['get'], "notifications/list_from_app", "NotificationController::list_from_app");
 	// notifications
+
+	// screenshots settings
+	$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
 });
 /* ADMIN PANEL */
 /* API */
