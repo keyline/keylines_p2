@@ -211,7 +211,7 @@
                   ?>  
                <div class="col-md-12">
                   <div class="card table-cardcard table-card shadow-sm">
-                     <div class="card-header" style="background-color: <?= $task_background ?>; border: 5px solid <?= $task_border ?>;">
+                     <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                         <div class="row">
                            <div class="col-md-12">
                               <div>                                                                                                                                                                                                       
