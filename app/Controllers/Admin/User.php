@@ -377,7 +377,7 @@ class User extends BaseController
                 $date = new DateTime($task_date);
                 // Format the date
                 $formattedDate = $date->format('d-M-y h:i A');
-                $assign_time = $task_data->date_added;
+                $assign_time = new DateTime($task_data->date_added);
                 $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);
                 $user_task_details[] = [
                     'id'            => $task_data->id,                    
