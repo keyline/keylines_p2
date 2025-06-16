@@ -46,6 +46,29 @@
     <!-- Template Main JS File -->
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/main.js"></script>
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.min.js"></script>
+    <!-- Stable Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+<!-- jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Stable Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+<script>
+  $(document).ready(function() {
+    if ($.fn.select2) {
+      console.log("Select2 loaded successfully");
+    } else {
+      console.error("Select2 not loaded");
+    }
+
+    $('#project_id').select2({
+      placeholder: "Search...",
+      allowClear: true
+    });
+  });
+</script>
 
     <!-- <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/plugins/jquery.dataTables.min.js"></script>
         <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/plugins/dataTables.bootstrap4.min.js"></script> -->

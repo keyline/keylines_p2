@@ -1352,14 +1352,7 @@
 
    </div>
 </div>
- <!-- Stable Select2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Stable Select2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+ 
 <!-- <script>
    $(document).ready(function() {
        $('#project_id').select2({
@@ -1368,20 +1361,7 @@
        });
    });
 </script> -->
-<script>
-  $(document).ready(function() {
-    if ($.fn.select2) {
-      console.log("Select2 loaded successfully");
-    } else {
-      console.error("Select2 not loaded");
-    }
 
-    $('#project_id').select2({
-      placeholder: "Search...",
-      allowClear: true
-    });
-  });
-</script>
 <script>
    function dayWiseList(userId, name, date, effort_time) {
        $('#modalBody').html('');
