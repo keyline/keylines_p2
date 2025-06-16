@@ -3027,10 +3027,13 @@ class ApiController extends BaseController
                 $apiMessage         = 'All Data Are Not Present !!!';
             }
             if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                // pr($headerData['Key']);
+                // pr(getenv('app.PROJECTKEY'));
                 $Authorization              = $headerData['Authorization'];
                 $app_access_token           = $this->extractToken($Authorization);
                 $getTokenValue              = $this->tokenAuth($app_access_token);
                 $no_of_days                 = $requestData['no_of_days'];
+                // pr($getTokenValue);
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $getUserId = $requestData['id'];
@@ -3043,11 +3046,14 @@ class ApiController extends BaseController
                                 $loopDate                   = $last7Days[$t];
                                 $tasks                      = [];
                                 $total_time                 = 0;
+                                $total_book_time            = 0;
 
                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                                 $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];
+                                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                                // pr($getTasks);
                                 if($getTasks){
                                     foreach($getTasks as $getTask){
                                         $tothour                = $getTask->hour * 60;
@@ -3057,12 +3063,22 @@ class ApiController extends BaseController
                                         $booked_effort          = $totalMin;
                                         $total_time             += $booked_effort;
 
+                                        $bookhour                = $getTask->booked_hour * 60;
+                                        $bookmin                 = $getTask->booked_min;
+                                        $totalbookedMin               = ($bookhour + $bookmin);
+                                        // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                        $booked_time_effort          = $totalbookedMin;
+                                        $total_book_time             += $booked_time_effort;
+
                                         $work_status_id         = $getTask->work_status_id;
                                         $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
 
                                         $tasks[]            = [
                                             'project_name'          => $getTask->project_name,
                                             'description'           => $getTask->description,
+                                            'booked_description'    => $getTask->booked_description,
+                                            'booked_hour'           => $getTask->booked_hour,
+                                            'booked_min'            => $getTask->booked_min,
                                             'hour'                  => $getTask->hour,
                                             'min'                   => $getTask->min,
                                             'user_name'             => $getTask->user_name,
@@ -3071,14 +3087,16 @@ class ApiController extends BaseController
                                             'border_color'          => (($getWorkStatus)?$getWorkStatus->border_color:''),
                                             'work_status_name'      => (($getWorkStatus)?$getWorkStatus->name:''),
                                             'created_at'            => date_format(date_create($getTask->created_at), "h:i a"),
+                                            'updated_at'            => date_format(date_create($getTask->updated_at), "h:i a"),
                                         ];
                                     }
                                 }
 
                                 $apiResponse[]              = [
-                                    'task_date'       => date_format(date_create($loopDate), "M d, Y"),
-                                    'total_time'      => intdiv($total_time, 60).'.'. ($total_time % 60),
-                                    'tasks'           => $tasks
+                                    'task_date'             => date_format(date_create($loopDate), "M d, Y"),
+                                    'total_time'            => intdiv($total_time, 60).'.'. ($total_time % 60),
+                                    'total_book_time'       => intdiv($total_book_time, 60).'.'. ($total_book_time % 60),
+                                    'tasks'                 => $tasks
                                 ];
                             }
                         }
@@ -3095,7 +3113,8 @@ class ApiController extends BaseController
                         $apiExtraData       = http_response_code();
                     }
                 } else {
-                    http_response_code($getTokenValue['data'][2]);
+                    // http_response_code($getTokenValue['data'][2]);
+                    http_response_code((int) $getTokenValue['data'][2]);
                     $apiStatus                      = FALSE;
                     $apiMessage                     = $this->getResponseCode(http_response_code());
                     $apiExtraField                  = 'response_code';

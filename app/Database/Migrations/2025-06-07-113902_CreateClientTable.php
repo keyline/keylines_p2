@@ -34,7 +34,7 @@ class CreateClientTable extends Migration
                 'type'       => 'VARCHAR',
                 'constraint' => 256,
             ],
-            'company' => [
+            'compnay' => [
                 'type'       => 'VARCHAR',
                 'constraint' => 256,
             ],

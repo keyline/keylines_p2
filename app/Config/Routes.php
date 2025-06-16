@@ -58,6 +58,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "email-logs", "User::emailLogs");
 	$routes->match(['get', 'post'], "email-logs-details/(:any)", "User::emailLogsDetails/$1");
 	$routes->match(['get', 'post'], "login-logs", "User::loginLogs");
+	$routes->match(['get', 'post'], "save-task", "User::Savetask");
 	// dashboard
 	// settings
 	$routes->match(['get', 'post'], "settings", "User::settings");
@@ -221,7 +222,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// report
 	// attendance
 	$routes->match(['get', 'post'], "attendance-report", "AttendanceController::attendance");
-	$routes->match(['get', 'post'], "save-attendance", "AttendanceController::SaveAttendance");
+	$routes->match(['get', 'post'], "save-attendance", "AttendanceController::SaveAttendance");	
 	// $routes->match(['get', 'post'], "monthly-attendance-report", "AttendanceController::monthlyAttendance");
 	$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
 	$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");

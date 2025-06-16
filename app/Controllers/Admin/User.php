@@ -4,6 +4,7 @@ namespace App\Controllers\admin;
 
 use App\Controllers\BaseController;
 use App\Models\CommonModel;
+use DateTime;
 
 class User extends BaseController
 {
@@ -61,7 +62,7 @@ class User extends BaseController
                                     'activity_details'  => 'Admin Sign In Success',
                                 ];
                                 $this->common_model->save_data('user_activities', $userActivityData, '', 'activity_id');
-                                $this->session->setFlashdata('success_message', 'SignIn Success! Redirecting to dashboard !!!');
+                                // $this->session->setFlashdata('success_message', 'SignIn Success! Redirecting to dashboard !!!');
                                 return redirect()->to('/admin/dashboard');
                             }
                         } else {
@@ -361,9 +362,47 @@ class User extends BaseController
             $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
             $data['total_app_user']             = $this->db->query("SELECT COUNT(id) as user_count FROM `user` WHERE is_salarybox_user = '1'")->getRow();
             $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
-            // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                    
-            $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
-            $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
+            $order_by[0]                        = array('field' => 'status', 'type' => 'DESC');
+            $order_by[1]                        = array('field' => 'name', 'type' => 'ASC');
+            $data['employees']                  = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+            $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
+            // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                                
+            $user_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$cu_date%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
+            $user_task_data = $this->db->query($user_task)->getResult();
+            $user_task_details = [];
+            foreach ($user_task_data as $task_data) {
+                $assign_by = $task_data->added_by;
+                $task_date = $task_data->created_at;
+                // Create DateTime object
+                $date = new DateTime($task_date);
+                // Format the date
+                $formattedDate = $date->format('d-M-y h:i A');
+                $assign_time = new DateTime($task_data->date_added);
+                $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);                
+                $work_status_background = '';
+                $work_status_border = '';
+                if ($task_data->work_status_id != 0) {
+                    $work_status = $this->common_model->find_data('work_status', 'row', ['id' => $task_data->work_status_id]);
+                    if ($work_status) {
+                        $work_status_background = $work_status->background_color;
+                        $work_status_border = $work_status->border_color;
+                    }
+                }
+                $user_task_details[] = [
+                    'id'            => $task_data->id,                    
+                    'user_name'     => $user_details->name,                    
+                    'project_name'  => $task_data->project_name,
+                    'priority'      => $task_data->priority,  
+                    'description'   => ucfirst($task_data->description),
+                    'work_status_id' => $task_data->work_status_id,       
+                    'work_status_background'   => $work_status_background,
+                    'work_status_border'   => $work_status_border,
+                    'created_at'    => $formattedDate,
+                    'assign_at'     => $assign_time->format('d-M-y'),
+                ];
+            }
+            $data['user_task_details'] = $user_task_details;
+            // pr($user_task_details);
             // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
             $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
             $users              = $this->db->query($sql11)->getResult();
@@ -1046,6 +1085,43 @@ class User extends BaseController
         $page_name                          = 'dashboard';
         echo $this->layout_after_login($title, $page_name, $data);
     }
+    public function Savetask()
+    { 
+        $added_by                = $this->session->get('user_id');
+        $created_at            = date('Y-m-d H:i:s');
+        if($this->request->getMethod() == 'post') {  
+            $user_id     = $this->request->getPost('employee_id') ?? $this->session->get('user_id');
+            $department = $this->common_model->find_data('team', 'row', ['user_id' => $user_id]);
+            $department_id = $department ? $department->dep_id : 0;
+            $task_assign_date  = $this->request->getPost('date');
+            $fhour       = str_pad($this->request->getPost('fhour'), 2, '0', STR_PAD_LEFT);
+            $fminute     = str_pad($this->request->getPost('fminute'), 2, '0', STR_PAD_LEFT);
+            $task_assign_time  = $fhour . ':' . $fminute . ':00';
+
+            $project_id  = $this->request->getPost('project_id');
+            $status      = $this->request->getPost('status');
+            $description     = $this->request->getPost('description');
+            $priority    = $this->request->getPost('priority');                                                                                
+              
+            $postData   = array(
+                'user_id'           => $user_id,
+                'dept_id'           => $department_id,
+                'project_id'        => $project_id,                
+                'date_added'        => $task_assign_date,  
+                'hour'             => $fhour,
+                'min'              => $fminute,
+                'description'  => $description,                                
+                'priority'          => $priority,     
+                'added_by'         => $added_by, 
+                'created_at'         => $created_at,
+                );
+                // pr($postData);
+                $record     = $this->common_model->save_data('morning_meetings', $postData, '', 'id');
+            }   
+            $this->session->setFlashdata('success_message', 'Task added successfully.');
+            return redirect()->to('/admin/dashboard');     
+        }
+
     /* day-wise modal list */
     public function dayWiseListRecords()
     {
