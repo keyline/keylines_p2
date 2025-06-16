@@ -1248,13 +1248,13 @@
                <div class="modal-body">
                   <!-- Project Dropdown -->
                   <div class="mb-3">
-                  <label for="project_id" class="form-label">Select Project</label>
-                  <select name="project_id" id="project_id" class="form-select" required>
-                     <option value="">Select Project</option>
-                     <?php foreach ($projects as $project): ?>
-                        <option value="<?= $project->id ?>"><?= $project->name ?></option>
-                     <?php endforeach; ?>
-                  </select>
+                     <label for="project_id" class="form-label">Select Project</label>
+                     <select name="project_id" id="project_id" class="form-select select2" required>
+                        <option value="">Select Project</option>
+                        <?php foreach ($projects as $project): ?>
+                           <option value="<?= $project->id ?>"><?= $project->name ?></option>
+                        <?php endforeach; ?>
+                     </select>
                   </div>
 
                   <!-- Employee Dropdown -->
@@ -1352,6 +1352,14 @@
 
    </div>
 </div>
+<script>
+   $(document).ready(function() {
+       $('#project_id').select2({
+           placeholder: "Search...",
+           allowClear: true
+       });
+   });
+</script>
 <script>
    function dayWiseList(userId, name, date, effort_time) {
        $('#modalBody').html('');
