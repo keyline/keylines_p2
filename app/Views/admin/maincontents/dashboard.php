@@ -1260,7 +1260,7 @@
                   <!-- Employee Dropdown -->
                   <div class="mb-3">
                      <label for="employee_id" class="form-label">Employee</label>
-                     <select name="employee_id" id="employee_id" class="form-select" required>
+                     <select name="employee_id" id="employee_id" class="form-select select2" required>
                         <option value="">Select Employee</option>
                         <?php foreach ($employees as $emp): ?>
                               <option value="<?= $emp->id ?>"><?= $emp->name ?></option>

@@ -69,6 +69,11 @@
             allowClear: true,
             dropdownParent: $('#addAttendanceModal')
         });
+        $('#employee_id').select2({
+            placeholder: "Search...",
+            allowClear: true,
+            dropdownParent: $('#addAttendanceModal')
+        });
     });
   });
 </script>
