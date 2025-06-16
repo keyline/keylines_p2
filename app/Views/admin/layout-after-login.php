@@ -63,9 +63,12 @@
       console.error("Select2 not loaded");
     }
 
-    $('#project_id').select2({
-      placeholder: "Search...",
-      allowClear: true
+    $('#addAttendanceModal').on('shown.bs.modal', function () {
+        $('#project_id').select2({
+            placeholder: "Search...",
+            allowClear: true,
+            dropdownParent: $('#addAttendanceModal')
+        });
     });
   });
 </script>
