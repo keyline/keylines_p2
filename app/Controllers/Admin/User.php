@@ -62,7 +62,7 @@ class User extends BaseController
                                     'activity_details'  => 'Admin Sign In Success',
                                 ];
                                 $this->common_model->save_data('user_activities', $userActivityData, '', 'activity_id');
-                                $this->session->setFlashdata('success_message', 'SignIn Success! Redirecting to dashboard !!!');
+                                // $this->session->setFlashdata('success_message', 'SignIn Success! Redirecting to dashboard !!!');
                                 return redirect()->to('/admin/dashboard');
                             }
                         } else {
