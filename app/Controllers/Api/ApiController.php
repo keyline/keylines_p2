@@ -3033,7 +3033,7 @@ class ApiController extends BaseController
                 $app_access_token           = $this->extractToken($Authorization);
                 $getTokenValue              = $this->tokenAuth($app_access_token);
                 $no_of_days                 = $requestData['no_of_days'];
-                pr($getTokenValue);
+                // pr($getTokenValue);
                 if($getTokenValue['status']){
                     $uId        = $getTokenValue['data'][1];
                     $getUserId = $requestData['id'];
