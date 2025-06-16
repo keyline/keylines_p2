@@ -1352,13 +1352,27 @@
 
    </div>
 </div>
-<script>
+<!-- <script>
    $(document).ready(function() {
        $('#project_id').select2({
            placeholder: "Search...",
            allowClear: true
        });
    });
+</script> -->
+<script>
+  $(document).ready(function() {
+    if ($.fn.select2) {
+      console.log("Select2 loaded successfully");
+    } else {
+      console.error("Select2 not loaded");
+    }
+
+    $('#project_id').select2({
+      placeholder: "Search...",
+      allowClear: true
+    });
+  });
 </script>
 <script>
    function dayWiseList(userId, name, date, effort_time) {
