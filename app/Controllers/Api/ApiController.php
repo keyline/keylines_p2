@@ -3100,7 +3100,8 @@ class ApiController extends BaseController
                         $apiExtraData       = http_response_code();
                     }
                 } else {
-                    http_response_code($getTokenValue['data'][2]);
+                    // http_response_code($getTokenValue['data'][2]);
+                    http_response_code((int) $getTokenValue['data'][2]);
                     $apiStatus                      = FALSE;
                     $apiMessage                     = $this->getResponseCode(http_response_code());
                     $apiExtraField                  = 'response_code';
