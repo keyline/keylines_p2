@@ -3027,6 +3027,8 @@ class ApiController extends BaseController
                 $apiMessage         = 'All Data Are Not Present !!!';
             }
             if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                pr($headerData['Key']);
+                pr(getenv('app.PROJECTKEY'));
                 $Authorization              = $headerData['Authorization'];
                 $app_access_token           = $this->extractToken($Authorization);
                 $getTokenValue              = $this->tokenAuth($app_access_token);
