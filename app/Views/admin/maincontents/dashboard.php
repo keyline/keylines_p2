@@ -1256,7 +1256,7 @@
                         <?php endforeach; ?>
                      </select>
                   </div>
-                  <?php if ($userType == 'ADMIN' && $userType == 'SUPER ADMIN') { ?>
+                  <?php if ($userType == 'ADMIN' || $userType == 'SUPER ADMIN') { ?>
                   <!-- Employee Dropdown -->
                   <div class="mb-3">
                      <label for="employee_id" class="form-label">Employee</label>
