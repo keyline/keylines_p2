@@ -1256,7 +1256,7 @@
                         <?php endforeach; ?>
                      </select>
                   </div>
-
+                  <?php if ($userType == 'ADMIN' && $userType == 'SUPER ADMIN') { ?>
                   <!-- Employee Dropdown -->
                   <div class="mb-3">
                      <label for="employee_id" class="form-label">Employee</label>
@@ -1267,6 +1267,7 @@
                         <?php endforeach; ?>
                      </select>
                   </div>
+                  <?php } ?>
 
                   <!-- Status Radio -->
                   <div class="mb-3">

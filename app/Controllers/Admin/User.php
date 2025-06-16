@@ -1078,7 +1078,7 @@ class User extends BaseController
         $added_by                = $this->session->get('user_id');
         $created_at            = date('Y-m-d H:i:s');
         if($this->request->getMethod() == 'post') {  
-            $user_id     = $this->request->getPost('employee_id');
+            $user_id     = $this->request->getPost('employee_id') ?? $this->session->get('user_id');
             $department = $this->common_model->find_data('team', 'row', ['user_id' => $user_id]);
             $department_id = $department ? $department->dep_id : 0;
             $task_assign_date  = $this->request->getPost('date');
