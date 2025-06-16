@@ -32,14 +32,6 @@
 <link href="<?=getenv('app.adminAssetsURL')?>assets/css/local-admin.css" rel="stylesheet">
 <link href="<?=getenv('app.adminAssetsURL')?>assets/css/toastr.css" rel="stylesheet"/>
 
-<!-- Stable Select2 CSS -->
-<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
-
-<!-- jQuery -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-<!-- Stable Select2 JS -->
-<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
 
 
 
