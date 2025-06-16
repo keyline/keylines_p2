@@ -204,7 +204,10 @@
                   } else if($task['work_status_id'] == 5) {
                      $task_background = $task['work_status_background'];
                      $task_border = $task['work_status_border'];
-                  } 
+                  } else{
+                     $task_background = '';
+                     $task_border = '';
+                  }
                   ?>  
                <div class="col-md-12">
                   <div class="card table-cardcard table-card shadow-sm">
