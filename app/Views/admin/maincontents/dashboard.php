@@ -1298,10 +1298,10 @@
                      </div>
 
                      <!-- Time -->
-                     <div class="mb-3">
+                     <!-- <div class="mb-3">
                         <label for="time" class="form-label">Time</label>
                         <input type="time" name="time" id="time" class="form-control" step="1" value="10:00:00" required>
-                     </div>     
+                     </div>      -->
 
                   <!-- Time Fields -->
                   <div class="row mb-3">

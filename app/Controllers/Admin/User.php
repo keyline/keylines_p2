@@ -1076,6 +1076,7 @@ class User extends BaseController
     public function Savetask()
     { 
         $added_by                = $this->session->get('user_id');
+        $created_at            = date('Y-m-d H:i:s');
         if($this->request->getMethod() == 'post') {  
             $user_id     = $this->request->getPost('employee_id');
             $department = $this->common_model->find_data('team', 'row', ['user_id' => $user_id]);
@@ -1099,7 +1100,8 @@ class User extends BaseController
                 'min'              => $fminute,
                 'description'  => $description,                                
                 'priority'          => $priority,     
-                'added_by'         => $added_by,         
+                'added_by'         => $added_by, 
+                'created_at'         => $created_at,
                 );
                 // pr($postData);
                 $record     = $this->common_model->save_data('morning_meetings', $postData, '', 'id');
