@@ -378,8 +378,16 @@ class User extends BaseController
                 // Format the date
                 $formattedDate = $date->format('d-M-y h:i A');
                 $assign_time = new DateTime($task_data->date_added);
-                $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);
-                $work_status = $this->common_model->find_data('work_status', 'row', ['id' => $task_data->work_status_id]);
+                $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);                
+                $work_status_background = '';
+                $work_status_border = '';
+                if ($task_data->work_status_id != 0) {
+                    $work_status = $this->common_model->find_data('work_status', 'row', ['id' => $task_data->work_status_id]);
+                    if ($work_status) {
+                        $work_status_background = $work_status->background_color;
+                        $work_status_border = $work_status->border_color;
+                    }
+                }
                 $user_task_details[] = [
                     'id'            => $task_data->id,                    
                     'user_name'     => $user_details->name,                    
@@ -387,8 +395,8 @@ class User extends BaseController
                     'priority'      => $task_data->priority,  
                     'description'   => ucfirst($task_data->description),
                     'work_status_id' => $task_data->work_status_id,       
-                    'work_status_background'   => $work_status->background_color,
-                    'work_status_border'   => $work_status->border_color,
+                    'work_status_background'   => $work_status_background,
+                    'work_status_border'   => $work_status_border,
                     'created_at'    => $formattedDate,
                     'assign_at'     => $assign_time->format('d-M-y'),
                 ];
