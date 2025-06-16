@@ -3046,6 +3046,7 @@ class ApiController extends BaseController
                                 $loopDate                   = $last7Days[$t];
                                 $tasks                      = [];
                                 $total_time                 = 0;
+                                $total_book_time            = 0;
 
                                 $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                                 $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
@@ -3061,6 +3062,13 @@ class ApiController extends BaseController
                                         // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
                                         $booked_effort          = $totalMin;
                                         $total_time             += $booked_effort;
+
+                                        $bookhour                = $getTask->booked_hour * 60;
+                                        $bookmin                 = $getTask->booked_min;
+                                        $totalbookedMin               = ($bookhour + $bookmin);
+                                        // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                        $booked_time_effort          = $totalbookedMin;
+                                        $total_book_time             += $booked_time_effort;
 
                                         $work_status_id         = $getTask->work_status_id;
                                         $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
@@ -3084,9 +3092,10 @@ class ApiController extends BaseController
                                 }
 
                                 $apiResponse[]              = [
-                                    'task_date'       => date_format(date_create($loopDate), "M d, Y"),
-                                    'total_time'      => intdiv($total_time, 60).'.'. ($total_time % 60),
-                                    'tasks'           => $tasks
+                                    'task_date'             => date_format(date_create($loopDate), "M d, Y"),
+                                    'total_time'            => intdiv($total_time, 60).'.'. ($total_time % 60),
+                                    'total_book_time'       => intdiv($total_book_time, 60).'.'. ($total_book_time % 60),
+                                    'tasks'                 => $tasks
                                 ];
                             }
                         }
