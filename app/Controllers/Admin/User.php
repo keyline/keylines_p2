@@ -377,6 +377,7 @@ class User extends BaseController
                 $date = new DateTime($task_date);
                 // Format the date
                 $formattedDate = $date->format('d-M-y h:i A');
+                $assign_time = $task_data->assign_time;
                 $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);
                 $user_task_details[] = [
                     'id'            => $task_data->id,                    
@@ -385,7 +386,7 @@ class User extends BaseController
                     'priority'      => $task_data->priority,  
                     'description' => ucfirst($task_data->description),         
                     'created_at'    => $formattedDate,
-                    'assign_at'     => $task_data->date_added,
+                    'assign_at'     => $assign_time->format('d-M-y'),
                 ];
             }
             $data['user_task_details'] = $user_task_details;
