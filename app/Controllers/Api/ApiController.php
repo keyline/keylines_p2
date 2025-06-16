@@ -3087,6 +3087,7 @@ class ApiController extends BaseController
                                             'border_color'          => (($getWorkStatus)?$getWorkStatus->border_color:''),
                                             'work_status_name'      => (($getWorkStatus)?$getWorkStatus->name:''),
                                             'created_at'            => date_format(date_create($getTask->created_at), "h:i a"),
+                                            'updated_at'            => date_format(date_create($getTask->updated_at), "h:i a"),
                                         ];
                                     }
                                 }
