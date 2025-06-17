@@ -1311,11 +1311,15 @@
                   <label for="description" class="form-label">Description</label>
                   <textarea name="description" id="description" class="form-control" rows="3"></textarea>
                   </div>
-
+                  
+                  <?php
+                     $today = date('Y-m-d');
+                     $maxDate = date('Y-m-d', strtotime('+1 month'));
+                  ?>
                   <!-- Date -->
                      <div class="mb-3">
                         <label for="date" class="form-label">Date</label>
-                        <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                        <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" min="<?= $today ?>" max="<?= $maxDate ?>" required>
                      </div>
 
                      <!-- Time -->
