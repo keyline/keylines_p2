@@ -1099,6 +1099,7 @@ class User extends BaseController
             $task_assign_time   = $fhour . ':' . $fminute . ':00';
 
             $project_id         = $this->request->getPost('project_id');
+            $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
             $project_status     = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);  
             $is_leave             = $this->request->getPost('status');
             $description        = $this->request->getPost('description');
