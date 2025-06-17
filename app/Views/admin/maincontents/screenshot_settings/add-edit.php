@@ -51,19 +51,19 @@ $controller_route   = $moduleDetail['controller_route'];
                         <div class="row mb-3">
                             <label for="title" class="col-md-2 col-lg-2 col-form-label">Screenshot Resolution</label>
                             <div class="col-md-10 col-lg-10">
-                                <input type="text" class="form-control" name="screenshot_resolution" value="<?= $screenshot_resolution ?>" required>
+                                <input type="text" class="form-control" name="screenshot_resolution" value="<?= $screenshot_resolution ?>" required placeholder="e.g. 1920x1080">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="description" class="col-md-2 col-lg-2 col-form-label">Idle Time</label>
                             <div class="col-md-10 col-lg-10">
-                                <input type="text" class="form-control" name="idle_time" value="<?= $idle_time ?>" required>
+                                <input type="text" class="form-control" name="idle_time" value="<?= $idle_time ?>" required placeholder="e.g. 300 (in seconds)">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="title" class="col-md-2 col-lg-2 col-form-label">Screenshot time</label>
                             <div class="col-md-10 col-lg-10">
-                                <input type="text" class="form-control" name="screenshot_time" value="<?= $screenshot_time ?>" required>
+                                <input type="text" class="form-control" name="screenshot_time" value="<?= $screenshot_time ?>" required placeholder="e.g. 60 (in seconds)">
                             </div>
                         </div>
                         <div class="text-center">
@@ -75,5 +75,3 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
-<script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

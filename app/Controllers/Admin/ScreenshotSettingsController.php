@@ -30,33 +30,40 @@ class ScreenshotSettingsController extends BaseController
 
     public function index()
     {
-       
         $id                         = 1;
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Edit';
         $title                      = $data['action'] . ' ' . $this->data['title'];
-        $page_name                  = 'notification_settings/add-edit';
+        $page_name                  = 'screenshot_settings/add-edit';
         $conditions                 = array($this->data['primary_key'] => $id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
-      
+
         if ($this->request->getMethod() == 'post') {
-            $users      = [];
-            $user_type  = $this->request->getPost('user_type');
-            $getUsers   = $this->common_model->find_data('ecomm_users', 'array', ['status!=' => 3, 'type' => $user_type], 'id');
-            if ($getUsers) {
-                foreach ($getUsers as $getUser) {
-                    $users[]      = $getUser->id;
-                }
+
+            //  rules for form-data validation
+            $rules = [
+                'screenshot_resolution' => 'required|max_length[255]|regex_match[/^\d{2,5}x\d{2,5}$/]',
+                'idle_time'             => 'required|is_natural_no_zero',
+                'screenshot_time'       => 'required|is_natural_no_zero', // assuming it's a time interval in seconds
+            ];
+
+            if (! $this->validate($rules)) {
+                $errors = $this->validator->getErrors();
+                $errorMessage =  implode(', ', $errors);
+                $this->session->setFlashdata('error_message', $errorMessage);
+
+                return redirect()->to('/admin/' . $this->data['controller_route']);
             }
+
             $postData   = array(
-                'title'             => $this->request->getPost('title'),
-                'description'       => $this->request->getPost('description'),
-                'user_type'         => $user_type,
-                'users'             => json_encode($users),
+                'screenshot_resolution'             => $this->request->getPost('screenshot_resolution'),
+                'idle_time'       => $this->request->getPost('idle_time'),
+                'screenshot_time'       => $this->request->getPost('screenshot_time')
             );
+
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'] . ' updated successfully');
-            return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
+            return redirect()->to('/admin/' . $this->data['controller_route']);
         }
         echo $this->layout_after_login($title, $page_name, $data);
     }
