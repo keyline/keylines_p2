@@ -1486,6 +1486,7 @@
             $('#project_id').val('');
             $('#fhour').val('');
             $('#fminute').val('');
+            $('#date').val(date);
         } else if(selectedValue == 2){
             var description = 'Full Day Leave Taken';
             $('#description').val(description);
@@ -1503,6 +1504,7 @@
             $('#project_id').val('');
             $('#fhour').val('');
             $('#fminute').val('');
+            $('#date').val(date);
         }
     }
 </script>
