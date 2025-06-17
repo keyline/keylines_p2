@@ -3001,8 +3001,8 @@ class ApiController extends BaseController
                         $is_leave                  = $requestData['is_leave'];
                         $description               = $requestData['description'];
                         $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
-                        $hour                      = str_pad($requestData['hour'], 2, '0', STR_PAD_LEFT);
-                        $min                       = str_pad($requestData['min'], 2, '0', STR_PAD_LEFT);
+                        $hour                      = $requestData['hour'];
+                        $min                       = $requestData['min'];
                         $priority                  = $requestData['priority'];
                         $created_at                = date('Y-m-d H:i:s');
 
