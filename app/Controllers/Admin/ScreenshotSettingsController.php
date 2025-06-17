@@ -67,4 +67,20 @@ class ScreenshotSettingsController extends BaseController
         }
         echo $this->layout_after_login($title, $page_name, $data);
     }
+
+
+
+    public function screenshotList($userId)
+    {
+        $id                         = decoded($userId);
+        pr($id);
+        $data['moduleDetail']       = $this->data;
+        $data['action']             = 'Screenshot List';
+        $title                      = $data['action'];
+        $page_name                  = 'screenshot_settings/user_screen_list';
+      
+        // $data['row']                = $this->data['model']->find_data('', 'row', $conditions);
+
+        // echo $this->layout_after_login($title, $page_name, $data);
+    }
 }

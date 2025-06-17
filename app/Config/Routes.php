@@ -262,6 +262,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 
 	// screenshots settings
 	$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
+	$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
 });
 /* ADMIN PANEL */
 /* API */
