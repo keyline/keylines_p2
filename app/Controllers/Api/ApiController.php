@@ -1735,7 +1735,7 @@ class ApiController extends BaseController
                 $apiExtraData       = http_response_code();
             }
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
+        }        
         public function markAttendance()
         {
             $apiStatus          = TRUE;
@@ -2892,6 +2892,85 @@ class ApiController extends BaseController
                         }
                         $apiStatus          = TRUE;
                         http_response_code(200);
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(404);
+                        $apiMessage         = 'User Not Found !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    http_response_code($getTokenValue['data'][2]);
+                    $apiStatus                      = FALSE;
+                    $apiMessage                     = $this->getResponseCode(http_response_code());
+                    $apiExtraField                  = 'response_code';
+                    $apiExtraData                   = http_response_code();
+                }               
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+        public function getProject()
+        {
+            $apiStatus          = TRUE;
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $headerData         = $this->request->headers();
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $Authorization              = $headerData['Authorization'];
+                $app_access_token           = $this->extractToken($Authorization);
+                $getTokenValue              = $this->tokenAuth($app_access_token);
+                if($getTokenValue['status']){
+                    $uId        = $getTokenValue['data'][1];
+                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
+                    if($getEmployees){                        
+                        foreach($getEmployees as $getEmployee){
+                            $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
+                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status', '', '', $orderBy);
+                            $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
+                            $punchout = ($punch_time) ? DateTime::createFromFormat('H:i:s', $punch_time->punch_out_time) : false;
+                            $apiResponse[]        = [
+                                'id'              => $getEmployee->id,
+                                'name'            => $getEmployee->name,
+                                'email'           => $getEmployee->email,
+                                'phone'           => $getEmployee->phone1,
+                                'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
+                                'department'      => (($department)?$department->deprt_name:''),
+                                'punch_in_time'   => (($punch_time)? date('h:i a', strtotime($punch_time->punch_in_time)) :''),
+                                'punch_out_time'  => (($punchout) ? $punchout->format('g:i a') : ''),
+                                'punch_status'    => (($punch_time)? (int)$punch_time->status:0),
+                            ];
+                        }   
+                        // // Sort the array by punch_in_time DESC (latest first)
+                        // usort($apiResponse, function ($a, $b) {
+                        //     // return strtotime($b['punch_in_time']) - strtotime($a['punch_in_time']); //latest first 
+                        //     return strtotime($a['punch_in_time']) - strtotime($b['punch_in_time']); // oldest first
+                        // });   
+                        usort($apiResponse, function ($a, $b) {
+                            $a_time = strtotime($a['punch_in_time']);
+                            $b_time = strtotime($b['punch_in_time']);
+
+                            // Handle missing punch_in_time: move to bottom
+                            if (empty($a['punch_in_time'])) return 1;
+                            if (empty($b['punch_in_time'])) return -1;
+
+                            // Sort by punch_in_time ascending (oldest first)
+                            return $a_time - $b_time;
+
+                            // Or for descending (latest first), use:
+                            // return $b_time - $a_time;
+                        });                 
+                        $apiStatus          = TRUE;
+                        http_response_code(200);
+                        $apiMessage         = 'Data Available !!!';
                         $apiExtraField      = 'response_code';
                         $apiExtraData       = http_response_code();
                     } else {
