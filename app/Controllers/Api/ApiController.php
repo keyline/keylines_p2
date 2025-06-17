@@ -2928,46 +2928,19 @@ class ApiController extends BaseController
                 $app_access_token           = $this->extractToken($Authorization);
                 $getTokenValue              = $this->tokenAuth($app_access_token);
                 if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
-                    if($getEmployees){                        
-                        foreach($getEmployees as $getEmployee){
-                            $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status', '', '', $orderBy);
-                            $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
-                            $punchout = ($punch_time) ? DateTime::createFromFormat('H:i:s', $punch_time->punch_out_time) : false;
+                    $uId            = $getTokenValue['data'][1];
+                    $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                    $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
+                    $getProjects    = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
+                    if($getProjects){                        
+                        foreach($getProjects as $getProject){                            
+                            $project_status = $this->common_model->find_data('project_status', 'row', ['id' => $getProject->status]);                            
                             $apiResponse[]        = [
-                                'id'              => $getEmployee->id,
-                                'name'            => $getEmployee->name,
-                                'email'           => $getEmployee->email,
-                                'phone'           => $getEmployee->phone1,
-                                'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
-                                'department'      => (($department)?$department->deprt_name:''),
-                                'punch_in_time'   => (($punch_time)? date('h:i a', strtotime($punch_time->punch_in_time)) :''),
-                                'punch_out_time'  => (($punchout) ? $punchout->format('g:i a') : ''),
-                                'punch_status'    => (($punch_time)? (int)$punch_time->status:0),
+                                'id'              => $getProject->id,
+                                'name'            => $getProject->name,
+                                'status'           => $project_status->name,                                
                             ];
-                        }   
-                        // // Sort the array by punch_in_time DESC (latest first)
-                        // usort($apiResponse, function ($a, $b) {
-                        //     // return strtotime($b['punch_in_time']) - strtotime($a['punch_in_time']); //latest first 
-                        //     return strtotime($a['punch_in_time']) - strtotime($b['punch_in_time']); // oldest first
-                        // });   
-                        usort($apiResponse, function ($a, $b) {
-                            $a_time = strtotime($a['punch_in_time']);
-                            $b_time = strtotime($b['punch_in_time']);
-
-                            // Handle missing punch_in_time: move to bottom
-                            if (empty($a['punch_in_time'])) return 1;
-                            if (empty($b['punch_in_time'])) return -1;
-
-                            // Sort by punch_in_time ascending (oldest first)
-                            return $a_time - $b_time;
-
-                            // Or for descending (latest first), use:
-                            // return $b_time - $a_time;
-                        });                 
+                        }                           
                         $apiStatus          = TRUE;
                         http_response_code(200);
                         $apiMessage         = 'Data Available !!!';
