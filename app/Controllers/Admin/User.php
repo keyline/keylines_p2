@@ -1100,6 +1100,7 @@ class User extends BaseController
 
             $project_id         = $this->request->getPost('project_id');
             $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+            pr($project);
             $project_status     = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);  
             $is_leave             = $this->request->getPost('status');
             $description        = $this->request->getPost('description');
