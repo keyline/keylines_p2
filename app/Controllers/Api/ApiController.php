@@ -2938,7 +2938,7 @@ class ApiController extends BaseController
                             $apiResponse[]        = [
                                 'id'              => $getProject->id,
                                 'name'            => $getProject->name,
-                                'status'           => $project_status->name,                                
+                                'type'           => $project_status->name,                                
                             ];
                         }                           
                         $apiStatus          = TRUE;
