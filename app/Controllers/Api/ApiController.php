@@ -497,8 +497,9 @@ class ApiController extends BaseController
                 $name       = $checkUser->name;
                 # this code commented for by @Shubha75 
                 // $message    = "Dear ".$name.", ".$mobile_otp." is your verification OTP for ProTime Manager at KEYLINE. Do not share this OTP with anyone for security reasons.";
-              # new code by @Shubha75
-                $message    = "Dear " . $name . ", " . $mobile_otp . " is your verification OTP for registration at KEYLINE";
+                # new code by @Shubha75
+                
+                $message    = "Dear $name, $mobile_otp is you verification OTP for registration at KEYLINE";
                 $mobileNo   = (($checkUser) ? $checkUser->phone1 : '');
                 $this->sendSMS($mobileNo, $message);
                 /* send sms */
