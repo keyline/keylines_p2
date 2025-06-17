@@ -2976,7 +2976,7 @@ class ApiController extends BaseController
             $apiResponse        = [];
             $this->isJSON(file_get_contents('php://input'));
             $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['project_id', 'user_id', 'is_leave', 'date_added' , 'hour', 'min', 'priority'];
+            $requiredFields     = ['project_id', 'user_id', 'is_leave', 'description', 'date_added' , 'hour', 'min', 'priority'];
             $headerData         = $this->request->headers();
             if (!$this->validateArray($requiredFields, $requestData)){
                 $apiStatus          = FALSE;
@@ -2990,15 +2990,84 @@ class ApiController extends BaseController
                     $uId        = $getTokenValue['data'][1];
                     $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                     $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                $apiResponse[]              = [                           
-                            'tasks'           => $requestData
+                    
+                    if($getUser){
+                        $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
+                        $project_id                = $requestData['project_id'];
+                        $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+                        $project_status            = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);                        
+                        $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
+                        $department_id             = $department ? $department->dep_id : 0;
+                        $is_leave                  = $requestData['is_leave'];
+                        $description               = $requestData['description'];
+                        $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
+                        $hour                      = str_pad($requestData['hour'], 2, '0', STR_PAD_LEFT);
+                        $min                       = str_pad($requestData['min'], 2, '0', STR_PAD_LEFT);
+                        $priority                  = $requestData['priority'];
+                        $created_at                = date('Y-m-d H:i:s');
+
+                        if($is_leave == 1){                            
+                            $postData            = [
+                                'project_id'        => 0,
+                                'status_id'         => 0,
+                                'user_id'           => $user_id,
+                                'dept_id'           => $department_id,
+                                'description'       => "Half Day Leave Taken",
+                                'date_added'        => $date_added,
+                                'added_by'          => $uId,
+                                'hour'              => 0,
+                                'min'               => 0,
+                                'bill'              => 1,
+                                'work_status_id'    => 6,
+                                'priority'          => $priority,                                                                
+                                'next_day_task_action' => 1,
+                                'is_leave'          => 1,
+                                'created_at'        => $created_at
+                            ];                            
+                        } else if($is_leave == 2){                            
+                            $postData            = [
+                                'project_id'        => 0,
+                                'status_id'         => 0,
+                                'user_id'           => $user_id,
+                                'dept_id'           => $department_id,
+                                'description'       => "Full Day Leave Taken",
+                                'date_added'        => $date_added,
+                                'added_by'          => $uId,
+                                'hour'              => 0,
+                                'min'               => 0,
+                                'bill'              => 1,
+                                'work_status_id'    => 6,
+                                'priority'          => $priority,                                                                
+                                'next_day_task_action' => 1,
+                                'is_leave'          => 2,
+                                'created_at'        => $created_at
+                            ];
+                        } else {
+                            $postData            = [
+                                'project_id'        => $project_id,
+                                'status_id'         => $project_status->id,
+                                'user_id'           => $user_id,
+                                'dept_id'           => $department_id,
+                                'description'       => $description,
+                                'date_added'        => $date_added,
+                                'added_by'          => $uId,
+                                'hour'              => $hour,
+                                'min'               => $min,
+                                'bill'              => 0,                                
+                                'priority'          => $priority,                                                                                                                                
+                                'created_at'        => $created_at
+                            ];
+                        }  
+                        $this->common_model->save_data('morning_meetings', $postData, '', 'id');
+                        $apiResponse[]              = [                           
+                            'tasks'           => $postData
                         ];
                         $apiStatus          = TRUE;
                         http_response_code(200);
                         $apiMessage         = 'Data Available !!!';
                         $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    
+                        $apiExtraData       = http_response_code();                                                                 
+                    }                                    
                 } else {
                     http_response_code($getTokenValue['data'][2]);
                     $apiStatus                      = FALSE;
