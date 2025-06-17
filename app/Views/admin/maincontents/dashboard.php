@@ -1473,13 +1473,14 @@
             var description = 'Half Day Leave Taken';
             $('#description').val(description);
             $('#project_id').attr('required', false);
-            $('#hour').attr('required', false);
-            $('#min').attr('required', false);
+            $('#fhour').attr('required', false);
+            $('#fminute').attr('required', false);            
             $('input[name="priority"]').attr('required', false);
 
             $('#project_id').attr('disabled', true);
             $('#fhour').attr('disabled', true);
             $('#fminute').attr('disabled', true);
+            $('#date').attr('disabled', true);
             $('input[name="priority"]').attr('disabled', true);
 
             $('#project_id').val('');
@@ -1496,6 +1497,7 @@
             $('#project_id').attr('disabled', true);
             $('#fhour').attr('disabled', true);
             $('#fminute').attr('disabled', true);
+            $('#date').attr('disabled', true);
             $('input[name="priority"]').attr('disabled', true);
 
             $('#project_id').val('');
