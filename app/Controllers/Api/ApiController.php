@@ -3356,7 +3356,7 @@ class ApiController extends BaseController
                             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
                             $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];
-                            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, morning_meetings.date_added, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
                             // pr($getTasks);
                             if ($getTasks) {
                                 foreach ($getTasks as $getTask) {
@@ -3395,6 +3395,7 @@ class ApiController extends BaseController
                                         'background_color'      => (($getWorkStatus) ? $getWorkStatus->background_color : ''),
                                         'border_color'          => (($getWorkStatus) ? $getWorkStatus->border_color : ''),
                                         'work_status_name'      => (($getWorkStatus) ? $getWorkStatus->name : ''),
+                                        'added_by'              => $getTask->added_by,
                                         'created_at'            => date_format(date_create($getTask->created_at), "M d, Y h:i a"),
                                         'updated_at'            => date_format(date_create($getTask->updated_at), "M d, Y h:i a"),
                                     ];
