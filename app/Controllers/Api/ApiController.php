@@ -3007,8 +3007,13 @@ class ApiController extends BaseController
                 if ($getUser) {
                     $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
                     $project_id                = $requestData['project_id'];
-                    $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
-                    $project_status            = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);
+                    if ($project_id != 0) {
+                        $project = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+                        $project_status            = $project->status;
+                    } else {
+                        $project = 0;
+                        $project_status = 0;
+                    }                                        
                     $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
                     $department_id             = $department ? $department->dep_id : 0;
                     $is_leave                  = $requestData['is_leave'];
@@ -3058,7 +3063,7 @@ class ApiController extends BaseController
                     } else {
                         $postData            = [
                             'project_id'        => $project_id,
-                            'status_id'         => $project_status->id,
+                            'status_id'         => $project_status,
                             'user_id'           => $user_id,
                             'dept_id'           => $department_id,
                             'description'       => $description,
@@ -3370,6 +3375,7 @@ class ApiController extends BaseController
                                     $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
 
                                     $tasks[]            = [
+                                        'task_id'               => $getTask->schedule_id,
                                         'project_id'            => $getTask->project_id,
                                         'project_name'          => $getTask->project_name,
                                         'description'           => $getTask->description,
