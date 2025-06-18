@@ -308,6 +308,7 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
 	$routes->match(['post'], "update-note", "ApiController::updateNote");
 	$routes->match(['get'], "get-project", "ApiController::getProject");
 	$routes->match(['post'], "add-task", "ApiController::addTask");
+	$routes->match(['post'], "edit-task", "ApiController::editTask");
 	$routes->match(['post'], "get-tasks", "ApiController::getTasks");
 	$routes->match(['post'], "get-tasks-new", "ApiController::getTasksNew");
 	// after login
