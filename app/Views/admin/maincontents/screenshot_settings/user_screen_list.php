@@ -1,8 +1,11 @@
-<?php
-$title              = $moduleDetail['title'];
-$primary_key        = $moduleDetail['primary_key'];
-$controller_route   = $moduleDetail['controller_route'];
-?>
+<!-- lightbox CSS -->
+<link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
+<style>
+    .row {
+        margin: 15px;
+    }
+</style>
+
 <div class="pagetitle">
     <h1><?= $page_header ?></h1>
     <nav>
@@ -30,48 +33,65 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             <?php } ?>
         </div>
-        <?php
-        if ($row) {
-            $id                   = $row->id;
-            $idle_time            = $row->idle_time;
-            $screenshot_resolution = $row->screenshot_resolution;
-            $screenshot_time      = $row->screenshot_time;
-        } else {
-            $id                   = '';
-            $idle_time            = '';
-            $screenshot_resolution = '';
-            $screenshot_time      = '';
-        }
-        ?>
+
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
-                    <form method="POST" action="" enctype="multipart/form-data">
 
-                        <div class="row mb-3">
-                            <label for="title" class="col-md-2 col-lg-2 col-form-label">Screenshot Resolution</label>
-                            <div class="col-md-10 col-lg-10">
-                                <input type="text" class="form-control" name="screenshot_resolution" value="<?= $screenshot_resolution ?>" required placeholder="e.g. 1920x1080">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="description" class="col-md-2 col-lg-2 col-form-label">Idle Time</label>
-                            <div class="col-md-10 col-lg-10">
-                                <input type="text" class="form-control" name="idle_time" value="<?= $idle_time ?>" required placeholder="e.g. 300 (in seconds)">
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="title" class="col-md-2 col-lg-2 col-form-label">Screenshot time</label>
-                            <div class="col-md-10 col-lg-10">
-                                <input type="text" class="form-control" name="screenshot_time" value="<?= $screenshot_time ?>" required placeholder="e.g. 60 (in seconds)">
+                    <form method="GET" action="" enctype="multipart/form-data">
+                        <input type="hidden" name="mode" value="search">
+                        <div class="row mb-3 align-items-center">
+
+
+                            <div class="col-md-4 col-lg-4" id="day_range_row" style="margin-top: 18px;">
+                                <div class="input-group input-daterange">
+                                    <!-- <label for="search_range_from">Date Range</label> -->
+                                    <input type="date" id="search_range_from" name="start" class="form-control" value="<?=$start_date?>" style="height: 40px;">
+                                    <span class="input-group-text">To</span>
+                                    <input type="date" id="search_range_to" name="end" class="form-control" value="<?=$end_date?>" style="height: 40px;">
+                                </div>
                             </div>
                         </div>
                         <div class="text-center">
-                            <button type="submit" class="btn btn-primary"><?= (($row) ? 'Save' : 'Add') ?></button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
                         </div>
                     </form>
+
+                    <!-- ____ code ____ -->
+
+                    <div class="container my-4">
+                        <div class="row g-3">
+                            <?php if (count($row)) {
+                                foreach ($row as $screenshot) { ?>
+                                    <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="col-3 glightbox" alt="Screenshot img">
+                                        <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="img-fluid rounded">
+                                    </a>
+                                <?php }
+                            } else { ?>
+                                <div class="col-12">
+                                    <div class="alert alert-warning" role="alert">
+                                        No screenshots found for the selected date range.
+                                    </div>
+                                </div>
+                            <?php } ?>
+
+                        </div>
+                    </div>
+
+
+                    <!-- ____ code ____ -->
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+
+<!-- JS -->
+<script src="https://cdn.jsdelivr.net/npm/glightbox/dist/js/glightbox.min.js"></script>
+
+<script>
+    const lightbox = GLightbox({
+        selector: '.glightbox'
+    });
+</script>

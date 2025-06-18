@@ -75,7 +75,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                         foreach ($rows as $row) { ?>
                                             <tr>
                                                 <th scope="row"><?= $sl++ ?></th>
-                                                <td><?= $row->name ?><a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>" class="badge bg-warning ms-1"><?= $row->id ?></a></td>
+                                                <td><?= $row->name ?><span class="badge bg-warning ms-1"><?= $row->id ?></span> <br>
+                                                    <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>"> Screenshots <i class="fas fa-image"></i> </a>
+                                                </td>
                                                 <td class="text-center"><?= $row->phone1 ?></td>
                                                 <td><?= $row->email ?></td>
                                                 <td><?= $row->type ?></td>
