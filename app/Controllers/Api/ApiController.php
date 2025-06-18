@@ -3156,8 +3156,8 @@ class ApiController extends BaseController
                             'work_status_id'    => 6,
                             'priority'          => $priority,
                             'next_day_task_action' => 1,
-                            'is_leave'          => 1,
-                            'created_at'        => $created_at
+                            'is_leave'          => 1,                            
+                            'updated_at'        => $created_at
                         ];
                     } else if ($is_leave == 2) {
                         $postData            = [
@@ -3175,8 +3175,8 @@ class ApiController extends BaseController
                             'work_status_id'    => 6,
                             'priority'          => $priority,
                             'next_day_task_action' => 1,
-                            'is_leave'          => 2,
-                            'created_at'        => $created_at
+                            'is_leave'          => 2,                            
+                            'updated_at'        => $created_at
                         ];
                     } else {
                         $postData            = [
@@ -3192,7 +3192,7 @@ class ApiController extends BaseController
                             'min'               => $min,
                             'bill'              => 0,
                             'priority'          => $priority,
-                            'created_at'        => $created_at
+                            'updated_at'        => $created_at                            
                         ];
                     }
                     $this->common_model->save_data('morning_meetings', $postData, $task_id, 'id');
