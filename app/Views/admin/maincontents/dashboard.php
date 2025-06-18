@@ -1293,15 +1293,15 @@
                   <div class="mb-3">
                   <label class="form-label">Status</label><br>
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="status" id="present" value="PRESENT" checked>
+                     <input class="form-check-input" type="radio" name="status" id="present" value="0" onchange="myFunction()" checked>
                      <label class="form-check-label" for="present">PRESENT</label>
                   </div>
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="status" id="halfday" value="HALFDAY LEAVE">
+                     <input class="form-check-input" type="radio" name="status" id="halfday" value="1" onchange="myFunction()">
                      <label class="form-check-label" for="halfday">HALFDAY LEAVE</label>
                   </div>
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="status" id="fullday" value="FULLDAY LEAVE">
+                     <input class="form-check-input" type="radio" name="status" id="fullday" value="2" onchange="myFunction()">
                      <label class="form-check-label" for="fullday">FULLDAY LEAVE</label>
                   </div>
                   </div>
@@ -1311,11 +1311,15 @@
                   <label for="description" class="form-label">Description</label>
                   <textarea name="description" id="description" class="form-control" rows="3"></textarea>
                   </div>
-
+                  
+                  <?php
+                     $today = date('Y-m-d');
+                     $maxDate = date('Y-m-d', strtotime('+1 month'));
+                  ?>
                   <!-- Date -->
                      <div class="mb-3">
                         <label for="date" class="form-label">Date</label>
-                        <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                        <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" min="<?= $today ?>" max="<?= $maxDate ?>" required>
                      </div>
 
                      <!-- Time -->
@@ -1450,4 +1454,57 @@
            }
        });
    }
+
+   function myFunction(){
+        var selectedValue = $('input[name=status]:checked').val();
+        if(selectedValue == 0){
+            var description = '';
+            $('#description').val(description);
+            $('#project_id').attr('required', true);
+            $('#fhour').attr('required', true);
+            $('#fminute').attr('required', true);
+            $('input[name="priority"]').attr('required', true);
+
+            $('#project_id').attr('disabled', false);
+            $('#fhour').attr('disabled', false);
+            $('#fminute').attr('disabled', false);
+            $('input[name="priority"]').attr('disabled', false);
+        } else if(selectedValue == 1){
+            var description = 'Half Day Leave Taken';
+            $('#description').val(description);
+            $('#project_id').attr('required', false);
+            $('#fhour').attr('required', false);
+            $('#fminute').attr('required', false);            
+            $('input[name="priority"]').attr('required', false);
+
+            $('#project_id').attr('disabled', true);
+            $('#fhour').attr('disabled', true);
+            $('#fminute').attr('disabled', true);
+            $('#date').attr('disabled', true);
+            $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#fhour').val('');
+            $('#fminute').val('');
+            $('#date').val(date);
+        } else if(selectedValue == 2){
+            var description = 'Full Day Leave Taken';
+            $('#description').val(description);
+            $('#project_id').attr('required', false);
+            $('#fhour').attr('required', false);
+            $('#fminute').attr('required', false);
+            $('input[name="priority"]').attr('required', false);
+
+            $('#project_id').attr('disabled', true);
+            $('#fhour').attr('disabled', true);
+            $('#fminute').attr('disabled', true);
+            $('#date').attr('disabled', true);
+            $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#fhour').val('');
+            $('#fminute').val('');
+            $('#date').val(date);
+        }
+    }
 </script>

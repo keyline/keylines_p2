@@ -1090,32 +1090,85 @@ class User extends BaseController
         $added_by                = $this->session->get('user_id');
         $created_at            = date('Y-m-d H:i:s');
         if($this->request->getMethod() == 'post') {  
-            $user_id     = $this->request->getPost('employee_id') ?? $this->session->get('user_id');
-            $department = $this->common_model->find_data('team', 'row', ['user_id' => $user_id]);
-            $department_id = $department ? $department->dep_id : 0;
-            $task_assign_date  = $this->request->getPost('date');
-            $fhour       = str_pad($this->request->getPost('fhour'), 2, '0', STR_PAD_LEFT);
-            $fminute     = str_pad($this->request->getPost('fminute'), 2, '0', STR_PAD_LEFT);
-            $task_assign_time  = $fhour . ':' . $fminute . ':00';
+            $user_id            = $this->request->getPost('employee_id') ?? $this->session->get('user_id');
+            $department         = $this->common_model->find_data('team', 'row', ['user_id' => $user_id]);
+            $department_id      = $department ? $department->dep_id : 0;
+            $task_assign_date   = $this->request->getPost('date');
+            $fhour              = $this->request->getPost('fhour');
+            $fminute            = $this->request->getPost('fminute');
+            $task_assign_time   = $fhour . ':' . $fminute . ':00';
 
-            $project_id  = $this->request->getPost('project_id');
-            $status      = $this->request->getPost('status');
-            $description     = $this->request->getPost('description');
-            $priority    = $this->request->getPost('priority');                                                                                
+            $project_id         = $this->request->getPost('project_id');
+            $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+            pr($project);
+            $project_status     = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);  
+            $is_leave             = $this->request->getPost('status');
+            $description        = $this->request->getPost('description');
+            $priority           = $this->request->getPost('priority');
+            $date_added         = date_format(date_create($this->request->getPost('date')), "Y-m-d");  
+            
+            if($is_leave == 1){                            
+                $postData            = [                   
+                    'user_id'           => $user_id,
+                    'dept_id'           => $department_id,
+                    'description'       => $description,
+                    'date_added'        => $date_added,
+                    'added_by'          => $added_by,
+                    'hour'              => $fhour,
+                    'min'               => $fminute,
+                    'bill'              => 1,
+                    'work_status_id'    => 6,
+                    'priority'          => $priority,                                                                
+                    'next_day_task_action' => 1,
+                    'is_leave'          => 1,
+                    'created_at'        => $created_at
+                ];                            
+            } else if($is_leave == 2){                            
+                $postData            = [                   
+                    'user_id'           => $user_id,
+                    'dept_id'           => $department_id,
+                    'description'       => $description,
+                    'date_added'        => $date_added,
+                    'added_by'          => $added_by,
+                    'hour'              => $fhour,
+                    'min'               => $fminute,
+                    'bill'              => 1,
+                    'work_status_id'    => 6,
+                    'priority'          => $priority,                                                                
+                    'next_day_task_action' => 1,
+                    'is_leave'          => 2,
+                    'created_at'        => $created_at
+                ];
+            } else {
+                $postData            = [
+                    'project_id'        => $project_id,
+                    'status_id'         => $project_status->id,
+                    'user_id'           => $user_id,
+                    'dept_id'           => $department_id,
+                    'description'       => $description,
+                    'date_added'        => $task_assign_date,
+                    'added_by'          => $added_by,
+                    'hour'              => $fhour,
+                    'min'               => $fminute,
+                    'bill'              => 0,                                
+                    'priority'          => $priority,                                                                                                                                
+                    'created_at'        => $created_at
+                ];
+            }  
               
-            $postData   = array(
-                'user_id'           => $user_id,
-                'dept_id'           => $department_id,
-                'project_id'        => $project_id,                
-                'date_added'        => $task_assign_date,  
-                'hour'             => $fhour,
-                'min'              => $fminute,
-                'description'  => $description,                                
-                'priority'          => $priority,     
-                'added_by'         => $added_by, 
-                'created_at'         => $created_at,
-                );
-                // pr($postData);
+            // $postData   = array(
+            //     'user_id'           => $user_id,
+            //     'dept_id'           => $department_id,
+            //     'project_id'        => $project_id,                
+            //     'date_added'        => $task_assign_date,  
+            //     'hour'             => $fhour,
+            //     'min'              => $fminute,
+            //     'description'  => $description,                                
+            //     'priority'          => $priority,     
+            //     'added_by'         => $added_by, 
+            //     'created_at'         => $created_at,
+            //     );
+                pr($postData);
                 $record     = $this->common_model->save_data('morning_meetings', $postData, '', 'id');
             }   
             $this->session->setFlashdata('success_message', 'Task added successfully.');
