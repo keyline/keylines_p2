@@ -3082,7 +3082,7 @@ class ApiController extends BaseController
                     ];
                     $apiStatus          = TRUE;
                     http_response_code(200);
-                    $apiMessage         = 'Data Available !!!';
+                    $apiMessage         = 'Task added Successfully !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 }
@@ -3142,6 +3142,7 @@ class ApiController extends BaseController
 
                     if ($is_leave == 1) {
                         $postData            = [
+                            'task_id'           => $task_id,
                             'project_id'        => 0,
                             'status_id'         => 0,
                             'user_id'           => $user_id,
@@ -3160,6 +3161,7 @@ class ApiController extends BaseController
                         ];
                     } else if ($is_leave == 2) {
                         $postData            = [
+                            'task_id'           => $task_id,
                             'project_id'        => 0,
                             'status_id'         => 0,
                             'user_id'           => $user_id,
@@ -3178,6 +3180,7 @@ class ApiController extends BaseController
                         ];
                     } else {
                         $postData            = [
+                            'task_id'           => $task_id,
                             'project_id'        => $project_id,
                             'status_id'         => $project_status->id,
                             'user_id'           => $user_id,
@@ -3192,13 +3195,13 @@ class ApiController extends BaseController
                             'created_at'        => $created_at
                         ];
                     }
-                    $this->common_model->save_data('morning_meetings', $postData, '', 'id');
+                    $this->common_model->save_data('morning_meetings', $postData, $task_id, 'id');
                     $apiResponse[]              = [
                         'tasks'           => $postData
                     ];
                     $apiStatus          = TRUE;
                     http_response_code(200);
-                    $apiMessage         = 'Data Available !!!';
+                    $apiMessage         = 'Task update Successfully !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 }
