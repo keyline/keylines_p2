@@ -3032,6 +3032,58 @@ class ApiController extends BaseController
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
+    public function getWorkStatus()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $headerData         = $this->request->headers();
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId            = $getTokenValue['data'][1];
+                $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
+                $getWorkStatus    = $this->common_model->find_data('work_status', 'array', ['status=' => '1'], '', '', '', $order_by);
+                if ($getWorkStatus) {
+                    foreach ($getWorkStatus as $getWork) {
+                        $apiResponse[]        = [
+                            'id'                => $getWork->id,
+                            'name'              => $getWork->name, 
+                            'background_color'  => $getWork->background_color,
+                            'border_color'      => $getWork->border_color,                                                      
+                        ];
+                    }
+                    $apiStatus          = TRUE;
+                    http_response_code(200);
+                    $apiMessage         = 'Data Available !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                } else {
+                    $apiStatus          = FALSE;
+                    http_response_code(404);
+                    $apiMessage         = 'Data Not Found !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                }
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
     public function addTask()
     {
         $apiStatus          = TRUE;
