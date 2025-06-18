@@ -500,7 +500,6 @@ class ApiController extends BaseController
 
                 // new code added by @Shubha75 on 2025-06-17
                 $message    = "Dear $name, $mobile_otp is you verification OTP for registration at KEYLINE";
-
                 $mobileNo   = (($checkUser) ? $checkUser->phone1 : '');
                 $this->sendSMS($mobileNo, $message);
                 /* send sms */
@@ -1564,1431 +1563,7 @@ class ApiController extends BaseController
                         if ($upload_type != 'image/jpeg' && $upload_type != 'image/jpg' && $upload_type != 'image/png') {
                             $apiStatus          = FALSE;
                             http_response_code(404);
-                            $apiMessage         = 'OTP Mismatched !!!';
-                            $apiExtraField      = 'response_code';
-                        }
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function deleteAccount()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $headerData         = $this->request->headers();
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        // $this->common_model->save_data('user', ['status' => '3'], $uId, 'id');
-                        // $this->common_model->delete_data('ecomm_user_devices', $uId, 'user_id');
-
-                        $postData   = array(
-                            'user_type'             => $getUser->type,
-                            'entity_name'           => $getUser->name,
-                            'email'                 => $getUser->email,
-                            'is_email_verify'       => 1,
-                            'phone'                 => $getUser->phone1,
-                            'is_phone_verify'       => 1,
-                            'comments'              => '',
-                        );
-                        // pr($postData);
-                        $this->common_model->save_data('ecomm_delete_account_requests', $postData, '', 'id');
-
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Account Deleted Successfully !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getProduct()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $headerData         = $this->request->headers();
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        $assignItems = $this->common_model->find_data('ecomm_company_items', 'array', ['company_id' => $getUser->parent_id, 'status' => 1, 'is_approved' => 1], 'id,alias_name,hsn,unit');
-                        // pr($assignCategory);
-                        if($assignItems){
-                            foreach($assignItems as $assignItem){
-                                $getUnit       = $this->common_model->find_data('ecomm_units', 'row', ['status' => 1, 'id' => $assignItem->unit], 'id,name');
-                                $apiResponse[]        = [
-                                    'id'            => $assignItem->id,
-                                    'name'          => $assignItem->alias_name,
-                                    'hsn'           => $assignItem->hsn,
-                                    'unit_name'     => (($getUnit)?$getUnit->name:''),
-                                ];
-                            }
-                        }
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getNotifications()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['page_no'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                $page_no                    = $requestData['page_no'];
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                        $limit          = 15; // per page elements
-                        if($page_no == 1){
-                            $offset = 0;
-                        } else {
-                            $offset = (($limit * $page_no) - $limit); // ((15 * 3) - 15)
-                        }
-                        $notifications  = $this->common_model->find_data('notifications', 'array', ['status' => 1, 'is_send' => 1], 'id,title,description,send_timestamp,users', '', '', $orderBy, $limit, $offset);
-                        if($notifications){
-                            foreach($notifications as $notification){
-                                $users = json_decode($notification->users);
-                                if(in_array($uId, $users)){
-                                    $apiResponse[]        = [
-                                        'id'                    => $notification->id,
-                                        'title'                 => $notification->title,
-                                        'description'           => $notification->description,
-                                        'send_timestamp'        => date_format(date_create($notification->send_timestamp), "M d, Y h:i A"),
-                                    ];
-                                }
-                            }
-                        }
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getNotes()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['page_no'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                $page_no                    = $requestData['page_no'];
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                        $limit          = 15; // per page elements
-                        if($page_no == 1){
-                            $offset = 0;
-                        } else {
-                            $offset = (($limit * $page_no) - $limit); // ((15 * 3) - 15)
-                        }
-                        $attns  = $this->common_model->find_data('attendances', 'array', ['note!=' => '', 'user_id' => $uId], 'id,punch_date,note', '', '', $orderBy, $limit, $offset);
-                        if($attns){
-                            foreach($attns as $attn){
-                                $apiResponse[]        = [
-                                    'id'                    => $attn->id,
-                                    'description'           => $attn->note,
-                                    'punch_date'            => date_format(date_create($attn->punch_date), "M d, Y"),
-                                ];
-                            }
-                        }
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function updateProfileImage()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['profile_image'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        $profile_image_post                            = $requestData['profile_image'];
-                        /* profile image */
-                            if(!empty($profile_image_post)){
-                                $profile_image      = $profile_image_post[0];
-                                $upload_type        = $profile_image['type'];
-                                if($upload_type != 'image/jpeg' && $upload_type != 'image/jpg' && $upload_type != 'image/png'){
-                                    $apiStatus          = FALSE;
-                                    http_response_code(404);
-                                    $apiMessage         = 'Please Upload Profile Image !!!';
-                                    $apiExtraField      = 'response_code';
-                                    $apiExtraData       = http_response_code();
-                                } else {
-                                    $upload_base64      = $profile_image['base64'];
-                                    $img                = $upload_base64;
-                                    
-                                    $data           = base64_decode($img);
-                                    $fileName       = uniqid() . '.jpg';
-                                    $file           = 'public/uploads/user/' . $fileName;
-                                    $success        = file_put_contents($file, $data);
-                                    $profileImage   = $fileName;
-                                }
-                            } else {
-                                $profileImage = $getUser->profile_image;
-                            }
-                        /* profile image */
-                        $fields = [
-                            'profile_image'                            => $profileImage,
-                        ];
-                        $this->common_model->save_data('user', $fields, $uId, 'id');
-
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Profle Image Updated Successfully !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getHoliday()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $headerData         = $this->request->headers();
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        $currentYear        = date('Y');
-                        $orderBy[0]         = ['field' => 'id', 'type' => 'ASC'];
-                        $getEvents          = $this->common_model->find_data('event', 'array', ['start_event LIKE' => '%'.$currentYear.'%'], 'title,start_event', '', '', $orderBy);
-                        if($getEvents){
-                            foreach($getEvents as $getEvent){
-                                $apiResponse[]        = [
-                                    'start_event'                       => (($getEvent)?date_format(date_create($getEvent->start_event), "M d, Y"):''),
-                                    'title'                             => $getEvent->title,
-                                ];
-                            }
-                        }
-
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getEmployee()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $headerData         = $this->request->headers();
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
-                    if($getEmployees){                        
-                        foreach($getEmployees as $getEmployee){
-                            $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                            $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status', '', '', $orderBy);
-                            $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
-                            $punchout = ($punch_time) ? DateTime::createFromFormat('H:i:s', $punch_time->punch_out_time) : false;
-                            $apiResponse[]        = [
-                                'id'              => $getEmployee->id,
-                                'name'            => $getEmployee->name,
-                                'email'           => $getEmployee->email,
-                                'phone'           => $getEmployee->phone1,
-                                'profile_image'   => (($getEmployee->profile_image)?base_url('public/uploads/user/'.$getEmployee->profile_image):''),
-                                'department'      => (($department)?$department->deprt_name:''),
-                                'punch_in_time'   => (($punch_time)? date('h:i a', strtotime($punch_time->punch_in_time)) :''),
-                                'punch_out_time'  => (($punchout) ? $punchout->format('g:i a') : ''),
-                                'punch_status'    => (($punch_time)? (int)$punch_time->status:0),
-                            ];
-                        }   
-                        // // Sort the array by punch_in_time DESC (latest first)
-                        // usort($apiResponse, function ($a, $b) {
-                        //     // return strtotime($b['punch_in_time']) - strtotime($a['punch_in_time']); //latest first 
-                        //     return strtotime($a['punch_in_time']) - strtotime($b['punch_in_time']); // oldest first
-                        // });   
-                        usort($apiResponse, function ($a, $b) {
-                            $a_time = strtotime($a['punch_in_time']);
-                            $b_time = strtotime($b['punch_in_time']);
-
-                            // Handle missing punch_in_time: move to bottom
-                            if (empty($a['punch_in_time'])) return 1;
-                            if (empty($b['punch_in_time'])) return -1;
-
-                            // Sort by punch_in_time ascending (oldest first)
-                            return $a_time - $b_time;
-
-                            // Or for descending (latest first), use:
-                            // return $b_time - $a_time;
-                        });                 
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }        
-        public function markAttendance()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['punch_type', 'latitude', 'longitude', 'userImage'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        // pr($requestData);die;
-                        $punch_type = $requestData['punch_type'];
-                        $latitude   = $requestData['latitude'];
-                        $longitude  = $requestData['longitude'];
-
-                        $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                        $checkPunchIn = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => date('Y-m-d'), 'status' => 1], '', '', '', $orderBy);
-                        if(!$checkPunchIn){
-                            $fields = [
-                                'user_id' => $uId,
-                                'punch_date' => date('Y-m-d'),
-                            ];
-                            $attenId = $this->common_model->save_data('attendances', $fields, '', 'id');
-                            $punch_type = 1;
-                        } else {
-                            $attenId = $checkPunchIn->id;
-                            $punch_type = $punch_type;
-                        }
-                        /* profile image */
-                            $profile_image_post                            = $requestData['userImage'];
-                            if(!empty($profile_image_post)){
-                                $profile_image      = $profile_image_post;
-                                $upload_type        = $profile_image['type'];
-                                if($upload_type != 'image/jpeg' && $upload_type != 'image/jpg' && $upload_type != 'image/png'){
-                                    $apiStatus          = FALSE;
-                                    http_response_code(200);
-                                    $apiMessage         = 'Please Upload Image !!!';
-                                    $apiExtraField      = 'response_code';
-                                    $apiExtraData       = http_response_code();
-                                } else {
-                                    $upload_base64      = $profile_image['base64'];
-                                    $img                = $upload_base64;
-                                    
-                                    $data           = base64_decode($img);
-                                    $fileName       = uniqid() . '.jpg';
-                                    $file           = 'public/uploads/user/' . $fileName;
-                                    $success        = file_put_contents($file, $data);
-                                    $user_image     = $fileName;
-                                }
-                            } else {
-                                $apiStatus          = FALSE;
-                                http_response_code(200);
-                                $apiMessage         = 'Please Upload Image !!!';
-                                $apiExtraField      = 'response_code';
-                                $apiExtraData       = http_response_code();
-                            }
-                        /* profile image */
-
-                        $attendence_type = json_decode($getUser->attendence_type);
-                        if(!empty($attendence_type)){                           
-                            $attendanceGivenStatus  = 1;
-                            $address                = $this->geolocationaddress($latitude, $longitude);
-                            if($attendanceGivenStatus){
-                                $punch_date = date('Y-m-d');
-                                $orderBy = [['field' => 'id', 'type' => 'DESC']];                                                                
-                                $AdminUsers         = $this->db->query("SELECT * FROM `user` WHERE `status` = '1' AND `type` IN ('SUPER ADMIN', 'ADMIN') ORDER BY `id` DESC")->getResult();        
-                                foreach($AdminUsers as $user) {
-                                    $orderBy = [['field' => 'id', 'type' => 'DESC']];
-                                    $userdevice = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $user->id],'','', '', $orderBy);
-                                    if (!empty($userdevice) && isset($userdevice->fcm_token) && isset($userdevice->device_type)) {
-                                        // Add the token and device_type for this user to the collective array
-                                        $allLastUserDevices[] = [
-                                            'id' => $userdevice->user_id,
-                                            'token' => $userdevice->fcm_token,
-                                            'device_type' => $userdevice->device_type
-                                        ];
-                                    }
-                                }     
-                                // pr($deviceToken);die;
-                                if($punch_type == 1){
-                                    $punch_in_time      = date('H:i:s');
-                                    $punch_in_lat       = $latitude;
-                                    $punch_in_lng       = $longitude;
-                                    $punch_in_address   = $address;
-
-                                    $from_time          = strtotime($punch_date." ".$punch_in_time);
-                                    $to_time            = strtotime($punch_date." 23:59:00");
-                                    $attendance_time    = round(abs($to_time - $from_time) / 60,2);
-
-                                    $fields2 = [
-                                        'punch_in_time'         => $punch_in_time,
-                                        'punch_in_lat'          => $punch_in_lat,
-                                        'punch_in_lng'          => $punch_in_lng,
-                                        'punch_in_address'      => $punch_in_address,
-                                        'punch_in_image'        => $user_image,
-                                        'punch_out_time'        => '',
-                                        'punch_out_lat'         => '',
-                                        'punch_out_lng'         => '',
-                                        'punch_out_address'     => '',
-                                        'punch_out_image'       => '',
-                                        'status'                => 1,
-                                        'attendance_time'       => $attendance_time,
-                                    ];
-                                    // pr($fields2);
-                                    $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                                    $apiMessage         = 'Attendance Punch In Successfully !!!';                                    
-                                    $apiStatus          = TRUE;
-                                    http_response_code(200);
-                                    // Send Notification
-                                    if (!empty($allLastUserDevices)) {
-                                        $title = $getUser->name;
-                                        $body  = 'Punch In at ' . date('h:i A');
-                                        // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
-
-                                        $allResults = [];
-                                        foreach ($allLastUserDevices as $record) {
-                                            $token = $record['token'];
-                                            $device_type = $record['device_type'];
-
-                                            // Call sendCommonPushNotification for each record
-                                            $notificationResponse = $this->sendCommonPushNotification(
-                                                $token, // Pass single token
-                                                $title,
-                                                $body,
-                                                'attendance',
-                                                '',
-                                                $device_type // Pass device type for this specific token
-                                            );
-                                            $allResults[$token] = $notificationResponse->getJSON();
-                                        }
-                                        // pr($allResults); // Show results for all notifications
-                                    }
-                                    // if (!empty($deviceToken)) {
-                                    //     $title = 'Punch In Successful';
-                                    //     $body  = 'Hello ' . $getUser->name . ', your punch-in was recorded at ' . date('h:i A');
-                                    //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
-                                    // }
-
-                                } elseif($punch_type == 2){
-                                    $punch_out_time      = date('H:i:s');
-                                    $punch_out_lat       = $latitude;
-                                    $punch_out_lng       = $longitude;
-                                    $punch_out_address   = $address;
-
-                                    $punch_in_time      = $checkPunchIn->punch_in_time;
-                                    $from_time          = strtotime($punch_date." ".$punch_in_time);
-                                    $to_time            = strtotime($punch_date." ".$punch_out_time);
-                                    $attendance_time    = round(abs($to_time - $from_time) / 60,2);
-
-                                    $fields2 = [
-                                        'punch_out_time'        => $punch_out_time,
-                                        'punch_out_lat'         => $punch_out_lat,
-                                        'punch_out_lng'         => $punch_out_lng,
-                                        'punch_out_address'     => $punch_out_address,
-                                        'punch_out_image'       => $user_image,
-                                        'status'                => 2,
-                                        'attendance_time'       => $attendance_time,
-                                    ];
-                                    $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                                    $apiMessage         = 'Punch Out Successfully !!!';
-                                    $apiStatus          = TRUE;
-                                    http_response_code(200);
-                                    // Send Notification
-                                    if (!empty($allLastUserDevices)) {
-                                        $title = $getUser->name;
-                                        $body  = 'Punch Out at ' . date('h:i A');
-                                        // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
-
-                                        $allResults = [];
-                                        foreach ($allLastUserDevices as $record) {
-                                            $token = $record['token'];
-                                            $device_type = $record['device_type'];
-
-                                            // Call sendCommonPushNotification for each record
-                                            $notificationResponse = $this->sendCommonPushNotification(
-                                                $token, // Pass single token
-                                                $title,
-                                                $body,
-                                                'attendance',
-                                                '',
-                                                $device_type // Pass device type for this specific token
-                                            );
-                                            $allResults[$token] = $notificationResponse->getJSON();
-                                        }
-                                        // pr($allResults); // Show results for all notifications
-                                    }
-                                    // if (!empty($deviceToken)) {
-                                    //     $title = 'Punch Out Successful';
-                                    //     $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
-                                    //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
-                                    // }
-                                } else {
-                                    $punch_out_time = date('H:i:s');
-                                    $punch_in_lat       = $latitude;
-                                    $punch_in_lng       = $longitude;
-                                    $punch_in_address   = $address;
-
-                                    $fields2 = [
-                                        'punch_out_time'        => $punch_out_time,
-                                        'punch_out_lat'         => $punch_out_lat,
-                                        'punch_out_lng'         => $punch_out_lng,
-                                        'punch_out_address'     => $punch_out_address,
-                                        'punch_out_image'       => $user_image,
-                                        'status'                => 2,
-                                    ];
-                                    $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                                    $apiMessage         = 'Punch Out Successfully !!!';
-                                    $apiStatus          = TRUE;
-                                    http_response_code(200);
-                                    // Send Notification
-                                    if (!empty($allLastUserDevices)) {
-                                        $title = $getUser->name;
-                                        $body  = 'Punch Out at ' . date('h:i A');
-                                        // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
-
-                                        $allResults = [];
-                                        foreach ($allLastUserDevices as $record) {
-                                            $token = $record['token'];
-                                            $device_type = $record['device_type'];
-
-                                            // Call sendCommonPushNotification for each record
-                                            $notificationResponse = $this->sendCommonPushNotification(
-                                                $token, // Pass single token
-                                                $title,
-                                                $body,
-                                                'attendance',
-                                                '',
-                                                $device_type // Pass device type for this specific token
-                                            );
-                                            $allResults[$token] = $notificationResponse->getJSON();
-                                        }
-                                        // pr($allResults); // Show results for all notifications
-                                    }
-                                    // if (!empty($deviceToken)) {
-                                    //     $title = 'Punch Out Successful';
-                                    //     $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
-                                    //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
-                                    // }
-                                }
-                            } else {
-                                $apiStatus          = FALSE;
-                                http_response_code(200);
-                            }
-                        } else {
-                            $apiStatus          = FALSE;
-                            http_response_code(200);
-                            $apiMessage         = 'Please Contact System Administrator For Attendance Type Update !!!';
-                        }                        
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(200);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getMonthAttendance(){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['attn_month_year'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        
-                        $attn_month_year    = explode("/", $requestData['attn_month_year']);
-                        $month              = $attn_month_year[0];
-                        $year               = $attn_month_year[1];
-
-                        $list=array();
-
-                        for($d=1; $d<=31; $d++)
-                        {
-                            $time=mktime(12, 0, 0, $month, $d, $year);          
-                            if (date('m', $time)==$month)       
-                                $list[]=date('Y-m-d', $time);
-                        }
-                        $markDates          = [];
-                        $trackerLast7Days   = [];
-                        if(!empty($list)){
-                            $present_count  = 0;
-                            $halfday_count  = 0;
-                            $late_count     = 0;
-                            $absent_count   = 0;
-
-                            for($p=0;$p<count($list);$p++){
-                                $punch_date = $list[$p];
-
-                                $today = date('Y-m-d');
-                                if($punch_date >= $today){
-                                    $disableTouchEvent = 1;
-                                } else {
-                                    $disableTouchEvent = 0;
-                                }
-
-                                $checkAttn = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $punch_date]);
-                                if($checkAttn){
-                                    $disableTouchEvent  = 0;
-                                    $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                                    $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $punch_date], 'attendance_time', '', '', $orderBy);
-                                    $tot_attn_time      = 0;
-                                    if($attnList){
-                                        foreach($attnList as $attnRow){
-                                            $tot_attn_time      += $attnRow->attendance_time;
-                                        }
-                                    }
-                                    $attendance_time    = $tot_attn_time;
-                                    $isAbsent           = 0;
-                                    $isHalfday          = 0;
-                                    $isFullday          = 0;
-                                    $isLate             = 0;
-                                    if($attendance_time < 240){
-                                        $isAbsent       = 1;
-                                        $isHalfday      = 0;
-                                        $isFullday      = 0;
-                                        if($checkAttn->punch_in_time > '10:00:58'){
-                                            $isLate     = 1;
-                                        }
-                                    } elseif($attendance_time >= 240 && $attendance_time < 480){
-                                        $isAbsent       = 0;
-                                        $isHalfday      = 1;
-                                        $isFullday      = 0;
-                                        if($checkAttn->punch_in_time > '10:00:58'){
-                                            $isLate     = 1;
-                                        }
-                                    } elseif($attendance_time >= 480){
-                                        $isAbsent       = 0;
-                                        $isHalfday      = 0;
-                                        $isFullday      = 1;
-                                        if($checkAttn->punch_in_time > '10:00:58'){
-                                            $isLate     = 1;
-                                        }
-                                    }
-
-                                    // .Present - #469148
-                                    // .Absent - #F41F22
-                                    // .Half Day- #E4AA39
-                                    // .Late - #1e81b0
-                                    // .Punchout Pending - #76E21B
-                                    // .Holiday - #D623EA
-                                    // .Disabled -#D5d5ce
-
-                                    if($disableTouchEvent){
-                                        $backgroundColor = '#D5d5ce';
-                                    } else {
-                                        $checkHoliday = $this->common_model->find_data('event', 'row', ['start_event' => $punch_date]);
-                                        if($checkHoliday){
-                                            $backgroundColor = '#469148';
-                                            $disableTouchEvent = 0;
-                                            // $present_count++;
-                                        } else {
-                                            if($isAbsent){
-                                                $backgroundColor = '#F41F22';
-                                                $absent_count++;
-                                            }
-                                            if($isHalfday){
-                                                $backgroundColor = '#E4AA39';
-                                                $halfday_count++;
-                                                // $present_count++;
-                                            }
-                                            if($isFullday){
-                                                $backgroundColor = '#469148';
-                                                // $present_count++;
-                                            }
-                                            if($checkAttn->status == 1){
-                                                $backgroundColor = '#76E21B';
-                                                // $present_count++;
-                                            }
-                                            if($checkAttn->punch_in_time > '10:00:58'){
-                                                $backgroundColor = '#1e81b0';
-                                                $late_count++;
-                                                
-                                            }
-                                        }
-                                        $present_count++;
-                                    }
-                                    
-                                    $markDates[]        = [
-                                        $punch_date => [
-                                            'marked' => 0,
-                                            'disabled' => 0,
-                                            'disableTouchEvent' => $disableTouchEvent,
-                                            'customStyles' => [
-                                                'container' => [
-                                                    'backgroundColor' => $backgroundColor,
-                                                    'width' => 'WIDTH * 0.1',
-                                                    'height' => 'WIDTH * 0.1',
-                                                    'borderRadius' => 5,
-                                                    'justifyContent' => 'center',
-                                                    'alignItems' => 'center',
-                                                ]
-                                            ]
-                                        ]
-                                    ];
-                                } else {
-                                    $isAbsent   = 1;
-                                    $isHalfday  = 0;
-                                    $isFullday  = 0;
-                                    $isLate     = 0;
-                                    if($disableTouchEvent){
-                                        $backgroundColor = '#D5d5ce';
-                                    } else {
-                                        $checkHoliday = $this->common_model->find_data('event', 'row', ['start_event' => $punch_date]);
-                                        if($checkHoliday){
-                                            $backgroundColor = '#D623EA';
-                                            $disableTouchEvent = 1;
-                                        } else {
-                                            if($isAbsent){
-                                                $backgroundColor = '#F41F22';
-                                                $absent_count++;
-                                            }
-                                            if($isHalfday){
-                                                $backgroundColor = '#E4AA39';
-                                                $halfday_count++;
-                                                $present_count++;
-                                            }
-                                            if($isFullday){
-                                                $backgroundColor = '#469148';
-                                            }
-                                        }
-                                    }
-                                    $markDates[]        = [
-                                        $punch_date => [
-                                            'marked' => 0,
-                                            'disabled' => 0,
-                                            'disableTouchEvent' => $disableTouchEvent,
-                                            'customStyles' => [
-                                                'container' => [
-                                                    'backgroundColor' => $backgroundColor,
-                                                    'width' => 'WIDTH * 0.1',
-                                                    'height' => 'WIDTH * 0.1',
-                                                    'borderRadius' => 5,
-                                                    'justifyContent' => 'center',
-                                                    'alignItems' => 'center',
-                                                ]
-                                            ]
-                                        ]
-                                    ];
-                                }
-                            }
-                            $applicationSetting     = $this->common_model->find_data('application_settings', 'row');
-                            /* last 7 days tracker report */
-                                $last7Days          = $this->getLastNDays(7, 'Y-m-d');
-                                if(!empty($last7Days)){
-                                    for($t=0;$t<count($last7Days);$t++){
-                                        $loopDate           = $last7Days[$t];
-                                        $dayWiseBooked      = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$uId' and date_added LIKE '$loopDate'")->getRow();
-                                        $tothour                = $dayWiseBooked->tothour * 60;
-                                        $totmin                 = $dayWiseBooked->totmin;
-                                        $totalMin               = ($tothour + $totmin);
-                                        $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
-                                        $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desklog_report` where tracker_user_id='$uId' and insert_date LIKE '%$loopDate%'")->getRow();
-                                        // echo $this->db->getLastQuery();
-                                        $desklog_time           = (($getDesklogTime)?$getDesklogTime->time_at_work:'');
-                                        $desklog_time1           = str_replace("m","",$desklog_time);
-                                        $desklog_time2           = str_replace("h ",".",$desklog_time1);
-                                        $trackerLast7Days[]     = [
-                                            'date_no'       => date_format(date_create($last7Days[$t]), "M d, Y"),
-                                            'day_name'      => date('D', strtotime($last7Days[$t])),
-                                            'booked_time'   => $booked_effort,
-                                            'desklog_time'  => (($desklog_time != '')?$desklog_time2:$desklog_time)
-                                        ];
-                                    }
-                                }
-                            /* last 7 days tracker report */
-
-                            $apiResponse        = [
-                                'present_count'     => $present_count,
-                                'halfday_count'     => $halfday_count,
-                                'late_count'        => $late_count,
-                                'absent_count'      => $absent_count,
-                                'is_desklog_use'    => $applicationSetting->is_desklog_use,
-                                'markDates'         => $markDates,
-                                'trackerLast7Days'  => $trackerLast7Days,
-                            ];
-
-                            $apiStatus          = TRUE;
-                            http_response_code(200);
-                            $apiMessage         = 'Data Available !!!';
-                            $apiExtraField      = 'response_code';
-                            $apiExtraData       = http_response_code();
-                        }
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getMonthAttendanceNew(){
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['attn_month_year', 'id'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                     $getUserId = $requestData['id'];                     
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
-                   
-                    if($getUser){
-                        
-                        $attn_month_year    = explode("/", $requestData['attn_month_year']);
-                        $month              = $attn_month_year[0];
-                        $year               = $attn_month_year[1];
-
-                        $list=array();
-
-                        for($d=1; $d<=31; $d++)
-                        {
-                            $time=mktime(12, 0, 0, $month, $d, $year);          
-                            if (date('m', $time)==$month)       
-                                $list[]=date('Y-m-d', $time);
-                        }
-                        $markDates          = [];
-                        $trackerLast7Days   = [];
-                        if(!empty($list)){
-                            $present_count  = 0;
-                            $halfday_count  = 0;
-                            $late_count     = 0;
-                            $absent_count   = 0;
-
-                            for($p=0;$p<count($list);$p++){
-                                $punch_date = $list[$p];
-
-                                $today = date('Y-m-d');
-                                if($punch_date >= $today){
-                                    $disableTouchEvent = 1;
-                                } else {
-                                    $disableTouchEvent = 0;
-                                }
-
-                                $checkAttn = $this->common_model->find_data('attendances', 'row', ['user_id' => $getUserId, 'punch_date' => $punch_date]);
-                                if($checkAttn){
-                                    $disableTouchEvent  = 0;
-                                    $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                                    $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $getUserId, 'punch_date' => $punch_date], 'attendance_time', '', '', $orderBy);
-                                    $tot_attn_time      = 0;
-                                    if($attnList){
-                                        foreach($attnList as $attnRow){
-                                            $tot_attn_time      += $attnRow->attendance_time;
-                                        }
-                                    }
-                                    $attendance_time    = $tot_attn_time;
-                                    $isAbsent           = 0;
-                                    $isHalfday          = 0;
-                                    $isFullday          = 0;
-                                    $isLate             = 0;
-                                    if($attendance_time < 240){
-                                        $isAbsent       = 1;
-                                        $isHalfday      = 0;
-                                        $isFullday      = 0;
-                                        if($checkAttn->punch_in_time > '10:00:58'){
-                                            $isLate     = 1;
-                                        }
-                                    } elseif($attendance_time >= 240 && $attendance_time < 480){
-                                        $isAbsent       = 0;
-                                        $isHalfday      = 1;
-                                        $isFullday      = 0;
-                                        if($checkAttn->punch_in_time > '10:00:58'){
-                                            $isLate     = 1;
-                                        }
-                                    } elseif($attendance_time >= 480){
-                                        $isAbsent       = 0;
-                                        $isHalfday      = 0;
-                                        $isFullday      = 1;
-                                        if($checkAttn->punch_in_time > '10:00:58'){
-                                            $isLate     = 1;
-                                        }
-                                    }
-
-                                    // .Present - #469148
-                                    // .Absent - #F41F22
-                                    // .Half Day- #E4AA39
-                                    // .Late - #1e81b0
-                                    // .Punchout Pending - #76E21B
-                                    // .Holiday - #D623EA
-                                    // .Disabled -#D5d5ce
-
-                                    if($disableTouchEvent){
-                                        $backgroundColor = '#D5d5ce';
-                                    } else {
-                                        $checkHoliday = $this->common_model->find_data('event', 'row', ['start_event' => $punch_date]);
-                                        if($checkHoliday){
-                                            $backgroundColor = '#469148';
-                                            $disableTouchEvent = 0;
-                                            // $present_count++;
-                                        } else {
-                                            if($isAbsent){
-                                                $backgroundColor = '#F41F22';
-                                                $absent_count++;
-                                            }
-                                            if($isHalfday){
-                                                $backgroundColor = '#E4AA39';
-                                                $halfday_count++;
-                                                // $present_count++;
-                                            }
-                                            if($isFullday){
-                                                $backgroundColor = '#469148';
-                                                // $present_count++;
-                                            }
-                                            if($checkAttn->status == 1){
-                                                $backgroundColor = '#76E21B';
-                                                // $present_count++;
-                                            }
-                                            if($checkAttn->punch_in_time > '10:00:58'){
-                                                $backgroundColor = '#1e81b0';
-                                                $late_count++;
-                                                
-                                            }
-                                        }
-                                        $present_count++;
-                                    }
-                                    
-                                    $markDates[]        = [
-                                        $punch_date => [
-                                            'marked' => 0,
-                                            'disabled' => 0,
-                                            'disableTouchEvent' => $disableTouchEvent,
-                                            'customStyles' => [
-                                                'container' => [
-                                                    'backgroundColor' => $backgroundColor,
-                                                    'width' => 'WIDTH * 0.1',
-                                                    'height' => 'WIDTH * 0.1',
-                                                    'borderRadius' => 5,
-                                                    'justifyContent' => 'center',
-                                                    'alignItems' => 'center',
-                                                ]
-                                            ]
-                                        ]
-                                    ];
-                                } else {
-                                    $isAbsent   = 1;
-                                    $isHalfday  = 0;
-                                    $isFullday  = 0;
-                                    $isLate     = 0;
-                                    if($disableTouchEvent){
-                                        $backgroundColor = '#D5d5ce';
-                                    } else {
-                                        $checkHoliday = $this->common_model->find_data('event', 'row', ['start_event' => $punch_date]);
-                                        if($checkHoliday){
-                                            $backgroundColor = '#D623EA';
-                                            $disableTouchEvent = 1;
-                                        } else {
-                                            if($isAbsent){
-                                                $backgroundColor = '#F41F22';
-                                                $absent_count++;
-                                            }
-                                            if($isHalfday){
-                                                $backgroundColor = '#E4AA39';
-                                                $halfday_count++;
-                                                $present_count++;
-                                            }
-                                            if($isFullday){
-                                                $backgroundColor = '#469148';
-                                            }
-                                        }
-                                    }
-                                    $markDates[]        = [
-                                        $punch_date => [
-                                            'marked' => 0,
-                                            'disabled' => 0,
-                                            'disableTouchEvent' => $disableTouchEvent,
-                                            'customStyles' => [
-                                                'container' => [
-                                                    'backgroundColor' => $backgroundColor,
-                                                    'width' => 'WIDTH * 0.1',
-                                                    'height' => 'WIDTH * 0.1',
-                                                    'borderRadius' => 5,
-                                                    'justifyContent' => 'center',
-                                                    'alignItems' => 'center',
-                                                ]
-                                            ]
-                                        ]
-                                    ];
-                                }
-                            }
-                            $applicationSetting     = $this->common_model->find_data('application_settings', 'row');
-                            /* last 7 days tracker report */
-                                $last7Days          = $this->getLastNDays(7, 'Y-m-d');
-                                if(!empty($last7Days)){
-                                    for($t=0;$t<count($last7Days);$t++){
-                                        $loopDate           = $last7Days[$t];
-                                        $dayWiseBooked      = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$getUserId' and date_added LIKE '$loopDate'")->getRow();
-                                        $tothour                = $dayWiseBooked->tothour * 60;
-                                        $totmin                 = $dayWiseBooked->totmin;
-                                        $totalMin               = ($tothour + $totmin);
-                                        $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
-                                        $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desklog_report` where tracker_user_id='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
-                                        // echo $this->db->getLastQuery();
-                                        $desklog_time           = (($getDesklogTime)?$getDesklogTime->time_at_work:'');
-                                        $desklog_time1           = str_replace("m","",$desklog_time);
-                                        $desklog_time2           = str_replace("h ",".",$desklog_time1);
-                                        $trackerLast7Days[]     = [
-                                            'date_no'       => date_format(date_create($last7Days[$t]), "M d, Y"),
-                                            'day_name'      => date('D', strtotime($last7Days[$t])),
-                                            'booked_time'   => $booked_effort,
-                                            'desklog_time'  => (($desklog_time != '')?$desklog_time2:$desklog_time)
-                                        ];
-                                    }
-                                }
-                            /* last 7 days tracker report */
-
-                            $apiResponse        = [                                
-                                'present_count'     => $present_count,
-                                'halfday_count'     => $halfday_count,
-                                'late_count'        => $late_count,
-                                'absent_count'      => $absent_count,
-                                'is_desklog_use'    => $applicationSetting->is_desklog_use,
-                                'markDates'         => $markDates,
-                                'trackerLast7Days'  => $trackerLast7Days,
-                            ];
-
-                            $apiStatus          = TRUE;
-                            http_response_code(200);
-                            $apiMessage         = 'Data Available !!!';
-                            $apiExtraField      = 'response_code';
-                            $apiExtraData       = http_response_code();
-                        }
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getSingleAttendance()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['attn_date'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        
-                        $attn_date      = $requestData['attn_date'];
-                        $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                        $checkAttn      = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
-                        if($checkAttn){
-                            // $attendance_time = $checkAttn->attendance_time;
-                            
-
-                            $attnDatas          = [];
-                            $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                            $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
-                            $tot_attn_time      = 0;
-                            if($attnList){
-                                foreach($attnList as $attnRow){
-                                    if($attnRow->status == 1){
-                                        $attnDatas[]          = [
-                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
-                                            'label'                 => 'In',
-                                            'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
-                                            'address'               => (($attnRow->punch_in_address != '')?$attnRow->punch_in_address:''),
-                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->punch_in_image,
-                                            'type'                  => 1
-                                        ];
-                                    }
-                                    if($attnRow->status == 2){
-                                        $attnDatas[]          = [
-                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
-                                            'label'                 => 'In',
-                                            'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
-                                            'address'               => (($attnRow->punch_in_address != '')?$attnRow->punch_in_address:''),
-                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->punch_in_image,
-                                            'type'                  => 1
-                                        ];
-                                        $attnDatas[]          = [
-                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
-                                            'label'                 => 'Out',
-                                            'time'                  => (($attnRow->punch_out_time != '')?date_format(date_create($attnRow->punch_out_time), "h:i A"):''),
-                                            'address'               => (($attnRow->punch_out_address != '')?$attnRow->punch_out_address:''),
-                                            'image'                 => (($attnRow->punch_out_image != '')?getenv('app.uploadsURL').'user/'.$attnRow->punch_out_image:''),
-                                            'type'                  => 2
-                                        ];
-                                    }
-                                    $tot_attn_time      += $attnRow->attendance_time;
-                                }
-                            }
-
-                            $isAbsent   = 0;
-                            $isHalfday  = 0;
-                            $isFullday  = 0;
-                            $isLate     = 0;
-                            $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                            $getFirstAttn       = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
-
-                            if($tot_attn_time < 240){
-                                $isAbsent   = 1;
-                                $isHalfday  = 0;
-                                $isFullday  = 0;
-                                if($getFirstAttn->punch_in_time > '10:00:58'){
-                                    $isLate     = 1;
-                                }
-                            } elseif($tot_attn_time >= 240 && $tot_attn_time < 480){
-                                $isAbsent   = 0;
-                                $isHalfday  = 1;
-                                $isFullday  = 0;
-
-                                if($getFirstAttn->punch_in_time > '10:00:58'){
-                                    $isLate     = 1;
-                                }
-                            } elseif($tot_attn_time >= 480){
-                                $isAbsent   = 0;
-                                $isHalfday  = 0;
-                                $isFullday  = 1;
-                                if($getFirstAttn->punch_in_time > '10:00:58'){
-                                    $isLate     = 1;
-                                }
-                            }
-
-                            $apiResponse        = [
-                                'punch_date'            => date_format(date_create($checkAttn->punch_date), "M d, Y"),
-                                'punch_in_time'         => date_format(date_create($checkAttn->punch_in_time), "h:i A"),
-                                'punch_in_address'      => $checkAttn->punch_in_address,
-                                'punch_in_image'        => getenv('app.uploadsURL').'user/'.$checkAttn->punch_in_image,
-                                'punch_out_time'        => (($checkAttn->punch_out_time != '')?date_format(date_create($checkAttn->punch_out_time), "h:i A"):''),
-                                'punch_out_address'     => (($checkAttn->punch_out_address != '')?$checkAttn->punch_out_address:''),
-                                'punch_out_image'       => (($checkAttn->punch_out_image != '')?getenv('app.uploadsURL').'user/'.$checkAttn->punch_out_image:''),
-                                'isAbsent'              => $isAbsent,
-                                'isHalfday'             => $isHalfday,
-                                'isFullday'             => $isFullday,
-                                'isLate'                => $isLate,
-                                'note'                  => (($checkAttn->note != '')?$checkAttn->note:''),
-                                'status'                => $checkAttn->status,
-                                'attendance_time'       => $tot_attn_time,
-                                'attnDatas'             => $attnDatas
-                            ];
-
-                            $apiStatus          = TRUE;
-                            http_response_code(200);
-                            $apiMessage         = 'Attendance Available !!!';
+                            $apiMessage         = 'Please Upload Profile Image !!!';
                             $apiExtraField      = 'response_code';
                             $apiExtraData       = http_response_code();
                         } else {
@@ -3016,639 +1591,11 @@ class ApiController extends BaseController
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getSingleAttendanceNew()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['attn_date','id'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $getUserId = $requestData['id'];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
-                    if($getUser){
-                        
-                        $attn_date      = $requestData['attn_date'];
-                        $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                        $checkAttn      = $this->common_model->find_data('attendances', 'row', ['user_id' => $getUserId, 'punch_date' => $attn_date], '', '', '', $orderBy);
-                        if($checkAttn){
-                            // $attendance_time = $checkAttn->attendance_time;
-                            
-
-                            $attnDatas          = [];
-                            $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                            $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $getUserId, 'punch_date' => $attn_date], '', '', '', $orderBy);
-                            $tot_attn_time      = 0;
-                            if($attnList){
-                                foreach($attnList as $attnRow){
-                                    if($attnRow->status == 1){
-                                        $attnDatas[]          = [
-                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
-                                            'label'                 => 'In',
-                                            'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
-                                            'address'               => (($attnRow->punch_in_address != '')?$attnRow->punch_in_address:''),
-                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->punch_in_image,
-                                            'type'                  => 1
-                                        ];
-                                    }
-                                    if($attnRow->status == 2){
-                                        $attnDatas[]          = [
-                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
-                                            'label'                 => 'In',
-                                            'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
-                                            'address'               => (($attnRow->punch_in_address != '')?$attnRow->punch_in_address:''),
-                                            'image'                 => getenv('app.uploadsURL').'user/'.$attnRow->punch_in_image,
-                                            'type'                  => 1
-                                        ];
-                                        $attnDatas[]          = [
-                                            'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
-                                            'label'                 => 'Out',
-                                            'time'                  => (($attnRow->punch_out_time != '')?date_format(date_create($attnRow->punch_out_time), "h:i A"):''),
-                                            'address'               => (($attnRow->punch_out_address != '')?$attnRow->punch_out_address:''),
-                                            'image'                 => (($attnRow->punch_out_image != '')?getenv('app.uploadsURL').'user/'.$attnRow->punch_out_image:''),
-                                            'type'                  => 2
-                                        ];
-                                    }
-                                    $tot_attn_time      += $attnRow->attendance_time;
-                                }
-                            }
-
-                            $isAbsent   = 0;
-                            $isHalfday  = 0;
-                            $isFullday  = 0;
-                            $isLate     = 0;
-                            $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                            $getFirstAttn       = $this->common_model->find_data('attendances', 'row', ['user_id' => $getUserId, 'punch_date' => $attn_date], '', '', '', $orderBy);
-
-                            if($tot_attn_time < 240){
-                                $isAbsent   = 1;
-                                $isHalfday  = 0;
-                                $isFullday  = 0;
-                                if($getFirstAttn->punch_in_time > '10:00:58'){
-                                    $isLate     = 1;
-                                }
-                            } elseif($tot_attn_time >= 240 && $tot_attn_time < 480){
-                                $isAbsent   = 0;
-                                $isHalfday  = 1;
-                                $isFullday  = 0;
-
-                                if($getFirstAttn->punch_in_time > '10:00:58'){
-                                    $isLate     = 1;
-                                }
-                            } elseif($tot_attn_time >= 480){
-                                $isAbsent   = 0;
-                                $isHalfday  = 0;
-                                $isFullday  = 1;
-                                if($getFirstAttn->punch_in_time > '10:00:58'){
-                                    $isLate     = 1;
-                                }
-                            }
-
-                            $apiResponse        = [                                
-                                'punch_date'            => date_format(date_create($checkAttn->punch_date), "M d, Y"),
-                                'punch_in_time'         => date_format(date_create($checkAttn->punch_in_time), "h:i A"),
-                                'punch_in_address'      => $checkAttn->punch_in_address,
-                                'punch_in_image'        => getenv('app.uploadsURL').'user/'.$checkAttn->punch_in_image,
-                                'punch_out_time'        => (($checkAttn->punch_out_time != '')?date_format(date_create($checkAttn->punch_out_time), "h:i A"):''),
-                                'punch_out_address'     => (($checkAttn->punch_out_address != '')?$checkAttn->punch_out_address:''),
-                                'punch_out_image'       => (($checkAttn->punch_out_image != '')?getenv('app.uploadsURL').'user/'.$checkAttn->punch_out_image:''),
-                                'isAbsent'              => $isAbsent,
-                                'isHalfday'             => $isHalfday,
-                                'isFullday'             => $isFullday,
-                                'isLate'                => $isLate,
-                                'note'                  => (($checkAttn->note != '')?$checkAttn->note:''),
-                                'status'                => $checkAttn->status,
-                                'attendance_time'       => $tot_attn_time,
-                                'attnDatas'             => $attnDatas
-                            ];
-
-                            $apiStatus          = TRUE;
-                            http_response_code(200);
-                            $apiMessage         = 'Attendance Available !!!';
-                            $apiExtraField      = 'response_code';
-                            $apiExtraData       = http_response_code();
-                        } else {
-                            $apiStatus          = FALSE;
-                            http_response_code(200);
-                            $apiMessage         = 'You Are Absent !!!';
-                            $apiExtraField      = 'response_code';
-                            $apiExtraData       = http_response_code();
-                        }
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function updateNote()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['note_date', 'note'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }           
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $note_date                  = date_format(date_create($requestData['note_date']), "Y-m-d");
-                $note                       = $requestData['note'];
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        $checkAttns  = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $note_date]);
-                        $fields     = [
-                            'note' => $note
-                        ];
-                        if($checkAttns){
-                            foreach($checkAttns as $checkAttn){
-                                $this->common_model->save_data('attendances', $fields, $checkAttn->id, 'id');
-                            }
-                            $apiMessage         = 'Note Updated Successfully !!!';
-                        } else {
-                            $this->common_model->save_data('attendances', $fields, '', 'id');
-                            $apiMessage         = 'Note Inserted Successfully !!!';
-                        }
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getProject()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $headerData         = $this->request->headers();
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId            = $getTokenValue['data'][1];
-                    $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
-                    $getProjects    = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
-                    if($getProjects){                        
-                        foreach($getProjects as $getProject){                            
-                            $project_status = $this->common_model->find_data('project_status', 'row', ['id' => $getProject->status]);                            
-                            $apiResponse[]        = [
-                                'id'              => $getProject->id,
-                                'name'            => $getProject->name,
-                                'type'           => $project_status->name,                                
-                            ];
-                        }                           
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function addTask()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['project_id', 'user_id', 'is_leave', 'description', 'date_added' , 'hour', 'min', 'priority'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    
-                    if($getUser){
-                        $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
-                        $project_id                = $requestData['project_id'];
-                        $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
-                        $project_status            = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);                        
-                        $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
-                        $department_id             = $department ? $department->dep_id : 0;
-                        $is_leave                  = $requestData['is_leave'];
-                        $description               = $requestData['description'];
-                        $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
-                        $hour                      = $requestData['hour'];
-                        $min                       = $requestData['min'];
-                        $priority                  = $requestData['priority'];
-                        $created_at                = date('Y-m-d H:i:s');
-
-                        if($is_leave == 1){                            
-                            $postData            = [
-                                'project_id'        => 0,
-                                'status_id'         => 0,
-                                'user_id'           => $user_id,
-                                'dept_id'           => $department_id,
-                                'description'       => "Half Day Leave Taken",
-                                'date_added'        => $date_added,
-                                'added_by'          => $uId,
-                                'hour'              => 0,
-                                'min'               => 0,
-                                'bill'              => 1,
-                                'work_status_id'    => 6,
-                                'priority'          => $priority,                                                                
-                                'next_day_task_action' => 1,
-                                'is_leave'          => 1,
-                                'created_at'        => $created_at
-                            ];                            
-                        } else if($is_leave == 2){                            
-                            $postData            = [
-                                'project_id'        => 0,
-                                'status_id'         => 0,
-                                'user_id'           => $user_id,
-                                'dept_id'           => $department_id,
-                                'description'       => "Full Day Leave Taken",
-                                'date_added'        => $date_added,
-                                'added_by'          => $uId,
-                                'hour'              => 0,
-                                'min'               => 0,
-                                'bill'              => 1,
-                                'work_status_id'    => 6,
-                                'priority'          => $priority,                                                                
-                                'next_day_task_action' => 1,
-                                'is_leave'          => 2,
-                                'created_at'        => $created_at
-                            ];
-                        } else {
-                            $postData            = [
-                                'project_id'        => $project_id,
-                                'status_id'         => $project_status->id,
-                                'user_id'           => $user_id,
-                                'dept_id'           => $department_id,
-                                'description'       => $description,
-                                'date_added'        => $date_added,
-                                'added_by'          => $uId,
-                                'hour'              => $hour,
-                                'min'               => $min,
-                                'bill'              => 0,                                
-                                'priority'          => $priority,                                                                                                                                
-                                'created_at'        => $created_at
-                            ];
-                        }  
-                        $this->common_model->save_data('morning_meetings', $postData, '', 'id');
-                        $apiResponse[]              = [                           
-                            'tasks'           => $postData
-                        ];
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();                                                                 
-                    }                                    
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getTasks()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['no_of_days'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                $no_of_days                 = $requestData['no_of_days'];
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                    if($getUser){
-                        $last7Days          = $this->getLastNDaysAscending($no_of_days, 'Y-m-d');
-                        if(!empty($last7Days)){
-                            for($t=0;$t<count($last7Days);$t++){
-                                $loopDate                   = $last7Days[$t];
-                                $tasks                      = [];
-                                $total_time                 = 0;
-
-                                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
-                                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
-                                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $uId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
-                                if($getTasks){
-                                    foreach($getTasks as $getTask){
-                                        $tothour                = $getTask->hour * 60;
-                                        $totmin                 = $getTask->min;
-                                        $totalMin               = ($tothour + $totmin);
-                                        // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
-                                        $booked_effort          = $totalMin;
-                                        $total_time             += $booked_effort;
-
-                                        $work_status_id         = $getTask->work_status_id;
-                                        $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
-
-                                        $tasks[]            = [
-                                            'project_name'          => $getTask->project_name,
-                                            'description'           => $getTask->description,
-                                            'hour'                  => $getTask->hour,
-                                            'min'                   => $getTask->min,
-                                            'user_name'             => $getTask->user_name,
-                                            'is_leave'              => $getTask->is_leave,
-                                            'background_color'      => (($getWorkStatus)?$getWorkStatus->background_color:''),
-                                            'border_color'          => (($getWorkStatus)?$getWorkStatus->border_color:''),
-                                            'work_status_name'      => (($getWorkStatus)?$getWorkStatus->name:''),
-                                            'created_at'            => date_format(date_create($getTask->created_at), "h:i a"),
-                                        ];
-                                    }
-                                }
-
-                                $apiResponse[]              = [
-                                    'task_date'       => date_format(date_create($loopDate), "M d, Y"),
-                                    'total_time'      => intdiv($total_time, 60).'.'. ($total_time % 60),
-                                    'tasks'           => $tasks
-                                ];
-                            }
-                        }
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    http_response_code($getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-        public function getTasksNew()
-        {
-            $apiStatus          = TRUE;
-            $apiMessage         = '';
-            $apiResponse        = [];
-            $this->isJSON(file_get_contents('php://input'));
-            $requestData        = $this->extract_json(file_get_contents('php://input'));        
-            $requiredFields     = ['no_of_days', 'id'];
-            $headerData         = $this->request->headers();
-            if (!$this->validateArray($requiredFields, $requestData)){              
-                $apiStatus          = FALSE;
-                $apiMessage         = 'All Data Are Not Present !!!';
-            }
-            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
-                // pr($headerData['Key']);
-                // pr(getenv('app.PROJECTKEY'));
-                $Authorization              = $headerData['Authorization'];
-                $app_access_token           = $this->extractToken($Authorization);
-                $getTokenValue              = $this->tokenAuth($app_access_token);
-                $no_of_days                 = $requestData['no_of_days'];
-                // pr($getTokenValue);
-                if($getTokenValue['status']){
-                    $uId        = $getTokenValue['data'][1];
-                    $getUserId = $requestData['id'];
-                    $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                    $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
-                    if($getUser){
-                        $last7Days          = $this->getLastNDaysAscending($no_of_days, 'Y-m-d');
-                        if(!empty($last7Days)){
-                            for($t=0;$t<count($last7Days);$t++){
-                                $loopDate                   = $last7Days[$t];
-                                $tasks                      = [];
-                                $total_time                 = 0;
-                                $total_book_time            = 0;
-
-                                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
-                                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
-                                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                                $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];
-                                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
-                                // pr($getTasks);
-                                if($getTasks){
-                                    foreach($getTasks as $getTask){
-                                        $tothour                = $getTask->hour * 60;
-                                        $totmin                 = $getTask->min;
-                                        $totalMin               = ($tothour + $totmin);
-                                        // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
-                                        $booked_effort          = $totalMin;
-                                        $total_time             += $booked_effort;
-
-                                        $bookhour                = $getTask->booked_hour * 60;
-                                        $bookmin                 = $getTask->booked_min;
-                                        $totalbookedMin               = ($bookhour + $bookmin);
-                                        // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
-                                        $booked_time_effort          = $totalbookedMin;
-                                        $total_book_time             += $booked_time_effort;
-
-                                        $work_status_id         = $getTask->work_status_id;
-                                        $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
-
-                                        $tasks[]            = [
-                                            'project_name'          => $getTask->project_name,
-                                            'description'           => $getTask->description,
-                                            'booked_description'    => $getTask->booked_description,
-                                            'booked_hour'           => $getTask->booked_hour,
-                                            'booked_min'            => $getTask->booked_min,
-                                            'hour'                  => $getTask->hour,
-                                            'min'                   => $getTask->min,
-                                            'user_name'             => $getTask->user_name,
-                                            'is_leave'              => $getTask->is_leave,
-                                            'background_color'      => (($getWorkStatus)?$getWorkStatus->background_color:''),
-                                            'border_color'          => (($getWorkStatus)?$getWorkStatus->border_color:''),
-                                            'work_status_name'      => (($getWorkStatus)?$getWorkStatus->name:''),
-                                            'created_at'            => date_format(date_create($getTask->created_at), "h:i a"),
-                                            'updated_at'            => date_format(date_create($getTask->updated_at), "h:i a"),
-                                        ];
-                                    }
-                                }
-
-                                $apiResponse[]              = [
-                                    'task_date'             => date_format(date_create($loopDate), "M d, Y"),
-                                    'total_time'            => intdiv($total_time, 60).'.'. ($total_time % 60),
-                                    'total_book_time'       => intdiv($total_book_time, 60).'.'. ($total_book_time % 60),
-                                    'tasks'                 => $tasks
-                                ];
-                            }
-                        }
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(404);
-                        $apiMessage         = 'User Not Found !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    // http_response_code($getTokenValue['data'][2]);
-                    http_response_code((int) $getTokenValue['data'][2]);
-                    $apiStatus                      = FALSE;
-                    $apiMessage                     = $this->getResponseCode(http_response_code());
-                    $apiExtraField                  = 'response_code';
-                    $apiExtraData                   = http_response_code();
-                }               
-            } else {
-                http_response_code(400);
-                $apiStatus          = FALSE;
-                $apiMessage         = $this->getResponseCode(http_response_code());
-                $apiExtraField      = 'response_code';
-                $apiExtraData       = http_response_code();
-            }
-            $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-        }
-
-        public static function geolocationaddress($lat, $long)
-        {
-            // $application_setting        = $this->common_model->find_data('application_settings', 'row');
-            $geocode = "https://maps.googleapis.com/maps/api/geocode/json?latlng=$lat,$long&sensor=false&key=AIzaSyBX7ODSt5YdPpUA252kxr459iV2UZwJwfQ";
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $geocode);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_PROXYPORT, 3128);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            $response = curl_exec($ch);
-            curl_close($ch);
-            $output = json_decode($response);
-            $dataarray = get_object_vars($output);
-            // pr($dataarray);
-            if ($dataarray['status'] != 'ZERO_RESULTS' && $dataarray['status'] != 'INVALID_REQUEST') {
-                if (isset($dataarray['results'][0]->formatted_address)) {
-                    $address = $dataarray['results'][0]->formatted_address;
-                } else {
-                    $address = 'Not Found';
+                    $apiStatus          = FALSE;
+                    http_response_code(404);
+                    $apiMessage         = 'User Not Found !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
                 }
             } else {
                 http_response_code($getTokenValue['data'][2]);
@@ -4979,6 +2926,173 @@ class ApiController extends BaseController
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
+    public function getProject()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $headerData         = $this->request->headers();
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId            = $getTokenValue['data'][1];
+                $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
+                $getProjects    = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status', '', '', $order_by);
+                if ($getProjects) {
+                    foreach ($getProjects as $getProject) {
+                        $project_status = $this->common_model->find_data('project_status', 'row', ['id' => $getProject->status]);
+                        $apiResponse[]        = [
+                            'id'              => $getProject->id,
+                            'name'            => $getProject->name,
+                            'type'           => $project_status->name,
+                        ];
+                    }
+                    $apiStatus          = TRUE;
+                    http_response_code(200);
+                    $apiMessage         = 'Data Available !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                } else {
+                    $apiStatus          = FALSE;
+                    http_response_code(404);
+                    $apiMessage         = 'User Not Found !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                }
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
+    public function addTask()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $this->isJSON(file_get_contents('php://input'));
+        $requestData        = $this->extract_json(file_get_contents('php://input'));
+        $requiredFields     = ['project_id', 'user_id', 'is_leave', 'description', 'date_added', 'hour', 'min', 'priority'];
+        $headerData         = $this->request->headers();
+        if (!$this->validateArray($requiredFields, $requestData)) {
+            $apiStatus          = FALSE;
+            $apiMessage         = 'All Data Are Not Present !!!';
+        }
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId        = $getTokenValue['data'][1];
+                $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+
+                if ($getUser) {
+                    $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
+                    $project_id                = $requestData['project_id'];
+                    $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+                    $project_status            = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);
+                    $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
+                    $department_id             = $department ? $department->dep_id : 0;
+                    $is_leave                  = $requestData['is_leave'];
+                    $description               = $requestData['description'];
+                    $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
+                    $hour                      = $requestData['hour'];
+                    $min                       = $requestData['min'];
+                    $priority                  = $requestData['priority'];
+                    $created_at                = date('Y-m-d H:i:s');
+
+                    if ($is_leave == 1) {
+                        $postData            = [
+                            'project_id'        => 0,
+                            'status_id'         => 0,
+                            'user_id'           => $user_id,
+                            'dept_id'           => $department_id,
+                            'description'       => "Half Day Leave Taken",
+                            'date_added'        => $date_added,
+                            'added_by'          => $uId,
+                            'hour'              => 0,
+                            'min'               => 0,
+                            'bill'              => 1,
+                            'work_status_id'    => 6,
+                            'priority'          => $priority,
+                            'next_day_task_action' => 1,
+                            'is_leave'          => 1,
+                            'created_at'        => $created_at
+                        ];
+                    } else if ($is_leave == 2) {
+                        $postData            = [
+                            'project_id'        => 0,
+                            'status_id'         => 0,
+                            'user_id'           => $user_id,
+                            'dept_id'           => $department_id,
+                            'description'       => "Full Day Leave Taken",
+                            'date_added'        => $date_added,
+                            'added_by'          => $uId,
+                            'hour'              => 0,
+                            'min'               => 0,
+                            'bill'              => 1,
+                            'work_status_id'    => 6,
+                            'priority'          => $priority,
+                            'next_day_task_action' => 1,
+                            'is_leave'          => 2,
+                            'created_at'        => $created_at
+                        ];
+                    } else {
+                        $postData            = [
+                            'project_id'        => $project_id,
+                            'status_id'         => $project_status->id,
+                            'user_id'           => $user_id,
+                            'dept_id'           => $department_id,
+                            'description'       => $description,
+                            'date_added'        => $date_added,
+                            'added_by'          => $uId,
+                            'hour'              => $hour,
+                            'min'               => $min,
+                            'bill'              => 0,
+                            'priority'          => $priority,
+                            'created_at'        => $created_at
+                        ];
+                    }
+                    $this->common_model->save_data('morning_meetings', $postData, '', 'id');
+                    $apiResponse[]              = [
+                        'tasks'           => $postData
+                    ];
+                    $apiStatus          = TRUE;
+                    http_response_code(200);
+                    $apiMessage         = 'Data Available !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                }
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
     public function getTasks()
     {
         $apiStatus          = TRUE;
@@ -5089,10 +3203,13 @@ class ApiController extends BaseController
             $apiMessage         = 'All Data Are Not Present !!!';
         }
         if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            // pr($headerData['Key']);
+            // pr(getenv('app.PROJECTKEY'));
             $Authorization              = $headerData['Authorization'];
             $app_access_token           = $this->extractToken($Authorization);
             $getTokenValue              = $this->tokenAuth($app_access_token);
             $no_of_days                 = $requestData['no_of_days'];
+            // pr($getTokenValue);
             if ($getTokenValue['status']) {
                 $uId        = $getTokenValue['data'][1];
                 $getUserId = $requestData['id'];
@@ -5105,11 +3222,14 @@ class ApiController extends BaseController
                             $loopDate                   = $last7Days[$t];
                             $tasks                      = [];
                             $total_time                 = 0;
+                            $total_book_time            = 0;
 
                             $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
                             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-                            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                            $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];
+                            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                            // pr($getTasks);
                             if ($getTasks) {
                                 foreach ($getTasks as $getTask) {
                                     $tothour                = $getTask->hour * 60;
@@ -5119,12 +3239,22 @@ class ApiController extends BaseController
                                     $booked_effort          = $totalMin;
                                     $total_time             += $booked_effort;
 
+                                    $bookhour                = $getTask->booked_hour * 60;
+                                    $bookmin                 = $getTask->booked_min;
+                                    $totalbookedMin               = ($bookhour + $bookmin);
+                                    // $booked_effort          = intdiv($totalMin, 60).'.'. ($totalMin % 60);
+                                    $booked_time_effort          = $totalbookedMin;
+                                    $total_book_time             += $booked_time_effort;
+
                                     $work_status_id         = $getTask->work_status_id;
                                     $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
 
                                     $tasks[]            = [
                                         'project_name'          => $getTask->project_name,
                                         'description'           => $getTask->description,
+                                        'booked_description'    => $getTask->booked_description,
+                                        'booked_hour'           => $getTask->booked_hour,
+                                        'booked_min'            => $getTask->booked_min,
                                         'hour'                  => $getTask->hour,
                                         'min'                   => $getTask->min,
                                         'user_name'             => $getTask->user_name,
@@ -5133,14 +3263,16 @@ class ApiController extends BaseController
                                         'border_color'          => (($getWorkStatus) ? $getWorkStatus->border_color : ''),
                                         'work_status_name'      => (($getWorkStatus) ? $getWorkStatus->name : ''),
                                         'created_at'            => date_format(date_create($getTask->created_at), "h:i a"),
+                                        'updated_at'            => date_format(date_create($getTask->updated_at), "h:i a"),
                                     ];
                                 }
                             }
 
                             $apiResponse[]              = [
-                                'task_date'       => date_format(date_create($loopDate), "M d, Y"),
-                                'total_time'      => intdiv($total_time, 60) . '.' . ($total_time % 60),
-                                'tasks'           => $tasks
+                                'task_date'             => date_format(date_create($loopDate), "M d, Y"),
+                                'total_time'            => intdiv($total_time, 60) . '.' . ($total_time % 60),
+                                'total_book_time'       => intdiv($total_book_time, 60) . '.' . ($total_book_time % 60),
+                                'tasks'                 => $tasks
                             ];
                         }
                     }
@@ -5157,7 +3289,8 @@ class ApiController extends BaseController
                     $apiExtraData       = http_response_code();
                 }
             } else {
-                http_response_code($getTokenValue['data'][2]);
+                // http_response_code($getTokenValue['data'][2]);
+                http_response_code((int) $getTokenValue['data'][2]);
                 $apiStatus                      = FALSE;
                 $apiMessage                     = $this->getResponseCode(http_response_code());
                 $apiExtraField                  = 'response_code';
