@@ -73,14 +73,30 @@ class ScreenshotSettingsController extends BaseController
     public function screenshotList($userId)
     {
         $id                         = decoded($userId);
-        pr($id);
-        $data['moduleDetail']       = $this->data;
-        $data['action']             = 'Screenshot List';
-        $title                      = $data['action'];
+        $title                      = 'Screenshot List';
         $page_name                  = 'screenshot_settings/user_screen_list';
-      
-        // $data['row']                = $this->data['model']->find_data('', 'row', $conditions);
+        $data['start_date'] = $data['end_date'] = date('Y-m-d');
+        $data['row'] = [];
 
-        // echo $this->layout_after_login($title, $page_name, $data);
+        if ($this->request->getGet('mode') === 'search') {
+            $data['start_date'] = $this->request->getGet('start') ?? $data['start_date'];
+            $data['end_date']   = $this->request->getGet('end') ?? $data['end_date'];
+        }
+
+        try {
+            $builder = $this->data['model']->builder('user_screenshots');
+
+            $builder->where('user_id', $id)
+                ->where('idle_status', 1)
+                ->where('DATE(time_stamp) >=', $data['start_date'])
+                ->where('DATE(time_stamp) <=', $data['end_date']);
+
+            $data['row'] = $builder->get()->getResultArray();
+        } catch (\Exception $error) {
+            log('error', 'Error fetching user screenshots: ' . $error->getMessage());
+            $this->session->setFlashdata('error_message', 'Error fetching user screenshots');
+        }
+
+        echo $this->layout_after_login($title, $page_name, $data);
     }
 }

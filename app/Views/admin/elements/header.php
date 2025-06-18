@@ -3,14 +3,14 @@ $userType                   = $session->user_type;
 ?>
 <div class="d-flex align-items-center justify-content-between">
     <a href="<?= base_url('admin/dashboard') ?>" class="logo d-flex align-items-center">
-    <?php if ($general_settings->site_logo != '') { ?>
-    <img src="<?= getenv('app.uploadsURL') . $general_settings->site_logo ?>" alt="<?= $general_settings->site_name ?>">
-    <?php } else { ?>
-    <img src="<?= getenv('app.NO_IMAGE') ?>" alt="<?= $general_settings->site_name ?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
-    <?php } ?>
-    <!-- <img src="<?=getenv('app.adminAssetsURL')?>assets/img/logo.svg" alt="<?=$general_settings->site_name?>"> -->
-    <!-- <img src="<?=getenv('app.adminAssetsURL')?>assets/img/logo.png" alt="<?=$general_settings->site_name?>"> -->
-    <!-- <span class="d-none d-lg-block" style="font-size: 23px;"><?=$general_settings->site_name?></span> -->
+        <?php if ($general_settings->site_logo != '') { ?>
+            <img src="<?= getenv('app.uploadsURL') . $general_settings->site_logo ?>" alt="<?= $general_settings->site_name ?>">
+        <?php } else { ?>
+            <img src="<?= getenv('app.NO_IMAGE') ?>" alt="<?= $general_settings->site_name ?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px;">
+        <?php } ?>
+        <!-- <img src="<?= getenv('app.adminAssetsURL') ?>assets/img/logo.svg" alt="<?= $general_settings->site_name ?>"> -->
+        <!-- <img src="<?= getenv('app.adminAssetsURL') ?>assets/img/logo.png" alt="<?= $general_settings->site_name ?>"> -->
+        <!-- <span class="d-none d-lg-block" style="font-size: 23px;"><?= $general_settings->site_name ?></span> -->
     </a>
 </div>
 <!-- End Logo -->
@@ -110,7 +110,7 @@ $userType                   = $session->user_type;
                 </li>
                 <li class="message-item">
                     <a href="#">
-                        <img src="<?=getenv('app.adminAssetsURL')?>assets/img/messages-1.jpg" alt="" class="rounded-circle">
+                        <img src="<?= getenv('app.adminAssetsURL') ?>assets/img/messages-1.jpg" alt="" class="rounded-circle">
                         <div>
                             <h4>Maria Hudson</h4>
                             <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -123,7 +123,7 @@ $userType                   = $session->user_type;
                 </li>
                 <li class="message-item">
                     <a href="#">
-                        <img src="<?=getenv('app.adminAssetsURL')?>assets/img/messages-2.jpg" alt="" class="rounded-circle">
+                        <img src="<?= getenv('app.adminAssetsURL') ?>assets/img/messages-2.jpg" alt="" class="rounded-circle">
                         <div>
                             <h4>Anna Nelson</h4>
                             <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -136,7 +136,7 @@ $userType                   = $session->user_type;
                 </li>
                 <li class="message-item">
                     <a href="#">
-                        <img src="<?=getenv('app.adminAssetsURL')?>assets/img/messages-3.jpg" alt="" class="rounded-circle">
+                        <img src="<?= getenv('app.adminAssetsURL') ?>assets/img/messages-3.jpg" alt="" class="rounded-circle">
                         <div>
                             <h4>David Muldon</h4>
                             <p>Velit asperiores et ducimus soluta repudiandae labore officia est ut...</p>
@@ -161,50 +161,59 @@ $userType                   = $session->user_type;
             <a class="nav-link nav-profile d-flex align-items-center pe-0" href="javascript:void(0);" data-bs-toggle="dropdown">
                 <?php
                 // pr($userType);
-                if($userType == "CLIENT")
-                {
-                    if($client) {  ?>
-                        <img src="<?=getenv('app.NO_IMAGE')?>" alt="<?=$client->name?>" class="rounded-circle">
-                    <?php }  
-                    }  else {                
-                if($admin) { ?>
-                    <?php if($admin->profile_image != ''){?>
-                        <img src="<?=getenv('app.uploadsURL').'user/'.$admin->profile_image?>" alt="<?=$admin->name?>" class="rounded-circle">
-                    <?php } else {?>
-                        <img src="<?=getenv('app.NO_IMAGE')?>" alt="<?=$admin->name?>" class="rounded-circle">
-                    <?php }?>
-                <?php } else {?>
-                    <img src="<?=getenv('app.NO_IMAGE')?>" alt="<?=$admin->name?>" class="rounded-circle">
-                <?php } }?>
+                if ($userType == "CLIENT") {
+                    if ($client) {  ?>
+                        <img src="<?= getenv('app.NO_IMAGE') ?>" alt="<?= $client->name ?>" class="rounded-circle">
+                    <?php }
+                } else {
+                    if ($admin) { ?>
+                        <?php if ($admin->profile_image != '') { ?>
+                            <img src="<?= getenv('app.uploadsURL') . 'user/' . $admin->profile_image ?>" alt="<?= $admin->name ?>" class="rounded-circle">
+                        <?php } else { ?>
+                            <img src="<?= getenv('app.NO_IMAGE') ?>" alt="<?= $admin->name ?>" class="rounded-circle">
+                        <?php } ?>
+                    <?php } else { ?>
+                        <img src="<?= getenv('app.NO_IMAGE') ?>" alt="<?= $admin->name ?>" class="rounded-circle">
+                <?php }
+                } ?>
                 <span class="d-none d-md-block px-3">
-                    <?=$session->name?>
-                    <small><?=$session->user_type?></small>
+                    <?= $session->name ?>
+                    <small><?= $session->user_type ?></small>
                 </span>
                 <i class='bx bxs-chevron-down arrow ms-auto'></i>
             </a><!-- End Profile Iamge Icon -->
             <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
                 <li class="dropdown-header">
-                    <h6><?=$session->name?></h6>
-                    <span><?=$session->user_type?></span>
+                    <h6><?= $session->name ?></h6>
+                    <span><?= $session->user_type ?></span>
                 </li>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
-                <?php //if($userType == 'admin'){?>
-                    <li>
-                        <a class="dropdown-item d-flex align-items-center" href="<?=base_url('admin/settings')?>">
+                <?php //if($userType == 'admin'){
+                ?>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/settings') ?>">
                         <i class="bi bi-gear"></i>
                         <span>Account Settings</span>
-                        </a>
-                    </li>
-                <?php //}?>
+                    </a>
+                </li>
+                <?php //}
+                ?>
                 <li>
                     <hr class="dropdown-divider">
                 </li>
                 <li>
-                    <a class="dropdown-item d-flex align-items-center" href="<?=base_url('admin/signout')?>">
-                    <i class="bi bi-box-arrow-right"></i>
-                    <span>Sign Out</span>
+
+                    <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/user/screenshots/' . encoded($session->user_id)); ?>">
+                        <i class="fas fa-image"></i>
+                        <span>My Screenshots</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/signout') ?>">
+                        <i class="bi bi-box-arrow-right"></i>
+                        <span>Sign Out</span>
                     </a>
                 </li>
             </ul>
