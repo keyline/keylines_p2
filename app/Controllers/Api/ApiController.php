@@ -3379,7 +3379,7 @@ class ApiController extends BaseController
                                         'hour'                  => $getTask->hour,
                                         'min'                   => $getTask->min,
                                         'priority'             => $getTask->priority,
-                                        'date_added'            => date_format(date_create($getTask->date_added), "M d, Y h:i a"),
+                                        'date_added'            => date_format(date_create($getTask->date_added), "Y-m-d"),
                                         'user_name'             => $getTask->user_name,
                                         'user_id'               => $getUserId,
                                         'is_leave'              => $getTask->is_leave,
