@@ -312,6 +312,7 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
 	$routes->match(['post'], "add-task", "ApiController::addTask");
 	$routes->match(['post'], "edit-task", "ApiController::editTask");
 	$routes->match(['post'], "get-tasks", "ApiController::getTasks");
+	$routes->match(['post'], "add-effort", "ApiController::addEffort");
 	$routes->match(['post'], "get-tasks-new", "ApiController::getTasksNew");
 	// after login
 

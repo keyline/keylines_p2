@@ -3543,6 +3543,134 @@ class ApiController extends BaseController
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
+    public function addEffort()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $this->isJSON(file_get_contents('php://input'));
+        $requestData        = $this->extract_json(file_get_contents('php://input'));
+        $requiredFields     = ['project_id', 'user_id', 'task_id', 'description', 'date_added', 'effort_type_id', 'hour', 'min', 'work_status_id'];
+        $headerData         = $this->request->headers();
+        if (!$this->validateArray($requiredFields, $requestData)) {
+            $apiStatus          = FALSE;
+            $apiMessage         = 'All Data Are Not Present !!!';
+        }
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId           = $getTokenValue['data'][1];
+                $expiry        = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $getUser       = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+                $task_details  = $this->common_model->find_data('morning_meetings', 'row', ['id' => $requestData['task_id']]);
+
+                $user_cost                  = $getUser->hour_cost;
+                $cal_usercost               = ($user_cost/60);
+
+                $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
+                $project_id                = $requestData['project_id'];                
+                $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+                $project_status            = $project->status;
+                $project_bill              = $project->bill;                                 
+                $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
+                $department_id             = $department ? $department->dep_id : 0;                    
+                $description               = $requestData['description'];
+                
+                $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
+                $hour                      = $requestData['hour'];
+                $min                       = $requestData['min'];
+                $priority                  = $requestData['priority'];
+                $created_at                = date('Y-m-d H:i:s');
+                $effort_type_id            = $requestData['effort_type_id'];
+                $work_status_id            = $requestData['work_status_id'];      
+                
+                $cal                    = (($hour*60) + $min); //converted to minutes
+                $projectCost            = floatval($cal_usercost * $cal);
+
+                if ($task_details) {                                        
+                    $postData            = [
+                        'project_id'        => $project_id,                        
+                        'status_id'         => $project_status,
+                        'user_id'           => $user_id,                            
+                        'description'       => $description,                            
+                        'hour'              => $hour,
+                        'min'               => $min,
+                        'effort_type'       => $effort_type_id,
+                        'work_status_id'    => $work_status_id,
+                        'date_added'        => $date_added,                                                                 
+                        'bill'              => $project_bill,
+                        'assigned_task_id'  => $requestData['task_id'],                            
+                        'date_today'        => $created_at,
+                        'hour_rate'         => $user_cost,
+                        'cost'              => number_format($projectCost, 2, '.', ''),
+                    ];
+                    $this->common_model->save_data('timesheet', $postData, '', 'id');
+                } else{
+                    $today = date('Y-m-d');
+                    if ($date_added < $today) {
+                     $postData            = [
+                        'project_id'        => $project_id,
+                        'dept_id'           => $department_id,
+                        'status_id'         => $project_status,
+                        'user_id'           => $user_id,                            
+                        'description'       => $description,                            
+                        'hour'              => $hour,
+                        'min'               => $min,
+                        'effort_type'       => $effort_type_id,
+                        'work_status_id'    => $work_status_id,
+                        'date_added'        => $date_added,  
+                        'added_by'          => $uId,                          
+                        'bill'              => $project_bill,  
+                        'created_at'        => $created_at,
+                        'updated_at'        => $created_at
+                    ]; 
+                    $schedule_id = $this->common_model->save_data('morning_meetings', $postData, '', 'id');  
+                    $field            = [
+                        'project_id'        => $project_id,                        
+                        'status_id'         => $project_status,
+                        'user_id'           => $user_id,                            
+                        'description'       => $description,                            
+                        'hour'              => $hour,
+                        'min'               => $min,
+                        'effort_type'       => $effort_type_id,
+                        'work_status_id'    => $work_status_id,
+                        'date_added'        => $date_added,                                                                 
+                        'bill'              => $project_bill,
+                        'assigned_task_id'  => $schedule_id,                            
+                        'date_today'        => $created_at,
+                        'hour_rate'         => $user_cost,
+                        'cost'              => number_format($projectCost, 2, '.', ''),
+                    ];
+                    $this->common_model->save_data('timesheet', $field, '', 'id');
+                }
+                    
+                    $apiResponse[]              = [
+                        'efforts'           => $postData
+                    ];
+                    $apiStatus          = TRUE;
+                    http_response_code(200);
+                    $apiMessage         = 'Effort added Successfully !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                }
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
 
     public static function geolocationaddress($lat, $long)
     {
