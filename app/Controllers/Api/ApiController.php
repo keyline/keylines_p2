@@ -2944,14 +2944,16 @@ class ApiController extends BaseController
                 $uId            = $getTokenValue['data'][1];
                 $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                 $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
-                $getProjects    = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status', '', '', $order_by);
+                $getProjects    = $this->common_model->find_data('project', 'array', ['status!=' => '13'], '', '', '', $order_by);
                 if ($getProjects) {
                     foreach ($getProjects as $getProject) {
                         $project_status = $this->common_model->find_data('project_status', 'row', ['id' => $getProject->status]);
+                        $client = $this->common_model->find_data('client', 'row', ['id' => $getProject->client_id]);
                         $apiResponse[]        = [
                             'id'              => $getProject->id,
                             'name'            => $getProject->name,
                             'type'           => $project_status->name,
+                            'client_name'   => (($client) ? $client->name : ''),
                         ];
                     }
                     $apiStatus          = TRUE;
@@ -2962,7 +2964,7 @@ class ApiController extends BaseController
                 } else {
                     $apiStatus          = FALSE;
                     http_response_code(404);
-                    $apiMessage         = 'User Not Found !!!';
+                    $apiMessage         = 'Data Not Found !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 }
