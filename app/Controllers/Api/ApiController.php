@@ -3564,7 +3564,7 @@ class ApiController extends BaseController
                 $uId           = $getTokenValue['data'][1];
                 $expiry        = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                 $getUser       = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                $task_details  = $this->common_model->find_data('morning_meetings', 'row', ['id' => $requestData['task_id']]);
+                $task_details  = $this->common_model->find_data('morning_meetings', 'row', ['id' => $requestData['task_id']]);                
 
                 $user_cost                  = $getUser->hour_cost;
                 $cal_usercost               = ($user_cost/60);
@@ -3576,18 +3576,19 @@ class ApiController extends BaseController
                 $project_bill              = $project->bill;                                 
                 $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
                 $department_id             = $department ? $department->dep_id : 0;                    
-                $description               = $requestData['description'];
-                
+                $description               = $requestData['description'];                
                 $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
                 $hour                      = $requestData['hour'];
                 $min                       = $requestData['min'];                
                 $created_at                = date('Y-m-d H:i:s');
                 $effort_type_id            = $requestData['effort_type_id'];
                 $work_status_id            = $requestData['work_status_id'];      
-                
+                $schedule_id               = $requestData['task_id'];
+                $getWorkStatus  = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'is_reassign');
+
                 $cal                    = (($hour*60) + $min); //converted to minutes
                 $projectCost            = floatval($cal_usercost * $cal);
-
+                
                 if ($task_details) {                                        
                     $postData            = [
                         'project_id'        => $project_id,                        
@@ -3605,7 +3606,14 @@ class ApiController extends BaseController
                         'hour_rate'         => $user_cost,
                         'cost'              => number_format($projectCost, 2, '.', ''),
                     ];
-                    $this->common_model->save_data('timesheet', $postData, '', 'id');
+                    $effort_id = $this->common_model->save_data('timesheet', $postData, '', 'id');
+                    $fields                     = [                    
+                    'effort_type'       => $effort_type_id,
+                    'work_status_id'    => $work_status_id,
+                    'effort_id'         => $effort_id,
+                    'updated_at'        => date('Y-m-d H:i:s'),
+                ];
+                $this->data['model']->save_data('morning_meetings', $fields, $schedule_id, 'id');
                 } else{
                     $today = date('Y-m-d');
                     if ($date_added < $today) {
@@ -3645,6 +3653,34 @@ class ApiController extends BaseController
                         $this->common_model->save_data('timesheet', $field, '', 'id');
                     }                                        
                 }
+                $year                   = date('Y', strtotime($date_added)); // 2024
+                $month                  = date('m', strtotime($date_added)); // 08
+                $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
+                $rows                   = $this->db->query($projectcost)->getResult(); 
+                foreach($rows as $row){
+                    $project_cost       =  $row->total_hours_worked;
+                }  
+                $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project_id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+                if(!$exsistingProjectCost){
+                    $postData2   = array(
+                        'project_id'            => $project_id,
+                        'month'                 => $month ,
+                        'year'                  => $year,
+                        'project_cost'          => $project_cost,
+                        'created_at'            => date('Y-m-d H:i:s'),                                
+                    );                                  
+                    $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
+                } else {
+                    $id         = $exsistingProjectCost->id;
+                    $postData2   = array(
+                        'project_id'            => $project_id,
+                        'month'                 => $month ,
+                        'year'                  => $year,
+                        'project_cost'          => $project_cost,
+                        'updated_at'            => date('Y-m-d H:i:s'),                                
+                    );                                    
+                    $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');
+                }                         
                 $apiResponse[]              = [
                         'efforts'           => $postData
                     ];
@@ -3669,7 +3705,86 @@ class ApiController extends BaseController
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
+    public function calculateNextWorkingDate($givenDate){
+        // echo $givenDate;
+        $checkHoliday = $this->common_model->find_data('event', 'count', ['start_event' => $givenDate]);
+        if($checkHoliday > 0){
+            return true;
+        } else {
+            $applicationSetting = $this->common_model->find_data('application_settings', 'row');
+            $dayOfWeek = date("l", strtotime($givenDate));
+            if($dayOfWeek == 'Sunday'){
+                $dayNo          = 7;
+                $fieldName      = 'sunday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Monday'){
+                $dayNo          = 1;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Tuesday'){
+                $dayNo          = 2;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Wednesday'){
+                $dayNo          = 3;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Thursday'){
+                $dayNo          = 4;
+                $fieldName      = 'thursday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Friday'){
+                $dayNo          = 5;
+                $fieldName      = 'friday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Saturday'){
+                $dayNo          = 6;
+                $fieldName      = 'satarday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            }
+            // echo $getDayCount;
+            $fieldArray = json_decode($applicationSetting->$fieldName);
+            // pr($fieldArray,0);
+            if(in_array($getDayCount, $fieldArray)){
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    public function getDayCountInMonth($givenDate, $dayNo){
+        $date = $givenDate; // Example date
+        // $date = "2024-08-24"; // Example date
 
+        // Get the day of the month
+        $dayOfMonth = date("j", strtotime($date));
+
+        // Get the month and year from the date
+        $month = date("m", strtotime($date));
+        $year = date("Y", strtotime($date));
+
+        // Initialize the counter for Saturdays
+        $saturdayCount = 0;
+
+        for ($day = 1; $day <= $dayOfMonth; $day++) {
+            // Create a date string for each day of the month
+            $currentDate = "$year-$month-$day";
+            // echo date("N", strtotime('2024-08-25')).'<br>';
+            // Check if the current date is a Saturday
+            if (date("N", strtotime($currentDate)) == $dayNo) {
+                $saturdayCount++;
+            }
+        }
+
+        // Check if the provided date is a Saturday and count it
+        if (date("N", strtotime($date)) == $dayNo) {
+            // echo "The date $date is the $saturdayCount" . "th Saturday of the month.";
+            return $saturdayCount;
+        } else {
+            // echo "The date $date is not a Saturday.";
+            return 0;
+        }
+    }
     public static function geolocationaddress($lat, $long)
     {
         // $application_setting        = $this->common_model->find_data('application_settings', 'row');
