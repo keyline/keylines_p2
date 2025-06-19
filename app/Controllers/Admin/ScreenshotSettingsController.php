@@ -89,7 +89,8 @@ class ScreenshotSettingsController extends BaseController
             $builder->where('user_id', $id)
                 ->where('idle_status', 1)
                 ->where('DATE(time_stamp) >=', $data['start_date'])
-                ->where('DATE(time_stamp) <=', $data['end_date']);
+                ->where('DATE(time_stamp) <=', $data['end_date'])
+                ->orderBy('time_stamp', 'DESC');
 
             $data['row'] = $builder->get()->getResultArray();
         } catch (\Exception $error) {

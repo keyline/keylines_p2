@@ -46,9 +46,9 @@
                             <div class="col-md-4 col-lg-4" id="day_range_row" style="margin-top: 18px;">
                                 <div class="input-group input-daterange">
                                     <!-- <label for="search_range_from">Date Range</label> -->
-                                    <input type="date" id="search_range_from" name="start" class="form-control" value="<?=$start_date?>" style="height: 40px;">
+                                    <input type="date" id="search_range_from" name="start" class="form-control" value="<?= $start_date ?>" style="height: 40px;">
                                     <span class="input-group-text">To</span>
-                                    <input type="date" id="search_range_to" name="end" class="form-control" value="<?=$end_date?>" style="height: 40px;">
+                                    <input type="date" id="search_range_to" name="end" class="form-control" value="<?= $end_date ?>" style="height: 40px;">
                                 </div>
                             </div>
                         </div>
