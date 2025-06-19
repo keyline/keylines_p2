@@ -3609,43 +3609,43 @@ class ApiController extends BaseController
                 } else{
                     $today = date('Y-m-d');
                     if ($date_added < $today) {
-                     $postData            = [
-                        'project_id'        => $project_id,
-                        'dept_id'           => $department_id,
-                        'status_id'         => $project_status,
-                        'user_id'           => $user_id,                            
-                        'description'       => $description,                            
-                        'hour'              => $hour,
-                        'min'               => $min,
-                        'effort_type'       => $effort_type_id,
-                        'work_status_id'    => $work_status_id,
-                        'date_added'        => $date_added,  
-                        'added_by'          => $uId,                          
-                        'bill'              => $project_bill,  
-                        'created_at'        => $created_at,
-                        'updated_at'        => $created_at
-                    ]; 
-                    $schedule_id = $this->common_model->save_data('morning_meetings', $postData, '', 'id');  
-                    $field            = [
-                        'project_id'        => $project_id,                        
-                        'status_id'         => $project_status,
-                        'user_id'           => $user_id,                            
-                        'description'       => $description,                            
-                        'hour'              => $hour,
-                        'min'               => $min,
-                        'effort_type'       => $effort_type_id,
-                        'work_status_id'    => $work_status_id,
-                        'date_added'        => $date_added,                                                                 
-                        'bill'              => $project_bill,
-                        'assigned_task_id'  => $schedule_id,                            
-                        'date_today'        => $created_at,
-                        'hour_rate'         => $user_cost,
-                        'cost'              => number_format($projectCost, 2, '.', ''),
-                    ];
-                    $this->common_model->save_data('timesheet', $field, '', 'id');
+                        $postData            = [
+                            'project_id'        => $project_id,
+                            'dept_id'           => $department_id,
+                            'status_id'         => $project_status,
+                            'user_id'           => $user_id,                            
+                            'description'       => $description,                            
+                            'hour'              => $hour,
+                            'min'               => $min,
+                            'effort_type'       => $effort_type_id,
+                            'work_status_id'    => $work_status_id,
+                            'date_added'        => $date_added,  
+                            'added_by'          => $uId,                          
+                            'bill'              => $project_bill,  
+                            'created_at'        => $created_at,
+                            'updated_at'        => $created_at
+                        ]; 
+                        $schedule_id = $this->common_model->save_data('morning_meetings', $postData, '', 'id');  
+                        $field            = [
+                            'project_id'        => $project_id,                        
+                            'status_id'         => $project_status,
+                            'user_id'           => $user_id,                            
+                            'description'       => $description,                            
+                            'hour'              => $hour,
+                            'min'               => $min,
+                            'effort_type'       => $effort_type_id,
+                            'work_status_id'    => $work_status_id,
+                            'date_added'        => $date_added,                                                                 
+                            'bill'              => $project_bill,
+                            'assigned_task_id'  => $schedule_id,                            
+                            'date_today'        => $created_at,
+                            'hour_rate'         => $user_cost,
+                            'cost'              => number_format($projectCost, 2, '.', ''),
+                        ];
+                        $this->common_model->save_data('timesheet', $field, '', 'id');
+                    }                                        
                 }
-                    
-                    $apiResponse[]              = [
+                $apiResponse[]              = [
                         'efforts'           => $postData
                     ];
                     $apiStatus          = TRUE;
@@ -3653,7 +3653,6 @@ class ApiController extends BaseController
                     $apiMessage         = 'Effort added Successfully !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
-                }
             } else {
                 http_response_code($getTokenValue['data'][2]);
                 $apiStatus                      = FALSE;
