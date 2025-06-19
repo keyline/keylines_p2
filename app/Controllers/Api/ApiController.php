@@ -2953,7 +2953,7 @@ class ApiController extends BaseController
                             'id'              => $getProject->id,
                             'name'            => $getProject->name,
                             'type'           => $project_status->name,
-                            'client_name'   => (($client) ? $client->name : ''),
+                            'client_name'   => $this->pro->decrypt(($client) ? $client->name : ''),
                         ];
                     }
                     $apiStatus          = TRUE;
