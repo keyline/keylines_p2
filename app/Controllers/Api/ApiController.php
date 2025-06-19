@@ -3580,8 +3580,7 @@ class ApiController extends BaseController
                 
                 $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
                 $hour                      = $requestData['hour'];
-                $min                       = $requestData['min'];
-                $priority                  = $requestData['priority'];
+                $min                       = $requestData['min'];                
                 $created_at                = date('Y-m-d H:i:s');
                 $effort_type_id            = $requestData['effort_type_id'];
                 $work_status_id            = $requestData['work_status_id'];      
