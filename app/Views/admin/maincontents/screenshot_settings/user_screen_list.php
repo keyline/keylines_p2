@@ -63,9 +63,19 @@
                         <div class="row g-3">
                             <?php if (count($row)) {
                                 foreach ($row as $screenshot) { ?>
-                                    <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="col-3 glightbox" alt="Screenshot img">
-                                        <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="img-fluid rounded">
-                                    </a>
+                                  
+
+                                    <div class="col-3">
+                                        <div class="card">
+                                            <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
+                                                <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                            </a>
+                                            <div class="card-body p-2">
+                                                <p class="card-text text-center mb-0"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p> 
+                                            </div>
+                                        </div>
+                                    </div>
+
                                 <?php }
                             } else { ?>
                                 <div class="col-12">
