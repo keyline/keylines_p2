@@ -1092,16 +1092,23 @@ class User extends BaseController
         if($this->request->getMethod() == 'post') {  
             $user_id            = $this->request->getPost('employee_id') ?? $this->session->get('user_id');
             $department         = $this->common_model->find_data('team', 'row', ['user_id' => $user_id]);
-            $department_id      = $department ? $department->dep_id : 0;
-            $task_assign_date   = $this->request->getPost('date');
-            $fhour              = $this->request->getPost('fhour');
-            $fminute            = $this->request->getPost('fminute');
-            $task_assign_time   = $fhour . ':' . $fminute . ':00';
+            $department_id      = $department ? $department->dep_id : 0;            
+            $hour              = $this->request->getPost('fhour');
+            $min           = $this->request->getPost('fminute');
+            $task_assign_time   = $hour . ':' . $min . ':00';
 
             $project_id         = $this->request->getPost('project_id');
-            $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
-            pr($project);
-            $project_status     = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);  
+            if ($project_id != 0) {
+                $project = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+                $project_status            = $project->status;
+                $project_bill           = $project->bill;
+            } else {
+                $project = 0;
+                $project_status = 0;
+                $project_bill = 0;
+            }   
+            // pr($project);
+
             $is_leave             = $this->request->getPost('status');
             $description        = $this->request->getPost('description');
             $priority           = $this->request->getPost('priority');
@@ -1109,32 +1116,36 @@ class User extends BaseController
             
             if($is_leave == 1){                            
                 $postData            = [                   
+                    'project_id'        => 0,
+                    'status_id'         => 0,
                     'user_id'           => $user_id,
                     'dept_id'           => $department_id,
-                    'description'       => $description,
+                    'description'       => "Half Day Leave Taken",
                     'date_added'        => $date_added,
-                    'added_by'          => $added_by,
-                    'hour'              => $fhour,
-                    'min'               => $fminute,
+                    'added_by'          => $user_id,
+                    'hour'              => 0,
+                    'min'               => 0,
                     'bill'              => 1,
                     'work_status_id'    => 6,
-                    'priority'          => $priority,                                                                
+                    'priority'          => $priority,
                     'next_day_task_action' => 1,
                     'is_leave'          => 1,
                     'created_at'        => $created_at
                 ];                            
             } else if($is_leave == 2){                            
                 $postData            = [                   
+                    'project_id'        => 0,
+                    'status_id'         => 0,
                     'user_id'           => $user_id,
                     'dept_id'           => $department_id,
-                    'description'       => $description,
+                    'description'       => "Full Day Leave Taken",
                     'date_added'        => $date_added,
-                    'added_by'          => $added_by,
-                    'hour'              => $fhour,
-                    'min'               => $fminute,
+                    'added_by'          => $user_id,
+                    'hour'              => 0,
+                    'min'               => 0,
                     'bill'              => 1,
                     'work_status_id'    => 6,
-                    'priority'          => $priority,                                                                
+                    'priority'          => $priority,
                     'next_day_task_action' => 1,
                     'is_leave'          => 2,
                     'created_at'        => $created_at
@@ -1142,16 +1153,16 @@ class User extends BaseController
             } else {
                 $postData            = [
                     'project_id'        => $project_id,
-                    'status_id'         => $project_status->id,
+                    'status_id'         => $project_status,
                     'user_id'           => $user_id,
                     'dept_id'           => $department_id,
                     'description'       => $description,
-                    'date_added'        => $task_assign_date,
-                    'added_by'          => $added_by,
-                    'hour'              => $fhour,
-                    'min'               => $fminute,
-                    'bill'              => 0,                                
-                    'priority'          => $priority,                                                                                                                                
+                    'date_added'        => $date_added,
+                    'added_by'          => $user_id,
+                    'hour'              => $hour,
+                    'min'               => $min,
+                    'bill'              => $project_bill,
+                    'priority'          => $priority,
                     'created_at'        => $created_at
                 ];
             }  
