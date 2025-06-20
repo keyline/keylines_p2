@@ -3296,7 +3296,9 @@ class ApiController extends BaseController
                             'min'               => $min,
                             'bill'              => 0,
                             'priority'          => $priority,
+                            'work_status_id'    => 0,
                             'is_leave'          => $is_leave, 
+                            'next_day_task_action' => 0, // Assuming next_day_task_action is not needed for updates
                             'updated_at'        => $created_at                            
                         ];
                     }
