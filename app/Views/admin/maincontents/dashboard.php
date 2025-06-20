@@ -162,73 +162,90 @@
                <!-- End Vendors Card -->
                <?php   } ?>
                <div class="col-xl-12">
-            <?php if(session('success_message')){?>
-                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
-                    <?=session('success_message')?>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php }?>
-            <?php if(session('error_message')){?>
-                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
-                    <?=session('error_message')?>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php }?>
-        </div>
+                  <?php if(session('success_message')){?>
+                     <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?=session('success_message')?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                     </div>
+                  <?php }?>
+                  <?php if(session('error_message')){?>
+                     <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?=session('error_message')?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                     </div>
+                  <?php }?>
+               </div>
                <div class="col-md-12">
-                  <div class="card table-cardcard table-card shadow-sm">
+                  <div class="card table-card shadow-sm">
                      <div class="card-header">
-                        <div class="row">
-                           <div class="col-md-12">
-                              <div class="text-center">                                        
+                        <div class="row align-items-center">
+                           <div class="col-lg-5 col-md-6">
+                              <div class="card-header-left"> 
+                                 <ul class="d-flex align-items-center">
+                                    <li class="me-3"><h6 class="fw-bold heading_style">Task Module</h6></li>                                    
+                                 </ul>                                                                           
+                              </div>
+                           </div> 
+                           <div class="col-lg-7 col-md-6">
+                              <div class="card-header-right"> 
+                                 <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
                                     <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Task</button>                                    
+                                 </ul>
                               </div>
                            </div>                           
+                        </div>
+                     </div>
+                     <div class="card-body">
+                        <div class="rows">
+                           <div class="col-xxl-12 col-md-12 table-responsive">
+                              <?php foreach($user_task_details as $task){ 
+                              if($task['work_status_id'] == 1) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 2) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 3) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 4) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 5) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else{
+                                 $task_background = '';
+                                 $task_border = '';
+                              }
+                              ?>  
+                              <div class="col-md-12">
+                                 <div class="card table-cardcard table-card shadow-sm">
+                                    <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                       <div class="row">
+                                          <div class="col-md-12">
+                                             <div>                                                                                                                                                                                                       
+                                                <h6 class="mb-2"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                <p><?=$task['description']?></p>
+                                                <p class="card-details text-muted">
+                                                   <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
+                                                   <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
+                                                   <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                </p>                                                                                                                                                                                            
+                                             </div>
+                                          </div>                           
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <?php } ?>
+                           </div>
                         </div>
                      </div>
                   </div>
                </div>                                 
-               <?php foreach($user_task_details as $task){ 
-                  if($task['work_status_id'] == 1) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else if($task['work_status_id'] == 2) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else if($task['work_status_id'] == 3) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else if($task['work_status_id'] == 4) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else if($task['work_status_id'] == 5) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else{
-                     $task_background = '';
-                     $task_border = '';
-                  }
-                  ?>  
-               <div class="col-md-12">
-                  <div class="card table-cardcard table-card shadow-sm">
-                     <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
-                        <div class="row">
-                           <div class="col-md-12">
-                              <div>                                                                                                                                                                                                       
-                                 <h6 class="mb-2"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
-                                 <p><?=$task['description']?></p>
-                                 <p class="card-details text-muted">
-                                    <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
-                                    <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
-                                    <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
-                                 </p>                                                                                                                                                                                            
-                              </div>
-                           </div>                           
-                        </div>
-                     </div>
-                  </div>
-               </div>
-               <?php } ?>
+               
+               
 
                <div class="col-md-12">
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
@@ -1293,15 +1310,15 @@
                   <div class="mb-3">
                   <label class="form-label">Status</label><br>
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="status" id="present" value="PRESENT" checked>
+                     <input class="form-check-input" type="radio" name="status" id="present" value="0" onchange="myFunction()" checked>
                      <label class="form-check-label" for="present">PRESENT</label>
                   </div>
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="status" id="halfday" value="HALFDAY LEAVE">
+                     <input class="form-check-input" type="radio" name="status" id="halfday" value="1" onchange="myFunction()">
                      <label class="form-check-label" for="halfday">HALFDAY LEAVE</label>
                   </div>
                   <div class="form-check form-check-inline">
-                     <input class="form-check-input" type="radio" name="status" id="fullday" value="FULLDAY LEAVE">
+                     <input class="form-check-input" type="radio" name="status" id="fullday" value="2" onchange="myFunction()">
                      <label class="form-check-label" for="fullday">FULLDAY LEAVE</label>
                   </div>
                   </div>
@@ -1311,11 +1328,15 @@
                   <label for="description" class="form-label">Description</label>
                   <textarea name="description" id="description" class="form-control" rows="3"></textarea>
                   </div>
-
+                  
+                  <?php
+                     $today = date('Y-m-d');
+                     $maxDate = date('Y-m-d', strtotime('+1 month'));
+                  ?>
                   <!-- Date -->
                      <div class="mb-3">
                         <label for="date" class="form-label">Date</label>
-                        <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" required>
+                        <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" min="<?= $today ?>" max="<?= $maxDate ?>" required>
                      </div>
 
                      <!-- Time -->
@@ -1450,4 +1471,57 @@
            }
        });
    }
+
+   function myFunction(){
+        var selectedValue = $('input[name=status]:checked').val();
+        if(selectedValue == 0){
+            var description = '';
+            $('#description').val(description);
+            $('#project_id').attr('required', true);
+            $('#fhour').attr('required', true);
+            $('#fminute').attr('required', true);
+            $('input[name="priority"]').attr('required', true);
+
+            $('#project_id').attr('disabled', false);
+            $('#fhour').attr('disabled', false);
+            $('#fminute').attr('disabled', false);
+            $('input[name="priority"]').attr('disabled', false);
+        } else if(selectedValue == 1){
+            var description = 'Half Day Leave Taken';
+            $('#description').val(description);
+            $('#project_id').attr('required', false);
+            $('#fhour').attr('required', false);
+            $('#fminute').attr('required', false);            
+            $('input[name="priority"]').attr('required', false);
+
+            $('#project_id').attr('disabled', true);
+            $('#fhour').attr('disabled', true);
+            $('#fminute').attr('disabled', true);
+            $('#date').attr('disabled', true);
+            $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#fhour').val('');
+            $('#fminute').val('');
+            $('#date').val(date);
+        } else if(selectedValue == 2){
+            var description = 'Full Day Leave Taken';
+            $('#description').val(description);
+            $('#project_id').attr('required', false);
+            $('#fhour').attr('required', false);
+            $('#fminute').attr('required', false);
+            $('input[name="priority"]').attr('required', false);
+
+            $('#project_id').attr('disabled', true);
+            $('#fhour').attr('disabled', true);
+            $('#fminute').attr('disabled', true);
+            $('#date').attr('disabled', true);
+            $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#fhour').val('');
+            $('#fminute').val('');
+            $('#date').val(date);
+        }
+    }
 </script>

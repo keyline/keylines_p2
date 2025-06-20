@@ -493,15 +493,20 @@ class ApiController extends BaseController
                 ];
                 $this->common_model->save_data('user', $postData, $checkUser->id, 'id');
                 /* send sms */
-                // $message    = "Dear KEYLINERS, ".$mobile_otp." is your verification OTP for registration at ECOEX PORTAL. Do not share this OTP with anyone for security reasons.";
                 $name       = $checkUser->name;
-                # this code commented for by @Shubha75 
-                // $message    = "Dear ".$name.", ".$mobile_otp." is your verification OTP for ProTime Manager at KEYLINE. Do not share this OTP with anyone for security reasons.";
-              # new code by @Shubha75
-                $message    = "Dear " . $name . ", " . $mobile_otp . " is your verification OTP for registration at KEYLINE";
                 $mobileNo   = (($checkUser) ? $checkUser->phone1 : '');
-                $this->sendSMS($mobileNo, $message);
+                # code commneted by @Shubha75 on 2025-06-17
+                // $message    = "Dear ".$name.", ".$mobile_otp." is your verification OTP for ProTime Manager at KEYLINE. Do not share this OTP with anyone for security reasons.";
+
+                # new code added by @Shubha75 on 2025-06-17
+                $message    = "Dear $name, $mobile_otp is you verification OTP for registration at KEYLINE";
+                # old code commented by @Shubha75 on 2025-06-18
+                // $this->sendSMS($mobileNo, $message);
+
+                # code added by @Shubha75 on 2025-06-18
+                $this->common_model->sendSMS('91' . $mobileNo, $message);
                 /* send sms */
+
                 $mailData                   = [
                     'id'    => $checkUser->id,
                     'email' => $checkUser->email,
@@ -2936,46 +2941,21 @@ class ApiController extends BaseController
             $app_access_token           = $this->extractToken($Authorization);
             $getTokenValue              = $this->tokenAuth($app_access_token);
             if ($getTokenValue['status']) {
-                $uId        = $getTokenValue['data'][1];
-                $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                $getEmployees    = $this->common_model->find_data('user', 'array', ['status' => '1']);
-                if ($getEmployees) {
-                    foreach ($getEmployees as $getEmployee) {
-                        $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                        $punch_time = $this->common_model->find_data('attendances', 'row', ['user_id' => $getEmployee->id, 'punch_date' => date('Y-m-d')], 'punch_in_time,punch_out_time,status', '', '', $orderBy);
-                        $department = $this->common_model->find_data('department', 'row', ['id' => $getEmployee->department], 'deprt_name');
-                        $punchout = ($punch_time) ? DateTime::createFromFormat('H:i:s', $punch_time->punch_out_time) : false;
+                $uId            = $getTokenValue['data'][1];
+                $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
+                $getProjects    = $this->common_model->find_data('project', 'array', ['status!=' => '13'], '', '', '', $order_by);
+                if ($getProjects) {
+                    foreach ($getProjects as $getProject) {
+                        $project_status = $this->common_model->find_data('project_status', 'row', ['id' => $getProject->status]);
+                        $client = $this->common_model->find_data('client', 'row', ['id' => $getProject->client_id]);
                         $apiResponse[]        = [
-                            'id'              => $getEmployee->id,
-                            'name'            => $getEmployee->name,
-                            'email'           => $getEmployee->email,
-                            'phone'           => $getEmployee->phone1,
-                            'profile_image'   => (($getEmployee->profile_image) ? base_url('public/uploads/user/' . $getEmployee->profile_image) : ''),
-                            'department'      => (($department) ? $department->deprt_name : ''),
-                            'punch_in_time'   => (($punch_time) ? date('h:i a', strtotime($punch_time->punch_in_time)) : ''),
-                            'punch_out_time'  => (($punchout) ? $punchout->format('g:i a') : ''),
-                            'punch_status'    => (($punch_time) ? (int)$punch_time->status : 0),
+                            'id'              => $getProject->id,
+                            'name'            => $getProject->name,
+                            'type'           => $project_status->name,
+                            'client_name'   => $this->pro->decrypt(($client) ? $client->name : ''),
                         ];
                     }
-                    // // Sort the array by punch_in_time DESC (latest first)
-                    // usort($apiResponse, function ($a, $b) {
-                    //     // return strtotime($b['punch_in_time']) - strtotime($a['punch_in_time']); //latest first 
-                    //     return strtotime($a['punch_in_time']) - strtotime($b['punch_in_time']); // oldest first
-                    // });   
-                    usort($apiResponse, function ($a, $b) {
-                        $a_time = strtotime($a['punch_in_time']);
-                        $b_time = strtotime($b['punch_in_time']);
-
-                        // Handle missing punch_in_time: move to bottom
-                        if (empty($a['punch_in_time'])) return 1;
-                        if (empty($b['punch_in_time'])) return -1;
-
-                        // Sort by punch_in_time ascending (oldest first)
-                        return $a_time - $b_time;
-
-                        // Or for descending (latest first), use:
-                        // return $b_time - $a_time;
-                    });
                     $apiStatus          = TRUE;
                     http_response_code(200);
                     $apiMessage         = 'Data Available !!!';
@@ -2984,7 +2964,351 @@ class ApiController extends BaseController
                 } else {
                     $apiStatus          = FALSE;
                     http_response_code(404);
-                    $apiMessage         = 'User Not Found !!!';
+                    $apiMessage         = 'Data Not Found !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                }
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
+    public function getEffortType()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $headerData         = $this->request->headers();
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId            = $getTokenValue['data'][1];
+                $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
+                $getEfforts    = $this->common_model->find_data('effort_type', 'array', ['status=' => '1'], 'id,name,status', '', '', $order_by);
+                if ($getEfforts) {
+                    foreach ($getEfforts as $getEffort) {
+                        $apiResponse[]        = [
+                            'id'              => $getEffort->id,
+                            'name'            => $getEffort->name,                            
+                        ];
+                    }
+                    $apiStatus          = TRUE;
+                    http_response_code(200);
+                    $apiMessage         = 'Data Available !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                } else {
+                    $apiStatus          = FALSE;
+                    http_response_code(404);
+                    $apiMessage         = 'Data Not Found !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                }
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
+    public function getWorkStatus()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $headerData         = $this->request->headers();
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId            = $getTokenValue['data'][1];
+                $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
+                $getWorkStatus    = $this->common_model->find_data('work_status', 'array', ['status=' => '1'], '', '', '', $order_by);
+                if ($getWorkStatus) {
+                    foreach ($getWorkStatus as $getWork) {
+                        $apiResponse[]        = [
+                            'id'                => $getWork->id,
+                            'name'              => $getWork->name, 
+                            'background_color'  => $getWork->background_color,
+                            'border_color'      => $getWork->border_color,                                                      
+                        ];
+                    }
+                    $apiStatus          = TRUE;
+                    http_response_code(200);
+                    $apiMessage         = 'Data Available !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                } else {
+                    $apiStatus          = FALSE;
+                    http_response_code(404);
+                    $apiMessage         = 'Data Not Found !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                }
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
+    public function addTask()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $this->isJSON(file_get_contents('php://input'));
+        $requestData        = $this->extract_json(file_get_contents('php://input'));
+        $requiredFields     = ['project_id', 'user_id', 'is_leave', 'description', 'date_added', 'hour', 'min', 'priority'];
+        $headerData         = $this->request->headers();
+        if (!$this->validateArray($requiredFields, $requestData)) {
+            $apiStatus          = FALSE;
+            $apiMessage         = 'All Data Are Not Present !!!';
+        }
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId        = $getTokenValue['data'][1];
+                $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+
+                if ($getUser) {
+                    $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
+                    $project_id                = $requestData['project_id'];
+                    if ($project_id != 0) {
+                        $project = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+                        $project_status            = $project->status;
+                    } else {
+                        $project = 0;
+                        $project_status = 0;
+                    }                                        
+                    $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
+                    $department_id             = $department ? $department->dep_id : 0;
+                    $is_leave                  = $requestData['is_leave'];
+                    $description               = $requestData['description'];
+                    $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
+                    $hour                      = $requestData['hour'];
+                    $min                       = $requestData['min'];
+                    $priority                  = $requestData['priority'];
+                    $created_at                = date('Y-m-d H:i:s');
+
+                    if ($is_leave == 1) {
+                        $postData            = [
+                            'project_id'        => 0,
+                            'status_id'         => 0,
+                            'user_id'           => $user_id,
+                            'dept_id'           => $department_id,
+                            'description'       => "Half Day Leave Taken",
+                            'date_added'        => $date_added,
+                            'added_by'          => $uId,
+                            'hour'              => 0,
+                            'min'               => 0,
+                            'bill'              => 1,
+                            'work_status_id'    => 6,
+                            'priority'          => $priority,
+                            'next_day_task_action' => 1,
+                            'is_leave'          => 1,
+                            'created_at'        => $created_at
+                        ];
+                    } else if ($is_leave == 2) {
+                        $postData            = [
+                            'project_id'        => 0,
+                            'status_id'         => 0,
+                            'user_id'           => $user_id,
+                            'dept_id'           => $department_id,
+                            'description'       => "Full Day Leave Taken",
+                            'date_added'        => $date_added,
+                            'added_by'          => $uId,
+                            'hour'              => 0,
+                            'min'               => 0,
+                            'bill'              => 1,
+                            'work_status_id'    => 6,
+                            'priority'          => $priority,
+                            'next_day_task_action' => 1,
+                            'is_leave'          => 2,
+                            'created_at'        => $created_at
+                        ];
+                    } else {
+                        $postData            = [
+                            'project_id'        => $project_id,
+                            'status_id'         => $project_status,
+                            'user_id'           => $user_id,
+                            'dept_id'           => $department_id,
+                            'description'       => $description,
+                            'date_added'        => $date_added,
+                            'added_by'          => $uId,
+                            'hour'              => $hour,
+                            'min'               => $min,
+                            'bill'              => 0,
+                            'priority'          => $priority,
+                            'created_at'        => $created_at
+                        ];
+                    }
+                    $this->common_model->save_data('morning_meetings', $postData, '', 'id');
+                    $apiResponse[]              = [
+                        'tasks'           => $postData
+                    ];
+                    $apiStatus          = TRUE;
+                    http_response_code(200);
+                    $apiMessage         = 'Task added Successfully !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                }
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
+    public function editTask()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $this->isJSON(file_get_contents('php://input'));
+        $requestData        = $this->extract_json(file_get_contents('php://input'));
+        $requiredFields     = ['task_id', 'project_id', 'user_id', 'is_leave', 'description', 'date_added', 'hour', 'min', 'priority'];
+        $headerData         = $this->request->headers();
+        if (!$this->validateArray($requiredFields, $requestData)) {
+            $apiStatus          = FALSE;
+            $apiMessage         = 'All Data Are Not Present !!!';
+        }
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId        = $getTokenValue['data'][1];
+                $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+
+                if ($getUser) {
+                    $task_id                 = $requestData['task_id'];
+                    $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
+                    $project_id                = $requestData['project_id'];
+                    $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+                    $project_status            = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);
+                    $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
+                    $department_id             = $department ? $department->dep_id : 0;
+                    $is_leave                  = $requestData['is_leave'];
+                    $description               = $requestData['description'];
+                    $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
+                    $hour                      = $requestData['hour'];
+                    $min                       = $requestData['min'];
+                    $priority                  = $requestData['priority'];
+                    $created_at                = date('Y-m-d H:i:s');
+
+                    if ($is_leave == 1) {
+                        $postData            = [
+                            'id'           => $task_id,
+                            'project_id'        => 0,
+                            'status_id'         => 0,
+                            'user_id'           => $user_id,
+                            'dept_id'           => $department_id,
+                            'description'       => "Half Day Leave Taken",
+                            'date_added'        => $date_added,
+                            'added_by'          => $uId,
+                            'hour'              => 0,
+                            'min'               => 0,
+                            'bill'              => 1,
+                            'work_status_id'    => 6,
+                            'priority'          => $priority,
+                            'next_day_task_action' => 1,
+                            'is_leave'          => 1,                            
+                            'updated_at'        => $created_at
+                        ];
+                    } else if ($is_leave == 2) {
+                        $postData            = [
+                            'id'           => $task_id,
+                            'project_id'        => 0,
+                            'status_id'         => 0,
+                            'user_id'           => $user_id,
+                            'dept_id'           => $department_id,
+                            'description'       => "Full Day Leave Taken",
+                            'date_added'        => $date_added,
+                            'added_by'          => $uId,
+                            'hour'              => 0,
+                            'min'               => 0,
+                            'bill'              => 1,
+                            'work_status_id'    => 6,
+                            'priority'          => $priority,
+                            'next_day_task_action' => 1,
+                            'is_leave'          => 2,                            
+                            'updated_at'        => $created_at
+                        ];
+                    } else {
+                        $postData            = [
+                            'id'           => $task_id,
+                            'project_id'        => $project_id,
+                            'status_id'         => $project_status->id,
+                            'user_id'           => $user_id,
+                            'dept_id'           => $department_id,
+                            'description'       => $description,
+                            'date_added'        => $date_added,
+                            'added_by'          => $uId,
+                            'hour'              => $hour,
+                            'min'               => $min,
+                            'bill'              => 0,
+                            'priority'          => $priority,
+                            'work_status_id'    => 0,
+                            'is_leave'          => $is_leave, 
+                            'next_day_task_action' => 0, // Assuming next_day_task_action is not needed for updates
+                            'updated_at'        => $created_at                            
+                        ];
+                    }
+                    $this->common_model->save_data('morning_meetings', $postData, $task_id, 'id');
+                    $apiResponse[]              = [
+                        'tasks'           => $postData
+                    ];
+                    $apiStatus          = TRUE;
+                    http_response_code(200);
+                    $apiMessage         = 'Task update Successfully !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
                 }
@@ -3139,7 +3463,7 @@ class ApiController extends BaseController
                             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
                             $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];
-                            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
+                            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $getUserId, 'morning_meetings.date_added' => $loopDate], 'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);
                             // pr($getTasks);
                             if ($getTasks) {
                                 foreach ($getTasks as $getTask) {
@@ -3161,6 +3485,8 @@ class ApiController extends BaseController
                                     $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
 
                                     $tasks[]            = [
+                                        'task_id'               => $getTask->schedule_id,
+                                        'project_id'            => $getTask->project_id,
                                         'project_name'          => $getTask->project_name,
                                         'description'           => $getTask->description,
                                         'booked_description'    => $getTask->booked_description,
@@ -3168,13 +3494,17 @@ class ApiController extends BaseController
                                         'booked_min'            => $getTask->booked_min,
                                         'hour'                  => $getTask->hour,
                                         'min'                   => $getTask->min,
+                                        'priority'             => $getTask->priority,
+                                        'date_added'            => date_format(date_create($getTask->date_added), "Y-m-d"),
                                         'user_name'             => $getTask->user_name,
+                                        'user_id'               => $getUserId,
                                         'is_leave'              => $getTask->is_leave,
                                         'background_color'      => (($getWorkStatus) ? $getWorkStatus->background_color : ''),
                                         'border_color'          => (($getWorkStatus) ? $getWorkStatus->border_color : ''),
                                         'work_status_name'      => (($getWorkStatus) ? $getWorkStatus->name : ''),
-                                        'created_at'            => date_format(date_create($getTask->created_at), "h:i a"),
-                                        'updated_at'            => date_format(date_create($getTask->updated_at), "h:i a"),
+                                        'added_by'              => $getTask->added_by,
+                                        'created_at'            => date_format(date_create($getTask->created_at), "M d, Y h:i a"),
+                                        'updated_at'            => date_format(date_create($getTask->updated_at), "M d, Y h:i a"),
                                     ];
                                 }
                             }
@@ -3216,7 +3546,328 @@ class ApiController extends BaseController
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
+    public function addEffort()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $this->isJSON(file_get_contents('php://input'));
+        $requestData        = $this->extract_json(file_get_contents('php://input'));
+        $requiredFields     = ['project_id', 'user_id', 'task_id', 'description', 'date_added', 'effort_type_id', 'hour', 'min', 'work_status_id'];
+        $headerData         = $this->request->headers();
+        if (!$this->validateArray($requiredFields, $requestData)) {
+            $apiStatus          = FALSE;
+            $apiMessage         = 'All Data Are Not Present !!!';
+        }
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId           = $getTokenValue['data'][1];
+                $expiry        = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $getUser       = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+                $task_details  = $this->common_model->find_data('morning_meetings', 'row', ['id' => $requestData['task_id']]);                
 
+                $user_cost                  = $getUser->hour_cost;
+                $cal_usercost               = ($user_cost/60);
+
+                $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
+                $project_id                = $requestData['project_id'];                
+                $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+                $project_status            = $project->status;
+                $project_bill              = $project->bill;                                 
+                $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
+                $department_id             = $department ? $department->dep_id : 0;                    
+                $description               = $requestData['description'];                
+                $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
+                $hour                      = $requestData['hour'];
+                $min                       = $requestData['min'];                
+                $created_at                = date('Y-m-d H:i:s');
+                $effort_type_id            = $requestData['effort_type_id'];
+                $work_status_id            = $requestData['work_status_id'];      
+                $schedule_id               = $requestData['task_id'];
+                
+
+                $cal                    = (($hour*60) + $min); //converted to minutes
+                $projectCost            = floatval($cal_usercost * $cal);
+                
+                if ($task_details) {                                        
+                    $postData            = [
+                        'project_id'        => $project_id,                        
+                        'status_id'         => $project_status,
+                        'user_id'           => $user_id,                            
+                        'description'       => $description,                            
+                        'hour'              => $hour,
+                        'min'               => $min,
+                        'effort_type'       => $effort_type_id,
+                        'work_status_id'    => $work_status_id,
+                        'date_added'        => $date_added,                                                                 
+                        'bill'              => $project_bill,
+                        'assigned_task_id'  => $requestData['task_id'],                            
+                        'date_today'        => $created_at,
+                        'hour_rate'         => $user_cost,
+                        'cost'              => number_format($projectCost, 2, '.', ''),
+                    ];
+                    $effort_id = $this->common_model->save_data('timesheet', $postData, '', 'id');
+                    $fields                     = [                    
+                    'effort_type'       => $effort_type_id,
+                    'work_status_id'    => $work_status_id,
+                    'effort_id'         => $effort_id,
+                    'updated_at'        => date('Y-m-d H:i:s'),
+                ];
+                $this->common_model->save_data('morning_meetings', $fields, $schedule_id, 'id');
+                } else{
+                    //backdate task effort addition
+                    $today = date('Y-m-d');
+                    if ($date_added < $today) {
+                        $postData            = [
+                            'project_id'        => $project_id,
+                            'dept_id'           => $department_id,
+                            'status_id'         => $project_status,
+                            'user_id'           => $user_id,                            
+                            'description'       => "Not Booked Task",                            
+                            'hour'              => 0,
+                            'min'               => 0,
+                            'effort_type'       => $effort_type_id,
+                            'work_status_id'    => $work_status_id,
+                            'date_added'        => $date_added,  
+                            'added_by'          => $uId,                          
+                            'bill'              => $project_bill,  
+                            'created_at'        => $created_at,
+                            'updated_at'        => $created_at
+                        ]; 
+                        $schedule_id = $this->common_model->save_data('morning_meetings', $postData, '', 'id');  
+                        $field            = [
+                            'project_id'        => $project_id,                        
+                            'status_id'         => $project_status,
+                            'user_id'           => $user_id,                            
+                            'description'       => $description,                            
+                            'hour'              => $hour,
+                            'min'               => $min,
+                            'effort_type'       => $effort_type_id,
+                            'work_status_id'    => $work_status_id,
+                            'date_added'        => $date_added,                                                                 
+                            'bill'              => $project_bill,
+                            'assigned_task_id'  => $schedule_id,                            
+                            'date_today'        => $created_at,
+                            'hour_rate'         => $user_cost,
+                            'cost'              => number_format($projectCost, 2, '.', ''),
+                        ];
+                        $this->common_model->save_data('timesheet', $field, '', 'id');
+                    }                                        
+                }
+                //ptoject cost calculation
+                $year                   = date('Y', strtotime($date_added)); // 2024
+                $month                  = date('m', strtotime($date_added)); // 08
+                $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
+                $rows                   = $this->db->query($projectcost)->getResult(); 
+                foreach($rows as $row){
+                    $project_cost       =  $row->total_hours_worked;
+                }  
+                $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project_id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+                if(!$exsistingProjectCost){
+                    $postData2   = array(
+                        'project_id'            => $project_id,
+                        'month'                 => $month ,
+                        'year'                  => $year,
+                        'project_cost'          => $project_cost,
+                        'created_at'            => date('Y-m-d H:i:s'),                                
+                    );                                  
+                    $project_cost_id             = $this->common_model->save_data('project_cost', $postData2, '', 'id');
+                } else {
+                    $id         = $exsistingProjectCost->id;
+                    $postData2   = array(
+                        'project_id'            => $project_id,
+                        'month'                 => $month ,
+                        'year'                  => $year,
+                        'project_cost'          => $project_cost,
+                        'updated_at'            => date('Y-m-d H:i:s'),                                
+                    );                                    
+                    $update_project_cost_id      = $this->common_model->save_data('project_cost', $postData2, $id, 'id');
+                } 
+                // project cost calculation end
+                
+                // Finish & Assign tomorrow
+                $getWorkStatus  = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'is_reassign');
+                if($getWorkStatus){
+                    if($getWorkStatus->is_reassign){
+                        /* next working data calculate */
+                            // for($c=1;$c<=7;$c++){
+                                // echo $date_added1 = date('Y-m-d', strtotime("+1 days"));
+                                $date_added1 = date('Y-m-d', strtotime($date_added . ' +1 day'));
+                                if($this->calculateNextWorkingDate($date_added1)){
+                                    $next_working_day = $date_added1;
+                                } else {
+                                    // echo 'not working day';
+                                    $date_added2 = date('Y-m-d', strtotime($date_added . "+2 days"));
+                                    if($this->calculateNextWorkingDate($date_added2)){
+                                        $next_working_day = $date_added2;
+                                    } else {
+                                        $date_added3 = date('Y-m-d', strtotime($date_added . "+3 days"));
+                                        if($this->calculateNextWorkingDate($date_added3)){
+                                            $next_working_day = $date_added3;
+                                        } else {
+                                            $date_added4 = date('Y-m-d', strtotime($date_added . "+4 days"));
+                                            if($this->calculateNextWorkingDate($date_added4)){
+                                                $next_working_day = $date_added4;
+                                            } else {
+                                                $date_added5 = date('Y-m-d', strtotime($date_added . "+5 days"));
+                                                if($this->calculateNextWorkingDate($date_added5)){
+                                                    $next_working_day = $date_added5;
+                                                } else {
+                                                    $date_added6 = date('Y-m-d', strtotime($date_added . "+6 days"));
+                                                    if($this->calculateNextWorkingDate($date_added6)){
+                                                        $next_working_day = $date_added6;
+                                                    } else {
+                                                        $date_added7 = date('Y-m-d', strtotime($date_added . "+7 days"));
+                                                        if($this->calculateNextWorkingDate($date_added7)){
+                                                            $next_working_day = $date_added7;
+                                                        } else {
+                                                            $next_working_day = $date_added7;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                            // }
+                            // echo $next_working_day;
+                            // die;
+                        /* next working data calculate */
+                        $morningScheduleData2 = [
+                            'dept_id'               => $department_id,
+                            'project_id'            => $project_id,
+                            'status_id'             => $project_status,
+                            'user_id'               => $user_id,
+                            'description'           => $description,
+                            'hour'                  => $hour,
+                            'min'                   => $min,
+                            'work_home'             => 0,
+                            'effort_type'           => 0,
+                            'date_added'            => $next_working_day,
+                            'added_by'              => $uId,
+                            'bill'                  => $project_bill,
+                            'work_status_id'        => 0,
+                            'priority'              => 3,
+                            'effort_id'             => 0,
+                            'created_at'            => $next_working_day.' 10:01:00',
+                            'updated_at'            => $next_working_day.' 10:01:00',
+                        ];
+                        // pr($morningScheduleData2);
+                        $this->common_model->save_data('morning_meetings', $morningScheduleData2, '', 'id');
+                    }
+                }
+                // Finish & Assign tomorrow end
+
+
+                $apiResponse[]              = [
+                        'efforts'           => $postData,
+                        'finish_assign'     => $morningScheduleData2,
+                    ];
+                    $apiStatus          = TRUE;
+                    http_response_code(200);
+                    $apiMessage         = 'Effort added Successfully !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
+    public function calculateNextWorkingDate($givenDate){
+        // echo $givenDate;
+        $checkHoliday = $this->common_model->find_data('event', 'count', ['start_event' => $givenDate]);
+        if($checkHoliday > 0){
+            return true;
+        } else {
+            $applicationSetting = $this->common_model->find_data('application_settings', 'row');
+            $dayOfWeek = date("l", strtotime($givenDate));
+            if($dayOfWeek == 'Sunday'){
+                $dayNo          = 7;
+                $fieldName      = 'sunday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Monday'){
+                $dayNo          = 1;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Tuesday'){
+                $dayNo          = 2;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Wednesday'){
+                $dayNo          = 3;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Thursday'){
+                $dayNo          = 4;
+                $fieldName      = 'thursday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Friday'){
+                $dayNo          = 5;
+                $fieldName      = 'friday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Saturday'){
+                $dayNo          = 6;
+                $fieldName      = 'satarday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            }
+            // echo $getDayCount;
+            $fieldArray = json_decode($applicationSetting->$fieldName);
+            // pr($fieldArray,0);
+            if(in_array($getDayCount, $fieldArray)){
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    public function getDayCountInMonth($givenDate, $dayNo){
+        $date = $givenDate; // Example date
+        // $date = "2024-08-24"; // Example date
+
+        // Get the day of the month
+        $dayOfMonth = date("j", strtotime($date));
+
+        // Get the month and year from the date
+        $month = date("m", strtotime($date));
+        $year = date("Y", strtotime($date));
+
+        // Initialize the counter for Saturdays
+        $saturdayCount = 0;
+
+        for ($day = 1; $day <= $dayOfMonth; $day++) {
+            // Create a date string for each day of the month
+            $currentDate = "$year-$month-$day";
+            // echo date("N", strtotime('2024-08-25')).'<br>';
+            // Check if the current date is a Saturday
+            if (date("N", strtotime($currentDate)) == $dayNo) {
+                $saturdayCount++;
+            }
+        }
+
+        // Check if the provided date is a Saturday and count it
+        if (date("N", strtotime($date)) == $dayNo) {
+            // echo "The date $date is the $saturdayCount" . "th Saturday of the month.";
+            return $saturdayCount;
+        } else {
+            // echo "The date $date is not a Saturday.";
+            return 0;
+        }
+    }
     public static function geolocationaddress($lat, $long)
     {
         // $application_setting        = $this->common_model->find_data('application_settings', 'row');

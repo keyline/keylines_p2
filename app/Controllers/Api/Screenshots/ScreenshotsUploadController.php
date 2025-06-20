@@ -193,6 +193,9 @@ class ScreenshotsUploadController extends ResourceController
         }
     }
 
+
+
+
     // list all images
     public function list()
     {
@@ -209,6 +212,37 @@ class ScreenshotsUploadController extends ResourceController
                 'message' => 'Images retrieved successfully.',
                 'data' => $data
             ]);
+        }
+    }
+
+
+    public function settings()
+    {
+        $headerData         = $this->request->headers();
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization             = $headerData['Authorization'];
+            $app_access_token          = $this->extractToken($Authorization);
+            $authResponse              = $this->tokenAuth($app_access_token);
+            if (!$authResponse['status']) {
+                return $this->respond(['status' => false, 'message' => $authResponse['data']], 401);
+            }
+
+            // _______________________________ MAIN CODE START _______________________________
+
+            try {
+
+                $result = $this->imageService->getSettings();
+
+                return $this->respondCreated($result);
+            } catch (Exception $e) {
+                log_message('error', '[ScreenshotsUploadController::settings] ' . $e->getMessage());
+                return $this->failServerError($e->getMessage());
+            }
+
+            // _______________________________ MAIN CODE END _______________________________
+
+        } else {
+            return $this->respond(['status' => false, 'message' => 'Key Not Matched'], 401);
         }
     }
 }
