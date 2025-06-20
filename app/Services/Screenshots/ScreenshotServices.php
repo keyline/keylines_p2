@@ -2,6 +2,7 @@
 
 namespace App\Services\Screenshots;
 
+use App\Models\ScreenshotSettingsModel;
 use App\Models\UserScreenshotModel;
 use CodeIgniter\HTTP\Files\UploadedFile;
 use CodeIgniter\Files\File;
@@ -10,12 +11,13 @@ use Exception;
 
 class ScreenshotServices
 {
-    protected $imageModel;
+    protected $imageModel, $scrSettingsModel;
     protected $uploadDir;
     public function __construct()
     {
         $this->uploadDir = 'public/uploads/screenshot/';
         $this->imageModel = new UserScreenshotModel();
+        $this->scrSettingsModel = new ScreenshotSettingsModel();
     }
 
     protected function generateUniqueString($orgId, $userId)
@@ -207,6 +209,38 @@ class ScreenshotServices
             return [
                 'status' => false,
                 'message' => 'Failed to retrieve images.',
+                'error' => ENVIRONMENT !== 'production' ? $e->getMessage() : null,
+            ];
+        }
+    }
+
+    public function getSettings(): array
+    {
+        try {
+            $settings = $this->scrSettingsModel->first();
+            if ($settings) {
+
+                list($width, $height) = explode('x',  $settings['screenshot_resolution']);
+                return [
+                    'status' => true,
+                    'data' => [
+                        'image_width'  => $width,
+                        'image_height' => $height,
+                        'idle_time'    => $settings['idle_time'],
+                        'screenshot_interval' => $settings['screenshot_time']
+                    ],
+                ];
+            } else {
+                return [
+                    'status' => false,
+                    'message' => 'No settings found.',
+                ];
+            }
+        } catch (\Throwable $e) {
+            log_message('error', 'Screenshot settings retrieval failed: ' . $e->getMessage());
+            return [
+                'status' => false,
+                'message' => 'Failed to retrieve screenshot settings.',
                 'error' => ENVIRONMENT !== 'production' ? $e->getMessage() : null,
             ];
         }

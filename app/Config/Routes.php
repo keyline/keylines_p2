@@ -58,6 +58,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "email-logs", "User::emailLogs");
 	$routes->match(['get', 'post'], "email-logs-details/(:any)", "User::emailLogsDetails/$1");
 	$routes->match(['get', 'post'], "login-logs", "User::loginLogs");
+	$routes->match(['get', 'post'], "save-task", "User::Savetask");
 	// dashboard
 	// settings
 	$routes->match(['get', 'post'], "settings", "User::settings");
@@ -221,7 +222,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// report
 	// attendance
 	$routes->match(['get', 'post'], "attendance-report", "AttendanceController::attendance");
-	$routes->match(['get', 'post'], "save-attendance", "AttendanceController::SaveAttendance");
+	$routes->match(['get', 'post'], "save-attendance", "AttendanceController::SaveAttendance");	
 	// $routes->match(['get', 'post'], "monthly-attendance-report", "AttendanceController::monthlyAttendance");
 	$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
 	$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
@@ -237,7 +238,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// holiday
 
 	// mobile-application
-	$routes->match(['get'], "mobile-application", "MobileController::show");	
+	$routes->match(['get'], "mobile-application", "MobileController::show");
 	// $routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
 	// $routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
 	// $routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
@@ -258,6 +259,10 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "notifications/send/(:any)", "NotificationController::send/$1");
 	$routes->match(['get'], "notifications/list_from_app", "NotificationController::list_from_app");
 	// notifications
+
+	// screenshots settings
+	$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
+	$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
 });
 /* ADMIN PANEL */
 /* API */
@@ -301,7 +306,13 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
 	$routes->match(['post'], "get-notifications", "ApiController::getNotifications");
 	$routes->match(['post'], "get-notes", "ApiController::getNotes");
 	$routes->match(['post'], "update-note", "ApiController::updateNote");
+	$routes->match(['get'], "get-project", "ApiController::getProject");
+	$routes->match(['get'], "get-effort-type", "ApiController::getEffortType");
+	$routes->match(['get'], "get-work_status", "ApiController::getWorkStatus");
+	$routes->match(['post'], "add-task", "ApiController::addTask");
+	$routes->match(['post'], "edit-task", "ApiController::editTask");
 	$routes->match(['post'], "get-tasks", "ApiController::getTasks");
+	$routes->match(['post'], "add-effort", "ApiController::addEffort");
 	$routes->match(['post'], "get-tasks-new", "ApiController::getTasksNew");
 	// after login
 
@@ -313,6 +324,8 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
 	$routes->post('screenshot/base64', 'Screenshots\ScreenshotsUploadController::uploadBase64');
 	// multipart/form‐data (file)‐only endpoint:
 	$routes->post('screenshot/upload', 'Screenshots\ScreenshotsUploadController::uploadFile');
+	// screenshot settings:
+	$routes->post('screenshot/settings', 'Screenshots\ScreenshotsUploadController::settings');
 	// list endpoint for both Base64 and file uploads:
 	$routes->get('screenshot/list', 'Screenshots\ScreenshotsUploadController::list');
 });

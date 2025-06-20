@@ -65,13 +65,27 @@
                      <div class="card-body">
                         <h5 class="card-title">Total Employees</h5>
                         <!-- <h5 class="card-title">Total Active Users <span>| All Time</span></h5> -->
-                        <div class="d-flex align-items-center">
+                        <div class="d-flex align-items-center gap-1">
                            <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                               <i class="bi bi-people"></i>
                            </div>
                            <div class="ps-2">
                               <h6><?= $total_active_users ?></h6>
                            </div>
+                           <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                 <i class="bi bi-person-fill-check"></i>
+                              </div>
+                              <div class="ps-2">
+                                 <h6><?=$total_present_user->user_count?></h6>
+                              </div>
+                              <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                 <i class="bi bi-person-x"></i>
+                              </div>
+                              <div class="ps-2">
+                                 <h6><?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?></h6>
+                              </div>
+                           <?php } ?>
                         </div>
                      </div>
                   </div>
@@ -147,59 +161,91 @@
                </div> -->
                <!-- End Vendors Card -->
                <?php   } ?>
-                  <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
-                     <div class="col-md-12">
-                        <div class="card table-card">
-                           <div class="card-header">
-                              <div class="row">
-                                 <div class="col-md-4">
-                                    <div class="card-header-left">
-                                       <ul class="d-flex align-items-center gap-2">                                    
-                                          <li>
-                                             <p>Present (<?=$total_present_user->user_count?>)</p>
-                                          </li>
-                                          <li>
-                                             <p>Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
-                                          </li>                                    
-                                       </ul>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-8">
-                                    <div class="card-header-right">
-
-                                    </div>
-                                 </div>
-                              </div>
-                           </div>
-                        </div>
+               <div class="col-xl-12">
+                  <?php if(session('success_message')){?>
+                     <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?=session('success_message')?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
                      </div>
-               <?php } ?>
-
+                  <?php }?>
+                  <?php if(session('error_message')){?>
+                     <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?=session('error_message')?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                     </div>
+                  <?php }?>
+               </div>
                <div class="col-md-12">
-                        <div class="card table-card">
-                           <div class="card-header">
-                              <div class="row">
-                                 <div class="col-md-4">
-                                    <div class="card-header-left">
-                                       <ul class="d-flex align-items-center gap-2">                                    
-                                          <li>
-                                             <p>Present (<?=$total_present_user->user_count?>)</p>
-                                          </li>
-                                          <li>
-                                             <p>Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
-                                          </li>                                    
-                                       </ul>
-                                    </div>
-                                 </div>
-                                 <div class="col-md-8">
-                                    <div class="card-header-right">
-
+                  <div class="card table-card shadow-sm">
+                     <div class="card-header">
+                        <div class="row align-items-center">
+                           <div class="col-lg-5 col-md-6">
+                              <div class="card-header-left"> 
+                                 <ul class="d-flex align-items-center">
+                                    <li class="me-3"><h6 class="fw-bold heading_style">Task Module</h6></li>                                    
+                                 </ul>                                                                           
+                              </div>
+                           </div> 
+                           <div class="col-lg-7 col-md-6">
+                              <div class="card-header-right"> 
+                                 <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
+                                    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Task</button>                                    
+                                 </ul>
+                              </div>
+                           </div>                           
+                        </div>
+                     </div>
+                     <div class="card-body">
+                        <div class="rows">
+                           <div class="col-xxl-12 col-md-12 table-responsive">
+                              <?php foreach($user_task_details as $task){ 
+                              if($task['work_status_id'] == 1) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 2) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 3) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 4) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 5) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else{
+                                 $task_background = '';
+                                 $task_border = '';
+                              }
+                              ?>  
+                              <div class="col-md-12">
+                                 <div class="card table-cardcard table-card shadow-sm">
+                                    <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                       <div class="row">
+                                          <div class="col-md-12">
+                                             <div>                                                                                                                                                                                                       
+                                                <h6 class="mb-2"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                <p><?=$task['description']?></p>
+                                                <p class="card-details text-muted">
+                                                   <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
+                                                   <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
+                                                   <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                </p>                                                                                                                                                                                            
+                                             </div>
+                                          </div>                           
+                                       </div>
                                     </div>
                                  </div>
                               </div>
+                              <?php } ?>
                            </div>
                         </div>
                      </div>
+                  </div>
+               </div>                                 
+               
+               
 
                <div class="col-md-12">
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
@@ -1226,6 +1272,138 @@
       </div>
    </div>
 </section>
+<!-- task add modal -->
+<div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
+   <div class="modal-dialog">                        
+         <form action="<?= base_url('admin/save-task') ?>" method="POST">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <h5 class="modal-title">Task Schedule</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+               </div>
+
+               <div class="modal-body">
+                  <!-- Project Dropdown -->
+                  <div class="mb-3">
+                     <label for="project_id" class="form-label">Select Project</label>
+                     <select name="project_id" id="project_id" class="form-select select2" required>
+                        <option value="">Select Project</option>
+                        <?php foreach ($projects as $project): ?>
+                           <option value="<?= $project->id ?>"><?= $project->name ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                  </div>
+                  <?php if ($userType == 'ADMIN' || $userType == 'SUPER ADMIN') { ?>
+                  <!-- Employee Dropdown -->
+                  <div class="mb-3">
+                     <label for="employee_id" class="form-label">Select Employee</label>
+                     <select name="employee_id" id="employee_id" class="form-select select2" required>
+                        <option value="">Select Employee</option>
+                        <?php foreach ($employees as $emp): ?>
+                              <option value="<?= $emp->id ?>"><?= $emp->name ?></option>
+                        <?php endforeach; ?>
+                     </select>
+                  </div>
+                  <?php } ?>
+
+                  <!-- Status Radio -->
+                  <div class="mb-3">
+                  <label class="form-label">Status</label><br>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="status" id="present" value="0" onchange="myFunction()" checked>
+                     <label class="form-check-label" for="present">PRESENT</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="status" id="halfday" value="1" onchange="myFunction()">
+                     <label class="form-check-label" for="halfday">HALFDAY LEAVE</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="status" id="fullday" value="2" onchange="myFunction()">
+                     <label class="form-check-label" for="fullday">FULLDAY LEAVE</label>
+                  </div>
+                  </div>
+
+                  <!-- Description -->
+                  <div class="mb-3">
+                  <label for="description" class="form-label">Description</label>
+                  <textarea name="description" id="description" class="form-control" rows="3"></textarea>
+                  </div>
+                  
+                  <?php
+                     $today = date('Y-m-d');
+                     $maxDate = date('Y-m-d', strtotime('+1 month'));
+                  ?>
+                  <!-- Date -->
+                     <div class="mb-3">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" name="date" id="date" class="form-control" value="<?= date('Y-m-d') ?>" min="<?= $today ?>" max="<?= $maxDate ?>" required>
+                     </div>
+
+                     <!-- Time -->
+                     <!-- <div class="mb-3">
+                        <label for="time" class="form-label">Time</label>
+                        <input type="time" name="time" id="time" class="form-control" step="1" value="10:00:00" required>
+                     </div>      -->
+
+                  <!-- Time Fields -->
+                  <div class="row mb-3">
+                  <div class="col">
+                        <label for="fhour" class="form-label">Hour</label>
+                        <select name="fhour" id="fhour" class="form-select">
+                           <option value="">Select Hour</option>
+                           <?php for ($i = 0; $i <= 8; $i++): ?>
+                           <option value="<?= $i ?>"><?= $i ?></option>
+                           <?php endfor; ?>
+                        </select>
+                     </div>
+                     <div class="col">
+                        <label for="fminute" class="form-label">Minute</label>
+                        <select name="fminute" id="fminute" class="form-select">
+                           <option value="">Select Minute</option>
+                           <?php for ($i = 0; $i <= 45; $i+= 15): ?>
+                           <option value="<?= $i ?>"><?= $i ?></option>
+                           <?php endfor; ?>
+                        </select>
+                     </div>
+                  </div>
+
+                  <!-- Priority -->
+                  <div class="mb-3">
+                  <label class="form-label me-2">Priority:</label>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="priority" id="low" value="1">
+                     <label class="form-check-label" for="low">LOW</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="priority" id="medium" value="2" checked>
+                     <label class="form-check-label" for="medium">MEDIUM</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                     <input class="form-check-input" type="radio" name="priority" id="high" value="3">
+                     <label class="form-check-label" for="high">HIGH</label>
+                  </div>
+                  </div>
+               </div>
+
+               <div class="modal-footer">
+                  <button type="submit" class="btn btn-success">Save</button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+               </div>
+            </div>
+         </form>
+
+   </div>
+</div>
+ 
+<!-- <script>
+   $(document).ready(function() {
+       $('#project_id').select2({
+           placeholder: "Search...",
+           allowClear: true
+       });
+   });
+</script> -->
+
 <script>
    function dayWiseList(userId, name, date, effort_time) {
        $('#modalBody').html('');
@@ -1293,4 +1471,57 @@
            }
        });
    }
+
+   function myFunction(){
+        var selectedValue = $('input[name=status]:checked').val();
+        if(selectedValue == 0){
+            var description = '';
+            $('#description').val(description);
+            $('#project_id').attr('required', true);
+            $('#fhour').attr('required', true);
+            $('#fminute').attr('required', true);
+            $('input[name="priority"]').attr('required', true);
+
+            $('#project_id').attr('disabled', false);
+            $('#fhour').attr('disabled', false);
+            $('#fminute').attr('disabled', false);
+            $('input[name="priority"]').attr('disabled', false);
+        } else if(selectedValue == 1){
+            var description = 'Half Day Leave Taken';
+            $('#description').val(description);
+            $('#project_id').attr('required', false);
+            $('#fhour').attr('required', false);
+            $('#fminute').attr('required', false);            
+            $('input[name="priority"]').attr('required', false);
+
+            $('#project_id').attr('disabled', true);
+            $('#fhour').attr('disabled', true);
+            $('#fminute').attr('disabled', true);
+            $('#date').attr('disabled', true);
+            $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#fhour').val('');
+            $('#fminute').val('');
+            $('#date').val(date);
+        } else if(selectedValue == 2){
+            var description = 'Full Day Leave Taken';
+            $('#description').val(description);
+            $('#project_id').attr('required', false);
+            $('#fhour').attr('required', false);
+            $('#fminute').attr('required', false);
+            $('input[name="priority"]').attr('required', false);
+
+            $('#project_id').attr('disabled', true);
+            $('#fhour').attr('disabled', true);
+            $('#fminute').attr('disabled', true);
+            $('#date').attr('disabled', true);
+            $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#fhour').val('');
+            $('#fminute').val('');
+            $('#date').val(date);
+        }
+    }
 </script>

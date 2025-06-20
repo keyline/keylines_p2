@@ -11,8 +11,9 @@
         <?= $header ?>
     </header>
     <!-- End Header -->
+
     <!-- ======= Sidebar ======= -->
-   <div class="wrapper">
+    <div class="wrapper">
         <!-- <aside id="sidebar" class="sidebar"> -->
         <div class="sidebar close">
             <?= $sidebar ?>
@@ -28,8 +29,8 @@
             <!-- End Footer -->
         </main>
         <!-- End #main -->
-   </div>
-   
+    </div>
+
     <a href="javascript:void(0);" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
     <!-- Vendor JS Files -->
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/vendor/apexcharts/apexcharts.min.js"></script>
@@ -45,10 +46,45 @@
     <!-- Template Main JS File -->
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/main.js"></script>
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.min.js"></script>
+    <!-- Stable Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+    <!-- Stable Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            if ($.fn.select2) {
+                console.log("Select2 loaded successfully");
+            } else {
+                console.error("Select2 not loaded");
+            }
+
+            $('#addAttendanceModal').on('shown.bs.modal', function() {
+                $('#project_id').select2({
+                    placeholder: "Search...",
+                    allowClear: true,
+                    dropdownParent: $('#addAttendanceModal')
+                });
+                $('#employee_id').select2({
+                    placeholder: "Search...",
+                    allowClear: true,
+                    dropdownParent: $('#addAttendanceModal')
+                });
+            });
+        });
+    </script>
 
     <!-- <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/plugins/jquery.dataTables.min.js"></script>
         <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/plugins/dataTables.bootstrap4.min.js"></script> -->
     <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/pages/data-basic-custom.js"></script>
+
 
     <!-- <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.0/dist/umd/simple-datatables.min.js"></script>
         <link href="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.0/dist/style.min.css" rel="stylesheet"> -->
@@ -326,80 +362,83 @@
         //     });
         // }
     </script>
-<link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.css">
+    <link href="https://www.jqueryscript.net/css/jquerysctipttop.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="<?= getenv('app.adminAssetsURL') ?>assets/css/jquery-stickytable.css">
 
-<script>
-var  w_width = $(window).width();
-var position_obj = [];
+    <script>
+        var w_width = $(window).width();
+        var position_obj = [];
 
-var half_w_width = w_width /2;
-$('.obj').each(function(){ 
-  position_obj.push($(this).offset().left);
-});
+        var half_w_width = w_width / 2;
+        $('.obj').each(function() {
+            position_obj.push($(this).offset().left);
+        });
 
-Draggable.create(".general_table_style", {
-    type: "scrollLeft",
-    edgeResistance: 0.9,
-    throwProps: !0,
-    maxDuration: 1.2,
-    minDuration: 1.2,
-    lockAxis:true,
-    throwProps:true,
-    onThrowUpdate : function(){
-    var wrapper_left = this.x *(-1) + half_w_width;
+        Draggable.create(".general_table_style", {
+            type: "scrollLeft",
+            edgeResistance: 0.9,
+            throwProps: !0,
+            maxDuration: 1.2,
+            minDuration: 1.2,
+            lockAxis: true,
+            throwProps: true,
+            onThrowUpdate: function() {
+                var wrapper_left = this.x * (-1) + half_w_width;
 
-    $(position_obj).each(function( i, val ) {
-         obj_c = i + 1;
-         if( val < wrapper_left) {
-            $('.obj').removeClass('active');
-            $('#obj_'+obj_c).addClass('active');
-         }
-     });
-    },
-    snap: function(e) { 
-      var span_window_w = $(window).width();
-        return -Math.round(Math.round(e / (.3 * span_window_w)) * (.3 * span_window_w)) // This changes the threshold for dragging and snapping the obj's
-    },
-  onDragStart: function() {
-  
-   
-    },
-   onThrowComplete: function() { 
-       
-          TweenLite.set(".obj", {className:"+=loc"})
-    }
-   
-   
-}), TweenMax.set(".general_table_style", {
-    overflow: "scroll",
-}), $(".general_table_style").scroll(function() {
-    $(".parallax").each(function() {
-        var leftOffset = $(this).offset().left;
-        var element_w = $(this).width();
-      
-        leftOffset < w_width && leftOffset + element_w > 0 && TweenLite.to($(this), 1.2, {
-            xPercent: (w_width - leftOffset) / w_width * $(this).attr("data-velocity"),
-            overwrite: 0
+                $(position_obj).each(function(i, val) {
+                    obj_c = i + 1;
+                    if (val < wrapper_left) {
+                        $('.obj').removeClass('active');
+                        $('#obj_' + obj_c).addClass('active');
+                    }
+                });
+            },
+            snap: function(e) {
+                var span_window_w = $(window).width();
+                return -Math.round(Math.round(e / (.3 * span_window_w)) * (.3 * span_window_w)) // This changes the threshold for dragging and snapping the obj's
+            },
+            onDragStart: function() {
+
+
+            },
+            onThrowComplete: function() {
+
+                TweenLite.set(".obj", {
+                    className: "+=loc"
+                })
+            }
+
+
+        }), TweenMax.set(".general_table_style", {
+            overflow: "scroll",
+        }), $(".general_table_style").scroll(function() {
+            $(".parallax").each(function() {
+                var leftOffset = $(this).offset().left;
+                var element_w = $(this).width();
+
+                leftOffset < w_width && leftOffset + element_w > 0 && TweenLite.to($(this), 1.2, {
+                    xPercent: (w_width - leftOffset) / w_width * $(this).attr("data-velocity"),
+                    overwrite: 0
+                })
+            })
         })
-    })
-})
-
-</script>
-<script src="<?=getenv('app.adminAssetsURL')?>assets/css/jquery-stickytable.js"></script>
-<!-- 
+    </script>
+    <script src="<?= getenv('app.adminAssetsURL') ?>assets/css/jquery-stickytable.js"></script>
+    <!-- 
 <script src="https://amphiluke.github.io/jquery-plugins/floatingscroll/jquery.floatingscroll.min.js"></script>
 <script src="https://amphiluke.github.io/jquery-plugins/floatingscroll/floatingscroll-demo.js"></script> -->
-<script type="text/javascript">
-			$(function() {
-				//load stickyTable with overflowy option
-				$('#myTable').stickyTable({overflowy: true});
+    <script type="text/javascript">
+        $(function() {
+            //load stickyTable with overflowy option
+            $('#myTable').stickyTable({
+                overflowy: true
+            });
 
-				
 
-				
-			});
-		</script>
+
+
+        });
+    </script>
     <script type="text/javascript">
         function copyToClipboard() {
             var $temp = $("<input>");
@@ -442,7 +481,6 @@ Draggable.create(".general_table_style", {
         }
     </script>
     <script>
-        
         // surajit sidebar js
 
         // let arrow = document.querySelectorAll(".arrow");
@@ -456,47 +494,47 @@ Draggable.create(".general_table_style", {
         let sidebar = document.querySelector(".sidebar");
         let sidebarBtn = document.querySelector(".bx-menu");
         console.log(sidebarBtn);
-        sidebarBtn.addEventListener("click", ()=>{
-        sidebar.classList.toggle("close");
+        sidebarBtn.addEventListener("click", () => {
+            sidebar.classList.toggle("close");
         });
-        $(document).ready(function(){
+        $(document).ready(function() {
             //jquery for toggle sub menus
-            $('.iocn-link').click(function(){
-            $(this).next('.sub-menu').slideToggle();
-            $(this).find('.arrow').toggleClass('rotate');
-            $(this).parent('li').siblings().find('.sub-menu').slideUp();
-            $(this).parent('li').siblings().find('.arrow').removeClass('rotate');
+            $('.iocn-link').click(function() {
+                $(this).next('.sub-menu').slideToggle();
+                $(this).find('.arrow').toggleClass('rotate');
+                $(this).parent('li').siblings().find('.sub-menu').slideUp();
+                $(this).parent('li').siblings().find('.arrow').removeClass('rotate');
             });
-            $('.nav-links li').click(function(){
+            $('.nav-links li').click(function() {
                 $(this).addClass('showMenu').siblings().removeClass();
             });
-            $('.bx-menu').click(function(){
+            $('.bx-menu').click(function() {
                 $('.close li').find('.sub-menu').slideUp();
                 $('.close li').siblings().find('.arrow').removeClass('rotate');
             });
         });
     </script>
     <script src="https://cdn.canvasjs.com/jquery.canvasjs.min.js"></script>
-    
-<link rel="stylesheet" href="<?=getenv('app.adminAssetsURL')?>assets/css/jquery.floatingscroll.css">
-<link rel="stylesheet" href="<?=getenv('app.adminAssetsURL')?>assets/css/floatingscroll-demo.css">
- <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.floatingscroll.min.js"></script>
-<script src="<?= getenv('app.adminAssetsURL') ?>assets/js/floatingscroll-demo.js"></script>
-<script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.dragscroll.min.js"></script>
-<script src="<?= getenv('app.adminAssetsURL') ?>assets/js/freeze-table.min.js"></script>
+
+    <link rel="stylesheet" href="<?= getenv('app.adminAssetsURL') ?>assets/css/jquery.floatingscroll.css">
+    <link rel="stylesheet" href="<?= getenv('app.adminAssetsURL') ?>assets/css/floatingscroll-demo.css">
+    <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.floatingscroll.min.js"></script>
+    <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/floatingscroll-demo.js"></script>
+    <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/jquery.dragscroll.min.js"></script>
+    <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/freeze-table.min.js"></script>
 
 
-<script type="text/javascript">
-    $(".fixed-header").freezeTable({
-        freezeColumn:false,
-        fixedNavbar:'.fixed-table-head',
-        container:false,
-    });
+    <script type="text/javascript">
+        $(".fixed-header").freezeTable({
+            freezeColumn: false,
+            fixedNavbar: '.fixed-table-head',
+            container: false,
+        });
 
-    $('.drag').dragScroll({
+        $('.drag').dragScroll({
 
-    });
-</script>
+        });
+    </script>
 </body>
 
 </html>
