@@ -3765,7 +3765,7 @@ class ApiController extends BaseController
 
                 $apiResponse[]              = [
                         'efforts'           => $postData,
-                        'finish_assign'     => $morningScheduleData2,
+                        // 'finish_assign'     => $morningScheduleData2,
                     ];
                     $apiStatus          = TRUE;
                     http_response_code(200);
