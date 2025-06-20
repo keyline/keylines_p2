@@ -3674,7 +3674,7 @@ class ApiController extends BaseController
                         'project_cost'          => $project_cost,
                         'created_at'            => date('Y-m-d H:i:s'),                                
                     );                                  
-                    $project_cost_id             = $this->data['model']->save_data('project_cost', $postData2, '', 'id');
+                    $project_cost_id             = $this->common_model->save_data('project_cost', $postData2, '', 'id');
                 } else {
                     $id         = $exsistingProjectCost->id;
                     $postData2   = array(
@@ -3684,7 +3684,7 @@ class ApiController extends BaseController
                         'project_cost'          => $project_cost,
                         'updated_at'            => date('Y-m-d H:i:s'),                                
                     );                                    
-                    $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');
+                    $update_project_cost_id      = $this->common_model->save_data('project_cost', $postData2, $id, 'id');
                 } 
                 // project cost calculation end
                 
@@ -3757,7 +3757,7 @@ class ApiController extends BaseController
                             'updated_at'            => $next_working_day.' 10:01:00',
                         ];
                         // pr($morningScheduleData2);
-                        $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
+                        $this->common_model->save_data('morning_meetings', $morningScheduleData2, '', 'id');
                     }
                 }
                 // Finish & Assign tomorrow end
