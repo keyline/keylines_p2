@@ -3296,6 +3296,7 @@ class ApiController extends BaseController
                             'min'               => $min,
                             'bill'              => 0,
                             'priority'          => $priority,
+                            'is_leave'          => $is_leave, 
                             'updated_at'        => $created_at                            
                         ];
                     }
@@ -3584,7 +3585,7 @@ class ApiController extends BaseController
                 $effort_type_id            = $requestData['effort_type_id'];
                 $work_status_id            = $requestData['work_status_id'];      
                 $schedule_id               = $requestData['task_id'];
-                $getWorkStatus  = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'is_reassign');
+                
 
                 $cal                    = (($hour*60) + $min); //converted to minutes
                 $projectCost            = floatval($cal_usercost * $cal);
@@ -3615,6 +3616,7 @@ class ApiController extends BaseController
                 ];
                 $this->data['model']->save_data('morning_meetings', $fields, $schedule_id, 'id');
                 } else{
+                    //backdate task effort addition
                     $today = date('Y-m-d');
                     if ($date_added < $today) {
                         $postData            = [
@@ -3622,9 +3624,9 @@ class ApiController extends BaseController
                             'dept_id'           => $department_id,
                             'status_id'         => $project_status,
                             'user_id'           => $user_id,                            
-                            'description'       => $description,                            
-                            'hour'              => $hour,
-                            'min'               => $min,
+                            'description'       => "Not Booked Task",                            
+                            'hour'              => 0,
+                            'min'               => 0,
                             'effort_type'       => $effort_type_id,
                             'work_status_id'    => $work_status_id,
                             'date_added'        => $date_added,  
@@ -3653,6 +3655,7 @@ class ApiController extends BaseController
                         $this->common_model->save_data('timesheet', $field, '', 'id');
                     }                                        
                 }
+                //ptoject cost calculation
                 $year                   = date('Y', strtotime($date_added)); // 2024
                 $month                  = date('m', strtotime($date_added)); // 08
                 $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
@@ -3680,7 +3683,84 @@ class ApiController extends BaseController
                         'updated_at'            => date('Y-m-d H:i:s'),                                
                     );                                    
                     $update_project_cost_id      = $this->data['model']->save_data('project_cost', $postData2, $id, 'id');
-                }                         
+                } 
+                // project cost calculation end
+                
+                // Finish & Assign tomorrow
+                $getWorkStatus  = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'is_reassign');
+                if($getWorkStatus){
+                    if($getWorkStatus->is_reassign){
+                        /* next working data calculate */
+                            // for($c=1;$c<=7;$c++){
+                                // echo $date_added1 = date('Y-m-d', strtotime("+1 days"));
+                                $date_added1 = date('Y-m-d', strtotime($date_added . ' +1 day'));
+                                if($this->calculateNextWorkingDate($date_added1)){
+                                    $next_working_day = $date_added1;
+                                } else {
+                                    // echo 'not working day';
+                                    $date_added2 = date('Y-m-d', strtotime($date_added . "+2 days"));
+                                    if($this->calculateNextWorkingDate($date_added2)){
+                                        $next_working_day = $date_added2;
+                                    } else {
+                                        $date_added3 = date('Y-m-d', strtotime($date_added . "+3 days"));
+                                        if($this->calculateNextWorkingDate($date_added3)){
+                                            $next_working_day = $date_added3;
+                                        } else {
+                                            $date_added4 = date('Y-m-d', strtotime($date_added . "+4 days"));
+                                            if($this->calculateNextWorkingDate($date_added4)){
+                                                $next_working_day = $date_added4;
+                                            } else {
+                                                $date_added5 = date('Y-m-d', strtotime($date_added . "+5 days"));
+                                                if($this->calculateNextWorkingDate($date_added5)){
+                                                    $next_working_day = $date_added5;
+                                                } else {
+                                                    $date_added6 = date('Y-m-d', strtotime($date_added . "+6 days"));
+                                                    if($this->calculateNextWorkingDate($date_added6)){
+                                                        $next_working_day = $date_added6;
+                                                    } else {
+                                                        $date_added7 = date('Y-m-d', strtotime($date_added . "+7 days"));
+                                                        if($this->calculateNextWorkingDate($date_added7)){
+                                                            $next_working_day = $date_added7;
+                                                        } else {
+                                                            $next_working_day = $date_added7;
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                }
+                            // }
+                            // echo $next_working_day;
+                            // die;
+                        /* next working data calculate */
+                        $morningScheduleData2 = [
+                            'dept_id'               => (($getUser)?$getUser->department:0),
+                            'project_id'            => $project_id,
+                            'status_id'             => (($getProject)?$getProject->status:0),
+                            'user_id'               => $user_id,
+                            'description'           => $description,
+                            'hour'                  => $hour,
+                            'min'                   => $min,
+                            'work_home'             => 0,
+                            'effort_type'           => 0,
+                            'date_added'            => $next_working_day,
+                            'added_by'              => $user_id,
+                            'bill'                  => (($getProject)?$getProject->bill:1),
+                            'work_status_id'        => 0,
+                            'priority'              => 3,
+                            'effort_id'             => 0,
+                            'created_at'            => $next_working_day.' 10:01:00',
+                            'updated_at'            => $next_working_day.' 10:01:00',
+                        ];
+                        // pr($morningScheduleData2);
+                        $this->data['model']->save_data('morning_meetings', $morningScheduleData2, '', 'id');
+                    }
+                }
+                // Finish & Assign tomorrow end
+
+
                 $apiResponse[]              = [
                         'efforts'           => $postData
                     ];
