@@ -195,49 +195,57 @@
                            </div>                           
                         </div>
                      </div>
-                  </div>
-               </div>                                 
-               <?php foreach($user_task_details as $task){ 
-                  if($task['work_status_id'] == 1) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else if($task['work_status_id'] == 2) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else if($task['work_status_id'] == 3) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else if($task['work_status_id'] == 4) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else if($task['work_status_id'] == 5) {
-                     $task_background = $task['work_status_background'];
-                     $task_border = $task['work_status_border'];
-                  } else{
-                     $task_background = '';
-                     $task_border = '';
-                  }
-                  ?>  
-               <div class="col-md-12">
-                  <div class="card table-cardcard table-card shadow-sm">
-                     <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
-                        <div class="row">
-                           <div class="col-md-12">
-                              <div>                                                                                                                                                                                                       
-                                 <h6 class="mb-2"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
-                                 <p><?=$task['description']?></p>
-                                 <p class="card-details text-muted">
-                                    <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
-                                    <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
-                                    <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
-                                 </p>                                                                                                                                                                                            
+                     <div class="card-body">
+                        <div class="rows">
+                           <div class="col-xxl-12 col-md-12 table-responsive">
+                              <?php foreach($user_task_details as $task){ 
+                              if($task['work_status_id'] == 1) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 2) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 3) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 4) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else if($task['work_status_id'] == 5) {
+                                 $task_background = $task['work_status_background'];
+                                 $task_border = $task['work_status_border'];
+                              } else{
+                                 $task_background = '';
+                                 $task_border = '';
+                              }
+                              ?>  
+                              <div class="col-md-12">
+                                 <div class="card table-cardcard table-card shadow-sm">
+                                    <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                       <div class="row">
+                                          <div class="col-md-12">
+                                             <div>                                                                                                                                                                                                       
+                                                <h6 class="mb-2"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                <p><?=$task['description']?></p>
+                                                <p class="card-details text-muted">
+                                                   <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
+                                                   <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
+                                                   <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                </p>                                                                                                                                                                                            
+                                             </div>
+                                          </div>                           
+                                       </div>
+                                    </div>
+                                 </div>
                               </div>
-                           </div>                           
+                              <?php } ?>
+                           </div>
                         </div>
                      </div>
                   </div>
-               </div>
-               <?php } ?>
+               </div>                                 
+               
+               
 
                <div class="col-md-12">
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
