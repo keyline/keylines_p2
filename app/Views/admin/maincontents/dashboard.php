@@ -187,8 +187,10 @@
                               </div>
                            </div> 
                            <div class="col-lg-7 col-md-6">
-                              <div class="card-header-right">                                        
+                              <div class="card-header-right"> 
+                                 <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
                                     <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Task</button>                                    
+                                 </ul>
                               </div>
                            </div>                           
                         </div>
