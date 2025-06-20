@@ -3616,7 +3616,7 @@ class ApiController extends BaseController
                     'effort_id'         => $effort_id,
                     'updated_at'        => date('Y-m-d H:i:s'),
                 ];
-                $this->data['model']->save_data('morning_meetings', $fields, $schedule_id, 'id');
+                $this->common_model->save_data('morning_meetings', $fields, $schedule_id, 'id');
                 } else{
                     //backdate task effort addition
                     $today = date('Y-m-d');
