@@ -3738,9 +3738,9 @@ class ApiController extends BaseController
                             // die;
                         /* next working data calculate */
                         $morningScheduleData2 = [
-                            'dept_id'               => (($getUser)?$getUser->department:0),
+                            'dept_id'               => $department_id,
                             'project_id'            => $project_id,
-                            'status_id'             => (($getProject)?$getProject->status:0),
+                            'status_id'             => $project_status,
                             'user_id'               => $user_id,
                             'description'           => $description,
                             'hour'                  => $hour,
@@ -3748,8 +3748,8 @@ class ApiController extends BaseController
                             'work_home'             => 0,
                             'effort_type'           => 0,
                             'date_added'            => $next_working_day,
-                            'added_by'              => $user_id,
-                            'bill'                  => (($getProject)?$getProject->bill:1),
+                            'added_by'              => $uId,
+                            'bill'                  => $project_bill,
                             'work_status_id'        => 0,
                             'priority'              => 3,
                             'effort_id'             => 0,
@@ -3764,7 +3764,8 @@ class ApiController extends BaseController
 
 
                 $apiResponse[]              = [
-                        'efforts'           => $postData
+                        'efforts'           => $postData,
+                        'finish_assign'     => $morningScheduleData2,
                     ];
                     $apiStatus          = TRUE;
                     http_response_code(200);
