@@ -3048,7 +3048,7 @@ class ApiController extends BaseController
                 $uId            = $getTokenValue['data'][1];
                 $expiry         = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                 $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
-                $getWorkStatus    = $this->common_model->find_data('work_status', 'array', ['status=' => '1'], '', '', '', $order_by);
+                $getWorkStatus    = $this->common_model->find_data('work_status', 'array', ['is_schedule=' => '1'], '', '', '', $order_by);
                 if ($getWorkStatus) {
                     foreach ($getWorkStatus as $getWork) {
                         $apiResponse[]        = [
