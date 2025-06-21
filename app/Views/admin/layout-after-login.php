@@ -78,6 +78,26 @@
                     dropdownParent: $('#addAttendanceModal')
                 });
             });
+
+            $('#addEffortModal').on('shown.bs.modal', function() {
+                $('#project_id').select2({
+                    placeholder: "Search...",
+                    allowClear: true,
+                    dropdownParent: $('#addEffortModal')
+                });
+                $('#effort_type_id').select2({
+                    placeholder: "Search...",
+                    allowClear: true,
+                    dropdownParent: $('#addEffortModal')
+                });
+
+                $('#work_status_id').select2({
+                    placeholder: "Search...",
+                    allowClear: true,
+                    dropdownParent: $('#addEffortModal')
+                });
+
+            });
         });
     </script>
 
