@@ -1289,7 +1289,7 @@ class User extends BaseController
         $description               = $requestData['description'];                
         $date_added                = date_format(date_create($requestData['date']), "Y-m-d");
         $hour                      = $requestData['fhour'];
-        $min                       = $requestData['fmin'];                
+        $min                       = $requestData['fminute'];                
         $created_at                = date('Y-m-d H:i:s');
         $effort_type_id            = $requestData['effort_type_id'];
         $work_status_id            = $requestData['work_status_id'];      
