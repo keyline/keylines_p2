@@ -348,6 +348,8 @@ class User extends BaseController
         } else {
             /* total cards */
             $cu_date            = date('Y-m-d');
+            $yesterday = date('Y-m-d', strtotime('-1 day'));
+            $upcoming = date('Y-m-d', strtotime('+1 day'));
             $data['total_users']                = $this->common_model->find_data('user', 'count');
             $data['total_active_users']         = $this->common_model->find_data('user', 'count', ['status' => '1']);
             $data['total_inactive_users']       = $this->common_model->find_data('user', 'count', ['status' => '0']);
@@ -369,7 +371,13 @@ class User extends BaseController
             // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                                
             $user_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$cu_date%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
             $user_task_data = $this->db->query($user_task)->getResult();
+            $yesterday_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$yesterday%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
+            $yesterday_task_data = $this->db->query($user_task)->getResult();
+            $upcoming_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$upcoming%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
+            $upcoming_task_data = $this->db->query($user_task)->getResult();
             $user_task_details = [];
+            $yesterday_task_details = [];
+            $upcoming_task_details = [];
             foreach ($user_task_data as $task_data) {
                 $assign_by = $task_data->added_by;
                 $task_date = $task_data->created_at;
@@ -401,7 +409,71 @@ class User extends BaseController
                     'assign_at'     => $assign_time->format('d-M-y'),
                 ];
             }
+            foreach ($yesterday_task_data as $task_data_yes) {
+                $assign_by = $task_data_yes->added_by;
+                $task_date = $task_data_yes->created_at;
+                // Create DateTime object
+                $date = new DateTime($task_date);
+                // Format the date
+                $formattedDate = $date->format('d-M-y h:i A');
+                $assign_time = new DateTime($task_data_yes->date_added);
+                $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);                
+                $work_status_background = '';
+                $work_status_border = '';
+                if ($task_data_yes->work_status_id != 0) {
+                    $work_status = $this->common_model->find_data('work_status', 'row', ['id' => $task_data_yes->work_status_id]);
+                    if ($work_status) {
+                        $work_status_background = $work_status->background_color;
+                        $work_status_border = $work_status->border_color;
+                    }
+                }
+                $yesterday_task_details[] = [
+                    'id'            => $task_data_yes->id,                    
+                    'user_name'     => $user_details->name,                    
+                    'project_name'  => $task_data_yes->project_name,
+                    'priority'      => $task_data_yes->priority,  
+                    'description'   => ucfirst($task_data_yes->description),
+                    'work_status_id' => $task_data_yes->work_status_id,       
+                    'work_status_background'   => $work_status_background,
+                    'work_status_border'   => $work_status_border,
+                    'created_at'    => $formattedDate,
+                    'assign_at'     => $assign_time->format('d-M-y'),
+                ];
+            }
+            foreach ($upcoming_task_data as $task_data_up) {
+                $assign_by = $task_data_up->added_by;
+                $task_date = $task_data_up->created_at;
+                // Create DateTime object
+                $date = new DateTime($task_date);
+                // Format the date
+                $formattedDate = $date->format('d-M-y h:i A');
+                $assign_time = new DateTime($task_data_up->date_added);
+                $user_details = $this->common_model->find_data('user', 'row', ['id' => $assign_by]);                
+                $work_status_background = '';
+                $work_status_border = '';
+                if ($task_data_up->work_status_id != 0) {
+                    $work_status = $this->common_model->find_data('work_status', 'row', ['id' => $task_data_up->work_status_id]);
+                    if ($work_status) {
+                        $work_status_background = $work_status->background_color;
+                        $work_status_border = $work_status->border_color;
+                    }
+                }
+                $upcoming_task_details[] = [
+                    'id'            => $task_data_up->id,                    
+                    'user_name'     => $user_details->name,                    
+                    'project_name'  => $task_data_up->project_name,
+                    'priority'      => $task_data_up->priority,  
+                    'description'   => ucfirst($task_data_up->description),
+                    'work_status_id' => $task_data_up->work_status_id,       
+                    'work_status_background'   => $work_status_background,
+                    'work_status_border'   => $work_status_border,
+                    'created_at'    => $formattedDate,
+                    'assign_at'     => $assign_time->format('d-M-y'),
+                ];
+            }
             $data['user_task_details'] = $user_task_details;                   
+            $data['yesterday_task_details'] = $yesterday_task_details;                   
+            $data['upcoming_task_details'] = $upcoming_task_details;                   
             // pr($user_task_details);
             // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
             $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
