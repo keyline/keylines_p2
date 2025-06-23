@@ -1540,7 +1540,7 @@ class User extends BaseController
             }
         }
         // Finish & Assign tomorrow end
-        $this->session->setFlashdata('success_message', 'Task added successfully.');
+        $this->session->setFlashdata('success_message', 'Effort added successfully.');
         return redirect()->to('/admin/dashboard');
     }
 

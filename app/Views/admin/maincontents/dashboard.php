@@ -197,7 +197,8 @@
                      </div>
                      <div class="card-body">
                         <div class="row">
-                           <div class="col-xxl-4 col-md-4 table-responsive">                              
+                           <div class="col-xxl-4 col-md-4 table-responsive">  
+                              <h6>Yesterday Task</h6>                            
                               <div class="row">
                                  <?php foreach($yesterday_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -249,7 +250,8 @@
                                   <?php } ?>                                                                   
                               </div>                                                                                         
                            </div>
-                           <div class="col-xxl-4 col-md-4 table-responsive">                              
+                           <div class="col-xxl-4 col-md-4 table-responsive"> 
+                              <h6>Today Task</h6>                             
                               <div class="row">                                 
                                   <?php foreach($user_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -301,7 +303,8 @@
                                  <?php } ?>                                 
                               </div>                                                                                         
                            </div>
-                           <div class="col-xxl-4 col-md-4 table-responsive">                              
+                           <div class="col-xxl-4 col-md-4 table-responsive">    
+                              <h6>Upcoming Task</h6>                          
                               <div class="row">                                                                  
                                  <?php foreach($upcoming_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
