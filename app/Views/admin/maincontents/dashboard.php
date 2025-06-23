@@ -197,9 +197,8 @@
                      </div>
                      <div class="card-body">
                         <div class="rows">
-                           <div class="col-xxl-12 col-md-12 table-responsive">                              
-                              <div class="row">
-                                 <?php foreach($user_task_details as $task){ 
+                           <div class="col-xxl-12 col-md-12 table-responsive">                                                            
+                                 <?php foreach($yesterday_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
                                     $task_background = $task['work_status_background'];
                                     $task_border = $task['work_status_border'];
@@ -247,7 +246,7 @@
                                     </div>
                                  </div>
                                   <?php } ?>
-                                  <?php foreach($yesterday_task_details as $task){ 
+                                  <?php foreach($user_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
                                     $task_background = $task['work_status_background'];
                                     $task_border = $task['work_status_border'];
@@ -343,7 +342,7 @@
                                     </div>
                                  </div>
                                  <?php } ?>
-                              </div>                              
+                              <!-- </div>                               -->
                                                            
                            </div>
                         </div>
