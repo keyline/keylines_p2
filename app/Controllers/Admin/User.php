@@ -1540,7 +1540,8 @@ class User extends BaseController
             }
         }
         // Finish & Assign tomorrow end
-
+        $this->session->setFlashdata('success_message', 'Task added successfully.');
+        return redirect()->to('/admin/dashboard');
     }
 
     public function calculateNextWorkingDate($givenDate){
