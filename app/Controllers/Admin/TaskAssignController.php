@@ -11,7 +11,8 @@ class TaskAssignController extends BaseController {
     {
         $session = \Config\Services::session();
         if(!$session->get('is_admin_login')) {
-            return redirect()->to('/');
+            // return redirect()->to('/');
+            header('Location: ' . base_url('/'));
             exit;
         }
         $model = new CommonModel();
