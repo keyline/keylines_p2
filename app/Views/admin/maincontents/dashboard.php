@@ -324,7 +324,7 @@
                                     $task_border = '';
                                  }
                                  ?>  
-                                 <div class="col-md-4">
+                                 <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
                                        <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
