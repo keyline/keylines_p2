@@ -233,12 +233,14 @@
                                                    <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
                                                 </p>                                                                                                                                                                                            
                                              </div>
-                                          </div>   
+                                          </div>  
+                                           <?php if($task['work_status_id'] == 0) { ?>
                                           <div class="col-md-6">
                                              <button type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                 <i class="fa fa-plus"></i> Add Effort
                                              </button>                                                                                     
-                                          </div>                        
+                                          </div> 
+                                          <?php } ?>                       
                                        </div>
                                     </div>
                                  </div>
