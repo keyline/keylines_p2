@@ -231,8 +231,8 @@
                                                    <p><?=$task['description']?></p>
                                                    <p class="card-details text-muted">
                                                       <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
-                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
-                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span><br>
+                                                      <span><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
                                                    </p>                                                                                                                                                                                            
                                                 </div>
                                              </div>  
@@ -284,8 +284,8 @@
                                                    <p><?=$task['description']?></p>
                                                    <p class="card-details text-muted">
                                                       <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
-                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
-                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span><br>                                    
+                                                      <span><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
                                                    </p>                                                                                                                                                                                            
                                                 </div>
                                              </div>  
@@ -337,8 +337,8 @@
                                                    <p><?=$task['description']?></p>
                                                    <p class="card-details text-muted">
                                                       <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
-                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
-                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span><br>
+                                                      <span><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
                                                    </p>                                                                                                                                                                                            
                                                 </div>
                                              </div>  
