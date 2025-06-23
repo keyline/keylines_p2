@@ -87,6 +87,13 @@ th,td{
   border-radius: 8px;
   margin-bottom: 16px;
 }
+.table-card .card-header-task{
+  /* padding: 17px 20px; */
+  padding: 10px 20px;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 0px;
+}
 .table-card .card-header2{
   padding: 10px 20px;
 }

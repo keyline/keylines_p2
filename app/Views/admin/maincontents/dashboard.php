@@ -223,7 +223,7 @@
                                  ?>  
                                  <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
-                                       <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>margin-bottom: 0px;!important;">
+                                       <div class="card-header-task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
@@ -238,7 +238,7 @@
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
                                              <div class="col-md-4">
-                                                <button type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button>                                                                                     
                                              </div> 
@@ -276,7 +276,7 @@
                                  ?>  
                                  <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
-                                       <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>margin-bottom: 0px;!important;">
+                                       <div class="card-header-task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
@@ -291,7 +291,7 @@
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
                                              <div class="col-md-4">
-                                                <button type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button>                                                                                     
                                              </div> 
@@ -329,7 +329,7 @@
                                  ?>  
                                  <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
-                                       <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?> margin-bottom: 0px;!important;">
+                                       <div class="card-header-task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
@@ -344,7 +344,7 @@
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
                                              <div class="col-md-4">
-                                                <button type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button>                                                                                     
                                              </div> 
