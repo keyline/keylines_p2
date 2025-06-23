@@ -182,7 +182,7 @@
                            <div class="col-lg-5 col-md-6">
                               <div class="card-header-left"> 
                                  <ul class="d-flex align-items-center">
-                                    <li class="me-3"><h6 class="fw-bold heading_style">Task Module</h6></li>                                    
+                                    <li class="me-3"><h6 class="fw-bold heading_style">Task Management</h6></li>                                    
                                  </ul>                                                                           
                               </div>
                            </div> 
@@ -223,7 +223,7 @@
                                  ?>  
                                  <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
-                                       <div class="card-header-task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                       <div class="card-header task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
@@ -276,7 +276,7 @@
                                  ?>  
                                  <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
-                                       <div class="card-header-task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                       <div class="card-header task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
@@ -329,7 +329,7 @@
                                  ?>  
                                  <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
-                                       <div class="card-header-task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                       <div class="card-header task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
