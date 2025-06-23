@@ -372,9 +372,9 @@ class User extends BaseController
             $user_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$cu_date%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
             $user_task_data = $this->db->query($user_task)->getResult();
             $yesterday_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$yesterday%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
-            $yesterday_task_data = $this->db->query($user_task)->getResult();
+            $yesterday_task_data = $this->db->query($yesterday_task)->getResult();
             $upcoming_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$upcoming%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
-            $upcoming_task_data = $this->db->query($user_task)->getResult();
+            $upcoming_task_data = $this->db->query($upcoming_task)->getResult();
             $user_task_details = [];
             $yesterday_task_details = [];
             $upcoming_task_details = [];
