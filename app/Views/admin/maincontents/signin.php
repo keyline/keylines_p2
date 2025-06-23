@@ -116,14 +116,11 @@
                                             
                                         </div>
                                     </div>
-                                </div></div>
+                                </div>
                             </div>
-                        </div>                        
-                    </div>
-                    <div class="credits">
-                        Maintained by <a href="https://keylines.net/">Keylines Digitech Pvt. Ltd.</a>
-                    </div>
-                </div>
+                        </div>
+                    </div>                        
+                </div>                                    
             </div>
         </div>
     </section>
