@@ -58,7 +58,9 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "email-logs", "User::emailLogs");
 	$routes->match(['get', 'post'], "email-logs-details/(:any)", "User::emailLogsDetails/$1");
 	$routes->match(['get', 'post'], "login-logs", "User::loginLogs");
-	$routes->match(['get', 'post'], "save-task", "User::Savetask");
+	$routes->match(['get', 'post'], "save-task", "User::Savetask");	
+	$routes->match(['get', 'post'], "save-effort", "User::SaveEffort");	
+	$routes->match(['get', 'post'], "get-task-details", "User::get_task_details");
 	// dashboard
 	// settings
 	$routes->match(['get', 'post'], "settings", "User::settings");
