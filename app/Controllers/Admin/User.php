@@ -1127,7 +1127,7 @@ class User extends BaseController
                     'min'               => 0,
                     'bill'              => 1,
                     'work_status_id'    => 6,
-                    'priority'          => $priority,
+                    'priority'          => 3,
                     'next_day_task_action' => 1,
                     'is_leave'          => 1,
                     'created_at'        => $created_at
@@ -1145,7 +1145,7 @@ class User extends BaseController
                     'min'               => 0,
                     'bill'              => 1,
                     'work_status_id'    => 6,
-                    'priority'          => $priority,
+                    'priority'          => 3,
                     'next_day_task_action' => 1,
                     'is_leave'          => 2,
                     'created_at'        => $created_at
