@@ -1287,7 +1287,7 @@ class User extends BaseController
         $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
         $department_id             = $department ? $department->dep_id : 0;                    
         $description               = $requestData['description'];                
-        $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
+        $date_added                = date_format(date_create($requestData['date']), "Y-m-d");
         $hour                      = $requestData['fhour'];
         $min                       = $requestData['fmin'];                
         $created_at                = date('Y-m-d H:i:s');
