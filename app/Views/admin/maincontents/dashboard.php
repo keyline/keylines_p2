@@ -198,7 +198,7 @@
                      <div class="card-body">
                         <div class="row">
                            <div class="col-xxl-4 col-md-4 table-responsive">  
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white; margin-bottom: 15px;">Yesterday Task</h6>                            
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white; margin-bottom: 10px; font-size: 14px;">Yesterday Task</h6>                            
                               <div class="row">
                                  <?php foreach($yesterday_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -223,7 +223,7 @@
                                  ?>  
                                  <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
-                                       <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                       <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>margin-bottom: 0px;!important;">
                                           <div class="row">
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
@@ -251,7 +251,7 @@
                               </div>                                                                                         
                            </div>
                            <div class="col-xxl-4 col-md-4 table-responsive"> 
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 15px;">Today Task</h6>                             
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 10px;font-size: 14px;">Today Task</h6>                             
                               <div class="row">                                 
                                   <?php foreach($user_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -276,7 +276,7 @@
                                  ?>  
                                  <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
-                                       <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                       <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>margin-bottom: 0px;!important;">
                                           <div class="row">
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
@@ -304,7 +304,7 @@
                               </div>                                                                                         
                            </div>
                            <div class="col-xxl-4 col-md-4 table-responsive">    
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 15px;">Upcoming Task</h6>                          
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 10px;font-size: 14px;">Upcoming Task</h6>                          
                               <div class="row">                                                                  
                                  <?php foreach($upcoming_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -329,7 +329,7 @@
                                  ?>  
                                  <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
-                                       <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                       <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?> margin-bottom: 0px;!important;">
                                           <div class="row">
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
