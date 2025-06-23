@@ -67,19 +67,19 @@
                         Maintained by <a href="https://keylines.net/">Keylines Digitech Pvt. Ltd.</a>
                     </div>
                 </div>
-                <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">
-                    <div class="d-flex justify-content-center py-4">
-                        <a href="<?=base_url('admin/')?>" class="logo d-flex align-items-center w-auto">
-                        <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>">
-                        </a>
-                    </div>
-                    <!-- End Logo -->
+                <div class="col-lg-6 col-md-6 d-flex flex-column align-items-center justify-content-center">                    
                     <div class="card mb-3 signin-box">
                         <div class="card-body">
-                            <div class="pt-4 pb-2">
-                                <h5 class="card-title text-center pb-0 fs-4">SignIn to Your Account</h5>
-                                <p class="text-center small">Enter your email & password to login</p>
-                            </div>
+                            <div class="portlet box green">
+                                <div class="portlet-title">
+                                    <div class="caption"></div>
+                                    <div class="tools"> </div>
+                                </div>
+                                <div class="portlet-body">
+                                    <h4>Application Location Path :</h4> 
+                                    <p><?=getenv('app.baseURL')?></p>
+                                </div>
+                            </div>                              
                             <?php if($session->getFlashdata('success_message')){?>
                             <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
                                 <?=$session->getFlashdata('success_message')?>
