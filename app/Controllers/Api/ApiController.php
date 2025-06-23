@@ -3114,9 +3114,11 @@ class ApiController extends BaseController
                     if ($project_id != 0) {
                         $project = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
                         $project_status            = $project->status;
+                        $project_bill           = $project->bill;
                     } else {
                         $project = 0;
                         $project_status = 0;
+                        $project_bill = 0;
                     }                                        
                     $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
                     $department_id             = $department ? $department->dep_id : 0;
@@ -3175,7 +3177,7 @@ class ApiController extends BaseController
                             'added_by'          => $uId,
                             'hour'              => $hour,
                             'min'               => $min,
-                            'bill'              => 0,
+                            'bill'              => $project_bill,
                             'priority'          => $priority,
                             'created_at'        => $created_at
                         ];
