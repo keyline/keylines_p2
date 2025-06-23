@@ -196,8 +196,9 @@
                         </div>
                      </div>
                      <div class="card-body">
-                        <div class="rows">
-                           <div class="col-xxl-12 col-md-12 table-responsive">                                                            
+                        <div class="row">
+                           <div class="col-xxl-4 col-md-4 table-responsive">                              
+                              <div class="row">
                                  <?php foreach($yesterday_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
                                     $task_background = $task['work_status_background'];
@@ -219,7 +220,7 @@
                                     $task_border = '';
                                  }
                                  ?>  
-                                 <div class="col-md-4">
+                                 <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
                                        <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
@@ -245,7 +246,11 @@
                                        </div>
                                     </div>
                                  </div>
-                                  <?php } ?>
+                                  <?php } ?>                                                                   
+                              </div>                                                                                         
+                           </div>
+                           <div class="col-xxl-4 col-md-4 table-responsive">                              
+                              <div class="row">                                 
                                   <?php foreach($user_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
                                     $task_background = $task['work_status_background'];
@@ -267,7 +272,7 @@
                                     $task_border = '';
                                  }
                                  ?>  
-                                 <div class="col-md-4">
+                                 <div class="col-md-12">
                                     <div class="card table-cardcard table-card shadow-sm">
                                        <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
@@ -293,7 +298,11 @@
                                        </div>
                                     </div>
                                  </div>
-                                 <?php } ?>
+                                 <?php } ?>                                 
+                              </div>                                                                                         
+                           </div>
+                           <div class="col-xxl-4 col-md-4 table-responsive">                              
+                              <div class="row">                                                                  
                                  <?php foreach($upcoming_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
                                     $task_background = $task['work_status_background'];
@@ -342,8 +351,7 @@
                                     </div>
                                  </div>
                                  <?php } ?>
-                              <!-- </div>                               -->
-                                                           
+                              </div>                                                                                         
                            </div>
                         </div>
                      </div>
