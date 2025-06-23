@@ -13,7 +13,7 @@ class MobileController extends BaseController
     {
         $session = \Config\Services::session();
         if (!$session->get('is_admin_login')) {
-            header('Location: ' . base_url('/Administrator'));
+            header('Location: ' . base_url('/'));
             // return redirect()->to('/Administrator');
             exit;
         }
