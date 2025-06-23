@@ -198,7 +198,7 @@
                      <div class="card-body">
                         <div class="row">
                            <div class="col-xxl-4 col-md-4 table-responsive">  
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;">Yesterday Task</h6>                            
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white; margin-bottom: 15px;">Yesterday Task</h6>                            
                               <div class="row">
                                  <?php foreach($yesterday_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -251,7 +251,7 @@
                               </div>                                                                                         
                            </div>
                            <div class="col-xxl-4 col-md-4 table-responsive"> 
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;">Today Task</h6>                             
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 15px;">Today Task</h6>                             
                               <div class="row">                                 
                                   <?php foreach($user_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -304,7 +304,7 @@
                               </div>                                                                                         
                            </div>
                            <div class="col-xxl-4 col-md-4 table-responsive">    
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;">Upcoming Task</h6>                          
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 15px;">Upcoming Task</h6>                          
                               <div class="row">                                                                  
                                  <?php foreach($upcoming_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
