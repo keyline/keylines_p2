@@ -182,7 +182,7 @@
                            <div class="col-lg-5 col-md-6">
                               <div class="card-header-left"> 
                                  <ul class="d-flex align-items-center">
-                                    <li class="me-3"><h6 class="fw-bold heading_style">Task Module</h6></li>                                    
+                                    <li class="me-3"><h6 class="fw-bold heading_style">Task Management</h6></li>                                    
                                  </ul>                                                                           
                               </div>
                            </div> 
@@ -196,54 +196,165 @@
                         </div>
                      </div>
                      <div class="card-body">
-                        <div class="rows">
-                           <div class="col-xxl-12 col-md-12 table-responsive">
-                              <?php foreach($user_task_details as $task){ 
-                              if($task['work_status_id'] == 1) {
-                                 $task_background = $task['work_status_background'];
-                                 $task_border = $task['work_status_border'];
-                              } else if($task['work_status_id'] == 2) {
-                                 $task_background = $task['work_status_background'];
-                                 $task_border = $task['work_status_border'];
-                              } else if($task['work_status_id'] == 3) {
-                                 $task_background = $task['work_status_background'];
-                                 $task_border = $task['work_status_border'];
-                              } else if($task['work_status_id'] == 4) {
-                                 $task_background = $task['work_status_background'];
-                                 $task_border = $task['work_status_border'];
-                              } else if($task['work_status_id'] == 5) {
-                                 $task_background = $task['work_status_background'];
-                                 $task_border = $task['work_status_border'];
-                              } else{
-                                 $task_background = '';
-                                 $task_border = '';
-                              }
-                              ?>  
-                              <div class="col-md-6">
-                                 <div class="card table-cardcard table-card shadow-sm">
-                                    <div class="card-header" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
-                                       <div class="row">
-                                          <div class="col-md-6">
-                                             <div>                                                                                                                                                                                                       
-                                                <h6 class="mb-2"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
-                                                <p><?=$task['description']?></p>
-                                                <p class="card-details text-muted">
-                                                   <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
-                                                   <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>                                    
-                                                   <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
-                                                </p>                                                                                                                                                                                            
-                                             </div>
-                                          </div>   
-                                          <div class="col-md-6">
-                                             <button type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
-                                                <i class="fa fa-plus"></i> Add Effort
-                                             </button>                                                                                     
-                                          </div>                        
+                        <div class="row">
+                           <div class="col-xxl-4 col-md-4 table-responsive">  
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white; margin-bottom: 10px; font-size: 14px;">Yesterday Task</h6>                            
+                              <div class="row">
+                                 <?php foreach($yesterday_task_details as $task){ 
+                                 if($task['work_status_id'] == 1) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 2) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 3) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 4) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 5) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else{
+                                    $task_background = '';
+                                    $task_border = '';
+                                 }
+                                 ?>  
+                                 <div class="col-md-12">
+                                    <div class="card table-cardcard table-card shadow-sm">
+                                       <div class="card-header task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                          <div class="row">
+                                             <div class="col-md-8">
+                                                <div>                                                                                                                                                                                                       
+                                                   <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <p style="font-size: 10px;"><?=$task['description']?></p>
+                                                   <p class="card-details text-muted" style="font-size: 9px;">
+                                                      <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
+                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                   </p>                                                                                                                                                                                            
+                                                </div>
+                                             </div>  
+                                             <?php if($task['work_status_id'] == 0) { ?>
+                                             <div class="col-md-4">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                                   <i class="fa fa-plus"></i> Add Effort
+                                                </button>                                                                                     
+                                             </div> 
+                                             <?php } ?>                       
+                                          </div>
                                        </div>
                                     </div>
                                  </div>
-                              </div>
-                              <?php } ?>
+                                  <?php } ?>                                                                   
+                              </div>                                                                                         
+                           </div>
+                           <div class="col-xxl-4 col-md-4 table-responsive"> 
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 10px;font-size: 14px;">Today Task</h6>                             
+                              <div class="row">                                 
+                                  <?php foreach($user_task_details as $task){ 
+                                 if($task['work_status_id'] == 1) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 2) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 3) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 4) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 5) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else{
+                                    $task_background = '';
+                                    $task_border = '';
+                                 }
+                                 ?>  
+                                 <div class="col-md-12">
+                                    <div class="card table-cardcard table-card shadow-sm">
+                                       <div class="card-header task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                          <div class="row">
+                                             <div class="col-md-8">
+                                                <div>                                                                                                                                                                                                       
+                                                   <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <p style="font-size: 10px;"><?=$task['description']?></p>
+                                                   <p class="card-details text-muted" style="font-size: 9px;">
+                                                      <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
+                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                   </p>                                                                                                                                                                                            
+                                                </div>
+                                             </div>  
+                                             <?php if($task['work_status_id'] == 0) { ?>
+                                             <div class="col-md-4">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                                   <i class="fa fa-plus"></i> Add Effort
+                                                </button>                                                                                     
+                                             </div> 
+                                             <?php } ?>                       
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <?php } ?>                                 
+                              </div>                                                                                         
+                           </div>
+                           <div class="col-xxl-4 col-md-4 table-responsive">    
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 10px;font-size: 14px;">Upcoming Task</h6>                          
+                              <div class="row">                                                                  
+                                 <?php foreach($upcoming_task_details as $task){ 
+                                 if($task['work_status_id'] == 1) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 2) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 3) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 4) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else if($task['work_status_id'] == 5) {
+                                    $task_background = $task['work_status_background'];
+                                    $task_border = $task['work_status_border'];
+                                 } else{
+                                    $task_background = '';
+                                    $task_border = '';
+                                 }
+                                 ?>  
+                                 <div class="col-md-12">
+                                    <div class="card table-cardcard table-card shadow-sm">
+                                       <div class="task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
+                                          <div class="row">
+                                             <div class="col-md-8">
+                                                <div>                                                                                                                                                                                                       
+                                                   <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <p style="font-size: 10px;"><?=$task['description']?></p>
+                                                   <p class="card-details text-muted" style="font-size: 9px;">
+                                                      <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['assign_at']?> 
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
+                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                   </p>                                                                                                                                                                                            
+                                                </div>
+                                             </div>  
+                                             <?php if($task['work_status_id'] == 0) { ?>
+                                             <div class="col-md-4">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                                   <i class="fa fa-plus"></i> Add Effort
+                                                </button>                                                                                     
+                                             </div> 
+                                             <?php } ?>                       
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 <?php } ?>
+                              </div>                                                                                         
                            </div>
                         </div>
                      </div>

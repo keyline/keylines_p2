@@ -45,6 +45,68 @@ th,td{
   font-size: 12px;
 }
 
+/* deblina (login) css */
+.aut-bg-img{
+  background-image: url(../img/login-bg.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+.auth-wrapper{
+  position: relative;    
+  display: flex;  
+  align-items: center;  
+  justify-content: center;
+  overflow: hidden;
+  min-width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #4099ff, #82bcff);
+}
+.auth-wrapper .auth-side-img {
+    padding-right: 400px;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+.align-items-stretch {
+    -webkit-box-align: stretch !important;
+    align-items: stretch !important;
+}
+.flex-grow-1 {
+    -webkit-box-flex: 1 !important;
+    flex-grow: 1 !important;
+}
+.auth-wrapper > div {
+    z-index: 5;
+}
+.aut-bg-img .auth-content {
+    padding: 70px 40px;
+}
+.auth-wrapper .auth-content {
+    position: relative;
+    padding: 15px;
+    z-index: 5;
+}
+.w-auto {
+    width: auto !important;
+}
+.auth-wrapper .auth-side-form {
+    position: relative;
+    min-height: 100%;
+    background: #fff;
+    display: -webkit-inline-box;
+    display: inline-flex
+;
+    -webkit-box-align: center;
+    align-items: center;
+    left: auto;
+    float: right;
+    box-shadow: -2px 0 7px -2px rgba(0, 0, 0, 0.5);
+}
+
 /* surajit css */
 .dashboard .btn-close{
   position: absolute;
@@ -86,6 +148,13 @@ th,td{
   background: #fff;
   border-radius: 8px;
   margin-bottom: 16px;
+}
+.table-card .task{
+  /* padding: 17px 20px; */
+  padding: 10px 20px;
+  background: #fff;
+  border-radius: 8px;
+  margin-bottom: 0px;
 }
 .table-card .card-header2{
   padding: 10px 20px;
