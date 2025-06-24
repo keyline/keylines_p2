@@ -57,11 +57,11 @@
     }
   </style>
 
-<div class="container-fluid d-flex vh-100">
+<div class="container-fluid d-flex vh-100" style="margin-left: -15px;margin-right: -15px;">
     <!-- Left Panel -->
     <div class="col-md-8 d-flex flex-column justify-content-center align-items-center gradient-bg text-white">
       <div class="text-center mb-4">
-        <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>">                
+        <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>" style="width: 100%;max-width: 200px;">                
       </div>
 
       <!-- <div class="card mb-3 signin-box mx-auto w-75">        
