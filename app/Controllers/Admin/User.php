@@ -369,11 +369,11 @@ class User extends BaseController
             $data['employees']                  = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
             $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);            
             // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                                
-            $user_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$cu_date%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
+            $user_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.date_added LIKE '%$cu_date%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
             $user_task_data = $this->db->query($user_task)->getResult();
-            $yesterday_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$yesterday%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
+            $yesterday_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.date_added LIKE '%$yesterday%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
             $yesterday_task_data = $this->db->query($yesterday_task)->getResult();
-            $upcoming_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.created_at LIKE '%$upcoming%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
+            $upcoming_task = "SELECT morning_meetings.*, project.name as project_name FROM `morning_meetings`INNER JOIN project ON morning_meetings.project_id = project.id WHERE morning_meetings.date_added LIKE '%$upcoming%' and morning_meetings.user_id = $userId ORDER BY morning_meetings.date_added ASC";
             $upcoming_task_data = $this->db->query($upcoming_task)->getResult();
             $user_task_details = [];
             $yesterday_task_details = [];
