@@ -189,7 +189,7 @@
                            <div class="col-lg-7 col-md-6">
                               <div class="card-header-right"> 
                                  <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
-                                    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Task</button>                                    
+                                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Task</button>                                    
                                  </ul>
                               </div>
                            </div>                           
@@ -198,7 +198,7 @@
                      <div class="card-body">
                         <div class="row">
                            <div class="col-xxl-4 col-md-4 table-responsive">  
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white; margin-bottom: 10px; font-size: 14px;">Yesterday Task</h6>                            
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 8px;color: white; margin-bottom: 10px; font-size: 14px;">Yesterday Task</h6>                            
                               <div class="row">
                                  <?php foreach($yesterday_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -222,7 +222,7 @@
                                  }
                                  ?>  
                                  <div class="col-md-12">
-                                    <div class="card table-cardcard table-card shadow-sm">
+                                    <div class="card table-card card table-card shadow-sm">
                                        <div class="card-header task" style="background-color: <?= $task_background ?>; <? if($task['work_status_id'] != 0) { ?> border: 2px solid <?= $task_border ?>; <? } ?>">
                                           <div class="row">
                                              <div class="col-md-8">
@@ -237,8 +237,8 @@
                                                 </div>
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
-                                             <div class="col-md-4">
-                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button>                                                                                     
                                              </div> 
@@ -251,7 +251,7 @@
                               </div>                                                                                         
                            </div>
                            <div class="col-xxl-4 col-md-4 table-responsive"> 
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 10px;font-size: 14px;">Today Task</h6>                             
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 8px;color: white;margin-bottom: 10px;font-size: 14px;">Today Task</h6>                             
                               <div class="row">                                 
                                   <?php foreach($user_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -290,8 +290,8 @@
                                                 </div>
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
-                                             <div class="col-md-4">
-                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button>                                                                                     
                                              </div> 
@@ -304,7 +304,7 @@
                               </div>                                                                                         
                            </div>
                            <div class="col-xxl-4 col-md-4 table-responsive">    
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 10px;font-size: 14px;">Upcoming Task</h6>                          
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 8px;color: white;margin-bottom: 10px;font-size: 14px;">Upcoming Task</h6>                          
                               <div class="row">                                                                  
                                  <?php foreach($upcoming_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -343,8 +343,8 @@
                                                 </div>
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
-                                             <div class="col-md-4">
-                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button>                                                                                     
                                              </div> 
