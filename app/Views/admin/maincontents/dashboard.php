@@ -189,7 +189,7 @@
                            <div class="col-lg-7 col-md-6">
                               <div class="card-header-right"> 
                                  <ul class="d-flex justify-content-end gap-2 flex-wrap lagend-list ms-auto">
-                                    <button type="button" class="btn btn-success mb-3" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Task</button>                                    
+                                    <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Task</button>                                    
                                  </ul>
                               </div>
                            </div>                           
@@ -198,7 +198,7 @@
                      <div class="card-body">
                         <div class="row">
                            <div class="col-xxl-4 col-md-4 table-responsive">  
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white; margin-bottom: 10px; font-size: 14px;">Yesterday Task</h6>                            
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 8px;color: white; margin-bottom: 10px; font-size: 14px;">Yesterday Task</h6>                            
                               <div class="row">
                                  <?php foreach($yesterday_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -251,7 +251,7 @@
                               </div>                                                                                         
                            </div>
                            <div class="col-xxl-4 col-md-4 table-responsive"> 
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 10px;font-size: 14px;">Today Task</h6>                             
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 8px;color: white;margin-bottom: 10px;font-size: 14px;">Today Task</h6>                             
                               <div class="row">                                 
                                   <?php foreach($user_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
@@ -304,7 +304,7 @@
                               </div>                                                                                         
                            </div>
                            <div class="col-xxl-4 col-md-4 table-responsive">    
-                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 10px;color: white;margin-bottom: 10px;font-size: 14px;">Upcoming Task</h6>                          
+                              <h6 style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 8px;color: white;margin-bottom: 10px;font-size: 14px;">Upcoming Task</h6>                          
                               <div class="row">                                                                  
                                  <?php foreach($upcoming_task_details as $task){ 
                                  if($task['work_status_id'] == 1) {
