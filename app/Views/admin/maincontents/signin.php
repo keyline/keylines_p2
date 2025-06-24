@@ -68,13 +68,13 @@
           <div class="col-md-5">
             <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
             <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline">
-                <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
+                <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid" target ="_blank">
             </a>
           </div>
           <div class="col-md-5">
             <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
             <a href="https://apps.apple.com/us/app/effortrak/id6502506223">
-                <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
+                <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid" target ="_blank">
             </a>
           </div>
         </div>
