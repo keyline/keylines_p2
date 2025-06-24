@@ -237,8 +237,8 @@
                                                 </div>
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
-                                             <div class="col-md-4">
-                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button>                                                                                     
                                              </div> 
@@ -290,8 +290,8 @@
                                                 </div>
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
-                                             <div class="col-md-4">
-                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button>                                                                                     
                                              </div> 
@@ -343,8 +343,8 @@
                                                 </div>
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
-                                             <div class="col-md-4">
-                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button>                                                                                     
                                              </div> 
