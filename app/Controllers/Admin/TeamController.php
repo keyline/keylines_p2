@@ -8,7 +8,9 @@ class TeamController extends BaseController {
     {
         $session = \Config\Services::session();
         if(!$session->get('is_admin_login')) {
-            return redirect()->to('/Administrator');
+            header('Location: ' . base_url('/'));
+            // return redirect()->to('/Administrator');
+            exit;
         }
         $model = new CommonModel();
         $this->data = array(
