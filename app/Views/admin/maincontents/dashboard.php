@@ -293,6 +293,9 @@
                                              <div class="col-md-4 text-right">
                                                 <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
+                                                </button> <br>
+                                                <button style="font-size: 10px;" type="button" onclick="taskEditList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#editTaskModal" data-task-id="<?= $task['id'] ?>">
+                                                   <i class="fa fa-pencil-square"></i>
                                                 </button>                                                                                     
                                              </div> 
                                              <?php } ?>                       
@@ -344,9 +347,9 @@
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { ?>
                                              <div class="col-md-4 text-right">
-                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['id'] ?>">
-                                                   <i class="fa fa-plus"></i> Add Effort
-                                                </button>                                                                                     
+                                                <button style="font-size: 10px;" type="button" onclick="taskEditList('<?= $task['id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#editTaskModal" data-task-id="<?= $task['id'] ?>">
+                                                   <i class="fa fa-pencil-square"></i>
+                                                </button>                                                                                      
                                              </div> 
                                              <?php } ?>                       
                                           </div>
@@ -1396,7 +1399,7 @@
          <form action="<?= base_url('admin/save-task') ?>" method="POST">
             <div class="modal-content">
                <div class="modal-header">
-                  <h5 class="modal-title">Task Schedule</h5>
+                  <h5 class="modal-title">Assign Task</h5>
                   <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                </div>
 
@@ -1513,8 +1516,16 @@
    </div>
 </div>
 
+<!-- task edit modal -->
+   <div class="modal fade" id="myModaltaskEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+         <div id="modalTask">
+         </div>
+      </div>
+   </div>
+
 <!-- effort add modal -->
- <div class="modal fade" id="myModaltask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal fade" id="myModaltask" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
          <div id="modalEffort">
          </div>
@@ -1666,9 +1677,9 @@ document.addEventListener('DOMContentLoaded', function () {
             $('#fminute').val('');
             $('#date').val(date);
         }
-    }
+   }
 
-    function taskWiseList(task_id) {
+   function taskWiseList(task_id) {
        $('#modalEffort').html('');
       $.ajax({
          url: '<?= base_url('admin/get-task-details') ?>', // Your backend URL
@@ -1685,6 +1696,29 @@ document.addEventListener('DOMContentLoaded', function () {
                console.error('Error fetching task details:', error);
          }
       });
-}
+   }
+
+   function taskEditList(task_id) {
+       $('#modalTask').html('');
+      $.ajax({
+         url: '<?= base_url('admin/edit-task-details') ?>', // Your backend URL
+         type: 'GET',
+         data: { task_id: task_id },
+         dataType: 'html',
+         success: function(response) {
+            $('#modalTask').html(response);
+            // $('#myModal').modal('show');            
+
+                  $('#myModaltaskEdit').modal('show');   
+                  // Initialize Select2 inside the modal
+                  $('#myModaltaskEdit .select2').select2({
+                     dropdownParent: $('#myModaltaskEdit') // ensures Select2 works correctly inside Bootstrap modal
+                  });            
+         },
+         error: function(xhr, status, error) {
+               console.error('Error fetching task details:', error);
+         }
+      });
+   }
 
 </script>

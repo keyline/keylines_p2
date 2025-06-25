@@ -1339,6 +1339,125 @@ class User extends BaseController
         echo $html;
     }
 
+    public function edit_task_details() {
+        $task_id    = $this->request->getGet('task_id');        
+        $userType   = $this->session->user_type;
+
+        $task           = $this->common_model->find_data('morning_meetings', 'row', ['id' => $task_id]);
+        $project        = $this->common_model->find_data('project', 'row', ['id' => $task->project_id]);
+        $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
+        $projects       = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
+        $employees      = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+        $effort_type    = $this->common_model->find_data('effort_type', 'array', ['status=' => '1'], 'id,name,status','', '', $order_by);
+        $work_status    = $this->common_model->find_data('work_status', 'array', ['is_schedule=' => '1'], '','', '', $order_by);
+        // pr($task);
+        $html = '<form action="' . base_url('admin/edit-task') . '" method="POST">  
+                    <input type="hidden" name="task_id" value="'.$task->id.'">          
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Assign Task</h5>                  
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">                                              
+                            <div class="mb-3">
+                                <label for="project_id" class="form-label">Select Project</label>
+                                <select name="project_id" id="project_id" class="form-select">
+                                    <option value="">Select Project</option>';                                                                      
+                                    foreach ($projects as $project){
+                                        $selected_project = ($project->id == $task->project_id) ? 'selected' : '';
+                                        $html .= '<option value="'.$project->id.'" '.$selected_project.'> '.$project->name.'</option>';
+                                    }                                    
+                                $html .='</select>
+                            </div>';  
+                            if ($userType == 'ADMIN' || $userType == 'SUPER ADMIN') {
+                            $html .='<div class="mb-3">
+                                <label for="employee_id" class="form-label">Select Employee</label>
+                                <select name="employee_id" id="employee_id" class="form-select select2" required>
+                                    <option value="">Select Employee</option>';
+                                    foreach ($employees as $emp){
+                                        $selected_employee = ($emp->id == $task->user_id) ? 'selected' : '';
+                                        $html .= '<option value="'.$emp->id.'" '.$selected_employee.'> '.$emp->name.'</option>';
+                                    }
+                                $html .='</select>
+                            </div>';
+                            }                                                                                                   
+                            $html .='
+                            <div class="mb-3">
+                                <label class="form-label">Status</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" id="present" value="0" onchange="myFunction()" checked>
+                                    <label class="form-check-label" for="present">PRESENT</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" id="halfday" value="1" onchange="myFunction()">
+                                    <label class="form-check-label" for="halfday">HALFDAY LEAVE</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" id="fullday" value="2" onchange="myFunction()">
+                                    <label class="form-check-label" for="fullday">FULLDAY LEAVE</label>
+                                </div>
+                            </div>
+                            <!-- Description -->
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea name="description" id="description" class="form-control" rows="3">'.$task->description.'</textarea>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" name="date" id="date" class="form-control" value="'.$task->date_added.'" readonly>
+                            </div>
+                            
+                            <div class="row mb-3">
+                            <div class="col">
+                                    <label for="fhour" class="form-label">Hour</label>
+                                    <select name="fhour" id="fhour" class="form-select">
+                                    <option value="">Select Hour</option>';
+                                    for ($i = 0; $i <= 8; $i++){
+                                    $selected_hour = ($i == $task->hour) ? 'selected' : '';
+                                    $html .= '<option value="' . $i . '" ' . $selected_hour . '>'.$i.'</option>';
+                                    }
+                                    $html .='</select>
+                                </div>
+                                <div class="col">
+                                    <label for="fminute" class="form-label">Minute</label>
+                                    <select name="fminute" id="fminute" class="form-select">
+                                    <option value="">Select Minute</option>';
+                                    for ($i = 0; $i <= 45; $i+= 15){
+                                    $selected_minute = ($i == $task->min) ? 'selected' : '';
+                                    $html .='<option value="' . $i . '" ' . $selected_minute . '>'.$i.'</option>';
+                                    }
+                                    $html .='</select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="form-label me-2">Priority:</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="priority" id="low" value="1">
+                                    <label class="form-check-label" for="low">LOW</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="priority" id="medium" value="2" checked>
+                                    <label class="form-check-label" for="medium">MEDIUM</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="priority" id="high" value="3">
+                                    <label class="form-check-label" for="high">HIGH</label>
+                                </div>
+                            </div>                                                                                    
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </form>';        
+        echo $html;
+    }
+
 
     public function SaveEffort()
     {          
