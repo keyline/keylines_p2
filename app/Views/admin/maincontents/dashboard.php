@@ -298,6 +298,7 @@
                               </div>
                               <div class="row">                                 
                                   <?php foreach($user_task_details as $task){ 
+                                    pr($task);
                                     $task_background = $task['background_color'] ?? '';                                                                         
                                  ?> 
                                  <div class="col-md-12">
