@@ -106,31 +106,53 @@ th,td{
     float: right;
     box-shadow: -2px 0 7px -2px rgba(0, 0, 0, 0.5);
 }
+#modalEffort .modal-header,
+#addAttendanceModal .modal-header,
 #modalTask .modal-header{
   padding: 5px 15px;
 }
+#modalEffort .modal-header .modal-title,
+#addAttendanceModal .modal-header .modal-title,
 #modalTask .modal-header .modal-title{
   font-size: 13px;
 }
+#modalEffort .modal-body,
+#addAttendanceModal .modal-body,
 #modalTask .modal-body{
   font-size: 13px;
 }
+#modalEffort .modal-body .form-select,
+#addAttendanceModal .modal-body .form-select,
 #modalTask .modal-body .form-select{  
   font-size: 12px;  
 }
+#addAttendanceModal .select2-container .select2-results__option,
+#addAttendanceModal .select2-container .select2-search__field,
+#addAttendanceModal .select2-container .select2-selection__rendered {
+    font-size: 12px !important;
+}
+#modalEffort .modal-body .form-control,
+#addAttendanceModal .modal-body .form-control,
 #modalTask .modal-body .form-control{
   font-size: 12px;
 }
+#modalEffort .modal-body .form-check-label,
+#addAttendanceModal .modal-body .form-check-label,
 #modalTask .modal-body .form-check-label{
   font-size: 12px;
 }
+#modalEffort .modal-footer,
+#addAttendanceModal .modal-footer,
 #modalTask .modal-footer{
   padding: 5px;
 }
+#modalEffort .modal-footer .btn,
+#addAttendanceModal .modal-footer .btn,
 #modalTask .modal-footer .btn{
   font-size: 12px;
   padding: 5px 10px;
 }
+
 
 /* surajit css */
 .dashboard .btn-close{

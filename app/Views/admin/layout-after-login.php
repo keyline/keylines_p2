@@ -79,6 +79,19 @@
                 });
             });
 
+            $('#editTaskModal').on('shown.bs.modal', function() {
+                $('#project_id').select2({
+                    placeholder: "Search...",
+                    allowClear: true,
+                    dropdownParent: $('#addAttendanceModal')
+                });
+                $('#employee_id').select2({
+                    placeholder: "Search...",
+                    allowClear: true,
+                    dropdownParent: $('#addAttendanceModal')
+                });
+            });
+
             $('#addEffortModal').on('shown.bs.modal', function() {
                 $('#project_id').select2({
                     placeholder: "Search...",
@@ -98,7 +111,9 @@
                 });
 
             });
-        });
+
+        });        
+
     </script>
 
     <!-- <script src="<?= getenv('app.adminAssetsURL') ?>assets/js/plugins/jquery.dataTables.min.js"></script>
