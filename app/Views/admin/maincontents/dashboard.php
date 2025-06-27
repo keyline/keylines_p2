@@ -335,17 +335,18 @@
                                                 // pr($interval);
                                                 // Convert the difference to total minutes
                                                 $minutes = ($interval->h * 60) + $interval->i;        
-                                                pr($minutes);                                        
+                                                // pr($minutes);                                        
                                                 ?>
                                              <div class="col-md-4 text-right">
                                                 <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['task_id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['task_id'] ?>">
                                                    <i class="fa fa-plus"></i> Add Effort
                                                 </button> <br>
-                                                <?php if($minutes <= $edit_time_after_task_add){ ?>
+                                                <?php if($minutes <= $edit_time_after_task_add){
+                                                   if($task['added_by'] == $user_id){ ?>
                                                 <button style="font-size: 10px;" type="button" onclick="taskEditList('<?= $task['task_id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#editTaskModal" data-task-id="<?= $task['task_id'] ?>">
                                                    <i class="fa fa-pencil-square"></i>
                                                 </button>  
-                                                <?php } ?>                                                                                                        
+                                                <?php } }?>                                                                                                        
                                              </div> 
                                              <?php } ?>                       
                                           </div>
