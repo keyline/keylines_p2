@@ -62,54 +62,18 @@
     <div class="col-md-8 d-flex flex-column justify-content-center align-items-center gradient-bg text-white">
       <div class="text-center mb-4">
         <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>" style="width: 100%;max-width: 200px;">                
-      </div>
-
-      <!-- <div class="card mb-3 signin-box mx-auto w-75">        
-        <div class="card-body pt-3">
-          <h4 class="mb-3">Download Mobile App</h4>
-          <div class="row justify-content-center">
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body pt-3 text-center">
-                  <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
-                  <a href="https://shorturl.at/HPZ8r">
-                    <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
-                </a>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4">
-              <div class="card">
-                <div class="card-body pt-3 text-center">
-                  <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
-                  <a href="https://shorturl.at/VMYlc">
-                    <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
-                </a>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="card-body pt-3">
-          <div class="portlet box green" style="color: black;text-align: center;">
-            <div class="portlet-body">
-              <h4>Application Link :</h4>
-              <p><?=getenv('app.baseURL')?></p>
-            </div>
-          </div>
-        </div>
-      </div> -->
+      </div>      
       <div class="qr-box">
         <div class="row justify-content-center">
           <div class="col-md-5">
             <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
-            <a href="https://shorturl.at/HPZ8r">
+            <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline" target="_blank">
                 <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
             </a>
           </div>
           <div class="col-md-5">
             <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
-            <a href="https://shorturl.at/VMYlc">
+            <a href="https://apps.apple.com/us/app/effortrak/id6502506223" target="_blank">
                 <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
             </a>
           </div>

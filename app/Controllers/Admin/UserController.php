@@ -122,27 +122,38 @@ class UserController extends BaseController {
             );
             //  pr($postData);
             /* credentials sent */
-                $generalSetting             = $this->common_model->find_data('general_settings', 'row');
-                $subject                    = $generalSetting->site_name.' :: Account Created '.date('Y-m-d H:i:s');
-                $mailData                   = [
-                    'email'     => $this->request->getPost('email'),
-                    'password'  => $this->request->getPost('password'),
+            $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+            $subject                    = $generalSetting->site_name.' :: Account Created '.date('Y-m-d H:i:s');
+            $mailData                   = [
+                'email'     => $this->request->getPost('email'),
+                'password'  => $this->request->getPost('password'),
+            ];
+            $message                    = view('email-templates/signup', $mailData);
+            $this->sendMail($this->request->getPost('email'), $subject, $message);
+
+            // Send the email and get the result
+            $mailResult = $this->sendMail($this->request->getPost('email'), $subject, $message);
+
+            // Check if the email was sent successfully
+            if (!$mailResult['status']) {
+                // Email not sent – show an error and redirect back
+                $this->session->setFlashdata('error_message', 'User is not added. Please fix your SMTP setup.');
+                return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
+            }  else{
+                /* email log save */
+                $postData2 = [
+                    'name'                  => $this->request->getPost('name'),
+                    'email'                 => $this->request->getPost('email'),
+                    'subject'               => $subject,
+                    'message'               => $message
                 ];
-                $message                    = view('email-templates/signup', $mailData);
-                $this->sendMail($this->request->getPost('email'), $subject, $message);
-                /* email log save */
-                    $postData2 = [
-                        'name'                  => $this->request->getPost('name'),
-                        'email'                 => $this->request->getPost('email'),
-                        'subject'               => $subject,
-                        'message'               => $message
-                    ];
-                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
-                /* email log save */
+                $this->common_model->save_data('email_logs', $postData2, '', 'id');
+            /* email log save */
             /* credentials sent */
             $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
             return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
+            }                              
         }
         echo $this->layout_after_login($title,$page_name,$data);
     }
