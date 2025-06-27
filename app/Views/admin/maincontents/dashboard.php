@@ -329,6 +329,7 @@
                                                 $time2 = new DateTime(date('Y-m-d H:i:s'));
                                                 // Get the difference
                                                 $interval = $time1->diff($time2);
+                                                pr($interval);
                                                 // Convert the difference to total minutes
                                                 $minutes = ($interval->h * 60) + $interval->i;                                                
                                                 ?>
