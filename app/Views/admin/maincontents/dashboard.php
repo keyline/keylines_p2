@@ -329,9 +329,10 @@
                                                 $time2 = new DateTime(date('Y-m-d H:i:s'));
                                                 // Get the difference
                                                 $interval = $time1->diff($time2);
-                                                pr($interval);
+                                                // pr($interval);
                                                 // Convert the difference to total minutes
-                                                $minutes = ($interval->h * 60) + $interval->i;                                                
+                                                $minutes = ($interval->h * 60) + $interval->i;        
+                                                pr($minutes);                                        
                                                 ?>
                                              <div class="col-md-4 text-right">
                                                 <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['task_id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['task_id'] ?>">
