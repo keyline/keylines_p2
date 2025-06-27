@@ -3236,6 +3236,7 @@ class ApiController extends BaseController
                     $project_id                = $requestData['project_id'];
                     $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
                     $project_status            = $this->common_model->find_data('project_status', 'row', ['id' => $project->status]);
+                    $project_bill              = $project->bill; 
                     $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
                     $department_id             = $department ? $department->dep_id : 0;
                     $is_leave                  = $requestData['is_leave'];
@@ -3284,7 +3285,7 @@ class ApiController extends BaseController
                             'is_leave'          => 2,                            
                             'updated_at'        => $created_at
                         ];
-                    } else {
+                    } else {                        
                         $postData            = [
                             'id'           => $task_id,
                             'project_id'        => $project_id,
@@ -3296,7 +3297,7 @@ class ApiController extends BaseController
                             'added_by'          => $uId,
                             'hour'              => $hour,
                             'min'               => $min,
-                            'bill'              => 0,
+                            'bill'              => $project_bill,
                             'priority'          => $priority,
                             'work_status_id'    => 0,
                             'is_leave'          => $is_leave, 
@@ -3502,7 +3503,7 @@ class ApiController extends BaseController
                                         'user_id'               => $getUserId,
                                         'is_leave'              => $getTask->is_leave,
                                         'background_color'      => (($getWorkStatus) ? $getWorkStatus->background_color : ''),
-                                        'border_color'          => (($getWorkStatus) ? $getWorkStatus->border_color : ''),
+                                        'border_color'          => (($getWorkStatus) ? $getWorkStatus->border_color : ''),                                        
                                         'work_status_name'      => (($getWorkStatus) ? $getWorkStatus->name : ''),
                                         'added_by'              => $getTask->added_by,
                                         'created_at'            => date_format(date_create($getTask->created_at), "M d, Y h:i a"),
@@ -3582,12 +3583,17 @@ class ApiController extends BaseController
                 $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
                 $department_id             = $department ? $department->dep_id : 0;                    
                 $description               = $requestData['description'];                
-                $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
-                $hour                      = $requestData['hour'];
-                $min                       = $requestData['min'];                
+                $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");                             
                 $created_at                = date('Y-m-d H:i:s');
                 $effort_type_id            = $requestData['effort_type_id'];
-                $work_status_id            = $requestData['work_status_id'];      
+                $work_status_id            = $requestData['work_status_id'];
+                if ($work_status_id == 2) {
+                    $hour = 0;
+                    $min = 0;
+                } else {
+                  $hour                      = $requestData['hour'];
+                $min                       = $requestData['min'];   
+                }         
                 $schedule_id               = $requestData['task_id'];
                 
 
