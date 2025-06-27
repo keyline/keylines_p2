@@ -326,8 +326,10 @@
                                                 </div>
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { 
-                                                $time1 = DateTime::createFromFormat('M d, Y h:i a', $task['created_at'])->format('M d, Y H:i:s');
-                                                $time2 = new DateTime(date('Y-m-d H:i:s'));
+                                                $time1 = DateTime::createFromFormat('M d, Y h:i a', $task['created_at']); 
+    
+                                                // Current datetime as DateTime object
+                                                $time2 = new DateTime();
                                                 // Get the difference
                                                 $interval = $time1->diff($time2);
                                                 // pr($interval);
