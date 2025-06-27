@@ -1320,6 +1320,9 @@ class User extends BaseController
         $employees      = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
         $effort_type    = $this->common_model->find_data('effort_type', 'array', ['status=' => '1'], 'id,name,status','', '', $order_by);
         $work_status    = $this->common_model->find_data('work_status', 'array', ['is_schedule=' => '1'], '','', '', $order_by);
+        $checkedPriority1 = (($task->priority == 1)?'checked':'');
+        $checkedPriority2 = (($task->priority == 2)?'checked':'');
+        $checkedPriority3 = (($task->priority == 3)?'checked':'');
         // pr($task);
         
         $html = '<form action="' . base_url('admin/edit-task') . '" method="POST">  
@@ -1405,15 +1408,15 @@ class User extends BaseController
                             <div>
                                 <label class="form-label me-2">Priority:</label>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="priority" id="low" value="1">
+                                    <input class="form-check-input" type="radio" name="priority" id="low" value="1" ' . $checkedPriority1 . ' required>
                                     <label class="form-check-label" for="low">LOW</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="priority" id="medium" value="2" checked>
+                                    <input class="form-check-input" type="radio" name="priority" id="medium" value="2" ' . $checkedPriority2 . ' required>
                                     <label class="form-check-label" for="medium">MEDIUM</label>
                                 </div>
                                 <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="priority" id="high" value="3">
+                                    <input class="form-check-input" type="radio" name="priority" id="high" value="3" ' . $checkedPriority3 . ' required>
                                     <label class="form-check-label" for="high">HIGH</label>
                                 </div>
                             </div>                                                                                    
@@ -1646,7 +1649,7 @@ class User extends BaseController
         $taskId = $this->request->getPost('task_id');
         // pr($taskId);
         $requestData = $this->request->getPost();        
-        pr($requestData);
+        // pr($requestData);
         $getUser       = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
         $task_details = $this->common_model->find_data('morning_meetings', 'row', ['id' => $taskId]);
         

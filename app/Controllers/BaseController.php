@@ -165,38 +165,78 @@ abstract class BaseController extends Controller
         // }
         public function sendMail($email, $subject, $message, $file = '')
         {
-            $generalSetting             = $this->common_model->find_data('general_settings', 'row');
-            $mailLibrary                = new PHPMailer(true);
-            $mailLibrary->CharSet       = 'UTF-8';
-            $mailLibrary->SMTPDebug     = 0;
-            $mailLibrary->IsSMTP();
-            $mailLibrary->Host          = $generalSetting->smtp_host;
-            $mailLibrary->SMTPAuth      = true;
-            $mailLibrary->Port          = $generalSetting->smtp_port;
-            $mailLibrary->Username      = $generalSetting->smtp_username;
-            $mailLibrary->Password      = $generalSetting->smtp_password;
-            $mailLibrary->SMTPSecure    = 'tls';
-            $mailLibrary->From          = $generalSetting->from_email;
-            $mailLibrary->FromName      = $generalSetting->from_name;
-            $mailLibrary->AddReplyTo($generalSetting->from_email, $generalSetting->from_name);
-            if(is_array($email)) :
-                foreach($email as $eml):
-                    $mailLibrary->addAddress($eml);
-                endforeach;
-            else:
-                $mailLibrary->addAddress($email);
-            endif;
-            // $mailLibrary->addCC('sudip.keyline@gmail.com', 'KDPL System');
-            // $mailLibrary->addCC('subhomoy@keylines.net', 'Subhomoy Samanta');
-            $mailLibrary->addCC('deblina@keylines.net', 'Deblina Das');
-            $mailLibrary->WordWrap      = 5000;
-            $mailLibrary->Subject       = $subject;
-            $mailLibrary->Body          = $message;
-            $mailLibrary->isHTML(true);
-            if (!empty($file)):
-                $mailLibrary->AddAttachment($file);
-            endif;
-            return (!$mailLibrary->send()) ? false : true;
+            // $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+            // $mailLibrary                = new PHPMailer(true);
+            // $mailLibrary->CharSet       = 'UTF-8';
+            // $mailLibrary->SMTPDebug     = 0;
+            // $mailLibrary->IsSMTP();
+            // $mailLibrary->Host          = $generalSetting->smtp_host;
+            // $mailLibrary->SMTPAuth      = true;
+            // $mailLibrary->Port          = $generalSetting->smtp_port;
+            // $mailLibrary->Username      = $generalSetting->smtp_username;
+            // $mailLibrary->Password      = $generalSetting->smtp_password;
+            // $mailLibrary->SMTPSecure    = 'tls';
+            // $mailLibrary->From          = $generalSetting->from_email;
+            // $mailLibrary->FromName      = $generalSetting->from_name;
+            // $mailLibrary->AddReplyTo($generalSetting->from_email, $generalSetting->from_name);
+            // if(is_array($email)) :
+            //     foreach($email as $eml):
+            //         $mailLibrary->addAddress($eml);
+            //     endforeach;
+            // else:
+            //     $mailLibrary->addAddress($email);
+            // endif;
+            // // $mailLibrary->addCC('sudip.keyline@gmail.com', 'KDPL System');
+            // // $mailLibrary->addCC('subhomoy@keylines.net', 'Subhomoy Samanta');
+            // // $mailLibrary->addCC('deblina@keylines.net', 'Deblina Das');
+            // $mailLibrary->WordWrap      = 5000;
+            // $mailLibrary->Subject       = $subject;
+            // $mailLibrary->Body          = $message;
+            // $mailLibrary->isHTML(true);
+            // if (!empty($file)):
+            //     $mailLibrary->AddAttachment($file);
+            // endif;
+            // return (!$mailLibrary->send()) ? false : true;
+            $generalSetting = $this->common_model->find_data('general_settings', 'row');
+            $mailLibrary = new PHPMailer(true);
+
+            try {
+                $mailLibrary->CharSet = 'UTF-8';
+                $mailLibrary->SMTPDebug = 0;
+                $mailLibrary->isSMTP();
+                $mailLibrary->Host = $generalSetting->smtp_host;
+                $mailLibrary->SMTPAuth = true;
+                $mailLibrary->Port = $generalSetting->smtp_port;
+                $mailLibrary->Username = $generalSetting->smtp_username;
+                $mailLibrary->Password = $generalSetting->smtp_password;
+                $mailLibrary->SMTPSecure = 'tls';
+                $mailLibrary->From = $generalSetting->from_email;
+                $mailLibrary->FromName = $generalSetting->from_name;
+                $mailLibrary->AddReplyTo($generalSetting->from_email, $generalSetting->from_name);
+
+                if (is_array($email)) {
+                    foreach ($email as $eml) {
+                        $mailLibrary->addAddress($eml);
+                    }
+                } else {
+                    $mailLibrary->addAddress($email);
+                }
+
+                $mailLibrary->WordWrap = 5000;
+                $mailLibrary->Subject = $subject;
+                $mailLibrary->Body = $message;
+                $mailLibrary->isHTML(true);
+
+                if (!empty($file)) {
+                    $mailLibrary->AddAttachment($file);
+                }
+
+                $mailLibrary->send();
+                return ['status' => true, 'message' => 'Email sent successfully!'];
+            } catch (Exception $e) {
+                // If error, return status false and error message
+                return ['status' => false, 'message' => 'Mailer Error: ' . $mailLibrary->ErrorInfo];
+            }
         }
     // send email
     // send sms
