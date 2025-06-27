@@ -3583,12 +3583,17 @@ class ApiController extends BaseController
                 $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
                 $department_id             = $department ? $department->dep_id : 0;                    
                 $description               = $requestData['description'];                
-                $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");
-                $hour                      = $requestData['hour'];
-                $min                       = $requestData['min'];                
+                $date_added                = date_format(date_create($requestData['date_added']), "Y-m-d");                             
                 $created_at                = date('Y-m-d H:i:s');
                 $effort_type_id            = $requestData['effort_type_id'];
-                $work_status_id            = $requestData['work_status_id'];      
+                $work_status_id            = $requestData['work_status_id'];
+                if ($work_status_id == 2) {
+                    $hour = 0;
+                    $min = 0;
+                } else {
+                  $hour                      = $requestData['hour'];
+                $min                       = $requestData['min'];   
+                }         
                 $schedule_id               = $requestData['task_id'];
                 
 
