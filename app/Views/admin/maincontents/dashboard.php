@@ -298,7 +298,7 @@
                               </div>
                               <div class="row">                                 
                                   <?php foreach($user_task_details as $task){ 
-                                    pr($task);
+                                    // pr($task);
                                     $task_background = $task['background_color'] ?? '';                                                                         
                                  ?> 
                                  <div class="col-md-12">
@@ -326,7 +326,7 @@
                                                 </div>
                                              </div>  
                                              <?php if($task['work_status_id'] == 0) { 
-                                                $time1 = new DateTime($task['date_added']);
+                                                $time1 = DateTime::createFromFormat('M d, Y h:i a', $task['created_at'])->format('M d, Y H:i:s');
                                                 $time2 = new DateTime(date('Y-m-d H:i:s'));
                                                 // Get the difference
                                                 $interval = $time1->diff($time2);
