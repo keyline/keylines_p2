@@ -1646,7 +1646,7 @@ class User extends BaseController
         $taskId = $this->request->getPost('task_id');
         // pr($taskId);
         $requestData = $this->request->getPost();        
-        pr($requestData);
+        // pr($requestData);
         $getUser       = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
         $task_details = $this->common_model->find_data('morning_meetings', 'row', ['id' => $taskId]);
         
