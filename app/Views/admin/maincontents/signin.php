@@ -81,6 +81,9 @@
     .signin_box.vh-100 {
       height: 100% !important;
     }
+    .app-path{
+      margin-top: 12px;
+    }
   }
 </style>
 
