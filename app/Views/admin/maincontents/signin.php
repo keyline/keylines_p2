@@ -60,28 +60,27 @@
 <div class="d-flex flex-wrap vh-100">
     <!-- Left Panel -->
     <div class="col-md-8 d-flex flex-column justify-content-center align-items-center">
-      <div class="gradient-bgtext-white">
+      <div class="gradient-bg text-white w-100 h-100 d-flex flex-column justify-content-center px-3">
         <div class="text-center mb-4">
           <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>" style="width: 100%;max-width: 200px;">                
         </div>      
         <div class="qr-box">
-        <div class="row justify-content-center">
-          <div class="col-md-5">
-            <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
-            <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline" target="_blank">
-                <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
-            </a>
+          <div class="row justify-content-center">
+              <div class="col-md-5">
+                <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
+                <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline" target="_blank">
+                    <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
+                </a>
+              </div>
+              <div class="col-md-5">
+                <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
+                <a href="https://apps.apple.com/us/app/effortrak/id6502506223" target="_blank">
+                    <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
+                </a>
+              </div>
           </div>
-          <div class="col-md-5">
-            <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
-            <a href="https://apps.apple.com/us/app/effortrak/id6502506223" target="_blank">
-                <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
-            </a>
-          </div>
-        </div>
         <div class="app-path">
           <p><b>Application Link :</b> <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy this link and paste it in the mobile app URL location"><?=getenv('app.baseURL')?></a></p>
-        </div>
         </div>
       </div>
     </div>    
