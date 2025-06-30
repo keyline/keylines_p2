@@ -64,6 +64,10 @@
     .qr-box .qr-image{
       display: none
     }
+    .qr-box{
+      width: 100%;
+      max-width: 380px;
+    }
     .gradient-bg{
       background: transparent !important;
     }
@@ -96,7 +100,7 @@
         <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
           style="width: 100%;max-width: 200px;">
       </div>
-      <div class="qr-box mb-4">
+      <div class="qr-box mt-2">
         <div class="row justify-content-center">
           <div class="col-sm-5">
             <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid qr-image">
@@ -121,7 +125,7 @@
     </div>
   </div>
   <!-- Right Panel -->
-  <div class="col-md-4 d-flex align-items-center justify-content-center bg-white px-3">
+  <div class="col-md-4 d-flex align-items-center justify-content-center bg-white flex-column px-3">
     <div class="text-center my-4 mb-md-4 d-block d-md-none">
       <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
           style="width: 100%;max-width: 200px;">
