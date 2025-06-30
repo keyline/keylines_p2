@@ -45,6 +45,115 @@ th,td{
   font-size: 12px;
 }
 
+/* deblina (login) css */
+.aut-bg-img{
+  background-image: url(../img/login-bg.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+}
+.auth-wrapper{
+  position: relative;    
+  display: flex;  
+  align-items: center;  
+  justify-content: center;
+  overflow: hidden;
+  min-width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(45deg, #4099ff, #82bcff);
+}
+.auth-wrapper .auth-side-img {
+    padding-right: 400px;
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+    -webkit-box-pack: center;
+    justify-content: center;
+}
+.align-items-stretch {
+    -webkit-box-align: stretch !important;
+    align-items: stretch !important;
+}
+.flex-grow-1 {
+    -webkit-box-flex: 1 !important;
+    flex-grow: 1 !important;
+}
+.auth-wrapper > div {
+    z-index: 5;
+}
+.aut-bg-img .auth-content {
+    padding: 70px 40px;
+}
+.auth-wrapper .auth-content {
+    position: relative;
+    padding: 15px;
+    z-index: 5;
+}
+.w-auto {
+    width: auto !important;
+}
+.auth-wrapper .auth-side-form {
+    position: relative;
+    min-height: 100%;
+    background: #fff;
+    display: -webkit-inline-box;
+    display: inline-flex
+;
+    -webkit-box-align: center;
+    align-items: center;
+    left: auto;
+    float: right;
+    box-shadow: -2px 0 7px -2px rgba(0, 0, 0, 0.5);
+}
+#modalEffort .modal-header,
+#addAttendanceModal .modal-header,
+#modalTask .modal-header{
+  padding: 5px 15px;
+}
+#modalEffort .modal-header .modal-title,
+#addAttendanceModal .modal-header .modal-title,
+#modalTask .modal-header .modal-title{
+  font-size: 13px;
+}
+#modalEffort .modal-body,
+#addAttendanceModal .modal-body,
+#modalTask .modal-body{
+  font-size: 13px;
+}
+#modalEffort .modal-body .form-select,
+#addAttendanceModal .modal-body .form-select,
+#modalTask .modal-body .form-select{  
+  font-size: 12px;  
+}
+#addAttendanceModal .select2-container .select2-results__option,
+#addAttendanceModal .select2-container .select2-search__field,
+#addAttendanceModal .select2-container .select2-selection__rendered {
+    font-size: 12px !important;
+}
+#modalEffort .modal-body .form-control,
+#addAttendanceModal .modal-body .form-control,
+#modalTask .modal-body .form-control{
+  font-size: 12px;
+}
+#modalEffort .modal-body .form-check-label,
+#addAttendanceModal .modal-body .form-check-label,
+#modalTask .modal-body .form-check-label{
+  font-size: 12px;
+}
+#modalEffort .modal-footer,
+#addAttendanceModal .modal-footer,
+#modalTask .modal-footer{
+  padding: 5px;
+}
+#modalEffort .modal-footer .btn,
+#addAttendanceModal .modal-footer .btn,
+#modalTask .modal-footer .btn{
+  font-size: 12px;
+  padding: 5px 10px;
+}
+
+
 /* surajit css */
 .dashboard .btn-close{
   position: absolute;
@@ -87,12 +196,23 @@ th,td{
   border-radius: 8px;
   margin-bottom: 16px;
 }
+.card-header.task{
+  margin-bottom: 0px;
+}
 .table-card .card-header2{
   padding: 10px 20px;
 }
 .card-header-left p{
   padding: 8px 16px;
   background: #F6F6F6;
+  border-radius: 100px;
+  color: #3D3D3D;
+  font-size: 14px;
+  font-weight: bold;
+}
+.card-details{
+  padding: 8px 0px;
+  background: transparent !important;
   border-radius: 100px;
   color: #3D3D3D;
   font-size: 14px;
@@ -1776,6 +1896,10 @@ div.dt-container div.dt-layout-cell{
   .add-effort .field_wrapper{
     margin: 13px;
   }
+  .logo img {
+    width: 100%;
+    max-height: 25px;
+}
 }
 @media (max-width: 575px) {
   .info-date{

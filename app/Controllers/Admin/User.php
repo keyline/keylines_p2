@@ -4,6 +4,7 @@ namespace App\Controllers\admin;
 
 use App\Controllers\BaseController;
 use App\Models\CommonModel;
+use DateTime;
 
 class User extends BaseController
 {
@@ -61,7 +62,7 @@ class User extends BaseController
                                     'activity_details'  => 'Admin Sign In Success',
                                 ];
                                 $this->common_model->save_data('user_activities', $userActivityData, '', 'activity_id');
-                                $this->session->setFlashdata('success_message', 'SignIn Success! Redirecting to dashboard !!!');
+                                // $this->session->setFlashdata('success_message', 'SignIn Success! Redirecting to dashboard !!!');
                                 return redirect()->to('/admin/dashboard');
                             }
                         } else {
@@ -347,6 +348,7 @@ class User extends BaseController
         } else {
             /* total cards */
             $cu_date            = date('Y-m-d');
+            $yesterday = date('Y-m-d', strtotime('-1 day'));            
             $data['total_users']                = $this->common_model->find_data('user', 'count');
             $data['total_active_users']         = $this->common_model->find_data('user', 'count', ['status' => '1']);
             $data['total_inactive_users']       = $this->common_model->find_data('user', 'count', ['status' => '0']);
@@ -361,9 +363,93 @@ class User extends BaseController
             $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
             $data['total_app_user']             = $this->db->query("SELECT COUNT(id) as user_count FROM `user` WHERE is_salarybox_user = '1'")->getRow();
             $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
-            // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();                                    
-            $order_by[0]        = array('field' => 'status', 'type' => 'DESC');
-            $order_by[1]        = array('field' => 'name', 'type' => 'ASC');
+            // $order_by[0]                        = array('field' => 'status', 'type' => 'DESC');
+            $order_by[0]                        = array('field' => 'name', 'type' => 'ASC');
+            $data['employees']                  = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+            $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);            
+            // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();       
+            $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+            $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+            $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+            $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];            
+            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $userId, 'morning_meetings.date_added >=' => $yesterday], 'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);                        
+            // pr($getTasks);
+            $user_task_details = [];
+            $yesterday_task_details = [];
+            $upcoming_task_details = [];
+            $yesterday_total_time = 0;
+            $yesterday_total_book_time = 0;
+
+            $user_total_time = 0;
+            $user_total_book_time = 0;
+
+            $upcoming_total_time = 0;
+            $upcoming_total_book_time = 0;
+            foreach ($getTasks as $task_data) {
+               
+                $work_status_id         = $task_data->work_status_id;
+                $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
+
+                $task_date = date('Y-m-d', strtotime($task_data->date_added)); // format safely
+
+                $tasks    = [
+                                'task_id'               => $task_data->schedule_id,
+                                'project_id'            => $task_data->project_id,
+                                'project_name'          => $task_data->project_name,
+                                'description'           => $task_data->description,
+                                'booked_description'    => $task_data->booked_description,
+                                'booked_hour'           => $task_data->booked_hour,
+                                'booked_min'            => $task_data->booked_min,
+                                'hour'                  => $task_data->hour,
+                                'min'                   => $task_data->min,
+                                'priority'             => $task_data->priority,
+                                'date_added'            => date_format(date_create($task_data->date_added), "Y-m-d"),
+                                'user_name'             => $task_data->user_name,
+                                'user_id'               => $userId,
+                                'is_leave'              => $task_data->is_leave,
+                                'background_color'      => (($getWorkStatus) ? $getWorkStatus->background_color : ''),
+                                'border_color'          => (($getWorkStatus) ? $getWorkStatus->border_color : ''),
+                                'work_status_id'        => $task_data->work_status_id,
+                                'work_status_name'      => (($getWorkStatus) ? $getWorkStatus->name : ''),
+                                'added_by'              => $task_data->added_by,
+                                'created_at'            => date_format(date_create($task_data->created_at), "M d, Y h:i a"),
+                                'updated_at'            => date_format(date_create($task_data->updated_at), "M d, Y h:i a"),
+                            ]; 
+                            
+                            // Now categorize the task
+                // Common logic to compute efforts
+                $assigned_minutes = ((int)$task_data->hour * 60) + (int)$task_data->min;
+                $has_booked_effort = $task_data->booked_hour !== '' || $task_data->booked_min !== '';
+                $booked_minutes = $has_booked_effort ? ((int)$task_data->booked_hour * 60) + (int)$task_data->booked_min : 0;
+
+                if ($task_date == $yesterday) {
+                    $yesterday_task_details[] = $tasks;
+                    $yesterday_total_time += $assigned_minutes;
+                    $yesterday_total_book_time += $booked_minutes;
+                } elseif ($task_date == $cu_date) {
+                    $user_task_details[] = $tasks;
+                    $user_total_time += $assigned_minutes;
+                    $user_total_book_time += $booked_minutes;
+                } elseif ($task_date > $cu_date) {
+                    $upcoming_task_details[] = $tasks;
+                    $upcoming_total_time += $assigned_minutes;
+                    $upcoming_total_book_time += $booked_minutes;
+                }
+            }                                     
+            
+
+            $data['yesterday_task_details'] = $yesterday_task_details;            
+            $data['user_task_details']      = $user_task_details;            
+            $data['upcoming_task_details']  = $upcoming_task_details;
+            $data['yesterday_total_time'] = $yesterday_total_time;
+            $data['user_total_time'] = $user_total_time;            
+            $data['upcoming_total_time'] = $upcoming_total_time;        
+            $data['yesterday_total_book_time'] = $yesterday_total_book_time;
+            $data['user_total_book_time'] = $user_total_book_time;
+            $data['upcoming_total_book_time'] = $upcoming_total_book_time;
+
+
+            // pr($user_task_details);
             // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
             $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
             $users              = $this->db->query($sql11)->getResult();
@@ -1046,6 +1132,697 @@ class User extends BaseController
         $page_name                          = 'dashboard';
         echo $this->layout_after_login($title, $page_name, $data);
     }
+    public function Savetask()
+    { 
+        $added_by                = $this->session->get('user_id');
+        $created_at            = date('Y-m-d H:i:s');
+        if($this->request->getMethod() == 'post') {  
+            $user_id            = $this->request->getPost('employee_id') ?? $this->session->get('user_id');
+            $department         = $this->common_model->find_data('team', 'row', ['user_id' => $user_id]);
+            $department_id      = $department ? $department->dep_id : 0;            
+            $hour              = $this->request->getPost('fhour');
+            $min           = $this->request->getPost('fminute');
+            $task_assign_time   = $hour . ':' . $min . ':00';
+
+            $project_id         = $this->request->getPost('project_id');
+            if ($project_id != 0) {
+                $project = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+                $project_status            = $project->status;
+                $project_bill           = $project->bill;
+            } else {
+                $project = 0;
+                $project_status = 0;
+                $project_bill = 0;
+            }   
+            // pr($project);
+
+            $is_leave             = $this->request->getPost('status');
+            $description        = $this->request->getPost('description');
+            $priority           = $this->request->getPost('priority');
+            $date_added         = date_format(date_create($this->request->getPost('date')), "Y-m-d");  
+            
+            if($is_leave == 1){                            
+                $postData            = [                   
+                    'project_id'        => 0,
+                    'status_id'         => 0,
+                    'user_id'           => $user_id,
+                    'dept_id'           => $department_id,
+                    'description'       => "Half Day Leave Taken",
+                    'date_added'        => $date_added,
+                    'added_by'          => $added_by,
+                    'hour'              => 0,
+                    'min'               => 0,
+                    'bill'              => 1,
+                    'work_status_id'    => 6,
+                    'priority'          => 3,
+                    'next_day_task_action' => 1,
+                    'is_leave'          => 1,
+                    'created_at'        => $created_at
+                ];                            
+            } else if($is_leave == 2){                            
+                $postData            = [                   
+                    'project_id'        => 0,
+                    'status_id'         => 0,
+                    'user_id'           => $user_id,
+                    'dept_id'           => $department_id,
+                    'description'       => "Full Day Leave Taken",
+                    'date_added'        => $date_added,
+                    'added_by'          => $added_by,
+                    'hour'              => 0,
+                    'min'               => 0,
+                    'bill'              => 1,
+                    'work_status_id'    => 6,
+                    'priority'          => 3,
+                    'next_day_task_action' => 1,
+                    'is_leave'          => 2,
+                    'created_at'        => $created_at
+                ];
+            } else {
+                $postData            = [
+                    'project_id'        => $project_id,
+                    'status_id'         => $project_status,
+                    'user_id'           => $user_id,
+                    'dept_id'           => $department_id,
+                    'description'       => $description,
+                    'date_added'        => $date_added,
+                    'added_by'          => $added_by,
+                    'hour'              => $hour,
+                    'min'               => $min,
+                    'bill'              => $project_bill,
+                    'priority'          => $priority,
+                    'created_at'        => $created_at
+                ];
+            }              
+            $record     = $this->common_model->save_data('morning_meetings', $postData, '', 'id');
+        }   
+        $this->session->setFlashdata('success_message', 'Task added successfully.');
+        return redirect()->to('/admin/dashboard');     
+    }
+
+    public function get_task_details() {
+        $task_id    = $this->request->getGet('task_id');        
+
+        $task           = $this->common_model->find_data('morning_meetings', 'row', ['id' => $task_id]);
+        $project        = $this->common_model->find_data('project', 'row', ['id' => $task->project_id]);
+        $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
+        $projects       = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
+        $effort_type    = $this->common_model->find_data('effort_type', 'array', ['status=' => '1'], 'id,name,status','', '', $order_by);
+        $work_status    = $this->common_model->find_data('work_status', 'array', ['is_schedule=' => '1'], '','', '', $order_by);
+        // pr($task);
+        $html = '<div class="modal-header">
+                    <h5 class="modal-title">Effort Booking</h5>                  
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+
+                <div class="modal-body">                                              
+                    <div class="mb-3">
+                        <label for="project_id" class="form-label">Select Project</label>
+                        <select name="project_id" id="project_id" class="form-select" disabled>
+                            <option value="">Select Project</option>';                                                                      
+                            foreach ($projects as $project){
+                                $selected_project = ($project->id == $task->project_id) ? 'selected' : '';
+                                $html .= '<option value="'.$project->id.'" '.$selected_project.'> '.$project->name.'</option>';
+                            }                                    
+                        $html .='</select>
+                        <input type="hidden" name="project_id" value="'.$task->project_id.'">
+                    </div>                                                                                                                                                 
+                    <div class="row mb-3">
+                    <div class="col">
+                        <label for="date" class="form-label">Date</label>
+                        <input type="date" name="date" id="date" class="form-control" value="'.$task->date_added.'" readonly>
+                    </div>
+                    <div class="col">
+                            <label for="fhour" class="form-label">Hour</label>
+                            <select name="fhour" id="fhour" class="form-select">
+                            <option value="">Select Hour</option>';
+                            for ($i = 0; $i <= 8; $i++){
+                            $selected_hour = ($i == $task->hour) ? 'selected' : '';
+                            $html .= '<option value="' . $i . '" ' . $selected_hour . '>'.$i.'</option>';
+                            }
+                            $html .='</select>
+                        </div>
+                        <div class="col">
+                            <label for="fminute" class="form-label">Minute</label>
+                            <select name="fminute" id="fminute" class="form-select">
+                            <option value="">Select Minute</option>';
+                            for ($i = 0; $i <= 45; $i+= 15){
+                            $selected_minute = ($i == $task->min) ? 'selected' : '';
+                            $html .='<option value="' . $i . '" ' . $selected_minute . '>'.$i.'</option>';
+                            }
+                            $html .='</select>
+                        </div>
+                    </div>
+
+                    <!-- Effort type -->
+                    <div class="mb-3">
+                        <label for="effort_type_id" class="form-label">Effort Type</label>
+                        <select name="effort_type_id" id="effort_type_id" class="form-select" required>
+                            <option value="">Select Effort Type</option>';
+                            foreach ($effort_type as $effort){
+                            $html .='<option value="'. $effort->id .'">'. $effort->name .'</option>';
+                            }
+                        $html .='</select>
+                    </div> 
+                            
+                    <!-- Work status -->
+                    <div class="mb-3">
+                        <label for="work_status_id" class="form-label">Work Status</label>
+                        <select name="work_status_id" id="work_status_id" class="form-select" onchange="change_work_status(this.value);" required>
+                            <option value="">Select Work Status</option>';                                    
+                            foreach ($work_status as $work){
+                            $html .='<option value="'. $work->id .'">'. $work->name .'</option>';                                    
+                            }
+                        $html .='</select>
+                    </div> 
+                    
+                    <!-- Description -->
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea name="description" id="description" class="form-control" rows="3">'.$task->description.'</textarea>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div> ';                
+        echo $html;
+    }
+
+    public function edit_task_details() {
+        $task_id    = $this->request->getGet('task_id');        
+        $userType   = $this->session->user_type;        
+
+        $task           = $this->common_model->find_data('morning_meetings', 'row', ['id' => $task_id]);
+        $project        = $this->common_model->find_data('project', 'row', ['id' => $task->project_id]);
+        $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
+        $projects       = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
+        $employees      = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+        $effort_type    = $this->common_model->find_data('effort_type', 'array', ['status=' => '1'], 'id,name,status','', '', $order_by);
+        $work_status    = $this->common_model->find_data('work_status', 'array', ['is_schedule=' => '1'], '','', '', $order_by);
+        $checkedPriority1 = (($task->priority == 1)?'checked':'');
+        $checkedPriority2 = (($task->priority == 2)?'checked':'');
+        $checkedPriority3 = (($task->priority == 3)?'checked':'');
+        // pr($task);
+        
+        $html = '<form action="' . base_url('admin/edit-task') . '" method="POST">  
+                    <input type="hidden" name="task_id" value="'.$task->id.'">          
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Assign Task</h5>                  
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+
+                        <div class="modal-body">                                              
+                            <div class="mb-3">
+                                <label for="project_id" class="form-label">Select Project</label>
+                                <select name="project_id" id="project_id" class="form-select">
+                                    <option value="">Select Project</option>';                                                                      
+                                    foreach ($projects as $project){
+                                        $selected_project = ($project->id == $task->project_id) ? 'selected' : '';
+                                        $html .= '<option value="'.$project->id.'" '.$selected_project.'> '.$project->name.'</option>';
+                                    }                                    
+                                $html .='</select>
+                            </div>';  
+                            if ($userType == 'ADMIN' || $userType == 'SUPER ADMIN') {
+                            $html .='<div class="mb-3">
+                                <label for="employee_id" class="form-label">Select Employee</label>
+                                <select name="employee_id" id="employee_id" class="form-select select2" required>
+                                    <option value="">Select Employee</option>';
+                                    foreach ($employees as $emp){
+                                        $selected_employee = ($emp->id == $task->user_id) ? 'selected' : '';
+                                        $html .= '<option value="'.$emp->id.'" '.$selected_employee.'> '.$emp->name.'</option>';
+                                    }
+                                $html .='</select>
+                            </div>';
+                            }                                                                                                   
+                            $html .='
+                            <div class="mb-3">
+                                <label class="form-label">Status</label><br>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" id="present" value="0" onchange="myFunction()" checked>
+                                    <label class="form-check-label" for="present">PRESENT</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" id="halfday" value="1" onchange="myFunction()">
+                                    <label class="form-check-label" for="halfday">HALFDAY LEAVE</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="status" id="fullday" value="2" onchange="myFunction()">
+                                    <label class="form-check-label" for="fullday">FULLDAY LEAVE</label>
+                                </div>
+                            </div>
+                            <!-- Description -->
+                            <div class="mb-3">
+                                <label for="description" class="form-label">Description</label>
+                                <textarea name="description" id="description" class="form-control" rows="3">'.$task->description.'</textarea>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="date" class="form-label">Date</label>
+                                    <input type="date" name="date" id="date" class="form-control" value="'.$task->date_added.'" readonly>
+                                </div>
+                                <div class="col">
+                                    <label for="fhour" class="form-label">Hour</label>
+                                    <select name="fhour" id="fhour" class="form-select">
+                                    <option value="">Select Hour</option>';
+                                    for ($i = 0; $i <= 8; $i++){
+                                    $selected_hour = ($i == $task->hour) ? 'selected' : '';
+                                    $html .= '<option value="' . $i . '" ' . $selected_hour . '>'.$i.'</option>';
+                                    }
+                                    $html .='</select>
+                                </div>
+                                <div class="col">
+                                    <label for="fminute" class="form-label">Minute</label>
+                                    <select name="fminute" id="fminute" class="form-select">
+                                    <option value="">Select Minute</option>';
+                                    for ($i = 0; $i <= 45; $i+= 15){
+                                    $selected_minute = ($i == $task->min) ? 'selected' : '';
+                                    $html .='<option value="' . $i . '" ' . $selected_minute . '>'.$i.'</option>';
+                                    }
+                                    $html .='</select>
+                                </div>
+                            </div>                                                    
+
+                            <div>
+                                <label class="form-label me-2">Priority:</label>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="priority" id="low" value="1" ' . $checkedPriority1 . ' required>
+                                    <label class="form-check-label" for="low">LOW</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="priority" id="medium" value="2" ' . $checkedPriority2 . ' required>
+                                    <label class="form-check-label" for="medium">MEDIUM</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="priority" id="high" value="3" ' . $checkedPriority3 . ' required>
+                                    <label class="form-check-label" for="high">HIGH</label>
+                                </div>
+                            </div>                                                                                    
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-success">Save</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </div>
+                </form>';        
+        echo $html;
+    }
+
+
+    public function SaveEffort()
+    {          
+        $uId                = $this->session->get('user_id');
+        $taskId             = $this->request->getPost('task_id');
+        $requestData        = $this->request->getPost();  
+        // pr($requestData);      
+        $getUser            = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+        $task_details       = $this->common_model->find_data('morning_meetings', 'row', ['id' => $taskId]);
+        
+        $user_cost                  = $getUser->hour_cost;
+        $cal_usercost               = ($user_cost/60);
+
+        $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
+        $project_id                = $requestData['project_id'];                
+        $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+        $project_status            = $project->status;        
+        $project_bill              = $project->bill;                                 
+        $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
+        $department_id             = $department ? $department->dep_id : 0;                    
+        $description               = $requestData['description'];                
+        $date_added                = date_format(date_create($requestData['date']), "Y-m-d");                                     
+        $created_at                = date('Y-m-d H:i:s');
+        $effort_type_id            = $requestData['effort_type_id'];
+        $work_status_id            = $requestData['work_status_id'];   
+        if ($work_status_id == 2) {
+            $hour = 0;
+            $min = 0;
+        } else {
+           $hour                      = $requestData['fhour'];
+           $min                       = $requestData['fminute'];   
+        }   
+        $schedule_id               = $requestData['task_id'];
+
+        $cal                    = (($hour*60) + $min); //converted to minutes
+        $projectCost            = floatval($cal_usercost * $cal);
+
+        if ($task_details) {                                        
+            $postData            = [
+                'project_id'        => $project_id,                        
+                'status_id'         => $project_status,
+                'user_id'           => $user_id,                            
+                'description'       => $description,                            
+                'hour'              => $hour,
+                'min'               => $min,
+                'effort_type'       => $effort_type_id,
+                'work_status_id'    => $work_status_id,
+                'date_added'        => $date_added,                                                                 
+                'bill'              => $project_bill,
+                'assigned_task_id'  => $requestData['task_id'],                            
+                'date_today'        => $created_at,
+                'hour_rate'         => $user_cost,
+                'cost'              => number_format($projectCost, 2, '.', ''),
+            ];
+            // pr($postData);
+            $effort_id = $this->common_model->save_data('timesheet', $postData, '', 'id');
+            $fields                     = [                    
+            'effort_type'       => $effort_type_id,
+            'work_status_id'    => $work_status_id,
+            'effort_id'         => $effort_id,
+            'updated_at'        => date('Y-m-d H:i:s'),
+        ];
+        $this->common_model->save_data('morning_meetings', $fields, $schedule_id, 'id');
+        } else{
+            //backdate task effort addition
+            $today = date('Y-m-d');
+            if ($date_added < $today) {
+                $postData            = [
+                    'project_id'        => $project_id,
+                    'dept_id'           => $department_id,
+                    'status_id'         => $project_status,
+                    'user_id'           => $user_id,                            
+                    'description'       => "Not Booked Task",                            
+                    'hour'              => 0,
+                    'min'               => 0,
+                    'effort_type'       => $effort_type_id,
+                    'work_status_id'    => $work_status_id,
+                    'date_added'        => $date_added,  
+                    'added_by'          => $uId,                          
+                    'bill'              => $project_bill,  
+                    'created_at'        => $created_at,
+                    'updated_at'        => $created_at
+                ]; 
+                $schedule_id = $this->common_model->save_data('morning_meetings', $postData, '', 'id');  
+                $field            = [
+                    'project_id'        => $project_id,                        
+                    'status_id'         => $project_status,
+                    'user_id'           => $user_id,                            
+                    'description'       => $description,                            
+                    'hour'              => $hour,
+                    'min'               => $min,
+                    'effort_type'       => $effort_type_id,
+                    'work_status_id'    => $work_status_id,
+                    'date_added'        => $date_added,                                                                 
+                    'bill'              => $project_bill,
+                    'assigned_task_id'  => $schedule_id,                            
+                    'date_today'        => $created_at,
+                    'hour_rate'         => $user_cost,
+                    'cost'              => number_format($projectCost, 2, '.', ''),
+                ];
+                $this->common_model->save_data('timesheet', $field, '', 'id');
+            }                                        
+        }
+
+        //ptoject cost calculation
+        $year                   = date('Y', strtotime($date_added)); // 2024
+        $month                  = date('m', strtotime($date_added)); // 08
+        $projectcost            = "SELECT SUM(cost) AS total_hours_worked FROM `timesheet` WHERE `date_added` LIKE '%".$year . "-" . $month ."%' and project_id=".$project_id."";
+        $rows                   = $this->db->query($projectcost)->getResult(); 
+        foreach($rows as $row){
+            $project_cost       =  $row->total_hours_worked;
+        }  
+        $exsistingProjectCost   = $this->common_model->find_data('project_cost', 'row', ['project_id' => $project_id, 'created_at LIKE' => '%'.$year . '-' . $month .'%']);
+        if(!$exsistingProjectCost){
+            $postData2   = array(
+                'project_id'            => $project_id,
+                'month'                 => $month ,
+                'year'                  => $year,
+                'project_cost'          => $project_cost,
+                'created_at'            => date('Y-m-d H:i:s'),                                
+            );                                  
+            $project_cost_id             = $this->common_model->save_data('project_cost', $postData2, '', 'id');
+        } else {
+            $id         = $exsistingProjectCost->id;
+            $postData2   = array(
+                'project_id'            => $project_id,
+                'month'                 => $month ,
+                'year'                  => $year,
+                'project_cost'          => $project_cost,
+                'updated_at'            => date('Y-m-d H:i:s'),                                
+            );                                    
+            $update_project_cost_id      = $this->common_model->save_data('project_cost', $postData2, $id, 'id');
+        } 
+        // project cost calculation end
+        
+        // Finish & Assign tomorrow
+        $getWorkStatus  = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'is_reassign');
+        if($getWorkStatus){
+            if($getWorkStatus->is_reassign){
+                /* next working data calculate */
+                    // for($c=1;$c<=7;$c++){
+                        // echo $date_added1 = date('Y-m-d', strtotime("+1 days"));
+                        $date_added1 = date('Y-m-d', strtotime($date_added . ' +1 day'));
+                        if($this->calculateNextWorkingDate($date_added1)){
+                            $next_working_day = $date_added1;
+                        } else {
+                            // echo 'not working day';
+                            $date_added2 = date('Y-m-d', strtotime($date_added . "+2 days"));
+                            if($this->calculateNextWorkingDate($date_added2)){
+                                $next_working_day = $date_added2;
+                            } else {
+                                $date_added3 = date('Y-m-d', strtotime($date_added . "+3 days"));
+                                if($this->calculateNextWorkingDate($date_added3)){
+                                    $next_working_day = $date_added3;
+                                } else {
+                                    $date_added4 = date('Y-m-d', strtotime($date_added . "+4 days"));
+                                    if($this->calculateNextWorkingDate($date_added4)){
+                                        $next_working_day = $date_added4;
+                                    } else {
+                                        $date_added5 = date('Y-m-d', strtotime($date_added . "+5 days"));
+                                        if($this->calculateNextWorkingDate($date_added5)){
+                                            $next_working_day = $date_added5;
+                                        } else {
+                                            $date_added6 = date('Y-m-d', strtotime($date_added . "+6 days"));
+                                            if($this->calculateNextWorkingDate($date_added6)){
+                                                $next_working_day = $date_added6;
+                                            } else {
+                                                $date_added7 = date('Y-m-d', strtotime($date_added . "+7 days"));
+                                                if($this->calculateNextWorkingDate($date_added7)){
+                                                    $next_working_day = $date_added7;
+                                                } else {
+                                                    $next_working_day = $date_added7;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                        }
+                    // }
+                    // echo $next_working_day;
+                    // die;
+                /* next working data calculate */
+                $morningScheduleData2 = [
+                    'dept_id'               => $department_id,
+                    'project_id'            => $project_id,
+                    'status_id'             => $project_status,
+                    'user_id'               => $user_id,
+                    'description'           => $description,
+                    'hour'                  => $hour,
+                    'min'                   => $min,
+                    'work_home'             => 0,
+                    'effort_type'           => 0,
+                    'date_added'            => $next_working_day,
+                    'added_by'              => $uId,
+                    'bill'                  => $project_bill,
+                    'work_status_id'        => 0,
+                    'priority'              => 3,
+                    'effort_id'             => 0,
+                    'created_at'            => $next_working_day.' 10:01:00',
+                    'updated_at'            => $next_working_day.' 10:01:00',
+                ];
+                // pr($morningScheduleData2);
+                $this->common_model->save_data('morning_meetings', $morningScheduleData2, '', 'id');
+            }
+        }
+        // Finish & Assign tomorrow end
+        $this->session->setFlashdata('success_message', 'Effort added successfully.');
+        return redirect()->to('/admin/dashboard');
+    }
+
+    public function EditTask()
+    {          
+        $uId                = $this->session->get('user_id');
+        $taskId = $this->request->getPost('task_id');
+        // pr($taskId);
+        $requestData = $this->request->getPost();        
+        // pr($requestData);
+        $getUser       = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+        $task_details = $this->common_model->find_data('morning_meetings', 'row', ['id' => $taskId]);
+        
+        $user_cost                  = $getUser->hour_cost;
+        $cal_usercost               = ($user_cost/60);
+
+        $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
+        $project_id                = $requestData['project_id'];                
+        $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+        $project_status            = $project->status;
+        $project_bill              = $project->bill;                                 
+        $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
+        $department_id             = $department ? $department->dep_id : 0;                    
+        $description               = $requestData['description'];                
+        $is_leave                  = $requestData['status'];
+        $date_added                = date_format(date_create($requestData['date']), "Y-m-d");
+        $hour                      = $requestData['fhour'];
+        $min                       = $requestData['fminute'];  
+        $priority                  = $requestData['priority'];              
+        $created_at                = date('Y-m-d H:i:s');
+        // $effort_type_id            = $requestData['effort_type_id'];
+        // $work_status_id            = $requestData['work_status_id'];      
+        // $schedule_id               = $requestData['task_id'];
+
+        // $cal                    = (($hour*60) + $min); //converted to minutes
+        // $projectCost            = floatval($cal_usercost * $cal);
+
+        if ($is_leave == 1) {
+            $postData            = [
+                'id'           => $taskId,
+                'project_id'        => 0,
+                'status_id'         => 0,
+                'user_id'           => $user_id,
+                'dept_id'           => $department_id,
+                'description'       => "Half Day Leave Taken",
+                'date_added'        => $date_added,
+                'added_by'          => $uId,
+                'hour'              => 0,
+                'min'               => 0,
+                'bill'              => 1,
+                'work_status_id'    => 6,
+                'priority'          => $priority,
+                'next_day_task_action' => 1,
+                'is_leave'          => 1,                            
+                'updated_at'        => $created_at
+            ];
+        } else if ($is_leave == 2) {
+            $postData            = [
+                'id'           => $taskId,
+                'project_id'        => 0,
+                'status_id'         => 0,
+                'user_id'           => $user_id,
+                'dept_id'           => $department_id,
+                'description'       => "Full Day Leave Taken",
+                'date_added'        => $date_added,
+                'added_by'          => $uId,
+                'hour'              => 0,
+                'min'               => 0,
+                'bill'              => 1,
+                'work_status_id'    => 6,
+                'priority'          => $priority,
+                'next_day_task_action' => 1,
+                'is_leave'          => 2,                            
+                'updated_at'        => $created_at
+            ];
+        } else {
+            $postData            = [
+                'id'           => $taskId,
+                'project_id'        => $project_id,
+                'status_id'         => $project_status,
+                'user_id'           => $user_id,
+                'dept_id'           => $department_id,
+                'description'       => $description,
+                'date_added'        => $date_added,
+                'added_by'          => $uId,
+                'hour'              => $hour,
+                'min'               => $min,
+                'bill'              => $project_bill,
+                'priority'          => $priority,
+                'work_status_id'    => 0,
+                'is_leave'          => $is_leave, 
+                'next_day_task_action' => 0, // Assuming next_day_task_action is not needed for updates
+                'updated_at'        => $created_at                            
+            ];
+        }
+        // pr($postData);
+        $this->common_model->save_data('morning_meetings', $postData, $taskId, 'id');        
+        
+        $this->session->setFlashdata('success_message', 'Task Update successfully.');
+        return redirect()->to('/admin/dashboard');
+    }
+
+    public function calculateNextWorkingDate($givenDate){
+        // echo $givenDate;
+        $checkHoliday = $this->common_model->find_data('event', 'count', ['start_event' => $givenDate]);
+        if($checkHoliday > 0){
+            return true;
+        } else {
+            $applicationSetting = $this->common_model->find_data('application_settings', 'row');
+            $dayOfWeek = date("l", strtotime($givenDate));
+            if($dayOfWeek == 'Sunday'){
+                $dayNo          = 7;
+                $fieldName      = 'sunday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Monday'){
+                $dayNo          = 1;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Tuesday'){
+                $dayNo          = 2;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Wednesday'){
+                $dayNo          = 3;
+                $fieldName      = 'monday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Thursday'){
+                $dayNo          = 4;
+                $fieldName      = 'thursday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Friday'){
+                $dayNo          = 5;
+                $fieldName      = 'friday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            } elseif($dayOfWeek == 'Saturday'){
+                $dayNo          = 6;
+                $fieldName      = 'satarday';
+                $getDayCount    = $this->getDayCountInMonth($givenDate, $dayNo);
+            }
+            // echo $getDayCount;
+            $fieldArray = json_decode($applicationSetting->$fieldName);
+            // pr($fieldArray,0);
+            if(in_array($getDayCount, $fieldArray)){
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
+    public function getDayCountInMonth($givenDate, $dayNo){
+        $date = $givenDate; // Example date
+        // $date = "2024-08-24"; // Example date
+
+        // Get the day of the month
+        $dayOfMonth = date("j", strtotime($date));
+
+        // Get the month and year from the date
+        $month = date("m", strtotime($date));
+        $year = date("Y", strtotime($date));
+
+        // Initialize the counter for Saturdays
+        $saturdayCount = 0;
+
+        for ($day = 1; $day <= $dayOfMonth; $day++) {
+            // Create a date string for each day of the month
+            $currentDate = "$year-$month-$day";
+            // echo date("N", strtotime('2024-08-25')).'<br>';
+            // Check if the current date is a Saturday
+            if (date("N", strtotime($currentDate)) == $dayNo) {
+                $saturdayCount++;
+            }
+        }
+
+        // Check if the provided date is a Saturday and count it
+        if (date("N", strtotime($date)) == $dayNo) {
+            // echo "The date $date is the $saturdayCount" . "th Saturday of the month.";
+            return $saturdayCount;
+        } else {
+            // echo "The date $date is not a Saturday.";
+            return 0;
+        }
+    }
+
     /* day-wise modal list */
     public function dayWiseListRecords()
     {

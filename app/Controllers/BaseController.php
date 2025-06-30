@@ -165,38 +165,78 @@ abstract class BaseController extends Controller
         // }
         public function sendMail($email, $subject, $message, $file = '')
         {
-            $generalSetting             = $this->common_model->find_data('general_settings', 'row');
-            $mailLibrary                = new PHPMailer(true);
-            $mailLibrary->CharSet       = 'UTF-8';
-            $mailLibrary->SMTPDebug     = 0;
-            $mailLibrary->IsSMTP();
-            $mailLibrary->Host          = $generalSetting->smtp_host;
-            $mailLibrary->SMTPAuth      = true;
-            $mailLibrary->Port          = $generalSetting->smtp_port;
-            $mailLibrary->Username      = $generalSetting->smtp_username;
-            $mailLibrary->Password      = $generalSetting->smtp_password;
-            $mailLibrary->SMTPSecure    = 'tls';
-            $mailLibrary->From          = $generalSetting->from_email;
-            $mailLibrary->FromName      = $generalSetting->from_name;
-            $mailLibrary->AddReplyTo($generalSetting->from_email, $generalSetting->from_name);
-            if(is_array($email)) :
-                foreach($email as $eml):
-                    $mailLibrary->addAddress($eml);
-                endforeach;
-            else:
-                $mailLibrary->addAddress($email);
-            endif;
-            // $mailLibrary->addCC('sudip.keyline@gmail.com', 'KDPL System');
-            // $mailLibrary->addCC('subhomoy@keylines.net', 'Subhomoy Samanta');
-            $mailLibrary->addCC('deblina@keylines.net', 'Deblina Das');
-            $mailLibrary->WordWrap      = 5000;
-            $mailLibrary->Subject       = $subject;
-            $mailLibrary->Body          = $message;
-            $mailLibrary->isHTML(true);
-            if (!empty($file)):
-                $mailLibrary->AddAttachment($file);
-            endif;
-            return (!$mailLibrary->send()) ? false : true;
+            // $generalSetting             = $this->common_model->find_data('general_settings', 'row');
+            // $mailLibrary                = new PHPMailer(true);
+            // $mailLibrary->CharSet       = 'UTF-8';
+            // $mailLibrary->SMTPDebug     = 0;
+            // $mailLibrary->IsSMTP();
+            // $mailLibrary->Host          = $generalSetting->smtp_host;
+            // $mailLibrary->SMTPAuth      = true;
+            // $mailLibrary->Port          = $generalSetting->smtp_port;
+            // $mailLibrary->Username      = $generalSetting->smtp_username;
+            // $mailLibrary->Password      = $generalSetting->smtp_password;
+            // $mailLibrary->SMTPSecure    = 'tls';
+            // $mailLibrary->From          = $generalSetting->from_email;
+            // $mailLibrary->FromName      = $generalSetting->from_name;
+            // $mailLibrary->AddReplyTo($generalSetting->from_email, $generalSetting->from_name);
+            // if(is_array($email)) :
+            //     foreach($email as $eml):
+            //         $mailLibrary->addAddress($eml);
+            //     endforeach;
+            // else:
+            //     $mailLibrary->addAddress($email);
+            // endif;
+            // // $mailLibrary->addCC('sudip.keyline@gmail.com', 'KDPL System');
+            // // $mailLibrary->addCC('subhomoy@keylines.net', 'Subhomoy Samanta');
+            // // $mailLibrary->addCC('deblina@keylines.net', 'Deblina Das');
+            // $mailLibrary->WordWrap      = 5000;
+            // $mailLibrary->Subject       = $subject;
+            // $mailLibrary->Body          = $message;
+            // $mailLibrary->isHTML(true);
+            // if (!empty($file)):
+            //     $mailLibrary->AddAttachment($file);
+            // endif;
+            // return (!$mailLibrary->send()) ? false : true;
+            $generalSetting = $this->common_model->find_data('general_settings', 'row');
+            $mailLibrary = new PHPMailer(true);
+
+            try {
+                $mailLibrary->CharSet = 'UTF-8';
+                $mailLibrary->SMTPDebug = 0;
+                $mailLibrary->isSMTP();
+                $mailLibrary->Host = $generalSetting->smtp_host;
+                $mailLibrary->SMTPAuth = true;
+                $mailLibrary->Port = $generalSetting->smtp_port;
+                $mailLibrary->Username = $generalSetting->smtp_username;
+                $mailLibrary->Password = $generalSetting->smtp_password;
+                $mailLibrary->SMTPSecure = 'tls';
+                $mailLibrary->From = $generalSetting->from_email;
+                $mailLibrary->FromName = $generalSetting->from_name;
+                $mailLibrary->AddReplyTo($generalSetting->from_email, $generalSetting->from_name);
+
+                if (is_array($email)) {
+                    foreach ($email as $eml) {
+                        $mailLibrary->addAddress($eml);
+                    }
+                } else {
+                    $mailLibrary->addAddress($email);
+                }
+
+                $mailLibrary->WordWrap = 5000;
+                $mailLibrary->Subject = $subject;
+                $mailLibrary->Body = $message;
+                $mailLibrary->isHTML(true);
+
+                if (!empty($file)) {
+                    $mailLibrary->AddAttachment($file);
+                }
+
+                $mailLibrary->send();
+                return ['status' => true, 'message' => 'Email sent successfully!'];
+            } catch (Exception $e) {
+                // If error, return status false and error message
+                return ['status' => false, 'message' => 'Mailer Error: ' . $mailLibrary->ErrorInfo];
+            }
         }
     // send email
     // send sms
@@ -283,6 +323,7 @@ abstract class BaseController extends Controller
 
     public function sendFCMMessage($accessToken, $projectId, $message)
     {
+        // pr($message);
         $url = "https://fcm.googleapis.com/v1/projects/{$projectId}/messages:send";
 
         $headers = [
@@ -305,9 +346,10 @@ abstract class BaseController extends Controller
         curl_close($ch);
 
         return $response;
+        // pr($response);
     }
 
-    public function sendCommonPushNotification($token, $title, $body, $type = '', $image = '')
+    public function sendCommonPushNotification($tokens, $title, $body, $type = '', $image = '', $device_type)
     {
         try {
             // Decode credentials from .env
@@ -327,50 +369,91 @@ abstract class BaseController extends Controller
             // Get access token
             $accessToken = $this->getAccessToken($credentialsArray);
 
-            // Message payload
-            $message = [
-                'message' => [
-                    'token' => $token,
-                    'data' => ['type' => $type],
-                    'notification' => [
-                        'title' => $title,
-                        'body' => $body,
-                    ],
-                ],
-            ];
-
-            if (!empty($image)) {
-                $message['message']['notification']['image'] = $image;
+            // Ensure $tokens is an array for consistent handling
+            if (!is_array($tokens)) {
+                $tokens = [$tokens];
             }
 
-            // iOS payload (optional)
-            $iosPayload = [
-                'message' => [
-                    'token' => $token,
-                    'apns' => [
-                        'payload' => [
-                            'aps' => [
-                                'alert' => [
-                                    'title' => $title,
-                                    'body' => $body,
-                                ],
-                                'sound' => 'default',
-                                'mutable-content' => 1,
+            $results = []; // To store individual notification results
+
+            foreach ($tokens as $token) {
+                 $messagePayload = [];
+                 if ($device_type === 'ANDROID') {
+                    $messagePayload = [
+                        'message' => [
+                            'token' => $token, // Individual token here
+                            'data' => ['type' => $type],
+                            'notification' => [
+                                'title' => $title,
+                                'body' => $body,
                             ],
                         ],
-                    ],
-                ],
-            ];
+                    ];
+                    if (!empty($image)) {
+                        $messagePayload['message']['notification']['image'] = $image;
+                    }
+                }elseif ($device_type === 'IO') {
+                    $messagePayload = [
+                        'message' => [
+                            'token' => $token, // Individual token here
+                            'notification' => [
+                                'title' => $title,
+                                'body' => $body,
+                            ],
+                            'apns' => [
+                                'headers' => [
+                                    'apns-priority' => '10',
+                                ],
+                                'payload' => [
+                                    'aps' => [
+                                        'alert' => [
+                                            'title' => $title,
+                                            'body' => $body,
+                                        ],
+                                        'sound' => 'default',
+                                        'mutable-content' => 1,
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ];
+                    if (!empty($image)) {
+                        $messagePayload['message']['apns']['fcm_options'] = [
+                            'image' => $image
+                        ];
+                    }
+                }else {
+                    // Handle unsupported device type if necessary
+                    $results[$token] = ['status' => false, 'error' => 'Unsupported device type'];
+                    continue; // Skip to the next token
+                }
 
-            if (!empty($image)) {
-                $iosPayload['message']['apns']['fcm_options']['image'] = $image;
+                try {
+                    $response = $this->sendFCMMessage($accessToken, $projectId, $messagePayload);
+                    $results[$token] = ['status' => true, 'response' => json_decode($response, true)];
+                } catch (Exception $e) {
+                    $results[$token] = ['status' => false, 'error' => $e->getMessage()];
+                } 
             }
+           
 
             // Send notifications
-            $this->sendFCMMessage($accessToken, $projectId, $message);
-            $this->sendFCMMessage($accessToken, $projectId, $iosPayload);
+            // Check if any notifications failed
+            $allSucceeded = true;
+            foreach ($results as $tokenResult) {
+                if ($tokenResult['status'] === false) {
+                    $allSucceeded = false;
+                    break;
+                }
+            }
 
-            return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent successfully.']);
+            if ($allSucceeded) {
+                return $this->response->setJSON(['status' => true, 'message' => 'All push notifications sent successfully.', 'results' => $results]);
+            } else {
+                return $this->response->setJSON(['status' => false, 'message' => 'Some push notifications failed to send.', 'results' => $results]);
+            }           
+
+            // return $this->response->setJSON(['status' => true, 'message' => 'Push notification sent successfully.']);
 
         } catch (Exception $e) {
             return $this->response->setJSON(['status' => false, 'error' => $e->getMessage()]);
