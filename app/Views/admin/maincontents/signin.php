@@ -92,15 +92,15 @@
         <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
           style="width: 100%;max-width: 200px;">
       </div>
-      <div class="qr-box">
+      <div class="qr-box mb-4">
         <div class="row justify-content-center">
-          <div class="col-md-5">
+          <div class="col-sm-5">
             <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid qr-image">
             <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline" target="_blank" class="d-block">
               <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
             </a>
           </div>
-          <div class="col-md-5">
+          <div class="col-sm-5">
             <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid qr-image">
             <a href="https://apps.apple.com/us/app/effortrak/id6502506223" target="_blank" class="d-block">
               <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
