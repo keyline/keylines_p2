@@ -91,7 +91,7 @@
     </div>
   </div>
   <!-- Right Panel -->
-  <div class="col-md-4 d-flex align-items-center justify-content-center bg-white">
+  <div class="col-md-4 d-flex align-items-center justify-content-center bg-white px-3">
     <div class="card shadow p-4" style="width: 100%; max-width: 380px; border-radius: 16px;">
       <div class="card-body">
         <div class="text-center mb-4">
