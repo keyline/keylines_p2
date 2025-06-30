@@ -60,6 +60,9 @@
     .qr-box {
       display: none
     }
+    .gradient-bg{
+      background: transparent !important;
+    }
     .signin_box{
       background: linear-gradient(135deg, #f9ed4c, #f19620);
     }
