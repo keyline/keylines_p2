@@ -70,6 +70,7 @@
     .signin_box{
       background: linear-gradient(135deg, #f9ed4c, #f19620);
       padding-bottom: 20px;
+      flex-direction: column-reverse;
     }
     .signin_box .col-md-8,
     .signin_box .col-md-4{
@@ -91,7 +92,7 @@
   <!-- Left Panel -->
   <div class="col-md-8 d-flex flex-column justify-content-center align-items-center">
     <div class="gradient-bg text-white w-100 h-100 d-flex flex-column justify-content-center px-3">
-      <div class="text-center my-4 mb-md-4">
+      <div class="text-center my-4 mb-md-4 d-none d-md-block">
         <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
           style="width: 100%;max-width: 200px;">
       </div>
@@ -121,6 +122,10 @@
   </div>
   <!-- Right Panel -->
   <div class="col-md-4 d-flex align-items-center justify-content-center bg-white px-3">
+    <div class="text-center my-4 mb-md-4 d-block d-md-none">
+      <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
+          style="width: 100%;max-width: 200px;">
+    </div>
     <div class="card shadow p-4" style="width: 100%; max-width: 380px; border-radius: 16px;">
       <div class="card-body">
         <div class="text-center mb-4">
