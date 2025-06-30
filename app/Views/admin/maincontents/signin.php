@@ -86,7 +86,7 @@
   <!-- Left Panel -->
   <div class="col-md-8 d-flex flex-column justify-content-center align-items-center">
     <div class="gradient-bg text-white w-100 h-100 d-flex flex-column justify-content-center px-3">
-      <div class="text-center mb-4">
+      <div class="text-center my-4 mb-md-4">
         <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
           style="width: 100%;max-width: 200px;">
       </div>
