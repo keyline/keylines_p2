@@ -57,13 +57,14 @@
     }
   </style>
 
-<div class="d-flex flex-wrap">
+<div class="d-flex flex-wrap vh-100">
     <!-- Left Panel -->
-    <div class="col-md-8 d-flex flex-column justify-content-center align-items-center gradient-bg text-white">
-      <div class="text-center mb-4">
-        <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>" style="width: 100%;max-width: 200px;">                
-      </div>      
-      <div class="qr-box">
+    <div class="col-md-8 d-flex flex-column justify-content-center align-items-center">
+      <div class="gradient-bgtext-white">
+        <div class="text-center mb-4">
+          <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>" style="width: 100%;max-width: 200px;">                
+        </div>      
+        <div class="qr-box">
         <div class="row justify-content-center">
           <div class="col-md-5">
             <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
@@ -80,6 +81,7 @@
         </div>
         <div class="app-path">
           <p><b>Application Link :</b> <a href="#" data-bs-toggle="tooltip" data-bs-placement="top" title="Copy this link and paste it in the mobile app URL location"><?=getenv('app.baseURL')?></a></p>
+        </div>
         </div>
       </div>
     </div>    
