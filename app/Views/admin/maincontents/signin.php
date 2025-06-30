@@ -61,15 +61,20 @@
   }
   @media (max-width: 768px) {
 
-    .qr-box {
+    .qr-box .qr-image{
       display: none
+    }
+    .qr-box{
+      width: 100%;
+      max-width: 380px;
     }
     .gradient-bg{
       background: transparent !important;
     }
     .signin_box{
       background: linear-gradient(135deg, #f9ed4c, #f19620);
-      padding-bottom: 20px;
+      padding-bottom: 24px;
+      flex-direction: column-reverse;
     }
     .signin_box .col-md-8,
     .signin_box .col-md-4{
@@ -81,6 +86,9 @@
     .signin_box.vh-100 {
       height: 100% !important;
     }
+    .app-path{
+      margin-top: 12px;
+    }
   }
 </style>
 
@@ -88,20 +96,20 @@
   <!-- Left Panel -->
   <div class="col-md-8 d-flex flex-column justify-content-center align-items-center">
     <div class="gradient-bg text-white w-100 h-100 d-flex flex-column justify-content-center px-3">
-      <div class="text-center my-4 mb-md-4">
+      <div class="text-center my-4 mb-md-4 d-none d-md-block">
         <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
           style="width: 100%;max-width: 200px;">
       </div>
-      <div class="qr-box">
+      <div class="qr-box mt-2">
         <div class="row justify-content-center">
           <div class="col-md-5">
-            <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
+            <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid qr-image">
             <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline" target="_blank" class="d-block">
               <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
             </a>
           </div>
           <div class="col-md-5">
-            <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
+            <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid qr-image">
             <a href="https://apps.apple.com/us/app/effortrak/id6502506223" target="_blank" class="d-block">
               <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
             </a>
@@ -117,7 +125,11 @@
     </div>
   </div>
   <!-- Right Panel -->
-  <div class="col-md-4 d-flex align-items-center justify-content-center bg-white px-3">
+  <div class="col-md-4 d-flex align-items-center justify-content-center bg-white flex-column px-3">
+    <div class="text-center my-4 mb-md-4 d-block d-md-none">
+      <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
+          style="width: 100%;max-width: 200px;">
+    </div>
     <div class="card shadow p-4" style="width: 100%; max-width: 380px; border-radius: 16px;">
       <div class="card-body">
         <div class="text-center mb-4">
