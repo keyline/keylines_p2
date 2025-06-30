@@ -56,9 +56,24 @@
     font-size: 16px;
     color: #333;
   }
+  @media (max-width: 768px) {
+    .qr-box {
+      display: none
+    }
+    .signin_box{
+      background: linear-gradient(135deg, #f9ed4c, #f19620);
+    }
+    .signin_box .col-md-8,
+    .signin_box .col-md-4{
+      width: 100%;
+    }
+    .signin_box .col-md-4.bg-white{
+      background: transparent !important;
+    }
+  }
 </style>
 
-<div class="d-flex flex-wrap vh-100">
+<div class="signin_box d-flex flex-wrap vh-100">
   <!-- Left Panel -->
   <div class="col-md-8 d-flex flex-column justify-content-center align-items-center">
     <div class="gradient-bg text-white w-100 h-100 d-flex flex-column justify-content-center px-3">
