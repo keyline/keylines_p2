@@ -44,6 +44,9 @@
     border-radius: 15px;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
     text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
   }
 
   .qr-box img {
@@ -73,6 +76,9 @@
     .signin_box .col-md-4.bg-white{
       background: transparent !important;
     }
+    .signin_box.vh-100 {
+      height: 100% !important;
+    }
   }
 </style>
 
@@ -88,13 +94,13 @@
         <div class="row justify-content-center">
           <div class="col-md-5">
             <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
-            <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline" target="_blank">
+            <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline" target="_blank" class="d-block">
               <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
             </a>
           </div>
           <div class="col-md-5">
             <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
-            <a href="https://apps.apple.com/us/app/effortrak/id6502506223" target="_blank">
+            <a href="https://apps.apple.com/us/app/effortrak/id6502506223" target="_blank" class="d-block">
               <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
             </a>
           </div>
