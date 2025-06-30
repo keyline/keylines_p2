@@ -57,7 +57,7 @@
     }
   </style>
 
-<div class="container-fluid d-flex vh-100" style="margin-left: -15px;margin-right: -15px;">
+<div class="d-flex flex-wrap">
     <!-- Left Panel -->
     <div class="col-md-8 d-flex flex-column justify-content-center align-items-center gradient-bg text-white">
       <div class="text-center mb-4">
