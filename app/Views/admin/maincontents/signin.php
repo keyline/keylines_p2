@@ -60,6 +60,7 @@
     color: #333;
   }
   @media (max-width: 768px) {
+
     .qr-box {
       display: none
     }
@@ -68,6 +69,7 @@
     }
     .signin_box{
       background: linear-gradient(135deg, #f9ed4c, #f19620);
+      padding-bottom: 20px;
     }
     .signin_box .col-md-8,
     .signin_box .col-md-4{
@@ -146,7 +148,7 @@
           </div>
           <p class="text-center small">Forgot Password? <a href="#">Click Here</a></p>
         </form>
-        <div class="credits text-center mt-4">
+        <div class="credits text-center mt-2">
           <small class="text-muted">Maintained by <a href="https://keylines.net/">Keylines Digitech Pvt.
               Ltd.</a></small>
         </div>
