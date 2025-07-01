@@ -1773,7 +1773,6 @@ class ApiController extends BaseController
                 $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                 $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
                 if ($getUser) {
-                    // pr($requestData);die;
                     $punch_type = $requestData['punch_type'];
                     $latitude   = $requestData['latitude'];
                     $longitude  = $requestData['longitude'];
@@ -1792,33 +1791,33 @@ class ApiController extends BaseController
                         $punch_type = $punch_type;
                     }
                     /* profile image */
-                    $profile_image_post                            = $requestData['userImage'];
-                    if (!empty($profile_image_post)) {
-                        $profile_image      = $profile_image_post;
-                        $upload_type        = $profile_image['type'];
-                        if ($upload_type != 'image/jpeg' && $upload_type != 'image/jpg' && $upload_type != 'image/png') {
+                        $profile_image_post                            = $requestData['userImage'];
+                        if (!empty($profile_image_post)) {
+                            $profile_image      = $profile_image_post;
+                            $upload_type        = $profile_image['type'];
+                            if ($upload_type != 'image/jpeg' && $upload_type != 'image/jpg' && $upload_type != 'image/png') {
+                                $apiStatus          = FALSE;
+                                http_response_code(200);
+                                $apiMessage         = 'Please Upload Image !!!';
+                                $apiExtraField      = 'response_code';
+                                $apiExtraData       = http_response_code();
+                            } else {
+                                $upload_base64      = $profile_image['base64'];
+                                $img                = $upload_base64;
+
+                                $data           = base64_decode($img);
+                                $fileName       = uniqid() . '.jpg';
+                                $file           = 'public/uploads/user/' . $fileName;
+                                $success        = file_put_contents($file, $data);
+                                $user_image     = $fileName;
+                            }
+                        } else {
                             $apiStatus          = FALSE;
                             http_response_code(200);
                             $apiMessage         = 'Please Upload Image !!!';
                             $apiExtraField      = 'response_code';
                             $apiExtraData       = http_response_code();
-                        } else {
-                            $upload_base64      = $profile_image['base64'];
-                            $img                = $upload_base64;
-
-                            $data           = base64_decode($img);
-                            $fileName       = uniqid() . '.jpg';
-                            $file           = 'public/uploads/user/' . $fileName;
-                            $success        = file_put_contents($file, $data);
-                            $user_image     = $fileName;
                         }
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(200);
-                        $apiMessage         = 'Please Upload Image !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
                     /* profile image */
 
                     $attendence_type = json_decode($getUser->attendence_type);
@@ -1841,7 +1840,7 @@ class ApiController extends BaseController
                                     ];
                                 }
                             }
-                            // pr($deviceToken);die;
+                            
                             if ($punch_type == 1) {
                                 $punch_in_time      = date('H:i:s');
                                 $punch_in_lat       = $latitude;
@@ -1955,7 +1954,7 @@ class ApiController extends BaseController
                                 //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
                                 // }
                             } else {
-                                $punch_out_time = date('H:i:s');
+                                $punch_out_time     = date('H:i:s');
                                 $punch_in_lat       = $latitude;
                                 $punch_in_lng       = $longitude;
                                 $punch_in_address   = $address;
@@ -1994,13 +1993,7 @@ class ApiController extends BaseController
                                         );
                                         $allResults[$token] = $notificationResponse->getJSON();
                                     }
-                                    // pr($allResults); // Show results for all notifications
                                 }
-                                // if (!empty($deviceToken)) {
-                                //     $title = 'Punch Out Successful';
-                                //     $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
-                                //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
-                                // }
                             }
                         } else {
                             $apiStatus          = FALSE;
@@ -2016,267 +2009,6 @@ class ApiController extends BaseController
                 } else {
                     $apiStatus          = FALSE;
                     http_response_code(200);
-                    $apiMessage         = 'User Not Found !!!';
-                    $apiExtraField      = 'response_code';
-                    $apiExtraData       = http_response_code();
-                }
-            } else {
-                http_response_code($getTokenValue['data'][2]);
-                $apiStatus                      = FALSE;
-                $apiMessage                     = $this->getResponseCode(http_response_code());
-                $apiExtraField                  = 'response_code';
-                $apiExtraData                   = http_response_code();
-            }
-        } else {
-            http_response_code(400);
-            $apiStatus          = FALSE;
-            $apiMessage         = $this->getResponseCode(http_response_code());
-            $apiExtraField      = 'response_code';
-            $apiExtraData       = http_response_code();
-        }
-        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-    }
-    public function getMonthAttendance()
-    {
-        $apiStatus          = TRUE;
-        $apiMessage         = '';
-        $apiResponse        = [];
-        $this->isJSON(file_get_contents('php://input'));
-        $requestData        = $this->extract_json(file_get_contents('php://input'));
-        $requiredFields     = ['attn_month_year'];
-        $headerData         = $this->request->headers();
-        if (!$this->validateArray($requiredFields, $requestData)) {
-            $apiStatus          = FALSE;
-            $apiMessage         = 'All Data Are Not Present !!!';
-        }
-        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
-            $Authorization              = $headerData['Authorization'];
-            $app_access_token           = $this->extractToken($Authorization);
-            $getTokenValue              = $this->tokenAuth($app_access_token);
-            if ($getTokenValue['status']) {
-                $uId        = $getTokenValue['data'][1];
-                $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                if ($getUser) {
-
-                    $attn_month_year    = explode("/", $requestData['attn_month_year']);
-                    $month              = $attn_month_year[0];
-                    $year               = $attn_month_year[1];
-
-                    $list = array();
-
-                    for ($d = 1; $d <= 31; $d++) {
-                        $time = mktime(12, 0, 0, $month, $d, $year);
-                        if (date('m', $time) == $month)
-                            $list[] = date('Y-m-d', $time);
-                    }
-                    $markDates          = [];
-                    $trackerLast7Days   = [];
-                    if (!empty($list)) {
-                        $present_count  = 0;
-                        $halfday_count  = 0;
-                        $late_count     = 0;
-                        $absent_count   = 0;
-
-                        for ($p = 0; $p < count($list); $p++) {
-                            $punch_date = $list[$p];
-
-                            $today = date('Y-m-d');
-                            if ($punch_date >= $today) {
-                                $disableTouchEvent = 1;
-                            } else {
-                                $disableTouchEvent = 0;
-                            }
-
-                            $checkAttn = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $punch_date]);
-                            if ($checkAttn) {
-                                $disableTouchEvent  = 0;
-                                $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                                $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $punch_date], 'attendance_time', '', '', $orderBy);
-                                $tot_attn_time      = 0;
-                                if ($attnList) {
-                                    foreach ($attnList as $attnRow) {
-                                        $tot_attn_time      += $attnRow->attendance_time;
-                                    }
-                                }
-                                $attendance_time    = $tot_attn_time;
-                                $isAbsent           = 0;
-                                $isHalfday          = 0;
-                                $isFullday          = 0;
-                                $isLate             = 0;
-                                if ($attendance_time < 240) {
-                                    $isAbsent       = 1;
-                                    $isHalfday      = 0;
-                                    $isFullday      = 0;
-                                    if ($checkAttn->punch_in_time > '10:00:58') {
-                                        $isLate     = 1;
-                                    }
-                                } elseif ($attendance_time >= 240 && $attendance_time < 480) {
-                                    $isAbsent       = 0;
-                                    $isHalfday      = 1;
-                                    $isFullday      = 0;
-                                    if ($checkAttn->punch_in_time > '10:00:58') {
-                                        $isLate     = 1;
-                                    }
-                                } elseif ($attendance_time >= 480) {
-                                    $isAbsent       = 0;
-                                    $isHalfday      = 0;
-                                    $isFullday      = 1;
-                                    if ($checkAttn->punch_in_time > '10:00:58') {
-                                        $isLate     = 1;
-                                    }
-                                }
-
-                                // .Present - #469148
-                                // .Absent - #F41F22
-                                // .Half Day- #E4AA39
-                                // .Late - #1e81b0
-                                // .Punchout Pending - #76E21B
-                                // .Holiday - #D623EA
-                                // .Disabled -#D5d5ce
-
-                                if ($disableTouchEvent) {
-                                    $backgroundColor = '#D5d5ce';
-                                } else {
-                                    $checkHoliday = $this->common_model->find_data('event', 'row', ['start_event' => $punch_date]);
-                                    if ($checkHoliday) {
-                                        $backgroundColor = '#469148';
-                                        $disableTouchEvent = 0;
-                                        // $present_count++;
-                                    } else {
-                                        if ($isAbsent) {
-                                            $backgroundColor = '#F41F22';
-                                            $absent_count++;
-                                        }
-                                        if ($isHalfday) {
-                                            $backgroundColor = '#E4AA39';
-                                            $halfday_count++;
-                                            // $present_count++;
-                                        }
-                                        if ($isFullday) {
-                                            $backgroundColor = '#469148';
-                                            // $present_count++;
-                                        }
-                                        if ($checkAttn->status == 1) {
-                                            $backgroundColor = '#76E21B';
-                                            // $present_count++;
-                                        }
-                                        if ($checkAttn->punch_in_time > '10:00:58') {
-                                            $backgroundColor = '#1e81b0';
-                                            $late_count++;
-                                        }
-                                    }
-                                    $present_count++;
-                                }
-
-                                $markDates[]        = [
-                                    $punch_date => [
-                                        'marked' => 0,
-                                        'disabled' => 0,
-                                        'disableTouchEvent' => $disableTouchEvent,
-                                        'customStyles' => [
-                                            'container' => [
-                                                'backgroundColor' => $backgroundColor,
-                                                'width' => 'WIDTH * 0.1',
-                                                'height' => 'WIDTH * 0.1',
-                                                'borderRadius' => 5,
-                                                'justifyContent' => 'center',
-                                                'alignItems' => 'center',
-                                            ]
-                                        ]
-                                    ]
-                                ];
-                            } else {
-                                $isAbsent   = 1;
-                                $isHalfday  = 0;
-                                $isFullday  = 0;
-                                $isLate     = 0;
-                                if ($disableTouchEvent) {
-                                    $backgroundColor = '#D5d5ce';
-                                } else {
-                                    $checkHoliday = $this->common_model->find_data('event', 'row', ['start_event' => $punch_date]);
-                                    if ($checkHoliday) {
-                                        $backgroundColor = '#D623EA';
-                                        $disableTouchEvent = 1;
-                                    } else {
-                                        if ($isAbsent) {
-                                            $backgroundColor = '#F41F22';
-                                            $absent_count++;
-                                        }
-                                        if ($isHalfday) {
-                                            $backgroundColor = '#E4AA39';
-                                            $halfday_count++;
-                                            $present_count++;
-                                        }
-                                        if ($isFullday) {
-                                            $backgroundColor = '#469148';
-                                        }
-                                    }
-                                }
-                                $markDates[]        = [
-                                    $punch_date => [
-                                        'marked' => 0,
-                                        'disabled' => 0,
-                                        'disableTouchEvent' => $disableTouchEvent,
-                                        'customStyles' => [
-                                            'container' => [
-                                                'backgroundColor' => $backgroundColor,
-                                                'width' => 'WIDTH * 0.1',
-                                                'height' => 'WIDTH * 0.1',
-                                                'borderRadius' => 5,
-                                                'justifyContent' => 'center',
-                                                'alignItems' => 'center',
-                                            ]
-                                        ]
-                                    ]
-                                ];
-                            }
-                        }
-                        $applicationSetting     = $this->common_model->find_data('application_settings', 'row');
-                        /* last 7 days tracker report */
-                        $last7Days          = $this->getLastNDays(7, 'Y-m-d');
-                        if (!empty($last7Days)) {
-                            for ($t = 0; $t < count($last7Days); $t++) {
-                                $loopDate           = $last7Days[$t];
-                                $dayWiseBooked      = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$uId' and date_added LIKE '$loopDate'")->getRow();
-                                $tothour                = $dayWiseBooked->tothour * 60;
-                                $totmin                 = $dayWiseBooked->totmin;
-                                $totalMin               = ($tothour + $totmin);
-                                $booked_effort          = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                                $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desklog_report` where tracker_user_id='$uId' and insert_date LIKE '%$loopDate%'")->getRow();
-                                // echo $this->db->getLastQuery();
-                                $desklog_time           = (($getDesklogTime) ? $getDesklogTime->time_at_work : '');
-                                $desklog_time1           = str_replace("m", "", $desklog_time);
-                                $desklog_time2           = str_replace("h ", ".", $desklog_time1);
-                                $trackerLast7Days[]     = [
-                                    'date_no'       => date_format(date_create($last7Days[$t]), "M d, Y"),
-                                    'day_name'      => date('D', strtotime($last7Days[$t])),
-                                    'booked_time'   => $booked_effort,
-                                    'desklog_time'  => (($desklog_time != '') ? $desklog_time2 : $desklog_time)
-                                ];
-                            }
-                        }
-                        /* last 7 days tracker report */
-
-                        $apiResponse        = [
-                            'present_count'     => $present_count,
-                            'halfday_count'     => $halfday_count,
-                            'late_count'        => $late_count,
-                            'absent_count'      => $absent_count,
-                            'is_desklog_use'    => $applicationSetting->is_desklog_use,
-                            'markDates'         => $markDates,
-                            'trackerLast7Days'  => $trackerLast7Days,
-                        ];
-
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Data Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    $apiStatus          = FALSE;
-                    http_response_code(404);
                     $apiMessage         = 'User Not Found !!!';
                     $apiExtraField      = 'response_code';
                     $apiExtraData       = http_response_code();
@@ -2319,6 +2051,9 @@ class ApiController extends BaseController
                 $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                 $getUserId = $requestData['id'];
                 $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
+
+                $applicationSetting = $this->common_model->find_data('application_settings', 'row');
+                $mark_later_after = $applicationSetting->mark_later_after;
 
                 if ($getUser) {
 
@@ -2371,21 +2106,21 @@ class ApiController extends BaseController
                                     $isAbsent       = 1;
                                     $isHalfday      = 0;
                                     $isFullday      = 0;
-                                    if ($checkAttn->punch_in_time > '10:00:58') {
+                                    if ($checkAttn->punch_in_time > $mark_later_after) {
                                         $isLate     = 1;
                                     }
                                 } elseif ($attendance_time >= 240 && $attendance_time < 480) {
                                     $isAbsent       = 0;
                                     $isHalfday      = 1;
                                     $isFullday      = 0;
-                                    if ($checkAttn->punch_in_time > '10:00:58') {
+                                    if ($checkAttn->punch_in_time > $mark_later_after) {
                                         $isLate     = 1;
                                     }
                                 } elseif ($attendance_time >= 480) {
                                     $isAbsent       = 0;
                                     $isHalfday      = 0;
                                     $isFullday      = 1;
-                                    if ($checkAttn->punch_in_time > '10:00:58') {
+                                    if ($checkAttn->punch_in_time > $mark_later_after) {
                                         $isLate     = 1;
                                     }
                                 }
@@ -2424,7 +2159,7 @@ class ApiController extends BaseController
                                             $backgroundColor = '#76E21B';
                                             // $present_count++;
                                         }
-                                        if ($checkAttn->punch_in_time > '10:00:58') {
+                                        if ($checkAttn->punch_in_time > $mark_later_after) {
                                             $backgroundColor = '#1e81b0';
                                             $late_count++;
                                         }
@@ -2560,158 +2295,6 @@ class ApiController extends BaseController
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
-    public function getSingleAttendance()
-    {
-        $apiStatus          = TRUE;
-        $apiMessage         = '';
-        $apiResponse        = [];
-        $this->isJSON(file_get_contents('php://input'));
-        $requestData        = $this->extract_json(file_get_contents('php://input'));
-        $requiredFields     = ['attn_date'];
-        $headerData         = $this->request->headers();
-        if (!$this->validateArray($requiredFields, $requestData)) {
-            $apiStatus          = FALSE;
-            $apiMessage         = 'All Data Are Not Present !!!';
-        }
-        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
-            $Authorization              = $headerData['Authorization'];
-            $app_access_token           = $this->extractToken($Authorization);
-            $getTokenValue              = $this->tokenAuth($app_access_token);
-            if ($getTokenValue['status']) {
-                $uId        = $getTokenValue['data'][1];
-                $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                if ($getUser) {
-
-                    $attn_date      = $requestData['attn_date'];
-                    $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                    $checkAttn      = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
-                    if ($checkAttn) {
-                        // $attendance_time = $checkAttn->attendance_time;
-
-
-                        $attnDatas          = [];
-                        $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                        $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
-                        $tot_attn_time      = 0;
-                        if ($attnList) {
-                            foreach ($attnList as $attnRow) {
-                                if ($attnRow->status == 1) {
-                                    $attnDatas[]          = [
-                                        'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
-                                        'label'                 => 'In',
-                                        'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
-                                        'address'               => (($attnRow->punch_in_address != '') ? $attnRow->punch_in_address : ''),
-                                        'image'                 => getenv('app.uploadsURL') . 'user/' . $attnRow->punch_in_image,
-                                        'type'                  => 1
-                                    ];
-                                }
-                                if ($attnRow->status == 2) {
-                                    $attnDatas[]          = [
-                                        'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
-                                        'label'                 => 'In',
-                                        'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
-                                        'address'               => (($attnRow->punch_in_address != '') ? $attnRow->punch_in_address : ''),
-                                        'image'                 => getenv('app.uploadsURL') . 'user/' . $attnRow->punch_in_image,
-                                        'type'                  => 1
-                                    ];
-                                    $attnDatas[]          = [
-                                        'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
-                                        'label'                 => 'Out',
-                                        'time'                  => (($attnRow->punch_out_time != '') ? date_format(date_create($attnRow->punch_out_time), "h:i A") : ''),
-                                        'address'               => (($attnRow->punch_out_address != '') ? $attnRow->punch_out_address : ''),
-                                        'image'                 => (($attnRow->punch_out_image != '') ? getenv('app.uploadsURL') . 'user/' . $attnRow->punch_out_image : ''),
-                                        'type'                  => 2
-                                    ];
-                                }
-                                $tot_attn_time      += $attnRow->attendance_time;
-                            }
-                        }
-
-                        $isAbsent   = 0;
-                        $isHalfday  = 0;
-                        $isFullday  = 0;
-                        $isLate     = 0;
-                        $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
-                        $getFirstAttn       = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
-
-                        if ($tot_attn_time < 240) {
-                            $isAbsent   = 1;
-                            $isHalfday  = 0;
-                            $isFullday  = 0;
-                            if ($getFirstAttn->punch_in_time > '10:00:58') {
-                                $isLate     = 1;
-                            }
-                        } elseif ($tot_attn_time >= 240 && $tot_attn_time < 480) {
-                            $isAbsent   = 0;
-                            $isHalfday  = 1;
-                            $isFullday  = 0;
-
-                            if ($getFirstAttn->punch_in_time > '10:00:58') {
-                                $isLate     = 1;
-                            }
-                        } elseif ($tot_attn_time >= 480) {
-                            $isAbsent   = 0;
-                            $isHalfday  = 0;
-                            $isFullday  = 1;
-                            if ($getFirstAttn->punch_in_time > '10:00:58') {
-                                $isLate     = 1;
-                            }
-                        }
-
-                        $apiResponse        = [
-                            'punch_date'            => date_format(date_create($checkAttn->punch_date), "M d, Y"),
-                            'punch_in_time'         => date_format(date_create($checkAttn->punch_in_time), "h:i A"),
-                            'punch_in_address'      => $checkAttn->punch_in_address,
-                            'punch_in_image'        => getenv('app.uploadsURL') . 'user/' . $checkAttn->punch_in_image,
-                            'punch_out_time'        => (($checkAttn->punch_out_time != '') ? date_format(date_create($checkAttn->punch_out_time), "h:i A") : ''),
-                            'punch_out_address'     => (($checkAttn->punch_out_address != '') ? $checkAttn->punch_out_address : ''),
-                            'punch_out_image'       => (($checkAttn->punch_out_image != '') ? getenv('app.uploadsURL') . 'user/' . $checkAttn->punch_out_image : ''),
-                            'isAbsent'              => $isAbsent,
-                            'isHalfday'             => $isHalfday,
-                            'isFullday'             => $isFullday,
-                            'isLate'                => $isLate,
-                            'note'                  => (($checkAttn->note != '') ? $checkAttn->note : ''),
-                            'status'                => $checkAttn->status,
-                            'attendance_time'       => $tot_attn_time,
-                            'attnDatas'             => $attnDatas
-                        ];
-
-                        $apiStatus          = TRUE;
-                        http_response_code(200);
-                        $apiMessage         = 'Attendance Available !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(200);
-                        $apiMessage         = 'You Are Absent !!!';
-                        $apiExtraField      = 'response_code';
-                        $apiExtraData       = http_response_code();
-                    }
-                } else {
-                    $apiStatus          = FALSE;
-                    http_response_code(404);
-                    $apiMessage         = 'User Not Found !!!';
-                    $apiExtraField      = 'response_code';
-                    $apiExtraData       = http_response_code();
-                }
-            } else {
-                http_response_code($getTokenValue['data'][2]);
-                $apiStatus                      = FALSE;
-                $apiMessage                     = $this->getResponseCode(http_response_code());
-                $apiExtraField                  = 'response_code';
-                $apiExtraData                   = http_response_code();
-            }
-        } else {
-            http_response_code(400);
-            $apiStatus          = FALSE;
-            $apiMessage         = $this->getResponseCode(http_response_code());
-            $apiExtraField      = 'response_code';
-            $apiExtraData       = http_response_code();
-        }
-        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
-    }
     public function getSingleAttendanceNew()
     {
         $apiStatus          = TRUE;
@@ -2734,6 +2317,10 @@ class ApiController extends BaseController
                 $getUserId = $requestData['id'];
                 $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
                 $getUser    = $this->common_model->find_data('user', 'row', ['id' => $getUserId, 'status' => '1']);
+
+                $applicationSetting = $this->common_model->find_data('application_settings', 'row');
+                $mark_later_after = $applicationSetting->mark_later_after;
+                
                 if ($getUser) {
 
                     $attn_date      = $requestData['attn_date'];
@@ -2792,7 +2379,7 @@ class ApiController extends BaseController
                             $isAbsent   = 1;
                             $isHalfday  = 0;
                             $isFullday  = 0;
-                            if ($getFirstAttn->punch_in_time > '10:00:58') {
+                            if ($getFirstAttn->punch_in_time > $mark_later_after) {
                                 $isLate     = 1;
                             }
                         } elseif ($tot_attn_time >= 240 && $tot_attn_time < 480) {
@@ -2800,14 +2387,14 @@ class ApiController extends BaseController
                             $isHalfday  = 1;
                             $isFullday  = 0;
 
-                            if ($getFirstAttn->punch_in_time > '10:00:58') {
+                            if ($getFirstAttn->punch_in_time > $mark_later_after) {
                                 $isLate     = 1;
                             }
                         } elseif ($tot_attn_time >= 480) {
                             $isAbsent   = 0;
                             $isHalfday  = 0;
                             $isFullday  = 1;
-                            if ($getFirstAttn->punch_in_time > '10:00:58') {
+                            if ($getFirstAttn->punch_in_time > $mark_later_after) {
                                 $isLate     = 1;
                             }
                         }
