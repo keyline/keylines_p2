@@ -46,10 +46,24 @@ abstract class BaseController extends Controller
     /**
      * @return void
      */
+
+    protected function applyCorsHeaders()
+    {
+        header('Access-Control-Allow-Origin: http://localhost:3000');
+        header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+        header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+        if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+            http_response_code(200);
+            exit();
+        }
+    }
+
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
     {
         // Do Not Edit This Line
         parent::initController($request, $response, $logger);
+        $this->applyCorsHeaders();
         date_default_timezone_set('Asia/Kolkata');
         // Preload any models, libraries, etc, here.
         // E.g.: $this->session = \Config\Services::session();
@@ -125,6 +139,10 @@ abstract class BaseController extends Controller
     */    
     public function response_to_json($success = TRUE, $message = "success", $data = NULL, $extraField = NULL, $extraData = NULL)
     {
+        // Allow from any origin (for development)
+        header("Access-Control-Allow-Origin: http://localhost:3000");
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
+        header("Access-Control-Allow-Headers: Content-Type, Authorization");
         $response = ["success" => $success, "message" => $message, "data" => $data];
         if ($extraField != NULL && $extraData != NULL) {
             $response[$extraField] = $extraData;

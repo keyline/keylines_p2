@@ -38,15 +38,49 @@ class ApiController extends BaseController
             }
             http_response_code(200);
             $apiStatus          = TRUE;
-            $apiMessage         = 'Data Available !!!';
-            $apiExtraField      = 'response_code';
-            $apiExtraData       = http_response_code();
-        } else {
-            http_response_code(400);
-            $apiStatus          = FALSE;
-            $apiMessage         = $this->getResponseCode(http_response_code());
-            $apiExtraField      = 'response_code';
-            $apiExtraData       = http_response_code();
+            $apiMessage         = '';
+            $apiResponse        = [];
+            $apiExtraField      = '';
+            $apiExtraData       = '';
+            $headerData            = $this->request->headers();
+            if($headerData['Key'] == 'Key: '.getenv('app.PROJECTKEY')){
+                $generalSetting = $this->common_model->find_data('general_settings', 'row');
+                if($generalSetting){
+                    $apiResponse = [
+                        'company_name'              => $generalSetting->company_name,
+                        'site_name'                 => $generalSetting->site_name,
+                        'site_phone'                => $generalSetting->site_phone,
+                        'site_mail'                 => $generalSetting->site_mail,
+                        'site_url'                  => $generalSetting->site_url,
+                        'firebase_server_key'       => $generalSetting->firebase_server_key,
+                        'gst_api_code'              => $generalSetting->gst_api_code,
+                        'theme_color'               => $generalSetting->theme_color,
+                        'font_color'                => $generalSetting->font_color,
+                        'site_logo'                 => getenv('app.uploadsURL').$generalSetting->site_logo,
+                    ];
+                }
+                http_response_code(200);
+                $apiStatus          = TRUE;
+                $apiMessage         = 'Data Available !!!';
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            } else {
+                http_response_code(400);
+                $apiStatus          = FALSE;
+                $apiMessage         = $this->getResponseCode(http_response_code());
+                $apiExtraField      = 'response_code';
+                $apiExtraData       = http_response_code();
+            }
+            // CORS headers for immediate effect
+            header('Access-Control-Allow-Origin: http://localhost:3000');
+            header('Access-Control-Allow-Methods: GET, POST, OPTIONS');
+            header('Access-Control-Allow-Headers: Content-Type, Authorization');
+
+            // Handle preflight request
+            if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+                return $this->response->setStatusCode(200);
+            }
+            $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
     }
@@ -2269,6 +2303,162 @@ class ApiController extends BaseController
                         $apiStatus          = TRUE;
                         http_response_code(200);
                         $apiMessage         = 'Data Available !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    }
+                } else {
+                    $apiStatus          = FALSE;
+                    http_response_code(404);
+                    $apiMessage         = 'User Not Found !!!';
+                    $apiExtraField      = 'response_code';
+                    $apiExtraData       = http_response_code();
+                }
+            } else {
+                http_response_code($getTokenValue['data'][2]);
+                $apiStatus                      = FALSE;
+                $apiMessage                     = $this->getResponseCode(http_response_code());
+                $apiExtraField                  = 'response_code';
+                $apiExtraData                   = http_response_code();
+            }
+        } else {
+            http_response_code(400);
+            $apiStatus          = FALSE;
+            $apiMessage         = $this->getResponseCode(http_response_code());
+            $apiExtraField      = 'response_code';
+            $apiExtraData       = http_response_code();
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
+    public function getSingleAttendance()
+    {
+        $apiStatus          = TRUE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $this->isJSON(file_get_contents('php://input'));
+        $requestData        = $this->extract_json(file_get_contents('php://input'));
+        $requiredFields     = ['attn_date'];
+        $headerData         = $this->request->headers();
+        if (!$this->validateArray($requiredFields, $requestData)) {
+            $apiStatus          = FALSE;
+            $apiMessage         = 'All Data Are Not Present !!!';
+        }
+        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            $Authorization              = $headerData['Authorization'];
+            $app_access_token           = $this->extractToken($Authorization);
+            $getTokenValue              = $this->tokenAuth($app_access_token);
+            if ($getTokenValue['status']) {
+                $uId        = $getTokenValue['data'][1];
+                $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+                $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+
+                $applicationSetting = $this->common_model->find_data('application_settings', 'row');
+                $mark_later_after = $applicationSetting->mark_later_after;
+                
+                if ($getUser) {
+
+                    $attn_date      = $requestData['attn_date'];
+                    $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
+                    $checkAttn      = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
+                    if ($checkAttn) {
+                        // $attendance_time = $checkAttn->attendance_time;
+
+
+                        $attnDatas          = [];
+                        $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
+                        $attnList           = $this->common_model->find_data('attendances', 'array', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
+                        $tot_attn_time      = 0;
+                        if ($attnList) {
+                            foreach ($attnList as $attnRow) {
+                                if ($attnRow->status == 1) {
+                                    $attnDatas[]          = [
+                                        'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                        'label'                 => 'In',
+                                        'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
+                                        'address'               => (($attnRow->punch_in_address != '') ? $attnRow->punch_in_address : ''),
+                                        'image'                 => getenv('app.uploadsURL') . 'user/' . $attnRow->punch_in_image,
+                                        'type'                  => 1
+                                    ];
+                                }
+                                if ($attnRow->status == 2) {
+                                    $attnDatas[]          = [
+                                        'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                        'label'                 => 'In',
+                                        'time'                  => date_format(date_create($attnRow->punch_in_time), "h:i A"),
+                                        'address'               => (($attnRow->punch_in_address != '') ? $attnRow->punch_in_address : ''),
+                                        'image'                 => getenv('app.uploadsURL') . 'user/' . $attnRow->punch_in_image,
+                                        'type'                  => 1
+                                    ];
+                                    $attnDatas[]          = [
+                                        'punch_date'            => date_format(date_create($attn_date), "M d, Y"),
+                                        'label'                 => 'Out',
+                                        'time'                  => (($attnRow->punch_out_time != '') ? date_format(date_create($attnRow->punch_out_time), "h:i A") : ''),
+                                        'address'               => (($attnRow->punch_out_address != '') ? $attnRow->punch_out_address : ''),
+                                        'image'                 => (($attnRow->punch_out_image != '') ? getenv('app.uploadsURL') . 'user/' . $attnRow->punch_out_image : ''),
+                                        'type'                  => 2
+                                    ];
+                                }
+                                $tot_attn_time      += $attnRow->attendance_time;
+                            }
+                        }
+
+                        $isAbsent   = 0;
+                        $isHalfday  = 0;
+                        $isFullday  = 0;
+                        $isLate     = 0;
+                        $orderBy[0]         = ['field' => 'id', 'type' => 'asc'];
+                        $getFirstAttn       = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => $attn_date], '', '', '', $orderBy);
+
+                        if ($tot_attn_time < 240) {
+                            $isAbsent   = 1;
+                            $isHalfday  = 0;
+                            $isFullday  = 0;
+                            if ($getFirstAttn->punch_in_time > $mark_later_after) {
+                                $isLate     = 1;
+                            }
+                        } elseif ($tot_attn_time >= 240 && $tot_attn_time < 480) {
+                            $isAbsent   = 0;
+                            $isHalfday  = 1;
+                            $isFullday  = 0;
+
+                            if ($getFirstAttn->punch_in_time > $mark_later_after) {
+                                $isLate     = 1;
+                            }
+                        } elseif ($tot_attn_time >= 480) {
+                            $isAbsent   = 0;
+                            $isHalfday  = 0;
+                            $isFullday  = 1;
+                            if ($getFirstAttn->punch_in_time > $mark_later_after) {
+                                $isLate     = 1;
+                            }
+                        }
+
+                        $apiResponse        = [
+                            'punch_date'            => date_format(date_create($checkAttn->punch_date), "M d, Y"),
+                            'punch_in_time'         => date_format(date_create($checkAttn->punch_in_time), "h:i A"),
+                            'punch_in_address'      => $checkAttn->punch_in_address,
+                            'punch_in_image'        => getenv('app.uploadsURL') . 'user/' . $checkAttn->punch_in_image,
+                            'punch_out_time'        => (($checkAttn->punch_out_time != '') ? date_format(date_create($checkAttn->punch_out_time), "h:i A") : ''),
+                            'punch_out_address'     => (($checkAttn->punch_out_address != '') ? $checkAttn->punch_out_address : ''),
+                            'punch_out_image'       => (($checkAttn->punch_out_image != '') ? getenv('app.uploadsURL') . 'user/' . $checkAttn->punch_out_image : ''),
+                            'isAbsent'              => $isAbsent,
+                            'isHalfday'             => $isHalfday,
+                            'isFullday'             => $isFullday,
+                            'isLate'                => $isLate,
+                            'note'                  => (($checkAttn->note != '') ? $checkAttn->note : ''),
+                            'status'                => $checkAttn->status,
+                            'attendance_time'       => $tot_attn_time,
+                            'attnDatas'             => $attnDatas
+                        ];
+
+                        $apiStatus          = TRUE;
+                        http_response_code(200);
+                        $apiMessage         = 'Attendance Available !!!';
+                        $apiExtraField      = 'response_code';
+                        $apiExtraData       = http_response_code();
+                    } else {
+                        $apiStatus          = FALSE;
+                        http_response_code(200);
+                        $apiMessage         = 'You Are Absent !!!';
                         $apiExtraField      = 'response_code';
                         $apiExtraData       = http_response_code();
                     }
