@@ -8,6 +8,31 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
 <head>
 <meta charset="utf-8">
 <title><?=$generalSetting->site_name?></title>
+<style>
+    .general_table_style {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px; /* adds space between rows */
+      font-family: Arial, sans-serif;
+    }
+    .general_table_style th, .general_table_style td {
+      padding: 12px 20px;
+      text-align: left;
+    }
+    .general_table_style thead th {
+      background-color: #4a235a;
+      color: white;
+      font-weight: bold;
+      border-bottom: 2px solid #ddd;
+    }
+    .general_table_style tbody td {
+      background-color: #ffffff;
+      border-bottom: 1px solid #ddd;
+    }
+    .general_table_style tbody tr:hover td {
+      background-color: #f2f2f2;
+    }
+  </style>
 </head>
 <body>
   <div style="padding: 20px;">
@@ -18,24 +43,23 @@ $generalSetting     = $this->common_model->find_data('general_settings', 'row');
     <div style=" margin: 20px 0; background: #e6eee5; padding: 20px;">      
       <table id="simpletable" class="table padding-y-10 general_table_style">
         <thead>
-          <tr>
-            <th style="width: 3%">#</th>            
+          <tr>                        
             <th>Name</th>
             <th>Arrival At</th>
             <th>Left At</th>
             <th>Time At Work</th>
-            <th>Productive Time</th>            
+            <th>Booked Time</th>            
           </tr>
         </thead>
         <tbody>
           <?php if ($userdata) {              
               foreach ($userdata as $res) { ?>
                   <tr>                      
-                      <td><?= $res->name ?></td>
-                      <td><?= $res->clock_in ?></td>
-                      <td><?= $res->clock_out ?></td>
-                      <td><?= $res->time_at_work ?></td>
-                      <td><?= $res->productive_time ?></td>                                  
+                      <td><?= $res['name'] ?></td>
+                      <td><?= $res['punch_in'] ?></td>
+                      <td><?= $res['punch_out'] ?></td>
+                      <td><?= $res['time_at_work'] ?></td>
+                      <td><?= $res['booked_time'] ?></td>                                  
                   </tr>                  
           <?php } }?>          
         </tbody>

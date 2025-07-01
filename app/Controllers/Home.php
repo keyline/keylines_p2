@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 use App\Libraries\Pro;
+use DateTime;
+use Exception;
 
 class Home extends BaseController
 {
@@ -119,21 +121,49 @@ class Home extends BaseController
         public function dailyDesklogReport(){
             $yesterdayDate              = date('Y-m-d',strtotime("-1 days"));
 
-            $userdata                = [];
-            $notFilledUsers             = [];
-            // $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
-            $dateWises                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $yesterdayDate . '%']);            
-            if($dateWises){
-                foreach($dateWises as $dateWise){
-                    $userId             = $dateWise->desklog_usrid;
-                    $getuser           = $this->common_model->find_data('user', 'row', ['id' => $userId]);
-                    $userdata[]              = [
-                            'name' => $getUser->name,
-                            'time_at_work' => $dateWise->time_at_work,
-                            'productive_time' => $dateWise->productive_time,
-                            'clock_in' => $dateWise->arrival_at,
-                            'clock_out' => $dateWise->left_at,
-                        ];
+            $userdata                = [];                        
+            $orderBy[0]                 = ['field' => 'name', 'type' => 'ASC'];
+            $getUsers                   = $this->common_model->find_data('user', 'array', ['status' => '1', 'is_tracker_user' => '1'], 'id,name', '', '', $orderBy);            
+            if($getUsers){
+                foreach($getUsers as $getUser){
+                    $userId             = $getUser->id;
+                    $dateWise          = $this->common_model->find_data('attendances', 'row', ['punch_date LIKE' => '%' . $yesterdayDate . '%', 'user_id' => $userId]);                                
+                    // pr($dateWise->punch_in_time);die;
+                    // Always define $totalBooked
+                    $totalBooked = '-';
+                     $checkTrackerFillup = $this->db->query("SELECT sum(hour) as totHr, sum(min) as totMin FROM `timesheet` WHERE `user_id` = '$userId' and date_added = '$yesterdayDate'")->getRow();
+                    if($checkTrackerFillup->totHr != '' || $checkTrackerFillup->totMin != ''){
+                        $hourMin                    = ($checkTrackerFillup->totHr * 60);
+                        $totMin                     = $checkTrackerFillup->totMin;
+                        $totalMins                  = ($hourMin + $totMin);
+                        $totalBooked                = intdiv($totalMins, 60).':'. ($totalMins % 60);                                                
+                    }
+                    // Default values
+                    $punchIn = '';
+                    $punchOut = '';
+                    $time_at_work = '-';
+
+                    if (is_object($dateWise)) {
+                        $punchIn = $dateWise->punch_in_time;
+                        $punchOut = $dateWise->punch_out_time;
+
+                        if (!empty($punchIn) && !empty($punchOut)) {
+                            $in = new DateTime($punchIn);
+                            $out = new DateTime($punchOut);
+                            $interval = $in->diff($out);
+                            $time_at_work = $interval->format('%Hh %Im %Ss');
+                        }
+                    }
+
+                    // Add to result array
+                    $userdata[] = [
+                        'name' => $getUser->name,
+                        'booked_time' => $totalBooked,
+                        'punch_in' => $punchIn?date("g:i a", strtotime($punchIn)) : '',
+                        'punch_out' => $punchOut?date("g:i a", strtotime($punchOut)) : '',
+                        'time_at_work' => preg_replace('/\s*\d{1,2}s/', '', $time_at_work),
+                    ];                    
+                        // pr($userdata);die;
                 }
             }
             $mailData                   = [
