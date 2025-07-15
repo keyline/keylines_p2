@@ -30,7 +30,7 @@ class User extends BaseController
                 $checkEmail = $this->common_model->find_data('user', 'row', $conditions);
                 $checkclientEmail = $this->common_model->find_data('client', 'row', $conditions2);
                 // pr($checkclientEmail);
-                pr($checkEmail);
+                // pr($checkEmail);
                 if ($checkEmail) {
                     $user_type = $checkEmail->type;
                     $user_name = $checkEmail->name;
