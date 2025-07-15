@@ -99,6 +99,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
                                             <label for="email" class="col-form-label">Email <span class="text-danger">*</span></label>
+                                            <span id="email-error" class="text-danger"></span>
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
@@ -409,4 +410,27 @@ $controller_route   = $moduleDetail['controller_route'];
             $('.attnType').attr('disabled', false);
         }
     }
+</script>
+<script>
+$(document).ready(function () {
+    $('#email').on('blur', function () {
+        var email = $(this).val();
+        if (email !== '') {
+            $.ajax({
+                url: '<?= base_url("user/check_email") ?>', // adjust path accordingly
+                method: 'POST',
+                data: { email: email },
+                success: function (response) {
+                    if (response === 'exists') {
+                        $('#email-error').text('Email already exists!');
+                        $('#email').addClass('is-invalid');
+                    } else {
+                        $('#email-error').text('');
+                        $('#email').removeClass('is-invalid');
+                    }
+                }
+            });
+        }
+    });
+});
 </script>
