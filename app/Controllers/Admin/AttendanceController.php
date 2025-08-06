@@ -220,9 +220,7 @@ class AttendanceController extends BaseController
                     'days' => [],
                     'present' => 0,
                     'absent' => 0,
-                    'late' => 0,
-                    'in_time' => [],
-                    'out_time' => [],
+                    'late' => 0,                    
                 ];
 
                 foreach ($dates as $date) {
@@ -262,12 +260,12 @@ class AttendanceController extends BaseController
                             $userRow['absent']++;
                         }
                     }
-                    $userRow['days'][] = $status;
-                    // $userRow['days'][] = [
-                    //     'status' => $status,
-                    //     'in'     => $punchIn,
-                    //     'out'    => $punchOut
-                    // ];
+                    // $userRow['days'][] = $status;
+                    $userRow['days'][] = [
+                        'status' => $status,
+                        'in'     => $punchIn,
+                        'out'    => $punchOut
+                    ];
                 }
                 $finalReport[] = $userRow;
             }
