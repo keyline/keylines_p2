@@ -265,8 +265,8 @@ class AttendanceController extends BaseController
                     // $userRow['days'][] = $status;
                     $userRow['days'][] = [
                         'status' => $status,
-                        'in'     => $punchIn,
-                        'out'    => $punchOut,
+                        'in'     => substr($punchIn, 0, 5),
+                        'out'    => substr($punchOut, 0, 5),
                         'punch_date' => $punchDate
                     ];
                 }
@@ -286,11 +286,11 @@ class AttendanceController extends BaseController
             $data['monthlyAttendancedetailsreport'] = [];
         }
         //monthly attendance         
-        $data['users'] = $users;
-        $data['year']        = $yearString;
-        $data['arr']                        = $arr;
-        $data['last7DaysResponses']         = $last7DaysResponses; 
-        $data['form_type'] = $form_type;     
+        $data['users']                  = $users;
+        $data['year']                   = $yearString;
+        $data['arr']                    = $arr;
+        $data['last7DaysResponses']     = $last7DaysResponses; 
+        $data['form_type']              = $form_type;     
         echo $this->layout_after_login($title, $page_name, $data);
     }
 
