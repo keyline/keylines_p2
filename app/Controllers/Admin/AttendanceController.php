@@ -205,7 +205,7 @@ class AttendanceController extends BaseController
                     'out' => $r->punch_out_time
                 ];
             }
-            pr($attendance_map);
+            // pr($attendance_map);
             $latetime = "SELECT mark_later_after FROM `application_settings`";
             $latetime_fetch = $db->query($latetime)->getRow();  
             $late_threshold = $latetime_fetch ? $latetime_fetch->mark_later_after : '10:00:00';
@@ -229,8 +229,8 @@ class AttendanceController extends BaseController
                     $status = 'A';
                     $punchData = $attendance_map[$user->id][$date] ?? null;
                     // pr($punchData);
-                    $punchIn  = $punchData['in'] ?? null;
-                    $punchOut = $punchData['out'] ?? null;
+                    $punchIn  = $attendance_map[$user->id][$date]['in'] ?? null;
+                    $punchOut = $attendance_map[$user->id][$date]['out'] ?? null;
                     // Check if the date is a holiday
                     if (in_array($date, $holiday_dates)) {
                         if ($punchIn) {
@@ -275,7 +275,7 @@ class AttendanceController extends BaseController
             // pr($rows);
         } elseif ($form_type == 'monthly_details_report') {
             $data['monthlyAttendancedetailsreport'] = $finalReport;
-            // pr($finalReport);
+            pr($finalReport);
         } else {
             $data['monthlyAttendancereport'] = [];
             $data['monthlyAttendancedetailsreport'] = [];
