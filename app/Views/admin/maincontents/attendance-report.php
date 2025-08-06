@@ -242,7 +242,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
-       <?php } elseif (($form_type ?? '') == 'monthly_details_report_inout' && !empty($monthlyAttendancedetailsreport)) { echo "monthly_details_report_inout"; die;?>
+        <?php } elseif (($form_type ?? '') == 'monthly_details_report_inout' && !empty($monthlyAttendancedetailsreport)) {?>
             <div class="card table-card">                
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
