@@ -263,7 +263,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <th rowspan="2">EMP ID</th>
                                     <th rowspan="2">Name</th>
                                     <?php foreach ($month_dates as $date): ?>
-                                        <th colspan="2"><?= date('d', strtotime($date)) ?></th>
+                                        <th colspan="2" class="text-center"><?= date('d', strtotime($date)) ?></th>
                                     <?php endforeach; ?>                                    
                                     <th rowspan="2">Present</th>
                                     <th rowspan="2">Absent</th>   
