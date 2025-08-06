@@ -47,10 +47,27 @@ class UserController extends BaseController {
 ";
         $data['rows'] = $this->db->query($sql)->getResult();              
         //   echo $this->db->getLastquery();die;     
-        pr($data['rows']);     
+        // pr($data['rows']);     
         } else{            
-            $data['rows']           = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1', 'type!=' => 'SUPER ADMIN'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
+            // $data['rows']           = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1', 'type!=' => 'SUPER ADMIN'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);            
             //   echo $this->db->getLastquery();die;            
+            $sql = "SELECT u.id, u.name, u.email, u.personal_email, u.phone1, u.phone2,
+                    u.status, u.work_mode, u.is_tracker_user, u.is_salarybox_user,
+                    u.attendence_type, u.type,
+                    ss.screenshot_time
+                FROM user u
+                LEFT JOIN (
+                    SELECT user_id, MIN(time_stamp) AS screenshot_time
+                    FROM user_screenshots
+                    WHERE DATE(time_stamp) = CURDATE()
+                    GROUP BY user_id
+                ) ss ON u.id = ss.user_id
+                WHERE u.status = '1' and u.type != 'SUPER ADMIN'
+                ORDER BY u.id DESC;
+";
+        $data['rows'] = $this->db->query($sql)->getResult();              
+        //   echo $this->db->getLastquery();die;     
+        // pr($data['rows']);  
         }
         echo $this->layout_after_login($title,$page_name,$data);
     }
