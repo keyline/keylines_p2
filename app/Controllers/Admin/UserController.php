@@ -44,12 +44,12 @@ class UserController extends BaseController {
                             u.is_salarybox_user,
                             u.attendence_type,
                             u.type,
-                            s.screenshot_time
-                        FROM users u
+                            s.time_stamp
+                        FROM user u
                         LEFT JOIN (
-                            SELECT us.user_id, MIN(us.screenshot_time) AS screenshot_time
-                            FROM user_screenshot us
-                            GROUP BY us.user_id, DATE(us.screenshot_time)
+                            SELECT us.user_id, MIN(us.time_stamp) AS screenshot_time
+                            FROM user_screenshots us
+                            GROUP BY us.user_id, DATE(us.time_stamp)
                         ) s ON u.id = s.user_id
                         WHERE u.status = '1'
                         ORDER BY u.id DESC";
