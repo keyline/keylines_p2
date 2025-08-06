@@ -196,11 +196,16 @@ class AttendanceController extends BaseController
             $results = $db->query("SELECT user_id, punch_date, punch_in_time, punch_out_time
                                         FROM attendances
                                         WHERE punch_date LIKE '%$month_fetch%'")->getResult();
-            pr($results);
+            // pr($results);
 
             foreach ($results as $r) {
-                $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
+                // $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
+                $attendance_map[$r->user_id][$r->punch_date] = [
+                    'in'  => $r->punch_in_time,
+                    'out' => $r->punch_out_time
+                ];
             }
+            pr($attendance_map);
             $latetime = "SELECT mark_later_after FROM `application_settings`";
             $latetime_fetch = $db->query($latetime)->getRow();  
             $late_threshold = $latetime_fetch ? $latetime_fetch->mark_later_after : '10:00:00';
