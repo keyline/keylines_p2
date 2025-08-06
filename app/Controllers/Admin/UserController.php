@@ -44,7 +44,7 @@ class UserController extends BaseController {
                             u.is_salarybox_user,
                             u.attendence_type,
                             u.type,
-                            s.time_stamp
+                            s.screenshot_time
                         FROM user u
                         LEFT JOIN (
                             SELECT us.user_id, MIN(us.time_stamp) AS screenshot_time
