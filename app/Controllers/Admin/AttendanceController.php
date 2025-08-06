@@ -222,7 +222,7 @@ class AttendanceController extends BaseController
                 foreach ($dates as $date) {
                     $status = 'A';
                     $punchData = $attendance_map[$user->id][$date] ?? null;
-                    pr($punchData);
+                    // pr($punchData);
                     $punchIn  = $punchData['in'] ?? null;
                     $punchOut = $punchData['out'] ?? null;
                     // Check if the date is a holiday
