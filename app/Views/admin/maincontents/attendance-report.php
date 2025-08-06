@@ -246,7 +246,7 @@ $controller_route   = $moduleDetail['controller_route'];
             <div class="card table-card">                
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table padding-y-10 general_table_style attendance_table">
+                        <table id="simpletable" class="table padding-y-10 general_table_style">
                             <thead>
                                 <tr>
                                     <th width="3%">#</th>
@@ -271,7 +271,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <?php foreach ($res['days'] as $day):
                                                 $punchIn  = $day['in'] ?? null;
                                                 $punchOut = $day['out'] ?? null;
-                                                $punchDate = $day['date'] ?? '';
+                                                $punchDate = $day['punch_date'] ?? '';
                                                 $status   = $day['status'] ?? '';                                                
                                                 $comparison_time = '09:20:00'; // or use $grace_time if available
                                             ?>
