@@ -279,7 +279,7 @@ class AttendanceController extends BaseController
             // pr($rows);
         } elseif ($form_type == 'monthly_details_report') {
             $data['monthlyAttendancedetailsreport'] = $finalReport;
-            pr($finalReport);
+            // pr($finalReport);
         } else {
             $data['monthlyAttendancereport'] = [];
             $data['monthlyAttendancedetailsreport'] = [];

@@ -283,11 +283,38 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td><?= $sl++ ?></td>
                                             <td><?= $res['user_id'] ?></td>
                                             <td><?= $res['name'] ?></td>
-                                            <?php foreach ($res['days'] as $day): ?>
-                                            <td class="<?= $day['status'] ?>">
-                                                <span class="badge <?= getStatusClass($day['status']) ?>">
-                                                    <?= $day['in'] ?? '' ?> - <?= $day['out'] ?? '' ?>
+                                            <?php foreach ($res['days'] as $day):
+                                                $punchIn  = $day['in'] ?? null;
+                                                $punchOut = $day['out'] ?? null;
+                                                $punchDate = $day['date'] ?? '';
+                                                $status   = $day['status'] ?? '';                                                
+                                                $comparison_time = '09:20:00'; // or use $grace_time if available
+                                            ?>
+                                            <!-- <td class="?= $day['status'] ?>">
+                                                <span class="badge ?= getStatusClass($day['status']) ?>">
+                                                    ?= $day['in'] ?? '' ?> - ?= $day['out'] ?? '' ?>
                                                 </span>
+                                            </td> -->
+                                            <td>
+                                                <!-- Punch In -->
+                                                <p class="mb-1 mt-1 text-center font14"
+                                                onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
+                                                    <?php if ($punchIn): ?>
+                                                        <span class="badge <?= ($punchIn <= $comparison_time) ? 'badge-tracker-success' : 'badge-tracker-danger' ?> d-block h-100" style="cursor:pointer;">
+                                                            <span class="mt-3">IN: <?= $punchIn ?></span>
+                                                        </span>
+                                                    <?php endif; ?>
+                                                </p>
+
+                                                <!-- Punch Out -->
+                                                <p class="mb-1 mt-1 text-center font14"
+                                                onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
+                                                    <?php if ($punchOut): ?>
+                                                        <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;">
+                                                            <span class="mt-3">OUT: <?= $punchOut ?></span>
+                                                        </span>
+                                                    <?php endif; ?>
+                                                </p>
                                             </td>
                                             <?php endforeach; ?>                                           
                                             <td><?= $res['present'] ?></td>
