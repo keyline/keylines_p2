@@ -54,6 +54,7 @@ class UserController extends BaseController {
                         WHERE u.status = '1'
                         ORDER BY u.id DESC";
         $data['rows'] = $this->db->query($sql)->getResult();              
+          echo $this->db->getLastquery();die;     
         pr($data['rows']);          
 
         } else{            
