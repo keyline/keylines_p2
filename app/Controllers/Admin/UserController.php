@@ -31,28 +31,20 @@ class UserController extends BaseController {
         // pr($userType);
         if ($userType == "SUPER ADMIN") {             
         // $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);        
-        $sql = "SELECT 
-                            u.id,
-                            u.name,
-                            u.email,
-                            u.personal_email,
-                            u.phone1,
-                            u.phone2,
-                            u.status,
-                            u.work_mode,
-                            u.is_tracker_user,
-                            u.is_salarybox_user,
-                            u.attendence_type,
-                            u.type,
-                            s.screenshot_time
-                        FROM user u
-                        LEFT JOIN (
-                            SELECT us.user_id, MIN(us.time_stamp) AS screenshot_time
-                            FROM user_screenshots us
-                            GROUP BY us.user_id, DATE(us.time_stamp)
-                        ) s ON u.id = s.user_id
-                        WHERE u.status = '1'
-                        ORDER BY u.id DESC";
+        $sql = "SELECT u.id, u.name, u.email, u.personal_email, u.phone1, u.phone2,
+                    u.status, u.work_mode, u.is_tracker_user, u.is_salarybox_user,
+                    u.attendence_type, u.type,
+                    ss.screenshot_time
+                FROM users u
+                LEFT JOIN (
+                    SELECT user_id, MIN(screenshot_time) AS screenshot_time
+                    FROM user_screenshot
+                    WHERE DATE(screenshot_time) = CURDATE()
+                    GROUP BY user_id
+                ) ss ON u.id = ss.user_id
+                WHERE u.status = '1'
+                ORDER BY u.id DESC;
+";
         $data['rows'] = $this->db->query($sql)->getResult();              
         //   echo $this->db->getLastquery();die;     
         pr($data['rows']);     
