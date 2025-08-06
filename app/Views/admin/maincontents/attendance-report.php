@@ -295,7 +295,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <p class="mb-1 mt-1 text-center font14"
                                                 onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
                                                     <?php if ($punchIn): ?>
-                                                        <span class="badge <?= getStatusClass($status['status']) ?> d-block h-100" style="cursor:pointer;">
+                                                        <span class="badge <?= getStatusClass($day['status']) ?> d-block h-100" style="cursor:pointer;">
                                                             <span class="mt-3">IN: <?= $punchIn ?></span>
                                                         </span>
                                                     <?php endif; ?>
