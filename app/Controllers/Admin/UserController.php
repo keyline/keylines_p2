@@ -30,7 +30,32 @@ class UserController extends BaseController {
         $userType                   = $this->session->user_type;
         // pr($userType);
         if ($userType == "SUPER ADMIN") {             
-        $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);        
+        // $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);        
+        $sql = "SELECT 
+                            u.id,
+                            u.name,
+                            u.email,
+                            u.personal_email,
+                            u.phone1,
+                            u.phone2,
+                            u.status,
+                            u.work_mode,
+                            u.is_tracker_user,
+                            u.is_salarybox_user,
+                            u.attendence_type,
+                            u.type,
+                            s.screenshot_time
+                        FROM users u
+                        LEFT JOIN (
+                            SELECT us.user_id, MIN(us.screenshot_time) AS screenshot_time
+                            FROM user_screenshot us
+                            GROUP BY us.user_id, DATE(us.screenshot_time)
+                        ) s ON u.id = s.user_id
+                        WHERE u.status = '1'
+                        ORDER BY u.id DESC";
+        $data['rows'] = $this->db->query($sql)->getResult();              
+        //   echo $this->db->getLastquery();die;     
+        pr($data['rows']);     
         } else{            
             $data['rows']           = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1', 'type!=' => 'SUPER ADMIN'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);
             //   echo $this->db->getLastquery();die;            
