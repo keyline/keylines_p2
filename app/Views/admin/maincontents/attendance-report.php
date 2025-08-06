@@ -116,6 +116,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
                                         <button name="form_type" value="monthly_details_report" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
                                     </div>
+                                </div> 
+                                <div class="col-md-3 col-lg-3">
+                                    <div class="text-center">
+                                        <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
+                                        <button name="form_type" value="monthly_details_report_inout" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
+                                    </div>
                                 </div>  
                                 <div class="col-md-3 col-lg-3">
                                     <div class="text-center">                                        

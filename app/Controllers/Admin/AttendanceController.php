@@ -214,7 +214,9 @@ class AttendanceController extends BaseController
                     'days' => [],
                     'present' => 0,
                     'absent' => 0,
-                    'late' => 0
+                    'late' => 0,
+                    'in_time' => [],
+                    'out_time' => [],
                 ];
 
                 foreach ($dates as $date) {
@@ -259,7 +261,7 @@ class AttendanceController extends BaseController
             // pr($rows);
         } elseif ($form_type == 'monthly_details_report') {
             $data['monthlyAttendancedetailsreport'] = $finalReport;
-            // pr($finalReport);
+            pr($finalReport);
         } else {
             $data['monthlyAttendancereport'] = [];
             $data['monthlyAttendancedetailsreport'] = [];
