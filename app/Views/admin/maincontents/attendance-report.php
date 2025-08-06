@@ -263,7 +263,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <th>EMP ID</th>
                                     <th>Name</th>
                                     <?php foreach ($month_dates as $date): ?>
-                                        <th colspan="2"><?= date('d', strtotime($date)) ?></th>
+                                        <th><?= date('d', strtotime($date)) ?></th>
                                     <?php endforeach; ?>                                    
                                     <th>Present</th>
                                     <th>Absent</th>   
@@ -301,17 +301,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <?php endif; ?>
                                                 </p>                                                
                                             </td>
-                                            <td>
-                                                <!-- Punch Out -->
-                                                <p class="mb-1 mt-1 text-center font14"
-                                                onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
-                                                    <?php if ($punchOut): ?>
-                                                        <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;">
-                                                            <span class="mt-3">OUT: <?= $punchOut ?></span>
-                                                        </span>
-                                                    <?php endif; ?>
-                                                </p>
-                                            </td>
+                                            
                                             <?php endforeach; ?>                                           
                                             <td><?= $res['present'] ?></td>
                                             <td><?= $res['absent'] ?></td>
