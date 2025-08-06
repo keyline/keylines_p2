@@ -76,7 +76,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <tr>
                                                 <th scope="row"><?= $sl++ ?></th>
                                                 <td><?= $row->name ?><span class="badge bg-warning ms-1"><?= $row->id ?></span> <br>
-                                                    <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>"> Screenshots <i class="fas fa-image"></i> </a>
+                                                    <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>"> Check In: <?= (!empty($row->screenshot_time)) ? date("g:i A", strtotime($row->screenshot_time)) : "-" ?> <i class="fas fa-image"></i> </a>                                                    
                                                 </td>
                                                 <td class="text-center"><?= $row->phone1 ?></td>
                                                 <td><?= $row->email ?></td>
