@@ -198,7 +198,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
                 default: return 'bg-light text-dark';           // Default
             } } ?>
-             <div class="card table-card">
+            <div class="card table-card">
                 <div class="card-header">
                     <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
                     <div class="row align-items-center">                        
@@ -257,7 +257,49 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
-       <?php } ?>        
+       <?php } elseif (($form_type ?? '') == 'monthly_details_report_inout' && !empty($monthlyAttendancedetailsreport)) {?>
+            <div class="card table-card">                
+                <div class="card-body">
+                    <div class="dt-responsive table-responsive">
+                        <table id="simpletable" class="table padding-y-10 general_table_style attendance_table">
+                            <thead>
+                                <tr>
+                                    <th width="3%">#</th>
+                                    <th>EMP ID</th>
+                                    <th>Name</th>
+                                    <?php foreach ($month_dates as $date): ?>
+                                        <th><?= date('d', strtotime($date)) ?></th>
+                                    <?php endforeach; ?>                                    
+                                    <th>Present</th>
+                                    <th>Absent</th>   
+                                    <th>Late</th>                                 
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php if ($monthlyAttendancedetailsreport) {
+                                    $sl = 1;
+                                    foreach ($monthlyAttendancedetailsreport as $res) { ?>
+                                        <tr>
+                                            <td><?= $sl++ ?></td>
+                                            <td><?= $res['user_id'] ?></td>
+                                            <td><?= $res['name'] ?></td>
+                                            <?php foreach ($res['days'] as $status): pr($status) ?>
+                                                <td class="<?= $status ?>">
+                                                    <span class="badge <?= getStatusClass($status) ?>"><?= $status ?></span>
+                                                </td>
+                                            <?php endforeach; ?>                                            
+                                            <td><?= $res['present'] ?></td>
+                                            <td><?= $res['absent'] ?></td>
+                                            <td><?= $res['late'] ?></td>                                                                                        
+                                        </tr>
+                                <?php }
+                                } ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div> 
+        <?php } ?>       
         <div class="col-md-12">
             <div class="card table-card">
                 <div class="card-header text-dark">
