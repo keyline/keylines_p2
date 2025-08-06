@@ -202,7 +202,8 @@ class AttendanceController extends BaseController
                 // $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
                 $attendance_map[$r->user_id][$r->punch_date] = [
                     'in'  => $r->punch_in_time,
-                    'out' => $r->punch_out_time
+                    'out' => $r->punch_out_time,
+                    'punch_date' => $r->punch_date
                 ];
             }
             // pr($attendance_map);
@@ -228,6 +229,7 @@ class AttendanceController extends BaseController
                     $punchData = $attendance_map[$user->id][$date] ?? null;                    
                     $punchIn  = $attendance_map[$user->id][$date]['in'] ?? null;
                     $punchOut = $attendance_map[$user->id][$date]['out'] ?? null;
+                    $punchDate = $attendance_map[$user->id][$date]['punch_date'] ?? null;
                     // Check if date is in the future
                     if ($date > date('Y-m-d')) {
                         $status = ''; // Show blank for future dates
@@ -264,7 +266,8 @@ class AttendanceController extends BaseController
                     $userRow['days'][] = [
                         'status' => $status,
                         'in'     => $punchIn,
-                        'out'    => $punchOut
+                        'out'    => $punchOut,
+                        'punch_date' => $punchDate
                     ];
                 }
                 $finalReport[] = $userRow;
