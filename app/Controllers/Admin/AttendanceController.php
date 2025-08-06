@@ -227,12 +227,15 @@ class AttendanceController extends BaseController
 
                 foreach ($dates as $date) {
                     $status = 'A';
-                    $punchData = $attendance_map[$user->id][$date] ?? null;
-                    // pr($punchData);
+                    $punchData = $attendance_map[$user->id][$date] ?? null;                    
                     $punchIn  = $attendance_map[$user->id][$date]['in'] ?? null;
                     $punchOut = $attendance_map[$user->id][$date]['out'] ?? null;
+                    // Check if date is in the future
+                    if ($date > date('Y-m-d')) {
+                        $status = ''; // Show blank for future dates
+                    }
                     // Check if the date is a holiday
-                    if (in_array($date, $holiday_dates)) {
+                    elseif (in_array($date, $holiday_dates)) {
                         if ($punchIn) {
                             $status = 'H(P)'; // Holiday + Present
                             $userRow['present']++;
