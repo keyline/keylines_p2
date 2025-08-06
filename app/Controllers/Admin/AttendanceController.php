@@ -193,9 +193,10 @@ class AttendanceController extends BaseController
                 $db = \Config\Database::connect();
             // Prepare attendance details data
             $attendance_map = [];
-            $results = $db->query("SELECT user_id, punch_date, punch_in_time
+            $results = $db->query("SELECT user_id, punch_date, punch_in_time, punch_out_time
                                         FROM attendances
                                         WHERE punch_date LIKE '%$month_fetch%'")->getResult();
+            pr($results);
 
             foreach ($results as $r) {
                 $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
