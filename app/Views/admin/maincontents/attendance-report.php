@@ -263,7 +263,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <th>EMP ID</th>
                                     <th>Name</th>
                                     <?php foreach ($month_dates as $date): ?>
-                                        <th><?= date('d', strtotime($date)) ?></th>
+                                        <th colspan="2"><?= date('d', strtotime($date)) ?></th>
                                     <?php endforeach; ?>                                    
                                     <th>Present</th>
                                     <th>Absent</th>   
@@ -299,8 +299,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                             <span class="mt-3">IN: <?= $punchIn ?></span>
                                                         </span>
                                                     <?php endif; ?>
-                                                </p>
-
+                                                </p>                                                
+                                            </td>
+                                            <td>
                                                 <!-- Punch Out -->
                                                 <p class="mb-1 mt-1 text-center font14"
                                                 onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
