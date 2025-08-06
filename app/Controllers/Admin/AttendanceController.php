@@ -253,12 +253,12 @@ class AttendanceController extends BaseController
                             $userRow['absent']++;
                         }
                     }
-                    // $userRow['days'][] = $status;
-                    $userRow['days'][] = [
-                        'status' => $status,
-                        'in'     => $punchIn,
-                        'out'    => $punchOut
-                    ];
+                    $userRow['days'][] = $status;
+                    // $userRow['days'][] = [
+                    //     'status' => $status,
+                    //     'in'     => $punchIn,
+                    //     'out'    => $punchOut
+                    // ];
                 }
                 $finalReport[] = $userRow;
             }
