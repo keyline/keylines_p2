@@ -283,7 +283,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td><?= $sl++ ?></td>
                                             <td><?= $res['user_id'] ?></td>
                                             <td><?= $res['name'] ?></td>
-                                            <?php foreach ($res['days'] as $status): pr($status) ?>
+                                            <?php foreach ($res['days'] as $status): ?>
                                                 <td class="<?= $status ?>">
                                                     <span class="badge <?= getStatusClass($status) ?>"><?= $status ?></span>
                                                 </td>
