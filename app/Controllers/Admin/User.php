@@ -10,6 +10,12 @@ class User extends BaseController
 {
     public function __construct() {}
     /* authentication */
+    public function check_email()
+    {
+        $email = $this->request->getPost('email');    
+        $checkEmail = $this->common_model->find_data('user', 'row', $email);
+        echo $checkEmail ? 'exists' : 'available';
+    }
     public function login()
     {
         if ($this->request->getMethod() == 'post') {
@@ -30,6 +36,7 @@ class User extends BaseController
                 $checkEmail = $this->common_model->find_data('user', 'row', $conditions);
                 $checkclientEmail = $this->common_model->find_data('client', 'row', $conditions2);
                 // pr($checkclientEmail);
+                // pr($checkEmail);
                 if ($checkEmail) {
                     $user_type = $checkEmail->type;
                     $user_name = $checkEmail->name;
