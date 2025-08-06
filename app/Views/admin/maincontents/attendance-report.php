@@ -129,21 +129,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div>
                                 </div>                                
                             </div>
-                    </form>
-                    <!-- Monthly Details Report Form -->
-                    <!-- <form method="POST" action="?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
-                        <input type="hidden" name="form_type" value="monthly_details_report">
-                        <input type="hidden" name="month" value="?= $month_fetch ?>">
-                        <div class="row mb-3 align-items-center">
-                            <div class="col-md-4 col-lg-4 offset-md-4">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-paper-plane"></i> Monthly Details Report
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </form> -->
+                    </form>                    
                 </div>
             </div>
         </div>
@@ -186,18 +172,17 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
-        <?php } elseif (($form_type ?? '') == 'monthly_details_report' && !empty($monthlyAttendancedetailsreport)) {
-           
-        function getStatusClass($status) {
-            switch ($status) {
-                case 'P': return 'bg-success text-white';       // Green
-                case 'L': return 'bg-warning text-dark';        // Yellow
-                case 'A': return 'bg-danger text-white';        // Red                
-                case 'O': return 'bg-secondary text-white';     // Grey
-                case 'H': return 'bg-info text-white';          // Blue or Grey
-                case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
-                default: return 'bg-light text-dark';           // Default
-            } } ?>
+        <?php } elseif (($form_type ?? '') == 'monthly_details_report' && !empty($monthlyAttendancedetailsreport)) {           
+            function getStatusClass($status) {
+                switch ($status) {
+                    case 'P': return 'bg-success text-white';       // Green
+                    case 'L': return 'bg-warning text-dark';        // Yellow
+                    case 'A': return 'bg-danger text-white';        // Red                
+                    case 'O': return 'bg-secondary text-white';     // Grey
+                    case 'H': return 'bg-info text-white';          // Blue or Grey
+                    case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
+                    default: return 'bg-light text-dark';           // Default
+                } } ?>
             <div class="card table-card">
                 <div class="card-header">
                     <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
@@ -257,7 +242,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
-       <?php } elseif (($form_type ?? '') == 'monthly_details_report_inout' && !empty($monthlyAttendancedetailsreport)) {?>
+       <?php } elseif (($form_type ?? '') == 'monthly_details_report_inout' && !empty($monthlyAttendancedetailsreport)) { echo "monthly_details_report_inout"; die;?>
             <div class="card table-card">                
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
