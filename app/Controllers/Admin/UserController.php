@@ -35,11 +35,11 @@ class UserController extends BaseController {
                     u.status, u.work_mode, u.is_tracker_user, u.is_salarybox_user,
                     u.attendence_type, u.type,
                     ss.screenshot_time
-                FROM users u
+                FROM user u
                 LEFT JOIN (
-                    SELECT user_id, MIN(screenshot_time) AS screenshot_time
-                    FROM user_screenshot
-                    WHERE DATE(screenshot_time) = CURDATE()
+                    SELECT user_id, MIN(time_stamp) AS screenshot_time
+                    FROM user_screenshots
+                    WHERE DATE(time_stamp) = CURDATE()
                     GROUP BY user_id
                 ) ss ON u.id = ss.user_id
                 WHERE u.status = '1'
