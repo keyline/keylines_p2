@@ -259,15 +259,22 @@ $controller_route   = $moduleDetail['controller_route'];
                         <table id="simpletable" class="table padding-y-10 general_table_style">
                             <thead>
                                 <tr>
-                                    <th width="3%">#</th>
-                                    <th>EMP ID</th>
-                                    <th>Name</th>
+                                    <th rowspan="2" width="3%">#</th>
+                                    <th rowspan="2">EMP ID</th>
+                                    <th rowspan="2">Name</th>
                                     <?php foreach ($month_dates as $date): ?>
-                                        <th><?= date('d', strtotime($date)) ?></th>
+                                        <th colspan="2"><?= date('d', strtotime($date)) ?></th>
                                     <?php endforeach; ?>                                    
-                                    <th>Present</th>
-                                    <th>Absent</th>   
-                                    <th>Late</th>                                 
+                                    <th rowspan="2">Present</th>
+                                    <th rowspan="2">Absent</th>   
+                                    <th rowspan="2">Late</th>                                 
+                                </tr>
+                                <!-- Second header row -->
+                                <tr>
+                                    <?php foreach ($month_dates as $date): ?>
+                                        <th class="text-center">IN</th>
+                                        <th class="text-center">OUT</th>
+                                    <?php endforeach; ?>
                                 </tr>
                             </thead>
                             <tbody>
@@ -301,7 +308,17 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <?php endif; ?>
                                                 </p>                                                
                                             </td>
-                                            
+                                            <td>
+                                                <!-- Punch Out -->
+                                                <p class="mb-1 mt-1 text-center font14"
+                                                onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
+                                                    <?php if ($punchOut): ?>
+                                                        <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;">
+                                                            <span class="mt-3">OUT: <?= $punchOut ?></span>
+                                                        </span>
+                                                    <?php endif; ?>
+                                                </p>
+                                            </td>
                                             <?php endforeach; ?>                                           
                                             <td><?= $res['present'] ?></td>
                                             <td><?= $res['absent'] ?></td>
