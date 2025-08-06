@@ -274,11 +274,11 @@ class AttendanceController extends BaseController
             }
             // $data['monthlyAttendancedetailsreport'] = $finalReport;
             $form_type = $this->request->getPost('form_type');
-            pr($form_type);
+            // pr($form_type);
         if ($form_type == 'monthly_attendance_report') {                                            
             $data['monthlyAttendancereport'] = $rows;
             // pr($rows);
-        } elseif ($form_type == 'monthly_details_report' && $form_type == 'monthly_details_report_inout') {
+        } elseif ($form_type == 'monthly_details_report' || $form_type == 'monthly_details_report_inout') {
             $data['monthlyAttendancedetailsreport'] = $finalReport;
             // pr($finalReport);
         } else {
