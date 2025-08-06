@@ -242,7 +242,17 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
-        <?php } elseif (($form_type ?? '') == 'monthly_details_report_inout' && !empty($monthlyAttendancedetailsreport)) {?>
+        <?php } elseif (($form_type ?? '') == 'monthly_details_report_inout' && !empty($monthlyAttendancedetailsreport)) {
+            function getStatusClass($status) {
+                switch ($status) {
+                    case 'P': return 'bg-success text-white';       // Green
+                    case 'L': return 'bg-warning text-dark';        // Yellow
+                    case 'A': return 'bg-danger text-white';        // Red                
+                    case 'O': return 'bg-secondary text-white';     // Grey
+                    case 'H': return 'bg-info text-white';          // Blue or Grey
+                    case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
+                    default: return 'bg-light text-dark';           // Default
+                } } ?>
             <div class="card table-card">                
                 <div class="card-body">
                     <div class="dt-responsive table-responsive">
@@ -273,7 +283,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 $punchOut = $day['out'] ?? null;
                                                 $punchDate = $day['punch_date'] ?? '';
                                                 $status   = $day['status'] ?? '';                                                
-                                                $comparison_time = '09:20:00'; // or use $grace_time if available
+                                                // $comparison_time = '10:00'; // or use $grace_time if available
                                             ?>
                                             <!-- <td class="?= $day['status'] ?>">
                                                 <span class="badge ?= getStatusClass($day['status']) ?>">
@@ -285,7 +295,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <p class="mb-1 mt-1 text-center font14"
                                                 onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
                                                     <?php if ($punchIn): ?>
-                                                        <span class="badge <?= ($punchIn <= $comparison_time) ? 'badge-tracker-success' : 'badge-tracker-danger' ?> d-block h-100" style="cursor:pointer;">
+                                                        <span class="badge <?= getStatusClass($status['status']) ?> d-block h-100" style="cursor:pointer;">
                                                             <span class="mt-3">IN: <?= $punchIn ?></span>
                                                         </span>
                                                     <?php endif; ?>
