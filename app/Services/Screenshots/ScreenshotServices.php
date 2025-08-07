@@ -163,17 +163,21 @@ class ScreenshotServices
         // ─────────────────────────────────────────────────────────────
         //  Insert record into database via AppModel
         // ─────────────────────────────────────────────────────────────
-
-        $relativePath =  "{$year}/{$month}/{$filename}";
+        if($filename != ''){
+            $relativePath =  "{$year}/{$month}/{$filename}";
+        } else {
+            $relativePath =  "{$year}/{$month}/idle.jpg";
+        }
+        
 
         $insertData = [
-            'user_id'        => $data['user_id'],
-            'org_id'         => $data['org_id'],
-            'active_app_name' => $data['app_name'],
-            'active_app_url' => $data['app_url'],
-            'image_name'     => $relativePath,
-            'idle_status'    => 1,
-            'time_stamp'     => Time::now()->toDateTimeString(),
+            'user_id'           => $data['user_id'],
+            'org_id'            => $data['org_id'],
+            'active_app_name'   => $data['app_name'],
+            'active_app_url'    => $data['app_url'],
+            'image_name'        => $relativePath,
+            'idle_status'       => $data['idle_status'],
+            'time_stamp'        => Time::now()->toDateTimeString(),
         ];
 
         $newId = $this->imageModel->insert($insertData);
