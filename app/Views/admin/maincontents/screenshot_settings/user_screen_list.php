@@ -1,10 +1,5 @@
 <!-- lightbox CSS -->
 <link href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" rel="stylesheet" />
-<style>
-    .row {
-        margin: 15px;
-    }
-</style>
 
 <div class="pagetitle">
     <h1><?= $page_header ?></h1>
