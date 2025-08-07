@@ -76,7 +76,9 @@ class ScreenshotSettingsController extends BaseController
         $title                      = 'Screenshot List';
         $page_name                  = 'screenshot_settings/user_screen_list';
         $data['start_date'] = $data['end_date'] = date('Y-m-d');
-        $data['row'] = [];
+        $conditions                 = array('id' => $id);
+        $data['row'] = $this->data['model']->find_data('users', 'row', $conditions);
+        pr($data['row']);
 
         if ($this->request->getGet('mode') === 'search') {
             $data['start_date'] = $this->request->getGet('start') ?? $data['start_date'];
