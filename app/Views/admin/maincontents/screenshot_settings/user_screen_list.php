@@ -61,6 +61,7 @@
 
                     <div class="container my-4">
                         <div class="row g-3">
+                            <h6><?= $session->name ?></h6>
                             <?php if (count($row)) {
                                 foreach ($row as $screenshot) { ?>
                                   
