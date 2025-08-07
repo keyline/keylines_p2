@@ -60,6 +60,7 @@
                     <!-- ____ code ____ -->
 
                     <div class="container my-4">
+                        <h6><?= $user->name ?></h6>
                         <div class="row g-3">
                             <?php if (count($row)) {
                                 foreach ($row as $screenshot) { ?>
