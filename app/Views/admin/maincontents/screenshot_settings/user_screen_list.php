@@ -55,7 +55,7 @@
                     <!-- ____ code ____ -->
 
                     <div class="container my-4">
-                        <h6 class="mb-3"><?= $user->name ?></h6>
+                        <h5 class="mb-3"><?= $user->name ?></h5>
                         <div class="row g-3">
                             <?php if (count($row)) {
                                 foreach ($row as $screenshot) { ?>
