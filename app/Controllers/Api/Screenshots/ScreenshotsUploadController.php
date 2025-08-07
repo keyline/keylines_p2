@@ -182,6 +182,9 @@ class ScreenshotsUploadController extends ResourceController
                 //         'image'    => 'idle.jpg',
                 //     ];
                 // }
+                pr($this->request->getPost(),0);
+                pr($this->request->getFile(),0);
+                die;
                 $payload = [
                         'user_id'  => $this->userId, //$this->request->getPost('user_id'),
                         'org_id'   => $this->request->getPost('org_id'),
