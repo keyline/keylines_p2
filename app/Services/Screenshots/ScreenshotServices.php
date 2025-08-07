@@ -169,17 +169,27 @@ class ScreenshotServices
             $relativePath =  "{$year}/{$month}/idle.jpg";
         }
         
-
-        $insertData = [
-            'user_id'           => $data['user_id'],
-            'org_id'            => $data['org_id'],
-            'active_app_name'   => $data['app_name'],
-            'active_app_url'    => $data['app_url'],
-            'image_name'        => $relativePath,
-            'idle_status'       => $data['idle_status'],
-            'time_stamp'        => Time::now()->toDateTimeString(),
-        ];
-
+        if($data['idle_status']){
+            $insertData = [
+                'user_id'           => $data['user_id'],
+                'org_id'            => $data['org_id'],
+                'active_app_name'   => $data['app_name'],
+                'active_app_url'    => $data['app_url'],
+                'image_name'        => $relativePath,
+                'idle_status'       => $data['idle_status'],
+                'time_stamp'        => Time::now()->toDateTimeString(),
+            ];
+        } else {
+            $insertData = [
+                'user_id'           => $data['user_id'],
+                'org_id'            => $data['org_id'],
+                'active_app_name'   => $data['app_name'],
+                'active_app_url'    => $data['app_url'],
+                'image_name'        => '',
+                'idle_status'       => $data['idle_status'],
+                'time_stamp'        => Time::now()->toDateTimeString(),
+            ];
+        }
         $newId = $this->imageModel->insert($insertData);
         if (! $newId) {
             // If the insert failed, clean up the uploaded file
