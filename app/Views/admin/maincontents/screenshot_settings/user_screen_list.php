@@ -42,7 +42,7 @@
                                 <form method="GET" action="" enctype="multipart/form-data">
                                     <input type="hidden" name="mode" value="search">
                                     <div class="row mb-3 align-items-center">
-                                        <div class="col-md-4 col-lg-4" id="day_range_row" style="margin-top: 18px;">
+                                        <div class="col-md-4 col-lg-4" id="day_range_row">
                                             <div class="input-group input-daterange">
                                                 <!-- <label for="search_range_from">Date Range</label> -->
                                                 <input type="date" id="search_range_from" name="start" class="form-control" value="<?= $start_date ?>" style="height: 40px;">
@@ -51,7 +51,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-4 col-lg-4">
-                                            <div class="text-center">
+                                            <div class="text-left">
                                                 <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
                                             </div>
                                         </div>
