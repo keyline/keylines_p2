@@ -87,14 +87,14 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!-- name field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="name" class="col-form-label">Name <span class="text-danger">*</span></label>
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
                                         </div>
                                     </div>
                                     <!-- Email field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="email" class="col-form-label" >Email <span class="text-danger">*</span></label> 
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="email" name="email" id="email" class="form-control" id="email" value="<?=$email?>" required>
                                             <span id="email-error" class="text-danger"></span>
                                         </div>
@@ -102,28 +102,28 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!-- Alternate Email field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="personal_email" class="col-form-label">Alternate Email</label>
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="email" name="personal_email" class="form-control" id="personal_email" value="<?=$personal_email?>">
                                         </div>
                                     </div>
                                     <!-- Phone field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="phone1" class="col-form-label">Phone <span class="text-danger">*</span></label>
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="text" name="phone1" class="form-control" id="phone1" value="<?=$phone1?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
                                         </div>
                                     </div>
                                     <!--Alternate Phone field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="phone2" class="col-form-label">Alternate Phone</label>
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="text" name="phone2" class="form-control" id="phone2" value="<?=$phone2?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
                                         </div>
                                     </div>
                                     <!-- address field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="address" class="col-form-label">Address</label>
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="text" name="address" class="form-control" id="address" value="<?=$address?>">
                                             <input type="hidden" name="latitude" id="latitude" value="<?=$latitude?>">
                                             <input type="hidden" name="longitude" id="longitude" value="<?=$longitude?>">
@@ -132,14 +132,14 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!-- Pincode field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="pincode" class="col-form-label">Pincode</label>
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="text" name="pincode" class="form-control" id="pincode" value="<?=$pincode?>" minlength="6" maxlength="6" onkeypress="return isNumber(event)">
                                         </div>
                                     </div>
                                     <!--Password fields -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>
-                                        <div class="general_form_right_box position-relative">
+                                        <div class=" position-relative">
                                             <input type="password" name="password" class="form-control" id="password" <?=((empty($row))?'required':'')?> autocomplete="off">
                                             <div class="eye position-absolute end-0 translate-middle" style="top: 35% !important;">
                                                 <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
@@ -155,7 +155,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <select name="category" class="form-control" id="category" required>
                                                 <option value="" selected>Select Category</option>
                                                 <?php if($userCats){ foreach($userCats as $userCat){?>
@@ -167,7 +167,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!-- Type field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
                                                 <option value="" selected>Select Type</option>
                                                 <?php if($roleMasters){ foreach($roleMasters as $roleMaster){?>
@@ -189,28 +189,28 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$hour_cost?>" minlength="2" maxlength="4" onkeypress="return isNumber(event)">
                                         </div>
                                     </div> -->
                                     <!--DOB field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="dob" class="col-form-label">DOB</label>
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="date" name="dob" class="form-control" id="dob" value="<?=$dob?>" max="<?=date('Y-m-d')?>">
                                         </div>
                                     </div>
                                     <!--DOJ field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="doj" class="col-form-label">DOJ</label>
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <input type="date" name="doj" class="form-control" id="doj" value="<?=$doj?>" max="<?=date('Y-m-d')?>">
                                         </div>
                                     </div>
                                     <!--Status field -->
                                     <div class="col-md-4 col-lg-4">
                                         <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
-                                        <div class="general_form_right_box d-flex align-items-center">
+                                        <div class=" d-flex align-items-center">
                                             <input class="me-1" type="radio" name="status" id="status1" value="1" <?=(($status == '1')?'checked':'')?> required> <label class="me-2" for="status1">Active</label>
                                             <input class="me-1" type="radio" name="status" id="status2" value="0" <?=(($status == '0')?'checked':'')?> required> <label for="status2">Deactive</label>
                                         </div>
@@ -222,7 +222,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                             <select name="work_mode" class="form-control" id="work_mode" required>
                                                 <option value="" selected>Select Work Mode</option>
                                                 <option value="Work From Office" <?=(($work_mode == 'Work From Office')?'selected':'')?>>Work From Office</option>
@@ -238,7 +238,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
-                                        <div class="general_form_right_box d-flex align-items-center">
+                                        <div class=" d-flex align-items-center">
                                             <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user1" <?=(($is_tracker_user == '1')?'checked':'')?> value="1" required> <label class="me-2" for="is_tracker_user1">YES</label>
                                             <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user2" <?=(($is_tracker_user == '0')?'checked':'')?> value="0" required> <label for="is_tracker_user2">NO</label>
                                         </div>
@@ -250,7 +250,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
-                                        <div class="general_form_right_box d-flex align-items-center">
+                                        <div class=" d-flex align-items-center">
                                             <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?=(($is_salarybox_user == '1')?'checked':'')?> required> <label class="me-2" for="is_salarybox_user1">YES</label>
                                             <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0"  <?=(($is_salarybox_user == '0')?'checked':'')?>required> <label for="is_salarybox_user2">NO</label>
                                         </div>
@@ -262,7 +262,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
-                                        <div class="general_form_right_box d-flex align-items-center">
+                                        <div class=" d-flex align-items-center">
                                             <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Hybrid Mode<br><span style="font-size: 10px;">(Work From Home)</span></label>
 
                                             <?php if($officeLocations){ foreach($officeLocations as $officeLocation){?>
@@ -271,7 +271,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                     <!-- <div class="col-md-10 col-lg-10">
-                                        <div class="general_form_right_box d-flex align-items-center">
+                                        <div class=" d-flex align-items-center">
                                             <select name="attendence_type" class="form-control" id="attendence_type" required>
                                                 <option value="" selected>Select Attendence Type</option>
                                                 <option value="OPEN" <?=(($attendence_type == 'OPEN')?'selected':'')?>>OPEN</option>
@@ -287,7 +287,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
-                                        <div class="general_form_right_box">
+                                        <div class="">
                                         <input type="file" name="image" class="form-control" id="profile_image" accept="image/*">
                                         <small class="text-dark">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
                                         <?php if($profile_image != ''){?>
