@@ -61,8 +61,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th scope="col">Name<br>User ID</th>
                                         <th scope="col">Phone</th>
                                         <th scope="col">Email</th>
-                                        <th scope="col">Clock In</th>
                                         <!-- <th scope="col">Work Mode</th> -->
+                                        <th scope="col">Clock In</th>
                                         <th scope="col">Tracker User</th>
                                         <th scope="col">Salarybox User</th>
                                         <th scope="col">Attendence Type</th>
@@ -80,6 +80,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 </td>
                                                 <td class="text-center"><?= $row->phone1 ?></td>
                                                 <td><?= $row->email ?></td>
+                                                <!-- <td>?= $row->work_mode ?></td> -->
                                                 <td>
                                                     <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>">
                                                         <?php if (!empty($row->screenshot_time)): ?>
@@ -90,7 +91,6 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         <?php endif; ?>
                                                     </a>
                                                 </td>
-                                                <!-- <td>?= $row->work_mode ?></td> -->
                                                 <td>
                                                     <?php if ($row->is_tracker_user) { ?>
                                                         <a href="<?= base_url('admin/' . $controller_route . '/change-tracker-status/' . encoded($row->$primary_key)) ?>" class="badge badge-tracker-success" title="Tracker On <?= $title ?>" onclick="return confirm('Do You Want To Tracker Off This <?= $title ?>');"><i class="fa fa-check"></i> Tracker On</a>
