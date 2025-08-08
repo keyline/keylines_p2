@@ -613,6 +613,7 @@ label{
 .employess_table .badge.bg-custom-primary{
   padding: 3px 6px;
   font-size: 10px;
+  display: inline-block;
 }
 /*--------------------------------------------------------------
 # Main
