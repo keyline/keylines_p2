@@ -1890,7 +1890,7 @@ label{
 }
 .table .badge {
   border-radius: 100px;
-  padding: 50px 8px;
+  padding: 5px 8px;
   font-size: 10px;
   font-weight: 500;
 }
