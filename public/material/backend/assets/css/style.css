@@ -592,7 +592,7 @@ div.dt-container div.dt-layout-cell{
 .general_form_style select:focus{
   box-shadow: none;
 }
-label{
+.col-form-label{
   font-size: 12px;
   padding: 0;
 }
