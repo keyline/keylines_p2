@@ -77,7 +77,7 @@ $controller_route   = $moduleDetail['controller_route'];
               $attendence_type      = [];
             }
             ?>
-        <div class="col-xl-7">
+        <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
                     <form method="POST" action="" enctype="multipart/form-data" class="general_form_style">
@@ -282,7 +282,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <!--Tracker User field -->
                                     <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
-                                            <label for="is_tracker_user" class="col-form-label">Task Management User <span class="text-danger">*</span></label>
+                                            <label for="is_tracker_user" class="col-form-label">Task Management <span class="text-danger">*</span></label>
                                         </div>  
                                     </div>
                                     <div class="col-md-10 col-lg-10">
@@ -311,7 +311,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div>
                                     <div class="col-md-10 col-lg-10">
                                         <div class="general_form_right_box d-flex align-items-center">
-                                            <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Work From Home<br><span style="font-size: 10px;">(Work From Home)</span></label>
+                                            <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Hybrid Mode<br><span style="font-size: 10px;">(Work From Home)</span></label>
 
                                             <?php if($officeLocations){ foreach($officeLocations as $officeLocation){?>
                                                 <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type<?=$officeLocation->id?>" value="<?=$officeLocation->id?>"  <?=((in_array($officeLocation->id, $attendence_type))?'checked':'')?>> <label for="attendence_type<?=$officeLocation->id?>" onclick="getAttnValue(<?=$officeLocation->id?>);"><?=$officeLocation->name?><br><span style="font-size: 10px;">(<?=$officeLocation->address?>)</span></label>
