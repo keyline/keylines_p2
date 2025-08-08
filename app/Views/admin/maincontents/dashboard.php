@@ -822,10 +822,11 @@
                                                          },
                                                          background: {
                                                             enabled: true,
-                                                            padding: 4,
+                                                            foreColor: '#000',
+                                                            padding: 5,
                                                             borderRadius: 2,
                                                             borderWidth: 1,
-                                                            borderColor: '#ffc107',
+                                                            borderColor: '#ffc107'
                                                          },
                                                    },
                                                    colors: ['#C5EEC5', '#FD6363'],
