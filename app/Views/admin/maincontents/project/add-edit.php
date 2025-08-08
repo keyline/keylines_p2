@@ -86,7 +86,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <label for="description" class="col-form-label">Description</label>
-                                <textarea name="description" class="form-control" id="description"><?=$description?></textarea>
+                                <textarea name="description" class="form-control" rows="1" id="description"><?=$description?></textarea>
                             </div>
 
                             <div class="col-lg-6 col-md-6">
