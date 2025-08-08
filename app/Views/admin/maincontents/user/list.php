@@ -76,12 +76,19 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <tr>
                                                 <th scope="row"><?= $sl++ ?></th>
                                                 <td><?= $row->name ?><span class="badge bg-warning ms-1"><?= $row->id ?></span> 
-                                                <span class="badge bg-custom-primary"><?= $row->type ?></span>                                                    
+                                                <span class="badge bg-custom-primary"><?= $row->type ?></span>
+                                                <br>
+                                                    <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>">  Clock In: <?= (!empty($row->screenshot_time)) ? date("g:i A", strtotime($row->screenshot_time)) : "-" ?>  </a>                                                    
                                                 </td>
                                                 <td class="text-center"><?= $row->phone1 ?></td>
                                                 <td><?= $row->email ?></td>
                                                 <td>
-                                                    <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>">  Clock In: <?= (!empty($row->screenshot_time)) ? date("g:i A", strtotime($row->screenshot_time)) : "-" ?>  </a>
+                                                    <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>">
+                                                        <?php if (!empty($row->screenshot_time)): ?>
+                                                            Clock In: <?= date('g:i A', strtotime($row->screenshot_time)); ?>
+                                                            <i class="fas fa-image"></i>
+                                                        <?php endif; ?>
+                                                    </a>
                                                 </td>
                                                 <!-- <td>?= $row->work_mode ?></td> -->
                                                 <td>
