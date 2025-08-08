@@ -603,6 +603,13 @@ label{
   font-size: 12px;
   padding: 0;
 }
+.employess_table .badge.bg-warning{
+  padding: 3px 6px;
+  font-size: 10px;
+  background: #FFF2D9;
+  border: 1px solid #FC9A06;
+  color: #FC9A06;
+} 
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/

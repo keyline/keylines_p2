@@ -54,7 +54,7 @@ $controller_route   = $moduleDetail['controller_route'];
                         </h5>
                     ?php }?> -->
                         <div class="dt-responsive table-responsive">
-                            <table id="simpletable" class="table nowrap general_table_style padding-y-10">
+                            <table id="simpletable" class="table nowrap general_table_style padding-y-10 employess_table">
                                 <thead>
                                     <tr>
                                         <th scope="col">#</th>
