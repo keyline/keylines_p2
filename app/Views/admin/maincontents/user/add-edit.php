@@ -209,10 +209,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div>
                                     <!--Status field -->
                                     <div class="col-md-4 col-lg-4">
-                                        <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
-                                        <div class=" d-flex align-items-center">
-                                            <input class="me-1" type="radio" name="status" id="status1" value="1" <?=(($status == '1')?'checked':'')?> required> <label class="me-2" for="status1">Active</label>
-                                            <input class="me-1" type="radio" name="status" id="status2" value="0" <?=(($status == '0')?'checked':'')?> required> <label for="status2">Deactive</label>
+                                        <div class="general_form_right_box">
+                                            <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
+                                            <div class=" d-flex align-items-center">
+                                                <input class="me-1" type="radio" name="status" id="status1" value="1" <?=(($status == '1')?'checked':'')?> required> <label class="me-2" for="status1">Active</label>
+                                                <input class="me-1" type="radio" name="status" id="status2" value="0" <?=(($status == '0')?'checked':'')?> required> <label for="status2">Deactive</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--Work Mode field -->
@@ -233,30 +235,36 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div> -->
                                     <!--Tracker User field -->
                                     <div class="col-md-4 col-lg-4">
-                                        <label for="is_tracker_user" class="col-form-label">Task Management <span class="text-danger">*</span></label>
-                                        <div class=" d-flex align-items-center">
-                                            <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user1" <?=(($is_tracker_user == '1')?'checked':'')?> value="1" required> <label class="me-2" for="is_tracker_user1">YES</label>
-                                            <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user2" <?=(($is_tracker_user == '0')?'checked':'')?> value="0" required> <label for="is_tracker_user2">NO</label>
+                                        <div class="general_form_right_box">
+                                            <label for="is_tracker_user" class="col-form-label">Task Management <span class="text-danger">*</span></label>
+                                            <div class=" d-flex align-items-center">
+                                                <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user1" <?=(($is_tracker_user == '1')?'checked':'')?> value="1" required> <label class="me-2" for="is_tracker_user1">YES</label>
+                                                <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user2" <?=(($is_tracker_user == '0')?'checked':'')?> value="0" required> <label for="is_tracker_user2">NO</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--Salarybox User field -->
                                     <div class="col-md-4 col-lg-4">
-                                        <label for="is_salarybox_user" class="col-form-label">Mobile App User <span class="text-danger">*</span></label>
-                                        <div class=" d-flex align-items-center">
-                                            <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?=(($is_salarybox_user == '1')?'checked':'')?> required> <label class="me-2" for="is_salarybox_user1">YES</label>
-                                            <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0"  <?=(($is_salarybox_user == '0')?'checked':'')?>required> <label for="is_salarybox_user2">NO</label>
+                                        <div class="general_form_right_box">
+                                            <label for="is_salarybox_user" class="col-form-label">Mobile App User <span class="text-danger">*</span></label>
+                                            <div class=" d-flex align-items-center">
+                                                <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?=(($is_salarybox_user == '1')?'checked':'')?> required> <label class="me-2" for="is_salarybox_user1">YES</label>
+                                                <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0"  <?=(($is_salarybox_user == '0')?'checked':'')?>required> <label for="is_salarybox_user2">NO</label>
+                                            </div>
                                         </div>
                                     </div>
                                     <!--Attendence Type field -->
                                     <div class="col-md-12 col-lg-12">
-                                        <label for="attendence_type" class="col-form-label">Attendence Type <span class="text-danger">*</span></label>
-                                        <div class=" d-flex align-items-center">
-                                            <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Hybrid Mode<br><span style="font-size: 10px;">(Work From Home)</span></label>
+                                        <div class="general_form_right_box">
+                                            <label for="attendence_type" class="col-form-label">Attendence Type <span class="text-danger">*</span></label>
+                                            <div class=" d-flex align-items-center">
+                                                <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Hybrid Mode<br><span style="font-size: 10px;">(Work From Home)</span></label>
 
-                                            <?php if($officeLocations){ foreach($officeLocations as $officeLocation){?>
-                                                <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type<?=$officeLocation->id?>" value="<?=$officeLocation->id?>"  <?=((in_array($officeLocation->id, $attendence_type))?'checked':'')?>> 
-                                                <label class="me-2" for="attendence_type<?=$officeLocation->id?>" onclick="getAttnValue(<?=$officeLocation->id?>);"><?=$officeLocation->name?><br><span style="font-size: 10px;">(<?=$officeLocation->address?>)</span></label>
-                                            <?php } }?>
+                                                <?php if($officeLocations){ foreach($officeLocations as $officeLocation){?>
+                                                    <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type<?=$officeLocation->id?>" value="<?=$officeLocation->id?>"  <?=((in_array($officeLocation->id, $attendence_type))?'checked':'')?>> 
+                                                    <label class="me-2" for="attendence_type<?=$officeLocation->id?>" onclick="getAttnValue(<?=$officeLocation->id?>);"><?=$officeLocation->name?><br><span style="font-size: 10px;">(<?=$officeLocation->address?>)</span></label>
+                                                <?php } }?>
+                                            </div>
                                         </div>
                                     </div>
                                     <!-- <div class="col-md-10 col-lg-10">
@@ -271,15 +279,17 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div> -->
                                     <!--Profile Image field -->
                                     <div class="col-md-12 col-lg-12">
-                                        <label for="image" class="col-form-label">Profile Image</label>
-                                        <div class="">
-                                        <input type="file" name="image" class="form-control" id="profile_image" accept="image/*">
-                                        <small class="text-dark">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
-                                        <?php if($profile_image != ''){?>
-                                        <img class="img-thumbnail" src="<?=getenv('app.uploadsURL').'user/'.$profile_image?>" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px; border-radius:50%">
-                                        <?php } else {?>
-                                        <img class="img-thumbnail" src="<?=getenv('app.NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px; border-radius:50%">
-                                        <?php }?>
+                                        <div class="general_form_right_box">
+                                            <label for="image" class="col-form-label">Profile Image</label>
+                                            <div class="">
+                                                <input type="file" name="image" class="form-control" id="profile_image" accept="image/*">
+                                                <small class="text-dark">* Only JPG, JPEG, ICO, SVG, PNG files are allowed</small><br>
+                                                <?php if($profile_image != ''){?>
+                                                <img class="img-thumbnail" src="<?=getenv('app.uploadsURL').'user/'.$profile_image?>" alt="<?=$name?>" style="width: 150px; height: 150px; margin-top: 10px; border-radius:50%">
+                                                <?php } else {?>
+                                                <img class="img-thumbnail" src="<?=getenv('app.NO_IMAGE')?>" alt="<?=$name?>" class="img-thumbnail" style="width: 150px; height: 150px; margin-top: 10px; border-radius:50%">
+                                                <?php }?>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
