@@ -141,11 +141,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>
                                         <div class=" position-relative">
                                             <input type="password" name="password" class="form-control" id="password" <?=((empty($row))?'required':'')?> autocomplete="off">
-                                            <div class="eye position-absolute end-0 translate-middle" style="top: 35% !important;">
+                                            <div class="eye position-absolute end-0 translate-middle" style="top: 28% !important;">
                                                 <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
                                                 <i class="fa fa-eye" id="hidePassword" style="cursor:pointer;display: none;"></i>
                                             </div>
-                                            <span class="text-primary">Leave blank if you do not want to change password</span>
+                                            <span class="text-primary" style="font-size: 12px;">Leave blank if you do not want to change password</span>
                                         </div>
                                     </div>
                                     <!--Category field -->
@@ -232,7 +232,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div> -->
                                     <!--Tracker User field -->
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
                                         <label for="is_tracker_user" class="col-form-label">Task Management <span class="text-danger">*</span></label>
                                         <div class=" d-flex align-items-center">
                                             <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user1" <?=(($is_tracker_user == '1')?'checked':'')?> value="1" required> <label class="me-2" for="is_tracker_user1">YES</label>
@@ -240,7 +240,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                     <!--Salarybox User field -->
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
                                         <label for="is_salarybox_user" class="col-form-label">Mobile App User <span class="text-danger">*</span></label>
                                         <div class=" d-flex align-items-center">
                                             <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?=(($is_salarybox_user == '1')?'checked':'')?> required> <label class="me-2" for="is_salarybox_user1">YES</label>
