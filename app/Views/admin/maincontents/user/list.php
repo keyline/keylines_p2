@@ -81,10 +81,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <td class="text-center"><?= $row->phone1 ?></td>
                                                 <td><?= $row->email ?></td>
                                                 <td>
-                                                    <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>">
+                                                    <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>" class="badge bg-custom-primary">
                                                         <?php if (!empty($row->screenshot_time)): ?>
-                                                            <img src="<?= getenv('app.uploadsURL') ?>/time-check.png" alt=""> <?= date('g:i A', strtotime($row->screenshot_time)); ?>
-                                                            <i class="fas fa-image"></i>
+                                                            <img src="<?= getenv('app.uploadsURL') ?>/time-check.png" alt="" style="width: 4%;"> <?= date('g:i A', strtotime($row->screenshot_time)); ?>
+                                                            <!-- <i class="fas fa-image"></i> -->
                                                         <?php endif; ?>
                                                     </a>
                                                 </td>
