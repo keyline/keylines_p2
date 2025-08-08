@@ -80,7 +80,7 @@ $controller_route   = $moduleDetail['controller_route'];
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
-                    <form method="POST" action="" enctype="multipart/form-data" class="general_form_style">
+                    <form method="POST" action="" enctype="multipart/form-data">
                         <!-- <span class="text-danger">Star (*) marks fields are mandatory</span> -->
                             <div class="container-fluid">
                                 <div class="row">

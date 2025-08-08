@@ -45,7 +45,7 @@
                             <div class="row">
                                 <div class="col-12">
                                     <div class="user_back_box user_back_box d-flex gap-2 mb-3">
-                                        <a href="<?= base_url('admin/dashboard') ?>"><i class="fa-solid fa-arrow-left"></i></a>
+                                        <a href="<?= base_url('admin/users/list') ?>"><i class="fa-solid fa-arrow-left"></i></a>
                                         <h5><?= $user->name ?></h5>
                                     </div>
                                 </div>
