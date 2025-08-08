@@ -44,9 +44,9 @@
                         <div class="container-fluid my-4">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="user_back_box">
+                                    <div class="user_back_box user_back_box d-flex gap-2 mb-3">
                                         <a href="<?= base_url('admin/dashboard') ?>"><i class="fa-solid fa-arrow-left"></i></a>
-                                        <h5 class="mb-3"><?= $user->name ?></h5>
+                                        <h5><?= $user->name ?></h5>
                                     </div>
                                 </div>
                             </div>
@@ -76,13 +76,13 @@
                                     foreach ($row as $screenshot) { ?>
                                     
 
-                                        <div class="col-3">
-                                            <div class="card">
+                                        <div class="col-lg-3 col-md-4 col-sm-6">
+                                            <div class="card screenshort_card p-2">
                                                 <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
                                                     <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
                                                 </a>
-                                                <div class="card-body p-2">
-                                                    <p class="card-text text-center mb-0"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p> 
+                                                <div class="card-body">
+                                                    <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p> 
                                                 </div>
                                             </div>
                                         </div>
