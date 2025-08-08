@@ -209,7 +209,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div>
                                     <!--Status field -->
                                     <div class="col-md-4 col-lg-4">
-                                        <div class="general_form_right_box">
+                                        <div class="general_form_box">
                                             <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
                                             <div class=" d-flex align-items-center">
                                                 <input class="me-1" type="radio" name="status" id="status1" value="1" <?=(($status == '1')?'checked':'')?> required> <label class="me-2" for="status1">Active</label>
@@ -235,7 +235,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div> -->
                                     <!--Tracker User field -->
                                     <div class="col-md-4 col-lg-4">
-                                        <div class="general_form_right_box">
+                                        <div class="general_form_box">
                                             <label for="is_tracker_user" class="col-form-label">Task Management <span class="text-danger">*</span></label>
                                             <div class=" d-flex align-items-center">
                                                 <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user1" <?=(($is_tracker_user == '1')?'checked':'')?> value="1" required> <label class="me-2" for="is_tracker_user1">YES</label>
@@ -245,7 +245,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div>
                                     <!--Salarybox User field -->
                                     <div class="col-md-4 col-lg-4">
-                                        <div class="general_form_right_box">
+                                        <div class="general_form_box">
                                             <label for="is_salarybox_user" class="col-form-label">Mobile App User <span class="text-danger">*</span></label>
                                             <div class=" d-flex align-items-center">
                                                 <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?=(($is_salarybox_user == '1')?'checked':'')?> required> <label class="me-2" for="is_salarybox_user1">YES</label>
@@ -255,7 +255,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div>
                                     <!--Attendence Type field -->
                                     <div class="col-md-12 col-lg-12">
-                                        <div class="general_form_right_box">
+                                        <div class="general_form_box">
                                             <label for="attendence_type" class="col-form-label">Attendence Type <span class="text-danger">*</span></label>
                                             <div class=" d-flex align-items-center">
                                                 <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Hybrid Mode<br><span style="font-size: 10px;">(Work From Home)</span></label>
@@ -279,7 +279,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div> -->
                                     <!--Profile Image field -->
                                     <div class="col-md-12 col-lg-12">
-                                        <div class="general_form_right_box">
+                                        <div class="general_form_box">
                                             <label for="image" class="col-form-label">Profile Image</label>
                                             <div class="">
                                                 <input type="file" name="image" class="form-control" id="profile_image" accept="image/*">
