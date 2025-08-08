@@ -599,6 +599,10 @@ div.dt-container div.dt-layout-cell{
 .form-control{
   font-size: 12px;
 }
+label{
+  font-size: 12px;
+  padding: 0;
+}
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
