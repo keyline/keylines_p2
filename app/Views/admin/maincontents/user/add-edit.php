@@ -85,23 +85,15 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="container-fluid">
                                 <div class="row">
                                     <!-- name field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="name" class="col-form-label">Name <span class="text-danger">*</span></label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-6 col-lg-6">
+                                        <label for="name" class="col-form-label">Name <span class="text-danger">*</span></label>
                                         <div class="general_form_right_box">
                                             <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
                                         </div>
                                     </div>
                                     <!-- Email field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="email" class="col-form-label" >Email <span class="text-danger">*</span></label>                                            
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-6 col-lg-6">
+                                        <label for="email" class="col-form-label" >Email <span class="text-danger">*</span></label> 
                                         <div class="general_form_right_box">
                                             <input type="email" name="email" id="email" class="form-control" id="email" value="<?=$email?>" required>
                                             <span id="email-error" class="text-danger"></span>
