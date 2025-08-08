@@ -56,7 +56,7 @@
                                         <input type="hidden" name="mode" value="search">
                                         <div class="row mb-3 align-items-center">
                                             <div class="col-sm-8 col-lg-4" id="day_range_row">
-                                                <div class="input-group input-daterange">
+                                                <div class="input-group input-daterange date_holder">
                                                     <!-- <label for="search_range_from">Date Range</label> -->
                                                     <input type="date" id="search_range_from" name="start" class="form-control" value="<?= $start_date ?>" style="height: 40px;">
                                                     <span class="input-group-text">To</span>
@@ -64,7 +64,7 @@
                                                 </div>
                                             </div>
                                             <div class="col-sm-4 col-lg-4">
-                                                <div class="text-left">
+                                                <div class="text-left generate_btn">
                                                     <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
                                                 </div>
                                             </div>

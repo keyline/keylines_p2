@@ -1832,6 +1832,7 @@ div.dt-container div.dt-layout-cell{
 .screenshort_card .card-body{
   padding: 0 !important;
 }
+
 /* screenshort page css end */
 /*--------------------------------------------------------------
 # Footer
@@ -1933,6 +1934,16 @@ div.dt-container div.dt-layout-cell{
   .dashboard .modal-header .modal-title{
     width: 70%;
   }  
+  .date_holder input{
+    width: 100%;
+    border-radius: 5px;
+  }
+  .date_holder span{
+    margin: 5px 0;
+  }
+  .generate_btn button{
+    margin-top: 5px;
+  }
 }
 @media (max-width: 480px) {
 body{font-size: 12px;}
