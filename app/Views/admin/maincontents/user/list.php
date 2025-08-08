@@ -84,8 +84,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <td>
                                                     <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>">
                                                         <?php if (!empty($row->screenshot_time)): ?>
-                                                            <span class="badge bg-custom-primary">
-                                                                <img src="<?= getenv('app.uploadsURL') ?>/time-check.png" alt="" style="width: 4%;"> <?= date('g:i A', strtotime($row->screenshot_time)); ?>
+                                                            <span class="badge badge-tracker-success">
+                                                                <img src="<?= getenv('app.uploadsURL') ?>/time-check.png" alt="" style="width: 24%;"> <?= date('g:i A', strtotime($row->screenshot_time)); ?>
                                                                 <!-- <i class="fas fa-image"></i> -->
                                                             </span>
                                                         <?php endif; ?>
