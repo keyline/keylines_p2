@@ -1924,7 +1924,11 @@ div.dt-container div.dt-layout-cell{
   .logo img {
     width: 100%;
     max-height: 25px;
-}
+  }
+  .copyright p,
+  .credits p{
+    text-align: center;
+  }
 }
 @media (max-width: 575px) {
   .info-date{

@@ -65,7 +65,7 @@
                                             </div>
                                             <div class="col-sm-4 col-lg-4">
                                                 <div class="text-left generate_btn">
-                                                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Generate</button>
+                                                    <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Get Report</button>
                                                 </div>
                                             </div>
                                         </div>
