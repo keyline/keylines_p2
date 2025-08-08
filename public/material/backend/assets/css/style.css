@@ -1934,7 +1934,7 @@ div.dt-container div.dt-layout-cell{
   .dashboard .modal-header .modal-title{
     width: 70%;
   }  
-  .date_holder input{
+  .date_holder input.form-control{
     width: 100%;
     border-radius: 5px;
   }
