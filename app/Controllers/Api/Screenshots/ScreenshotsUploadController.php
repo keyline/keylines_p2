@@ -171,7 +171,7 @@ class ScreenshotsUploadController extends ResourceController
                         'app_name'      => $this->request->getPost('app_name') ?? null,
                         'app_url'       => $this->request->getPost('app_url')  ?? null,
                         'idle_status'   => $this->request->getPost('idle_status'),
-                        'image'         => $this->request->getFile('image'),
+                        'image'         => $this->request->getFile('image')  ?? null,
                     ];
                     
                 $result = $this->imageService->upload($payload);
