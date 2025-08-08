@@ -610,6 +610,10 @@ label{
   border: 1px solid #FC9A06;
   color: #FC9A06;
 } 
+.employess_table .badge.bg-custom-primary{
+  padding: 3px 6px;
+  font-size: 10px;
+}
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
@@ -676,7 +680,7 @@ label{
   color: #247426;
   margin: 2px 0;
   height: 25px;
-  width: 65px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -687,7 +691,7 @@ label{
   color: #4CAB4F;
   margin: 2px 0;
   height: 25px;
-  width: 65px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -698,7 +702,7 @@ label{
   color: #EA2A2A;
   margin: 2px 0;
   height: 25px;
-  width: 65px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -709,7 +713,7 @@ label{
   color: #C10000;
   margin: 2px 0;
   height: 25px;
-  width: 65px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -721,7 +725,7 @@ label{
   color: #FC9A06;
   margin: 2px 0;
   height: 25px;
-  width: 65px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -733,7 +737,7 @@ label{
   color: #9D9D9D;
   margin: 2px 0;
   height: 25px;
-  width: 65px;
+  width: 85px;
   display: flex;
   justify-content: center;
   align-items: center;
