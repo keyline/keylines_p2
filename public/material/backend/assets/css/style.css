@@ -615,6 +615,12 @@ label{
   font-size: 10px;
   display: inline-block;
 }
+.general_form_box{
+  background: #e4f3ff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 10px 0
+}
 /*--------------------------------------------------------------
 # Main
 --------------------------------------------------------------*/
