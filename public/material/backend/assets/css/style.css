@@ -1826,6 +1826,9 @@ div.dt-container div.dt-layout-cell{
   font-size: 12px;
   padding-top: 8px;
 }
+.screenshort_card{
+  margin-bottom: 0;
+}
 .screenshort_card .card-body{
   padding: 0 !important;
 }
