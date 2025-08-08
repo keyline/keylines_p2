@@ -85,14 +85,14 @@ $controller_route   = $moduleDetail['controller_route'];
                             <div class="container-fluid">
                                 <div class="row">
                                     <!-- name field -->
-                                    <div class="col-md-6 col-lg-6">
+                                    <div class="col-md-4 col-lg-4">
                                         <label for="name" class="col-form-label">Name <span class="text-danger">*</span></label>
                                         <div class="general_form_right_box">
                                             <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
                                         </div>
                                     </div>
                                     <!-- Email field -->
-                                    <div class="col-md-6 col-lg-6">
+                                    <div class="col-md-4 col-lg-4">
                                         <label for="email" class="col-form-label" >Email <span class="text-danger">*</span></label> 
                                         <div class="general_form_right_box">
                                             <input type="email" name="email" id="email" class="form-control" id="email" value="<?=$email?>" required>
@@ -100,45 +100,29 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                     <!-- Alternate Email field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="personal_email" class="col-form-label">Alternate Email</label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="personal_email" class="col-form-label">Alternate Email</label>
                                         <div class="general_form_right_box">
                                             <input type="email" name="personal_email" class="form-control" id="personal_email" value="<?=$personal_email?>">
                                         </div>
                                     </div>
                                     <!-- Phone field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="phone1" class="col-form-label">Phone <span class="text-danger">*</span></label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="phone1" class="col-form-label">Phone <span class="text-danger">*</span></label>
                                         <div class="general_form_right_box">
                                             <input type="text" name="phone1" class="form-control" id="phone1" value="<?=$phone1?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
                                         </div>
                                     </div>
                                     <!--Alternate Phone field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="phone2" class="col-form-label">Alternate Phone</label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="phone2" class="col-form-label">Alternate Phone</label>
                                         <div class="general_form_right_box">
                                             <input type="text" name="phone2" class="form-control" id="phone2" value="<?=$phone2?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
                                         </div>
                                     </div>
                                     <!-- address field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="address" class="col-form-label">Address</label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="address" class="col-form-label">Address</label>
                                         <div class="general_form_right_box">
                                             <input type="text" name="address" class="form-control" id="address" value="<?=$address?>">
                                             <input type="hidden" name="latitude" id="latitude" value="<?=$latitude?>">
@@ -146,23 +130,15 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                     <!-- Pincode field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="pincode" class="col-form-label">Pincode</label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="pincode" class="col-form-label">Pincode</label>
                                         <div class="general_form_right_box">
                                             <input type="text" name="pincode" class="form-control" id="pincode" value="<?=$pincode?>" minlength="6" maxlength="6" onkeypress="return isNumber(event)">
                                         </div>
                                     </div>
                                     <!--Password fields -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="password" class="col-form-label">Password <span class="text-danger">*</span></label>
                                         <div class="general_form_right_box position-relative">
                                             <input type="password" name="password" class="form-control" id="password" <?=((empty($row))?'required':'')?> autocomplete="off">
                                             <div class="eye position-absolute end-0 translate-middle" style="top: 35% !important;">
@@ -173,7 +149,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                     <!--Category field -->
-                                    <div class="col-md-2 col-lg-2">
+                                    <!-- <div class="col-md-2 col-lg-2">
                                         <div class="general_form_left_box">
                                             <label for="category" class="col-form-label">Category <span class="text-danger">*</span></label>
                                         </div>  
@@ -187,14 +163,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <?php } }?>
                                             </select>
                                         </div>
-                                    </div>
+                                    </div> -->
                                     <!-- Type field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
                                         <div class="general_form_right_box">
                                             <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
                                                 <option value="" selected>Select Type</option>
@@ -222,34 +194,22 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div> -->
                                     <!--DOB field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="dob" class="col-form-label">DOB</label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="dob" class="col-form-label">DOB</label>
                                         <div class="general_form_right_box">
                                             <input type="date" name="dob" class="form-control" id="dob" value="<?=$dob?>" max="<?=date('Y-m-d')?>">
                                         </div>
                                     </div>
                                     <!--DOJ field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="doj" class="col-form-label">DOJ</label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="doj" class="col-form-label">DOJ</label>
                                         <div class="general_form_right_box">
                                             <input type="date" name="doj" class="form-control" id="doj" value="<?=$doj?>" max="<?=date('Y-m-d')?>">
                                         </div>
                                     </div>
                                     <!--Status field -->
-                                    <div class="col-md-2 col-lg-2">
-                                        <div class="general_form_left_box">
-                                            <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
-                                        </div>  
-                                    </div>
-                                    <div class="col-md-10 col-lg-10">
+                                    <div class="col-md-4 col-lg-4">
+                                        <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
                                         <div class="general_form_right_box d-flex align-items-center">
                                             <input class="me-1" type="radio" name="status" id="status1" value="1" <?=(($status == '1')?'checked':'')?> required> <label class="me-2" for="status1">Active</label>
                                             <input class="me-1" type="radio" name="status" id="status2" value="0" <?=(($status == '0')?'checked':'')?> required> <label for="status2">Deactive</label>
