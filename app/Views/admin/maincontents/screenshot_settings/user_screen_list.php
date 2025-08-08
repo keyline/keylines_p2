@@ -42,7 +42,14 @@
                         <!-- ____ code ____ -->
 
                         <div class="container-fluid my-4">
-                            <h5 class="mb-3"><?= $user->name ?></h5>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="user_back_box">
+                                        <a href="<?= base_url('admin/dashboard') ?>"><i class="fa-solid fa-arrow-left"></i></a>
+                                        <h5 class="mb-3"><?= $user->name ?></h5>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="row g-3">
                                 <div class="co1-12">
                                     <form method="GET" action="" enctype="multipart/form-data">
