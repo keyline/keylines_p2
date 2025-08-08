@@ -258,11 +258,16 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <div class="general_form_box">
                                             <label for="attendence_type" class="col-form-label">Attendence Type <span class="text-danger">*</span></label>
                                             <div class=" d-flex align-items-center">
-                                                <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Hybrid Mode<br><span style="font-size: 10px;">(Work From Home)</span></label>
+                                                <div>
+                                                    <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> 
+                                                    <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Hybrid Mode<br><span style="font-size: 10px;">(Work From Home)</span></label>
+                                                </div>
 
                                                 <?php if($officeLocations){ foreach($officeLocations as $officeLocation){?>
-                                                    <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type<?=$officeLocation->id?>" value="<?=$officeLocation->id?>"  <?=((in_array($officeLocation->id, $attendence_type))?'checked':'')?>> 
-                                                    <label class="me-2" for="attendence_type<?=$officeLocation->id?>" onclick="getAttnValue(<?=$officeLocation->id?>);"><?=$officeLocation->name?><br><span style="font-size: 10px;">(<?=$officeLocation->address?>)</span></label>
+                                                    <div>
+                                                        <input class="me-1 attnType" type="checkbox" name="attendence_type[]" id="attendence_type<?=$officeLocation->id?>" value="<?=$officeLocation->id?>"  <?=((in_array($officeLocation->id, $attendence_type))?'checked':'')?>> 
+                                                        <label class="me-2" for="attendence_type<?=$officeLocation->id?>" onclick="getAttnValue(<?=$officeLocation->id?>);"><?=$officeLocation->name?><br><span style="font-size: 10px;">(<?=$officeLocation->address?>)</span></label>
+                                                    </div>
                                                 <?php } }?>
                                             </div>
                                         </div>
