@@ -10,11 +10,12 @@ if ($row) {
     <div class="row">
         <div class="col-12">
             <div class="pagetitle">
-                <h1>Dashboard</h1>
+                <h1><?=$page_header?></h1>
                 <nav>
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="<?= base_url('admin/dashboard') ?>">Home</a></li>
-                        <li class="breadcrumb-item active">Dashboard</li>
+                        <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="<?=base_url('admin/' . $controller_route . '/list/')?>"><?=$title?> List</a></li>
+                        <li class="breadcrumb-item active"><?=$page_header?></li>
                     </ol>
                 </nav>
             </div>
