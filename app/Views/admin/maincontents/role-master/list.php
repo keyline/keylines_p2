@@ -1,4 +1,20 @@
 <div class="container-fluid">
+      <div class="row">
+         <div class="col-12">
+            <div class="pagetitle">
+                <h1><?=$page_header?></h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
+                        <li class="breadcrumb-item active"><?=$page_header?></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
     <div class="pcoded-content">
         <div class="row">
             <div class="page-header">
@@ -6,7 +22,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <div class="page-header-title">
-                                <h1 class="m-b-10"><?php echo $page_header; ?></h1>
+                                <h5 class="m-b-10"><?php echo $page_header; ?></h5>
                             </div>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard'); ?>">Home </a></li>
