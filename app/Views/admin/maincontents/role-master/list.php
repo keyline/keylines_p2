@@ -52,7 +52,7 @@
                             <?php } ?>
                             <?php if (checkModuleFunctionAccess(28, 74)) { ?>
                                 <h5>
-                                    <a href="<?php echo base_url(); ?>/admin/role-master/add" class="btn btn-success"><?= $action; ?></a>
+                                    <a href="<?php echo base_url(); ?>/admin/role-master/add" class="btn btn-success btn-sm"><?= $action; ?></a>
                                 </h5>
                             <?php } ?>
                         </div>
