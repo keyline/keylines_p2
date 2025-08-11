@@ -13,82 +13,90 @@ $controller_route   = $moduleDetail['controller_route'];
     margin-top: 20px;
 }
 </style>
-<div class="pagetitle">
-    <h1><?=$page_header?></h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
-            <li class="breadcrumb-item active"><?=$page_header?></li>
-        </ol>
-    </nav>
+<div class="container-fluid">
+      <div class="row">
+         <div class="col-12">
+            <div class="pagetitle">
+                <h1><?=$page_header?></h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
+                        <li class="breadcrumb-item active"><?=$page_header?></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
 </div>
 <?php if(checkModuleFunctionAccess(4,20)){ ?>
 <section class="section">
-    <div class="row">
-        <div class="col-xl-12">
-            <?php if(session('success_message')){?>
-                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
-                    <?=session('success_message')?>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php }?>
-            <?php if(session('error_message')){?>
-                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
-                    <?=session('error_message')?>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php }?>
-        </div>
-        <!-- ?php
-        pr($row);
-            if($row){
-              $name                 = $row->name;              
-              $hour_cost            = $row->hour_cost;             
-            } else {
-              $name                 = '';         
-              $hour_cost            = '';             
-            }
-            ?> -->
-        <div class="col-lg-12">
-            <div class="card">
-                <div class="card-body">                    
-                    <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table table-striped table-bordered nowrap general_table_style">
-                            <thead>
-                                <tr>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Name<br>User ID</th>
-                                    <th scope="col">Hour Cost</th>                                    
-                                    <th scope="col">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if($rows){ $sl=1; foreach($rows as $row){ ?>
-                                <tr>
-                                    <th scope="row"><?=$sl++?></th>
-                                    <td><?=$row->name?></td>
-                                    <td>                                                                              
-                                        <form method="POST" action="" enctype="multipart/form-data" class="general_form_style"> 
-                                            <input type = "hidden" name="id" value="<?=$row->id?>">                                   
-                                            <div class="container-fluid">
-                                                <div class="row">
-                                                    <!--Hour Cost field -->                                                        
-                                                    <div class="col-md-10 col-lg-10">
-                                                        <div class="general_form_right_box">
-                                                            <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$row->hour_cost?>" onkeypress="return isNumber(event)">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <?php if(session('success_message')){?>
+                    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?=session('success_message')?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php }?>
+                <?php if(session('error_message')){?>
+                    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?=session('error_message')?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php }?>
+            </div>
+            <!-- ?php
+            pr($row);
+                if($row){
+                $name                 = $row->name;              
+                $hour_cost            = $row->hour_cost;             
+                } else {
+                $name                 = '';         
+                $hour_cost            = '';             
+                }
+                ?> -->
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-body">                    
+                        <div class="dt-responsive table-responsive">
+                            <table id="simpletable" class="table general_table_style">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Name<br>User ID</th>
+                                        <th scope="col">Hour Cost</th>                                    
+                                        <th scope="col">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if($rows){ $sl=1; foreach($rows as $row){ ?>
+                                    <tr>
+                                        <th scope="row"><?=$sl++?></th>
+                                        <td><?=$row->name?></td>
+                                        <td>                                                                              
+                                            <form method="POST" action="" enctype="multipart/form-data" class="general_form_style"> 
+                                                <input type = "hidden" name="id" value="<?=$row->id?>">                                   
+                                                <div class="container-fluid">
+                                                    <div class="row">
+                                                        <!--Hour Cost field -->                                                        
+                                                        <div class="col-md-10 col-lg-10">
+                                                            <div class="general_form_right_box">
+                                                                <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$row->hour_cost?>" onkeypress="return isNumber(event)">
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>                                                                                   
-                                    </td>                                                                        
-                                    <td>                                        
-                                            <button type="submit" class="btn btn-success btn-sm">SUBMIT</button>                                     
-                                        </form>   
-                                    </td>
-                                </tr>
-                                <?php } }?>
-                            </tbody>
-                        </table>
+                                                </div>                                                                                   
+                                        </td>                                                                        
+                                        <td>                                        
+                                                <button type="submit" class="btn btn-success btn-sm">SUBMIT</button>                                     
+                                            </form>   
+                                        </td>
+                                    </tr>
+                                    <?php } }?>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
