@@ -56,48 +56,44 @@ $controller_route   = $moduleDetail['controller_route'];
                 $hour_cost            = '';             
                 }
                 ?> -->
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">                    
-                        <div class="dt-responsive table-responsive">
-                            <table id="simpletable" class="table general_table_style">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Name<br>User ID</th>
-                                        <th scope="col">Hour Cost</th>                                    
-                                        <th scope="col">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if($rows){ $sl=1; foreach($rows as $row){ ?>
-                                    <tr>
-                                        <th scope="row"><?=$sl++?></th>
-                                        <td><?=$row->name?></td>
-                                        <td>                                                                              
-                                            <form method="POST" action="" enctype="multipart/form-data"> 
-                                                <input type = "hidden" name="id" value="<?=$row->id?>">                                   
-                                                <div class="container-fluid">
-                                                    <div class="row">
-                                                        <!--Hour Cost field -->                                                        
-                                                        <div class="col-md-10 col-lg-10">
-                                                            <div class="general_form_right_box">
-                                                                <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$row->hour_cost?>" onkeypress="return isNumber(event)">
-                                                            </div>
-                                                        </div>
+            <div class="col-lg-12">                  
+                <div class="dt-responsive table-responsive">
+                    <table id="simpletable" class="table general_table_style">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name<br>User ID</th>
+                                <th scope="col">Hour Cost</th>                                    
+                                <th scope="col">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if($rows){ $sl=1; foreach($rows as $row){ ?>
+                            <tr>
+                                <th scope="row"><?=$sl++?></th>
+                                <td><?=$row->name?></td>
+                                <td>                                                                              
+                                    <form method="POST" action="" enctype="multipart/form-data"> 
+                                        <input type = "hidden" name="id" value="<?=$row->id?>">                                   
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <!--Hour Cost field -->                                                        
+                                                <div class="col-md-10 col-lg-10">
+                                                    <div class="">
+                                                        <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?=$row->hour_cost?>" onkeypress="return isNumber(event)">
                                                     </div>
-                                                </div>                                                                                   
-                                        </td>                                                                        
-                                        <td>                                        
-                                                <button type="submit" class="btn btn-success btn-sm">SUBMIT</button>                                     
-                                            </form>   
-                                        </td>
-                                    </tr>
-                                    <?php } }?>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                                                </div>
+                                            </div>
+                                        </div>                                                                                   
+                                </td>                                                                        
+                                <td>                                        
+                                        <button type="submit" class="btn btn-success btn-sm">SUBMIT</button>                                     
+                                    </form>   
+                                </td>
+                            </tr>
+                            <?php } }?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
