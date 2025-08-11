@@ -75,7 +75,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th scope="row"><?=$sl++?></th>
                                         <td><?=$row->name?></td>
                                         <td>                                                                              
-                                            <form method="POST" action="" enctype="multipart/form-data" class="general_form_style"> 
+                                            <form method="POST" action="" enctype="multipart/form-data"> 
                                                 <input type = "hidden" name="id" value="<?=$row->id?>">                                   
                                                 <div class="container-fluid">
                                                     <div class="row">
