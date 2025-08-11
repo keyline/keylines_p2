@@ -403,7 +403,7 @@ class UserController extends BaseController {
     public function usercostlist()
     {
         $data['moduleDetail']       = $this->data;
-        $title                      = 'Manage '.$this->data['title'];
+        $title                      = 'Manage '.$this->data['title']. ' Cost';
         $page_name                  = 'user_cost';
         $order_by[0]                = array('field' => $this->data['primary_key'], 'type' => 'desc');
         $userType                   = $this->session->user_type;        
