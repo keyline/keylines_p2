@@ -6,7 +6,7 @@
                     <div class="row align-items-center">
                         <div class="col-md-12">
                             <div class="page-header-title">
-                                <h5 class="m-b-10"><?php echo $page_header; ?></h5>
+                                <h1 class="m-b-10"><?php echo $page_header; ?></h1>
                             </div>
                             <ul class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard'); ?>">Home </a></li>
