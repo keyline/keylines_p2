@@ -6,8 +6,24 @@ if ($row) {
 }
 ?>
 <script src="//cdn.ckeditor.com/4.13.1/full/ckeditor.js"></script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="pagetitle">
+                <h1><?=$page_header?></h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
+                        <li class="breadcrumb-item active"><a href="<?=base_url('admin/' . $controller_route . '/list/')?>"><?=$title?> List</a></li>
+                        <li class="breadcrumb-item active"><?=$page_header?></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="pcoded-content">
-    <div class="page-header">
+    <!-- <div class="page-header">
         <div class="page-block">
             <div class="row align-items-center">
                 <div class="col-md-12">
@@ -16,13 +32,13 @@ if ($row) {
                     </div>
                     <ul class="breadcrumb">
                         <li class="breadcrumb-item"><a href="<?php echo base_url('admin/'); ?>/user"><i class="feather icon-home"></i></a></li>
-                        <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard'); ?>/">Home </a></li>
+                        <li class="breadcrumb-item"><a href="<?php echo base_url('admin/dashboard'); ?>">Home </a></li>
                         <li class="breadcrumb-item"><a href="#!"><?php echo $page_header; ?></a></li>
                     </ul>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <div class="row">
         <div class="col-sm-12">
             <form action="" method="post" enctype="multipart/form-data">
