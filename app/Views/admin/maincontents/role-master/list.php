@@ -16,7 +16,7 @@
 
 <div class="container-fluid">
     <div class="pcoded-content">
-        <div class="row">
+        <!-- <div class="row">
             <div class="page-header">
                 <div class="page-block">
                     <div class="row align-items-center">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <?php if (checkModuleFunctionAccess(28, 73)) { ?>
             <div class="row">
                 <div class="col-md-6">
