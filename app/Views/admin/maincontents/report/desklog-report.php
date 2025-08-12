@@ -66,7 +66,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     </div>
                                     <div class="col-md-6 col-lg-6">
                                         <div class="">
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane btn-sm"></i> Fetch Backlog Date From Desklog</button>                                        
+                                            <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane btn-sm"></i> Fetch Backlog Date From Desklog</button>                                        
                                         </div>
                                     </div>
                                 </div>
