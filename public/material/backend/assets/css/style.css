@@ -1941,6 +1941,10 @@ label{
 .report_dropdown li:last-child{
   border-bottom: none;
 }
+input[type="radio"] {
+  position: relative;
+  top: 2.5px;
+}
 @media (max-width: 991px) {
   .time-font{
     font-size: 12px;
