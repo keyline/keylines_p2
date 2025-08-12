@@ -113,7 +113,7 @@
                                 </div>
                             </div>
                             <div class="text-left mt-3">
-                                <button type="submit" class="btn btn_org btn-primary">Submit</button>
+                                <button type="submit" class="btn btn_org btn-primary btn-sm">Submit</button>
                             </div>
                         </form>
                     </div>
