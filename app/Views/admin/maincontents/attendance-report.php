@@ -130,10 +130,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 </li>
                                             </ul>
                                         </div>
-                                        <div class="text-center">
+                                        <!-- <div class="text-center">
                                             <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
                                             <button name="form_type" value="monthly_attendance_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
-                                        </div>
+                                        </div> -->
                                     </div> 
                                     <!-- <div class="col-md-3 col-lg-3">
                                         <div class="text-center">
@@ -148,7 +148,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>   -->
                                     <div class="col-md-3 col-lg-3">
-                                        <div class="text-center">                                        
+                                        <div class="text-end">                                        
                                             <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
                                         </div>
                                     </div>                                
