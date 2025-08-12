@@ -119,13 +119,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                             </button>
                                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
                                                 <li>
-                                                    <button name="form_type" value="monthly_attendance_report" class="d-block w-100" style="outline: none;"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
+                                                    <button name="form_type" value="monthly_attendance_report" class="d-block w-100" style="outline: none; text-align: left;"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
                                                 </li>
                                                 <li>
-                                                    <button name="form_type" value="monthly_details_report" class="d-block w-100" style="outline: none;"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
+                                                    <button name="form_type" value="monthly_details_report" class="d-block w-100" style="outline: none; text-align: left;"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
                                                 </li>
                                                 <li>
-                                                    <button name="form_type" value="monthly_details_report_inout" class="d-block w-100" style="outline: none;"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
+                                                    <button name="form_type" value="monthly_details_report_inout" class="d-block w-100" style="outline: none; text-align: left;"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
                                                 </li>
                                             </ul>
                                         </div>
