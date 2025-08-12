@@ -73,10 +73,10 @@
                                 <div class="col-md-6">
                                     <form method="POST" action="" enctype="multipart/form-data">
                                         <div class="col-md-12 col-lg-12 input-group input-daterange">
-                                            <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="" style="height: 40px;">
-                                            <span class="input-group-text">To</span>
-                                            <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 40px;">
-                                            <button type="button" id="fetch_data" class="btn btn-primary mt-2">Search</button>
+                                            <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="" style="height: 31.5px;">
+                                            <span class="input-group-text" style="height: 31.5px;">To</span>
+                                            <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 31.5px;">
+                                            <button type="button" id="fetch_data" class="btn btn-primary mt-2 btn-sm">Search</button>
                                         </div>
                                     </form>
                                 </div>
