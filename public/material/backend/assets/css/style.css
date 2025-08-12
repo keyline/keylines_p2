@@ -1945,6 +1945,9 @@ input[type="radio"] {
   position: relative;
   top: 2.5px;
 }
+.font-12{
+  font-size: 12px;
+}
 @media (max-width: 991px) {
   .time-font{
     font-size: 12px;
