@@ -113,6 +113,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <input type="month" id="month" name="month" class="form-control" value="<?= $month_fetch ?>" required>
                                     </div>
                                     <div class="col-md-3 col-lg-3">
+                                        <label for="date">Our Reports</label>
                                         <div class="dropdown report_dropdown">
                                             <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Show All Reports
@@ -130,22 +131,22 @@ $controller_route   = $moduleDetail['controller_route'];
                                             </ul>
                                         </div>
                                         <div class="text-center">
-                                            <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
-                                            <!-- <button name="form_type" value="monthly_attendance_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button> -->
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                            <button name="form_type" value="monthly_attendance_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
+                                        </div>
+                                    </div> 
+                                    <!-- <div class="col-md-3 col-lg-3">
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                            <button name="form_type" value="monthly_details_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
                                         </div>
                                     </div> 
                                     <div class="col-md-3 col-lg-3">
                                         <div class="text-center">
-                                            <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
-                                            <!-- <button name="form_type" value="monthly_details_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button> -->
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                            <button name="form_type" value="monthly_details_report_inout" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
                                         </div>
-                                    </div> 
-                                    <div class="col-md-3 col-lg-3">
-                                        <div class="text-center">
-                                            <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
-                                            <!-- <button name="form_type" value="monthly_details_report_inout" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button> -->
-                                        </div>
-                                    </div>  
+                                    </div>   -->
                                     <div class="col-md-3 col-lg-3">
                                         <div class="text-center">                                        
                                             <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
