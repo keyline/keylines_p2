@@ -73,7 +73,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div>                               
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Show Exsisting Data</button>                                                                    
+                                <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-paper-plane"></i> Show Exsisting Data</button>                                                                    
                             </div>
                         </form>
                     </div>
