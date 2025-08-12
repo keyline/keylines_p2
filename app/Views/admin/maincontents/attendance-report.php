@@ -107,13 +107,12 @@ $controller_route   = $moduleDetail['controller_route'];
                     <div class="card-body pt-3">
                         <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
                             <input type="hidden" name="form_type" value="monthly_attendance_report">
-                                <div class="row mb-3 align-items-center">
+                                <div class="row mb-3 align-items-end">
                                     <div class="col-md-3 col-lg-3">
                                         <label for="date">Month</label>
                                         <input type="month" id="month" name="month" class="form-control" value="<?= $month_fetch ?>" required>
                                     </div>
                                     <div class="col-md-3 col-lg-3">
-                                        <label for="date">Our Reports</label>
                                         <div class="dropdown report_dropdown">
                                             <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Show All Reports
@@ -147,7 +146,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <button name="form_type" value="monthly_details_report_inout" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
                                         </div>
                                     </div>   -->
-                                    <div class="col-md-3 col-lg-3">
+                                    <div class="col-md-3 col-lg-6">
                                         <div class="text-end">                                        
                                             <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
                                         </div>
