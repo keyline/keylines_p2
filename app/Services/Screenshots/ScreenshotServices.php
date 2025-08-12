@@ -169,7 +169,7 @@ class ScreenshotServices
             $relativePath =  "{$year}/{$month}/idle.jpg";
         }
         
-        if($data['idle_status']){
+        if($data['idle_status'] == 1){
             $insertData = [
                 'user_id'           => $data['user_id'],
                 'org_id'            => $data['org_id'],
