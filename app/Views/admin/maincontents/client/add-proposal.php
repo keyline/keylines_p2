@@ -21,8 +21,8 @@ $controller_route   = $moduleDetail['controller_route'];
 </div>
 <!-- End Page Title -->
 <section class="section profile">
-    <div class="row">
-        <div class="container-fluid">
+    <div class="container-fluid">
+        <div class="row">
             <div class="col-xl-12">
                 <?php if (session('success_message')) { ?>
                     <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
