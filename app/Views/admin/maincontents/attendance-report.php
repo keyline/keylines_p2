@@ -113,19 +113,19 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <input type="month" id="month" name="month" class="form-control" value="<?= $month_fetch ?>" required>
                                     </div>
                                     <div class="col-md-3 col-lg-3">
-                                        <div class="dropdown">
+                                        <div class="dropdown report_dropdown">
                                             <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                                 Show All Reports
                                             </button>
-                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                            <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
                                                 <li>
-                                                    <button name="form_type" value="monthly_attendance_report" class="d-block w-100" style="outline: none; text-align: left; border: none;"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
+                                                    <button name="form_type" value="monthly_attendance_report" class="d-block w-100" style="outline: none; text-align: left; border: none; background: #fff;"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
                                                 </li>
                                                 <li>
-                                                    <button name="form_type" value="monthly_details_report" class="d-block w-100" style="outline: none; text-align: left; border: none;"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
+                                                    <button name="form_type" value="monthly_details_report" class="d-block w-100" style="outline: none; text-align: left; border: none; background: #fff;"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
                                                 </li>
                                                 <li>
-                                                    <button name="form_type" value="monthly_details_report_inout" class="d-block w-100" style="outline: none; text-align: left; border: none;"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
+                                                    <button name="form_type" value="monthly_details_report_inout" class="d-block w-100" style="outline: none; text-align: left; border: none; background: #fff;"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
                                                 </li>
                                             </ul>
                                         </div>
