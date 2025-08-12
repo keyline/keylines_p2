@@ -55,19 +55,19 @@ $controller_route   = $moduleDetail['controller_route'];
                     <div class="card-body pt-3">
                         <form method="POST" action="" enctype="multipart/form-data">
                             <div class="row mb-3">
-                                <label for="proposal_title" class="col-md-4 col-lg-3 col-form-label">Document Title <span style="color:red">*</span></label>
+                                <label for="proposal_title" class="col-md-4 col-lg-3">Document Title <span style="color:red">*</span></label>
                                 <div class="col-md-8 col-lg-9">
                                     <input name="proposal_title" type="text" required class="form-control" id="proposal_title" value="<?=$title;?>">
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="proposal_description" class="col-md-4 col-lg-3 col-form-label">Document Description</label>
+                                <label for="proposal_description" class="col-md-4 col-lg-3">Document Description</label>
                                 <div class="col-md-8 col-lg-9">
                                     <textarea name="proposal_description" class="form-control" id="proposal_description" rows="5"><?=$description;?></textarea>
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <label for="proposal_file" class="col-md-4 col-lg-3 col-form-label">Files <span style="color:red">*</span></label>
+                                <label for="proposal_file" class="col-md-4 col-lg-3">Files <span style="color:red">*</span></label>
                                 <div class="col-md-8 col-lg-9">
                                     <input name="proposal_file[]" type="file" accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt" multiple class="form-control" required id="proposal_file" value="">
                                 </div>
