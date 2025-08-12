@@ -136,12 +136,12 @@ $userType           = $session->user_type;
                                                     <button class="btn btn-primary btn-sm" onclick="toggleDetails(this)">Load More</button>
                                                     <div class="project-details mt-2" style="display: none;">
                                                         <?php if($getProject->project_time_type == 'Onetime'){?>
-                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary">Fixed : <?=$assigned?> hrs</span></a>
-                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked(Monthly) : <?=$current_month_booking?></span></a>
-                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-primary mb-1">Fixed : <?=$assigned?> hrs</span></a>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success mb-1">Booked(Monthly) : <?=$current_month_booking?></span></a>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark mb-1">Total : <?=$total_booked?></span></a>
                                                         <?php } elseif($getProject->project_time_type == 'Monthlytime'){?>
-                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Monthly : <?=$assigned?> hrs</span></a>
-                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success">Booked : <?=$current_month_booking?></span></a>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark mb-1">Monthly : <?=$assigned?> hrs</span></a>
+                                                            <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-success mb-1">Booked : <?=$current_month_booking?></span></a>
                                                         <!-- <a href="<?=base_url('admin/projects/project-effort-list/'.encoded($row->$primary_key))?>" target="_blank"><span class="badge bg-warning text-dark">Total : <?=$total_booked?></span></a> -->
                                                         <?php } ?>
                                                     </div>
