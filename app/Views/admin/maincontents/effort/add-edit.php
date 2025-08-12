@@ -24,10 +24,10 @@
         padding: 5px 0 10px;
     }
 </style>
-<div class="pagetitle">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="pagetitle">
                 <h1><?=$page_header?></h1>
                 <nav>
                     <ol class="breadcrumb">
