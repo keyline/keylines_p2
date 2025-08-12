@@ -46,7 +46,7 @@
                                 <div class="col-md-6">
                                     <form method="GET" action="" enctype="multipart/form-data">
                                         <input type="hidden" name="mode" value="advance_search">
-                                        <div class="row mb-3 align-items-center">
+                                        <div class="row mb-2 align-items-center">
                                             <div class="col-md-12 col-lg-12" id="day_type_row">
                                                 <select name="search_day_id" class="form-control" onchange="dayWiseListGenerate(this.value)">
                                                     <option value="today">Today</option>
@@ -76,7 +76,7 @@
                                             <input type="date" id="search_range_from" name="search_range_from" class="form-control" value="" style="height: 31.5px;">
                                             <span class="input-group-text" style="height: 31.5px;">To</span>
                                             <input type="date" id="search_range_to" name="search_range_to" class="form-control" value="" style="height: 31.5px;">
-                                            <button type="button" id="fetch_data" class="btn btn-primary mt-2 btn-sm">Search</button>
+                                            <button type="button" id="fetch_data" class="btn btn-primary btn-sm">Search</button>
                                         </div>
                                     </form>
                                 </div>
