@@ -113,18 +113,20 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <input type="month" id="month" name="month" class="form-control" value="<?= $month_fetch ?>" required>
                                     </div>
                                     <div class="col-md-3 col-lg-3">
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Show All Reports
+                                                <i class="fa fa-caret-down"></i>
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                                <li><a class="dropdown-item" href="javascript: void(0)" value="monthly_attendance_report"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</a></li>
+                                                <li><a class="dropdown-item" href="javascript: void(0)" value="monthly_details_report"><i class="fa fa-file-excel-o"></i> Monthly Details Report</a></li>
+                                                <li><a class="dropdown-item" href="javascript: void(0)" value="monthly_details_report_inout"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</a></li>
+                                            </ul>
+                                        </div>
                                         <div class="text-center">
                                             <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
                                             <button name="form_type" value="monthly_attendance_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
-                                            <select name="report" id="">
-                                                <option value="monthly_attendance_report">
-                                                    <button name="form_type" value="monthly_attendance_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
-                                                </option>
-                                                <option value="monthly_details_report">
-                                                    <button name="form_type" value="monthly_details_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
-                                                </option>
-                                                <option value="monthly_details_report_inout"> Monthly Details Report(IN-OUT)</option>
-                                            </select>
                                         </div>
                                     </div> 
                                     <div class="col-md-3 col-lg-3">
