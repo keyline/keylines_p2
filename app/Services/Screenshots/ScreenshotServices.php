@@ -169,7 +169,7 @@ class ScreenshotServices
             $relativePath =  "{$year}/{$month}/idle.jpg";
         }
         
-        if($data['idle_status']){
+        if($data['idle_status'] == 1){
             $insertData = [
                 'user_id'           => $data['user_id'],
                 'org_id'            => $data['org_id'],
@@ -185,7 +185,7 @@ class ScreenshotServices
                 'org_id'            => $data['org_id'],
                 'active_app_name'   => $data['app_name'],
                 'active_app_url'    => $data['app_url'],
-                'image_name'        => '',
+                'image_name'        => $relativePath,
                 'idle_status'       => $data['idle_status'],
                 'time_stamp'        => Time::now()->toDateTimeString(),
             ];
