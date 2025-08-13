@@ -537,36 +537,22 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     
                                                                                                 <div class="mb-1 d-block">
                                                                                                     <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div>
-                                                                                                    <?php if($getTask->booked_description != ''){?>
-                                                                                                        <div class="card_proj_info">
-                                                                                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
-                                                                                                        </div>
-                                                                                                    <?php }?>
-                                                                                                </div>
+                                                                                                    <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
+                                                   <?php } ?>
+                                                   <p style="font-size: 10px;"><b>Assigned:</b> (<?= $task['hour']?> hr <?= $task['min']?> min)</p>
+                                                   <p style="font-size: 10px;"><?=$task['description']?></p>
+                                                   <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Booked:</b> (<?= $task['booked_hour']?> hr <?= $task['booked_min']?> min)</p>
+                                                   <?php if($task['description'] != $task['booked_description']) { ?>
+                                                      <p style="font-size: 10px;"><?=$task['booked_description']?></p>
+                                                   <?php } }?>
 
-                                                                                                <div class="card_projecttime">
-                                                                                                    [<?php
-                                                                                                    if($getTask->hour > 0) {
-                                                                                                        if($getTask->hour == 1){
-                                                                                                            echo $getTask->hour . " hr ";
-                                                                                                        } else {
-                                                                                                            echo $getTask->hour . " hrs ";
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo "0 hr ";
-                                                                                                    }
-                                                                                                    if($getTask->min > 0) {
-                                                                                                        if($getTask->min == 1){
-                                                                                                            echo $getTask->min . " min";
-                                                                                                        } else {
-                                                                                                            echo $getTask->min . " mins";
-                                                                                                        }
-                                                                                                    } else {
-                                                                                                        echo "0 min";
-                                                                                                    }
-                                                                                                    ?>]
-                                                                                                </div>
+                                                   <p class="card-details text-muted" style="font-size: 9px;">
+                                                      <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
+                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                   </p> 
                                                                                                 <?php
                                                                                                 if($getTask->updated_at == ''){
                                                                                                     $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
