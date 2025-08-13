@@ -547,12 +547,30 @@ $controller_route       = $moduleDetail['controller_route'];
                                                    <?php if($task['description'] != $task['booked_description']) { ?>
                                                       <p style="font-size: 10px;"><?=$task['booked_description']?></p>
                                                    <?php } }?>
+                                                                                                </div>
 
-                                                   <p class="card-details text-muted" style="font-size: 9px;">
-                                                      <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
-                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
-                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
-                                                   </p> 
+                                                                                                <div class="card_projecttime">
+                                                                                                    [<?php
+                                                                                                    if($getTask->hour > 0) {
+                                                                                                        if($getTask->hour == 1){
+                                                                                                            echo $getTask->hour . " hr ";
+                                                                                                        } else {
+                                                                                                            echo $getTask->hour . " hrs ";
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo "0 hr ";
+                                                                                                    }
+                                                                                                    if($getTask->min > 0) {
+                                                                                                        if($getTask->min == 1){
+                                                                                                            echo $getTask->min . " min";
+                                                                                                        } else {
+                                                                                                            echo $getTask->min . " mins";
+                                                                                                        }
+                                                                                                    } else {
+                                                                                                        echo "0 min";
+                                                                                                    }
+                                                                                                    ?>]
+                                                                                                </div>
                                                                                                 <?php
                                                                                                 if($getTask->updated_at == ''){
                                                                                                     $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
