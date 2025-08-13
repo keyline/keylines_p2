@@ -536,7 +536,16 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 ?>
                                                                                                     
                                                                                                 <div class="mb-1 d-block">
-                                                                                                    <div>                                  
+                                                                                                    <div class="row">
+                                 <?php  foreach($yesterday_task_details as $task){  
+                                    $task_background = $task['background_color'] ?? '';                                                                    
+                                 ?>  
+                                 <div class="col-md-12">
+                                    <div class="card table-card card table-card shadow-sm">
+                                       <div class="card-header task" style="background-color: <?= $task_background ?>;">
+                                          <div class="row">
+                                             <div class="col-md-8">
+                                                <div>                                  
                                                    <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
                                                    <?php if($task['work_status_id'] != 0) { ?>
                                                    <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
@@ -555,6 +564,20 @@ $controller_route       = $moduleDetail['controller_route'];
                                                       <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
                                                    </p>                                                                                                                                                                                            
                                                 </div>
+                                             </div>  
+                                             <?php if($task['work_status_id'] == 0) { ?>
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['task_id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['task_id'] ?>">
+                                                   <i class="fa fa-plus"></i> Add Effort
+                                                </button>                                                                                     
+                                             </div> 
+                                             <?php } ?>                       
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <?php } ?>                                                                   
+                              </div>
 
                                                                                                 <div class="card_projecttime">
                                                                                                     [<?php
