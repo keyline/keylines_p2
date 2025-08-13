@@ -541,6 +541,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     <?php if($getTask->booked_description != ''){?>
                                                                                                         <div class="card_proj_info">
                                                                                                             <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
+                                                                                                            <?php if($task['work_status_id'] != 0) { ?>
+                                                                                                            <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
+                                                                                                            <?php } ?>
                                                                                                         </div>
                                                                                                     <?php }?>
                                                                                                 </div>
