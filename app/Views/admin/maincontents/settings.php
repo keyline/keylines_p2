@@ -662,7 +662,9 @@ $user_type = session('user_type');
                     </div>
 
                     <div class="row mb-3">
-                      <label for="week_off" class="col-form-label">Week Off</label>
+                      <div class="col-md-4 col-lg-3">
+                        <label for="week_off" class="col-form-label">Week Off</label>
+                      </div>
                       <br>
                       <div class="col-md-8 col-lg-9">
                         <label for="sunday" class="col-md-4 col-lg-3 col-form-label">Sunday: </label>
