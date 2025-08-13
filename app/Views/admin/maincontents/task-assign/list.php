@@ -329,7 +329,7 @@ $controller_route       = $moduleDetail['controller_route'];
             </div>
             <div class="col-12">
                 <div class="card table-card">
-                    <div class="card-body">
+                    <div class="card-body">.
                         <div class="accordion" id="accordionPanelsStayOpenExample">
                             <?php
                             if(!empty($date_array)){ for($k=0;$k<count($date_array);$k++){
@@ -343,7 +343,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     </h2>
                                     <div id="panelsStayOpen-collapse<?=$k?>" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
                                       <div class="accordion-body" id="task-list-<?=$singleDate?>">
-                                        <h1>test</h1>
+                                        
                                       </div>
                                     </div>
                                 </div>
@@ -536,14 +536,25 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 ?>
                                                                                                     
                                                                                                 <div class="mb-1 d-block">
-                                                                                                    <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div>
-                                                                                                    <?php if($getTask->booked_description != ''){?>
-                                                                                                        <div class="card_proj_info">
-                                                                                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
-                                                                                                        </div>
-                                                                                                    <?php }?>
-                                                                                                </div>
+                                                                                                    <div>                                  
+                                                   <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
+                                                   <?php } ?>
+                                                   <p style="font-size: 10px;"><b>Assigned:</b> (<?= $task['hour']?> hr <?= $task['min']?> min)</p>
+                                                   <p style="font-size: 10px;"><?=$task['description']?></p>
+                                                   <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Booked:</b> (<?= $task['booked_hour']?> hr <?= $task['booked_min']?> min)</p>
+                                                   <?php if($task['description'] != $task['booked_description']) { ?>
+                                                      <p style="font-size: 10px;"><?=$task['booked_description']?></p>
+                                                   <?php } }?>
+
+                                                   <p class="card-details text-muted" style="font-size: 9px;">
+                                                      <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
+                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                   </p>                                                                                                                                                                                            
+                                                </div>
 
                                                                                                 <div class="card_projecttime">
                                                                                                     [<?php
