@@ -90,9 +90,9 @@ $controller_route       = $moduleDetail['controller_route'];
         font-size: 11px !important;
     }
     .card_projecttime {
-        font-weight: 700;
+        /* font-weight: 700; */
         margin-bottom: 0;
-        padding-top: 5px;
+        /* padding-top: 5px; */
     }
     span.card_priotty_item {
         position: absolute;
