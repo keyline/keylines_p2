@@ -662,7 +662,7 @@ $user_type = session('user_type');
                     </div>
 
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
+                      <div class="col-12">
                         <label for="week_off" class="col-form-label">Week Off</label>
                       </div>
                       <br>
@@ -845,7 +845,7 @@ $user_type = session('user_type');
                   </form><!-- End change password Form -->
                 </div>
                 <div class="tab-pane fade pt-3" id="tab4">
-                  <h3>Email Configuration</h3>
+                  <h5 class="mb-2">Email Configuration</h5>
                   <!-- email settings Form -->
                   <form method="POST" action="<?= base_url('admin/email-settings') ?>" enctype="multipart/form-data">
                     <div class="row mb-3">
