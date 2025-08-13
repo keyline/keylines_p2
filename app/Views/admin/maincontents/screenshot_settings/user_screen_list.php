@@ -74,19 +74,22 @@
                                 </div>
                                 <?php if (count($row)) {
                                     foreach ($row as $screenshot) { ?>
-
-
                                         <div class="col-lg-3 col-md-4 col-sm-6">
                                             <div class="card screenshort_card p-2">
-                                                <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
-                                                    <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
-                                                </a>
+                                                <?php if($screenshot['idle_status'] == 1){?>
+                                                    <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
+                                                        <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                    </a>
+                                                <?php } else {?>
+                                                    <a href="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="glightbox">
+                                                        <img src="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                    </a>
+                                                <?php } ?>
                                                 <div class="card-body">
                                                     <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
                                                 </div>
                                             </div>
                                         </div>
-
                                     <?php }
                                 } else { ?>
                                     <div class="col-12">
