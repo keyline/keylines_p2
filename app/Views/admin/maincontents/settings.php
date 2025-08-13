@@ -218,7 +218,7 @@ $user_type = session('user_type');
                     <form method="POST" action="<?= base_url('admin/profile-settings') ?>" enctype="multipart/form-data">
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
-                          <label for="name" class="col-form-label">Name</label>
+                        <label for="name" class="col-form-label">Name</label>
                         </div>
                         <div class="col-md-8 col-lg-9">
                           <input type="text" name="name" class="form-control" id="name" value="<?= $pro->decrypt($client->name) ?>">
@@ -226,7 +226,7 @@ $user_type = session('user_type');
                       </div>
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
-                          <label for="email_1" class="col-form-label">Primary Email</label>
+                        <label for="email_1" class="col-form-label">Primary Email</label>
                         </div>
                         <div class="col-md-8 col-lg-9">
                           <input type="text" name="email_1" class="form-control" id="email_1" value="<?= $pro->decrypt($client->email_1) ?>">
@@ -234,7 +234,7 @@ $user_type = session('user_type');
                       </div>
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
-                          <label for="email_2" class="col-form-label">Secondary Email</label>
+                        <label for="email_2" class="col-form-label">Secondary Email</label>
                         </div>
                         <div class="col-md-8 col-lg-9">
                           <input type="text" name="email_2" class="form-control" id="email_2" value="<?= $pro->decrypt($client->email_2) ?>">
@@ -242,7 +242,7 @@ $user_type = session('user_type');
                       </div>
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
-                          <label for="phone_1" class="col-form-label">Phone 1</label>
+                        <label for="phone_1" class="col-form-label">Phone 1</label>
                         </div>
                         <div class="col-md-8 col-lg-9">
                           <input type="text" name="phone_1" class="form-control" id="phone_1" value="<?= $pro->decrypt($client->phone_1) ?>">
@@ -250,7 +250,7 @@ $user_type = session('user_type');
                       </div>
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
-                          <label for="phone_2" class="col-form-label">Phone 2</label>
+                        <label for="phone_2" class="col-form-label">Phone 2</label>
                         </div>
                         <div class="col-md-8 col-lg-9">
                           <input type="text" name="phone_2" class="form-control" id="phone_2" value="<?= $pro->decrypt($client->phone_2) ?>">
@@ -267,7 +267,7 @@ $user_type = session('user_type');
                   <form method="POST" action="<?= base_url('admin/general-settings') ?>" enctype="multipart/form-data">
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="company_name" class="col-form-label">Company Name</label>
+                      <label for="company_name" class="col-form-label">Company Name</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="company_name" type="text" class="form-control" id="company_name" value="<?= $setting->company_name ?>">
@@ -275,7 +275,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="site_name" class="col-form-label">Site Name</label>
+                      <label for="site_name" class="col-form-label">Site Name</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="site_name" type="text" class="form-control" id="site_name" value="<?= $setting->site_name ?>">
@@ -283,7 +283,7 @@ $user_type = session('user_type');
                     </div>                  
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="site_phone" class="col-form-label">Site Phone</label>
+                      <label for="site_phone" class="col-form-label">Site Phone</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="site_phone" type="text" class="form-control" id="site_phone" value="<?= $setting->site_phone ?>">
@@ -291,7 +291,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="site_mail" class="col-form-label">Site Email</label>
+                      <label for="site_mail" class="col-form-label">Site Email</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="site_mail" type="email" class="form-control" id="site_mail" value="<?= $setting->site_mail ?>">
@@ -299,7 +299,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="system_email" class="col-form-label">System Email</label>
+                      <label for="system_email" class="col-form-label">System Email</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="system_email" type="email" class="form-control" id="system_email" value="<?= $setting->system_email ?>">
@@ -307,7 +307,7 @@ $user_type = session('user_type');
                     </div>
                     <!-- <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="site_url" class="col-form-label">Site URL</label>
+                      <label for="site_url" class="col-form-label">Site URL</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="site_url" type="text" class="form-control" id="site_url" value="<?= $setting->site_url ?>">
@@ -315,7 +315,7 @@ $user_type = session('user_type');
                     </div> -->
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="description" class="col-form-label">Address</label>
+                      <label for="description" class="col-form-label">Address</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="description" class="form-control" id="description" rows="5"><?= $setting->description ?></textarea>
@@ -323,7 +323,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="copyright_statement" class="col-form-label">Copyright Statement</label>
+                      <label for="copyright_statement" class="col-form-label">Copyright Statement</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="copyright_statement" class="form-control" id="copyright_statement" rows="5"><?= $setting->copyright_statement ?></textarea>
@@ -331,7 +331,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="google_map_api_code" class="col-form-label">Google Map API Code</label>
+                      <label for="google_map_api_code" class="col-form-label">Google Map API Code</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="google_map_api_code" class="form-control" id="google_map_api_code" rows="5"><?= $setting->google_map_api_code ?></textarea>
@@ -339,7 +339,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="google_analytics_code" class="col-form-label">Google Analytics Code</label>
+                      <label for="google_analytics_code" class="col-form-label">Google Analytics Code</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="google_analytics_code" class="form-control" id="google_analytics_code" rows="5"><?= $setting->google_analytics_code ?></textarea>
@@ -347,7 +347,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="google_pixel_code" class="col-form-label">Google Pixel Code</label>
+                      <label for="google_pixel_code" class="col-form-label">Google Pixel Code</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="google_pixel_code" class="form-control" id="google_pixel_code" rows="5"><?= $setting->google_pixel_code ?></textarea>
@@ -355,7 +355,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="facebook_tracking_code" class="col-form-label">Facebook Tracking Code</label>
+                      <label for="facebook_tracking_code" class="col-form-label">Facebook Tracking Code</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="facebook_tracking_code" class="form-control" id="facebook_tracking_code" rows="5"><?= $setting->facebook_tracking_code ?></textarea>
@@ -363,7 +363,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="gst_api_code" class="col-form-label">GST API Code</label>
+                      <label for="gst_api_code" class="col-form-label">GST API Code</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="gst_api_code" class="form-control" id="gst_api_code" rows="3"><?= $setting->gst_api_code ?></textarea>
@@ -371,7 +371,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="firebase_server_key" class="col-form-label">Firebase Server Key</label>
+                      <label for="firebase_server_key" class="col-form-label">Firebase Server Key</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="firebase_server_key" class="form-control" id="firebase_server_key" rows="3"><?= $setting->firebase_server_key ?></textarea>
@@ -379,7 +379,7 @@ $user_type = session('user_type');
                     </div>                  
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="twitter_profile" class="col-form-label">Twitter Profile</label>
+                      <label for="twitter_profile" class="col-form-label">Twitter Profile</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="twitter_profile" type="text" class="form-control" id="twitter_profile" value="<?= $setting->twitter_profile ?>">
@@ -387,7 +387,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="facebook_profile" class="col-form-label">Facebook Profile</label>
+                      <label for="facebook_profile" class="col-form-label">Facebook Profile</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="facebook_profile" type="text" class="form-control" id="facebook_profile" value="<?= $setting->facebook_profile ?>">
@@ -395,7 +395,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="instagram_profile" class="col-form-label">Instagram Profile</label>
+                      <label for="instagram_profile" class="col-form-label">Instagram Profile</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="instagram_profile" type="text" class="form-control" id="instagram_profile" value="<?= $setting->instagram_profile ?>">
@@ -403,7 +403,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="linkedin_profile" class="col-form-label">Pinterest Profile</label>
+                      <label for="linkedin_profile" class="col-form-label">Pinterest Profile</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="linkedin_profile" type="text" class="form-control" id="linkedin_profile" value="<?= $setting->linkedin_profile ?>">
@@ -411,7 +411,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="youtube_profile" class="col-form-label">Youtube Profile</label>
+                      <label for="youtube_profile" class="col-form-label">Youtube Profile</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="youtube_profile" type="text" class="form-control" id="youtube_profile" value="<?= $setting->youtube_profile ?>">
@@ -419,7 +419,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="site_logo" class="col-form-label">Logo</label>
+                      <label for="site_logo" class="col-form-label">Logo</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input type="file" name="site_logo" class="form-control" id="site_logo">
@@ -437,7 +437,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="site_footer_logo" class="col-form-label">Footer Logo</label>
+                      <label for="site_footer_logo" class="col-form-label">Footer Logo</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input type="file" name="site_footer_logo" class="form-control" id="site_footer_logo">
@@ -455,7 +455,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="site_favicon" class="col-form-label">Favicon</label>
+                      <label for="site_favicon" class="col-form-label">Favicon</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input type="file" name="site_favicon" class="form-control" id="site_favicon">
@@ -480,65 +480,49 @@ $user_type = session('user_type');
                   <!-- application settings Form -->
                   <form method="POST" action="<?= base_url('admin/application-settings') ?>" enctype="multipart/form-data">                  
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="theme_color" class="col-form-label">Theme Color</label>
-                      </div>
+                      <label for="theme_color" class="col-md-4 col-lg-3 col-form-label">Theme Color</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="theme_color" type="color" class="form-control" id="theme_color" value="<?= $application_setting->theme_color ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="font_color" class="col-form-label">Font Color</label>
-                      </div>
+                      <label for="font_color" class="col-md-4 col-lg-3 col-form-label">Font Color</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="font_color" type="color" class="form-control" id="font_color" value="<?= $application_setting->font_color ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="tomorrow_task_editing_time" class="col-form-label">Tomorrow Task Editing Time</label>
-                      </div>
+                      <label for="tomorrow_task_editing_time" class="col-md-4 col-lg-3 col-form-label">Tomorrow Task Editing Time</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="tomorrow_task_editing_time" type="time" class="form-control" id="tomorrow_task_editing_time" value="<?= $application_setting->tomorrow_task_editing_time ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="block_tracker_fillup_after_days" class="col-form-label">Block Tracker Fillup After Days</label>
-                      </div>
+                      <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Block Tracker Fillup After Days</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="block_tracker_fillup_after_days" type="number" class="form-control" id="block_tracker_fillup_after_days" value="<?= $application_setting->block_tracker_fillup_after_days ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="amc_checking_after_days" class="col-form-label">AMC Checking After Days</label>
-                      </div>
+                      <label for="amc_checking_after_days" class="col-md-4 col-lg-3 col-form-label">AMC Checking After Days</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="amc_checking_after_days" type="number" class="form-control" id="amc_checking_after_days" value="<?= $amc_setting->check_span ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="api_url" class="col-form-label">API URL</label>
-                      </div>
+                      <label for="api_url" class="col-md-4 col-lg-3 col-form-label">API URL</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="api_url" type="text" class="form-control" id="api_url" value="<?=$application_setting->api_url?>" <?=(($application_setting->api_url != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="api_key" class="col-form-label">API KEY</label>
-                      </div>
+                      <label for="api_key" class="col-md-4 col-lg-3 col-form-label">API KEY</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="api_key" type="text" class="form-control" id="api_key" value="<?=$application_setting->api_key?>" <?=(($application_setting->api_key != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="is_desklog_use" class="col-form-label">Use Desklog</label>
-                      </div>
+                      <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Use Desklog</label>
                       <div class="col-md-8 col-lg-9">
                         <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" role="switch" name="is_desklog_use" id="is_desklog_user" value="1" <?=(($application_setting->is_desklog_use == 1)?'checked':'')?>>
@@ -547,9 +531,7 @@ $user_type = session('user_type');
                       </div>
                     </div>  
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="is_task_approval" class="col-form-label">Task Approval Process</label>
-                      </div>
+                      <label for="is_task_approval" class="col-md-4 col-lg-3 col-form-label">Task Approval Process</label>
                       <div class="col-md-8 col-lg-9">
                         <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" role="switch" name="is_task_approval" id="is_task_approval1" value="1" <?=(($application_setting->is_task_approval == 1)?'checked':'')?>>
@@ -558,9 +540,7 @@ $user_type = session('user_type');
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="is_project_cost" class="col-form-label">Unit Cost Calculation</label>
-                      </div>
+                      <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Unit Cost Calculation</label>
                       <div class="col-md-8 col-lg-9">
                         <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" role="switch" name="is_project_cost" id="is_project_cost" value="1" <?=(($application_setting->is_project_cost == 1)?'checked':'')?>>
@@ -570,82 +550,62 @@ $user_type = session('user_type');
                     </div>
 
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="encryption_api_secret_key" class="col-form-label">Encryption API Secret Key</label>
-                      </div>
+                      <label for="encryption_api_secret_key" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret Key</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="encryption_api_secret_key" type="text" class="form-control" id="encryption_api_secret_key" value="<?=$application_setting->encryption_api_secret_key?>" <?=(($application_setting->encryption_api_secret_key != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="encryption_api_secret_iv" class="col-form-label">Encryption API Secret IV</label>
-                      </div>
+                      <label for="encryption_api_secret_iv" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret IV</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="encryption_api_secret_iv" type="text" class="form-control" id="encryption_api_secret_iv" value="<?=$application_setting->encryption_api_secret_iv?>" <?=(($application_setting->encryption_api_secret_iv != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="encryption_api_encrypt_method" class="col-form-label">Encryption API Encryption Method</label>
-                      </div>
+                      <label for="encryption_api_encrypt_method" class="col-md-4 col-lg-3 col-form-label">Encryption API Encryption Method</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="encryption_api_encrypt_method" type="text" class="form-control" id="encryption_api_encrypt_method" value="<?=$application_setting->encryption_api_encrypt_method?>" <?=(($application_setting->encryption_api_encrypt_method != '')?'readonly':'')?>>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="google_map_api_code" class="col-form-label">Google Map API Code</label>
-                      </div>
+                      <label for="google_map_api_code" class="col-md-4 col-lg-3 col-form-label">Google Map API Code</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="google_map_api_code" type="text" class="form-control" id="google_map_api_code" value="<?=$application_setting->google_map_api_code?>" <?=(($application_setting->google_map_api_code != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="allow_punch_distance" class="col-form-label">Allow Punch Distance (In Meters)</label>
-                      </div>
+                      <label for="allow_punch_distance" class="col-md-4 col-lg-3 col-form-label">Allow Punch Distance (In Meters)</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="allow_punch_distance" type="text" class="form-control" id="allow_punch_distance" value="<?=$application_setting->allow_punch_distance?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="current_date_tasks_show_in_effort" class="col-form-label">Current Date Tasks Show In Effort Time After</label>
-                      </div>
+                      <label for="current_date_tasks_show_in_effort" class="col-md-4 col-lg-3 col-form-label">Current Date Tasks Show In Effort Time After</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="current_date_tasks_show_in_effort" type="time" class="form-control" id="current_date_tasks_show_in_effort" value="<?= $application_setting->current_date_tasks_show_in_effort ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="block_tracker_fillup_after_days" class="col-form-label">Monthly Minimum Effort Time</label>
-                      </div>
+                      <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Monthly Minimum Effort Time</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="monthly_minimum_effort_time" type="number" class="form-control" id="monthly_minimum_effort_time" value="<?= $application_setting->monthly_minimum_effort_time ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="block_tracker_fillup_after_days" class="col-form-label">Daily Minimum Effort Time</label>
-                      </div>
+                      <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Daily Minimum Effort Time</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="daily_minimum_effort_time" type="number" class="form-control" id="daily_minimum_effort_time" value="<?= $application_setting->daily_minimum_effort_time ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="mark_later_after" class="col-form-label">Mark Later After (24 hrs)</label>
-                      </div>
+                      <label for="mark_later_after" class="col-md-4 col-lg-3 col-form-label">Mark Later After (24 hrs)</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="mark_later_after" type="time" class="form-control" id="mark_later_after" value="<?= $application_setting->mark_later_after ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="currency" class="col-form-label">Currency</label>
-                      </div>
+                      <label for="currency" class="col-md-4 col-lg-3 col-form-label">Currency</label>
                       <div class="col-md-8 col-lg-9">
                         <select name="currency" class="form-control" id="currency">
                           <option value="INR" <?=(($application_setting->currency == 'INR')?'selected':'')?>>INR</option>
@@ -653,9 +613,7 @@ $user_type = session('user_type');
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <div class="col-md-4 col-lg-3">
-                        <label for="edit_time_after_task_add" class="col-form-label">Edit Time After Task Add</label>
-                      </div>
+                      <label for="edit_time_after_task_add" class="col-md-4 col-lg-3 col-form-label">Edit Time After Task Add</label>
                       <div class="col-md-8 col-lg-9">
                         <input name="edit_time_after_task_add" type="text" class="form-control" id="edit_time_after_task_add" value="<?= $application_setting->edit_time_after_task_add ?>" min="5" onkeypress="return isNumber(event)">
                       </div>
@@ -665,9 +623,8 @@ $user_type = session('user_type');
                       <label for="week_off" class="col-form-label">Week Off</label>
                       <br>
                       <div class="col-md-8 col-lg-9">
-                          <label for="sunday" class="col-form-label">Sunday: </label>
-                      </div>
-                      <?php
+                        <label for="sunday" class="col-md-4 col-lg-3 col-form-label">Sunday: </label>
+                        <?php
                           $sunday_values = json_decode($application_setting->sunday, true);
                           // pr($sunday_values);
                           for ($i = 1; $i <= 5; $i++) {
@@ -939,14 +896,14 @@ $user_type = session('user_type');
                   <form method="POST" action="<?= base_url('admin/footer-settings') ?>" enctype="multipart/form-data">
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="footer_text" class="col-form-label">Footer Text</label>
+                      <label for="footer_text" class="col-form-label">Footer Text</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea type="text" name="footer_text" class="form-control" id="footer_text" rows="5"><?= $setting->footer_text ?></textarea>
                       </div>
                     </div>
                     <div class="col-md-4 col-lg-3">
-                      <label for="" class="col-form-label">Column 1</label>
+                    <label for="" class="col-form-label">Column 1</label>
                     </div>
                     <div class="field_wrapper1" style="border: 1px solid #8144f0;padding: 10px;margin-bottom: 10px;">
                       <?php
@@ -993,7 +950,7 @@ $user_type = session('user_type');
                       </div>
                     </div>
                     <div class="col-md-4 col-lg-3">
-                      <label for="" class="col-form-label">GET HELP</label>
+                    <label for="" class="col-form-label">GET HELP</label>
                     </div>
                     <div class="field_wrapper2" style="border: 1px solid #8144f0;padding: 10px;margin-bottom: 10px;">
                       <?php
@@ -1040,7 +997,7 @@ $user_type = session('user_type');
                       </div>
                     </div>
                     <div class="col-md-4 col-lg-3">
-                      <label for="" class="col-form-label">SERVICES</label>
+                    <label for="" class="col-form-label">SERVICES</label>
                     </div>
                     <div class="field_wrapper3" style="border: 1px solid #8144f0;padding: 10px;margin-bottom: 10px;">
                       <?php
@@ -1096,7 +1053,7 @@ $user_type = session('user_type');
                   <form method="POST" action="<?= base_url('admin/seo-settings') ?>" enctype="multipart/form-data">
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="meta_title" class="col-form-label">Meta Title</label>
+                      <label for="meta_title" class="col-form-label">Meta Title</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="meta_title" class="form-control" id="meta_title" rows="5"><?= $setting->meta_title ?></textarea>
@@ -1104,7 +1061,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="meta_description" class="col-form-label">Meta Description</label>
+                      <label for="meta_description" class="col-form-label">Meta Description</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="meta_description" class="form-control" id="meta_description" rows="5"><?= $setting->meta_description ?></textarea>
@@ -1112,7 +1069,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="meta_keywords" class="col-form-label">Meta Keywords</label>
+                      <label for="meta_keywords" class="col-form-label">Meta Keywords</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <textarea name="meta_keywords" class="form-control" id="meta_keywords" rows="5"><?= $setting->meta_keywords ?></textarea>
@@ -1128,7 +1085,7 @@ $user_type = session('user_type');
                   <form method="POST" action="<?= base_url('admin/payment-settings') ?>" enctype="multipart/form-data">
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="stripe_payment_type" class="col-form-label">Stripe Sandbox Secret Key</label>
+                      <label for="stripe_payment_type" class="col-form-label">Stripe Sandbox Secret Key</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <select name="stripe_payment_type" class="form-control" id="stripe_payment_type" required>
@@ -1140,7 +1097,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="stripe_sandbox_sk" class="col-form-label">Razorpay Sandbox Key ID</label>
+                      <label for="stripe_sandbox_sk" class="col-form-label">Razorpay Sandbox Key ID</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="stripe_sandbox_sk" type="text" class="form-control" id="stripe_sandbox_sk" value="<?= $setting->stripe_sandbox_sk ?>" required>
@@ -1148,7 +1105,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="stripe_sandbox_pk" class="col-form-label">Razorpay Sandbox Secret Key</label>
+                      <label for="stripe_sandbox_pk" class="col-form-label">Razorpay Sandbox Secret Key</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="stripe_sandbox_pk" type="text" class="form-control" id="stripe_sandbox_pk" value="<?= $setting->stripe_sandbox_pk ?>" required>
@@ -1156,7 +1113,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="stripe_live_sk" class="col-form-label">Razorpay Live Key ID</label>
+                      <label for="stripe_live_sk" class="col-form-label">Razorpay Live Key ID</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="stripe_live_sk" type="text" class="form-control" id="stripe_live_sk" value="<?= $setting->stripe_live_sk ?>" required>
@@ -1164,7 +1121,7 @@ $user_type = session('user_type');
                     </div>
                     <div class="row mb-3">
                       <div class="col-md-4 col-lg-3">
-                        <label for="stripe_live_pk" class="col-form-label">Razorpay Live Secret Key</label>
+                      <label for="stripe_live_pk" class="col-form-label">Razorpay Live Secret Key</label>
                       </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="stripe_live_pk" type="text" class="form-control" id="stripe_live_pk" value="<?= $setting->stripe_live_pk ?>" required>
