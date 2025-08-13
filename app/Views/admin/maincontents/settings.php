@@ -900,7 +900,7 @@ $user_type = session('user_type');
                       <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                   </form><!-- End email settings Form -->
-                  <h5>Test Email</h5>
+                  <h5 class="mb-2">Test Email</h5>
                   <a href="<?= base_url('admin/test-email') ?>" class="btn btn-success btn-sm"><i class="fa fa-envelope"></i> Click To Send Test Email</a>
                 </div>
                 <div class="tab-pane fade pt-3" id="tab5">
