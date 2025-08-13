@@ -537,10 +537,10 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     
                                                                                                 <div class="mb-1 d-block">
                                                                                                     <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                                                                    <p style="font-size: 10px;"><b>Status:</b> XXX YYY</p>
+                                                                                                    <p><strong style="color: #2d93d1">Status:</strong> XXX YYY</p>
                                                                                                     <div class="card_projecttime">
-                                                                                                        <p>Assigned: 
-                                                                                                            [<?php
+                                                                                                        <p><strong style="color: #2d93d1">Assigned:
+                                                                                                            (<?php
                                                                                                                 if($getTask->hour > 0) {
                                                                                                                     if($getTask->hour == 1){
                                                                                                                         echo $getTask->hour . " hr ";
@@ -559,13 +559,16 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                                 } else {
                                                                                                                     echo "0 min";
                                                                                                                 }
-                                                                                                            ?>]
+                                                                                                            ?>)
+                                                                                                            </strong>
                                                                                                         </p>
                                                                                                     </div>
                                                                                                     <div class="card_proj_info"><?=$getTask->description?><br></div>
                                                                                                         <?php if($getTask->booked_description != ''){?>
                                                                                                             <div class="card_proj_info">
-                                                                                                                <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br> 
+                                                                                                                <strong style="color: #2d93d1;">
+                                                                                                                    Booked : (<?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)
+                                                                                                                </strong>
                                                                                                                 <p><?=$getTask->booked_description?></p>
                                                                                                             </div>
                                                                                                         <?php }?>
