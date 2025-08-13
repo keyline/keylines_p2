@@ -82,7 +82,7 @@
                                                     </a>
                                                 <?php } else {?>
                                                     <a href="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="glightbox">
-                                                        <img src="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                        <img src="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="card-img-top img-fluid rounded" alt="Screenshot image" style="height: 229px;">
                                                     </a>
                                                 <?php } ?>
                                                 <div class="card-body">
