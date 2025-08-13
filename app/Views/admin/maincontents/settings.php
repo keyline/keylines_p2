@@ -480,49 +480,65 @@ $user_type = session('user_type');
                   <!-- application settings Form -->
                   <form method="POST" action="<?= base_url('admin/application-settings') ?>" enctype="multipart/form-data">                  
                     <div class="row mb-3">
-                      <label for="theme_color" class="col-md-4 col-lg-3 col-form-label">Theme Color</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="theme_color" class="col-form-label">Theme Color</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="theme_color" type="color" class="form-control" id="theme_color" value="<?= $application_setting->theme_color ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="font_color" class="col-md-4 col-lg-3 col-form-label">Font Color</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="font_color" class="col-form-label">Font Color</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="font_color" type="color" class="form-control" id="font_color" value="<?= $application_setting->font_color ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="tomorrow_task_editing_time" class="col-md-4 col-lg-3 col-form-label">Tomorrow Task Editing Time</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="tomorrow_task_editing_time" class="col-form-label">Tomorrow Task Editing Time</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="tomorrow_task_editing_time" type="time" class="form-control" id="tomorrow_task_editing_time" value="<?= $application_setting->tomorrow_task_editing_time ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Block Tracker Fillup After Days</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="block_tracker_fillup_after_days" class="col-form-label">Block Tracker Fillup After Days</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="block_tracker_fillup_after_days" type="number" class="form-control" id="block_tracker_fillup_after_days" value="<?= $application_setting->block_tracker_fillup_after_days ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="amc_checking_after_days" class="col-md-4 col-lg-3 col-form-label">AMC Checking After Days</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="amc_checking_after_days" class="col-form-label">AMC Checking After Days</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="amc_checking_after_days" type="number" class="form-control" id="amc_checking_after_days" value="<?= $amc_setting->check_span ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="api_url" class="col-md-4 col-lg-3 col-form-label">API URL</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="api_url" class="col-form-label">API URL</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="api_url" type="text" class="form-control" id="api_url" value="<?=$application_setting->api_url?>" <?=(($application_setting->api_url != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="api_key" class="col-md-4 col-lg-3 col-form-label">API KEY</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="api_key" class="col-form-label">API KEY</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="api_key" type="text" class="form-control" id="api_key" value="<?=$application_setting->api_key?>" <?=(($application_setting->api_key != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="is_desklog_use" class="col-md-4 col-lg-3 col-form-label">Use Desklog</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="is_desklog_use" class="col-form-label">Use Desklog</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" role="switch" name="is_desklog_use" id="is_desklog_user" value="1" <?=(($application_setting->is_desklog_use == 1)?'checked':'')?>>
@@ -531,7 +547,9 @@ $user_type = session('user_type');
                       </div>
                     </div>  
                     <div class="row mb-3">
-                      <label for="is_task_approval" class="col-md-4 col-lg-3 col-form-label">Task Approval Process</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="is_task_approval" class="col-form-label">Task Approval Process</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" role="switch" name="is_task_approval" id="is_task_approval1" value="1" <?=(($application_setting->is_task_approval == 1)?'checked':'')?>>
@@ -540,7 +558,9 @@ $user_type = session('user_type');
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="is_project_cost" class="col-md-4 col-lg-3 col-form-label">Unit Cost Calculation</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="is_project_cost" class="col-form-label">Unit Cost Calculation</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <div class="form-check form-switch">
                           <input class="form-check-input" type="checkbox" role="switch" name="is_project_cost" id="is_project_cost" value="1" <?=(($application_setting->is_project_cost == 1)?'checked':'')?>>
@@ -550,62 +570,82 @@ $user_type = session('user_type');
                     </div>
 
                     <div class="row mb-3">
-                      <label for="encryption_api_secret_key" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret Key</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="encryption_api_secret_key" class="col-form-label">Encryption API Secret Key</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="encryption_api_secret_key" type="text" class="form-control" id="encryption_api_secret_key" value="<?=$application_setting->encryption_api_secret_key?>" <?=(($application_setting->encryption_api_secret_key != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="encryption_api_secret_iv" class="col-md-4 col-lg-3 col-form-label">Encryption API Secret IV</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="encryption_api_secret_iv" class="col-form-label">Encryption API Secret IV</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="encryption_api_secret_iv" type="text" class="form-control" id="encryption_api_secret_iv" value="<?=$application_setting->encryption_api_secret_iv?>" <?=(($application_setting->encryption_api_secret_iv != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="encryption_api_encrypt_method" class="col-md-4 col-lg-3 col-form-label">Encryption API Encryption Method</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="encryption_api_encrypt_method" class="col-form-label">Encryption API Encryption Method</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="encryption_api_encrypt_method" type="text" class="form-control" id="encryption_api_encrypt_method" value="<?=$application_setting->encryption_api_encrypt_method?>" <?=(($application_setting->encryption_api_encrypt_method != '')?'readonly':'')?>>
                       </div>
                     </div>
 
                     <div class="row mb-3">
-                      <label for="google_map_api_code" class="col-md-4 col-lg-3 col-form-label">Google Map API Code</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="google_map_api_code" class="col-form-label">Google Map API Code</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="google_map_api_code" type="text" class="form-control" id="google_map_api_code" value="<?=$application_setting->google_map_api_code?>" <?=(($application_setting->google_map_api_code != '')?'readonly':'')?>>
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="allow_punch_distance" class="col-md-4 col-lg-3 col-form-label">Allow Punch Distance (In Meters)</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="allow_punch_distance" class="col-form-label">Allow Punch Distance (In Meters)</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="allow_punch_distance" type="text" class="form-control" id="allow_punch_distance" value="<?=$application_setting->allow_punch_distance?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="current_date_tasks_show_in_effort" class="col-md-4 col-lg-3 col-form-label">Current Date Tasks Show In Effort Time After</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="current_date_tasks_show_in_effort" class="col-form-label">Current Date Tasks Show In Effort Time After</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="current_date_tasks_show_in_effort" type="time" class="form-control" id="current_date_tasks_show_in_effort" value="<?= $application_setting->current_date_tasks_show_in_effort ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Monthly Minimum Effort Time</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="block_tracker_fillup_after_days" class="col-form-label">Monthly Minimum Effort Time</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="monthly_minimum_effort_time" type="number" class="form-control" id="monthly_minimum_effort_time" value="<?= $application_setting->monthly_minimum_effort_time ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="block_tracker_fillup_after_days" class="col-md-4 col-lg-3 col-form-label">Daily Minimum Effort Time</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="block_tracker_fillup_after_days" class="col-form-label">Daily Minimum Effort Time</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="daily_minimum_effort_time" type="number" class="form-control" id="daily_minimum_effort_time" value="<?= $application_setting->daily_minimum_effort_time ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="mark_later_after" class="col-md-4 col-lg-3 col-form-label">Mark Later After (24 hrs)</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="mark_later_after" class="col-form-label">Mark Later After (24 hrs)</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="mark_later_after" type="time" class="form-control" id="mark_later_after" value="<?= $application_setting->mark_later_after ?>">
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="currency" class="col-md-4 col-lg-3 col-form-label">Currency</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="currency" class="col-form-label">Currency</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <select name="currency" class="form-control" id="currency">
                           <option value="INR" <?=(($application_setting->currency == 'INR')?'selected':'')?>>INR</option>
@@ -613,7 +653,9 @@ $user_type = session('user_type');
                       </div>
                     </div>
                     <div class="row mb-3">
-                      <label for="edit_time_after_task_add" class="col-md-4 col-lg-3 col-form-label">Edit Time After Task Add</label>
+                      <div class="col-md-4 col-lg-3">
+                      <label for="edit_time_after_task_add" class="col-form-label">Edit Time After Task Add</label>
+                        </div>
                       <div class="col-md-8 col-lg-9">
                         <input name="edit_time_after_task_add" type="text" class="form-control" id="edit_time_after_task_add" value="<?= $application_setting->edit_time_after_task_add ?>" min="5" onkeypress="return isNumber(event)">
                       </div>
