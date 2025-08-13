@@ -537,16 +537,12 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                     
                                                                                                 <div class="mb-1 d-block">
                                                                                                     <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                                                                    <?php if($task['work_status_id'] != 0) { ?>
-                                                   <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
-                                                   <?php } ?>
-                                                   <p style="font-size: 10px;"><b>Assigned:</b> (<?= $task['hour']?> hr <?= $task['min']?> min)</p>
-                                                   <p style="font-size: 10px;"><?=$task['description']?></p>
-                                                   <?php if($task['work_status_id'] != 0) { ?>
-                                                   <p style="font-size: 10px;"><b>Booked:</b> (<?= $task['booked_hour']?> hr <?= $task['booked_min']?> min)</p>
-                                                   <?php if($task['description'] != $task['booked_description']) { ?>
-                                                      <p style="font-size: 10px;"><?=$task['booked_description']?></p>
-                                                   <?php } }?>
+                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div>
+                                                                                                    <?php if($getTask->booked_description != ''){?>
+                                                                                                        <div class="card_proj_info">
+                                                                                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
+                                                                                                        </div>
+                                                                                                    <?php }?>
                                                                                                 </div>
 
                                                                                                 <div class="card_projecttime">
