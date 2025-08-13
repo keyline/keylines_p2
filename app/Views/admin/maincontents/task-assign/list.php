@@ -329,8 +329,7 @@ $controller_route       = $moduleDetail['controller_route'];
             </div>
             <div class="col-12">
                 <div class="card table-card">
-                    <div class="card-body">.
-                        <h1>test</h1>
+                    <div class="card-body">
                         <div class="accordion" id="accordionPanelsStayOpenExample">
                             <?php
                             if(!empty($date_array)){ for($k=0;$k<count($date_array);$k++){
@@ -344,7 +343,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                     </h2>
                                     <div id="panelsStayOpen-collapse<?=$k?>" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
                                       <div class="accordion-body" id="task-list-<?=$singleDate?>">
-                                        
+                                        <h1>test</h1>
                                       </div>
                                     </div>
                                 </div>
