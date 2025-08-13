@@ -535,15 +535,228 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                 }
                                                                                                 ?>
                                                                                                     
-                                                                                                <div class="mb-1 d-block">
-                                                                                                    <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div>
-                                                                                                    <?php if($getTask->booked_description != ''){?>
-                                                                                                        <div class="card_proj_info">
-                                                                                                            <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
-                                                                                                        </div>
-                                                                                                    <?php }?>
-                                                                                                </div>
+                                                                                                <div class="row d-block">
+                           <?php
+                              $application_settings    = $common_model->find_data('application_settings', 'row');
+                              $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
+                              foreach ($employees as $emp):
+                                 if($userType == 'SUPER ADMIN'){
+                                    $alterIcon  = 1;
+                                    if($user_id == $emp->id){
+                                          $effortIcon = 1;
+                                    } else {
+                                          $effortIcon = 0;
+                                    }
+                                 } elseif($userType == 'ADMIN'){
+                                    $alterIcon  = 1;
+                                    if($user_id == $emp->id){
+                                          $effortIcon = 1;
+                                    } else {
+                                          $effortIcon = 0;
+                                    }
+                                 } elseif($userType == 'USER'){
+                                    if($user_id == $emp->id){
+                                          $alterIcon  = 1;
+                                          $effortIcon = 1;
+                                    } else {
+                                          $alterIcon  = 0;
+                                          $effortIcon = 0;
+                                    }
+                                 } else {
+                                    $alterIcon  = 0;
+                                    $effortIcon = 0;
+                                 }
+                              endforeach;
+                              function formatMinutesToHourMin($totalMin) {
+                                 $hr = intdiv($totalMin, 60);
+                                 $min = $totalMin % 60;
+                                 return "{$hr} hr {$min} min";
+                              }                              
+                              ?>
+                           <div class="col-xxl-4 col-md-4 table-responsive"> 
+                              <div style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 8px;color: white; margin-bottom: 10px; font-size: 14px;"> 
+                                 <h6>Yesterday Task</h6> 
+                                 <?php 
+                                    $total_time = formatMinutesToHourMin($yesterday_total_time);
+                                    $total_book_time = formatMinutesToHourMin($yesterday_total_book_time);
+                                 ?>                           
+                                 <p><span>Assigned: <?=$total_time?></span>    <span>Booked: <?=$total_book_time?></span></p>
+                              </div>
+                              <div class="row">
+                                 <?php  foreach($yesterday_task_details as $task){  
+                                    $task_background = $task['background_color'] ?? '';                                                                    
+                                 ?>  
+                                 <div class="col-md-12">
+                                    <div class="card table-card card table-card shadow-sm">
+                                       <div class="card-header task" style="background-color: <?= $task_background ?>;">
+                                          <div class="row">
+                                             <div class="col-md-8">
+                                                <div>                                  
+                                                   <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
+                                                   <?php } ?>
+                                                   <p style="font-size: 10px;"><b>Assigned:</b> (<?= $task['hour']?> hr <?= $task['min']?> min)</p>
+                                                   <p style="font-size: 10px;"><?=$task['description']?></p>
+                                                   <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Booked:</b> (<?= $task['booked_hour']?> hr <?= $task['booked_min']?> min)</p>
+                                                   <?php if($task['description'] != $task['booked_description']) { ?>
+                                                      <p style="font-size: 10px;"><?=$task['booked_description']?></p>
+                                                   <?php } }?>
+
+                                                   <p class="card-details text-muted" style="font-size: 9px;">
+                                                      <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
+                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                   </p>                                                                                                                                                                                            
+                                                </div>
+                                             </div>  
+                                             <?php if($task['work_status_id'] == 0) { ?>
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['task_id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['task_id'] ?>">
+                                                   <i class="fa fa-plus"></i> Add Effort
+                                                </button>                                                                                     
+                                             </div> 
+                                             <?php } ?>                       
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>
+                                  <?php } ?>                                                                   
+                              </div>                                                                                         
+                           </div>
+                           <div class="col-xxl-4 col-md-4 table-responsive"> 
+                              <div style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 8px;color: white;margin-bottom: 10px;font-size: 14px;">
+                                 <h6>Today Task</h6>       
+                                 <?php 
+                                    $total_time = formatMinutesToHourMin($user_total_time);
+                                    $total_book_time = formatMinutesToHourMin($user_total_book_time);
+                                 ?>                      
+                                 <p><span>Assigned: <?=$total_time?></span>    <span>Booked: <?=$total_book_time?></span></p>
+                              </div>
+                              <div class="row">                                 
+                                  <?php foreach($user_task_details as $task){ 
+                                    // pr($task);
+                                    $task_background = $task['background_color'] ?? '';                                                                         
+                                 ?> 
+                                 <div class="col-md-12">
+                                    <div class="card table-card card table-card shadow-sm">
+                                       <div class="card-header task" style="background-color: <?= $task_background ?>;">
+                                          <div class="row">
+                                             <div class="col-md-8">
+                                                <div>                                                                                                                                                                                                       
+                                                   <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
+                                                   <?php } ?>
+                                                   <p style="font-size: 10px;"><b>Assigned:</b> (<?= $task['hour']?> hr <?= $task['min']?> min)</p>
+                                                   <p style="font-size: 10px;"><?=$task['description']?></p>
+                                                   <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Booked:</b> (<?= $task['booked_hour']?> hr <?= $task['booked_min']?> min)</p>
+                                                   <?php if($task['description'] != $task['booked_description']) { ?>
+                                                      <p style="font-size: 10px;"><?=$task['booked_description']?></p>
+                                                   <?php } } ?>
+                                                   <p class="card-details text-muted" style="font-size: 9px;">
+                                                      <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
+                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                   </p>                                                                                                                                                                                            
+                                                </div>
+                                             </div>  
+                                             <?php if($task['work_status_id'] == 0) { 
+                                                $time1 = DateTime::createFromFormat('M d, Y h:i a', $task['created_at']); 
+    
+                                                // Current datetime as DateTime object
+                                                $time2 = new DateTime();
+                                                // Get the difference
+                                                $interval = $time1->diff($time2);
+                                                // pr($interval);
+                                                // Convert the difference to total minutes
+                                                $minutes = ($interval->h * 60) + $interval->i;        
+                                                // pr($minutes);                                        
+                                                ?>
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['task_id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['task_id'] ?>">
+                                                   <i class="fa fa-plus"></i> Add Effort
+                                                </button> <br>
+                                                <?php if($minutes <= $edit_time_after_task_add){
+                                                   if($task['added_by'] == $user_id){ ?>
+                                                <button style="font-size: 10px;" type="button" onclick="taskEditList('<?= $task['task_id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#editTaskModal" data-task-id="<?= $task['task_id'] ?>">
+                                                   <i class="fa fa-pencil-square"></i>
+                                                </button>  
+                                                <?php } }?>                                                                                                        
+                                             </div> 
+                                             <?php } ?>                       
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>                                  
+                                 <?php } ?>                                 
+                              </div>                                                                                         
+                           </div>
+                           <div class="col-xxl-4 col-md-4 table-responsive">    
+                              <div style="background-color: #799cb0;padding: 8px;text-align: center;font-weight: 700;border-radius: 8px;color: white;margin-bottom: 10px;font-size: 14px;">
+                                 <h6>Upcoming Task</h6>  
+                                 <?php 
+                                    $total_time = formatMinutesToHourMin($upcoming_total_time);
+                                    $total_book_time = formatMinutesToHourMin($upcoming_total_book_time);
+                                 ?>                        
+                                 <p><span>Assigned: <?=$total_time?></span>    <span>Booked: <?=$total_book_time?></span></p>
+                              </div>
+                              <div class="row">                                                                                                   
+                                 <?php foreach($upcoming_task_details as $task){ 
+                                    $task_background = $task['background_color'] ?? '';                                       
+                                 ?> 
+                                 <div class="col-md-12">
+                                    <div class="card table-card card table-card shadow-sm">
+                                       <div class="card-header task" style="background-color: <?= $task_background ?>;">
+                                          <div class="row">
+                                             <div class="col-md-8">
+                                                <div>                                                                                                                                                                                                       
+                                                   <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
+                                                   <?php } ?>
+                                                   <p style="font-size: 10px;"><b>Assigned:</b> (<?= $task['hour']?> hr <?= $task['min']?> min) for <?= date_format(date_create($task['date_added']), "M d, Y") ?></p>                                                   
+                                                   <p style="font-size: 10px;"><?=$task['description']?></p>
+                                                   <?php if($task['work_status_id'] != 0) { ?>
+                                                   <p style="font-size: 10px;"><b>Booked:</b> (<?= $task['booked_hour']?> hr <?= $task['booked_min']?> min)</p>
+                                                   <?php if($task['description'] != $task['booked_description']) { ?>
+                                                      <p style="font-size: 10px;"><?=$task['booked_description']?></p>
+                                                   <?php } } ?>
+                                                   <p class="card-details text-muted" style="font-size: 9px;">
+                                                      <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
+                                                      <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
+                                                      <span class="ms-3"><i class="fa fa-flag" aria-hidden="true"></i> <?php if($task['priority'] == 1){ echo 'Low';} else if($task['priority'] == 2) {echo 'Medium';} else if($task['priority'] == 3) {echo 'High';} ?></span>
+                                                   </p>                                                                                                                                                                                            
+                                                </div>
+                                             </div>  
+                                             <?php if($task['work_status_id'] == 0) { 
+                                                $time1 = DateTime::createFromFormat('M d, Y h:i a', $task['created_at']); 
+    
+                                                // Current datetime as DateTime object
+                                                $time2 = new DateTime();
+                                                // Get the difference
+                                                $interval = $time1->diff($time2);                                                
+                                                // Convert the difference to total minutes
+                                                $minutes = ($interval->h * 60) + $interval->i;        
+                                                       ?>
+                                                       <?php if($minutes <= $edit_time_after_task_add){
+                                                   if($task['added_by'] == $user_id){ ?>
+                                             <div class="col-md-4 text-right">
+                                                <button style="font-size: 10px;" type="button" onclick="taskEditList('<?= $task['task_id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#editTaskModal" data-task-id="<?= $task['task_id'] ?>">
+                                                   <i class="fa fa-pencil-square"></i>
+                                                </button>                                                                                     
+                                             </div> 
+                                             <?php } } }?>                       
+                                          </div>
+                                       </div>
+                                    </div>
+                                 </div>                                  
+                                 <?php } ?>
+                              </div>                                                                                         
+                           </div>
+                        </div>
 
                                                                                                 <div class="card_projecttime">
                                                                                                     [<?php
