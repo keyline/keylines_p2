@@ -684,7 +684,9 @@ $user_type = session('user_type');
                   <form method="POST" action="<?= base_url('admin/change-password') ?>" enctype="multipart/form-data">
                     <div class="password-container">
                       <div class="row mb-3">
-                        <label for="password1" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
+                        <div class="col-md-4 col-lg-3">
+                          <label for="password1" class="col-form-label">Current Password</label>
+                        </div>
                         <div class="col-md-8 col-lg-9">
                           <input type="password" name="old_password" class="form-control" id="password1" oninput="validatePassword(this.value, 1);">
                           <input type="hidden" id="score1" value="0">
@@ -701,7 +703,9 @@ $user_type = session('user_type');
                         </div>
                       </div>
                       <div class="row mb-3">
-                        <label for="password2" class="col-md-4 col-lg-3 col-form-label">New Password</label>
+                        <div class="col-md-4 col-lg-3">
+                          <label for="password2" class="col-form-label">New Password</label>
+                        </div>
                         <div class="col-md-8 col-lg-9">
                           <input type="password" name="new_password" class="form-control" id="password2" oninput="validatePassword(this.value, 2);">
                           <input type="hidden" id="score2" value="0">
@@ -718,7 +722,9 @@ $user_type = session('user_type');
                         </div>
                       </div>
                       <div class="row mb-3">
-                        <label for="password3" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
+                        <div class="col-md-4 col-lg-3">
+                          <label for="password3" class="col-form-label">Re-enter New Password</label>
+                        </div>
                         <div class="col-md-8 col-lg-9">
                           <input type="password" name="confirm_password" class="form-control" id="password3" oninput="validatePassword(this.value, 3);">
                           <input type="hidden" id="score3" value="0">
