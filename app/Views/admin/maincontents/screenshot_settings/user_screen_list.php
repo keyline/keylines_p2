@@ -69,12 +69,12 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                     </form>
                                 </div>
                                 <?php if (count($row)) {
                                     foreach ($row as $screenshot) { ?>
-                                    
+
 
                                         <div class="col-lg-3 col-md-4 col-sm-6">
                                             <div class="card screenshort_card p-2">
@@ -82,7 +82,7 @@
                                                     <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
                                                 </a>
                                                 <div class="card-body">
-                                                    <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p> 
+                                                    <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
                                                 </div>
                                             </div>
                                         </div>
