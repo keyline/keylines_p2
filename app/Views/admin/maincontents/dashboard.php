@@ -253,7 +253,7 @@
                                        <div class="card-header task" style="background-color: <?= $task_background ?>;">
                                           <div class="row">
                                              <div class="col-md-8">
-                                                <div>                                                                                                                                                                                                       
+                                                <div>                                  
                                                    <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
                                                    <?php if($task['work_status_id'] != 0) { ?>
                                                    <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
