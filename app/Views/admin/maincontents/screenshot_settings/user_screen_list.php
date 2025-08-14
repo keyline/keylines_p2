@@ -38,7 +38,6 @@
         width: 100%;
     }
     .admin-user-overview {
-        display: table;
         margin: auto;
         width: 100%;
         text-align: center;
@@ -87,7 +86,7 @@
         width: 100%;
         height: auto;
         display: flex    ;
-        background: linear-gradient(180deg, red 0%, rgba(235, 235, 235, 0.00) 100%);
+        background: linear-gradient(180deg, #F6F6F6 0%, rgba(235, 235, 235, 0.00) 100%);
         min-height: 40px;
         margin-top: 10px;
         gap: 3px;
@@ -96,7 +95,7 @@
         width: auto;
         height: auto;
         display: inline-block;
-        background: red;
+        background: #f6f6f6;
         min-height: 40px;
         margin-bottom: 0;
         position: relative;
@@ -107,7 +106,7 @@
         height: 100%;
         width: 4px;
         content: '';
-        background-color: red;
+        background-color: #fff;
         z-index: 8;
     }
     .hourly_time_work_productive_sec {
@@ -153,7 +152,7 @@
         height: 50px;
         margin-bottom: 20px;
         overflow: hidden;
-        background-color: red;
+        background-color: #f5f5f5;
         border-radius: 0px;
         -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
@@ -175,14 +174,14 @@
         overflow: visible !important;
     }
     .desklog-time-bar .progress-bar-dark {
-        background-color: red;
+        background-color: #e1e5e6;
         color: #e1e5e6;
     }
     .admin-user-overview-time-bar .first_time_bar .progress-bar-dark::before {
         height: 45px;
         top: -45px;
         content: '';
-        background-color: red;
+        background-color: #f6f6f6;
         width: 100%;
         position: absolute;
         pointer-events: none;
@@ -216,7 +215,7 @@
         content: "";
         width: 1px;
         height: 6px;
-        background-color: red;
+        background-color: #c5c5c5;
         top: -5px;
         left: 0px;
     }
@@ -273,95 +272,8 @@
         border-radius: 10px;
         margin-right: 5px;
     }
-    .app_usage_top_activity_sec {
-        width: 100%;
-        max-width: 200px;
-        height: 100%;
-        padding: 10px 7px;
-    }
-    .appusage_activity_efficiency_row {
-        position: relative;
-        width: 100%;
-        display: inline-block;
-        z-index: 8;
-    }
-    .app_usage_top_activity_sec .acteff_main_box {
-        border-radius: 7px;
-        background: #fff;
-        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .09);
-        margin-bottom: 15px;
-        width: 100%;
-        z-index: 9;
-        position: relative;
-        border: 1px #81b504 dashed;
-    }
-    .acteff_main_box {
-        display: inline-block !important;
-        text-align: left !important;
-        padding: 13px !important;
-    }
-    .acteff_content {
-        width: 100%;
-        height: auto;
-        display: inline-block;
-    }
-    .acteff_main_box .task_qck_bx_info {
-        left: inherit;
-        right: 5px;
-    }
-    .task_qck_bx_info {
-        position: absolute;
-        top: 0;
-        left: 0;
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        opacity: 0.6;
-    }
-    .acteff_content h5 {
-        width: 100%;
-        display: inline-block;
-        margin: 0;
-        font-size: 14px;
-        color: #5e5e5e;
-    }
-    .acteff_content h2 {
-        width: 100%;
-        position: relative;
-        display: inline-block;
-        color: #272727;
-        font-size: 25px;
-        margin-top: 0;
-        margin-bottom: 0;
-        font-weight: 600;
-        text-shadow: 1px 2px #ccc;
-    }
-    .feature_in_highplan_text {
-        position: absolute;
-        left: 0;
-        width: 94%;
-        text-align: center;
-        color: #323232;
-        font-size: 13px;
-        background-color: red;
-        height: 77%;
-        margin: 5px;
-        display: flex;
-        align-items: center;
-        padding: 10px;
-        font-weight: bold;
-        z-index: 91;
-    }
-    .app_usage_top_activity_sec .acteff_main_box {
-        border-radius: 7px;
-        background: #fff;
-        box-shadow: 0 2px 6px 0 rgba(0, 0, 0, .09);
-        margin-bottom: 15px;
-        width: 100%;
-        z-index: 9;
-        position: relative;
-        border: 1px #81b504 dashed;
-    }
+
+
 </style>
 <div class="container-fluid">
     <div class="row">
