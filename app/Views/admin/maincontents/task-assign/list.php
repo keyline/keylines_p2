@@ -591,7 +591,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                             </div>
                                                                                                         <?php }?>
                                                                                                     </div>
-
+                                                                                                </div>
                                                                                                 
                                                                                                 <?php
                                                                                                 if($getTask->updated_at == ''){
@@ -910,40 +910,41 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                         <?php }?>
                                                                                                     </div>
 
-                                                                                                <div class="d-flex justify-content-between">
-                                                                                                    <?php
-                                                                                                    if($getTask->updated_at == ''){
-                                                                                                        $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
-                                                                                                    } else {
-                                                                                                        $createdAt = date_format(date_create($getTask->updated_at), "d/m/y - h:i a");
-                                                                                                    }
+                                                                                                    <div class="d-flex justify-content-between">
+                                                                                                        <?php
+                                                                                                        if($getTask->updated_at == ''){
+                                                                                                            $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
+                                                                                                        } else {
+                                                                                                            $createdAt = date_format(date_create($getTask->updated_at), "d/m/y - h:i a");
+                                                                                                        }
 
-                                                                                                    $time1 = new DateTime($getTask->created_at);
-                                                                                                    $time2 = new DateTime(date('Y-m-d H:i:s'));
-                                                                                                    // Get the difference
-                                                                                                    $interval = $time1->diff($time2);
-                                                                                                    // Convert the difference to total minutes
-                                                                                                    $minutes = ($interval->h * 60) + $interval->i;
-                                                                                                    ?>
-                                                                                                    <p class="mb-0 assign-name">
-                                                                                                        By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
-                                                                                                        <?php if($getTask->work_status_id == 0){?>
-                                                                                                            <?php if($effortIcon){?>
-                                                                                                                <br>
-                                                                                                                <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
+                                                                                                        $time1 = new DateTime($getTask->created_at);
+                                                                                                        $time2 = new DateTime(date('Y-m-d H:i:s'));
+                                                                                                        // Get the difference
+                                                                                                        $interval = $time1->diff($time2);
+                                                                                                        // Convert the difference to total minutes
+                                                                                                        $minutes = ($interval->h * 60) + $interval->i;
+                                                                                                        ?>
+                                                                                                        <p class="mb-0 assign-name">
+                                                                                                            By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
+                                                                                                            <?php if($getTask->work_status_id == 0){?>
+                                                                                                                <?php if($effortIcon){?>
+                                                                                                                    <br>
+                                                                                                                    <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
+                                                                                                                <?php }?>
+                                                                                                            <?php }?>
+                                                                                                        </p>
+
+                                                                                                        <?php if($getTask->work_status_id <= 0){?>
+                                                                                                            <?php if($alterIcon){?>
+                                                                                                                <?php if($minutes <= $edit_time_after_task_add){?>
+                                                                                                                    <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
+                                                                                                                        <i class="fa-solid fa-pencil text-primary"></i>
+                                                                                                                    </a>
+                                                                                                                <?php }?>
                                                                                                             <?php }?>
                                                                                                         <?php }?>
-                                                                                                    </p>
-
-                                                                                                    <?php if($getTask->work_status_id <= 0){?>
-                                                                                                        <?php if($alterIcon){?>
-                                                                                                            <?php if($minutes <= $edit_time_after_task_add){?>
-                                                                                                                <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
-                                                                                                                    <i class="fa-solid fa-pencil text-primary"></i>
-                                                                                                                </a>
-                                                                                                            <?php }?>
-                                                                                                        <?php }?>
-                                                                                                    <?php }?>
+                                                                                                    </div>
                                                                                                 </div>
                                                                                             </div>
                                                                                         </div>
