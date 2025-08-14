@@ -539,59 +539,6 @@
                                                                 data-to="Online">Online</span></span>
                                                     </a>
                                                 </div>
-                                                <div class="admin-user-overview-col task_assigned" style="display: none">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Left-Time.png">
-                                                    </div>
-                                                    <a>
-                                                        <span class="top-grid-title"> Task Assigned</span>
-                                                        <span class="top-grid-report block clouck_out"><span class="left" id="" data-from="0"
-                                                                data-to="--">--
-                                                            </span>
-                                                        </span></a>
-                                                </div>
-                                                <div class="admin-user-overview-col min_working_hr" style="display: none">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Left-Time.png">
-                                                    </div>
-                                                    <a>
-                                                        <span class="top-grid-title"> Min Working Hr</span>
-                                                        <span class="top-grid-report block clouck_out"><span class="left" id="" data-from="0"
-                                                                data-to="08h 00m">08h 00m
-                                                            </span>
-                                                        </span></a>
-                                                </div>
-                                    
-                                                <div class="admin-user-overview-col neutral_time" style="display: none">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Left-Time.png">
-                                                    </div>
-                                                    <a>
-                                                        <span class="top-grid-title"> Neutral Time</span>
-                                                        <span class="top-grid-report block clouck_out"><span class="left" id="" data-from="0"
-                                                                data-to="--">--
-                                                            </span>
-                                                        </span></a>
-                                                </div>
-                                    
-                                                <div class="admin-user-overview-col non_prod_time" style="display: none">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Left-Time.png">
-                                                    </div>
-                                                    <a>
-                                                        <span class="top-grid-title"> Non Prod Time</span>
-                                                        <span class="top-grid-report block clouck_out"><span class="left" id="" data-from="0"
-                                                                data-to="--">--
-                                                            </span>
-                                                        </span></a>
-                                                </div>
-                                    
-                                                <div class="admin-user-overview-col over_time" style="display: none">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Left-Time.png">
-                                                    </div>
-                                                    <a>
-                                                        <span class="top-grid-title"> Over Time</span>
-                                                        <span class="top-grid-report block clouck_out"><span class="left" id="" data-from="0"
-                                                                data-to="--">--
-                                                            </span>
-                                                        </span></a>
-                                                </div>
                                             </div>
                                     
                                             <div class="over-flow appusage_day_view_2 " style="max-width: 1024px; margin: auto;">
