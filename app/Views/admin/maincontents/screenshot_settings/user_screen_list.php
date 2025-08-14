@@ -268,7 +268,8 @@
         }
     }
     @media(max-width: 767px){
-        .appusage_top_view_sec{
+        .appusage_top_view_sec,
+        .admin-user-timeLlne .note-content ul{
             flex-wrap: wrap;
         }
         .user_timeline_new_view{
