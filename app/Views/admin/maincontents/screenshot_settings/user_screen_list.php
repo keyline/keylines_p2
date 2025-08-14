@@ -220,14 +220,11 @@
         top: -5px;
         left: 0px;
     }
-    .admin-user-timeLlne {
-        display: table;
-        margin-left: auto;
-        margin-right: auto;
-    }
-    .admin-user-timeLlne .note-content {
+ 
+    .admin-user-timeLlne .note-content ul{
         text-align: left;
-        display: inline-block;
+        display: flex;
+        justify-content: center;
     }
     .admin-user-timeLlne .note-content ul li {
         margin-right: 10px;
@@ -441,30 +438,6 @@
                                 <div class="col-12">
                                     <div class="appusage_top_view_sec">
                                         <div class="appusage_top_timehour_graph">
-                                            <div id="idlechartdiv" style="display: block">
-                                                <span style="width:100%;position:relative;display:inline-block">
-                                                    <div class="chartjs-size-monitor">
-                                                        <div class="chartjs-size-monitor-expand">
-                                                            <div class=""></div>
-                                                        </div>
-                                                        <div class="chartjs-size-monitor-shrink">
-                                                            <div class=""></div>
-                                                        </div>
-                                                    </div>
-                                                    <input type="hidden" id="idletimepercentage"
-                                                        value="{&quot;labels&quot;:[&quot;Idle&quot;,&quot;Focus&quot;,&quot;Private&quot;],&quot;data&quot;:[4140,8119,3],&quot;tooltip&quot;:[&quot;01h 09m&quot;,&quot;02h 15m&quot;,&quot;00h 00m&quot;],&quot;colors&quot;:[&quot;#F4D41F&quot;,&quot;#81B504&quot;,&quot;rgb(235, 64, 100)&quot;]}">
-                                                    <canvas height="150px" style="margin: auto; width: 100%; display: block;" id="idlechart" width="229"
-                                                        class="chartjs-render-monitor"></canvas>
-                                                    <div id="work_graph_center_perc" class="work-report-graph-totalprdct-percntg percg_inn">
-                                                        <strong>66.21%</strong>
-                                                        Focused
-                                                    </div>
-                                                </span>
-                                            </div>
-                                            <div id="noworktaskbarChart" class="no-data-found text-center" style="display: none">
-                                                <h4 class="no_data_text" style="padding-top: 10px;"><img src="https://ap-app.desklog.io/img/no-data1.png">
-                                                </h4>
-                                            </div>
                                             <div id="work_graph_detail" class="grph-btm-details">
                                                 <div class="text-center">
                                                     <span class="block text">Idle</span>
@@ -504,24 +477,6 @@
                                                         </span>
                                                     </a>
                                                 </div>
-                                                <div class="admin-user-overview-col focus_time" style="display: none">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Left-Time.png">
-                                                    </div>
-                                                    <a>
-                                                        <span class="top-grid-title">Focus Time</span>
-                                                        <span class="top-grid-report block clouck_out"><span class="left" id="" data-from="0"
-                                                                data-to="02h 15m">02h 15m
-                                                            </span>
-                                                        </span></a>
-                                                </div>
-                                                <div class="admin-user-overview-col task_spent">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Productive-Time.png"></div>
-                                                    <a href="#" class="">
-                                                        <span class="top-grid-title">Task Spent</span>
-                                                        <span class="top-grid-report block"><span class="prod_time" style="color: #81B504" data-from="0"
-                                                                data-to="--">--</span></span>
-                                                    </a>
-                                                </div>
                                                 <div class="admin-user-overview-col clock_in">
                                                     <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Arrival-Time.png"></div>
                                                     <a>
@@ -540,9 +495,7 @@
                                                 </div>
                                             </div>
                                     
-                                            <div class="over-flow appusage_day_view_2 " style="max-width: 1024px; margin: auto;">
-                                    
-                                    
+                                            <div class="over-flow appusage_day_view_2 ">
                                                 <section class="desklog-time-bar admin-user-overview-time-bar">
                                                     <div class="user_timeline_new_view" style="width:100%;">
                                                         <div class="user_timeline_new_time_line_srcl">
@@ -1021,17 +974,6 @@
                                             </div>
                                             <div class="appusage_activity_efficiency_row animated fadeInDown">
                                                 <small class="feature_in_highplan_text">This feature is available in higher plans</small>
-                                                <div class="acteff_main_box  no_feature_blur ">
-                                                    <div class="acteff_content">
-                                                        <i class="fa fa-info-circle task_qck_bx_info" aria-hidden="true">
-                                                            <span
-                                                                data-tooltip="Activity is the percentage of keyboard and mouse strokes during the total tracked time.(All users must install latest version of Desklog app for accurate data)"></span>
-                                                        </i>
-                                                        <h5>Activity</h5>
-                                                        <h2>0%
-                                                        </h2>
-                                                    </div>
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
