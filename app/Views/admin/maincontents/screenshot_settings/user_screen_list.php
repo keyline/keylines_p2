@@ -908,18 +908,18 @@
     });
 </script>
 <script>
-var options = {
+    var options = {
     series: [240, 279, 26], // Idle, Focus, Private in minutes
     chart: {
         type: 'donut',
-        height: 180 // Reduced height
+        height: 160 // Reduced chart size
     },
     labels: ['Idle', 'Focus', 'Private'],
     colors: ['#ffd700', '#6bbf00', '#ff4d4f'], // Yellow, Green, Red
     plotOptions: {
         pie: {
             donut: {
-                size: '65%', // Smaller donut
+                size: '55%', // Thinner donut ring
                 labels: {
                     show: true,
                     total: {
