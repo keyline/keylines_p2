@@ -11,7 +11,6 @@
     .appusage_top_timehour_graph {
         width: 100%;
         height: 100%;
-        min-width: 230px;
         max-width: 230px;
         border-right: 1px dashed #e5e5e5;
         padding-bottom: 10px;
@@ -209,6 +208,7 @@
         text-align: left;
         display: flex;
         justify-content: center;
+        margin-top: 10px;
     }
     .admin-user-timeLlne .note-content ul li {
         margin-right: 10px;
@@ -274,6 +274,13 @@
         }
         .user_timeline_new_view{
             max-width: 400px;
+        }
+        .appusage_top_timehour_graph {
+            width: 100%;
+            height: 100%;
+            max-width: 100%;
+            border-right: none;
+            padding-bottom: 10px;
         }
     }
 </style>
