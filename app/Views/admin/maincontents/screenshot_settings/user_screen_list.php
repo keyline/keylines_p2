@@ -919,7 +919,7 @@
     plotOptions: {
         pie: {
             donut: {
-                size: '85%', // Smaller donut
+                size: '70%', // Smaller donut
                 labels: {
                     show: true,
                     total: {
