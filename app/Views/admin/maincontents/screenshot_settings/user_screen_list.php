@@ -342,6 +342,7 @@
                                     <div class="appusage_top_view_sec">
                                         <div class="appusage_top_timehour_graph">
                                             <div id="work_graph_detail" class="grph-btm-details">
+                                                <div id="screenshort_chart"></div>
                                                 <div class="text-center">
                                                     <span class="block text">Idle</span>
                                                     <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_idle_time">
@@ -905,4 +906,50 @@
     const lightbox = GLightbox({
         selector: '.glightbox'
     });
+</script>
+<script>
+var options = {
+    series: [240, 279, 26], // Idle, Focus, Private in minutes
+    chart: {
+        type: 'donut',
+        height: 250
+    },
+    labels: ['Idle', 'Focus', 'Private'],
+    colors: ['#ffd700', '#6bbf00', '#ff4d4f'], // Yellow, Green, Red
+    plotOptions: {
+        pie: {
+            donut: {
+                size: '70%',
+                labels: {
+                    show: true,
+                    total: {
+                        show: true,
+                        label: 'Focused',
+                        formatter: function (w) {
+                            let totalMinutes = w.globals.seriesTotals.reduce((a, b) => a + b, 0);
+                            let focusMinutes = w.globals.seriesTotals[1];
+                            let percentage = (focusMinutes / totalMinutes) * 100;
+                            return percentage.toFixed(2) + '%';
+                        }
+                    }
+                }
+            }
+        }
+    },
+    legend: {
+        show: false
+    },
+    tooltip: {
+        y: {
+            formatter: function (val) {
+                let hours = Math.floor(val / 60);
+                let minutes = val % 60;
+                return (hours > 0 ? hours + "h " : "") + minutes + "m";
+            }
+        }
+    }
+};
+
+var chart = new ApexCharts(document.querySelector("#screenshort_chart"), options);
+chart.render();
 </script>
