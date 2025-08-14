@@ -87,7 +87,7 @@
         width: 100%;
         height: auto;
         display: flex    ;
-        background: linear-gradient(180deg, #F6F6F6 0%, rgba(235, 235, 235, 0.00) 100%);
+        background: linear-gradient(180deg, red 0%, rgba(235, 235, 235, 0.00) 100%);
         min-height: 40px;
         margin-top: 10px;
         gap: 3px;
@@ -96,7 +96,7 @@
         width: auto;
         height: auto;
         display: inline-block;
-        background: #f6f6f6;
+        background: red;
         min-height: 40px;
         margin-bottom: 0;
         position: relative;
@@ -107,7 +107,7 @@
         height: 100%;
         width: 4px;
         content: '';
-        background-color: #fff;
+        background-color: red;
         z-index: 8;
     }
     .hourly_time_work_productive_sec {
@@ -153,7 +153,7 @@
         height: 50px;
         margin-bottom: 20px;
         overflow: hidden;
-        background-color: #f5f5f5;
+        background-color: red;
         border-radius: 0px;
         -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
         box-shadow: inset 0 1px 2px rgba(0, 0, 0, .1);
@@ -175,14 +175,14 @@
         overflow: visible !important;
     }
     .desklog-time-bar .progress-bar-dark {
-        background-color: #e1e5e6;
+        background-color: red;
         color: #e1e5e6;
     }
     .admin-user-overview-time-bar .first_time_bar .progress-bar-dark::before {
         height: 45px;
         top: -45px;
         content: '';
-        background-color: #f6f6f6;
+        background-color: red;
         width: 100%;
         position: absolute;
         pointer-events: none;
@@ -216,7 +216,7 @@
         content: "";
         width: 1px;
         height: 6px;
-        background-color: #c5c5c5;
+        background-color: red;
         top: -5px;
         left: 0px;
     }
@@ -343,7 +343,7 @@
         text-align: center;
         color: #323232;
         font-size: 13px;
-        background-color: #ffffffd6;
+        background-color: red;
         height: 77%;
         margin: 5px;
         display: flex;
