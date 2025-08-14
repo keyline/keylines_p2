@@ -868,26 +868,6 @@
                                                 </section>
                                             </div>
                                         </div>
-                                    
-                                        <div class="app_usage_top_activity_sec">
-                                            <div class="appusage_activity_efficiency_row animated fadeInDown">
-                                                <div class="acteff_main_box ">
-                                                    <div class="acteff_content">
-                                                        <i class="fa fa-info-circle task_qck_bx_info" aria-hidden="true">
-                                                            <span
-                                                                data-tooltip="Efficiency is measured by comparing the amount of productive time to the total time at work.">
-                                                            </span>
-                                                        </i>
-                                                        <h5>Efficiency</h5>
-                                                        <h2>0%
-                                                        </h2>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="appusage_activity_efficiency_row animated fadeInDown">
-                                                <small class="feature_in_highplan_text">This feature is available in higher plans</small>
-                                            </div>
-                                        </div>
                                     </div>
                                 </div>
                                 <?php if (count($row)) {
