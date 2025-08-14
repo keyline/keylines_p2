@@ -213,7 +213,25 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                                 <?php if($getTask->booked_description != ''){?>
                                                                     <div class="card_proj_info">
                                                                         <strong style="color: #2d93d1;">
-                                                                            Booked : (<?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)
+                                                                            Booked : (
+                                                                            <?php
+                                                                                // Hours
+                                                                                if ($getTask->booked_hour > 0) {
+                                                                                    echo $getTask->booked_hour . ' ' . ($getTask->booked_hour == 1 ? 'hr' : 'hrs');
+                                                                                } else {
+                                                                                    echo '0 hr';
+                                                                                }
+
+                                                                                echo ' ';
+
+                                                                                // Minutes
+                                                                                if ($getTask->booked_min > 0) {
+                                                                                    echo $getTask->booked_min . ' ' . ($getTask->booked_min == 1 ? 'min' : 'mins');
+                                                                                } else {
+                                                                                    echo '0 min';
+                                                                                }
+                                                                            ?>
+                                                                            )
                                                                         </strong>
                                                                         <p><?=$getTask->booked_description?></p>
                                                                     </div>
