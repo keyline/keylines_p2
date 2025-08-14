@@ -591,7 +591,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                             </div>
                                                                                                         <?php }?>
                                                                                                     </div>
-                                                                                                </div>
+
                                                                                                 
                                                                                                 <?php
                                                                                                 if($getTask->updated_at == ''){
@@ -945,7 +945,6 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                             <?php }?>
                                                                                                         <?php }?>
                                                                                                     </div>
-                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
                                                                                     </div>
