@@ -367,7 +367,6 @@
                                             <div class="admin-user-overview animated fadeInDown">
                                     
                                                 <div class="admin-user-overview-col time_at_work">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Time-At-Work.png"></div>
                                                     <a>
                                                         <span class="top-grid-title">Time At Work</span>
                                                         <span class="top-grid-report block" style="color: #484848" id="work_time">02h 15m
@@ -381,7 +380,6 @@
                                                     </a>
                                                 </div>
                                                 <div class="admin-user-overview-col clock_in">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Arrival-Time.png"></div>
                                                     <a>
                                                         <span class="top-grid-title">Clock In</span>
                                                         <div class="top-grid-report block"><span class="timer" id="arrival" data-from="0"
@@ -389,7 +387,6 @@
                                                     </a>
                                                 </div>
                                                 <div class="admin-user-overview-col clock_out">
-                                                    <div class="top-grid-img-user"><img class="top-grid-img" src="/img/Left-Time.png"></div>
                                                     <a>
                                                         <span class="top-grid-title">Clock Out</span>
                                                         <span class="top-grid-report block"><span class="left" id="leave" data-from="0"
