@@ -257,8 +257,24 @@
         border-radius: 10px;
         margin-right: 5px;
     }
-
-
+    @media(max-width: 1199px){
+        .user_timeline_new_view{
+            max-width: 640px;
+        }
+    }
+    @media(max-width: 991px){
+        .user_timeline_new_view{
+            max-width: 400px;
+        }
+    }
+    @media(max-width: 767px){
+        .appusage_top_view_sec{
+            flex-wrap: wrap;
+        }
+        .user_timeline_new_view{
+            max-width: 400px;
+        }
+    }
 </style>
 <div class="container-fluid">
     <div class="row">
