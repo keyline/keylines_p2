@@ -76,7 +76,6 @@
     }
     .user_timeline_new_view {
         overflow: auto;
-        max-width: 550px;
         margin: auto;
     }
     .user_timeline_new_time_line_srcl {
