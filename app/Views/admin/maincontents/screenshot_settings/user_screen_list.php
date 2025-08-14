@@ -181,7 +181,7 @@
         height: 45px;
         top: -45px;
         content: '';
-        background-color: #f6f6f6;
+        background-color: red;
         width: 100%;
         position: absolute;
         pointer-events: none;
