@@ -177,15 +177,6 @@
         background-color: #e1e5e6;
         color: #e1e5e6;
     }
-    .admin-user-overview-time-bar .first_time_bar .progress-bar-dark::before {
-        height: 45px;
-        top: -45px;
-        content: '';
-        background-color: red;
-        width: 100%;
-        position: absolute;
-        pointer-events: none;
-    }
     #off_req {
         display: inline-block;
         position: relative;
