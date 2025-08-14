@@ -919,7 +919,7 @@ var options = {
     plotOptions: {
         pie: {
             donut: {
-                size: '70%',
+                size: '50%',
                 labels: {
                     show: true,
                     total: {
