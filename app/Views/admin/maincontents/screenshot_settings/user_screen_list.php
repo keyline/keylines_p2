@@ -932,6 +932,23 @@
             }
         }
     },
+    dataLabels: {
+        enabled: true,
+        dropShadow: {
+        enabled: false  // Disable the box shadow here
+        },
+        style: {
+        fontSize: '12px',
+        },
+        background: {
+        enabled: true,
+        foreColor: '#000',
+        padding: 4,
+        borderRadius: 2,
+        borderWidth: 1,
+        borderColor: '#ffc107',
+        },
+    },
     legend: {
         show: false
     },
