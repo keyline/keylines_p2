@@ -912,14 +912,14 @@
     series: [240, 279, 26], // Idle, Focus, Private in minutes
     chart: {
         type: 'donut',
-        height: 160 // Reduced chart size
+        height: 180 // Reduced height
     },
     labels: ['Idle', 'Focus', 'Private'],
     colors: ['#ffd700', '#6bbf00', '#ff4d4f'], // Yellow, Green, Red
     plotOptions: {
         pie: {
             donut: {
-                size: '55%', // Thinner donut ring
+                size: '85%', // Smaller donut
                 labels: {
                     show: true,
                     total: {
