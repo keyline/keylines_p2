@@ -87,7 +87,7 @@ $controller_route       = $moduleDetail['controller_route'];
         font-size: 12px !important;
     }
     .card_proj_info{
-        font-size: 11px !important;
+        /* font-size: 11px !important; */
     }
     .card_projecttime {
         /* font-weight: 700; */
