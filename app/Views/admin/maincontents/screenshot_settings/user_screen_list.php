@@ -16,13 +16,7 @@
         border-right: 1px dashed #e5e5e5;
         padding-bottom: 10px;
     }
-    .grph-btm-details {
-        display: flex    ;
-        gap: 5px;
-        padding: 0;
-        text-align: center;
-        justify-content: center;
-    }
+    
     .grph-btm-details .text-center {
         margin: 0;
         width: 100%;
@@ -343,23 +337,25 @@
                                         <div class="appusage_top_timehour_graph">
                                             <div id="work_graph_detail" class="grph-btm-details">
                                                 <div id="screenshort_chart"></div>
-                                                <div class="text-center">
-                                                    <span class="block text">Idle</span>
-                                                    <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_idle_time">
-                                                        <span class="timer" data-from="0" data-to="01h 09m"><strong>01h 09m</strong></span>
-                                                    </h4>
-                                                </div>
-                                                <div class="text-center wrk_time_show">
-                                                    <span class="block text"> Focus </span>
-                                                    <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_time_at_work">
-                                                        <span class="timer" data-from="0" data-to="02h 15m"><strong>02h 15m</strong></span>
-                                                    </h4>
-                                                </div>
-                                                <div class="text-center">
-                                                    <span class="block text">Private</span>
-                                                    <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_private_time">
-                                                        <span class="timer" data-from="0" data-to="00h 00m"><strong>00h 00m</strong></span>
-                                                    </h4>
+                                                <div class="d-flex">
+                                                    <div class="text-center">
+                                                        <span class="block text">Idle</span>
+                                                        <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_idle_time">
+                                                            <span class="timer" data-from="0" data-to="01h 09m"><strong>01h 09m</strong></span>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="text-center wrk_time_show">
+                                                        <span class="block text"> Focus </span>
+                                                        <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_time_at_work">
+                                                            <span class="timer" data-from="0" data-to="02h 15m"><strong>02h 15m</strong></span>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <span class="block text">Private</span>
+                                                        <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_private_time">
+                                                            <span class="timer" data-from="0" data-to="00h 00m"><strong>00h 00m</strong></span>
+                                                        </h4>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
