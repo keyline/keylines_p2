@@ -71,7 +71,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <!-- <th scope="col">Work Mode</th> -->
                                             <th scope="col">Clock In</th>
                                             <th scope="col">Tracker User</th>
-                                            <th scope="col">Salarybox User</th>
+                                            <th scope="col">App User</th>
                                             <th scope="col">Attendence Type</th>
                                             <th scope="col">Action</th>
                                         </tr>
@@ -104,16 +104,16 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     </td>
                                                     <td>
                                                         <?php if ($row->is_tracker_user) { ?>
-                                                            <a href="<?= base_url('admin/' . $controller_route . '/change-tracker-status/' . encoded($row->$primary_key)) ?>" class="badge badge-tracker-success" title="Tracker On <?= $title ?>" onclick="return confirm('Do You Want To Tracker Off This <?= $title ?>');"><i class="fa fa-check"></i> Tracker On</a>
+                                                            <a href="<?= base_url('admin/' . $controller_route . '/change-tracker-status/' . encoded($row->$primary_key)) ?>" class="badge badge-tracker-success" title="Tracker On <?= $title ?>" onclick="return confirm('Do You Want To Tracker Off This <?= $title ?>');"><i class="fa fa-check"></i> Task On</a>
                                                         <?php } else { ?>
-                                                            <a href="<?= base_url('admin/' . $controller_route . '/change-tracker-status/' . encoded($row->$primary_key)) ?>" class="badge badge-tracker-danger" title="Tracker Off <?= $title ?>" onclick="return confirm('Do You Want To Tracker On This <?= $title ?>');"><i class="fa fa-times"></i> Tracker Off</a>
+                                                            <a href="<?= base_url('admin/' . $controller_route . '/change-tracker-status/' . encoded($row->$primary_key)) ?>" class="badge badge-tracker-danger" title="Tracker Off <?= $title ?>" onclick="return confirm('Do You Want To Tracker On This <?= $title ?>');"><i class="fa fa-times"></i> Task Off</a>
                                                         <?php } ?>
                                                     </td>
                                                     <td>
                                                         <?php if ($row->is_salarybox_user) { ?>
-                                                            <a href="<?= base_url('admin/' . $controller_route . '/change-salarybox-status/' . encoded($row->$primary_key)) ?>" class="badge badge-tracker-success" title="Salarybox On <?= $title ?>" onclick="return confirm('Do You Want To Salarybox Off This <?= $title ?>');"><i class="fa fa-check"></i> Salarybox On</a>
+                                                            <a href="<?= base_url('admin/' . $controller_route . '/change-salarybox-status/' . encoded($row->$primary_key)) ?>" class="badge badge-tracker-success" title="Salarybox On <?= $title ?>" onclick="return confirm('Do You Want To Salarybox Off This <?= $title ?>');"><i class="fa fa-check"></i> App On</a>
                                                         <?php } else { ?>
-                                                            <a href="<?= base_url('admin/' . $controller_route . '/change-salarybox-status/' . encoded($row->$primary_key)) ?>" class="badge badge-tracker-danger" title="Salarybox Off <?= $title ?>" onclick="return confirm('Do You Want To Salarybox On This <?= $title ?>');"><i class="fa fa-times"></i> Salarybox Off</a>
+                                                            <a href="<?= base_url('admin/' . $controller_route . '/change-salarybox-status/' . encoded($row->$primary_key)) ?>" class="badge badge-tracker-danger" title="Salarybox Off <?= $title ?>" onclick="return confirm('Do You Want To Salarybox On This <?= $title ?>');"><i class="fa fa-times"></i> App Off</a>
                                                         <?php } ?>
                                                     </td>
                                                     <td>

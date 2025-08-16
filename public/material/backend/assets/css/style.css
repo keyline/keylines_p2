@@ -301,7 +301,9 @@ hr {
   text-align: center;
 }
 .time-font{
-  font-size: 11px;
+  font-size: 10px;
+  display: block;
+  margin-top: -3px;
 }
 .add-effort .control-label{
   margin-top: 10px
