@@ -1091,7 +1091,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 <div class="col-md-6">
                                     <div class="input-group mb-1">
                                         <span>Priority : </span>
-                                        <span><input type="radio" name="priority" id="priority1" value="1" required><label for="priority1" style="margin-left : 3px;">LOW</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required><label for="priority1" style="margin-left : 3px;">LOW</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" checked required><label for="priority2" style="margin-left : 3px;">MEDIUM</label></span>
                                         <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required><label for="priority3" style="margin-left : 3px;">HIGH</label></span>
                                     </div>
