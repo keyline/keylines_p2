@@ -356,7 +356,7 @@
 
                                     </form>
                                 </div>
-                                <div class="col-12">
+                                <!-- <div class="col-12">
                                     <div class="appusage_top_view_sec">
                                         <div class="appusage_top_timehour_graph">
                                             <div id="work_graph_detail" class="grph-btm-details">
@@ -878,7 +878,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                </div> -->
                                 <?php if (count($row)) {
                                     foreach ($row as $screenshot) { ?>
                                         <div class="col-lg-3 col-md-4 col-sm-6">
