@@ -82,7 +82,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                             foreach ($rows as $row) { ?>
                                                 <tr>
                                                     <th scope="row"><?= $sl++ ?></th>
-                                                    <td><?= $row->name ?><span class="badge bg-warning ms-1"><?= $row->id ?></span> 
+                                                    <td>
+                                                        <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>">
+                                                            <?= $row->name ?>
+                                                        </a>
+                                                        <span class="badge bg-warning ms-1"><?= $row->id ?></span> 
                                                         <span class="badge bg-custom-primary"><?= $row->type ?></span>                                                   
                                                     </td>
                                                     <td class="text-center"><?= $row->phone1 ?></td>
@@ -147,7 +151,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                             <?php   } ?>
                                                         <?php } ?>
                                                         <?php if (checkModuleFunctionAccess(4, 25)) { ?>
-                                                            <a href="<?= base_url('admin/users/send-credentials/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-primary btn-sm" onclick="return confirm('Do you want to reset password & send credentials ?');"><i class="fa fa-envelope"></i></a>
+                                                            <a href="<?= base_url('admin/users/send-credentials/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Do you want to reset password & send credentials ?');"><i class="fa fa-envelope"></i></a>
                                                         <?php   } ?>
                                                     </td>
                                                 </tr>
