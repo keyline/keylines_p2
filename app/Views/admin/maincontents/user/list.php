@@ -148,7 +148,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         <?php } ?>
                                                         <br>
                                                         <?php if (checkModuleFunctionAccess(4, 25)) { ?>
-                                                            <a href="<?= base_url('admin/users/send-credentials/' . encoded($row->$primary_key)) ?>" class="badge mt-2 bg-custom-primary" onclick="return confirm('Do you want to reset password & send credentials ?');"><i class="fa fa-envelope"></i> Reset & Send Credentials</a>
+                                                            <a href="<?= base_url('admin/users/send-credentials/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-primary btn-sm" onclick="return confirm('Do you want to reset password & send credentials ?');"><i class="fa fa-envelope"></i></a>
                                                         <?php   } ?>
                                                     </td>
                                                 </tr>
