@@ -146,7 +146,6 @@ $controller_route   = $moduleDetail['controller_route'];
                                                                 <a href="<?= base_url('admin/' . $controller_route . '/change-status/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?= $title ?>" onclick="return confirm('Do You Want To Activate This <?= $title ?>');"><i class="fa fa-times"></i></a>
                                                             <?php   } ?>
                                                         <?php } ?>
-                                                        <br>
                                                         <?php if (checkModuleFunctionAccess(4, 25)) { ?>
                                                             <a href="<?= base_url('admin/users/send-credentials/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-primary btn-sm" onclick="return confirm('Do you want to reset password & send credentials ?');"><i class="fa fa-envelope"></i></a>
                                                         <?php   } ?>
