@@ -141,9 +141,10 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                         $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                                         
                                         if($getTasks){ foreach($getTasks as $getTask){
-                                            $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
+                                            $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color,name');
                                             $work_status_color              = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
                                             $work_status_border_color       = (($getWorkStatus)?$getWorkStatus->border_color:'#0c0c0c4a');
+                                            $work_status_name               = (($getWorkStatus)?$getWorkStatus->name:'');
                                         ?>
                                             <div class="input-group">
                                                 <div class="card">
@@ -183,7 +184,8 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                             
                                                         <div class="mb-1 d-block">
                                                             <div class="card_projectname"><b><?=$projectName?> :</b> </div>
-                                                            <p><strong style="color: #2d93d1">Status:</strong> XXX YYY</p>
+                                                            <!-- <p><strong style="color: #2d93d1">Status:</strong>XXX YYY</p> -->
+                                                             <?php if($work_status_name !== ''){ ?>  <p><strong style="color: #2d93d1">Status: <?= $work_status_name ?>  </strong></p> <?php } ?>
                                                             <div class="card_projecttime">
                                                                 <p><strong style="color: #2d93d1">Assigned:
                                                                     (<?php
@@ -233,7 +235,9 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                                             ?>
                                                                             )
                                                                         </strong>
-                                                                        <p><?=$getTask->booked_description?></p>
+                                                                         <?php if($getTask->description !== $getTask->booked_description){ ?>
+                                                                         <p><?=$getTask->booked_description?></p>
+                                                                         <?php } ?>
                                                                     </div>
                                                                 <?php }?>
                                                             </div>

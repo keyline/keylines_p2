@@ -35,6 +35,7 @@ class TaskAssignController extends BaseController {
 
             $user_id                    = $this->session->get('user_id');
             $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show,type');
+
             $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
             $data['type']               = (($getUser)?$getUser->type:'');
             $data['user_id']            = $user_id;
@@ -159,6 +160,7 @@ class TaskAssignController extends BaseController {
                     $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
                     $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
                     $join1[2]                   = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+                    // $join1[3]                   = ['table' => 'work_status', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'work_status_id', 'type' => 'LEFT'];
 
                     $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $requestData['user_id'], 'morning_meetings.date_added' => $requestData['date_added']], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                     $totalTime                  = 0;
