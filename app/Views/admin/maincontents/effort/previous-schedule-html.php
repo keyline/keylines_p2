@@ -141,9 +141,10 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                         $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name, morning_meetings.work_status_id, morning_meetings.effort_id, morning_meetings.next_day_task_action,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
                                         
                                         if($getTasks){ foreach($getTasks as $getTask){
-                                            $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color');
+                                            $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color,name');
                                             $work_status_color              = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
                                             $work_status_border_color       = (($getWorkStatus)?$getWorkStatus->border_color:'#0c0c0c4a');
+                                            $work_status_name               = (($getWorkStatus)?$getWorkStatus->name:'');
                                         ?>
                                             <div class="input-group">
                                                 <div class="card">
@@ -183,15 +184,72 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                             
                                                         <div class="mb-1 d-block">
                                                             <div class="card_projectname"><b><?=$projectName?> :</b> </div>
+                                                            <!-- <p><strong style="color: #2d93d1">Status:</strong>XXX YYY</p> -->
+                                                             <?php if($work_status_name !== ''){ ?>  <p><strong style="color: #2d93d1">Status: <?= $work_status_name ?>  </strong></p> <?php } ?>
+                                                            <div class="card_projecttime">
+                                                                <p><strong style="color: #2d93d1">Assigned:
+                                                                    (<?php
+                                                                        if($getTask->hour > 0) {
+                                                                            if($getTask->hour == 1){
+                                                                                echo $getTask->hour . " hr ";
+                                                                            } else {
+                                                                                echo $getTask->hour . " hrs ";
+                                                                            }
+                                                                        } else {
+                                                                            echo "0 hr ";
+                                                                        }
+                                                                        if($getTask->min > 0) {
+                                                                            if($getTask->min == 1){
+                                                                                echo $getTask->min . " min";
+                                                                            } else {
+                                                                                echo $getTask->min . " mins";
+                                                                            }
+                                                                        } else {
+                                                                            echo "0 min";
+                                                                        }
+                                                                    ?>)
+                                                                    </strong>
+                                                                </p>
+                                                            </div>
                                                             <div class="card_proj_info"><?=$getTask->description?><br></div>
-                                                            <?php if($getTask->booked_description != ''){?>
-                                                                <div class="card_proj_info">
-                                                                    <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : <?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
-                                                                </div>
-                                                            <?php }?>
-                                                        </div>
+                                                                <?php if($getTask->booked_description != ''){?>
+                                                                    <div class="card_proj_info">
+                                                                        <strong style="color: #2d93d1;">
+                                                                            Booked : (
+                                                                            <?php
+                                                                                // Hours
+                                                                                if ($getTask->booked_hour > 0) {
+                                                                                    echo $getTask->booked_hour . ' ' . ($getTask->booked_hour == 1 ? 'hr' : 'hrs');
+                                                                                } else {
+                                                                                    echo '0 hr';
+                                                                                }
 
-                                                        <div class="card_projecttime">
+                                                                                echo ' ';
+
+                                                                                // Minutes
+                                                                                if ($getTask->booked_min > 0) {
+                                                                                    echo $getTask->booked_min . ' ' . ($getTask->booked_min == 1 ? 'min' : 'mins');
+                                                                                } else {
+                                                                                    echo '0 min';
+                                                                                }
+                                                                            ?>
+                                                                            )
+                                                                        </strong>
+                                                                         <?php if($getTask->description !== $getTask->booked_description){ ?>
+                                                                         <p><?=$getTask->booked_description?></p>
+                                                                         <?php } ?>
+                                                                    </div>
+                                                                <?php }?>
+                                                            </div>
+                                                            <!-- <div class="card_proj_info">?=$getTask->description?><br></div>
+                                                            ?php if($getTask->booked_description != ''){?>
+                                                                <div class="card_proj_info">
+                                                                    <span style="font-weight: bold;color: #08487b;font-size: 14px !important;">(Booked : ?=$getTask->booked_description?> - <?=$getTask->booked_hour?>:<?=$getTask->booked_min?>)</span><br>
+                                                                </div>
+                                                            ?php }?>
+                                                        </div> -->
+
+                                                        <!-- <div class="card_projecttime">
                                                             [<?php
                                                             if($getTask->hour > 0) {
                                                                 if($getTask->hour == 1){
@@ -212,7 +270,7 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                                 echo "0 min";
                                                             }
                                                             ?>]
-                                                        </div>
+                                                        </div> -->
                                                         <?php
                                                         if($getTask->updated_at == ''){
                                                             $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");

@@ -193,13 +193,20 @@ class AttendanceController extends BaseController
                 $db = \Config\Database::connect();
             // Prepare attendance details data
             $attendance_map = [];
-            $results = $db->query("SELECT user_id, punch_date, punch_in_time
+            $results = $db->query("SELECT user_id, punch_date, punch_in_time, punch_out_time
                                         FROM attendances
                                         WHERE punch_date LIKE '%$month_fetch%'")->getResult();
+            // pr($results);
 
             foreach ($results as $r) {
-                $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
+                // $attendance_map[$r->user_id][$r->punch_date] = $r->punch_in_time;
+                $attendance_map[$r->user_id][$r->punch_date] = [
+                    'in'  => $r->punch_in_time,
+                    'out' => $r->punch_out_time,
+                    'punch_date' => $r->punch_date
+                ];
             }
+            // pr($attendance_map);
             $latetime = "SELECT mark_later_after FROM `application_settings`";
             $latetime_fetch = $db->query($latetime)->getRow();  
             $late_threshold = $latetime_fetch ? $latetime_fetch->mark_later_after : '10:00:00';
@@ -214,14 +221,21 @@ class AttendanceController extends BaseController
                     'days' => [],
                     'present' => 0,
                     'absent' => 0,
-                    'late' => 0
+                    'late' => 0,                    
                 ];
 
                 foreach ($dates as $date) {
                     $status = 'A';
-                    $punchIn = $attendance_map[$user->id][$date] ?? null;
+                    $punchData = $attendance_map[$user->id][$date] ?? null;                    
+                    $punchIn  = $attendance_map[$user->id][$date]['in'] ?? null;
+                    $punchOut = $attendance_map[$user->id][$date]['out'] ?? null;
+                    $punchDate = $attendance_map[$user->id][$date]['punch_date'] ?? null;
+                    // Check if date is in the future
+                    if ($date > date('Y-m-d')) {
+                        $status = ''; // Show blank for future dates
+                    }
                     // Check if the date is a holiday
-                    if (in_array($date, $holiday_dates)) {
+                    elseif (in_array($date, $holiday_dates)) {
                         if ($punchIn) {
                             $status = 'H(P)'; // Holiday + Present
                             $userRow['present']++;
@@ -248,16 +262,23 @@ class AttendanceController extends BaseController
                             $userRow['absent']++;
                         }
                     }
-                    $userRow['days'][] = $status;
+                    // $userRow['days'][] = $status;
+                    $userRow['days'][] = [
+                        'status' => $status,
+                        'in'     => substr($punchIn, 0, 5),
+                        'out'    => substr($punchOut, 0, 5),
+                        'punch_date' => $punchDate
+                    ];
                 }
                 $finalReport[] = $userRow;
             }
             // $data['monthlyAttendancedetailsreport'] = $finalReport;
             $form_type = $this->request->getPost('form_type');
+            // pr($form_type);
         if ($form_type == 'monthly_attendance_report') {                                            
             $data['monthlyAttendancereport'] = $rows;
             // pr($rows);
-        } elseif ($form_type == 'monthly_details_report') {
+        } elseif ($form_type == 'monthly_details_report' || $form_type == 'monthly_details_report_inout') {
             $data['monthlyAttendancedetailsreport'] = $finalReport;
             // pr($finalReport);
         } else {
@@ -265,11 +286,11 @@ class AttendanceController extends BaseController
             $data['monthlyAttendancedetailsreport'] = [];
         }
         //monthly attendance         
-        $data['users'] = $users;
-        $data['year']        = $yearString;
-        $data['arr']                        = $arr;
-        $data['last7DaysResponses']         = $last7DaysResponses; 
-        $data['form_type'] = $form_type;     
+        $data['users']                  = $users;
+        $data['year']                   = $yearString;
+        $data['arr']                    = $arr;
+        $data['last7DaysResponses']     = $last7DaysResponses; 
+        $data['form_type']              = $form_type;     
         echo $this->layout_after_login($title, $page_name, $data);
     }
 

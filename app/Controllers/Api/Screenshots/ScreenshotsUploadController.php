@@ -153,10 +153,10 @@ class ScreenshotsUploadController extends ResourceController
                 'org_id'    => 'required|integer',
                 'app_name'  => 'permit_empty|max_length[255]',
                 'app_url'   => 'permit_empty|valid_url',
-                'image'     => 'uploaded[image]'
-                    . '|is_image[image]'
-                    . '|max_size[image,2048]'
-                    . '|mime_in[image,image/jpg,image/jpeg,image/png]',
+                // 'image'     => 'uploaded[image]'
+                //     . '|is_image[image]'
+                //     . '|max_size[image,2048]'
+                //     . '|mime_in[image,image/jpg,image/jpeg,image/png]',
             ];
 
             if (! $this->validate($rules)) {
@@ -164,15 +164,16 @@ class ScreenshotsUploadController extends ResourceController
             }
 
             try {
-
+                
                 $payload = [
-                    'user_id'  => $this->userId, //$this->request->getPost('user_id'),
-                    'org_id'   => $this->request->getPost('org_id'),
-                    'app_name' => $this->request->getPost('app_name') ?? null,
-                    'app_url'  => $this->request->getPost('app_url')  ?? null,
-                    'image'    => $this->request->getFile('image'),
-                ];
-
+                        'user_id'       => $this->userId, //$this->request->getPost('user_id'),
+                        'org_id'        => $this->request->getPost('org_id'),
+                        'app_name'      => $this->request->getPost('app_name') ?? null,
+                        'app_url'       => $this->request->getPost('app_url')  ?? null,
+                        'idle_status'   => $this->request->getPost('idle_status'),
+                        'image'         => $this->request->getFile('image')  ?? null,
+                    ];
+                    
                 $result = $this->imageService->upload($payload);
 
                 return $this->respondCreated([

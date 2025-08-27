@@ -136,6 +136,20 @@
           <h3 class="mb-1 text-primary">SignIn to Your Account</h3>
           <p class="text-muted small">Enter your email & password to login</p>
         </div>
+        <div class="col-xl-12">
+          <?php if(session('success_message')){?>
+              <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <?=session('success_message')?>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          <?php }?>
+          <?php if(session('error_message')){?>
+              <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <?=session('error_message')?>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          <?php }?>
+        </div>
         <form method="POST" action="">
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
@@ -151,7 +165,7 @@
               <input type="password" class="form-control" id="password" name="password" required>
               <span class="input-group-text">
                 <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
-                <i class="fa fa-eye d-none" id="hidePassword" style="cursor:pointer;"></i>
+                <i class="fa fa-eye" id="hidePassword" style="cursor:pointer;"></i>
               </span>
             </div>
           </div>

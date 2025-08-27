@@ -1,6 +1,22 @@
 <div class="container-fluid">
+      <div class="row">
+         <div class="col-12">
+            <div class="pagetitle">
+                <h1><?=$page_header?></h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
+                        <li class="breadcrumb-item active"><?=$page_header?></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
     <div class="pcoded-content">
-        <div class="row">
+        <!-- <div class="row">
             <div class="page-header">
                 <div class="page-block">
                     <div class="row align-items-center">
@@ -16,7 +32,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
         <?php if (checkModuleFunctionAccess(14, 7)) { ?>
             <div class="row">
                 <div class="col-md-6">

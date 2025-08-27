@@ -39,295 +39,399 @@ $controller_route   = $moduleDetail['controller_route'];
     max-width: 100% !important;
 }
 </style>
-<div class="pagetitle">
-    <h1><?=$page_header?></h1>
-    <nav>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
-            <!-- <li class="breadcrumb-item active"><a href="<?=base_url('admin/' . $controller_route . '/list/')?>"><?=$title?> List</a></li> -->
-            <li class="breadcrumb-item active"><?=$page_header?></li>
-        </ol>
-    </nav>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <div class="pagetitle">
+                <h1><?=$page_header?></h1>
+                <nav>
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="<?=base_url('admin/dashboard')?>">Home</a></li>
+                        <!-- <li class="breadcrumb-item active"><a href="<?=base_url('admin/' . $controller_route . '/list/')?>"><?=$title?> List</a></li> -->
+                        <li class="breadcrumb-item active"><?=$page_header?></li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- End Page Title -->
  
 <section class="section dashboard">
-    <div class="row">  
-        <div class="col-xl-12">
-            <?php if(session('success_message')){?>
-                <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
-                    <?=session('success_message')?>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php }?>
-            <?php if(session('error_message')){?>
-                <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
-                    <?=session('error_message')?>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php }?>
-        </div>      
-        <!-- Left side columns -->
-        <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
-            <div class="col-md-12">
-                <div class="card table-card">
-                    <div class="card-header">
-                        <div class="row">
-                            <div class="col-md-4">
-                            <div class="card-header-left">
-                                <ul class="d-flex align-items-center gap-2">                                    
-                                    <li>
-                                        <p class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#presentModal">Present (<?=$total_present_user->user_count?>)</p>
-                                    </li>
-                                    <li>
-                                        <p class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#AbsentModal">Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
-                                    </li>                                    
-                                </ul>
-                            </div>
-                            </div>
-                            <div class="col-md-8">
-                            <div class="card-header-right">
+    <div class="container-fluid">
+        <div class="row">  
+            <div class="col-xl-12">
+                <?php if(session('success_message')){?>
+                    <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?=session('success_message')?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php }?>
+                <?php if(session('error_message')){?>
+                    <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                        <?=session('error_message')?>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <?php }?>
+            </div>      
+            <!-- Left side columns -->
+            <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
+                <div class="col-md-12">
+                    <div class="card table-card">
+                        <div class="card-header">
+                            <div class="row">
+                                <div class="col-md-4">
+                                <div class="card-header-left">
+                                    <ul class="d-flex align-items-center gap-2">                                    
+                                        <li>
+                                            <p class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#presentModal">Present (<?=$total_present_user->user_count?>)</p>
+                                        </li>
+                                        <li>
+                                            <p class="cursor-pointer" data-bs-toggle="modal" data-bs-target="#AbsentModal">Absent (<?php $absent = $total_app_user->user_count - $total_present_user->user_count; echo $absent;?>)</p>
+                                        </li>                                    
+                                    </ul>
+                                </div>
+                                </div>
+                                <div class="col-md-8">
+                                <div class="card-header-right">
 
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        <?php } ?>
-        <div class="col-xl-12">
-            <div class="card">
-                <div class="card-body pt-3">
-                    <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
-                        <input type="hidden" name="form_type" value="monthly_attendance_report">
-                            <div class="row mb-3 align-items-center">
-                                <div class="col-md-3 col-lg-3">
-                                    <label for="date">Month</label>
-                                    <input type="month" id="month" name="month" class="form-control" value="<?= $month_fetch ?>" required>
                                 </div>
-                                <div class="col-md-3 col-lg-3">
-                                    <div class="text-center">
-                                        <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
-                                        <button name="form_type" value="monthly_attendance_report" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
-                                    </div>
-                                </div> 
-                                <div class="col-md-3 col-lg-3">
-                                    <div class="text-center">
-                                        <!-- <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button> -->
-                                        <button name="form_type" value="monthly_details_report" class="btn btn-primary"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
-                                    </div>
-                                </div>  
-                                <div class="col-md-3 col-lg-3">
-                                    <div class="text-center">                                        
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
-                                    </div>
-                                </div>                                
-                            </div>
-                    </form>
-                    <!-- Monthly Details Report Form -->
-                    <!-- <form method="POST" action="?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
-                        <input type="hidden" name="form_type" value="monthly_details_report">
-                        <input type="hidden" name="month" value="?= $month_fetch ?>">
-                        <div class="row mb-3 align-items-center">
-                            <div class="col-md-4 col-lg-4 offset-md-4">
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary">
-                                        <i class="fa fa-paper-plane"></i> Monthly Details Report
-                                    </button>
                                 </div>
                             </div>
                         </div>
-                    </form> -->
+                    </div>
                 </div>
-            </div>
-        </div>
-        <?php
-        if(($form_type ?? '') == 'monthly_attendance_report' && !empty($monthlyAttendancereport)) { ?>        
-            <div class="card table-card">
-                <div class="card-body">
-                    <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table padding-y-10 general_table_style attendance_table">
-                            <thead>
-                                <tr>
-                                    <th width="3%">#</th>
-                                    <th>EMP ID</th>
-                                    <th>Name</th>
-                                    <th>Designation</th>
-                                    <th>Team</th>
-                                    <th>Total working days</th>
-                                    <th>Present</th>
-                                    <th>Absent</th>                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($monthlyAttendancereport) {
-                                    $sl = 1;
-                                    foreach ($monthlyAttendancereport as $res) { ?>
-                                        <tr>
-                                            <td><?= $sl++ ?></td>
-                                            <td><?= $res->user_id ?></td>
-                                            <td><?= $res->name ?></td>
-                                            <td><?= $res->designation ?></td>
-                                            <td><?= $res->team ?></td>
-                                            <td><?= $working_days ?></td>
-                                            <td><?= $res->present_count ?></td>
-                                            <td><?= $working_days - $res->present_count?></td>                                            
-                                        </tr>
-                                <?php }
-                                } ?>
-                            </tbody>
-                        </table>
+            <?php } ?>
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body pt-3">
+                        <form method="POST" action="<?= base_url('admin/attendance-report') ?>" enctype="multipart/form-data">
+                            <input type="hidden" name="form_type" value="monthly_attendance_report">
+                                <div class="row mb-0 mb-md-3 align-items-end">
+                                    <div class="col-md-3 col-lg-3">
+                                        <label for="date">Month</label>
+                                        <input type="month" id="month" name="month" class="form-control" value="<?= $month_fetch ?>" required>
+                                    </div>
+                                    <div class="col-md-3 col-lg-3">
+                                        <div class="dropdown report_dropdown mt-2 mt-md-0">
+                                            <button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Show All Reports
+                                            </button>
+                                            <ul class="dropdown-menu p-2" aria-labelledby="dropdownMenuButton1">
+                                                <li>
+                                                    <button name="form_type" value="monthly_attendance_report" class="d-block w-100" style="outline: none; text-align: left; border: none; background: #fff;"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
+                                                </li>
+                                                <li>
+                                                    <button name="form_type" value="monthly_details_report" class="d-block w-100" style="outline: none; text-align: left; border: none; background: #fff;"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
+                                                </li>
+                                                <li>
+                                                    <button name="form_type" value="monthly_details_report_inout" class="d-block w-100" style="outline: none; text-align: left; border: none; background: #fff;"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <!-- <div class="text-center">
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                            <button name="form_type" value="monthly_attendance_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
+                                        </div> -->
+                                    </div> 
+                                    <!-- <div class="col-md-3 col-lg-3">
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                            <button name="form_type" value="monthly_details_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
+                                        </div>
+                                    </div> 
+                                    <div class="col-md-3 col-lg-3">
+                                        <div class="text-center">
+                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
+                                            <button name="form_type" value="monthly_details_report_inout" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
+                                        </div>
+                                    </div>   -->
+                                    <div class="col-md-3 col-lg-6">
+                                        <div class="text-end">                                        
+                                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
+                                        </div>
+                                    </div>                                
+                                </div>
+                        </form>                    
                     </div>
                 </div>
             </div>
-        <?php } elseif (($form_type ?? '') == 'monthly_details_report' && !empty($monthlyAttendancedetailsreport)) {
-           
-        function getStatusClass($status) {
-            switch ($status) {
-                case 'P': return 'bg-success text-white';       // Green
-                case 'L': return 'bg-warning text-dark';        // Yellow
-                case 'A': return 'bg-danger text-white';        // Red                
-                case 'O': return 'bg-secondary text-white';     // Grey
-                case 'H': return 'bg-info text-white';          // Blue or Grey
-                case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
-                default: return 'bg-light text-dark';           // Default
-            } } ?>
-             <div class="card table-card">
-                <div class="card-header">
-                    <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
-                    <div class="row align-items-center">                        
-                        <div class="col-lg-12 col-md-12">
-                            <div class="card-header-right">
-                            <ul class="d-flex justify-content-end gap-2 flex-wrap legend-attandance lagend-list ms-auto">
-                                <li><span class="badge bg-success text-white">P</span> Present</li>                                
-                                <li><span class="badge bg-warning text-dark">L</span> Late</li>                                
-                                <li><span class="badge bg-danger text-white">A</span> Absent</li>                                
-                                <li><span class="badge bg-secondary text-white">O</span> Week-off</li>                                
-                                <li><span class="badge bg-info text-white">H</span> Holiday</li>                                
-                                <li><span class="badge bg-primary text-white">H(P)</span> Holiday But working</li>                                                                                          
-                                <li><span class="badge bg-light text-dark">O(P)</span> Week-off But working</li>                                                                                          
-                            </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="dt-responsive table-responsive">
-                        <table id="simpletable" class="table padding-y-10 general_table_style attendance_table">
-                            <thead>
-                                <tr>
-                                    <th width="3%">#</th>
-                                    <th>EMP ID</th>
-                                    <th>Name</th>
-                                    <?php foreach ($month_dates as $date): ?>
-                                        <th><?= date('d', strtotime($date)) ?></th>
-                                    <?php endforeach; ?>                                    
-                                    <th>Present</th>
-                                    <th>Absent</th>   
-                                    <th>Late</th>                                 
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php if ($monthlyAttendancedetailsreport) {
-                                    $sl = 1;
-                                    foreach ($monthlyAttendancedetailsreport as $res) { ?>
-                                        <tr>
-                                            <td><?= $sl++ ?></td>
-                                            <td><?= $res['user_id'] ?></td>
-                                            <td><?= $res['name'] ?></td>
-                                            <?php foreach ($res['days'] as $status): ?>
-                                                <td class="<?= $status ?>">
-                                                    <span class="badge <?= getStatusClass($status) ?>"><?= $status ?></span>
-                                                </td>
-                                            <?php endforeach; ?>                                            
-                                            <td><?= $res['present'] ?></td>
-                                            <td><?= $res['absent'] ?></td>
-                                            <td><?= $res['late'] ?></td>                                                                                        
-                                        </tr>
-                                <?php }
-                                } ?>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-       <?php } ?>        
-        <div class="col-md-12">
-            <div class="card table-card">
-                <div class="card-header text-dark">
-                    <h6 class="fw-bold text-center heading_style">Last 7 Days Attendance Report</h6>
-                </div>
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-xxl-12 col-md-12 table-responsive">
-                            <table class="table general_table_style padding-y-10">
+            <?php
+            if(($form_type ?? '') == 'monthly_attendance_report' && !empty($monthlyAttendancereport)) { ?>        
+                <div class="card table-card">
+                    <div class="card-body">
+                        <div class="dt-responsive table-responsive">
+                            <table id="simpletable" class="table padding-y-10 general_table_style attendance_table">
                                 <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>User</th>
-                                        <?php if (!empty($arr)) {
-                                            for ($a = 0; $a < count($arr); $a++) { ?>
-                                                <th><?= date_format(date_create($arr[$a]), "d-m-Y") ?></th>
-                                        <?php }
-                                        } ?>
+                                        <th width="3%">#</th>
+                                        <th>EMP ID</th>
+                                        <th>Name</th>
+                                        <th>Designation</th>
+                                        <th>Team</th>
+                                        <th>Total working days</th>
+                                        <th>Present</th>
+                                        <th>Absent</th>                                    
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <?php if ($last7DaysResponses) {
+                                    <?php if ($monthlyAttendancereport) {
                                         $sl = 1;
-                                        $counter = 0;
-                                        foreach ($last7DaysResponses as $res) { ?>
+                                        foreach ($monthlyAttendancereport as $res) { ?>
                                             <tr>
                                                 <td><?= $sl++ ?></td>
-                                                <td class="fw-bold"><?= $res['name'] ?></td>
-                                                <?php
-                                                $reports = $res['reports'];
-                                                foreach ($reports as $report) {
-                                                    if (!empty($report['punchIn'])) {
-                                                        $punchIn = date('H:i', strtotime($report['punchIn']));
-                                                    } else {
-                                                        $punchIn = null; // Handle cases where punchIn is empty
-                                                    }
-                                                
-                                                    if (!empty($report['punchOut'])) {
-                                                        $punchOut = date('H:i', strtotime($report['punchOut']));
-                                                    } else {
-                                                        $punchOut = null; // Handle cases where punchOut is empty
-                                                    }
-                                                
-                                                    $comparison_time = "10:00";
-                                                ?>
-                                                    <td>
-                                                        <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')">
-                                                            <?php if ($punchIn) { ?>
-                                                                <span class="badge <?= ($punchIn <= $comparison_time) ? 'badge-tracker-success' : 'badge-tracker-danger' ?> d-block h-100" style="cursor:pointer;">
-                                                                    <span class="mt-3">IN: <?= $punchIn ?></span>
-                                                                </span>
-                                                            <?php } ?>
-                                                        </p>                                                                                 
-                                                        <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')">
-                                                            <?php if ($punchOut) { ?>
-                                                                <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;">
-                                                                    <span class="mt-3">OUT: <?= $punchOut ?></span>
-                                                                </span>
-                                                            <?php } ?>
-                                                        </p>                                                                                 
-                                                    </td>
-                                                <?php 
-                                                } 
-                                                ?>
+                                                <td><?= $res->user_id ?></td>
+                                                <td><?= $res->name ?></td>
+                                                <td><?= $res->designation ?></td>
+                                                <td><?= $res->team ?></td>
+                                                <td><?= $working_days ?></td>
+                                                <td><?= $res->present_count ?></td>
+                                                <td><?= $working_days - $res->present_count?></td>                                            
                                             </tr>
-                                    <?php $counter++;
-                                        }
+                                    <?php }
                                     } ?>
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
+            <?php } elseif (($form_type ?? '') == 'monthly_details_report' && !empty($monthlyAttendancedetailsreport)) {           
+                function getStatusClass($status) {
+                    switch ($status) {
+                        case 'P': return 'bg-success text-white';       // Green
+                        case 'L': return 'bg-warning text-dark';        // Yellow
+                        case 'A': return 'bg-danger text-white';        // Red                
+                        case 'O': return 'bg-secondary text-white';     // Grey
+                        case 'H': return 'bg-info text-white';          // Blue or Grey
+                        case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
+                        default: return 'bg-light text-dark';           // Default
+                    } } ?>
+                <div class="card table-card">
+                    <div class="card-header">
+                        <!-- <h6 class="fw-bold heading_style">Last 7 Days Report</h6> -->
+                        <div class="row align-items-center">                        
+                            <div class="col-lg-12 col-md-12">
+                                <div class="card-header-right">
+                                <ul class="d-flex justify-content-end gap-2 flex-wrap legend-attandance lagend-list ms-auto">
+                                    <li><span class="badge bg-success text-white">P</span> Present</li>                                
+                                    <li><span class="badge bg-warning text-dark">L</span> Late</li>                                
+                                    <li><span class="badge bg-danger text-white">A</span> Absent</li>                                
+                                    <li><span class="badge bg-secondary text-white">O</span> Week-off</li>                                
+                                    <li><span class="badge bg-info text-white">H</span> Holiday</li>                                
+                                    <li><span class="badge bg-primary text-white">H(P)</span> Holiday But working</li>                                                                                          
+                                    <li><span class="badge bg-light text-dark">O(P)</span> Week-off But working</li>                                                                                          
+                                </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="dt-responsive table-responsive">
+                            <table id="simpletable" class="table padding-y-10 general_table_style attendance_table">
+                                <thead>
+                                    <tr>
+                                        <th width="3%">#</th>
+                                        <th>EMP ID</th>
+                                        <th>Name</th>
+                                        <?php foreach ($month_dates as $date): ?>
+                                            <th><?= date('d', strtotime($date)) ?></th>
+                                        <?php endforeach; ?>                                    
+                                        <th>Present</th>
+                                        <th>Absent</th>   
+                                        <th>Late</th>                                 
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($monthlyAttendancedetailsreport) {
+                                        $sl = 1;
+                                        foreach ($monthlyAttendancedetailsreport as $res) { ?>
+                                            <tr>
+                                                <td><?= $sl++ ?></td>
+                                                <td><?= $res['user_id'] ?></td>
+                                                <td><?= $res['name'] ?></td>
+                                                <?php foreach ($res['days'] as $status): ?>
+                                                    <td class="<?= $status['status'] ?>">
+                                                        <span class="badge <?= getStatusClass($status['status']) ?>"><?= $status['status'] ?></span>
+                                                    </td>
+                                                <?php endforeach; ?>                                            
+                                                <td><?= $res['present'] ?></td>
+                                                <td><?= $res['absent'] ?></td>
+                                                <td><?= $res['late'] ?></td>                                                                                        
+                                            </tr>
+                                    <?php }
+                                    } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            <?php } elseif (($form_type ?? '') == 'monthly_details_report_inout' && !empty($monthlyAttendancedetailsreport)) {
+                function getStatusClass($status) {
+                    switch ($status) {
+                        case 'P': return 'bg-success text-white';       // Green
+                        case 'L': return 'bg-warning text-dark';        // Yellow
+                        case 'A': return 'bg-danger text-white';        // Red                
+                        case 'O': return 'bg-secondary text-white';     // Grey
+                        case 'H': return 'bg-info text-white';          // Blue or Grey
+                        case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
+                        default: return 'bg-light text-dark';           // Default
+                    } } ?>
+                <div class="card table-card">                
+                    <div class="card-body">
+                        <div class="dt-responsive table-responsive">
+                            <table id="simpletable" class="table padding-y-10 general_table_style">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" width="3%">#</th>
+                                        <th rowspan="2">EMP ID</th>
+                                        <th rowspan="2">Name</th>
+                                        <?php foreach ($month_dates as $date): ?>
+                                            <th colspan="2" class="text-center"><?= date('d', strtotime($date)) ?></th>
+                                        <?php endforeach; ?>                                    
+                                        <th rowspan="2">Present</th>
+                                        <th rowspan="2">Absent</th>   
+                                        <th rowspan="2">Late</th>                                 
+                                    </tr>
+                                    <!-- Second header row -->
+                                    <tr>
+                                        <?php foreach ($month_dates as $date): ?>
+                                            <th class="text-center">IN</th>
+                                            <th class="text-center">OUT</th>
+                                        <?php endforeach; ?>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <?php if ($monthlyAttendancedetailsreport) {
+                                        $sl = 1;
+                                        foreach ($monthlyAttendancedetailsreport as $res) { ?>
+                                            <tr>
+                                                <td><?= $sl++ ?></td>
+                                                <td><?= $res['user_id'] ?></td>
+                                                <td><?= $res['name'] ?></td>
+                                                <?php foreach ($res['days'] as $day):
+                                                    $punchIn  = $day['in'] ?? null;
+                                                    $punchOut = $day['out'] ?? null;
+                                                    $punchDate = $day['punch_date'] ?? '';
+                                                    $status   = $day['status'] ?? '';                                                
+                                                    // $comparison_time = '10:00'; // or use $grace_time if available
+                                                ?>
+                                                <!-- <td class="?= $day['status'] ?>">
+                                                    <span class="badge ?= getStatusClass($day['status']) ?>">
+                                                        ?= $day['in'] ?? '' ?> - ?= $day['out'] ?? '' ?>
+                                                    </span>
+                                                </td> -->
+                                                <td>
+                                                    <!-- Punch In -->
+                                                    <p class="mb-1 mt-1 text-center font14"
+                                                    onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
+                                                        <?php if ($punchIn): ?>
+                                                            <span class="badge <?= getStatusClass($day['status']) ?> d-block h-100" style="cursor:pointer;">
+                                                                <span class="mt-3">IN: <?= $punchIn ?></span>
+                                                            </span>
+                                                        <?php endif; ?>
+                                                    </p>                                                
+                                                </td>
+                                                <td>
+                                                    <!-- Punch Out -->
+                                                    <p class="mb-1 mt-1 text-center font14"
+                                                    onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
+                                                        <?php if ($punchOut): ?>
+                                                            <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;">
+                                                                <span class="mt-3">OUT: <?= $punchOut ?></span>
+                                                            </span>
+                                                        <?php endif; ?>
+                                                    </p>
+                                                </td>
+                                                <?php endforeach; ?>                                           
+                                                <td><?= $res['present'] ?></td>
+                                                <td><?= $res['absent'] ?></td>
+                                                <td><?= $res['late'] ?></td>                                                                                        
+                                            </tr>
+                                    <?php }
+                                    } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div> 
+            <?php } ?>       
+            <div class="col-md-12">
+                <div class="card table-card">
+                    <div class="card-header text-dark">
+                        <h6 class="fw-bold text-center heading_style">Last 7 Days Attendance Report</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-xxl-12 col-md-12 table-responsive">
+                                <table class="table general_table_style padding-y-10">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>User</th>
+                                            <?php if (!empty($arr)) {
+                                                for ($a = 0; $a < count($arr); $a++) { ?>
+                                                    <th><?= date_format(date_create($arr[$a]), "d-m-Y") ?></th>
+                                            <?php }
+                                            } ?>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php if ($last7DaysResponses) {
+                                            $sl = 1;
+                                            $counter = 0;
+                                            foreach ($last7DaysResponses as $res) { ?>
+                                                <tr>
+                                                    <td><?= $sl++ ?></td>
+                                                    <td class="fw-bold"><?= $res['name'] ?></td>
+                                                    <?php
+                                                    $reports = $res['reports'];
+                                                    foreach ($reports as $report) {
+                                                        if (!empty($report['punchIn'])) {
+                                                            $punchIn = date('H:i', strtotime($report['punchIn']));
+                                                        } else {
+                                                            $punchIn = null; // Handle cases where punchIn is empty
+                                                        }
+                                                    
+                                                        if (!empty($report['punchOut'])) {
+                                                            $punchOut = date('H:i', strtotime($report['punchOut']));
+                                                        } else {
+                                                            $punchOut = null; // Handle cases where punchOut is empty
+                                                        }
+                                                    
+                                                        $comparison_time = "10:00";
+                                                    ?>
+                                                        <td>
+                                                            <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')">
+                                                                <?php if ($punchIn) { ?>
+                                                                    <span class="badge <?= ($punchIn <= $comparison_time) ? 'badge-tracker-success' : 'badge-tracker-danger' ?> d-block h-100" style="cursor:pointer;">
+                                                                        <span class="mt-3">IN: <?= $punchIn ?></span>
+                                                                    </span>
+                                                                <?php } ?>
+                                                            </p>                                                                                 
+                                                            <p class="mb-1 mt-1 text-center font14" onclick="punchin('<?= $res['userId'] ?>','<?= $res['name'] ?>','<?= $report['booked_date'] ?>','<?= $report['punchIn'] ?>','<?= $report['punchOut'] ?>')">
+                                                                <?php if ($punchOut) { ?>
+                                                                    <span class="badge badge-desktime-success d-block h-100" style="cursor:pointer;">
+                                                                        <span class="mt-3">OUT: <?= $punchOut ?></span>
+                                                                    </span>
+                                                                <?php } ?>
+                                                            </p>                                                                                 
+                                                        </td>
+                                                    <?php 
+                                                    } 
+                                                    ?>
+                                                </tr>
+                                        <?php $counter++;
+                                            }
+                                        } ?>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+            <!-- End Left side columns -->        
         </div>
-        <!-- End Left side columns -->        
     </div>
     <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
@@ -345,7 +449,7 @@ $controller_route   = $moduleDetail['controller_route'];
     
 
     <!--Present Modal -->
-    <div class="modal fade" id="presentModal" tabindex="-1" aria-labelledby="presentModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="presentModal" tabindex="-1" aria-labelledby="presentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -357,9 +461,9 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
     <!--Absent Modal -->
-    <div class="modal fade" id="AbsentModal" tabindex="-1" aria-labelledby="AbsentModalLabel" aria-hidden="true">
+    <!-- <div class="modal fade" id="AbsentModal" tabindex="-1" aria-labelledby="AbsentModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
@@ -371,7 +475,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 </section>
 <!-- Add Attendance Modal -->
     <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">

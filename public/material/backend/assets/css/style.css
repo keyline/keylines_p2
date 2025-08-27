@@ -301,7 +301,9 @@ hr {
   text-align: center;
 }
 .time-font{
-  font-size: 11px;
+  font-size: 10px;
+  display: block;
+  margin-top: -1px;
 }
 .add-effort .control-label{
   margin-top: 10px
@@ -591,6 +593,38 @@ div.dt-container div.dt-layout-cell{
 .general_form_style input:focus,
 .general_form_style select:focus{
   box-shadow: none;
+}
+.col-form-label{
+  font-size: 12px;
+  padding: 0;
+}
+.form-control{
+  font-size: 12px;
+}
+label{
+  font-size: 12px;
+  padding: 0;
+}
+.employess_table .badge.bg-warning{
+  padding: 3px 6px;
+  font-size: 10px;
+  background: #FFF2D9 !important;
+  border: 1px solid #FC9A06;
+  color: #FC9A06;
+} 
+.employess_table .badge.bg-custom-primary{
+  padding: 3px 6px;
+  font-size: 10px;
+  display: inline-block;
+}
+.general_form_box{
+  background: #e4f3ff;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin: 10px 0
+}
+#hidePassword{
+  display: none;
 }
 /*--------------------------------------------------------------
 # Main
@@ -1809,6 +1843,31 @@ div.dt-container div.dt-layout-cell{
   }
 }
 
+
+/* screenshort page css start */
+.user_back_box a{
+  width: 25px;
+  height: 25px;
+  background: #e3f3ff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #000;
+}
+.screenshort_date{
+  font-size: 12px;
+  padding-top: 8px;
+}
+.screenshort_card{
+  margin-bottom: 0;
+}
+.screenshort_card .card-body{
+  padding: 0 !important;
+}
+
+/* screenshort page css end */
 /*--------------------------------------------------------------
 # Footer
 --------------------------------------------------------------*/
@@ -1847,8 +1906,8 @@ div.dt-container div.dt-layout-cell{
 }
 .table .badge {
   border-radius: 100px;
-  padding: 5.5px 8px;
-  font-size: 12px;
+  padding: 5px 8px;
+  font-size: 10px;
   font-weight: 500;
 }
 
@@ -1877,6 +1936,20 @@ div.dt-container div.dt-layout-cell{
   height: 20px !important;
   border-radius: 100px;
 }
+.report_dropdown li{
+  padding: 5px 0;
+  border-bottom: 1px solid #ccc;
+}
+.report_dropdown li:last-child{
+  border-bottom: none;
+}
+input[type="radio"] {
+  position: relative;
+  top: 2.5px;
+}
+.font-12{
+  font-size: 12px;
+}
 @media (max-width: 991px) {
   .time-font{
     font-size: 12px;
@@ -1899,7 +1972,11 @@ div.dt-container div.dt-layout-cell{
   .logo img {
     width: 100%;
     max-height: 25px;
-}
+  }
+  .copyright p,
+  .credits p{
+    text-align: center;
+  }
 }
 @media (max-width: 575px) {
   .info-date{
@@ -1909,6 +1986,16 @@ div.dt-container div.dt-layout-cell{
   .dashboard .modal-header .modal-title{
     width: 70%;
   }  
+  .date_holder input.form-control{
+    width: 100%;
+    border-radius: 5px;
+  }
+  .date_holder span{
+    margin: 5px 0;
+  }
+  .generate_btn button{
+    margin-top: 5px;
+  }
 }
 @media (max-width: 480px) {
 body{font-size: 12px;}

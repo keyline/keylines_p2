@@ -75,11 +75,10 @@ class ScreenshotSettingsController extends BaseController
         $id                         = decoded($userId);
         $title                      = 'Screenshot List';
         $page_name                  = 'screenshot_settings/user_screen_list';
-        $data['start_date'] = $data['end_date'] = date('Y-m-d');        
-        $data['row']                = [];
+        $data['start_date']         = $data['end_date'] = date('Y-m-d');
         $conditions                 = array('id' => $id);
-        $data['user'] = $this->data['model']->find_data('user', 'row', $conditions);
-        // pr($data['row']);
+        $data['user']               = $this->data['model']->find_data('user', 'row', $conditions);
+        $data['row']                = [];
 
         if ($this->request->getGet('mode') === 'search') {
             $data['start_date'] = $this->request->getGet('start') ?? $data['start_date'];
@@ -90,7 +89,7 @@ class ScreenshotSettingsController extends BaseController
             $builder = $this->data['model']->builder('user_screenshots');
 
             $builder->where('user_id', $id)
-                ->where('idle_status', 1)
+                // ->where('idle_status', 1)
                 ->where('DATE(time_stamp) >=', $data['start_date'])
                 ->where('DATE(time_stamp) <=', $data['end_date'])
                 ->orderBy('time_stamp', 'DESC');
