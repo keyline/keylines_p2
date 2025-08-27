@@ -1456,7 +1456,7 @@
 <!-- task add modal -->
 <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
    <div class="modal-dialog">                        
-         <form action="<?= base_url('admin/save-task') ?>" method="POST">
+         <form action="<?= base_url('admin/save-task') ?>" method="POST" id="addTaskForm">
             <div class="modal-content">
                <div class="modal-header">
                   <h5 class="modal-title">Assign Task</h5>
@@ -1559,7 +1559,7 @@
                </div>
 
                <div class="modal-footer">
-                  <button type="submit" class="btn btn-success">Save</button>
+                  <button type="submit" class="btn btn-success" id="addTaskSaveBtn">Save</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                </div>
             </div>
@@ -1586,7 +1586,7 @@
    <div class="modal fade" id="myModaltask" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog">
          <div class="modal-content">
-            <form id="effortForm" action="<?= base_url('admin/save-effort') ?>" method="POST">
+            <form action="<?= base_url('admin/save-effort') ?>" method="POST" id="addEffortForm">
             <input type="hidden" name="task_id" id="task_id">
             
             <div id="modalEffort">
@@ -1744,7 +1744,7 @@
             $('#modalEffort').html(response);  
             let modalEl = document.getElementById('myModaltask');
             let modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            modal.show();             
+            modal.show();          
             },
          error: function(xhr, status, error) {
                console.error('Error fetching task details:', error);
@@ -1795,5 +1795,30 @@ function change_work_status(work_status_id) {
         $('#fminute').prop('disabled', false).val();
     }
 }
+
+
+
+     //prevention double click on save add task button
+      document.getElementById('addTaskForm').addEventListener('submit', ()=>{
+         const btn = document.getElementById('addTaskSaveBtn');
+         btn.disabled = true;         // disable the button
+         btn.innerText = "Saving...";
+          console.log("yes");
+      });
+      
+       //prevention double click on save add effort button
+      document.addEventListener("submit", function(e) {
+       if (e.target && e.target.id === "addEffortForm") {
+      //   e.preventDefault(); // stops full page reload on form submit
+        const btn = e.target.querySelector("#addEffortSaveBtn");
+        if (btn) {
+            btn.disabled = true;
+            btn.innerText = "Saving...";
+            console.log("Effort form submitted");
+            }
+         }
+      }, true);
+
+
 
 </script>
