@@ -1109,7 +1109,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="input-group mb-1">
-                                                            <button type="button" class="btn btn-success btn-sm" onClick="submitEffortBookingForm(\''.$getTask->date_added.'\');"><i class="fa fa-paper-plane"></i> Book Effort</button>
+                                                            <button type="button" class="btn btn-success btn-sm" id="effortSaveBtn" onClick="submitEffortBookingForm(\''.$getTask->date_added.'\');"><i class="fa fa-paper-plane"></i> Book Effort</button>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1196,7 +1196,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-md-12">
                                                         <div class="input-group mb-1">
-                                                            <button type="button" class="btn btn-success btn-sm" onClick="submitEffortBookingForm(\''.$task_date.'\');"><i class="fa fa-paper-plane"></i> Book Effort</button>
+                                                            <button type="button" class="btn btn-success btn-sm "  onClick="submitEffortBookingForm(\''.$task_date.'\', this);"><i class="fa fa-paper-plane"></i> Book Effort</button>
                                                         </div>
                                                     </div>
                                                 </div>

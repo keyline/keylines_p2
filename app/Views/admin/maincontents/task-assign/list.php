@@ -1108,7 +1108,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 </div>
                                 <div class="col-md-12">
                                     <div class="input-group mb-1">
-                                        <button type="button" class="btn btn-success btn-sm" onClick="submitForm();">Save</button>
+                                        <button type="button" class="btn btn-success btn-sm" id="addTaskSaveBtn" onClick="submitForm();">Save</button>
                                     </div>
                                 </div>
                             </div>
@@ -1119,7 +1119,11 @@ $controller_route       = $moduleDetail['controller_route'];
         $('#morningformTitle').html(heading);
         $('#morningformBody').html(body);
     }
+
     function submitForm(){
+        $("#addTaskSaveBtn").prop("disabled", true); 
+        $("#addTaskSaveBtn").text("Saving..."); 
+
         var base_url        = '<?=base_url()?>';
         var dataJson        = {};
         dataJson.dept_id                    = $('#dept_id').val();
@@ -1135,6 +1139,8 @@ $controller_route       = $moduleDetail['controller_route'];
         var user_id                         = $('#user_id').val();
         var current_date                    = '<?=$current_date?>';
         var date_added                      = $('#date_added').val();
+         
+
         if($('input[name="priority"]:checked').val() == 0){
             if($('#project_id').val() != ''){
                 if($('#description').val() != ''){
@@ -1311,6 +1317,9 @@ $controller_route       = $moduleDetail['controller_route'];
         });
     }
     function submitEffortBookingForm(book_date){
+        $("#effortSaveBtn").prop("disabled", true);
+        $("#effortSaveBtn").text("Saving...");
+        
         var base_url        = '<?=base_url()?>';
         var dataJson        = {};
         dataJson.dept_id                    = $('#dept_id').val();
@@ -1327,6 +1336,7 @@ $controller_route       = $moduleDetail['controller_route'];
         var user_id                         = $('#user_id').val();
         dataJson.effort_type                = $('#effort_type').val();
         dataJson.work_status_id             = $('#work_status_id').val();
+
         if($('#effort_type').val() == ''){
             toastAlert("error", "Please Select Effort Type !!!");
         } else {
@@ -1605,4 +1615,6 @@ $controller_route       = $moduleDetail['controller_route'];
             }
         });
     }
+
+
 </script>
