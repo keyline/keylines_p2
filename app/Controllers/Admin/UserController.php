@@ -22,7 +22,7 @@ class UserController extends BaseController {
         );
     }
     public function list()
-    {
+{
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'user/list';
@@ -44,7 +44,8 @@ class UserController extends BaseController {
                 ) ss ON u.id = ss.user_id
                 WHERE u.status = '1'
                 ORDER BY u.id DESC;
-";
+                
+    ";
         $data['rows'] = $this->db->query($sql)->getResult();              
         //   echo $this->db->getLastquery();die;     
         // pr($data['rows']);     
@@ -64,13 +65,13 @@ class UserController extends BaseController {
                 ) ss ON u.id = ss.user_id
                 WHERE u.status = '1' and u.type != 'SUPER ADMIN'
                 ORDER BY u.id DESC;
-";
+     ";
         $data['rows'] = $this->db->query($sql)->getResult();              
         //   echo $this->db->getLastquery();die;     
         // pr($data['rows']);  
         }
         echo $this->layout_after_login($title,$page_name,$data);
-    }
+}
     public function DeactivateUserlist()
     {
         $data['moduleDetail']       = $this->data;

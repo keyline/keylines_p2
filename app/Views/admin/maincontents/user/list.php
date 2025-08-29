@@ -68,6 +68,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <th scope="col">Name<br>User ID</th>
                                             <th scope="col">Phone</th>
                                             <th scope="col">Email</th>
+                                            <th scope="col">Today's Punch-in</th>
                                             <!-- <th scope="col">Work Mode</th> -->
                                             <th scope="col">Clock In</th>
                                             <th scope="col">Tracker User</th>
@@ -91,6 +92,31 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     </td>
                                                     <td class="text-center"><?= $row->phone1 ?></td>
                                                     <td><?= $row->email ?></td>
+                                                    <td>
+                                                        <?php 
+                                                            $checkAttnendancetime = $common_model->find_data('attendances', 'row', [
+                                                                'user_id'   => $row->id, 
+                                                                'punch_date'=> date('Y-m-d')
+                                                            ]);
+
+                                                            if ($checkAttnendancetime) {
+                                                                $punchInTimeObj = date_create($checkAttnendancetime->punch_in_time);
+                                                                $punchInTime    = date_format($punchInTimeObj, "h:i A");
+
+                                                                // Reference time 10:00 AM
+                                                                $limitTime = date_create("10:00 AM");
+
+                                                                if ($punchInTimeObj > $limitTime) {
+                                                                    echo "<span style='color:red;'>$punchInTime</span>";   // Late
+                                                                } else {
+                                                                    echo "<span style='color:green;'>$punchInTime</span>"; // On-time
+                                                                }
+                                                            } else {
+                                                                echo "<span style='color:gray;'>No</span>";
+                                                            }
+                                                        ?>
+                                                    </td>
+
                                                     <!-- <td>?= $row->work_mode ?></td> -->
                                                     <td>
                                                         <a href="<?= base_url('admin/user/screenshots/' . encoded($row->id)); ?>">
