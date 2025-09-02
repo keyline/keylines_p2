@@ -427,10 +427,12 @@ class EffortController extends BaseController {
         $page_name                  = 'effort/edit';        
         $conditions                 = array($this->data['primary_key']=>$id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
-        $user_id                    = $this->session->get('user_id');
-        $user_hour_cost             = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'id,hour_cost', '', '',);
-        $user_cost                  = $user_hour_cost->hour_cost;
-        $effortlist                 = $this->data['model']->find_data('timesheet', 'row', ['id' => $id], 'date_added', '', '',);
+        $effortlist                 = $this->data['model']->find_data('timesheet', 'row', ['id' => $id], '', '', '',);
+        // pr($effortlist);
+        // $user_id                    = $effortlist;
+        // $user_hour_cost             = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'id,hour_cost', '', '',);
+        $user_cost                  = $effortlist->hour_rate;
+        
         // pr($data['row']);
         //    pr($effortlist);
 
@@ -468,7 +470,7 @@ class EffortController extends BaseController {
             $cal                = (($hour*60) + $minute); //converted to minutes
             $projectCost        = floatval($cal_usercost * $cal);
             $postData['cost']   = number_format($projectCost, 2, '.', '');
-            //  pr($postData,0);die;
+            //  pr($postData);die;
             $record             = $this->data['model']->save_data('timesheet', $postData, $id, 'id');
 
              /* project cost saved */
