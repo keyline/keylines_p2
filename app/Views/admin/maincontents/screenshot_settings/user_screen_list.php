@@ -1262,7 +1262,7 @@ for (let h = 0; h <= 24; h++) {
 
     // Example: 25%–50% (a quarter of the day)
     // addPercentSegment(38.9, 39.36, "green");  (For standard timing 10AM to 7PM . From original percentange reduce 2.967)
-    addPercentSegment(1,1,1,41.407, 37.86, "grey", "null");
+    // addPercentSegment(0,0,0,41.407, 37.86, "grey", "");
     // Example: 70%–80%
     // addPercentSegment(47.4, 2.5, "yellow");
     // addPercentSegment(59.5, 3.5, "yellow");
