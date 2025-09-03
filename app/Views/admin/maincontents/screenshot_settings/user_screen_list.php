@@ -336,6 +336,51 @@
         background: #000; /* vertical line */
         }
 
+        /* SSSSSSSSSSSSSSSSSSS Timeline working time counting SSSSSSSSSSSSSSSSSS*/
+          /* symbols css */
+        .symbolsContainer{
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .activeColor{
+             width:15px;
+            height:15px;
+            background-color: green;
+            margin-right: 10px;
+            border-radius: 50%;
+        }
+        .idleColor{
+             width:15px;
+            height:15px;
+            background-color: yellow;
+             margin-right: 10px;
+             border-radius: 50%;
+        }
+        .othersColor{
+             width:15px;
+            height:15px;
+            background-color: grey;
+             margin-right: 10px;
+             border-radius: 50%;
+        }
+        .active, .idle, .others {
+            display: flex;
+              margin-left: 3rem;
+        }
+       /* total working time */
+         .workCountingContainer{
+            display: flex;
+            justify-content: center;
+         }
+         .totalWorking, .focusedTime, .idleTime{
+            margin-left: 3rem;
+            margin-bottom: 3rem;
+         }
+         p{
+            font-size: 2rem;
+         }
 
 
 </style>
@@ -941,11 +986,33 @@
                                        </?php } ?>
                                     </div>
                                 </div> -->
-                                   
+                                <div class="col-12">
+                                    <div class="workCountingContainer">
+                                        <div class="totalWorking">
+                                            <p class="totalWorkingLabel">Total working time</p>
+                                            <p class="totalWorkingValue">0:0</p>
+                                        </div>
+                                        <div class="focusedTime">
+                                            <p class="focusedTimeLabel">Focused time</p>
+                                            <p class="focusedTimeValue">0:0</p>
+                                        </div>
+                                        <div class="idleTime">
+                                            <p class="idleTimeLabel">Idle time</p>
+                                            <p class="idleTimeValue">0:0</p>
+                                        </div>
+                                    </div>
+                                </div>   
+
+                             <!-- SSSSSSSSSSSSSSSSSSSSSSSSSS WORKING TIMELINE GRAPH START SSSSSSSSSSSSSSSSSSSSSSSS  -->
                                 <div class="col-12">
                                     <div class="timeline-wrapper">
                                         <div class="timeline" id="timeline"></div>
                                         <div class="hours" id="hours"></div>
+                                    </div>
+                                    <div class="symbolsContainer">
+                                        <div class="active"><div class="activeColor"></div> <div>Active</div></div>
+                                        <div class="idle"><div class="idleColor"></div> <div>Idle</div></div>
+                                        <div class="others"><div class="othersColor"></div> <div>Others</div></div>
                                     </div>
                                 </div>
                                 <?php
@@ -1043,7 +1110,7 @@
                                     }
                                  }
                                   ?>
-                                  
+                            <!-- SSSSSSSSSSSSSSSSSSSSSSSSSS WORKING TIMELINE GRAPH END SSSSSSSSSSSSSSSSSSSSSSSS  -->      
                                 <?php if (count($row)) {
                                     foreach ($row as $screenshot) { ?>
                                         <div class="col-lg-3 col-md-4 col-sm-6">
@@ -1202,13 +1269,42 @@ for (let h = 0; h <= 24; h++) {
 
     let segments = <?= json_encode($segments) ?>;
 
+                function timeToMinutes(t) {
+                let [h, m] = t.split(':').map(Number);
+                return h * 60 + m;
+            }
+
+            function minutesToTime(mins) {
+                let h = Math.floor(mins / 60);
+                let m = mins % 60;
+                return `${h}:${m.toString().padStart(2, '0')}`;
+            }
+
+      let totalWorkingTime = 0;
     segments.forEach(s => {
             let end = s.start + s.width;
         if (end > 100) {
             return false; 
         }
         addPercentSegment(s.diffTime,s.initTime,s.endTime,s.start, s.width, s.color, s.status); 
+
+            let focusedTimeEl = document.querySelector('.focusedTimeValue');
+            let idleTimeEl = document.querySelector('.idleTimeValue');
+
+            let focusedMins = timeToMinutes(focusedTimeEl.textContent);
+            let idleMins = timeToMinutes(idleTimeEl.textContent);
+
+            if (s.color === 'green') {
+                focusedMins += s.diffTime;
+            } else {
+                idleMins += s.diffTime;
+            }
+              totalWorkingTime += s.diffTime;
+            focusedTimeEl.textContent = minutesToTime(focusedMins);
+            idleTimeEl.textContent = minutesToTime(idleMins);
+
     });
+      document.querySelector('.totalWorkingValue').textContent = minutesToTime(totalWorkingTime);
 
     const timeDivs = document.querySelectorAll(".timeDiv");
 
