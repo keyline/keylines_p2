@@ -1058,7 +1058,12 @@
                                                                     date('i', strtotime($screenshot['time_stamp'])) * 60 +
                                                                     date('s', strtotime($screenshot['time_stamp']));  
 
-                                                $width = abs($currTime - $prevTime);
+                                                // $width = abs($currTime - $prevTime);
+                                                if(abs($currTime - $prevTime) > 300){
+                                                         $width = 300;
+                                                    }else{
+                                                        $width = abs($currTime - $prevTime);
+                                                    }  
                                             $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
                                             $endTime = date('H:i', strtotime($screenshot['time_stamp']));   
                                             if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
@@ -1078,7 +1083,12 @@
                                                 $currTime = date('H', strtotime($screenshot['time_stamp'])) * 3600 +
                                                                     date('i', strtotime($screenshot['time_stamp'])) * 60 +
                                                                     date('s', strtotime($screenshot['time_stamp']));                                                  
-                                                $width = abs($currTime - $prevTime);
+                                                // $width = abs($currTime - $prevTime);
+                                                if(abs($currTime - $prevTime) > 300){
+                                                         $width = 300;
+                                                    }else{
+                                                        $width = abs($currTime - $prevTime);
+                                                    }  
                                             $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
                                             $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
                                           if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
