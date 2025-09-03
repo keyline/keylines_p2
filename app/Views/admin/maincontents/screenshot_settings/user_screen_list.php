@@ -1218,7 +1218,7 @@ for (let h = 0; h <= 24; h++) {
     let tooltip = document.createElement("div");
     tooltip.className = "tooltip-time";
     tooltip.innerHTML = div.dataset.diffTime + " mins " + "<br>" + div.dataset.status +  "<br>"
-                        + div.dataset.endTime + " - " + div.dataset.initTime;
+                        + div.dataset.initTime + " - " + div.dataset.endTime;
 
     // position tooltip relative to segment
     tooltip.style.position = "absolute";
