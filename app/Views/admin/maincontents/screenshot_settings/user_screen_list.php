@@ -953,11 +953,9 @@
                                 if (count($row)) {
                                      $previousTime = null;
                                      $previousScreenshot = [];
-                                    //  $items = $row;  // convert collection to array
                                     $items = array_reverse($row);
                                         $index = 0;
                                 while ($index < count($items)){
-                                    // foreach ($row as  $screenshot) {
                                 if($index !== 0){
                                      $screenshot = $items[$index];
                                      $time = $screenshot['time_stamp'];
@@ -975,8 +973,7 @@
                                             $diffSeconds = strtotime($endTime) - strtotime($initTime);
                                             $diffMinutes = round(abs($diffSeconds) / 60); 
                                              $color =  'green';
-                                           $status =  'Active';  
-                                            // echo   $width;                                         
+                                           $status =  'Active';                                         
                                             }else{
                                                 $prevTime = date('H', strtotime($previousScreenshot['time_stamp'])) * 3600 +
                                                                     date('i', strtotime($previousScreenshot['time_stamp'])) * 60 +
@@ -995,7 +992,6 @@
                                             }
 
                                         }else{
-                                            //    if($previousScreenshot['idle_status'] == 1){
                                                 $prevTime = date('H', strtotime($previousScreenshot['time_stamp'])) * 3600 +
                                                                     date('i', strtotime($previousScreenshot['time_stamp'])) * 60 +
                                                                     date('s', strtotime($previousScreenshot['time_stamp']));                                                
@@ -1006,21 +1002,7 @@
                                             $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
                                             $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
                                             $diffSeconds = strtotime($endTime) - strtotime($initTime);
-                                            $diffMinutes = round(abs($diffSeconds) / 60);                                               
-                                            // }else{
-                                            //     $prevTime = date('H', strtotime($previousScreenshot['time_stamp'])) * 3600 +
-                                            //                         date('i', strtotime($previousScreenshot['time_stamp'])) * 60 +
-                                            //                         date('s', strtotime($previousScreenshot['time_stamp']));
-                                            //     $currTime = date('H', strtotime($screenshot['time_stamp'])) * 3600 +
-                                            //                         date('i', strtotime($screenshot['time_stamp'])) * 60 +
-                                            //                         date('s', strtotime($screenshot['time_stamp']));  
-
-                                            //     $width = abs($currTime - $prevTime);
-                                            // $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
-                                            // $endTime = date('H:i', strtotime($screenshot['time_stamp']));   
-                                            // $diffSeconds = strtotime($endTime) - strtotime($initTime);
-                                            // $diffMinutes = round(abs($diffSeconds) / 60);                                                                                          
-                                            // }
+                                            $diffMinutes = round(abs($diffSeconds) / 60);                                                                                 
                                            $color =  'yellow';
                                            $status =  'Idle';
 
@@ -1042,47 +1024,12 @@
                                        $color =  'green';
                                        $status =  'Active';
                                     } 
-                                    //     if ($previousTime) {
-                                    //         // difference in seconds
-                                    //         $diffSeconds =  round(abs(strtotime($time) - strtotime($previousTime)) / 60);
-                                    //         //    echo $diffSeconds . "<br>";
-                                    //         // initTime = previous time (or whatever logic you want)
-                                    //         $initTime = date('H:i', strtotime($previousTime));
-                                    //         $endTime = date('H:i', strtotime($time));
-                                    // $initTimeSeconds = date('H', strtotime($previousTime)) * 3600 +
-                                    //                     date('i', strtotime($previousTime)) * 60 +
-                                    //                     date('s', strtotime($previousTime));
 
-                                    //     $endTimeSeconds  = date('H', strtotime($time)) * 3600 +
-                                    //                     date('i', strtotime($time)) * 60 +
-                                    //                     date('s', strtotime($time));
-                                    //     } else {
-                                    //         // first record has no previous
-                                    //         $diffSeconds = 0;
-                                    //         $initTime = date('H:i', strtotime($time));
-                                    //         $endTime = date('H:i', strtotime($time));
-                                    //         $initTimeSeconds = date('H', strtotime($initTime)) * 3600 + 
-                                    //                             date('i', strtotime($initTime)) * 60 +
-                                    //                             date('i', strtotime($initTime));
-                                    //         $endTimeSeconds = date('H', strtotime($endTime)) * 3600 +
-                                    //                           date('H', strtotime($endTime)) * 60 +
-                                    //                            date('H', strtotime($endTime));
-                                    //     }
-
-                                        // $previousTime = $time; 
                                         $previousScreenshot = $screenshot;
                                         $secondsInDay = 86400;
 
                                         $percentage = ($currTime / $secondsInDay) * 100;
-                                        $durationPercentage = ($width / $secondsInDay) * 100;
-                                        // array_unshift($segments, [
-                                        //     'diffTime' => $diffMinutes,
-                                        //     'initTime' => $initTime,
-                                        //     'endTime' => $endTime,
-                                        //     'start' => $percentage,
-                                        //     'width' => $durationPercentage,
-                                        //     'color' => $color
-                                        // ]); 
+                                        $durationPercentage = ($width / $secondsInDay) * 100; 
                                         $segments[] = [
                                             'diffTime' => $diffMinutes,
                                             'initTime' => $initTime,
@@ -1243,14 +1190,12 @@ for (let h = 0; h <= 24; h++) {
     seg.style.width = widthPercent + "%";      // how wide
     seg.style.background = color;
     timeline.appendChild(seg);
+    
     }
 
     // Example: 25%–50% (a quarter of the day)
     // addPercentSegment(38.9, 39.36, "green");  (For standard timing 10AM to 7PM . From original percentange reduce 2.967)
     addPercentSegment(1,1,1,41.407, 37.86, "grey", "null");
-    //    addPercentSegment(41.667, 5.733, "green");
-    //    addPercentSegment(49.9, 10.5, "green");
-
     // Example: 70%–80%
     // addPercentSegment(47.4, 2.5, "yellow");
     // addPercentSegment(59.5, 3.5, "yellow");
@@ -1258,9 +1203,12 @@ for (let h = 0; h <= 24; h++) {
     let segments = <?= json_encode($segments) ?>;
 
     segments.forEach(s => {
-        addPercentSegment(s.diffTime,s.initTime,s.endTime,s.start, s.width, s.color, s.status);
+            let end = s.start + s.width;
+        if (end > 100) {
+            return false; 
+        }
+        addPercentSegment(s.diffTime,s.initTime,s.endTime,s.start, s.width, s.color, s.status); 
     });
-
 
     const timeDivs = document.querySelectorAll(".timeDiv");
 
