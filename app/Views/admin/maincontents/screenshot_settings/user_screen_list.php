@@ -1330,8 +1330,15 @@ for (let h = 0; h <= 24; h++) {
     // create tooltip
     let tooltip = document.createElement("div");
     tooltip.className = "tooltip-time";
-    tooltip.innerHTML = div.dataset.diffTime + " mins " + "<br>" + div.dataset.status +  "<br>"
+    let diffMins = timeToMinutes(div.dataset.endTime) - timeToMinutes(div.dataset.initTime);
+    if(diffMins > 5){
+                tooltip.innerHTML = div.dataset.diffTime + " mins " + "<br>" + div.dataset.status +  "<br>"
+                        + div.dataset.endTime;
+    }else{
+            tooltip.innerHTML = div.dataset.diffTime + " mins " + "<br>" + div.dataset.status +  "<br>"
                         + div.dataset.initTime + " - " + div.dataset.endTime;
+    }
+
 
     // position tooltip relative to segment
     tooltip.style.position = "absolute";
