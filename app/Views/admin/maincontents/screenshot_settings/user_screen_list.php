@@ -1037,7 +1037,7 @@
                                                 $width = abs($currTime - $prevTime);
                                                $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
                                                $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
-                                                if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
+                                                if(abs(strtotime($initTime) - strtotime($endTime)) > 300){
                                                     $diffSeconds = 300;
                                                 }else{
                                                     $diffSeconds = strtotime($endTime) - strtotime($initTime);
@@ -1265,8 +1265,8 @@ for (let h = 0; h <= 24; h++) {
     seg.style.position = "absolute";
     seg.style.top = 0;
     seg.style.height = "100%";
-    seg.style.left = startPercent + "%";       // where to start . And From original percentange reduce 2.967 for match the width
-    seg.style.width = widthPercent + "%";      // how wide
+    seg.style.left = (startPercent-widthPercent) + "%";       // where to start . And From original percentange reduce 2.967 for match the width
+    seg.style.width = (widthPercent*2) + "%";      // how wide
     seg.style.background = color;
     timeline.appendChild(seg);
     
