@@ -1035,12 +1035,16 @@
                                                                     date('i', strtotime($previousScreenshot['time_stamp'])) * 60 +
                                                                     date('s', strtotime($previousScreenshot['time_stamp']));                                                                                                                   
                                                 $width = abs($currTime - $prevTime);
-                                            $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
-                                            $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
-                                            $diffSeconds = strtotime($endTime) - strtotime($initTime);
-                                            $diffMinutes = round(abs($diffSeconds) / 60); 
-                                             $color =  'green';
-                                           $status =  'Active';                                         
+                                               $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
+                                               $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
+                                                if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
+                                                    $diffSeconds = 300;
+                                                }else{
+                                                    $diffSeconds = strtotime($endTime) - strtotime($initTime);
+                                                } 
+                                                $diffMinutes = round(abs($diffSeconds) / 60); 
+                                                $color =  'green';
+                                                $status =  'Active';                                         
                                             }else{
                                                 $prevTime = date('H', strtotime($previousScreenshot['time_stamp'])) * 3600 +
                                                                     date('i', strtotime($previousScreenshot['time_stamp'])) * 60 +
@@ -1052,8 +1056,12 @@
                                                 $width = abs($currTime - $prevTime);
                                             $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
                                             $endTime = date('H:i', strtotime($screenshot['time_stamp']));   
-                                            $diffSeconds = strtotime($endTime) - strtotime($initTime);
-                                            $diffMinutes = round(abs($diffSeconds) / 60);     
+                                            if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
+                                                $diffSeconds = 300;
+                                            }else{
+                                                $diffSeconds = strtotime($endTime) - strtotime($initTime);
+                                            }   
+                                        $diffMinutes = round(abs($diffSeconds) / 60);  
                                             $color =  'yellow';
                                            $status =  'Idle';                                                                                     
                                             }
@@ -1068,7 +1076,11 @@
                                                 $width = abs($currTime - $prevTime);
                                             $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
                                             $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
-                                            $diffSeconds = strtotime($endTime) - strtotime($initTime);
+                                          if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
+                                                $diffSeconds = 300;
+                                            }else{
+                                                $diffSeconds = strtotime($endTime) - strtotime($initTime);
+                                            } 
                                             $diffMinutes = round(abs($diffSeconds) / 60);                                                                                 
                                            $color =  'yellow';
                                            $status =  'Idle';
