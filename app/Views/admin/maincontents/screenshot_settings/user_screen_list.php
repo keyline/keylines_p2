@@ -1332,7 +1332,7 @@ for (let h = 0; h <= 24; h++) {
     tooltip.className = "tooltip-time";
     let diffMins = timeToMinutes(div.dataset.endTime) - timeToMinutes(div.dataset.initTime);
     if(diffMins > 5){
-                tooltip.innerHTML = div.dataset.diffTime + " mins " + "<br>" + div.dataset.status +  "<br>"
+                tooltip.innerHTML = 0 + " mins " + "<br>" + div.dataset.status +  "<br>"
                         + div.dataset.endTime;
     }else{
             tooltip.innerHTML = div.dataset.diffTime + " mins " + "<br>" + div.dataset.status +  "<br>"
