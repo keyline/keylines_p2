@@ -1090,7 +1090,7 @@
                                                          $width = 180;
                                                     // }
                                                     $startTime = date('H:i', strtotime($screenshot['time_stamp']));
-                                                    $initTime = date('H:i', strtotime($prevTime . ' -3 minutes'));
+                                                    $initTime = date('H:i', strtotime($startTime . ' -3 minutes'));
                                                     $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
                                                 // if(abs(strtotime($endTime) - strtotime($initTime)) > 180){
                                                         $diffSeconds = 180;
