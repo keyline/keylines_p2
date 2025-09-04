@@ -1077,6 +1077,29 @@
                                             }
 
                                         }else{
+
+                                              if($previousScreenshot['idle_status'] == 1){
+                                                $prevTime = date('H', strtotime($previousScreenshot['time_stamp'])) * 3600 +
+                                                                    date('i', strtotime($previousScreenshot['time_stamp'])) * 60 +
+                                                                    date('s', strtotime($previousScreenshot['time_stamp']));                                                
+                                                $currTime = date('H', strtotime($screenshot['time_stamp'])) * 3600 +
+                                                                    date('i', strtotime($screenshot['time_stamp'])) * 60 +
+                                                                    date('s', strtotime($screenshot['time_stamp']));                                                  
+                                                // $width = abs($currTime - $prevTime);
+                                                // if(abs($currTime - $prevTime) > 180){
+                                                         $width = 180;
+                                                    // }
+                                                    $prevTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
+                                                    $initTime = date('H:i', strtotime($prevTime . ' -3 minutes'));
+                                                    $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
+                                                // if(abs(strtotime($endTime) - strtotime($initTime)) > 180){
+                                                        $diffSeconds = 180;
+                                                    // } 
+                                                    $diffMinutes = round(abs($diffSeconds) / 60);                                                                                 
+                                                $color =  'yellow';
+                                                $status =  'Idle';
+
+                                           }else{
                                                 $prevTime = date('H', strtotime($previousScreenshot['time_stamp'])) * 3600 +
                                                                     date('i', strtotime($previousScreenshot['time_stamp'])) * 60 +
                                                                     date('s', strtotime($previousScreenshot['time_stamp']));                                                
@@ -1089,18 +1112,19 @@
                                                     }else{
                                                         $width = abs($currTime - $prevTime);
                                                     }  
-                                            $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
-                                            $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
-                                          if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
-                                                $diffSeconds = 300;
-                                            }else{
-                                                $diffSeconds = strtotime($endTime) - strtotime($initTime);
-                                            } 
-                                            $diffMinutes = round(abs($diffSeconds) / 60);                                                                                 
-                                           $color =  'yellow';
-                                           $status =  'Idle';
+                                                    $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
+                                                    $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
+                                                if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
+                                                        $diffSeconds = 300;
+                                                    }else{
+                                                        $diffSeconds = strtotime($endTime) - strtotime($initTime);
+                                                    } 
+                                                    $diffMinutes = round(abs($diffSeconds) / 60);                                                                                 
+                                                $color =  'yellow';
+                                                $status =  'Idle';
 
-                                        }
+                                           }
+                                       }
                                     }else{
                                          $screenshot = $items[0];
                                           $prevTime = date('H', strtotime($screenshot['time_stamp'])) * 3600 +
@@ -1281,7 +1305,7 @@ for (let h = 0; h <= 24; h++) {
     seg.style.top = 0;
     seg.style.height = "100%";
     seg.style.left = (startPercent-widthPercent) + "%";       // where to start . And From original percentange reduce 2.967 for match the width
-    seg.style.width = (widthPercent*2) + "%";      // how wide
+    seg.style.width = (widthPercent) + "%";      // how wide
     seg.style.background = color;
     timeline.appendChild(seg);
     
