@@ -199,7 +199,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <th width="7%">Time</th>
                                                 <th width="30%">Description</th>
                                                 <th width="15%">Type</th>
+                                                <?php if($session->user_type  !== 'CLIENT'){ ?>
                                                 <th width="5%">Action</th>
+                                                <?php } ?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -217,6 +219,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <td><?= $res['effort_time'] ?></td>
                                                     <td><?= $res['description'] ?></td>
                                                     <td><?= $res['effort_type'] ?><br><small>(<?= $res['project_status'] ?>)</small></td>
+                                                    <?php if($session->user_type  !== 'CLIENT'){ ?>
                                                     <td class="d-flex">
                                                         <a class="btn btn-outline-primary btn-sm me-1" target="_blank" href="<?= base_url('admin/efforts/edit/' . encoded($res['id'])) ?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-edit"></i></a>
                                                         
@@ -227,6 +230,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                             <a class="btn btn-outline-danger btn-sm" href="<?= base_url('admin/efforts/delete/' . encoded($res['id'])) ?>" title="Delete Effort" onclick="return confirm('Do you want to delete this effort from list ?');"><i class="fa fa-trash"></i></a>
                                                         <?php } ?>
                                                     </td>
+                                                <?php } ?>
                                                 </tr>
                                                 <?php
                                                 // $totHour    += $res['hour'];

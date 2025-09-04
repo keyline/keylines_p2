@@ -203,13 +203,14 @@ $userType                   = $session->user_type;
                 <li>
                     <hr class="dropdown-divider">
                 </li>
+                <?php if($session->user_type  !== 'CLIENT'){ ?>
                 <li>
-
                     <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/user/screenshots/' . encoded($session->user_id)); ?>">
                         <i class="fas fa-image"></i>
                         <span>My Screenshots</span>
                     </a>
                 </li>
+                <?php } ?>
                 <li>
                     <a class="dropdown-item d-flex align-items-center" href="<?= base_url('admin/signout') ?>">
                         <i class="bi bi-box-arrow-right"></i>
