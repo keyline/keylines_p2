@@ -257,6 +257,136 @@
         border-radius: 10px;
         margin-right: 5px;
     }
+
+    /* SSSSSSSSSSSSSSSSSS time line chart SSSSSSSSSSSSSSSSSS */
+
+    .timeline-wrapper {
+    position: relative;
+    width: 86400; /* 1440 minutes in a day */
+    border: 1px solid #333;
+    height: 30px;
+    margin-bottom: 20px;
+    }
+
+    .timeline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: lightgray;
+    }
+
+
+
+    .hours {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    }
+
+    .hours span {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 0.025%;
+    }
+    .hours span strong{
+        display: block;
+        width: 40px;
+    }
+
+    .hours span::before {
+        content: "";
+        position: absolute;
+        top: -22px;
+        left: 0;
+        width: 1px;
+        height: 15px;
+        background:#6b6b6b;
+    }
+    .hours span:first-child::before,
+    .hours span:last-child::before {
+        display: none;
+    }
+
+    /* SSSSSSSSSSSSSSSSSSS Timeline working time counting SSSSSSSSSSSSSSSSSS*/
+        /* symbols css */
+    .symbolsContainer{
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .activeColor{
+            width:15px;
+        height:15px;
+        background-color: green;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+    .idleColor{
+            width:15px;
+        height:15px;
+        background-color: yellow;
+            margin-right: 10px;
+            border-radius: 50%;
+    }
+    .othersColor{
+            width:15px;
+        height:15px;
+        background-color: grey;
+            margin-right: 10px;
+            border-radius: 50%;
+    }
+    .active, .idle, .others {
+        display: flex;
+        margin-left: 3rem;
+        align-items: center;
+    }
+    /* total working time */
+    .workCountingContainer{
+    display: flex;
+    justify-content: center;
+    }
+    .totalWorking, .focusedTime, .idleTime{
+        margin-bottom: 1rem;
+    }
+    .totalWorking{
+        background: #F1F1F1;
+        border: 1px solid #9D9D9D;
+    }
+    .focusedTime{
+        background: #d2f3d3;
+        border: 1px solid #9dc59e;
+    }
+    .focusedTime p{
+        color: #247426;
+    }
+    .idleTime{
+        background: #fffaf0;
+        border: 1px solid #ffe2b5;
+    }
+    .idleTime p{
+        color: #FC9A06;
+    }
+    .time_box{
+        padding: 20px;
+        /* box-shadow: 0 4px 14px -6px #000; */
+        border-radius: 10px;
+        text-align: center;
+    }
+     .time_box p{
+        font-size: 18px
+     }
+    p{
+    font-size: 2rem;
+    }
+
     @media(max-width: 1199px){
         .user_timeline_new_view{
             max-width: 640px;
@@ -284,103 +414,7 @@
         }
     }
 
-    /* SSSSSSSSSSSSSSSSSS time line chart SSSSSSSSSSSSSSSSSS */
-
-        .timeline-wrapper {
-        position: relative;
-        width: 86400; /* 1440 minutes in a day */
-        border: 1px solid #333;
-        height: 30px;
-        margin-bottom: 20px;
-        }
-
-        .timeline {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: lightgray;
-        }
-
-
-
-        .hours {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        }
-
-        .hours span {
-            position: relative;
-            margin: 0;
-            padding: 0;
-            width: 0.025%;
-        }
-        .hours span strong{
-            display: block;
-            width: 40px;
-        }
-
-        .hours span::before {
-        content: "";
-        position: absolute;
-        top: -30px; /* goes into the timeline */
-        left: 0;
-        width: 1px;
-        height: 30px;
-        background: #000; /* vertical line */
-        }
-
-        /* SSSSSSSSSSSSSSSSSSS Timeline working time counting SSSSSSSSSSSSSSSSSS*/
-          /* symbols css */
-        .symbolsContainer{
-            display: flex;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .activeColor{
-             width:15px;
-            height:15px;
-            background-color: green;
-            margin-right: 10px;
-            border-radius: 50%;
-        }
-        .idleColor{
-             width:15px;
-            height:15px;
-            background-color: yellow;
-             margin-right: 10px;
-             border-radius: 50%;
-        }
-        .othersColor{
-             width:15px;
-            height:15px;
-            background-color: grey;
-             margin-right: 10px;
-             border-radius: 50%;
-        }
-        .active, .idle, .others {
-            display: flex;
-              margin-left: 3rem;
-        }
-       /* total working time */
-         .workCountingContainer{
-            display: flex;
-            justify-content: center;
-         }
-         .totalWorking, .focusedTime, .idleTime{
-            margin-left: 3rem;
-            margin-bottom: 3rem;
-         }
-         p{
-            font-size: 2rem;
-         }
+    
 
 
 </style>
@@ -434,7 +468,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row g-3">
+                            <div class="row g-3 justify-content-center">
                                 <div class="co1-12">
                                     <form method="GET" action="" enctype="multipart/form-data">
                                         <input type="hidden" name="mode" value="search">
@@ -986,19 +1020,25 @@
                                        </?php } ?>
                                     </div>
                                 </div> -->
-                                <div class="col-12">
-                                    <div class="workCountingContainer">
-                                        <div class="totalWorking">
-                                            <p class="totalWorkingLabel">Total working time</p>
-                                            <p class="totalWorkingValue">0:0</p>
+                                <div class=" col-lg-9 col-xl-7 col-xxl-6">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="totalWorking time_box">
+                                                <p class="totalWorkingLabel">Total working time</p>
+                                                <p class="totalWorkingValue">0:0</p>
+                                            </div>
                                         </div>
-                                        <div class="focusedTime">
-                                            <p class="focusedTimeLabel">Focused time</p>
-                                            <p class="focusedTimeValue">0:0</p>
+                                        <div class="col-md-4">
+                                            <div class="focusedTime time_box">
+                                                <p class="focusedTimeLabel">Focused time</p>
+                                                <p class="focusedTimeValue">0:0</p>
+                                            </div>
                                         </div>
-                                        <div class="idleTime">
-                                            <p class="idleTimeLabel">Idle time</p>
-                                            <p class="idleTimeValue">0:0</p>
+                                        <div class="col-md-4">
+                                            <div class="idleTime time_box">
+                                                <p class="idleTimeLabel">Idle time</p>
+                                                <p class="idleTimeValue">0:0</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>   
