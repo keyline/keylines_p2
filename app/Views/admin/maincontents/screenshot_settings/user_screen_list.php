@@ -987,6 +987,26 @@
                                     </div>
                                 </div> -->
                                 <div class="col-12">
+                                    <div class="d-flex">
+                                                    <div class="text-center">
+                                                        <span class="block text">Idle</span>
+                                                        <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_idle_time">
+                                                            <span class="timer" data-from="0" data-to="01h 09m"><strong>01h 09m</strong></span>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="text-center wrk_time_show">
+                                                        <span class="block text"> Focus </span>
+                                                        <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_time_at_work">
+                                                            <span class="timer" data-from="0" data-to="02h 15m"><strong>02h 15m</strong></span>
+                                                        </h4>
+                                                    </div>
+                                                    <div class="text-center">
+                                                        <span class="block text">Private</span>
+                                                        <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_private_time">
+                                                            <span class="timer" data-from="0" data-to="00h 00m"><strong>00h 00m</strong></span>
+                                                        </h4>
+                                                    </div>
+                                                </div>
                                     <div class="workCountingContainer">
                                         <div class="totalWorking">
                                             <p class="totalWorkingLabel">Total working time</p>
