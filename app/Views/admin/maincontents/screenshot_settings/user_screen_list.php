@@ -309,7 +309,8 @@
         height: 15px;
         background:#6b6b6b;
     }
-    .hours span:first-child::before {
+    .hours span:first-child::before,
+    .hours span:last-child::before {
         display: none;
     }
 
