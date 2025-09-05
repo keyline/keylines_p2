@@ -350,8 +350,7 @@
     justify-content: center;
     }
     .totalWorking, .focusedTime, .idleTime{
-        margin-left: 3rem;
-        margin-bottom: 3rem;
+        margin-bottom: 1rem;
     }
     .totalWorking{
         background: #F1F1F1;
@@ -376,8 +375,9 @@
     }
     .time_box{
         padding: 20px;
-        box-shadow: 0 4px 14px -6px #000;
+        /* box-shadow: 0 4px 14px -6px #000; */
         border-radius: 10px;
+        text-align: center;
     }
      .time_box p{
         font-size: 20px
