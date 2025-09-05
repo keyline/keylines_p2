@@ -333,7 +333,7 @@
             left: 0;
             width: 1px;
             height: 15px;
-            background: #6b6b6b;
+            background:#6b6b6b;
         }
 
         /* SSSSSSSSSSSSSSSSSSS Timeline working time counting SSSSSSSSSSSSSSSSSS*/
