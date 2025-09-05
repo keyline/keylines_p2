@@ -1020,21 +1020,21 @@
                                        </?php } ?>
                                     </div>
                                 </div> -->
-                                <div class="col-lg-8 col-xl-7 col-xxl-6">
+                                <div class=" col-lg-9 col-xl-7 col-xxl-6">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-sm-4">
                                             <div class="totalWorking time_box">
                                                 <p class="totalWorkingLabel">Total working time</p>
                                                 <p class="totalWorkingValue">0:0</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-sm-4">
                                             <div class="focusedTime time_box">
                                                 <p class="focusedTimeLabel">Focused time</p>
                                                 <p class="focusedTimeValue">0:0</p>
                                             </div>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-sm-4">
                                             <div class="idleTime time_box">
                                                 <p class="idleTimeLabel">Idle time</p>
                                                 <p class="idleTimeValue">0:0</p>
