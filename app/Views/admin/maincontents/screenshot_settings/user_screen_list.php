@@ -1020,7 +1020,7 @@
                                        </?php } ?>
                                     </div>
                                 </div> -->
-                                <div class="col-6">
+                                <div class="col-xl-7 col-lg-6">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="totalWorking time_box">
