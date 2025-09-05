@@ -356,19 +356,16 @@
         background: #F1F1F1;
         border: 1px solid #9D9D9D;
     }
-    .totalWorking p{
-        color: #9D9D9D;
-    }
     .focusedTime{
-        background: #92D594;
-        border: 1px solid #247426;
+        background: #d2f3d3;
+        border: 1px solid #9dc59e;
     }
     .focusedTime p{
         color: #247426;
     }
     .idleTime{
-        background: #FFF2D9;
-        border: 1px solid #FC9A06;
+        background: #fffaf0;
+        border: 1px solid #ffe2b5;
     }
     .idleTime p{
         color: #FC9A06;
@@ -380,7 +377,7 @@
         text-align: center;
     }
      .time_box p{
-        font-size: 20px
+        font-size: 18px
      }
     p{
     font-size: 2rem;
@@ -1019,7 +1016,7 @@
                                        </?php } ?>
                                     </div>
                                 </div> -->
-                                <div class="col-8">
+                                <div class="col-7">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="totalWorking time_box">
