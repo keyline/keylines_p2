@@ -327,13 +327,13 @@
         }
 
         .hours span::before {
-        content: "";
-        position: absolute;
-        top: -30px; /* goes into the timeline */
-        left: 0;
-        width: 1px;
-        height: 30px;
-        background: #000; /* vertical line */
+            content: "";
+            position: absolute;
+            top: -22px;
+            left: 0;
+            width: 1px;
+            height: 15px;
+            background: #6b6b6b;
         }
 
         /* SSSSSSSSSSSSSSSSSSS Timeline working time counting SSSSSSSSSSSSSSSSSS*/
@@ -989,7 +989,7 @@
                                 <div class="col-12">
                                     <div class="workCountingContainer">
                                         <div class="totalWorking">
-                                            <p class="totalWorkingLabel">Total working time2</p>
+                                            <p class="totalWorkingLabel">Total working time</p>
                                             <p class="totalWorkingValue">0:0</p>
                                         </div>
                                         <div class="focusedTime">
