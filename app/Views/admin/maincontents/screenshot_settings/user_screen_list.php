@@ -434,7 +434,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row g-3">
+                            <div class="row g-3 justify-content-center">
                                 <div class="co1-12">
                                     <form method="GET" action="" enctype="multipart/form-data">
                                         <input type="hidden" name="mode" value="search">
@@ -986,39 +986,25 @@
                                        </?php } ?>
                                     </div>
                                 </div> -->
-                                <div class="col-12">
-                                    <div class="d-flex">
-                                                    <div class="text-center">
-                                                        <span class="block text">Idle</span>
-                                                        <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_idle_time">
-                                                            <span class="timer" data-from="0" data-to="01h 09m"><strong>01h 09m</strong></span>
-                                                        </h4>
-                                                    </div>
-                                                    <div class="text-center wrk_time_show">
-                                                        <span class="block text"> Focus </span>
-                                                        <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_time_at_work">
-                                                            <span class="timer" data-from="0" data-to="02h 15m"><strong>02h 15m</strong></span>
-                                                        </h4>
-                                                    </div>
-                                                    <div class="text-center">
-                                                        <span class="block text">Private</span>
-                                                        <h4 class="font-weight-bolder m-t-none m-b-none text-primary-lt" id="total_private_time">
-                                                            <span class="timer" data-from="0" data-to="00h 00m"><strong>00h 00m</strong></span>
-                                                        </h4>
-                                                    </div>
-                                                </div>
-                                    <div class="workCountingContainer">
-                                        <div class="totalWorking">
-                                            <p class="totalWorkingLabel">Total working time</p>
-                                            <p class="totalWorkingValue">0:0</p>
+                                <div class="col-8">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="totalWorking">
+                                                <p class="totalWorkingLabel">Total working time</p>
+                                                <p class="totalWorkingValue">0:0</p>
+                                            </div>
                                         </div>
-                                        <div class="focusedTime">
-                                            <p class="focusedTimeLabel">Focused time</p>
-                                            <p class="focusedTimeValue">0:0</p>
+                                        <div class="col-md-4">
+                                            <div class="focusedTime">
+                                                <p class="focusedTimeLabel">Focused time</p>
+                                                <p class="focusedTimeValue">0:0</p>
+                                            </div>
                                         </div>
-                                        <div class="idleTime">
-                                            <p class="idleTimeLabel">Idle time</p>
-                                            <p class="idleTimeValue">0:0</p>
+                                        <div class="col-md-4">
+                                            <div class="idleTime">
+                                                <p class="idleTimeLabel">Idle time</p>
+                                                <p class="idleTimeValue">0:0</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>   
