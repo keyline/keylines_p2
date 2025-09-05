@@ -989,7 +989,7 @@
                                 <div class="col-12">
                                     <div class="workCountingContainer">
                                         <div class="totalWorking">
-                                            <p class="totalWorkingLabel">Total working time</p>
+                                            <p class="totalWorkingLabel">Total working time2</p>
                                             <p class="totalWorkingValue">0:0</p>
                                         </div>
                                         <div class="focusedTime">
