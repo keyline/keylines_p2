@@ -309,6 +309,9 @@
         height: 15px;
         background:#6b6b6b;
     }
+    .hours span:first-child::before {
+        display: none;
+    }
 
     /* SSSSSSSSSSSSSSSSSSS Timeline working time counting SSSSSSSSSSSSSSSSSS*/
         /* symbols css */
