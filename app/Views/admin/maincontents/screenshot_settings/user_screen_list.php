@@ -324,25 +324,25 @@
     }
 
     .activeColor{
-        width:15px;
+            width:15px;
         height:15px;
-        background-color: #247426;
+        background-color: green;
         margin-right: 10px;
         border-radius: 50%;
     }
     .idleColor{
-        width:15px;
+            width:15px;
         height:15px;
-        background-color: #FC9A06;
-        margin-right: 10px;
-        border-radius: 50%;
+        background-color: yellow;
+            margin-right: 10px;
+            border-radius: 50%;
     }
     .othersColor{
-        width:15px;
+            width:15px;
         height:15px;
-        background-color: #9D9D9D;
-        margin-right: 10px;
-        border-radius: 50%;
+        background-color: grey;
+            margin-right: 10px;
+            border-radius: 50%;
     }
     .active, .idle, .others {
         display: flex;
@@ -1089,7 +1089,7 @@
                                                     $diffSeconds = strtotime($endTime) - strtotime($initTime);
                                                 } 
                                                 $diffMinutes = round(abs($diffSeconds) / 60); 
-                                                $color =  '#247426';
+                                                $color =  'green';
                                                 $status =  'Active';                                         
                                             }else{
                                                 $prevTime = date('H', strtotime($previousScreenshot['time_stamp'])) * 3600 +
@@ -1113,7 +1113,7 @@
                                                 $diffSeconds = strtotime($endTime) - strtotime($initTime);
                                             }   
                                         $diffMinutes = round(abs($diffSeconds) / 60);  
-                                            $color =  '#FC9A06';
+                                            $color =  'yellow';
                                            $status =  'Idle';                                                                                     
                                             }
 
@@ -1180,7 +1180,7 @@
                                       $endTime = date('H:i', strtotime($screenshot['time_stamp']));   
                                       $diffSeconds = strtotime($endTime) - strtotime($initTime);
                                       $diffMinutes = round(abs($diffSeconds) / 60); 
-                                       $color =  '#247426';
+                                       $color =  'green';
                                        $status =  'Active';
                                     } 
 
