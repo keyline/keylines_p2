@@ -324,25 +324,25 @@
     }
 
     .activeColor{
-            width:15px;
+        width:15px;
         height:15px;
-        background-color: green;
+        background-color: #247426;
         margin-right: 10px;
         border-radius: 50%;
     }
     .idleColor{
-            width:15px;
+        width:15px;
         height:15px;
-        background-color: yellow;
-            margin-right: 10px;
-            border-radius: 50%;
+        background-color: #FC9A06;
+        margin-right: 10px;
+        border-radius: 50%;
     }
     .othersColor{
-            width:15px;
+        width:15px;
         height:15px;
-        background-color: grey;
-            margin-right: 10px;
-            border-radius: 50%;
+        background-color: #9D9D9D;
+        margin-right: 10px;
+        border-radius: 50%;
     }
     .active, .idle, .others {
         display: flex;
@@ -1025,19 +1025,19 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="totalWorking time_box">
-                                                <p class="totalWorkingLabel">Total working time</p>
+                                                <p class="totalWorkingLabel">Total Time</p>
                                                 <p class="totalWorkingValue">0:0</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="focusedTime time_box">
-                                                <p class="focusedTimeLabel">Focused time</p>
+                                                <p class="focusedTimeLabel">Productivity</p>
                                                 <p class="focusedTimeValue">0:0</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="idleTime time_box">
-                                                <p class="idleTimeLabel">Idle time</p>
+                                                <p class="idleTimeLabel">Idle</p>
                                                 <p class="idleTimeValue">0:0</p>
                                             </div>
                                         </div>
@@ -1089,7 +1089,7 @@
                                                     $diffSeconds = strtotime($endTime) - strtotime($initTime);
                                                 } 
                                                 $diffMinutes = round(abs($diffSeconds) / 60); 
-                                                $color =  'green';
+                                                $color =  '#247426';
                                                 $status =  'Active';                                         
                                             }else{
                                                 $prevTime = date('H', strtotime($previousScreenshot['time_stamp'])) * 3600 +
@@ -1113,7 +1113,7 @@
                                                 $diffSeconds = strtotime($endTime) - strtotime($initTime);
                                             }   
                                         $diffMinutes = round(abs($diffSeconds) / 60);  
-                                            $color =  'yellow';
+                                            $color =  '#FC9A06';
                                            $status =  'Idle';                                                                                     
                                             }
 
@@ -1180,7 +1180,7 @@
                                       $endTime = date('H:i', strtotime($screenshot['time_stamp']));   
                                       $diffSeconds = strtotime($endTime) - strtotime($initTime);
                                       $diffMinutes = round(abs($diffSeconds) / 60); 
-                                       $color =  'green';
+                                       $color =  '#247426';
                                        $status =  'Active';
                                     } 
 
