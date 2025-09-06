@@ -1026,19 +1026,19 @@
                                         <div class="col-md-4">
                                             <div class="totalWorking time_box">
                                                 <p class="totalWorkingLabel">Total Time</p>
-                                                <p class="totalWorkingValue">0:0</p>
+                                                <p class="totalWorkingValue">00:00</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="focusedTime time_box">
                                                 <p class="focusedTimeLabel">Productivity</p>
-                                                <p class="focusedTimeValue">0:0</p>
+                                                <p class="focusedTimeValue">00:00</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="idleTime time_box">
                                                 <p class="idleTimeLabel">Idle</p>
-                                                <p class="idleTimeValue">0:0</p>
+                                                <p class="idleTimeValue">00:00</p>
                                             </div>
                                         </div>
                                     </div>
