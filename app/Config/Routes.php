@@ -323,14 +323,14 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
 
 	//_______ screenshots api before login_______
 	// user authentication check:
-	$routes->post('screenshot/auth', 'Screenshots\ScreenshotsUploadController::authCheck');
+	// $routes->post('screenshot/auth', 'Screenshots\ScreenshotsUploadController::authCheck');
 	// Base64‐only endpoint:
-	$routes->post('screenshot/base64', 'Screenshots\ScreenshotsUploadController::uploadBase64');
+	// $routes->post('screenshot/base64', 'Screenshots\ScreenshotsUploadController::uploadBase64');
 	// multipart/form‐data (file)‐only endpoint:
-	$routes->post('screenshot/upload', 'Screenshots\ScreenshotsUploadController::uploadFile');
+	// $routes->post('screenshot/upload', 'Screenshots\ScreenshotsUploadController::uploadFile');
 	// screenshot settings:
-	$routes->post('screenshot/settings', 'Screenshots\ScreenshotsUploadController::settings');
+	// $routes->post('screenshot/settings', 'Screenshots\ScreenshotsUploadController::settings');
 	// list endpoint for both Base64 and file uploads:
-	$routes->get('screenshot/list', 'Screenshots\ScreenshotsUploadController::list');
+	// $routes->get('screenshot/list', 'Screenshots\ScreenshotsUploadController::list');
 });
 /* API */

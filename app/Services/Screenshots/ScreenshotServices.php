@@ -190,15 +190,15 @@ class ScreenshotServices
                 'time_stamp'        => Time::now()->toDateTimeString(),
             ];
         }
-        $newId = $this->imageModel->insert($insertData);
-        if (! $newId) {
-            // If the insert failed, clean up the uploaded file
-            @unlink($fullPath);
-            throw new Exception('Failed to insert record into database.');
-        }
+        // $newId = $this->imageModel->insert($insertData);
+        // if (! $newId) {
+        //     // If the insert failed, clean up the uploaded file
+        //     @unlink($fullPath);
+        //     throw new Exception('Failed to insert record into database.');
+        // }
 
 
-        $insertData['id'] = $newId;
+        // $insertData['id'] = $newId;
         return $insertData;
     }
 
