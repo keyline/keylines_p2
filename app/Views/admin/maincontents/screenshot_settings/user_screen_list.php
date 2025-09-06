@@ -305,9 +305,10 @@
         position: absolute;
         top: -22px;
         left: 0;
-        width: 1px;
+        /* width: 1px; */
+        border: 1px solid #6b6b6b;
         height: 15px;
-        background:#6b6b6b;
+        /* background:#6b6b6b; */
     }
     .hours span:first-child::before,
     .hours span:last-child::before {
