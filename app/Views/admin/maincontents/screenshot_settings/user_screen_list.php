@@ -375,13 +375,13 @@
         color: #FC9A06;
     }
     .time_box{
-        padding: 20px;
+        padding: 10px 5px;
         /* box-shadow: 0 4px 14px -6px #000; */
         border-radius: 10px;
         text-align: center;
     }
      .time_box p{
-        font-size: 18px
+        font-size: 16px
      }
     p{
     font-size: 2rem;
@@ -1020,7 +1020,7 @@
                                        </?php } ?>
                                     </div>
                                 </div> -->
-                                <div class=" col-lg-9 col-xl-7 col-xxl-6">
+                                <div class=" col-lg-8 col-xl-6 col-xxl-5">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="totalWorking time_box">
