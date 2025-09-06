@@ -305,9 +305,10 @@
         position: absolute;
         top: -22px;
         left: 0;
-        width: 1px;
+        /* width: 1px; */
+        border: 1px solid #6b6b6b;
         height: 15px;
-        background:#6b6b6b;
+        /* background:#6b6b6b; */
     }
     .hours span:first-child::before,
     .hours span:last-child::before {
@@ -375,13 +376,13 @@
         color: #FC9A06;
     }
     .time_box{
-        padding: 20px;
+        padding: 10px 5px;
         /* box-shadow: 0 4px 14px -6px #000; */
         border-radius: 10px;
         text-align: center;
     }
      .time_box p{
-        font-size: 18px
+        font-size: 16px
      }
     p{
     font-size: 2rem;
@@ -1020,23 +1021,23 @@
                                        </?php } ?>
                                     </div>
                                 </div> -->
-                                <div class=" col-lg-9 col-xl-7 col-xxl-6">
+                                <div class=" col-lg-8 col-xl-6 col-xxl-5">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="totalWorking time_box">
-                                                <p class="totalWorkingLabel">Total working time</p>
+                                                <p class="totalWorkingLabel">Total Time</p>
                                                 <p class="totalWorkingValue">0:0</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="focusedTime time_box">
-                                                <p class="focusedTimeLabel">Focused time</p>
+                                                <p class="focusedTimeLabel">Productivity</p>
                                                 <p class="focusedTimeValue">0:0</p>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="idleTime time_box">
-                                                <p class="idleTimeLabel">Idle time</p>
+                                                <p class="idleTimeLabel">Idle</p>
                                                 <p class="idleTimeValue">0:0</p>
                                             </div>
                                         </div>
