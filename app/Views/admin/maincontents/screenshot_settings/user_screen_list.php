@@ -1241,7 +1241,7 @@
                                                             // URL for browser
                                                             $uploadsURL = getenv('app.uploadsURL');
                                                             $imageURL   = $uploadsURL . 'screenshot/' . $screenshot['image_name'];
-
+                                                             
                                                             if (!empty($screenshot['image_name']) && file_exists($imageFile)) {
                                                                 // Image exists
                                                             } else {
@@ -1251,9 +1251,7 @@
 
                                                             <img src="<?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
 
-
-
-                                                    
+                                                        
                                                     <div class="card-body">
                                                     <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
                                                     <p class="card-text mb-0 screenshort_app_name"><?php echo  $screenshot['active_app_name']; ?></p>
