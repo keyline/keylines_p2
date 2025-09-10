@@ -1231,7 +1231,7 @@
                                             <div class="card screenshort_card p-2">
                                                 <?php if($screenshot['idle_status'] == 1){?>
                                                     <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
-                                                        <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                        <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
                                                         
                                                        </a>
                                                     <div class="card-body">
