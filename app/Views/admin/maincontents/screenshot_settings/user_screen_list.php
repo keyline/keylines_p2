@@ -1231,8 +1231,8 @@
                                             <div class="card screenshort_card p-2">
                                                 <?php if($screenshot['idle_status'] == 1){?>
                                                     <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
-                                                        <!-- <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
-                                                         <?php
+                                                        <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                         <!-- </?php
                                                                 $uploadsDir = getenv('app.uploadsPath'); // server path (not URL)
                                                                 $imageFile  = $uploadsDir . 'screenshot/' . $screenshot['image_name'];
 
@@ -1240,9 +1240,10 @@
                                                                     $imageURL = getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'];
                                                                 } else {
                                                                     $imageURL = getenv('app.uploadsURL') . 'white_resized.jpg';
+                                                                    echo "no";
                                                                 }
-                                                                ?>
-                                                                <img src="<?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                                ?> -->
+                                                                <!-- <img src="<?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
                                                        </a>
                                                     <div class="card-body">
                                                     <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
