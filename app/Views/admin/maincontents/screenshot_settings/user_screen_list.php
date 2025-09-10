@@ -1230,23 +1230,9 @@
                                         <div class="col-lg-3 col-md-4 col-sm-6">
                                             <div class="card screenshort_card p-2">
                                                 <?php if($screenshot['idle_status'] == 1){?>
-                                                    <!-- <a href="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox"> -->
-                                                        <!-- <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
-                                                      <!-- </a> -->
-                                                <?php
-                                                // Server path (real file system path, not URL)
-                                                $imagePath = FCPATH . 'uploads/screenshot/' . $screenshot['image_name'];
-
-                                                // Default image URL
-                                                $defaultImage = getenv('app.uploadsURL') . 'default.png';
-
-                                                // If file exists, use it; else fallback
-                                                if (file_exists($imagePath)) {
-                                                    $imageURL = getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'];
-                                                } else {
-                                                    $imageURL = $defaultImage;
-                                                }
-                                                ?>
+                                                    <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
+                                                        <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                      </a>
 
                                                 <a href="<?= $imageURL ?>" class="glightbox">
                                                     <img src="<?= $imageURL ?>" 
