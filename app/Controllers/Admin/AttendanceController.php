@@ -5,6 +5,7 @@ namespace App\Controllers\admin;
 use App\Controllers\BaseController;
 use App\Models\CommonModel;
 use CodeIgniter\CLI\Console;
+use DateTime;
 
 class AttendanceController extends BaseController
 {
@@ -230,6 +231,23 @@ class AttendanceController extends BaseController
                     $punchIn  = $attendance_map[$user->id][$date]['in'] ?? null;
                     $punchOut = $attendance_map[$user->id][$date]['out'] ?? null;
                     $punchDate = $attendance_map[$user->id][$date]['punch_date'] ?? null;
+
+                    // Default total hour
+                    $totalHour = null;
+
+                    // ✅ If punchIn and punchOut exist, calculate worked hours
+                    if ($punchIn && $punchOut) {
+                        $inTime  = new DateTime($punchIn);
+                        $outTime = new DateTime($punchOut);
+                        $interval = $inTime->diff($outTime);
+
+                        // Format as HH:MM:SS
+                        $hours   = $interval->h + ($interval->days * 24);
+                        $minutes = $interval->i;
+                        $seconds = $interval->s;
+                        $totalHour = sprintf('%02d:%02d', $hours, $minutes);
+                    }
+                    
                     // Check if date is in the future
                     if ($date > date('Y-m-d')) {
                         $status = ''; // Show blank for future dates
@@ -253,22 +271,48 @@ class AttendanceController extends BaseController
                         }
                     }
                     // Otherwise, check attendance
-                    else {                        
-                        if ($punchIn) {
+                    // else {                        
+                    //     if ($punchIn) {
+                    //         $status = (strtotime($punchIn) >= strtotime($grace_time)) ? 'L' : 'P';
+                    //         $userRow['present']++;
+                    //         if ($status == 'L') $userRow['late']++;
+                    //     } else {
+                    //         $userRow['absent']++;
+                    //     }
+                    // }
+                    else {
+                        if (!$punchIn) {
+                            $status = 'A'; // Absent
+                            $userRow['absent']++;
+                        } elseif ($punchIn && !$punchOut) {
                             $status = (strtotime($punchIn) >= strtotime($grace_time)) ? 'L' : 'P';
                             $userRow['present']++;
                             if ($status == 'L') $userRow['late']++;
                         } else {
-                            $userRow['absent']++;
+                            // Both In & Out exist → calculate worked hours
+                            $inTime  = new DateTime($punchIn);
+                            $outTime = new DateTime($punchOut);
+                            $interval = $inTime->diff($outTime);
+
+                            $hours   = $interval->h + ($interval->days * 24);
+                            $minutes = $interval->i;
+                            $seconds = $interval->s;
+                            $totalHour = sprintf('%02d:%02d', $hours, $minutes);
+
+                            $status = (strtotime($punchIn) >= strtotime($grace_time)) ? 'L' : 'P';
+                            $userRow['present']++;
+                            if ($status == 'L') $userRow['late']++;
                         }
                     }
                     // $userRow['days'][] = $status;
                     $userRow['days'][] = [
-                        'status' => $status,
-                        'in'     => substr($punchIn, 0, 5),
-                        'out'    => substr($punchOut, 0, 5),
-                        'punch_date' => $punchDate
+                        'status'        => $status,
+                        'in'            => substr($punchIn, 0, 5),
+                        'out'           => substr($punchOut, 0, 5),
+                        'punch_date'    => $punchDate,
+                        'total_hour'    => $totalHour
                     ];
+                    // pr($userRow);
                 }
                 $finalReport[] = $userRow;
             }
@@ -278,7 +322,7 @@ class AttendanceController extends BaseController
         if ($form_type == 'monthly_attendance_report') {                                            
             $data['monthlyAttendancereport'] = $rows;
             // pr($rows);
-        } elseif ($form_type == 'monthly_details_report' || $form_type == 'monthly_details_report_inout') {
+        } elseif ($form_type == 'monthly_details_report' || $form_type == 'monthly_details_report_inout' || $form_type == 'monthly_attendance_hour_report') {
             $data['monthlyAttendancedetailsreport'] = $finalReport;
             // pr($finalReport);
         } else {

@@ -127,25 +127,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <li>
                                                     <button name="form_type" value="monthly_details_report_inout" class="d-block w-100" style="outline: none; text-align: left; border: none; background: #fff;"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
                                                 </li>
+                                                <li>
+                                                    <button name="form_type" value="monthly_attendance_hour_report" class="d-block w-100" style="outline: none; text-align: left; border: none; background: #fff;"><i class="fa fa-file-excel-o"></i> Monthly Details Report(Hour)</button>
+                                                </li>
                                             </ul>
-                                        </div>
-                                        <!-- <div class="text-center">
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
-                                            <button name="form_type" value="monthly_attendance_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Attendance Report</button>
-                                        </div> -->
-                                    </div> 
-                                    <!-- <div class="col-md-3 col-lg-3">
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
-                                            <button name="form_type" value="monthly_details_report" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report</button>
-                                        </div>
-                                    </div> 
-                                    <div class="col-md-3 col-lg-3">
-                                        <div class="text-center">
-                                            <button type="submit" class="btn btn-primary"><i class="fa fa-paper-plane"></i> Monthly Attendance Report</button>
-                                            <button name="form_type" value="monthly_details_report_inout" class="btn btn-primary btn-sm"><i class="fa fa-file-excel-o"></i> Monthly Details Report(IN-OUT)</button>
-                                        </div>
-                                    </div>   -->
+                                        </div>                                        
+                                    </div>                                     
                                     <div class="col-md-3 col-lg-6">
                                         <div class="text-end">                                        
                                             <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#addAttendanceModal"><i class="fa fa-plus"></i> Add Attendance</button>                                    
@@ -354,6 +341,102 @@ $controller_route   = $moduleDetail['controller_route'];
                         </div>
                     </div>
                 </div> 
+            <?php } elseif (($form_type ?? '') == 'monthly_attendance_hour_report' && !empty($monthlyAttendancedetailsreport)) {
+                function getStatusClass($status) {
+                    switch ($status) {
+                        case 'P': return 'bg-success text-white';       // Green
+                        case 'L': return 'bg-warning text-dark';        // Yellow
+                        case 'A': return 'bg-danger text-white';        // Red                
+                        case 'O': return 'bg-secondary text-white';     // Grey
+                        case 'H': return 'bg-info text-white';          // Blue or Grey
+                        case 'H(P)': return 'bg-primary text-white';      // Greenish Blue
+                        default: return 'bg-light text-dark';           // Default
+                    } } ?>
+                <div class="card table-card">                
+                    <div class="card-body">
+                        <div class="dt-responsive table-responsive">
+                            <table id="simpletable" class="table padding-y-10 general_table_style">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2" width="3%">#</th>
+                                        <th rowspan="2">EMP ID</th>
+                                        <th rowspan="2">Name</th>
+                                        <?php foreach ($month_dates as $date): ?>
+                                            <th class="text-center"><?= date('d', strtotime($date)) ?></th>
+                                        <?php endforeach; ?>                                    
+                                        <th rowspan="2">Present</th>
+                                        <th rowspan="2">Absent</th>   
+                                        <th rowspan="2">Late</th>                                 
+                                    </tr>
+                                    <!-- Second header row -->
+                                    <!-- <tr>
+                                        ?php foreach ($month_dates as $date): ?>
+                                            <th class="text-center">Hour</th>
+                                            <th class="text-center">OUT</th>
+                                        ?php endforeach; ?>
+                                    </tr> -->
+                                </thead>
+                                <tbody>
+                                    <?php if ($monthlyAttendancedetailsreport) {
+                                        $sl = 1;
+                                        foreach ($monthlyAttendancedetailsreport as $res) { ?>
+                                            <tr>
+                                                <td><?= $sl++ ?></td>
+                                                <td><?= $res['user_id'] ?></td>
+                                                <td><?= $res['name'] ?></td>
+                                                <?php foreach ($res['days'] as $day):
+                                                    $punchIn  = $day['in'] ?? null;
+                                                    $punchOut = $day['out'] ?? null;
+                                                    $punchDate = $day['punch_date'] ?? '';
+                                                    $status   = $day['status'] ?? ''; 
+                                                    $totalHour = $day['total_hour'];                                               
+                                                    // $comparison_time = '10:00'; // or use $grace_time if available
+                                                ?>
+                                                <!-- <td class="?= $day['status'] ?>">
+                                                    <span class="badge ?= getStatusClass($day['status']) ?>">
+                                                        ?= $day['in'] ?? '' ?> - ?= $day['out'] ?? '' ?>
+                                                    </span>
+                                                </td> -->
+                                                <td>
+                                                    <!-- Punch In -->
+                                                    <p class="mb-1 mt-1 text-center font14"
+                                                    onclick="punchin('<?= $res['user_id'] ?>', '<?= $res['name'] ?>', '<?= $punchDate ?>', '<?= $punchIn ?>', '<?= $punchOut ?>')">
+                                                        <?php if ($status === ''): ?>
+                                                            <!-- Future date, show blank -->
+                                                            <span class="d-block h-100">&nbsp;</span>
+
+                                                        <?php elseif (!$punchIn): ?>
+                                                            <!-- Absent -->
+                                                            <span class="badge bg-danger d-block h-100" style="cursor:pointer;">
+                                                                <span class="mt-3">Absent</span>
+                                                            </span>
+
+                                                        <?php elseif ($punchIn && !$punchOut): ?>
+                                                            <!-- Not Punch Out -->
+                                                            <span class="badge bg-warning d-block h-100" style="cursor:pointer;">
+                                                                <span class="mt-3">Not Punch Out</span>
+                                                            </span>
+
+                                                        <?php elseif ($punchIn && $punchOut): ?>
+                                                            <!-- Show Total Hours -->
+                                                            <span class="badge bg-success d-block h-100" style="cursor:pointer;">
+                                                                <span class="mt-3"><?= $totalHour ?></span>
+                                                            </span>
+                                                        <?php endif; ?>
+                                                    </p>                                                
+                                                </td>                                                
+                                                <?php endforeach; ?>                                           
+                                                <td><?= $res['present'] ?></td>
+                                                <td><?= $res['absent'] ?></td>
+                                                <td><?= $res['late'] ?></td>                                                                                        
+                                            </tr>
+                                    <?php }
+                                    } ?>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>                 
             <?php } ?>       
             <div class="col-md-12">
                 <div class="card table-card">

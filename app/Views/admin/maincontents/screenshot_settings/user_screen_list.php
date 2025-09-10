@@ -257,6 +257,137 @@
         border-radius: 10px;
         margin-right: 5px;
     }
+
+    /* SSSSSSSSSSSSSSSSSS time line chart SSSSSSSSSSSSSSSSSS */
+
+    .timeline-wrapper {
+    position: relative;
+    width: 86400; /* 1440 minutes in a day */
+    border: 1px solid #333;
+    height: 30px;
+    margin-bottom: 20px;
+    }
+
+    .timeline {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: lightgray;
+    }
+
+
+
+    .hours {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    }
+
+    .hours span {
+        position: relative;
+        margin: 0;
+        padding: 0;
+        width: 0.025%;
+    }
+    .hours span strong{
+        display: block;
+        width: 40px;
+    }
+
+    .hours span::before {
+        content: "";
+        position: absolute;
+        top: -22px;
+        left: 0;
+        /* width: 1px; */
+        border: 1px solid #6b6b6b;
+        height: 15px;
+        /* background:#6b6b6b; */
+    }
+    .hours span:first-child::before,
+    .hours span:last-child::before {
+        display: none;
+    }
+
+    /* SSSSSSSSSSSSSSSSSSS Timeline working time counting SSSSSSSSSSSSSSSSSS*/
+        /* symbols css */
+    .symbolsContainer{
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .activeColor{
+            width:15px;
+        height:15px;
+        background-color: green;
+        margin-right: 10px;
+        border-radius: 50%;
+    }
+    .idleColor{
+            width:15px;
+        height:15px;
+        background-color: yellow;
+            margin-right: 10px;
+            border-radius: 50%;
+    }
+    .othersColor{
+            width:15px;
+        height:15px;
+        background-color: grey;
+            margin-right: 10px;
+            border-radius: 50%;
+    }
+    .active, .idle, .others {
+        display: flex;
+        margin-left: 3rem;
+        align-items: center;
+    }
+    /* total working time */
+    .workCountingContainer{
+    display: flex;
+    justify-content: center;
+    }
+    .totalWorking, .focusedTime, .idleTime{
+        margin-bottom: 1rem;
+    }
+    .totalWorking{
+        background: #F1F1F1;
+        border: 1px solid #9D9D9D;
+    }
+    .focusedTime{
+        background: #d2f3d3;
+        border: 1px solid #9dc59e;
+    }
+    .focusedTime p{
+        color: #247426;
+    }
+    .idleTime{
+        background: #fffaf0;
+        border: 1px solid #ffe2b5;
+    }
+    .idleTime p{
+        color: #FC9A06;
+    }
+    .time_box{
+        padding: 10px 5px;
+        /* box-shadow: 0 4px 14px -6px #000; */
+        border-radius: 10px;
+        text-align: center;
+    }
+     .time_box p{
+        font-size: 16px
+     }
+    p{
+    font-size: 2rem;
+    }
+
     @media(max-width: 1199px){
         .user_timeline_new_view{
             max-width: 640px;
@@ -284,103 +415,7 @@
         }
     }
 
-    /* SSSSSSSSSSSSSSSSSS time line chart SSSSSSSSSSSSSSSSSS */
-
-        .timeline-wrapper {
-        position: relative;
-        width: 86400; /* 1440 minutes in a day */
-        border: 1px solid #333;
-        height: 30px;
-        margin-bottom: 20px;
-        }
-
-        .timeline {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        width: 100%;
-        background: lightgray;
-        }
-
-
-
-        .hours {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-        }
-
-        .hours span {
-            position: relative;
-            margin: 0;
-            padding: 0;
-            width: 0.025%;
-        }
-        .hours span strong{
-            display: block;
-            width: 40px;
-        }
-
-        .hours span::before {
-        content: "";
-        position: absolute;
-        top: -30px; /* goes into the timeline */
-        left: 0;
-        width: 1px;
-        height: 30px;
-        background: #000; /* vertical line */
-        }
-
-        /* SSSSSSSSSSSSSSSSSSS Timeline working time counting SSSSSSSSSSSSSSSSSS*/
-          /* symbols css */
-        .symbolsContainer{
-            display: flex;
-            justify-content: center;
-            margin-top: 2rem;
-        }
-
-        .activeColor{
-             width:15px;
-            height:15px;
-            background-color: green;
-            margin-right: 10px;
-            border-radius: 50%;
-        }
-        .idleColor{
-             width:15px;
-            height:15px;
-            background-color: yellow;
-             margin-right: 10px;
-             border-radius: 50%;
-        }
-        .othersColor{
-             width:15px;
-            height:15px;
-            background-color: grey;
-             margin-right: 10px;
-             border-radius: 50%;
-        }
-        .active, .idle, .others {
-            display: flex;
-              margin-left: 3rem;
-        }
-       /* total working time */
-         .workCountingContainer{
-            display: flex;
-            justify-content: center;
-         }
-         .totalWorking, .focusedTime, .idleTime{
-            margin-left: 3rem;
-            margin-bottom: 3rem;
-         }
-         p{
-            font-size: 2rem;
-         }
+    
 
 
 </style>
@@ -434,7 +469,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row g-3">
+                            <div class="row g-3 justify-content-center">
                                 <div class="co1-12">
                                     <form method="GET" action="" enctype="multipart/form-data">
                                         <input type="hidden" name="mode" value="search">
@@ -986,19 +1021,25 @@
                                        </?php } ?>
                                     </div>
                                 </div> -->
-                                <div class="col-12">
-                                    <div class="workCountingContainer">
-                                        <div class="totalWorking">
-                                            <p class="totalWorkingLabel">Total working time</p>
-                                            <p class="totalWorkingValue">0:0</p>
+                                <div class=" col-lg-8 col-xl-6 col-xxl-5">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <div class="totalWorking time_box">
+                                                <p class="totalWorkingLabel">Total Time</p>
+                                                <p class="totalWorkingValue">0:0</p>
+                                            </div>
                                         </div>
-                                        <div class="focusedTime">
-                                            <p class="focusedTimeLabel">Focused time</p>
-                                            <p class="focusedTimeValue">0:0</p>
+                                        <div class="col-md-4">
+                                            <div class="focusedTime time_box">
+                                                <p class="focusedTimeLabel">Productivity</p>
+                                                <p class="focusedTimeValue">0:0</p>
+                                            </div>
                                         </div>
-                                        <div class="idleTime">
-                                            <p class="idleTimeLabel">Idle time</p>
-                                            <p class="idleTimeValue">0:0</p>
+                                        <div class="col-md-4">
+                                            <div class="idleTime time_box">
+                                                <p class="idleTimeLabel">Idle</p>
+                                                <p class="idleTimeValue">0:0</p>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>   
@@ -1020,10 +1061,16 @@
                                 if (count($row)) {
                                      $previousTime = null;
                                      $previousScreenshot = [];
+                                     $index = 0;
                                     $items = array_reverse($row);
-                                        $index = 0;
                                 while ($index < count($items)){
-                                if($index !== 0){
+                                // if($index !== 0){
+                                      if ($index === 0) {
+                                            // only remember the first screenshot
+                                            $previousScreenshot = $items[0];
+                                            $index++;
+                                            continue; // go to next iteration without pushing a segment
+                                        }
                                      $screenshot = $items[$index];
                                      $time = $screenshot['time_stamp'];
                                         if($screenshot['idle_status'] == 1){
@@ -1125,24 +1172,6 @@
 
                                            }
                                        }
-                                    }else{
-                                         $screenshot = $items[0];
-                                          $prevTime = date('H', strtotime($screenshot['time_stamp'])) * 3600 +
-                                                               date('i', strtotime($screenshot['time_stamp'])) * 60 +
-                                                               date('s', strtotime($screenshot['time_stamp']));
-                                          $currTime = date('H', strtotime($screenshot['time_stamp'])) * 3600 +
-                                                               date('i', strtotime($screenshot['time_stamp'])) * 60 +
-                                                               date('s', strtotime($screenshot['time_stamp']));  
-
-                                          $width = 60;
-                                      $initTime = date('H:i', strtotime($screenshot['time_stamp']));
-                                      $endTime = date('H:i', strtotime($screenshot['time_stamp']));   
-                                      $diffSeconds = strtotime($endTime) - strtotime($initTime);
-                                      $diffMinutes = round(abs($diffSeconds) / 60); 
-                                       $color =  'green';
-                                       $status =  'Active';
-                                    } 
-
                                         $previousScreenshot = $screenshot;
                                         $secondsInDay = 86400;
 
@@ -1157,9 +1186,44 @@
                                             'color' => $color,
                                             'status'=> $status
                                         ];
-                                         $index++;                                       
+                                         $index++; 
+                                    }                                        
+                                    // }else{
+                                    //      $screenshot = $items[0];
+                                    //       $prevTime = date('H', strtotime($screenshot['time_stamp'])) * 3600 +
+                                    //                            date('i', strtotime($screenshot['time_stamp'])) * 60 +
+                                    //                            date('s', strtotime($screenshot['time_stamp']));
+                                    //       $currTime = date('H', strtotime($screenshot['time_stamp'])) * 3600 +
+                                    //                            date('i', strtotime($screenshot['time_stamp'])) * 60 +
+                                    //                            date('s', strtotime($screenshot['time_stamp']));  
+
+                                    //       $width = 60;
+                                    //   $initTime = date('H:i', strtotime($screenshot['time_stamp']));
+                                    //   $endTime = date('H:i', strtotime($screenshot['time_stamp']));   
+                                    //   $diffSeconds = strtotime($endTime) - strtotime($initTime);
+                                    //   $diffMinutes = round(abs($diffSeconds) / 60); 
+                                    //    $color =  'green';
+                                    //    $status =  'Active';
+
+                                    //     $previousScreenshot = $screenshot;
+                                    //     $secondsInDay = 86400;
+
+                                    //     $percentage = ($currTime / $secondsInDay) * 100;
+                                    //     $durationPercentage = ($width / $secondsInDay) * 100; 
+                                    //     $segments[] = [
+                                    //         'diffTime' => $diffMinutes,
+                                    //         'initTime' => $initTime,
+                                    //         'endTime' => $endTime,
+                                    //         'start' => $percentage,
+                                    //         'width' => $durationPercentage,
+                                    //         'color' => $color,
+                                    //         'status'=> $status
+                                    //     ];
+                                    //      $index++;                                         
+                                    // } 
+                                     
                                     }
-                                 }
+                                //  }
                                   ?>
                             <!-- SSSSSSSSSSSSSSSSSSSSSSSSSS WORKING TIMELINE GRAPH END SSSSSSSSSSSSSSSSSSSSSSSS  -->      
                                 <?php if (count($row)) {
@@ -1168,16 +1232,32 @@
                                             <div class="card screenshort_card p-2">
                                                 <?php if($screenshot['idle_status'] == 1){?>
                                                     <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
-                                                        <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
-                                                    </a>
+                                                        <!-- <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
+                                                         <?php
+                                                                $uploadsDir = getenv('app.uploadsPath'); // server path (not URL)
+                                                                $imageFile  = $uploadsDir . 'screenshot/' . $screenshot['image_name'];
+
+                                                                if (!empty($screenshot['image_name']) && file_exists($imageFile)) {
+                                                                    $imageURL = getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'];
+                                                                } else {
+                                                                    $imageURL = getenv('app.uploadsURL') . 'white_resized.jpg';
+                                                                }
+                                                                ?>
+                                                                <img src="<?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                       </a>
+                                                    <div class="card-body">
+                                                    <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
+                                                    <p class="card-text mb-0 screenshort_app_name"><?php echo  $screenshot['active_app_name']; ?></p>
+                                                </div>
                                                 <?php } else {?>
                                                     <a href="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="glightbox">
                                                         <img src="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
                                                     </a>
-                                                <?php } ?>
-                                                <div class="card-body">
+                                                    <div class="card-body">
                                                     <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
                                                 </div>
+                                                <?php } ?>
+
                                             </div>
                                         </div>
                                     <?php }
@@ -1292,15 +1372,17 @@ for (let h = 0; h <= 24; h++) {
 }
 
     const timeline = document.getElementById("timeline");
-
     // helper: color percentage width
-    function addPercentSegment(diffTime,initTime,endTime,startPercent, widthPercent, color, status) {
+    function addPercentSegment(diffTime,initTime,endTime,startPercent, widthPercent, color, status, class_name) {
     let seg = document.createElement("div");
     seg.dataset.diffTime = diffTime;
     seg.dataset.initTime = initTime;
     seg.dataset.endTime = endTime;
     seg.dataset.status = status;
-    seg.className = "timeDiv";
+    seg.classList.add("timeDiv");
+    if (class_name) seg.classList.add(class_name);
+    seg.setAttribute("onmouseover", "diffTimeShow(this)");
+    seg.setAttribute("onmouseout", "diffTimeRemove(this)");
     seg.style.position = "absolute";
     seg.style.top = 0;
     seg.style.height = "100%";
@@ -1308,7 +1390,7 @@ for (let h = 0; h <= 24; h++) {
     seg.style.width = (widthPercent) + "%";      // how wide
     seg.style.background = color;
     timeline.appendChild(seg);
-    
+
     }
 
     // Example: 25%–50% (a quarter of the day)
@@ -1318,7 +1400,7 @@ for (let h = 0; h <= 24; h++) {
     // addPercentSegment(47.4, 2.5, "yellow");
     // addPercentSegment(59.5, 3.5, "yellow");
 
-    let segments = <?= json_encode($segments) ?>;
+       let segments = <?php echo json_encode($segments); ?>;
 
                 function timeToMinutes(t) {
                 let [h, m] = t.split(':').map(Number);
@@ -1331,72 +1413,119 @@ for (let h = 0; h <= 24; h++) {
                 return `${h}:${m.toString().padStart(2, '0')}`;
             }
 
-      let totalWorkingTime = 0;
-    segments.forEach(s => {
+        let totalWorkingTime = 0;
+        let lastColor = 'green';
+        let lastEndTime = null;   // keep track of previous segment end time
+        let idx = 0;
+        //  console.log(segments[1]['currentInitMins']);
+        //  console.log('Yes here this is');
+        // console.log(segments[0]['initTime']);
+        // console.log(segments[1]['initTime']);
+        segments.forEach((s, i)=> {
             let end = s.start + s.width;
-        if (end > 100) {
-            return false; 
-        }
-        addPercentSegment(s.diffTime,s.initTime,s.endTime,s.start, s.width, s.color, s.status); 
+            if (end > 100) {
+                return false; 
+            }
 
+            // convert init/end times into minutes for gap checking
+            let currentInitMins = timeToMinutes(s.initTime);
+            console.log("Current time " + currentInitMins + "<br>");
+            let prevEndMins = lastEndTime !== null ? timeToMinutes(lastEndTime) : 0;
+             console.log("Previoust time " + prevEndMins + "<br>");
+            let gap =  Math.abs((currentInitMins - prevEndMins));
+
+            
+            let class_name;
+            console.log(gap);
+                if(lastColor === s.color){
+                        if(gap > 5){
+                            idx++;
+                         class_name = s.color + idx;
+                        }else{
+                        class_name = s.color + idx;
+                        }
+                }else{
+                // idx++;
+                // class_name = s.color + idx;   
+                        if(gap > 5){
+                        idx++;
+                        class_name = s.color + idx;  
+                        }else{
+                            idx++;
+                        class_name = s.color + idx;
+                        }           
+                }
+ 
+
+          addPercentSegment(s.diffTime,s.initTime,s.endTime,s.start, s.width, s.color, s.status, class_name);    
+
+            // update tracking
+            lastColor = s.color;
+            lastEndTime = s.initTime;
+
+            // update totals
             let focusedTimeEl = document.querySelector('.focusedTimeValue');
             let idleTimeEl = document.querySelector('.idleTimeValue');
 
             let focusedMins = timeToMinutes(focusedTimeEl.textContent);
             let idleMins = timeToMinutes(idleTimeEl.textContent);
 
-            if (s.color === 'green') {
-                focusedMins += s.diffTime;
-            } else {
-                idleMins += s.diffTime;
-            }
-              totalWorkingTime += s.diffTime;
+                    if (s.color === 'green') {
+                        focusedMins += s.diffTime;
+                    } else {
+                        idleMins += s.diffTime;
+                    }
+
+            totalWorkingTime += s.diffTime;
             focusedTimeEl.textContent = minutesToTime(focusedMins);
             idleTimeEl.textContent = minutesToTime(idleMins);
+        });
 
-    });
-      document.querySelector('.totalWorkingValue').textContent = minutesToTime(totalWorkingTime);
+        document.querySelector('.totalWorkingValue').textContent = minutesToTime(totalWorkingTime);
 
-    const timeDivs = document.querySelectorAll(".timeDiv");
+    
+            function diffTimeShow(el) {
+            var class_name = "." + el.classList[1];  // use assigned group class
+            var allElements = document.querySelectorAll(class_name);
 
-  timeDivs.forEach(div => {
-  div.addEventListener("mouseenter", () => {
-    // create tooltip
-    let tooltip = document.createElement("div");
-    tooltip.className = "tooltip-time";
-    let diffMins = timeToMinutes(div.dataset.endTime) - timeToMinutes(div.dataset.initTime);
-    if(diffMins > 5){
-                tooltip.innerHTML = 0 + " mins " + "<br>" + div.dataset.status +  "<br>"
-                        + div.dataset.endTime;
-    }else{
-            tooltip.innerHTML = div.dataset.diffTime + " mins " + "<br>" + div.dataset.status +  "<br>"
-                        + div.dataset.initTime + " - " + div.dataset.endTime;
-    }
+            let totalDiffTime = 0;
+            let startTime = allElements[0].dataset.initTime;
+            let endTime = allElements[allElements.length - 1].dataset.endTime;
+            let status = el.dataset.status;
 
+            allElements.forEach(div => {
+                totalDiffTime += parseInt(div.dataset.diffTime, 10);
+            });
 
-    // position tooltip relative to segment
-    tooltip.style.position = "absolute";
-    tooltip.style.bottom = "100%"; // show above the block
-    tooltip.style.left = "50%";
-    tooltip.style.transform = "translateX(-50%)";
-    tooltip.style.whiteSpace = "nowrap";
-    tooltip.style.background = "#333";
-    tooltip.style.color = "#fff";
-    tooltip.style.padding = "2px 6px";
-    tooltip.style.fontSize = "12px";
-    tooltip.style.borderRadius = "4px";
-    tooltip.style.pointerEvents = "none";
+            let tooltip = document.createElement("div");
+            tooltip.className = "tooltip-time";
+            tooltip.innerHTML =
+                totalDiffTime + " mins<br>" +
+                status + "<br>" +
+                startTime + " - " + endTime;
 
-    div.appendChild(tooltip);
-  });
+            tooltip.style.position = "absolute";
+            tooltip.style.bottom = "100%";
+            tooltip.style.left = "50%";
+            tooltip.style.transform = "translateX(-50%)";
+            tooltip.style.whiteSpace = "nowrap";
+            tooltip.style.background = "#333";
+            tooltip.style.color = "#fff";
+            tooltip.style.padding = "2px 6px";
+            tooltip.style.fontSize = "12px";
+            tooltip.style.borderRadius = "4px";
+            tooltip.style.pointerEvents = "none";
 
-  div.addEventListener("mouseleave", () => {
-    // remove tooltip
-    let tooltip = div.querySelector(".tooltip-time");
-    if (tooltip) tooltip.remove();
-  });
-});
+            el.appendChild(tooltip);
+        }
 
 
+        function diffTimeRemove(el) {
+            let tooltip = document.querySelector(".tooltip-time");
+            if (tooltip) {
+                tooltip.remove();
+            }
+        }
+               
 </script>
 
