@@ -1233,19 +1233,24 @@
                                                     <!-- <a href="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox"> -->
                                                         <!-- <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
                                                       <!-- </a> -->
-                                                        <?php
-                                                        $uploadsDir = rtrim(getenv('app.uploadsPath'), '/'); // server path
-                                                        $imageFile  = $uploadsDir . '/screenshot/' . $screenshot['image_name'];
+                                                            <?php
+                                                            // Absolute server path (not URL)
+                                                            $uploadsDir = FCPATH . 'uploads/';  // FCPATH points to your /public/ folder in CI
+                                                            $imageFile  = $uploadsDir . 'screenshot/' . $screenshot['image_name'];
 
-                                                        if (!empty($screenshot['image_name']) && file_exists($imageFile)) {
-                                                            $imageURL = rtrim(getenv('app.uploadsURL'), '/') . '/screenshot/' . $screenshot['image_name'];
-                                                        } else {
-                                                            $imageURL = rtrim(getenv('app.uploadsURL'), '/') . '/white_resized.jpg';
-                                                        }
-                                                        ?>
-                                                        <a href="<?= $imageURL ?>" class="glightbox">
+                                                            // URL for browser
+                                                            $uploadsURL = getenv('app.uploadsURL');
+                                                            $imageURL   = $uploadsURL . 'screenshot/' . $screenshot['image_name'];
+
+                                                            if (!empty($screenshot['image_name']) && file_exists($imageFile)) {
+                                                                // Image exists
+                                                            } else {
+                                                                $imageURL = $uploadsURL . 'white_resized.jpg';
+                                                            }
+                                                            ?>
+
                                                             <img src="<?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
-                                                        </a>
+
 
 
                                                     
