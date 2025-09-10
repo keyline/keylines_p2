@@ -1233,15 +1233,6 @@
                                                     <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
                                                         <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
                                                       </a>
-
-                                                <a href="<?= $imageURL ?>" class="glightbox">
-                                                    <img src="<?= $imageURL ?>" 
-                                                        class="card-img-top img-fluid rounded" 
-                                                        alt="Screenshot image"
-                                                        onerror="this.onerror=null; this.src='<?= $defaultImage ?>';">
-                                                </a>
-
-                                                        
                                                     <div class="card-body">
                                                     <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
                                                     <p class="card-text mb-0 screenshort_app_name"><?php echo  $screenshot['active_app_name']; ?></p>
