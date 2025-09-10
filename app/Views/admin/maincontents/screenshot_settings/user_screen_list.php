@@ -1243,7 +1243,7 @@
                                                                     echo "no";
                                                                 }
                                                                 ?> -->
-                                                                <!-- <img src="<?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
+                                                                <!-- <img src="</?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
                                                        </a>
                                                     <div class="card-body">
                                                     <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
