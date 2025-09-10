@@ -1233,23 +1233,27 @@
                                                     <!-- <a href="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox"> -->
                                                         <!-- <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
                                                       <!-- </a> -->
-                                                            <?php
-                                                            // Absolute server path (not URL)
-                                                            $uploadsDir = FCPATH . 'uploads/';  // FCPATH points to your /public/ folder in CI
-                                                            $imageFile  = $uploadsDir . 'screenshot/' . $screenshot['image_name'];
+                                                <?php
+                                                // Server path (real file system path, not URL)
+                                                $imagePath = FCPATH . 'uploads/screenshot/' . $screenshot['image_name'];
 
-                                                            // URL for browser
-                                                            $uploadsURL = getenv('app.uploadsURL');
-                                                            $imageURL   = $uploadsURL . 'screenshot/' . $screenshot['image_name'];
-                                                             
-                                                            if (!empty($screenshot['image_name']) && file_exists($imageFile)) {
-                                                                // Image exists
-                                                            } else {
-                                                                $imageURL = $uploadsURL . 'white_resized.jpg';
-                                                            }
-                                                            ?>
+                                                // Default image URL
+                                                $defaultImage = getenv('app.uploadsURL') . 'default.png';
 
-                                                            <img src="<?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                // If file exists, use it; else fallback
+                                                if (file_exists($imagePath)) {
+                                                    $imageURL = getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'];
+                                                } else {
+                                                    $imageURL = $defaultImage;
+                                                }
+                                                ?>
+
+                                                <a href="<?= $imageURL ?>" class="glightbox">
+                                                    <img src="<?= $imageURL ?>" 
+                                                        class="card-img-top img-fluid rounded" 
+                                                        alt="Screenshot image"
+                                                        onerror="this.onerror=null; this.src='<?= $defaultImage ?>';">
+                                                </a>
 
                                                         
                                                     <div class="card-body">
