@@ -1234,11 +1234,10 @@
                                                         <!-- <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
                                                         
                                                             <?php
-                                                            $uploadsDir = rtrim(getenv('app.uploadsURL'), '/'); // remove any trailing slash just in case
-                                                            $imageFile  = $uploadsDir . '/screenshot/' . $screenshot['image_name'];
+                                                            $imageFile  = getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'];
 
-                                                            if (!empty($screenshot['image_name']) && file_exists($imageFile)) {
-                                                                $imageURL = rtrim(getenv('app.uploadsURL'), '/') . '/screenshot/' . $screenshot['image_name'];
+                                                            if (!empty($imageFile) && file_exists($imageFile)) {
+                                                                $imageURL = getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'];
                                                             } else {
                                                                 $imageURL = rtrim(getenv('app.uploadsURL'), '/') . '/white_resized.jpg';
                                                                 echo "no";
