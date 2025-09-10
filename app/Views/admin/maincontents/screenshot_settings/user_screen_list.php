@@ -1230,21 +1230,25 @@
                                         <div class="col-lg-3 col-md-4 col-sm-6">
                                             <div class="card screenshort_card p-2">
                                                 <?php if($screenshot['idle_status'] == 1){?>
-                                                    <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
+                                                    <!-- <a href="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox"> -->
                                                         <!-- <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image"> -->
-                                                        
+                                                      <!-- </a> -->
                                                         <?php
-                                                        $imagePath = public_path('screenshot/' . $screenshot['image_name']); // absolute server path
+                                                        $uploadsDir = rtrim(getenv('app.uploadsPath'), '/'); // server path
+                                                        $imageFile  = $uploadsDir . '/screenshot/' . $screenshot['image_name'];
 
-                                                        if (!empty($screenshot['image_name']) && file_exists($imagePath)) {
-                                                            $imageURL = asset('screenshot/' . $screenshot['image_name']); // URL for <img>
+                                                        if (!empty($screenshot['image_name']) && file_exists($imageFile)) {
+                                                            $imageURL = rtrim(getenv('app.uploadsURL'), '/') . '/screenshot/' . $screenshot['image_name'];
                                                         } else {
-                                                            $imageURL = asset('white_resized.jpg');
+                                                            $imageURL = rtrim(getenv('app.uploadsURL'), '/') . '/white_resized.jpg';
                                                         }
                                                         ?>
-                                                        <img src="<?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                        <a href="<?= $imageURL ?>" class="glightbox">
+                                                            <img src="<?= $imageURL ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                        </a>
 
-                                                       </a>
+
+                                                    
                                                     <div class="card-body">
                                                     <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
                                                     <p class="card-text mb-0 screenshort_app_name"><?php echo  $screenshot['active_app_name']; ?></p>
