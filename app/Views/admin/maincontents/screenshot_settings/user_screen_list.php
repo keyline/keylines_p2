@@ -380,11 +380,17 @@
         border-radius: 10px;
         text-align: center;
     }
-     .time_box p{
+    .time_box p{
         font-size: 18px
-     }
+    }
     p{
-    font-size: 2rem;
+        font-size: 2rem;
+    }
+    .glightbox-clean .gdesc-inner {
+        padding: 5px 15px;
+    }
+    .glightbox-clean .gslide-title{
+        margin-bottom: 0;
     }
 
     @media(max-width: 1199px){
