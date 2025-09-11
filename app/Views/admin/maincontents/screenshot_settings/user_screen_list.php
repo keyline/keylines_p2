@@ -1233,6 +1233,25 @@
                                                     <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
                                                         <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
                                                       </a>
+                                                      <!-- SSSSS No image exists logic start SSSSS -->
+                                                        <?php
+                                                        $baseUrl = getenv('app.uploadsURL');
+                                                        $imageUrl = $baseUrl . 'screenshot/' . ($screenshot['image_name'] ?? '');
+                                                         
+                                                                $headers = @get_headers($imageUrl);
+                                                                if ($headers && strpos($headers[0], '200') !== false) { ?>
+                                                                <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
+                                                                <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                                </a>
+                                                              <?php  } else { ?>
+                                                                <a href="<?= getenv('app.uploadsURL') . 'no-image-available.jpg' ?>" class="glightbox">
+                                                                <img src="<?= getenv('app.uploadsURL') . 'no-image-available.jpg' ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                                </a>
+                                                               <?php } ?>
+
+                                                        
+                                                      <!-- SSSSS No image exists logic end SSSSS -->
+
                                                     <div class="card-body">
                                                     <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
                                                     <p class="card-text mb-0 screenshort_app_name"><?php echo  $screenshot['active_app_name']; ?></p>
