@@ -83,9 +83,9 @@ class ScreenshotsUploadController extends ResourceController
                 'org_id'         => 'required|integer',
                 'app_name'       => 'permit_empty|max_length[255]',
                 'app_url'        => 'permit_empty|valid_url',
-                // 'image.mime'     => 'required|in_list[image/jpg,image/jpeg,image/png]',
+                'image.mime'     => 'required|in_list[image/jpg,image/jpeg,image/png]',
                 // We expect just the Base64 characters (no "data:image/..." prefix).
-                // 'image.data'     => 'required',
+                'image.data'     => 'required',
             ];
 
 
@@ -153,10 +153,10 @@ class ScreenshotsUploadController extends ResourceController
                 'org_id'    => 'required|integer',
                 'app_name'  => 'permit_empty|max_length[255]',
                 'app_url'   => 'permit_empty|valid_url',
-                // 'image'     => 'uploaded[image]'
-                //     . '|is_image[image]'
-                //     . '|max_size[image,2048]'
-                //     . '|mime_in[image,image/jpg,image/jpeg,image/png]',
+                'image'     => 'uploaded[image]'
+                    . '|is_image[image]'
+                    . '|max_size[image,2048]'
+                    . '|mime_in[image,image/jpg,image/jpeg,image/png]',
             ];
 
             if (! $this->validate($rules)) {
