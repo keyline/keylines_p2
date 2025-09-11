@@ -1247,7 +1247,7 @@
 
                                                     <div class="card-body">
                                                         <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
-                                                        <p class="card-text mb-0 screenshort_app_name"><?= $screenshot['active_app_name']; ?></p>
+                                                        <!-- <p class="card-text mb-0 screenshort_app_name"><?= $screenshot['active_app_name']; ?></p> -->
                                                     </div>
                                                 <?php } else { ?>
                                                     <a href="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="glightbox" data-title="Idle">
