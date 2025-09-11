@@ -72,102 +72,102 @@ class ScreenshotServices
         // ─────────────────────────────────────────────────────────────
         // If “image” is Base64‐encoded
         // ─────────────────────────────────────────────────────────────
-        // if ($hasBase64) {
-        //     $mimeType  = $data['image']['mime'];   // e.g. "image/png"
-        //     $base64Str = $data['image']['data'];   // e.g. "iVBORw0KGgoAAAANSUhEUgAAA…"
+        if ($hasBase64) {
+            $mimeType  = $data['image']['mime'];   // e.g. "image/png"
+            $base64Str = $data['image']['data'];   // e.g. "iVBORw0KGgoAAAANSUhEUgAAA…"
 
-        //     // Validate MIME (only jpg/jpeg/png allowed here)
-        //     if (! preg_match('#^image/(jpg|jpeg|png)$#i', $mimeType)) {
-        //         throw new Exception('Invalid Base64 mime‐type. Allowed: jpg, jpeg, png');
-        //     }
+            // Validate MIME (only jpg/jpeg/png allowed here)
+            if (! preg_match('#^image/(jpg|jpeg|png)$#i', $mimeType)) {
+                throw new Exception('Invalid Base64 mime‐type. Allowed: jpg, jpeg, png');
+            }
 
-        //     // Decode the Base64 payload
-        //     $binary = base64_decode($base64Str);
-        //     if ($binary === false) {
-        //         throw new Exception('Failed to decode Base64 image data.');
-        //     }
+            // Decode the Base64 payload
+            $binary = base64_decode($base64Str);
+            if ($binary === false) {
+                throw new Exception('Failed to decode Base64 image data.');
+            }
 
-        //     // Enforce max size ≦ 2 MB (2 * 1024 * 1024 bytes)
-        //     $byteSize = strlen($binary);
-        //     if ($byteSize > 2 * 1024 * 1024) {
-        //         throw new Exception('Decoded image exceeds 2 MB.');
-        //     }
+            // Enforce max size ≦ 2 MB (2 * 1024 * 1024 bytes)
+            $byteSize = strlen($binary);
+            if ($byteSize > 2 * 1024 * 1024) {
+                throw new Exception('Decoded image exceeds 2 MB.');
+            }
 
-        //     // Validate image and retrieve dimensions
-        //     $imgInfo = @getimagesizefromstring($binary);
-        //     if ($imgInfo === false) {
-        //         throw new Exception('Decoded Base64 data is not a valid image.');
-        //     }
-        //     [$width, $height] = $imgInfo;
+            // Validate image and retrieve dimensions
+            $imgInfo = @getimagesizefromstring($binary);
+            if ($imgInfo === false) {
+                throw new Exception('Decoded Base64 data is not a valid image.');
+            }
+            [$width, $height] = $imgInfo;
 
-        //     // Derive extension from MIME
-        //     $ext = strtolower(str_replace('image/', '', $mimeType));
-        //     if ($ext === 'jpeg') {
-        //         $ext = 'jpg';
-        //     }
+            // Derive extension from MIME
+            $ext = strtolower(str_replace('image/', '', $mimeType));
+            if ($ext === 'jpeg') {
+                $ext = 'jpg';
+            }
 
-        //     // Generate a random filename
-        //     $random   = $this->generateUniqueString($data['org_id'], $data['user_id']);
-        //     $filename = "{$random}.{$ext}";
-        //     $fullPath = $uploadDir . $filename;
+            // Generate a random filename
+            $random   = $this->generateUniqueString($data['org_id'], $data['user_id']);
+            $filename = "{$random}.{$ext}";
+            $fullPath = $uploadDir . $filename;
 
-        //     // Write the binary data to disk
-        //     if (file_put_contents($fullPath, $binary) === false) {
-        //         throw new Exception('Failed to write decoded Base64 image to disk.');
-        //     }
-        // }
-        // // ─────────────────────────────────────────────────────────────
-        // // If “image” is an UploadedFile (multipart/form‐data)
-        // // ─────────────────────────────────────────────────────────────
-        // else {
-        //     /** @var UploadedFile $uploaded */
-        //     $uploaded = $data['image'];
+            // Write the binary data to disk
+            if (file_put_contents($fullPath, $binary) === false) {
+                throw new Exception('Failed to write decoded Base64 image to disk.');
+            }
+        }
+        // ─────────────────────────────────────────────────────────────
+        // If “image” is an UploadedFile (multipart/form‐data)
+        // ─────────────────────────────────────────────────────────────
+        else {
+            /** @var UploadedFile $uploaded */
+            $uploaded = $data['image'];
 
-        //     if (! $uploaded->isValid()) {
-        //         throw new Exception('Uploaded file error: ' . $uploaded->getErrorString());
-        //     }
+            if (! $uploaded->isValid()) {
+                throw new Exception('Uploaded file error: ' . $uploaded->getErrorString());
+            }
 
-        //     $mimeType = $uploaded->getClientMimeType(); // e.g. “image/png”
-        //     $allowed  = ['image/jpeg', 'image/png'];
-        //     if (! in_array($mimeType, $allowed)) {
-        //         throw new Exception("Unsupported mime type: {$mimeType}");
-        //     }
+            $mimeType = $uploaded->getClientMimeType(); // e.g. “image/png”
+            $allowed  = ['image/jpeg', 'image/png'];
+            if (! in_array($mimeType, $allowed)) {
+                throw new Exception("Unsupported mime type: {$mimeType}");
+            }
 
-        //     // Enforce max size ≦ 2 MB
-        //     if ($uploaded->getSize() > 2 * 1024 * 1024) {
-        //         throw new Exception('Uploaded file exceeds 2 MB.');
-        //     }
+            // Enforce max size ≦ 2 MB
+            if ($uploaded->getSize() > 2 * 1024 * 1024) {
+                throw new Exception('Uploaded file exceeds 2 MB.');
+            }
 
-        //     // Validate image and retrieve dimensions
-        //     $tmpPath = $uploaded->getTempName();
-        //     $imgInfo = @getimagesize($tmpPath);
-        //     if ($imgInfo === false) {
-        //         throw new Exception('Uploaded file is not a valid image.');
-        //     }
-        //     [$width, $height] = $imgInfo;
+            // Validate image and retrieve dimensions
+            $tmpPath = $uploaded->getTempName();
+            $imgInfo = @getimagesize($tmpPath);
+            if ($imgInfo === false) {
+                throw new Exception('Uploaded file is not a valid image.');
+            }
+            [$width, $height] = $imgInfo;
 
-        //     // Generate a random filename with original extension
-        //     $ext      = $uploaded->getExtension();
-        //     $random   = $this->generateUniqueString($data['org_id'], $data['user_id']);
-        //     $filename = "{$random}.{$ext}";
-        //     $fullPath = $uploadDir . $filename;
+            // Generate a random filename with original extension
+            $ext      = $uploaded->getExtension();
+            $random   = $this->generateUniqueString($data['org_id'], $data['user_id']);
+            $filename = "{$random}.{$ext}";
+            $fullPath = $uploadDir . $filename;
 
-        //     // Move the uploaded file to our uploads directory
-        //     if (! $uploaded->move($uploadDir, $filename)) {
-        //         throw new Exception('Failed to move uploaded file to destination.');
-        //     }
+            // Move the uploaded file to our uploads directory
+            if (! $uploaded->move($uploadDir, $filename)) {
+                throw new Exception('Failed to move uploaded file to destination.');
+            }
 
-        //     $byteSize = $uploaded->getSize();
-        // }
+            $byteSize = $uploaded->getSize();
+        }
 
-        // // ─────────────────────────────────────────────────────────────
-        // //  Insert record into database via AppModel
-        // // ─────────────────────────────────────────────────────────────
-        // if($filename != ''){
-        //     $relativePath =  "{$year}/{$month}/{$filename}";
-        // } else {
-        //     $relativePath =  "{$year}/{$month}/idle.jpg";
-        // }
+        // ─────────────────────────────────────────────────────────────
+        //  Insert record into database via AppModel
+        // ─────────────────────────────────────────────────────────────
+        if($filename != ''){
+            $relativePath =  "{$year}/{$month}/{$filename}";
+        } else {
+            $relativePath =  "{$year}/{$month}/idle.jpg";
+        }
         
         if($data['idle_status'] == 1){
             $insertData = [
@@ -175,7 +175,7 @@ class ScreenshotServices
                 'org_id'            => $data['org_id'],
                 'active_app_name'   => $data['app_name'],
                 'active_app_url'    => $data['app_url'],
-                // 'image_name'        => $relativePath,
+                'image_name'        => $relativePath,
                 'image_name'        => '',
                 'idle_status'       => $data['idle_status'],
                 'time_stamp'        => Time::now()->toDateTimeString(),
@@ -186,7 +186,7 @@ class ScreenshotServices
                 'org_id'            => $data['org_id'],
                 'active_app_name'   => $data['app_name'],
                 'active_app_url'    => $data['app_url'],
-                // 'image_name'        => $relativePath,
+                'image_name'        => $relativePath,
                 'image_name'        => '',
                 'idle_status'       => $data['idle_status'],
                 'time_stamp'        => Time::now()->toDateTimeString(),
