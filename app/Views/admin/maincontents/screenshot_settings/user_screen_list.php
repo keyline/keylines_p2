@@ -381,15 +381,9 @@
         border-radius: 10px;
         text-align: center;
     }
-<<<<<<< HEAD
-     .time_box p{
-        font-size: 16px
-     }
-=======
     .time_box p{
         font-size: 18px
     }
->>>>>>> release/development
     p{
         font-size: 2rem;
     }
