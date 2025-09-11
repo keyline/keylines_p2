@@ -116,9 +116,9 @@ class ScreenshotServices
                 throw new Exception('Failed to write decoded Base64 image to disk.');
             }
         }
-        // // ─────────────────────────────────────────────────────────────
-        // // If “image” is an UploadedFile (multipart/form‐data)
-        // // ─────────────────────────────────────────────────────────────
+        // ─────────────────────────────────────────────────────────────
+        // If “image” is an UploadedFile (multipart/form‐data)
+        // ─────────────────────────────────────────────────────────────
         else {
             /** @var UploadedFile $uploaded */
             $uploaded = $data['image'];
@@ -160,9 +160,9 @@ class ScreenshotServices
             $byteSize = $uploaded->getSize();
         }
 
-        // // ─────────────────────────────────────────────────────────────
-        // //  Insert record into database via AppModel
-        // // ─────────────────────────────────────────────────────────────
+        // ─────────────────────────────────────────────────────────────
+        //  Insert record into database via AppModel
+        // ─────────────────────────────────────────────────────────────
         if($filename != ''){
             $relativePath =  "{$year}/{$month}/{$filename}";
         } else {
@@ -175,7 +175,7 @@ class ScreenshotServices
                 'org_id'            => $data['org_id'],
                 'active_app_name'   => $data['app_name'],
                 'active_app_url'    => $data['app_url'],
-                // 'image_name'        => $relativePath,
+                'image_name'        => $relativePath,
                 'image_name'        => '',
                 'idle_status'       => $data['idle_status'],
                 'time_stamp'        => Time::now()->toDateTimeString(),
@@ -186,7 +186,7 @@ class ScreenshotServices
                 'org_id'            => $data['org_id'],
                 'active_app_name'   => $data['app_name'],
                 'active_app_url'    => $data['app_url'],
-                // 'image_name'        => $relativePath,
+                'image_name'        => $relativePath,
                 'image_name'        => '',
                 'idle_status'       => $data['idle_status'],
                 'time_stamp'        => Time::now()->toDateTimeString(),
