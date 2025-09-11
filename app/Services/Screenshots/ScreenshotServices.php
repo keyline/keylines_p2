@@ -176,7 +176,7 @@ class ScreenshotServices
                 'active_app_name'   => $data['app_name'],
                 'active_app_url'    => $data['app_url'],
                 'image_name'        => $relativePath,
-                'image_name'        => '',
+                // 'image_name'        => '',
                 'idle_status'       => $data['idle_status'],
                 'time_stamp'        => Time::now()->toDateTimeString(),
             ];
@@ -187,7 +187,7 @@ class ScreenshotServices
                 'active_app_name'   => $data['app_name'],
                 'active_app_url'    => $data['app_url'],
                 'image_name'        => $relativePath,
-                'image_name'        => '',
+                // 'image_name'        => '',
                 'idle_status'       => $data['idle_status'],
                 'time_stamp'        => Time::now()->toDateTimeString(),
             ];
