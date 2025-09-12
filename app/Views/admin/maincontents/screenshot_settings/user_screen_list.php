@@ -380,11 +380,17 @@
         border-radius: 10px;
         text-align: center;
     }
-     .time_box p{
+    .time_box p{
         font-size: 18px
-     }
+    }
     p{
-    font-size: 2rem;
+        font-size: 2rem;
+    }
+    .glightbox-clean .gdesc-inner {
+        padding: 5px 15px;
+    }
+    .glightbox-clean .gslide-title{
+        margin-bottom: 0;
     }
 
     @media(max-width: 1199px){
@@ -1238,41 +1244,35 @@
                                     foreach ($row as $screenshot) { ?>
                                         <div class="col-lg-3 col-md-4 col-sm-6">
                                             <div class="card screenshort_card p-2">
-                                                <?php if($screenshot['idle_status'] == 1){?>
-                                                    <!-- <a href="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
-                                                        <img src="</?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
-                                                      </a> -->
-                                                      <!-- SSSSS No image exists logic start SSSSS -->
-                                                        <?php
+                                                <?php if($screenshot['idle_status'] == 1){ ?>
+                                                    <?php
                                                         $baseUrl = getenv('app.uploadsURL');
                                                         $imageUrl = $baseUrl . 'screenshot/' . ($screenshot['image_name'] ?? '');
-                                                         
-                                                                $headers = @get_headers($imageUrl);
-                                                                if ($headers && strpos($headers[0], '200') !== false) { ?>
-                                                                <a href="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="glightbox">
-                                                                <img src="<?= getenv('app.uploadsURL') . 'screenshot/' . $screenshot['image_name'] ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
-                                                                </a>
-                                                              <?php  } else { ?>
-                                                                <a href="<?= getenv('app.uploadsURL') . 'no-image-available.jpg' ?>" class="glightbox">
-                                                                <img src="<?= getenv('app.uploadsURL') . 'no-image-available.jpg' ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
-                                                                </a>
-                                                               <?php } ?>
-
-                                                        
-                                                      <!-- SSSSS No image exists logic end SSSSS -->
+                                                        $headers = @get_headers($imageUrl);
+                                                    ?>
+                                                    <?php if ($headers && strpos($headers[0], '200') !== false) { ?>
+                                                        <a href="<?= $imageUrl ?>" class="glightbox" data-title="<?= htmlspecialchars($screenshot['active_app_name']) ?>">
+                                                            <img src="<?= $imageUrl ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                        </a>
+                                                    <?php } else { ?>
+                                                        <a href="<?= $baseUrl . 'no-image-available.jpg' ?>" class="glightbox" data-title="<?= htmlspecialchars($screenshot['active_app_name']) ?>">
+                                                            <img src="<?= $baseUrl . 'no-image-available.jpg' ?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
+                                                        </a>
+                                                    <?php } ?>
 
                                                     <div class="card-body">
-                                                    <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
-                                                    <p class="card-text mb-0 screenshort_app_name"><?php echo  $screenshot['active_app_name']; ?></p>
-                                                </div>
-                                                <?php } else {?>
-                                                    <a href="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="glightbox">
+                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
+                                                        <!-- <p class="card-text mb-0 screenshort_app_name"><?= $screenshot['active_app_name']; ?></p> -->
+                                                    </div>
+                                                <?php } else { ?>
+                                                    <a href="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="glightbox" data-title="Idle">
                                                         <img src="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
                                                     </a>
                                                     <div class="card-body">
-                                                    <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
-                                                </div>
+                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
+                                                    </div>
                                                 <?php } ?>
+
 
                                             </div>
                                         </div>
