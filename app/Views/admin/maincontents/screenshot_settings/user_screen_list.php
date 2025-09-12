@@ -1065,17 +1065,20 @@
                                 <?php
                                 $segments = [];
                                 if (count($row)) {
-                                     $previousTime = null;
-                                     $previousScreenshot = [];
                                      $index = 0;
                                     $items = array_reverse($row);
+                                     $previousScreenshot = $items[0];
+                                     $previousTime = $items[0]['time_stamp'];
                                 while ($index < count($items)){
                                 // if($index !== 0){
                                       if ($index === 0) {
-                                            // only remember the first screenshot
-                                            $previousScreenshot = $items[0];
-                                            $index++;
-                                            continue; // go to next iteration without pushing a segment
+                                                         $width = 300;
+                                                $initTime = date('H:i', strtotime($items[0]['time_stamp']) - $width);
+                                                    $endTime = date('H:i', strtotime($items[0]['time_stamp'])); 
+                                                        $diffSeconds = 300;                                                                                                                                                                    
+                                                $color =  'green';
+                                                $status =  'Active'; 
+                                                $index++;
                                         }
                                      $screenshot = $items[$index];
                                      $time = $screenshot['time_stamp'];
@@ -1093,8 +1096,10 @@
                                                         $width = abs($currTime - $prevTime);
                                                     }                                                                                                                
                                                 
-                                               $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
-                                               $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
+                                            //    $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
+                                            //    $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
+                                           $initTime = date('H:i', strtotime($screenshot['time_stamp']) - $width);
+                                               $endTime = date('H:i', strtotime($screenshot['time_stamp']));                                             
                                                 if(abs(strtotime($initTime) - strtotime($endTime)) > 300){
                                                     $diffSeconds = 300;
                                                 }else{
@@ -1117,8 +1122,10 @@
                                                     }else{
                                                         $width = abs($currTime - $prevTime);
                                                     }  
-                                            $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
-                                            $endTime = date('H:i', strtotime($screenshot['time_stamp']));   
+                                            // $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
+                                            // $endTime = date('H:i', strtotime($screenshot['time_stamp']));   
+                                           $initTime = date('H:i', strtotime($screenshot['time_stamp']) - $width);
+                                               $endTime = date('H:i', strtotime($screenshot['time_stamp']));                                             
                                             if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
                                                 $diffSeconds = 300;
                                             }else{
@@ -1165,8 +1172,10 @@
                                                     }else{
                                                         $width = abs($currTime - $prevTime);
                                                     }  
-                                                    $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
-                                                    $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
+                                                    // $initTime = date('H:i', strtotime($previousScreenshot['time_stamp']));
+                                                    // $endTime = date('H:i', strtotime($screenshot['time_stamp'])); 
+                                                  $initTime = date('H:i', strtotime($screenshot['time_stamp']) - $width);
+                                                    $endTime = date('H:i', strtotime($screenshot['time_stamp']));                                                     
                                                 if(abs(strtotime($endTime) - strtotime($initTime)) > 300){
                                                         $diffSeconds = 300;
                                                     }else{
@@ -1423,8 +1432,9 @@ for (let h = 0; h <= 24; h++) {
 
         let totalWorkingTime = 0;
         let lastColor = 'green';
-        let lastEndTime = null;   // keep track of previous segment end time
-        let idx = 0;
+        let lastEndTime = segments[0].endTime;  
+        // console.log(lastEndTime);  
+        let classIndex = 0;
         //  console.log(segments[1]['currentInitMins']);
         //  console.log('Yes here this is');
         // console.log(segments[0]['initTime']);
@@ -1435,58 +1445,65 @@ for (let h = 0; h <= 24; h++) {
                 return false; 
             }
 
-            // convert init/end times into minutes for gap checking
-            let currentInitMins = timeToMinutes(s.initTime);
-            console.log("Current time " + currentInitMins + "<br>");
-            let prevEndMins = lastEndTime !== null ? timeToMinutes(lastEndTime) : 0;
-             console.log("Previoust time " + prevEndMins + "<br>");
-            let gap =  Math.abs((currentInitMins - prevEndMins));
+        //    let class_name;
+        //     if(i == 0){
+        //         class_name = s.color + classIndex; 
+        //     }else{
+
+                    // convert init/end times into minutes for gap checking
+                    let currentInitMins = timeToMinutes(s.initTime);
+                    // console.log("Current time " + currentInitMins + "<br>");
+                    let prevEndMins = lastEndTime !== null ? timeToMinutes(lastEndTime) : 0;
+                    //  console.log("Previoust time " + prevEndMins + "<br>");
+                    let gap =  Math.abs((currentInitMins - prevEndMins));
 
             
-            let class_name;
-            console.log(gap);
-                if(lastColor === s.color){
-                        if(gap > 5){
-                            idx++;
-                         class_name = s.color + idx;
-                        }else{
-                        class_name = s.color + idx;
-                        }
-                }else{
-                // idx++;
-                // class_name = s.color + idx;   
-                        if(gap > 5){
-                        idx++;
-                        class_name = s.color + idx;  
-                        }else{
-                            idx++;
-                        class_name = s.color + idx;
-                        }           
-                }
+
+                // console.log(gap);
+                    if(lastColor === s.color){
+                            if(gap > 0){
+                            classIndex++;
+                            class_name = s.color + classIndex;
+                            }else{
+                            class_name = s.color + classIndex;
+                            console.log(gap);
+                            }
+                    }else{
+                    // idx++;
+                    // class_name = s.color + idx;   
+                            if(gap > 5){
+                            classIndex++;
+                            class_name = s.color + classIndex;  
+                            }else{
+                                classIndex++;
+                            class_name = s.color + classIndex;
+                            }           
+                    }
  
 
-          addPercentSegment(s.diffTime,s.initTime,s.endTime,s.start, s.width, s.color, s.status, class_name);    
+                addPercentSegment(s.diffTime,s.initTime,s.endTime,s.start, s.width, s.color, s.status, class_name);    
 
-            // update tracking
-            lastColor = s.color;
-            lastEndTime = s.initTime;
+                    // update tracking
+                    lastColor = s.color;
+                    lastEndTime = s.endTime;
 
-            // update totals
-            let focusedTimeEl = document.querySelector('.focusedTimeValue');
-            let idleTimeEl = document.querySelector('.idleTimeValue');
+                    // update totals
+                    let focusedTimeEl = document.querySelector('.focusedTimeValue');
+                    let idleTimeEl = document.querySelector('.idleTimeValue');
 
-            let focusedMins = timeToMinutes(focusedTimeEl.textContent);
-            let idleMins = timeToMinutes(idleTimeEl.textContent);
+                    let focusedMins = timeToMinutes(focusedTimeEl.textContent);
+                    let idleMins = timeToMinutes(idleTimeEl.textContent);
 
-                    if (s.color === 'green') {
-                        focusedMins += s.diffTime;
-                    } else {
-                        idleMins += s.diffTime;
-                    }
+                            if (s.color === 'green') {
+                                focusedMins += s.diffTime;
+                            } else {
+                                idleMins += s.diffTime;
+                            }
 
-            totalWorkingTime += s.diffTime;
-            focusedTimeEl.textContent = minutesToTime(focusedMins);
-            idleTimeEl.textContent = minutesToTime(idleMins);
+                    totalWorkingTime += s.diffTime;
+                    focusedTimeEl.textContent = minutesToTime(focusedMins);
+                    idleTimeEl.textContent = minutesToTime(idleMins);
+            // }
         });
 
         document.querySelector('.totalWorkingValue').textContent = minutesToTime(totalWorkingTime);
@@ -1498,6 +1515,7 @@ for (let h = 0; h <= 24; h++) {
 
             let totalDiffTime = 0;
             let startTime = allElements[0].dataset.initTime;
+            // console.log("start time " + startTime);
             let endTime = allElements[allElements.length - 1].dataset.endTime;
             let status = el.dataset.status;
 
