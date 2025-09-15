@@ -1079,6 +1079,7 @@
                                                 $color =  'green';
                                                 $status =  'Active'; 
                                                 $index++;
+                                                continue;
                                         }
                                      $screenshot = $items[$index];
                                      $time = $screenshot['time_stamp'];
