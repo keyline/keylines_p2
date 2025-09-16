@@ -24,6 +24,24 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 
 /* ADMIN PANEL */
 $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($routes) {
+	/* clients */
+	$routes->group("", ["filter" => "role:SUPER ADMIN,ADMIN"], function ($routes) {
+		$routes->match(['get'], "clients/list", "ClientController::listClients");
+		$routes->match(['get', 'post'], "clients/add", "ClientController::add");
+		$routes->match(['get', 'post'], "clients/edit/(:any)", "ClientController::edit/$1");
+		$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
+		$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
+		$routes->match(['get', 'post'], "clients/encrypt-info", "ClientController::encryptInfo");
+
+		$routes->match(['get', 'post'], "clients/add-project/(:any)", "ClientController::addProject/$1");
+
+		$routes->match(['get', 'post'], "clients/add-proposal/(:any)", "ClientController::addProposal/$1");
+		$routes->match(['get', 'post'], "clients/view-proposal/(:any)", "ClientController::viewProposal/$1");
+		$routes->match(['get', 'post'], "clients/edit-proposal/(:any)", "ClientController::editProposal/$1");
+		$routes->match(['get', 'post'], "clients/delete-proposal/(:any)", "ClientController::deleteProposal/$1");
+	});	
+	/* clients */
 	// authentication
 	$routes->match(['get', 'post'], "/", "User::login");
 	$routes->match(['get', 'post'], "signout", "User::signout");
@@ -131,25 +149,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "projects/active-project/", "ProjectController::activeProject");
 	$routes->match(['get', 'post'], "projects/inactive-project/", "ProjectController::InactiveProject");
 
-	/* projects */
-	/* clients */
-	$routes->group("", ["filter" => "role:SUPER ADMIN,ADMIN"], function ($routes) {
-		$routes->match(['get'], "clients/list", "ClientController::listClients");
-		$routes->match(['get', 'post'], "clients/add", "ClientController::add");
-		$routes->match(['get', 'post'], "clients/edit/(:any)", "ClientController::edit/$1");
-		$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
-		$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
-		$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
-		$routes->match(['get', 'post'], "clients/encrypt-info", "ClientController::encryptInfo");
-
-		$routes->match(['get', 'post'], "clients/add-project/(:any)", "ClientController::addProject/$1");
-
-		$routes->match(['get', 'post'], "clients/add-proposal/(:any)", "ClientController::addProposal/$1");
-		$routes->match(['get', 'post'], "clients/view-proposal/(:any)", "ClientController::viewProposal/$1");
-		$routes->match(['get', 'post'], "clients/edit-proposal/(:any)", "ClientController::editProposal/$1");
-		$routes->match(['get', 'post'], "clients/delete-proposal/(:any)", "ClientController::deleteProposal/$1");
-	});	
-	/* clients */
+	/* projects */	
 	//AMC Checking//
 	$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
 	$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
