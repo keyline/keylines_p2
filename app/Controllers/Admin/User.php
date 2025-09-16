@@ -51,7 +51,7 @@ class User extends BaseController
                                 'category'          => $checkEmail->category,
                                 'is_admin_login'    => 1
                             );
-                            pr($session_data);
+                            // pr($session_data);
                             $this->session->set($session_data);
                             if ($this->session->get('is_admin_login') == 1) {
                                 $fields = array(

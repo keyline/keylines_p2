@@ -11,6 +11,7 @@ class RoleFilter implements FilterInterface
     public function before(RequestInterface $request, $arguments = null)
     {
         $session = session();
+        dd($session->get('user_type'));
         $userRole = $session->get('user_type'); // set this at login
 
         // If not logged in, send to login
