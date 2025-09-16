@@ -133,7 +133,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 
 	/* projects */
 	/* clients */
-	$routes->group("", ["filter" => "role:superadmin,admin"], function ($routes) {
+	$routes->group("", ["filter" => "role:SUPER ADMIN,ADMIN"], function ($routes) {
 		$routes->match(['get'], "clients/list", "ClientController::list");
 		$routes->match(['get', 'post'], "clients/add", "ClientController::add");
 		$routes->match(['get', 'post'], "clients/edit/(:any)", "ClientController::edit/$1");
