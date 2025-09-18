@@ -98,6 +98,13 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "reports/get-desklog-report", "ReportController::desklogReport");
 		$routes->match(['get', 'post'], "reports/desklog-report-view", "ReportController::show");
 		// report
+		// attendance
+		$routes->match(['get', 'post'], "attendance-report", "AttendanceController::attendance");
+		$routes->match(['get', 'post'], "save-attendance", "AttendanceController::SaveAttendance");	
+		// $routes->match(['get', 'post'], "monthly-attendance-report", "AttendanceController::monthlyAttendance");
+		$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
+		$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
+		// attendance
 	});	
 	
 	// authentication
@@ -233,13 +240,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "project-cost", "CostController::projectcost");
 	// project_cost
 	
-	// attendance
-	$routes->match(['get', 'post'], "attendance-report", "AttendanceController::attendance");
-	$routes->match(['get', 'post'], "save-attendance", "AttendanceController::SaveAttendance");	
-	// $routes->match(['get', 'post'], "monthly-attendance-report", "AttendanceController::monthlyAttendance");
-	$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
-	$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
-	// attendance
+	
 
 	// holiday
 	$routes->match(['get', 'post'], "holiday-list", "HolidayController::fetchHolidays");
