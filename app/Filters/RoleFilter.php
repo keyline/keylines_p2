@@ -25,7 +25,7 @@ class RoleFilter implements FilterInterface
 
         // If roles are defined in routes and user is not allowed
         if ($arguments && !in_array($userRole, $arguments)) {
-            return redirect()->to('/admin/dashboard')->with('error', 'Unauthorized access');
+            return redirect()->to('/admin/dashboard')->with('error_message', 'Unauthorized access');
         }
     }
 
