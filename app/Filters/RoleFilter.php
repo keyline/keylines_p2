@@ -27,6 +27,7 @@ class RoleFilter implements FilterInterface
         if ($arguments && !in_array($userRole, $arguments)) {
             return redirect()->to('/admin/dashboard')->with('error_message', 'Unauthorized access');
         }
+        return;
     }
 
     public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
