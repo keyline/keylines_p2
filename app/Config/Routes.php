@@ -118,6 +118,36 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "effort-type/change-status/(:any)", "EffortTypeController::change_status/$1");
 		/* effort type */
 
+		/* project status */
+		$routes->match(['get'], "project-status/list", "ProjectStatusController::list");
+		$routes->match(['get', 'post'], "project-status/add", "ProjectStatusController::add");
+		$routes->match(['get', 'post'], "project-status/edit/(:any)", "ProjectStatusController::edit/$1");
+		$routes->match(['get', 'post'], "project-status/delete/(:any)", "ProjectStatusController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "project-status/change-status/(:any)", "ProjectStatusController::change_status/$1");
+		$routes->match(['get', 'post'], "projects/reports/(:any)", "ProjectController::reports/$1");
+		/* project status */
+		/* department */
+		$routes->match(['get'], "department/list", "DepartmentController::list");
+		$routes->match(['get', 'post'], "department/add", "DepartmentController::add");
+		$routes->match(['get', 'post'], "department/edit/(:any)", "DepartmentController::edit/$1");
+		$routes->match(['get', 'post'], "department/delete/(:any)", "DepartmentController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "department/change-status/(:any)", "DepartmentController::change_status/$1");
+		/* department */
+		/* work status */
+		$routes->match(['get'], "work-status/list", "WorkStatusController::list");
+		$routes->match(['get', 'post'], "work-status/add", "WorkStatusController::add");
+		$routes->match(['get', 'post'], "work-status/edit/(:any)", "WorkStatusController::edit/$1");
+		$routes->match(['get', 'post'], "work-status/delete/(:any)", "WorkStatusController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "work-status/change-status/(:any)", "WorkStatusController::change_status/$1");
+		/* work status */
+		/* office location */
+		$routes->match(['get'], "office-location/list", "OfficeLocationController::list");
+		$routes->match(['get', 'post'], "office-location/add", "OfficeLocationController::add");
+		$routes->match(['get', 'post'], "office-location/edit/(:any)", "OfficeLocationController::edit/$1");
+		$routes->match(['get', 'post'], "office-location/delete/(:any)", "OfficeLocationController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "office-location/change-status/(:any)", "OfficeLocationController::change_status/$1");
+		/* office location */
+
 	});	
 	
 	// authentication
@@ -175,35 +205,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// master
 	
 	
-	/* project status */
-	$routes->match(['get'], "project-status/list", "ProjectStatusController::list");
-	$routes->match(['get', 'post'], "project-status/add", "ProjectStatusController::add");
-	$routes->match(['get', 'post'], "project-status/edit/(:any)", "ProjectStatusController::edit/$1");
-	$routes->match(['get', 'post'], "project-status/delete/(:any)", "ProjectStatusController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "project-status/change-status/(:any)", "ProjectStatusController::change_status/$1");
-	$routes->match(['get', 'post'], "projects/reports/(:any)", "ProjectController::reports/$1");
-	/* project status */
-	/* department */
-	$routes->match(['get'], "department/list", "DepartmentController::list");
-	$routes->match(['get', 'post'], "department/add", "DepartmentController::add");
-	$routes->match(['get', 'post'], "department/edit/(:any)", "DepartmentController::edit/$1");
-	$routes->match(['get', 'post'], "department/delete/(:any)", "DepartmentController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "department/change-status/(:any)", "DepartmentController::change_status/$1");
-	/* department */
-	/* work status */
-	$routes->match(['get'], "work-status/list", "WorkStatusController::list");
-	$routes->match(['get', 'post'], "work-status/add", "WorkStatusController::add");
-	$routes->match(['get', 'post'], "work-status/edit/(:any)", "WorkStatusController::edit/$1");
-	$routes->match(['get', 'post'], "work-status/delete/(:any)", "WorkStatusController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "work-status/change-status/(:any)", "WorkStatusController::change_status/$1");
-	/* work status */
-	/* office location */
-	$routes->match(['get'], "office-location/list", "OfficeLocationController::list");
-	$routes->match(['get', 'post'], "office-location/add", "OfficeLocationController::add");
-	$routes->match(['get', 'post'], "office-location/edit/(:any)", "OfficeLocationController::edit/$1");
-	$routes->match(['get', 'post'], "office-location/delete/(:any)", "OfficeLocationController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "office-location/change-status/(:any)", "OfficeLocationController::change_status/$1");
-	/* office location */
+	
 	// master
 	
 	
