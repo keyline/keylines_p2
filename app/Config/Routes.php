@@ -108,6 +108,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		// activity log
 		$routes->match(['get', 'post'], "email-logs", "User::emailLogs");
 		$routes->match(['get', 'post'], "email-logs-details/(:any)", "User::emailLogsDetails/$1");
+		$routes->match(['get', 'post'], "login-logs", "User::loginLogs");
 
 		/* effort type */
 		$routes->match(['get'], "effort-type/list", "EffortTypeController::list");
@@ -150,7 +151,6 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "dayWiseListRecords", "User::dayWiseListRecords");
 	$routes->match(['get', 'post'], "PunchInRecords", "User::PunchInRecords");
 	$routes->match(['get', 'post'], "PunchOutRecords", "User::PunchOutRecords");	
-	$routes->match(['get', 'post'], "login-logs", "User::loginLogs");
 	$routes->match(['get', 'post'], "save-task", "User::Savetask");	
 	$routes->match(['get', 'post'], "save-effort", "User::SaveEffort");	
 	$routes->match(['get', 'post'], "edit-task", "User::EditTask");	
