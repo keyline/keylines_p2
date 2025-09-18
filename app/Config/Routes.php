@@ -64,6 +64,10 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "team/change-salarybox-status/(:any)", "TeamController::change_salarybox_status/$1");
 		$routes->match(['get', 'post'], "team/send-credentials/(:any)", "TeamController::sendCredentials/$1");
 		/* team */
+		/*role master */
+		$routes->match(['get'], "role-master/list", "RoleMasterController::list");
+		$routes->match(['get', 'post'], "role-master/add", "RoleMasterController::add");
+		/*role master */
 	});	
 	
 	// authentication
@@ -129,10 +133,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "effort-type/delete/(:any)", "EffortTypeController::confirm_delete/$1");
 	$routes->match(['get', 'post'], "effort-type/change-status/(:any)", "EffortTypeController::change_status/$1");
 	/* effort type */
-	/*role master */
-	$routes->match(['get'], "role-master/list", "RoleMasterController::list");
-	$routes->match(['get', 'post'], "role-master/add", "RoleMasterController::add");
-	/*role master */
+	
 	/* project status */
 	$routes->match(['get'], "project-status/list", "ProjectStatusController::list");
 	$routes->match(['get', 'post'], "project-status/add", "ProjectStatusController::add");
