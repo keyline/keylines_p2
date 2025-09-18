@@ -151,7 +151,9 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
 		$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
 
-	});	
+	});		
+});
+$routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($routes) {
 	
 	// authentication
 	$routes->match(['get', 'post'], "/", "User::login");
@@ -205,15 +207,6 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "test-email", "User::testEmail");
 	$routes->get('test-sms/(:num)', 'User::testSmS/$1');
 	// settings
-	// master
-	
-	
-	
-	// master
-	
-	
-	
-
 
 	// task assign
 	$routes->match(['get', 'post'], "task-assign", "TaskAssignController::task_list");
@@ -227,9 +220,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['post'], "task-assign/morning-meeting-get-previous-task", "TaskAssignController::morning_meeting_get_previous_task");
 
 	$routes->match(['get'], "task-assign-v2", "TaskAssignController::task_listv2");
-	// task assign
-
-	
+	// task assign	
 	
 	// effort
 	$routes->match(['get'], "efforts/list", "EffortController::list");
@@ -242,14 +233,14 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "efforts/get-project-info", "EffortController::getProjectInfo");
 	$routes->match(['get', 'post'], "efforts/request-previous-task-submit/(:any)", "EffortController::requestPreviousTaskSubmit/$1");
 	// effort
+
 	// hour_cost
 	$routes->match(['get', 'post'], "user-cost", "CostController::usercost");
 	// hour_cost
+
 	// project_cost
 	$routes->match(['get', 'post'], "project-cost", "CostController::projectcost");
-	// project_cost
-	
-	
+	// project_cost		
 
 	// holiday
 	$routes->match(['get', 'post'], "holiday-list", "HolidayController::fetchHolidays");
@@ -261,11 +252,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// holiday
 
 	// mobile-application
-	$routes->match(['get'], "mobile-application", "MobileController::show");
-	// $routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
-	// $routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
-	// $routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
-	// $routes->match(['get', 'post'], "holiday-list/delete/(:any)", "HolidayController::confirm_delete/$1");
+	$routes->match(['get'], "mobile-application", "MobileController::show");	
 	// mobile-application
 
 	// delete account requests
@@ -281,9 +268,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "notifications/change-status/(:any)", "NotificationController::change_status/$1");
 	$routes->match(['get', 'post'], "notifications/send/(:any)", "NotificationController::send/$1");
 	$routes->match(['get'], "notifications/list_from_app", "NotificationController::list_from_app");
-	// notifications
-
-	
+	// notifications	
 });
 /* ADMIN PANEL */
 /* API */
