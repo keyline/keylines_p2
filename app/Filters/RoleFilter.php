@@ -10,9 +10,13 @@ class RoleFilter implements FilterInterface
 {
     public function before(RequestInterface $request, $arguments = null)
     {
-        $session = session();
+        $session = Services::session();
         // dd($session->get('user_type'));
         $userRole = $session->get('user_type'); // set this at login
+
+        // Debug: see what the session has
+        log_message('debug', 'Session data: ' . print_r(session()->get(), true));
+        log_message('debug', 'RoleFilter: user_type = ' . $userRole);
 
         // If not logged in, send to login
         if (!$userRole) {
