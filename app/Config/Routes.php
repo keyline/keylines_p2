@@ -68,6 +68,16 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get'], "role-master/list", "RoleMasterController::list");
 		$routes->match(['get', 'post'], "role-master/add", "RoleMasterController::add");
 		/*role master */
+		/* projects */
+		$routes->match(['get', 'post'], "projects/list", "ProjectController::list");
+		$routes->match(['get', 'post'], "projects/add", "ProjectController::add");
+		$routes->match(['get', 'post'], "projects/edit/(:any)", "ProjectController::edit/$1");
+		$routes->match(['get', 'post'], "projects/delete/(:any)", "ProjectController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "projects/change-status/(:any)", "ProjectController::change_status/$1");
+		$routes->match(['get', 'post'], "projects/project-effort-list/(:any)", "ProjectController::projectEffortList/$1");
+		$routes->match(['get', 'post'], "projects/active-project/", "ProjectController::activeProject");
+		$routes->match(['get', 'post'], "projects/inactive-project/", "ProjectController::InactiveProject");
+		/* projects */	
 	});	
 	
 	// authentication
@@ -164,17 +174,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "office-location/change-status/(:any)", "OfficeLocationController::change_status/$1");
 	/* office location */
 	// master
-	/* projects */
-	$routes->match(['get', 'post'], "projects/list", "ProjectController::list");
-	$routes->match(['get', 'post'], "projects/add", "ProjectController::add");
-	$routes->match(['get', 'post'], "projects/edit/(:any)", "ProjectController::edit/$1");
-	$routes->match(['get', 'post'], "projects/delete/(:any)", "ProjectController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "projects/change-status/(:any)", "ProjectController::change_status/$1");
-	$routes->match(['get', 'post'], "projects/project-effort-list/(:any)", "ProjectController::projectEffortList/$1");
-	$routes->match(['get', 'post'], "projects/active-project/", "ProjectController::activeProject");
-	$routes->match(['get', 'post'], "projects/inactive-project/", "ProjectController::InactiveProject");
-
-	/* projects */	
+	
 	//AMC Checking//
 	$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
 	$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
