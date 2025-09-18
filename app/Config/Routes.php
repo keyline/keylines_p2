@@ -105,6 +105,18 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
 		$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
 		// attendance
+		// activity log
+		$routes->match(['get', 'post'], "email-logs", "User::emailLogs");
+		$routes->match(['get', 'post'], "email-logs-details/(:any)", "User::emailLogsDetails/$1");
+
+		/* effort type */
+		$routes->match(['get'], "effort-type/list", "EffortTypeController::list");
+		$routes->match(['get', 'post'], "effort-type/add", "EffortTypeController::add");
+		$routes->match(['get', 'post'], "effort-type/edit/(:any)", "EffortTypeController::edit/$1");
+		$routes->match(['get', 'post'], "effort-type/delete/(:any)", "EffortTypeController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "effort-type/change-status/(:any)", "EffortTypeController::change_status/$1");
+		/* effort type */
+
 	});	
 	
 	// authentication
@@ -137,9 +149,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "dashboard", "User::dashboard");
 	$routes->match(['get', 'post'], "dayWiseListRecords", "User::dayWiseListRecords");
 	$routes->match(['get', 'post'], "PunchInRecords", "User::PunchInRecords");
-	$routes->match(['get', 'post'], "PunchOutRecords", "User::PunchOutRecords");
-	$routes->match(['get', 'post'], "email-logs", "User::emailLogs");
-	$routes->match(['get', 'post'], "email-logs-details/(:any)", "User::emailLogsDetails/$1");
+	$routes->match(['get', 'post'], "PunchOutRecords", "User::PunchOutRecords");	
 	$routes->match(['get', 'post'], "login-logs", "User::loginLogs");
 	$routes->match(['get', 'post'], "save-task", "User::Savetask");	
 	$routes->match(['get', 'post'], "save-effort", "User::SaveEffort");	
@@ -163,13 +173,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->get('test-sms/(:num)', 'User::testSmS/$1');
 	// settings
 	// master
-	/* effort type */
-	$routes->match(['get'], "effort-type/list", "EffortTypeController::list");
-	$routes->match(['get', 'post'], "effort-type/add", "EffortTypeController::add");
-	$routes->match(['get', 'post'], "effort-type/edit/(:any)", "EffortTypeController::edit/$1");
-	$routes->match(['get', 'post'], "effort-type/delete/(:any)", "EffortTypeController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "effort-type/change-status/(:any)", "EffortTypeController::change_status/$1");
-	/* effort type */
+	
 	
 	/* project status */
 	$routes->match(['get'], "project-status/list", "ProjectStatusController::list");
