@@ -54,6 +54,16 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "users/change-salarybox-status/(:any)", "UserController::change_salarybox_status/$1");
 		$routes->match(['get', 'post'], "users/send-credentials/(:any)", "UserController::sendCredentials/$1");
 		/* users */
+		/* team */
+		$routes->match(['get', 'post'], "team/list", "TeamController::list");
+		$routes->match(['get', 'post'], "team/add", "TeamController::add");
+		$routes->match(['get', 'post'], "team/edit/(:any)", "TeamController::edit/$1");
+		$routes->match(['get', 'post'], "team/delete/(:any)", "TeamController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "team/change-status/(:any)", "TeamController::change_status/$1");
+		$routes->match(['get', 'post'], "team/change-tracker-status/(:any)", "TeamController::change_tracker_status/$1");
+		$routes->match(['get', 'post'], "team/change-salarybox-status/(:any)", "TeamController::change_salarybox_status/$1");
+		$routes->match(['get', 'post'], "team/send-credentials/(:any)", "TeamController::sendCredentials/$1");
+		/* team */
 	});	
 	
 	// authentication
@@ -189,16 +199,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// task assign
 
 	
-	/* team */
-	$routes->match(['get', 'post'], "team/list", "TeamController::list");
-	$routes->match(['get', 'post'], "team/add", "TeamController::add");
-	$routes->match(['get', 'post'], "team/edit/(:any)", "TeamController::edit/$1");
-	$routes->match(['get', 'post'], "team/delete/(:any)", "TeamController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "team/change-status/(:any)", "TeamController::change_status/$1");
-	$routes->match(['get', 'post'], "team/change-tracker-status/(:any)", "TeamController::change_tracker_status/$1");
-	$routes->match(['get', 'post'], "team/change-salarybox-status/(:any)", "TeamController::change_salarybox_status/$1");
-	$routes->match(['get', 'post'], "team/send-credentials/(:any)", "TeamController::sendCredentials/$1");
-	/* team */
+	
 	// effort
 	$routes->match(['get'], "efforts/list", "EffortController::list");
 	$routes->match(['get', 'post'], "efforts/addBackup", "EffortController::addBackup");
