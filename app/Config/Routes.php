@@ -24,8 +24,9 @@ $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 
 /* ADMIN PANEL */
 $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($routes) {
-	/* clients */
+	
 	$routes->group("", ["filter" => "role:SUPER ADMIN,ADMIN"], function ($routes) {
+		/* clients */
 		$routes->match(['get'], "clients/list", "ClientController::listClients");
 		$routes->match(['get', 'post'], "clients/add", "ClientController::add");
 		$routes->match(['get', 'post'], "clients/edit/(:any)", "ClientController::edit/$1");
@@ -40,8 +41,21 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "clients/view-proposal/(:any)", "ClientController::viewProposal/$1");
 		$routes->match(['get', 'post'], "clients/edit-proposal/(:any)", "ClientController::editProposal/$1");
 		$routes->match(['get', 'post'], "clients/delete-proposal/(:any)", "ClientController::deleteProposal/$1");
+		/* clients */
+		/* users */
+		$routes->match(['get'], "users/list", "UserController::list");
+		$routes->match(['get', 'post'], "user_cost/list", "UserController::usercostlist");
+		$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
+		$routes->match(['get', 'post'], "users/add", "UserController::add");
+		$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
+		$routes->match(['get', 'post'], "users/delete/(:any)", "UserController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "users/change-status/(:any)", "UserController::change_status/$1");
+		$routes->match(['get', 'post'], "users/change-tracker-status/(:any)", "UserController::change_tracker_status/$1");
+		$routes->match(['get', 'post'], "users/change-salarybox-status/(:any)", "UserController::change_salarybox_status/$1");
+		$routes->match(['get', 'post'], "users/send-credentials/(:any)", "UserController::sendCredentials/$1");
+		/* users */
 	});	
-	/* clients */
+	
 	// authentication
 	$routes->match(['get', 'post'], "/", "User::login");
 	$routes->match(['get', 'post'], "signout", "User::signout");
@@ -174,18 +188,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get'], "task-assign-v2", "TaskAssignController::task_listv2");
 	// task assign
 
-	/* users */
-	$routes->match(['get'], "users/list", "UserController::list");
-	$routes->match(['get', 'post'], "user_cost/list", "UserController::usercostlist");
-	$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
-	$routes->match(['get', 'post'], "users/add", "UserController::add");
-	$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
-	$routes->match(['get', 'post'], "users/delete/(:any)", "UserController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "users/change-status/(:any)", "UserController::change_status/$1");
-	$routes->match(['get', 'post'], "users/change-tracker-status/(:any)", "UserController::change_tracker_status/$1");
-	$routes->match(['get', 'post'], "users/change-salarybox-status/(:any)", "UserController::change_salarybox_status/$1");
-	$routes->match(['get', 'post'], "users/send-credentials/(:any)", "UserController::sendCredentials/$1");
-	/* users */
+	
 	/* team */
 	$routes->match(['get', 'post'], "team/list", "TeamController::list");
 	$routes->match(['get', 'post'], "team/add", "TeamController::add");
