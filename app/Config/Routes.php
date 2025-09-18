@@ -86,6 +86,18 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
 		$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
 		//AMC Checking//
+		// report			
+		$routes->match(['get', 'post'], "reports/advance-search", "ReportController::advanceSearch");
+		$routes->match(['get', 'post'], "reports/effort-report", "ReportController::effortType");
+		$routes->match(['get', 'post'], "reports/project-report", "ReportController::projectReport");
+		$routes->match(['get', 'post'], "reports/viewMonthlyProjectReport/(:any)/(:any)/(:any)", "ReportController::viewMonthlyProjectReport/$1/$2/$3");
+		$routes->match(['get', 'post'], "reports/hours-report", "ReportController::hoursReport");
+		$routes->match(['get', 'post'], "reports/dayWiseListUpdate", "ReportController::dayWiseListUpdate");
+		$routes->match(['get', 'post'], "reports/showWorkList", "ReportController::showWorkList");
+		$routes->match(['get', 'post'], "reports/fetchData", "ReportController::fetchData");
+		$routes->match(['get', 'post'], "reports/get-desklog-report", "ReportController::desklogReport");
+		$routes->match(['get', 'post'], "reports/desklog-report-view", "ReportController::show");
+		// report
 	});	
 	
 	// authentication
@@ -220,19 +232,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// project_cost
 	$routes->match(['get', 'post'], "project-cost", "CostController::projectcost");
 	// project_cost
-	// report			
-	$routes->match(['get', 'post'], "reports/advance-search", "ReportController::advanceSearch");
-	$routes->match(['get', 'post'], "reports/effort-report", "ReportController::effortType");
-	$routes->match(['get', 'post'], "reports/project-report", "ReportController::projectReport");
-	$routes->match(['get', 'post'], "reports/viewMonthlyProjectReport/(:any)/(:any)/(:any)", "ReportController::viewMonthlyProjectReport/$1/$2/$3");
-	$routes->match(['get', 'post'], "reports/hours-report", "ReportController::hoursReport");
-	$routes->match(['get', 'post'], "reports/dayWiseListUpdate", "ReportController::dayWiseListUpdate");
-	$routes->match(['get', 'post'], "reports/showWorkList", "ReportController::showWorkList");
-	$routes->match(['get', 'post'], "reports/fetchData", "ReportController::fetchData");
-	$routes->match(['get', 'post'], "reports/get-desklog-report", "ReportController::desklogReport");
-	$routes->match(['get', 'post'], "reports/desklog-report-view", "ReportController::show");
-
-	// report
+	
 	// attendance
 	$routes->match(['get', 'post'], "attendance-report", "AttendanceController::attendance");
 	$routes->match(['get', 'post'], "save-attendance", "AttendanceController::SaveAttendance");	
