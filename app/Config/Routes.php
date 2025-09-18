@@ -78,6 +78,10 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "projects/active-project/", "ProjectController::activeProject");
 		$routes->match(['get', 'post'], "projects/inactive-project/", "ProjectController::InactiveProject");
 		/* projects */	
+		//outside project cost//
+		$routes->match(['get', 'post'], "outside_project/project_name", "OutsideProjectCostController::list");
+		$routes->match(['get', 'post'], "outside_project/showexsisting", "OutsideProjectCostController::showexsisting");
+		//outside project cost//
 	});	
 	
 	// authentication
@@ -179,10 +183,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
 	$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
 	//AMC Checking//
-	//outside project cost//
-	$routes->match(['get', 'post'], "outside_project/project_name", "OutsideProjectCostController::list");
-	$routes->match(['get', 'post'], "outside_project/showexsisting", "OutsideProjectCostController::showexsisting");
-	//outside project cost//
+	
 
 
 	// task assign
