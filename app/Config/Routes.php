@@ -23,9 +23,9 @@ $routes->get('/cityInfoJSON', 'Home::cityDetailsProxy');
 $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 
 /* ADMIN PANEL */
-$routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($routes) {
+$routes->group("admin", ["namespace" => "App\Controllers\Admin", 'filter'    => 'role:SUPER ADMIN,ADMIN'], function ($routes) {
 	
-	$routes->group("", ["filter" => "role:SUPER ADMIN,ADMIN"], function ($routes) {
+	// $routes->group("", ["filter" => "role:SUPER ADMIN,ADMIN"], function ($routes) {
 		/* clients */
 		$routes->match(['get'], "clients/list", "ClientController::listClients");
 		$routes->match(['get', 'post'], "clients/add", "ClientController::add");
@@ -151,7 +151,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
 		$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
 
-	});		
+	// });		
 });
 $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($routes) {
 	/* users */
