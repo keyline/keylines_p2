@@ -154,6 +154,18 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	});		
 });
 $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($routes) {
+	/* users */
+		$routes->match(['get'], "users/list", "UserController::list");
+		$routes->match(['get', 'post'], "user_cost/list", "UserController::usercostlist");
+		$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
+		$routes->match(['get', 'post'], "users/add", "UserController::add");
+		$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
+		$routes->match(['get', 'post'], "users/delete/(:any)", "UserController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "users/change-status/(:any)", "UserController::change_status/$1");
+		$routes->match(['get', 'post'], "users/change-tracker-status/(:any)", "UserController::change_tracker_status/$1");
+		$routes->match(['get', 'post'], "users/change-salarybox-status/(:any)", "UserController::change_salarybox_status/$1");
+		$routes->match(['get', 'post'], "users/send-credentials/(:any)", "UserController::sendCredentials/$1");
+		/* users */
 	
 	// authentication
 	$routes->match(['get', 'post'], "/", "User::login");
