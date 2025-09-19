@@ -102,7 +102,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <div class="col-md-4 col-lg-4">
                                             <label for="email" class="col-form-label" >Email <span class="text-danger">*</span></label> 
                                             <div class="">
-                                                <input type="email" name="email" id="email" class="form-control" id="email" value="<?=$email?>" required>
+                                                <input type="email" name="email" id="email" class="form-control" id="email" value="<?=$email?>" autocomplete="off" required>
                                                 <span id="email-error" class="text-danger"></span>
                                             </div>
                                         </div>
