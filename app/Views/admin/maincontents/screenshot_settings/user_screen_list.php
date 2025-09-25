@@ -349,6 +349,9 @@
         margin-left: 3rem;
         align-items: center;
     }
+    .active{
+        margin-left: 0;
+    }
     /* total working time */
     .workCountingContainer{
     display: flex;
