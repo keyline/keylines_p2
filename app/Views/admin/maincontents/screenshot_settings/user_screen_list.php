@@ -419,6 +419,9 @@
             border-right: none;
             padding-bottom: 10px;
         }
+           .timeline-wrapper {
+            width: 1000px
+        }
     }
 
     
