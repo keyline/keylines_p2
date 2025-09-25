@@ -263,6 +263,11 @@ $controller_route       = $moduleDetail['controller_route'];
     .general_table_style td a {
         color: #FFF;
     }
+    @media (max-width: 767px) {
+        .filter-btn{
+            padding: 16px 20px;
+        }
+    }
 </style>
 <div class="maze" style="display: none;">
     <canvas id="mazecnv" width="1840" height="1086"></canvas>
