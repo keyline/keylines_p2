@@ -268,8 +268,8 @@ $controller_route       = $moduleDetail['controller_route'];
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-flex">
-                <div class="pagetitle me-5">
+            <div class="d-flex justify-content-between">
+                <div class="pagetitle">
                     <h5><?=$page_header?></h5>
                     <nav>
                         <ol class="breadcrumb">
@@ -282,15 +282,13 @@ $controller_route       = $moduleDetail['controller_route'];
                 <div class="filtrable-box mb-3 mb-md-0 w-50">
                     <form method="POST" action="">
                         <div class="row align-items-center">
-                            <div class="col-lg-4 col-md-6 col-sm-8">
+                            <div class="col-lg-12 col-md-12 d-flex align-items-center gap-3">
                                 <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
                                     <!-- <option value="0">Only Mine</option> -->
                                     <?php if($all_departments){ foreach($all_departments as $dept){?>
                                         <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
                                     <?php } }?>
                                 </select>
-                            </div>
-                            <div class="col-md-6 col-sm-4" style="margin-left: -10px">
                                 <button type="submit" class="btn filter-btn"><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid" style="width: 15px"> Filter</button>
                             </div>
                         </div>
