@@ -231,6 +231,9 @@ $controller_route       = $moduleDetail['controller_route'];
     .accordion-button:not(.collapsed)::after{
         filter: brightness(1) invert(1);
     }
+    .choices{
+        margin-bottom: 0;
+    }
     .choices__inner{
         border-radius: 5px;
         border: 1px solid #ccc;
@@ -241,7 +244,10 @@ $controller_route       = $moduleDetail['controller_route'];
         background: #424242;
         color: #fff;
         padding: 8px 20px;
-        border-radius: 5px
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-self: center;
     }
     .filter-btn img{
         margin-right: 5px;
@@ -282,14 +288,14 @@ $controller_route       = $moduleDetail['controller_route'];
                 <div class="filtrable-box mb-3 mb-md-0 w-50">
                     <form method="POST" action="">
                         <div class="row align-items-center">
-                            <div class="col-lg-12 col-md-12 d-flex align-items-center gap-3">
+                            <div class="col-lg-12 col-md-12 d-flex align-items-center justify-content-end gap-3">
                                 <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
                                     <!-- <option value="0">Only Mine</option> -->
                                     <?php if($all_departments){ foreach($all_departments as $dept){?>
                                         <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
                                     <?php } }?>
                                 </select>
-                                <button type="submit" class="btn filter-btn"><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid" style="width: 15px"><span class="d-none d-lg-block"> Filter</span></button>
+                                <button type="submit" class="btn filter-btn"><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid me-0" style="width: 15px"><span class="d-none d-lg-block"> Filter</span></button>
                             </div>
                         </div>
                     </form>
