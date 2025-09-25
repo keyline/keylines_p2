@@ -1059,11 +1059,11 @@
                                         <div class="timeline" id="timeline"></div>
                                         <div class="hours" id="hours"></div>
                                     </div>
-                                    <div class="symbolsContainer">
-                                        <div class="active"><div class="activeColor"></div> <div>Active</div></div>
-                                        <div class="idle"><div class="idleColor"></div> <div>Idle</div></div>
-                                        <div class="others"><div class="othersColor"></div> <div>Others</div></div>
-                                    </div>
+                                </div>
+                                <div class="symbolsContainer">
+                                    <div class="active"><div class="activeColor"></div> <div>Active</div></div>
+                                    <div class="idle"><div class="idleColor"></div> <div>Idle</div></div>
+                                    <div class="others"><div class="othersColor"></div> <div>Others</div></div>
                                 </div>
                                 <?php
                                 $segments = [];
