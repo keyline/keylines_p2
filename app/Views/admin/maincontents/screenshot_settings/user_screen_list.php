@@ -1054,7 +1054,7 @@
                                 </div>   
 
                              <!-- SSSSSSSSSSSSSSSSSSSSSSSSSS WORKING TIMELINE GRAPH START SSSSSSSSSSSSSSSSSSSSSSSS  -->
-                                <div class="col-12">
+                                <div class="col-12 overflow-auto">
                                     <div class="timeline-wrapper">
                                         <div class="timeline" id="timeline"></div>
                                         <div class="hours" id="hours"></div>
