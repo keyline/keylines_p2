@@ -265,7 +265,7 @@ $controller_route       = $moduleDetail['controller_route'];
     }
     @media (max-width: 767px) {
         .filter-btn{
-            padding: 16px 20px;
+            padding: 8px 20px;
         }
         .filtrable-box {
             width: 100% !important;
