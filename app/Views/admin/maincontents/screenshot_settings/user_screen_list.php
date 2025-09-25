@@ -422,8 +422,14 @@
             border-right: none;
             padding-bottom: 10px;
         }
-           .timeline-wrapper {
+        .timeline-wrapper {
             width: 1000px
+        }
+        .symbolsContainer {
+            margin-top: 1rem;
+        }
+        .active, .idle, .others {
+            margin-left: 1rem;
         }
     }
 
