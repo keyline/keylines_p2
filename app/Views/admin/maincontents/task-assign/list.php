@@ -267,6 +267,9 @@ $controller_route       = $moduleDetail['controller_route'];
         .filter-btn{
             padding: 16px 20px;
         }
+        .filtrable-box {
+            width: 100% !important;
+        }
     }
 </style>
 <div class="maze" style="display: none;">
@@ -277,7 +280,7 @@ $controller_route       = $moduleDetail['controller_route'];
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between flex-wrap">
                 <div class="pagetitle">
                     <h5><?=$page_header?></h5>
                     <nav>
@@ -291,7 +294,7 @@ $controller_route       = $moduleDetail['controller_route'];
                 <div class="filtrable-box mb-3 mb-md-0 w-50">
                     <form method="POST" action="">
                         <div class="row align-items-center">
-                            <div class="col-lg-12 col-md-12 d-flex align-items-center justify-content-end gap-3">
+                            <div class="col-lg-12 col-md-12 d-flex align-items-center justify-content-start justify-content-md-end gap-3">
                                 <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
                                     <!-- <option value="0">Only Mine</option> -->
                                     <?php if($all_departments){ foreach($all_departments as $dept){?>
