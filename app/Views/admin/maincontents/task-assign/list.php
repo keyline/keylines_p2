@@ -271,6 +271,11 @@ $controller_route       = $moduleDetail['controller_route'];
             width: 100% !important;
         }
     }
+    @media (max-width: 575px) {
+        .filter-btn {
+            padding: 8px 22px 8px 10px;
+        }
+    }
 </style>
 <div class="maze" style="display: none;">
     <canvas id="mazecnv" width="1840" height="1086"></canvas>
