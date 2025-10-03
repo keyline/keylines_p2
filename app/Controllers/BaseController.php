@@ -216,10 +216,8 @@ abstract class BaseController extends Controller
             // endif;
             // return (!$mailLibrary->send()) ? false : true;
             $generalSetting = $this->common_model->find_data('general_settings', 'row');
+            // print_r($generalSetting);exit;
             $mailLibrary = new PHPMailer(true);
-                if (!$generalSetting) {
-                    return ['status' => false, 'message' => 'General settings not found'];
-                }
             try {
                 $mailLibrary->CharSet = 'UTF-8';
                 $mailLibrary->SMTPDebug = 0;
@@ -255,7 +253,7 @@ abstract class BaseController extends Controller
                 return ['status' => true, 'message' => 'Email sent successfully!'];
             } catch (Exception $e) {
                 // If error, return status false and error message
-                return ['status' => false, 'message' => 'Mailer Error: ' . $mailLibrary->ErrorInfo];
+                return ['status' => false, 'message' => 'Mailer Error: ' . $mailLibrary->ErrorInfo . '| Exception:' . $e->getMessage()];
             }
         }
     // send email

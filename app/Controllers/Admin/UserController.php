@@ -173,6 +173,7 @@ class UserController extends BaseController {
             if (!$mailResult['status']) {
                 // Email not sent – show an error and redirect back
                 $this->session->setFlashdata('error_message', 'User is not added. Please fix your SMTP setup.');
+                // $this->session->setFlashdata('error_message', $mailResult['message']);
                 return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
             }  else{
                 /* email log save */
