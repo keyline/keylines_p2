@@ -164,8 +164,8 @@
               <span class="input-group-text"><i class="fa fa-key"></i></span>
               <input type="password" class="form-control" id="password" name="password" required>
               <span class="input-group-text">
-                <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
-                <i class="fa fa-eye" id="hidePassword" style="cursor:pointer;"></i>
+                <i class="fa fa-eye-slash" id="hidePassword" style="cursor:pointer;"></i>
+                <i class="fa fa-eye" id="viewPassword" style="cursor:pointer;"></i>
               </span>
             </div>
           </div>
