@@ -164,7 +164,7 @@ class UserController extends BaseController {
                 'password'  => $this->request->getPost('password'),
             ];
             $message                    = view('email-templates/signup', $mailData);
-            // $this->sendMail($this->request->getPost('email'), $subject, $message);
+            $this->sendMail($this->request->getPost('email'), $subject, $message);
 
             // Send the email and get the result
             $mailResult = $this->sendMail($this->request->getPost('email'), $subject, $message);
