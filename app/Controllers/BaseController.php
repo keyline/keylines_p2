@@ -217,7 +217,11 @@ abstract class BaseController extends Controller
             // return (!$mailLibrary->send()) ? false : true;
             $generalSetting = $this->common_model->find_data('general_settings', 'row');
             $mailLibrary = new PHPMailer(true);
-             dd($generalSetting);
+             if($generalSetting){
+                echo "yes";
+             }else{
+                echo "no";
+             };
             try {
                 $mailLibrary->CharSet = 'UTF-8';
                 $mailLibrary->SMTPDebug = 0;
