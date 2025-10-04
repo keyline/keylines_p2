@@ -150,7 +150,7 @@
               </div>
           <?php }?>
         </div>
-        <form method="POST" action="">
+        <form method="POST" id="loginForm" action="">
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <div class="input-group">
@@ -158,7 +158,7 @@
               <input type="email" class="form-control" id="email" name="email" required>
             </div>
           </div>
-          <div class="mb-3">
+          <!-- <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <div class="input-group">
               <span class="input-group-text"><i class="fa fa-key"></i></span>
@@ -167,6 +167,23 @@
                 <i class="fa fa-eye-slash" id="viewPassword" style="cursor:pointer;"></i>
                 <i class="fa fa-eye" id="hidePassword" style="cursor:pointer;"></i>
               </span>
+            </div>
+          </div> -->
+          <div class="mb-3">
+             <label for="password" class="form-label">Password</label>
+             <div class="input-group">
+               <span class="input-group-text"><i class="fa fa-key"></i></span>
+               <input id="password"
+                  type="password"
+                  class="form-control"
+                   autocomplete="new-password"
+                  aria-label="password"
+                  autocomplete="off"
+                  onpaste="return false"
+                  oncopy="return false"
+                  oncut="return false"
+                  />
+                <input id="pin" name="pin" type="hidden" />
             </div>
           </div>
           <div class="d-grid">
@@ -196,4 +213,52 @@
       $('#viewPassword').show();
     });
   })
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
+<script>
+  // const secretKey =  "myStrongKey123";
+  //   function encryptData(data) {
+  //     if (!data) return "";
+  //   return CryptoJS.AES.encrypt(data, secretKey).toString();
+  // }
+  
+  // function decryptData(ciphertext) {
+  //   const bytes = CryptoJS.AES.decrypt(ciphertext, secretKey);
+  //   return bytes.toString(CryptoJS.enc.Utf8);
+  // }
+
+      const key = CryptoJS.enc.Utf8.parse("1234567890123456"); // 16 chars
+    const iv  = CryptoJS.enc.Utf8.parse("1234567890123456"); // 16 chars
+
+    function encryptData(data) {
+        if (!data) return "";
+        return CryptoJS.AES.encrypt(data, key, { iv: iv, mode: CryptoJS.mode.CBC, padding: CryptoJS.pad.Pkcs7 }).toString();
+    }
+
+    const maskPassword = document.getElementById('password');
+    const password = document.getElementById('pin');
+    maskPassword.addEventListener("input", ()=>{
+        password.value = encryptData(maskPassword.value);
+    });
+
+    const input = document.getElementById("password");
+
+    // Function to trigger when input type changes
+    function onTypeChange(newType) {
+      maskPassword.value = password.value;
+    }
+
+    // Create a MutationObserver
+    const observer = new MutationObserver((mutationsList) => {
+      for (let mutation of mutationsList) {
+        if (mutation.type === "attributes" && mutation.attributeName === "type") {
+          onTypeChange(input.type);
+        }
+      }
+    });
+
+    // Start observing attribute changes
+    observer.observe(input, { attributes: true });
+
+ 
 </script>
