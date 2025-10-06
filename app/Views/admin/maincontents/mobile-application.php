@@ -75,7 +75,7 @@ $controller_route   = $moduleDetail['controller_route'];
                             </div> -->
                             <div class="app-path">
                                 <h4>Application Location Path :</h4>
-                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="right"
                                     title="Copy this link and paste it in the mobile app URL location">
                                     <?=getenv('app.baseURL')?>
                                 </a>
