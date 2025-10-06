@@ -69,9 +69,16 @@ $controller_route   = $moduleDetail['controller_route'];
                                 <div class="caption"></div>
                                 <div class="tools"> </div>
                             </div>
-                            <div class="portlet-body">
+                            <!-- <div class="portlet-body">
                                   <h4>Application Location Path :</h4> 
-                                  <p><?=getenv('app.baseURL')?></p>
+                                  <p>?=getenv('app.baseURL')?></p>
+                            </div> -->
+                            <div class="app-path">
+                                <h4>Application Location Path :</h4>
+                                <a href="javascript:void(0)" data-bs-toggle="tooltip" data-bs-placement="right"
+                                    title="Copy this link and paste it in the mobile app URL location">
+                                    <?=getenv('app.baseURL')?>
+                                </a>
                             </div>
                         </div>                       
                     </div>
@@ -92,7 +99,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid">
                                             </div>
                                             <div class="btn-stor">
-                                                <a href="https://shorturl.at/HPZ8r">
+                                                <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline" target="_blank">
                                                     <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
                                                 </a>
                                             </div>
@@ -108,7 +115,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid">
                                             </div>
                                             <div class="btn-stor">
-                                                <a href="https://shorturl.at/VMYlc">
+                                                <a href="https://apps.apple.com/us/app/effortrak/id6502506223" target="_blank">
                                                     <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
                                                 </a>
                                             </div>

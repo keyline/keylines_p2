@@ -164,7 +164,7 @@ class UserController extends BaseController {
                 'password'  => $this->request->getPost('password'),
             ];
             $message                    = view('email-templates/signup', $mailData);
-            $this->sendMail($this->request->getPost('email'), $subject, $message);
+            // $this->sendMail($this->request->getPost('email'), $subject, $message);
 
             // Send the email and get the result
             $mailResult = $this->sendMail($this->request->getPost('email'), $subject, $message);
@@ -173,6 +173,7 @@ class UserController extends BaseController {
             if (!$mailResult['status']) {
                 // Email not sent – show an error and redirect back
                 $this->session->setFlashdata('error_message', 'User is not added. Please fix your SMTP setup.');
+                // $this->session->setFlashdata('error_message', $mailResult['message']);
                 return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
             }  else{
                 /* email log save */
