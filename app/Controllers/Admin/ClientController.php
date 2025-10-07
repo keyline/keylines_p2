@@ -151,7 +151,7 @@ class ClientController extends BaseController
                     'client_of'             => $this->request->getPost('client_of'),
                 );
             }
-              pr($postData);
+            //   pr($postData);
             $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
             $this->session->setFlashdata('success_message', $this->data['title'] . ' updated successfully');
             return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
