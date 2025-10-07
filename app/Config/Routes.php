@@ -23,7 +23,150 @@ $routes->get('/cityInfoJSON', 'Home::cityDetailsProxy');
 $routes->post('/client-Details-Data', 'Home::clientDetailsData/');
 
 /* ADMIN PANEL */
+$routes->group("admin", ["namespace" => "App\Controllers\Admin", 'filter'    => 'role:SUPER ADMIN,ADMIN'], function ($routes) {
+	
+	// $routes->group("", ["filter" => "role:SUPER ADMIN,ADMIN"], function ($routes) {
+		/* clients */
+		$routes->match(['get'], "clients/list", "ClientController::listClients");
+		$routes->match(['get', 'post'], "clients/add", "ClientController::add");
+		$routes->match(['get', 'post'], "clients/edit/(:any)", "ClientController::edit/$1");
+		$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
+		$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
+		$routes->match(['get', 'post'], "clients/encrypt-info", "ClientController::encryptInfo");
+
+		$routes->match(['get', 'post'], "clients/add-project/(:any)", "ClientController::addProject/$1");
+
+		$routes->match(['get', 'post'], "clients/add-proposal/(:any)", "ClientController::addProposal/$1");
+		$routes->match(['get', 'post'], "clients/view-proposal/(:any)", "ClientController::viewProposal/$1");
+		$routes->match(['get', 'post'], "clients/edit-proposal/(:any)", "ClientController::editProposal/$1");
+		$routes->match(['get', 'post'], "clients/delete-proposal/(:any)", "ClientController::deleteProposal/$1");
+		/* clients */
+		/* users */
+		$routes->match(['get'], "users/list", "UserController::list");
+		$routes->match(['get', 'post'], "user_cost/list", "UserController::usercostlist");
+		$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
+		$routes->match(['get', 'post'], "users/add", "UserController::add");
+		$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
+		$routes->match(['get', 'post'], "users/delete/(:any)", "UserController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "users/change-status/(:any)", "UserController::change_status/$1");
+		$routes->match(['get', 'post'], "users/change-tracker-status/(:any)", "UserController::change_tracker_status/$1");
+		$routes->match(['get', 'post'], "users/change-salarybox-status/(:any)", "UserController::change_salarybox_status/$1");
+		$routes->match(['get', 'post'], "users/send-credentials/(:any)", "UserController::sendCredentials/$1");
+		/* users */
+		/* team */
+		$routes->match(['get', 'post'], "team/list", "TeamController::list");
+		$routes->match(['get', 'post'], "team/add", "TeamController::add");
+		$routes->match(['get', 'post'], "team/edit/(:any)", "TeamController::edit/$1");
+		$routes->match(['get', 'post'], "team/delete/(:any)", "TeamController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "team/change-status/(:any)", "TeamController::change_status/$1");
+		$routes->match(['get', 'post'], "team/change-tracker-status/(:any)", "TeamController::change_tracker_status/$1");
+		$routes->match(['get', 'post'], "team/change-salarybox-status/(:any)", "TeamController::change_salarybox_status/$1");
+		$routes->match(['get', 'post'], "team/send-credentials/(:any)", "TeamController::sendCredentials/$1");
+		/* team */
+		/*role master */
+		$routes->match(['get'], "role-master/list", "RoleMasterController::list");
+		$routes->match(['get', 'post'], "role-master/add", "RoleMasterController::add");
+		/*role master */
+		/* projects */
+		$routes->match(['get', 'post'], "projects/list", "ProjectController::list");
+		$routes->match(['get', 'post'], "projects/add", "ProjectController::add");
+		$routes->match(['get', 'post'], "projects/edit/(:any)", "ProjectController::edit/$1");
+		$routes->match(['get', 'post'], "projects/delete/(:any)", "ProjectController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "projects/change-status/(:any)", "ProjectController::change_status/$1");
+		$routes->match(['get', 'post'], "projects/project-effort-list/(:any)", "ProjectController::projectEffortList/$1");
+		$routes->match(['get', 'post'], "projects/active-project/", "ProjectController::activeProject");
+		$routes->match(['get', 'post'], "projects/inactive-project/", "ProjectController::InactiveProject");
+		/* projects */	
+		//outside project cost//
+		$routes->match(['get', 'post'], "outside_project/project_name", "OutsideProjectCostController::list");
+		$routes->match(['get', 'post'], "outside_project/showexsisting", "OutsideProjectCostController::showexsisting");
+		//outside project cost//
+		//AMC Checking//
+		$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
+		$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
+		//AMC Checking//
+		// report			
+		$routes->match(['get', 'post'], "reports/advance-search", "ReportController::advanceSearch");
+		$routes->match(['get', 'post'], "reports/effort-report", "ReportController::effortType");
+		$routes->match(['get', 'post'], "reports/project-report", "ReportController::projectReport");
+		$routes->match(['get', 'post'], "reports/viewMonthlyProjectReport/(:any)/(:any)/(:any)", "ReportController::viewMonthlyProjectReport/$1/$2/$3");
+		$routes->match(['get', 'post'], "reports/hours-report", "ReportController::hoursReport");
+		$routes->match(['get', 'post'], "reports/dayWiseListUpdate", "ReportController::dayWiseListUpdate");
+		$routes->match(['get', 'post'], "reports/showWorkList", "ReportController::showWorkList");
+		$routes->match(['get', 'post'], "reports/fetchData", "ReportController::fetchData");
+		$routes->match(['get', 'post'], "reports/get-desklog-report", "ReportController::desklogReport");
+		$routes->match(['get', 'post'], "reports/desklog-report-view", "ReportController::show");
+		// report
+		// attendance
+		$routes->match(['get', 'post'], "attendance-report", "AttendanceController::attendance");
+		$routes->match(['get', 'post'], "save-attendance", "AttendanceController::SaveAttendance");	
+		// $routes->match(['get', 'post'], "monthly-attendance-report", "AttendanceController::monthlyAttendance");
+		$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
+		$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
+		// attendance
+		// activity log
+		$routes->match(['get', 'post'], "email-logs", "User::emailLogs");
+		$routes->match(['get', 'post'], "email-logs-details/(:any)", "User::emailLogsDetails/$1");
+		$routes->match(['get', 'post'], "login-logs", "User::loginLogs");
+
+		/* effort type */
+		$routes->match(['get'], "effort-type/list", "EffortTypeController::list");
+		$routes->match(['get', 'post'], "effort-type/add", "EffortTypeController::add");
+		$routes->match(['get', 'post'], "effort-type/edit/(:any)", "EffortTypeController::edit/$1");
+		$routes->match(['get', 'post'], "effort-type/delete/(:any)", "EffortTypeController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "effort-type/change-status/(:any)", "EffortTypeController::change_status/$1");
+		/* effort type */
+
+		/* project status */
+		$routes->match(['get'], "project-status/list", "ProjectStatusController::list");
+		$routes->match(['get', 'post'], "project-status/add", "ProjectStatusController::add");
+		$routes->match(['get', 'post'], "project-status/edit/(:any)", "ProjectStatusController::edit/$1");
+		$routes->match(['get', 'post'], "project-status/delete/(:any)", "ProjectStatusController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "project-status/change-status/(:any)", "ProjectStatusController::change_status/$1");
+		$routes->match(['get', 'post'], "projects/reports/(:any)", "ProjectController::reports/$1");
+		/* project status */
+		/* department */
+		$routes->match(['get'], "department/list", "DepartmentController::list");
+		$routes->match(['get', 'post'], "department/add", "DepartmentController::add");
+		$routes->match(['get', 'post'], "department/edit/(:any)", "DepartmentController::edit/$1");
+		$routes->match(['get', 'post'], "department/delete/(:any)", "DepartmentController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "department/change-status/(:any)", "DepartmentController::change_status/$1");
+		/* department */
+		/* work status */
+		$routes->match(['get'], "work-status/list", "WorkStatusController::list");
+		$routes->match(['get', 'post'], "work-status/add", "WorkStatusController::add");
+		$routes->match(['get', 'post'], "work-status/edit/(:any)", "WorkStatusController::edit/$1");
+		$routes->match(['get', 'post'], "work-status/delete/(:any)", "WorkStatusController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "work-status/change-status/(:any)", "WorkStatusController::change_status/$1");
+		/* work status */
+		/* office location */
+		$routes->match(['get'], "office-location/list", "OfficeLocationController::list");
+		$routes->match(['get', 'post'], "office-location/add", "OfficeLocationController::add");
+		$routes->match(['get', 'post'], "office-location/edit/(:any)", "OfficeLocationController::edit/$1");
+		$routes->match(['get', 'post'], "office-location/delete/(:any)", "OfficeLocationController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "office-location/change-status/(:any)", "OfficeLocationController::change_status/$1");
+		/* office location */
+		// screenshots settings
+		$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
+		$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
+
+	// });		
+});
 $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($routes) {
+	/* users */
+		$routes->match(['get'], "users/list", "UserController::list");
+		$routes->match(['get', 'post'], "user_cost/list", "UserController::usercostlist");
+		$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
+		$routes->match(['get', 'post'], "users/add", "UserController::add");
+		$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
+		$routes->match(['get', 'post'], "users/delete/(:any)", "UserController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "users/change-status/(:any)", "UserController::change_status/$1");
+		$routes->match(['get', 'post'], "users/change-tracker-status/(:any)", "UserController::change_tracker_status/$1");
+		$routes->match(['get', 'post'], "users/change-salarybox-status/(:any)", "UserController::change_salarybox_status/$1");
+		$routes->match(['get', 'post'], "users/send-credentials/(:any)", "UserController::sendCredentials/$1");
+		/* users */
+	
 	// authentication
 	$routes->match(['get', 'post'], "/", "User::login");
 	$routes->match(['get', 'post'], "signout", "User::signout");
@@ -54,10 +197,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "dashboard", "User::dashboard");
 	$routes->match(['get', 'post'], "dayWiseListRecords", "User::dayWiseListRecords");
 	$routes->match(['get', 'post'], "PunchInRecords", "User::PunchInRecords");
-	$routes->match(['get', 'post'], "PunchOutRecords", "User::PunchOutRecords");
-	$routes->match(['get', 'post'], "email-logs", "User::emailLogs");
-	$routes->match(['get', 'post'], "email-logs-details/(:any)", "User::emailLogsDetails/$1");
-	$routes->match(['get', 'post'], "login-logs", "User::loginLogs");
+	$routes->match(['get', 'post'], "PunchOutRecords", "User::PunchOutRecords");	
 	$routes->match(['get', 'post'], "save-task", "User::Savetask");	
 	$routes->match(['get', 'post'], "save-effort", "User::SaveEffort");	
 	$routes->match(['get', 'post'], "edit-task", "User::EditTask");	
@@ -79,84 +219,6 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "test-email", "User::testEmail");
 	$routes->get('test-sms/(:num)', 'User::testSmS/$1');
 	// settings
-	// master
-	/* effort type */
-	$routes->match(['get'], "effort-type/list", "EffortTypeController::list");
-	$routes->match(['get', 'post'], "effort-type/add", "EffortTypeController::add");
-	$routes->match(['get', 'post'], "effort-type/edit/(:any)", "EffortTypeController::edit/$1");
-	$routes->match(['get', 'post'], "effort-type/delete/(:any)", "EffortTypeController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "effort-type/change-status/(:any)", "EffortTypeController::change_status/$1");
-	/* effort type */
-	/*role master */
-	$routes->match(['get'], "role-master/list", "RoleMasterController::list");
-	$routes->match(['get', 'post'], "role-master/add", "RoleMasterController::add");
-	/*role master */
-	/* project status */
-	$routes->match(['get'], "project-status/list", "ProjectStatusController::list");
-	$routes->match(['get', 'post'], "project-status/add", "ProjectStatusController::add");
-	$routes->match(['get', 'post'], "project-status/edit/(:any)", "ProjectStatusController::edit/$1");
-	$routes->match(['get', 'post'], "project-status/delete/(:any)", "ProjectStatusController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "project-status/change-status/(:any)", "ProjectStatusController::change_status/$1");
-	$routes->match(['get', 'post'], "projects/reports/(:any)", "ProjectController::reports/$1");
-	/* project status */
-	/* department */
-	$routes->match(['get'], "department/list", "DepartmentController::list");
-	$routes->match(['get', 'post'], "department/add", "DepartmentController::add");
-	$routes->match(['get', 'post'], "department/edit/(:any)", "DepartmentController::edit/$1");
-	$routes->match(['get', 'post'], "department/delete/(:any)", "DepartmentController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "department/change-status/(:any)", "DepartmentController::change_status/$1");
-	/* department */
-	/* work status */
-	$routes->match(['get'], "work-status/list", "WorkStatusController::list");
-	$routes->match(['get', 'post'], "work-status/add", "WorkStatusController::add");
-	$routes->match(['get', 'post'], "work-status/edit/(:any)", "WorkStatusController::edit/$1");
-	$routes->match(['get', 'post'], "work-status/delete/(:any)", "WorkStatusController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "work-status/change-status/(:any)", "WorkStatusController::change_status/$1");
-	/* work status */
-	/* office location */
-	$routes->match(['get'], "office-location/list", "OfficeLocationController::list");
-	$routes->match(['get', 'post'], "office-location/add", "OfficeLocationController::add");
-	$routes->match(['get', 'post'], "office-location/edit/(:any)", "OfficeLocationController::edit/$1");
-	$routes->match(['get', 'post'], "office-location/delete/(:any)", "OfficeLocationController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "office-location/change-status/(:any)", "OfficeLocationController::change_status/$1");
-	/* office location */
-	// master
-	/* projects */
-	$routes->match(['get', 'post'], "projects/list", "ProjectController::list");
-	$routes->match(['get', 'post'], "projects/add", "ProjectController::add");
-	$routes->match(['get', 'post'], "projects/edit/(:any)", "ProjectController::edit/$1");
-	$routes->match(['get', 'post'], "projects/delete/(:any)", "ProjectController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "projects/change-status/(:any)", "ProjectController::change_status/$1");
-	$routes->match(['get', 'post'], "projects/project-effort-list/(:any)", "ProjectController::projectEffortList/$1");
-	$routes->match(['get', 'post'], "projects/active-project/", "ProjectController::activeProject");
-	$routes->match(['get', 'post'], "projects/inactive-project/", "ProjectController::InactiveProject");
-
-	/* projects */
-	/* clients */
-	$routes->match(['get'], "clients/list", "ClientController::list");
-	$routes->match(['get', 'post'], "clients/add", "ClientController::add");
-	$routes->match(['get', 'post'], "clients/edit/(:any)", "ClientController::edit/$1");
-	$routes->match(['get', 'post'], "clients/delete/(:any)", "ClientController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "clients/change-status/(:any)", "ClientController::change_status/$1");
-	$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
-	$routes->match(['get', 'post'], "clients/encrypt-info", "ClientController::encryptInfo");
-
-	$routes->match(['get', 'post'], "clients/add-project/(:any)", "ClientController::addProject/$1");
-
-	$routes->match(['get', 'post'], "clients/add-proposal/(:any)", "ClientController::addProposal/$1");
-	$routes->match(['get', 'post'], "clients/view-proposal/(:any)", "ClientController::viewProposal/$1");
-	$routes->match(['get', 'post'], "clients/edit-proposal/(:any)", "ClientController::editProposal/$1");
-	$routes->match(['get', 'post'], "clients/delete-proposal/(:any)", "ClientController::deleteProposal/$1");
-	/* clients */
-	//AMC Checking//
-	$routes->match(['get', 'post'], "amc-checking", "AmcCheckingController::list");
-	$routes->match(['get', 'post'], "amc-checking/ok_status/(:any)", "AmcCheckingController::ok_status/$1");
-	//AMC Checking//
-	//outside project cost//
-	$routes->match(['get', 'post'], "outside_project/project_name", "OutsideProjectCostController::list");
-	$routes->match(['get', 'post'], "outside_project/showexsisting", "OutsideProjectCostController::showexsisting");
-	//outside project cost//
-
 
 	// task assign
 	$routes->match(['get', 'post'], "task-assign", "TaskAssignController::task_list");
@@ -170,30 +232,8 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['post'], "task-assign/morning-meeting-get-previous-task", "TaskAssignController::morning_meeting_get_previous_task");
 
 	$routes->match(['get'], "task-assign-v2", "TaskAssignController::task_listv2");
-	// task assign
-
-	/* users */
-	$routes->match(['get'], "users/list", "UserController::list");
-	$routes->match(['get', 'post'], "user_cost/list", "UserController::usercostlist");
-	$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
-	$routes->match(['get', 'post'], "users/add", "UserController::add");
-	$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
-	$routes->match(['get', 'post'], "users/delete/(:any)", "UserController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "users/change-status/(:any)", "UserController::change_status/$1");
-	$routes->match(['get', 'post'], "users/change-tracker-status/(:any)", "UserController::change_tracker_status/$1");
-	$routes->match(['get', 'post'], "users/change-salarybox-status/(:any)", "UserController::change_salarybox_status/$1");
-	$routes->match(['get', 'post'], "users/send-credentials/(:any)", "UserController::sendCredentials/$1");
-	/* users */
-	/* team */
-	$routes->match(['get', 'post'], "team/list", "TeamController::list");
-	$routes->match(['get', 'post'], "team/add", "TeamController::add");
-	$routes->match(['get', 'post'], "team/edit/(:any)", "TeamController::edit/$1");
-	$routes->match(['get', 'post'], "team/delete/(:any)", "TeamController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "team/change-status/(:any)", "TeamController::change_status/$1");
-	$routes->match(['get', 'post'], "team/change-tracker-status/(:any)", "TeamController::change_tracker_status/$1");
-	$routes->match(['get', 'post'], "team/change-salarybox-status/(:any)", "TeamController::change_salarybox_status/$1");
-	$routes->match(['get', 'post'], "team/send-credentials/(:any)", "TeamController::sendCredentials/$1");
-	/* team */
+	// task assign	
+	
 	// effort
 	$routes->match(['get'], "efforts/list", "EffortController::list");
 	$routes->match(['get', 'post'], "efforts/addBackup", "EffortController::addBackup");
@@ -205,32 +245,14 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "efforts/get-project-info", "EffortController::getProjectInfo");
 	$routes->match(['get', 'post'], "efforts/request-previous-task-submit/(:any)", "EffortController::requestPreviousTaskSubmit/$1");
 	// effort
+
 	// hour_cost
 	$routes->match(['get', 'post'], "user-cost", "CostController::usercost");
 	// hour_cost
+
 	// project_cost
 	$routes->match(['get', 'post'], "project-cost", "CostController::projectcost");
-	// project_cost
-	// report			
-	$routes->match(['get', 'post'], "reports/advance-search", "ReportController::advanceSearch");
-	$routes->match(['get', 'post'], "reports/effort-report", "ReportController::effortType");
-	$routes->match(['get', 'post'], "reports/project-report", "ReportController::projectReport");
-	$routes->match(['get', 'post'], "reports/viewMonthlyProjectReport/(:any)/(:any)/(:any)", "ReportController::viewMonthlyProjectReport/$1/$2/$3");
-	$routes->match(['get', 'post'], "reports/hours-report", "ReportController::hoursReport");
-	$routes->match(['get', 'post'], "reports/dayWiseListUpdate", "ReportController::dayWiseListUpdate");
-	$routes->match(['get', 'post'], "reports/showWorkList", "ReportController::showWorkList");
-	$routes->match(['get', 'post'], "reports/fetchData", "ReportController::fetchData");
-	$routes->match(['get', 'post'], "reports/get-desklog-report", "ReportController::desklogReport");
-	$routes->match(['get', 'post'], "reports/desklog-report-view", "ReportController::show");
-
-	// report
-	// attendance
-	$routes->match(['get', 'post'], "attendance-report", "AttendanceController::attendance");
-	$routes->match(['get', 'post'], "save-attendance", "AttendanceController::SaveAttendance");	
-	// $routes->match(['get', 'post'], "monthly-attendance-report", "AttendanceController::monthlyAttendance");
-	$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
-	$routes->match(['get', 'post'], "PunchOutRecords", "AttendanceController::PunchOutRecords");
-	// attendance
+	// project_cost		
 
 	// holiday
 	$routes->match(['get', 'post'], "holiday-list", "HolidayController::fetchHolidays");
@@ -242,11 +264,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	// holiday
 
 	// mobile-application
-	$routes->match(['get'], "mobile-application", "MobileController::show");
-	// $routes->match(['get'], "holiday-list-api", "HolidayController::Holidaylistapi");
-	// $routes->match(['get', 'post'], "holiday-list-add", "HolidayController::addHoliday");
-	// $routes->match(['get', 'post'], "holiday-list/edit/(:any)", "HolidayController::editHoliday/$1");
-	// $routes->match(['get', 'post'], "holiday-list/delete/(:any)", "HolidayController::confirm_delete/$1");
+	$routes->match(['get'], "mobile-application", "MobileController::show");	
 	// mobile-application
 
 	// delete account requests
@@ -262,11 +280,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "notifications/change-status/(:any)", "NotificationController::change_status/$1");
 	$routes->match(['get', 'post'], "notifications/send/(:any)", "NotificationController::send/$1");
 	$routes->match(['get'], "notifications/list_from_app", "NotificationController::list_from_app");
-	// notifications
-
-	// screenshots settings
-	$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
-	$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
+	// notifications	
 });
 /* ADMIN PANEL */
 /* API */

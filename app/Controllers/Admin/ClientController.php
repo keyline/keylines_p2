@@ -24,7 +24,7 @@ class ClientController extends BaseController
             'primary_key'           => 'id'
         );
     }
-    public function list()
+    public function listClients()
     {
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'];
