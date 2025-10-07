@@ -89,7 +89,7 @@ class ClientController extends BaseController
         $page_name                  = 'client/add-edit';
         $conditions                 = array($this->data['primary_key'] => $id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
-        pr($data['row']);
+        // pr($data['row']);
         $order_by[0]                = array('field' => 'name', 'type' => 'ASC');
         $data['countries']          = $this->common_model->find_data('countries', 'array', '', 'name', '', '', $order_by);
         $data['users']              = $this->data['model']->find_data('user', 'array', ['status' => '1'], 'id,name', '', '', $order_by);
