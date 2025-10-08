@@ -193,6 +193,97 @@ class UserController extends BaseController {
         }
         echo $this->layout_after_login($title,$page_name,$data);
     }
+        public function addBulkFromCSV()
+        {
+            $data['moduleDetail']    = $this->data;
+            $data['action']          = 'Add Bulk';
+            $title                   = $data['action'].' '.$this->data['title'];
+            $page_name               = 'user/add-bulk'; // you can create a separate view for bulk upload
+            $data['userCats']        = $this->data['model']->find_data('user_category', 'array');
+            
+            if ($this->session->user_type == "SUPER ADMIN") {
+                $data['roleMasters'] = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1]);
+            } else {
+                $data['roleMasters'] = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1, 'id!=' => 1]);
+            }
+            
+            $data['officeLocations'] = $this->data['model']->find_data('office_locations', 'array', ['status=' => 1], 'id,name,address');
+
+            if ($this->request->getMethod() == 'post') {
+                $file = $this->request->getFile('bulkUserCsv');
+                
+                if ($file && $file->isValid() && $file->getExtension() == 'csv') {
+                    $filepath = $file->getTempName();
+                    $csvData  = array_map('str_getcsv', file($filepath));
+                    
+                    // Assuming first row is header
+                    $header = array_map('trim', $csvData[0]);
+                    unset($csvData[0]);
+                    
+                    $insertCount = 0;
+                    foreach ($csvData as $row) {
+                        $rowData = array_combine($header, $row);
+
+                        // Attendance type handling
+                        $attnType = !empty($rowData['attendence_type']) ? explode('|', $rowData['attendence_type']) : ['0'];
+
+                        $postData = [
+                            'name'              => trim($rowData['name']),
+                            'email'             => trim($rowData['email']),
+                            'personal_email'    => trim($rowData['personal_email'] ?? ''),
+                            'phone1'            => trim($rowData['phone1']),
+                            'phone2'            => trim($rowData['phone2'] ?? ''),
+                            'address'           => trim($rowData['address'] ?? ''),
+                            'pincode'           => trim($rowData['pincode'] ?? ''),
+                            'latitude'          => $rowData['latitude'] ?? '',
+                            'longitude'         => $rowData['longitude'] ?? '',
+                            'password'          => password_hash($rowData['password'], PASSWORD_DEFAULT),
+                            'remember_token'    => $rowData['remember_token'] ?? null,
+                            'type'              => $rowData['type'] ?? '',
+                            'role_id'           => $rowData['role_id'] ?? 2,
+                            'category'          => $rowData['category'] ?? '',
+                            'hour_cost'         => $rowData['hour_cost'] ?? 0,
+                            'dob'               => !empty($rowData['dob']) ? date('Y-m-d', strtotime($rowData['dob'])) : null,
+                            'doj'               => !empty($rowData['doj']) ? date('Y-m-d', strtotime($rowData['doj'])) : null,
+                            'profile_image'     => '', 
+                            'department'        => $rowData['department'] ?? '',
+                            'dept_type'         => $rowData['dept_type'] ?? '',
+                            'status'            => $rowData['status'] ?? 1,
+                            'approve_date'      => !empty($rowData['approve_date']) ? date('Y-m-d', strtotime($rowData['approve_date'])) : null,
+                            'work_mode'         => $rowData['work_mode'] ?? 1,
+                            'is_tracker_user'   => $rowData['is_tracker_user'] ?? 0,
+                            'is_salarybox_user' => $rowData['is_salarybox_user'] ?? 0,
+                            'attendence_type'   => json_encode($attnType),
+                            'date_added'        => date('Y-m-d H:i:s'),
+                        ];
+
+
+                        // Save user
+                        $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);
+
+                        // Optionally, send email to user
+                        /*
+                        $generalSetting = $this->common_model->find_data('general_settings', 'row');
+                        $subject = $generalSetting->site_name.' :: Account Created '.date('Y-m-d H:i:s');
+                        $mailData = ['email' => $rowData['email'], 'password' => $rowData['password']];
+                        $message = view('email-templates/signup', $mailData);
+                        $this->sendMail($rowData['email'], $subject, $message);
+                        */
+
+                        $insertCount++;
+                    }
+
+                    $this->session->setFlashdata('success_message', "$insertCount users inserted successfully.");
+                    return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
+                } else {
+                    $this->session->setFlashdata('error_message', 'Please upload a valid CSV file.');
+                    return redirect()->back();
+                }
+            }
+
+            echo $this->layout_after_login($title, $page_name, $data);
+        }
+
     public function edit($id)
     {
         $id                         = decoded($id);
