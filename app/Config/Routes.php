@@ -159,6 +159,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "user_cost/list", "UserController::usercostlist");
 		$routes->match(['get'], "users/DeactivateUserlist", "UserController::DeactivateUserlist");
 		$routes->match(['get', 'post'], "users/add", "UserController::add");
+		$routes->match(['get', 'post'], "users/addbulk", "UserController::addBulkFromCSV");
 		$routes->match(['get', 'post'], "users/edit/(:any)", "UserController::edit/$1");
 		$routes->match(['get', 'post'], "users/delete/(:any)", "UserController::confirm_delete/$1");
 		$routes->match(['get', 'post'], "users/change-status/(:any)", "UserController::change_status/$1");
