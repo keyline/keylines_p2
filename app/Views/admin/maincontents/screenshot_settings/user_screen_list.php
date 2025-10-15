@@ -1263,7 +1263,7 @@
                                                     <?php } ?>
 
                                                     <div class="card-body">
-                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
+                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i:s A', strtotime($screenshot['time_stamp'])) ?></p>
                                                         <!-- <p class="card-text mb-0 screenshort_app_name"><?= $screenshot['active_app_name']; ?></p> -->
                                                     </div>
                                                 <?php } else { ?>
@@ -1271,7 +1271,7 @@
                                                         <img src="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
                                                     </a>
                                                     <div class="card-body">
-                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
+                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i:s A', strtotime($screenshot['time_stamp'])) ?></p>
                                                     </div>
                                                 <?php } ?>
 
