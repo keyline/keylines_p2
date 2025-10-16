@@ -172,9 +172,14 @@ class UserController extends BaseController {
             // Check if the email was sent successfully
             if (!$mailResult['status']) {
                 // Email not sent – show an error and redirect back
-                $this->session->setFlashdata('error_message', 'User is not added. Please fix your SMTP setup.');
+                $this->session->setFlashdata('error_message', 'User password has not been sent to user email due to SMTP issue. Please fix your SMTP setup.');
                 // $this->session->setFlashdata('error_message', $mailResult['message']);
-                return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
+                // return redirect()->to('/admin/'.$this->data['controller_route'].'/add');  // This was before code change
+                //   return redirect()->back()->withInput(); // This wil retain the form data
+
+                $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);
+            $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
+            return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
             }  else{
                 /* email log save */
                 $postData2 = [
@@ -193,8 +198,8 @@ class UserController extends BaseController {
         }
         echo $this->layout_after_login($title,$page_name,$data);
     }
-        public function addBulkFromCSV()
-        {
+    public function addBulkFromCSV()
+    {
             $data['moduleDetail']    = $this->data;
             $data['action']          = 'Add Bulk';
             $title                   = $data['action'].' '.$this->data['title'];
@@ -282,7 +287,7 @@ class UserController extends BaseController {
             }
 
             echo $this->layout_after_login($title, $page_name, $data);
-        }
+    }
 
     public function edit($id)
     {

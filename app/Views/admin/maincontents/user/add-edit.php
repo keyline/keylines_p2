@@ -95,14 +95,16 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <div class="col-md-4 col-lg-4">
                                             <label for="name" class="col-form-label">Name <span class="text-danger">*</span></label>
                                             <div class="">
-                                                <input type="text" name="name" class="form-control" id="name" value="<?=$name?>" required>
+                                                <!-- <input type="text" name="name" class="form-control" id="name" value="</?=$name?>" required> -->
+                                                 <input type="text" name="name" class="form-control" id="name" value="<?= old('name', $name) ?>" required>
                                             </div>
                                         </div>
                                         <!-- Email field -->
                                         <div class="col-md-4 col-lg-4">
                                             <label for="email" class="col-form-label" >Email <span class="text-danger">*</span></label> 
                                             <div class="">
-                                                <input type="email" name="email" id="email" class="form-control" id="email" value="<?=$email?>" autocomplete="off" required>
+                                                <!-- <input type="email" name="email" id="email" class="form-control" id="email" value="</?=$email?>" autocomplete="off" required> -->
+                                                 <input type="email" name="email" id="email" class="form-control" value="<?= old('email', $email) ?>" required>
                                                 <span id="email-error" class="text-danger"></span>
                                             </div>
                                         </div>
@@ -110,37 +112,44 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <div class="col-md-4 col-lg-4">
                                             <label for="personal_email" class="col-form-label">Alternate Email</label>
                                             <div class="">
-                                                <input type="email" name="personal_email" class="form-control" id="personal_email" value="<?=$personal_email?>">
+                                                <!-- <input type="email" name="personal_email" class="form-control" id="personal_email" value="</?=$personal_email?>"> -->
+                                                 <input type="email" name="personal_email" class="form-control" id="personal_email" value="<?= old('personal_email', $personal_email) ?>">
                                             </div>
                                         </div>
                                         <!-- Phone field -->
                                         <div class="col-md-6 col-lg-6">
                                             <label for="phone1" class="col-form-label">Phone <span class="text-danger">*</span></label>
                                             <div class="">
-                                                <input type="text" name="phone1" class="form-control" id="phone1" value="<?=$phone1?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
+                                                <!-- <input type="text" name="phone1" class="form-control" id="phone1" value="</?=$phone1?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)"> -->
+                                                 <input type="text" name="phone1" class="form-control" id="phone1" value="<?= old('phone1', $phone1) ?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
                                             </div>
                                         </div>
                                         <!--Alternate Phone field -->
                                         <div class="col-md-6 col-lg-6">
                                             <label for="phone2" class="col-form-label">Alternate Phone</label>
                                             <div class="">
-                                                <input type="text" name="phone2" class="form-control" id="phone2" value="<?=$phone2?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
+                                                <!-- <input type="text" name="phone2" class="form-control" id="phone2" value="<?=$phone2?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)"> -->
+                                                 <input type="text" name="phone2" class="form-control" id="phone2" value="<?= old('phone2', $phone2) ?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
                                             </div>
                                         </div>
                                         <!-- address field -->
                                         <div class="col-md-4 col-lg-4">
                                             <label for="address" class="col-form-label">Address</label>
                                             <div class="">
-                                                <input type="text" name="address" class="form-control" id="address" value="<?=$address?>">
-                                                <input type="hidden" name="latitude" id="latitude" value="<?=$latitude?>">
-                                                <input type="hidden" name="longitude" id="longitude" value="<?=$longitude?>">
+                                                <!-- <input type="text" name="address" class="form-control" id="address" value="<?=$address?>">
+                                                <input type="hidden" name="latitude" id="latitude" value="</?=$latitude?>">
+                                                <input type="hidden" name="longitude" id="longitude" value="</?=$longitude?>"> -->
+                                                <input type="text" name="address" class="form-control" id="address" value="<?= old('address', $address) ?>">
+                                                <input type="hidden" name="latitude" id="latitude" value="<?= old('latitude', $latitude) ?>">
+                                                <input type="hidden" name="longitude" id="longitude" value="<?= old('longitude', $longitude) ?>">
                                             </div>
                                         </div>
                                         <!-- Pincode field -->
                                         <div class="col-md-4 col-lg-4">
                                             <label for="pincode" class="col-form-label">Pincode</label>
                                             <div class="">
-                                                <input type="text" name="pincode" class="form-control" id="pincode" value="<?=$pincode?>" minlength="6" maxlength="6" onkeypress="return isNumber(event)">
+                                                <!-- <input type="text" name="pincode" class="form-control" id="pincode" value="</?=$pincode?>" minlength="6" maxlength="6" onkeypress="return isNumber(event)"> -->
+                                                 <input type="text" name="pincode" class="form-control" id="pincode" value="<?= old('pincode', $pincode) ?>" minlength="6" maxlength="6" onkeypress="return isNumber(event)">
                                             </div>
                                         </div>
                                         <!--Password fields -->
@@ -178,7 +187,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
                                                     <option value="" selected>Select Type</option>
                                                     <?php if($roleMasters){ foreach($roleMasters as $roleMaster){?>
-                                                        <option value="<?=$roleMaster->role_name;?>" <?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
+                                                        <!-- <option value="</?=$roleMaster->role_name;?>" </?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ></?=$roleMaster->role_name;?></option> -->
+                                                        <option value="<?=$roleMaster->role_name;?>" <?= old('type', $type) == $roleMaster->role_name ? 'selected' : '' ?>><?=$roleMaster->role_name;?></option>
                                                     <?php } }?>
                                                 </select>
                                                 <input type="hidden" id="role_id" name="role_id" value="">
@@ -204,14 +214,16 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <div class="col-md-4 col-lg-4">
                                             <label for="dob" class="col-form-label">DOB</label>
                                             <div class="">
-                                                <input type="date" name="dob" class="form-control" id="dob" value="<?=$dob?>" max="<?=date('Y-m-d')?>">
+                                                <!-- <input type="date" name="dob" class="form-control" id="dob" value="</?=$dob?>" max="</?=date('Y-m-d')?>"> -->
+                                                 <input type="date" name="dob" class="form-control" id="dob" value="<?= old('dob', $dob) ?>" max="<?=date('Y-m-d')?>">
                                             </div>
                                         </div>
                                         <!--DOJ field -->
                                         <div class="col-md-4 col-lg-4">
                                             <label for="doj" class="col-form-label">DOJ</label>
                                             <div class="">
-                                                <input type="date" name="doj" class="form-control" id="doj" value="<?=$doj?>" max="<?=date('Y-m-d')?>">
+                                                <!-- <input type="date" name="doj" class="form-control" id="doj" value="</?=$doj?>" max="</?=date('Y-m-d')?>"> -->
+                                                 <input type="date" name="doj" class="form-control" id="doj" value="<?= old('doj', $doj) ?>" max="<?=date('Y-m-d')?>">
                                             </div>
                                         </div>
                                         <!--Status field -->
@@ -219,7 +231,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <div class="general_form_box">
                                                 <label for="status" class="col-form-label">Status <span class="text-danger">*</span></label>
                                                 <div class=" d-flex align-items-center">
-                                                    <input class="me-1" type="radio" name="status" id="status1" value="1" <?=(($status == '1')?'checked':'')?> required> <label class="me-2" for="status1">Active</label>
+                                                    <!-- <input class="me-1" type="radio" name="status" id="status1" value="1" </?=(($status == '1')?'checked':'')?> required> <label class="me-2" for="status1">Active</label> -->
+                                                    <input class="me-1" type="radio" name="status" id="status1" value="1" <?= old('status', $status) == '1' ? 'checked' : '' ?> required> <label class="me-2" for="status1">Active</label>
                                                     <input class="me-1" type="radio" name="status" id="status2" value="0" <?=(($status == '0')?'checked':'')?> required> <label for="status2">Deactive</label>
                                                 </div>
                                             </div>
@@ -245,8 +258,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <div class="general_form_box">
                                                 <label for="is_tracker_user" class="col-form-label">Task Management <span class="text-danger">*</span></label>
                                                 <div class=" d-flex align-items-center">
-                                                    <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user1" <?=(($is_tracker_user == '1')?'checked':'')?> value="1" required> <label class="me-2" for="is_tracker_user1">YES</label>
-                                                    <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user2" <?=(($is_tracker_user == '0')?'checked':'')?> value="0" required> <label for="is_tracker_user2">NO</label>
+                                                    <!-- <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user1" </?=(($is_tracker_user == '1')?'checked':'')?> value="1" required> <label class="me-2" for="is_tracker_user1">YES</label> -->
+                                                    <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user1" value="1" <?= old('is_tracker_user', $is_tracker_user) == '1' ? 'checked' : '' ?> required> <label class="me-2" for="is_tracker_user1">YES</label>
+                                                    <!-- <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user2" </?=(($is_tracker_user == '0')?'checked':'')?> value="0" required> <label for="is_tracker_user2">NO</label> -->
+                                                    <input class="me-1" type="radio" name="is_tracker_user" id="is_tracker_user2" value="0" <?= old('is_tracker_user', $is_tracker_user) == '0' ? 'checked' : '' ?> required> <label for="is_tracker_user2">NO</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -255,8 +270,10 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <div class="general_form_box">
                                                 <label for="is_salarybox_user" class="col-form-label">Mobile App User <span class="text-danger">*</span></label>
                                                 <div class=" d-flex align-items-center">
-                                                    <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?=(($is_salarybox_user == '1')?'checked':'')?> required> <label class="me-2" for="is_salarybox_user1">YES</label>
-                                                    <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0"  <?=(($is_salarybox_user == '0')?'checked':'')?>required> <label for="is_salarybox_user2">NO</label>
+                                                    <!-- <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" </?=(($is_salarybox_user == '1')?'checked':'')?> required> <label class="me-2" for="is_salarybox_user1">YES</label> -->
+                                                    <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?= old('is_salarybox_user', $is_salarybox_user) == '1' ? 'checked' : '' ?> required> <label class="me-2" for="is_salarybox_user1">YES</label>
+                                                    <!-- <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0"  </?=(($is_salarybox_user == '0')?'checked':'')?>required> <label for="is_salarybox_user2">NO</label> -->
+                                                    <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0" <?= old('is_salarybox_user', $is_salarybox_user) == '0' ? 'checked' : '' ?> required> <label for="is_salarybox_user2">NO</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -401,3 +418,157 @@ $(document).ready(function () {
     });
 });
 </script>
+
+<!-- Auto save form data after reload more better-->
+<script>
+  (function () {
+  // Change prefix if you want to scope storage keys per page
+  const STORAGE_PREFIX = 'user_form_';
+
+  document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form'); // assumes single form on page
+    if (!form) return;
+
+    const fields = Array.from(form.querySelectorAll('input[name], select[name], textarea[name]'));
+
+    // Helper to build storage key
+    function key(name) {
+      return STORAGE_PREFIX + name;
+    }
+
+    // Restore values
+    fields.forEach(field => {
+      // skip file inputs and disabled fields
+      if (field.type === 'file' || field.disabled) return;
+
+      const k = key(field.name);
+      const saved = localStorage.getItem(k);
+      if (saved === null) return;
+
+      try {
+        // Radios
+        if (field.type === 'radio') {
+          // saved stores the value that should be checked
+          if (field.value === saved) field.checked = true;
+          return;
+        }
+
+        // Checkboxes (single or array)
+        if (field.type === 'checkbox') {
+          // if name ends with [] -> treat as array JSON
+          if (field.name.endsWith('[]')) {
+            const arr = JSON.parse(saved || '[]');
+            field.checked = arr.includes(field.value);
+          } else {
+            // single checkbox (checked = saved === '1')
+            field.checked = saved === '1';
+          }
+          return;
+        }
+
+        // Select multiple
+        if (field.tagName.toLowerCase() === 'select' && field.multiple) {
+          const arr = JSON.parse(saved || '[]');
+          Array.from(field.options).forEach(opt => opt.selected = arr.includes(opt.value));
+          return;
+        }
+
+        // Others (text, textarea, select single)
+        field.value = saved;
+      } catch (e) {
+        // If JSON parse fails, fallback to string
+        try { field.value = saved; } catch (err) {}
+      }
+    });
+
+    // Save handler for a field
+    function saveField(field) {
+      if (field.type === 'file' || field.disabled) return;
+
+      const k = key(field.name);
+
+      // radio -> store the selected value for the group
+      if (field.type === 'radio') {
+        if (field.checked) {
+          localStorage.setItem(k, field.value);
+        }
+        return;
+      }
+
+      // checkbox
+      if (field.type === 'checkbox') {
+        if (field.name.endsWith('[]')) {
+          // array of values
+          const groupName = field.name;
+          const group = Array.from(form.querySelectorAll('input[type="checkbox"][name="' + groupName + '"]'));
+          const checked = group.filter(ch => ch.checked).map(ch => ch.value);
+          localStorage.setItem(k, JSON.stringify(checked));
+        } else {
+          // single checkbox store '1' or '0'
+          localStorage.setItem(k, field.checked ? '1' : '0');
+        }
+        return;
+      }
+
+      // select multiple
+      if (field.tagName.toLowerCase() === 'select' && field.multiple) {
+        const vals = Array.from(field.options).filter(o => o.selected).map(o => o.value);
+        localStorage.setItem(k, JSON.stringify(vals));
+        return;
+      }
+
+      // regular input/select/textarea
+      localStorage.setItem(k, field.value);
+    }
+
+    // Attach listeners
+    fields.forEach(field => {
+      if (field.type === 'file' || field.disabled) return;
+
+      // for checkboxes and radios use 'change', for text use 'input' so typing saves
+      const ev = (field.type === 'checkbox' || field.type === 'radio' || field.tagName.toLowerCase() === 'select') ? 'change' : 'input';
+      field.addEventListener(ev, () => saveField(field));
+    });
+
+    // On submit: clear saved keys related to this form
+    form.addEventListener('submit', function () {
+      fields.forEach(f => {
+        localStorage.removeItem(key(f.name));
+      });
+    }, true);
+
+    // If there's a success message on the page, clear saved data
+    // Adjust selector if your success message has other classes
+    const successAlert = document.querySelector('.alert-success, .custom-alert.alert-success, .bg-success');
+    if (successAlert) {
+      fields.forEach(f => localStorage.removeItem(key(f.name)));
+    }
+  });
+   })();
+</script>
+
+<!-- Auto save form data after reload -->
+<!-- <script>
+ document.addEventListener('DOMContentLoaded', function () {
+    const form = document.querySelector('form');
+    const fields = form.querySelectorAll('input, select, textarea');
+
+    // Load saved data
+    fields.forEach(field => {
+        const saved = localStorage.getItem(field.name);
+        if (saved && !field.value) field.value = saved;
+    });
+
+    // Save data on input
+    fields.forEach(field => {
+        field.addEventListener('input', () => {
+            localStorage.setItem(field.name, field.value);
+        });
+    });
+
+    // Clear saved data when submitted
+    form.addEventListener('submit', () => {
+        fields.forEach(field => localStorage.removeItem(field.name));
+    });
+ });
+</script> -->
