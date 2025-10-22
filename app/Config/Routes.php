@@ -150,6 +150,13 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin", 'filter'    => 
 		// screenshots settings
 		$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
 		$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
+		// delete account requests
+		$routes->match(['get'], "delete-account-request/list", "DeleteAccountRequestController::list");
+		$routes->match(['get', 'post'], "delete-account-request/delete/(:any)", "DeleteAccountRequestController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "delete-account-request/change-status/(:any)", "DeleteAccountRequestController::change_status/$1");
+		// delete account requests
+		// Access & Permission
+		$routes->match(['get', 'post'], "manage_roles", "Manage_roles::index");
 
 	// });		
 });
@@ -185,7 +192,7 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "manage_modulelist/add", "Manage_modulelist::add");
 	$routes->match(['get', 'post'], "manage_modulelist/edit/(:any)", "Manage_modulelist::edit/$1");
 	$routes->match(['get', 'post'], "manage_modulelist/view/(:any)", "Manage_modulelist::view/$1");
-	$routes->match(['get', 'post'], "manage_roles", "Manage_roles::index");
+	
 
 	$routes->match(['get', 'post'], "manage_roles", "Manage_roles::index");
 	$routes->match(['get', 'post'], "manage_roles/add", "Manage_roles::add");
@@ -268,11 +275,6 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get'], "mobile-application", "MobileController::show");	
 	// mobile-application
 
-	// delete account requests
-	$routes->match(['get'], "delete-account-request/list", "DeleteAccountRequestController::list");
-	$routes->match(['get', 'post'], "delete-account-request/delete/(:any)", "DeleteAccountRequestController::confirm_delete/$1");
-	$routes->match(['get', 'post'], "delete-account-request/change-status/(:any)", "DeleteAccountRequestController::change_status/$1");
-	// delete account requests
 	// notifications
 	$routes->match(['get'], "notifications/list", "NotificationController::list");
 	$routes->match(['get', 'post'], "notifications/add", "NotificationController::add");
