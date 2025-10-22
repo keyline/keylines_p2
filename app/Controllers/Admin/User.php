@@ -19,21 +19,9 @@ class User extends BaseController
     public function login()
     {
         if ($this->request->getMethod() == 'post') {
-        
-            $encrypted = $this->request->getPost('pin');
-            $key = '1234567890123456';
-            $iv  = '1234567890123456';
-
-            $decrypted = openssl_decrypt(base64_decode($encrypted), 'AES-128-CBC', $key, OPENSSL_RAW_DATA, $iv);
-
-            if ($decrypted) {
-                echo "Decrypted password: " . $decrypted;
-            } else {
-                echo "Decryption failed";
-            }
             $input = $this->validate([
                 'email'     => 'required',
-                'pin'  => 'required|min_length[6]'
+                'password'  => 'required|min_length[6]'
             ]);
             if ($input == true) {
                 $conditions = array(
@@ -53,8 +41,7 @@ class User extends BaseController
                     $user_type = $checkEmail->type;
                     $user_name = $checkEmail->name;
                     if ($checkEmail->status == '1') {
-                        // if ($checkEmail->password == md5($this->request->getPost('password'))) {
-                        if ($checkEmail->password == md5($decrypted)) {
+                        if ($checkEmail->password == md5($this->request->getPost('password'))) {
                             $session_data = array(
                                 'user_id'           => $checkEmail->id,
                                 'user_type'         => $checkEmail->type,
@@ -64,7 +51,6 @@ class User extends BaseController
                                 'category'          => $checkEmail->category,
                                 'is_admin_login'    => 1
                             );
-                            // pr($session_data);
                             $this->session->set($session_data);
                             if ($this->session->get('is_admin_login') == 1) {
                                 $fields = array(
