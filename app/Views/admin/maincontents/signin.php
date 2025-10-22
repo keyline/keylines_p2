@@ -150,7 +150,7 @@
               </div>
           <?php }?>
         </div>
-        <form method="POST" action="">
+        <form method="POST" id="loginForm" action="">
           <div class="mb-3">
             <label for="email" class="form-label">Email</label>
             <div class="input-group">

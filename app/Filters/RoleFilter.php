@@ -1,0 +1,37 @@
+<?php
+
+namespace App\Filters;
+
+use CodeIgniter\HTTP\RequestInterface;
+use CodeIgniter\HTTP\ResponseInterface;
+use CodeIgniter\Filters\FilterInterface;
+
+class RoleFilter implements FilterInterface
+{
+    public function before(RequestInterface $request, $arguments = null)
+    {
+        $session = \Config\Services::session();
+        // dd($session->get('user_type'));
+        $userRole = $session->get('user_type'); // set this at login
+
+        // Debug: see what the session has
+        log_message('debug', 'Session data: ' . print_r(session()->get(), true));
+        log_message('debug', 'RoleFilter: user_type = ' . $userRole);
+
+        // If not logged in, send to login
+        if (!$userRole) {
+            return redirect()->to('/login');
+        }
+
+        // If roles are defined in routes and user is not allowed
+        if ($arguments && !in_array($userRole, $arguments)) {
+            return redirect()->to('/admin/dashboard')->with('error_message', 'Unauthorized access');
+        }
+        return;
+    }
+
+    public function after(RequestInterface $request, ResponseInterface $response, $arguments = null)
+    {
+        // nothing needed after
+    }
+}

@@ -231,6 +231,9 @@ $controller_route       = $moduleDetail['controller_route'];
     .accordion-button:not(.collapsed)::after{
         filter: brightness(1) invert(1);
     }
+    .choices{
+        margin-bottom: 0;
+    }
     .choices__inner{
         border-radius: 5px;
         border: 1px solid #ccc;
@@ -241,10 +244,11 @@ $controller_route       = $moduleDetail['controller_route'];
         background: #424242;
         color: #fff;
         padding: 8px 20px;
-        border-radius: 5px
-    }
-    .filter-btn img{
-        margin-right: 5px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-self: center;
+        gap: 5px;
     }
     .filter-btn:hover{
         background: #000;
@@ -259,6 +263,19 @@ $controller_route       = $moduleDetail['controller_route'];
     .general_table_style td a {
         color: #FFF;
     }
+    @media (max-width: 767px) {
+        .filter-btn{
+            padding: 8px 20px;
+        }
+        .filtrable-box {
+            width: 100% !important;
+        }
+    }
+    @media (max-width: 575px) {
+        .filter-btn {
+            padding: 8px 20px 8px 10px;
+        }
+    }
 </style>
 <div class="maze" style="display: none;">
     <canvas id="mazecnv" width="1840" height="1086"></canvas>
@@ -268,8 +285,8 @@ $controller_route       = $moduleDetail['controller_route'];
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <div class="d-flex">
-                <div class="pagetitle me-5">
+            <div class="d-flex justify-content-between flex-wrap">
+                <div class="pagetitle">
                     <h5><?=$page_header?></h5>
                     <nav>
                         <ol class="breadcrumb">
@@ -282,16 +299,14 @@ $controller_route       = $moduleDetail['controller_route'];
                 <div class="filtrable-box mb-3 mb-md-0 w-50">
                     <form method="POST" action="">
                         <div class="row align-items-center">
-                            <div class="col-lg-4 col-md-6 col-sm-8">
+                            <div class="col-lg-12 col-md-12 d-flex align-items-center justify-content-start justify-content-md-end gap-3">
                                 <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
                                     <!-- <option value="0">Only Mine</option> -->
                                     <?php if($all_departments){ foreach($all_departments as $dept){?>
                                         <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
                                     <?php } }?>
                                 </select>
-                            </div>
-                            <div class="col-md-6 col-sm-4" style="margin-left: -10px">
-                                <button type="submit" class="btn filter-btn"><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid" style="width: 15px"> Filter</button>
+                                <button type="submit" class="btn filter-btn"><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid me-0" style="width: 15px"> <span>Filter</span></button>
                             </div>
                         </div>
                     </form>

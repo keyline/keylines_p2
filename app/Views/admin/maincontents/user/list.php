@@ -20,6 +20,24 @@ $controller_route   = $moduleDetail['controller_route'];
 </div>
 <?php if (checkModuleFunctionAccess(4, 20)) { ?>
     <section class="section">
+        <!-- Hidden CSV Upload Form -->
+        <div id="csvUploadDiv" class="card p-3 shadow-sm" style="display: none;">
+            <a href="<?= base_url('public/csv/user.csv') ?>" download="users.csv"  class="btn btn-outline-success btn-sm">
+            Download Template
+            </a>
+            <form id="csvUploadForm" action="<?= base_url('admin/' . $controller_route . '/addbulk') ?>" method="POST" enctype="multipart/form-data">
+                <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
+
+                <div class="mb-3">
+                    <label for="bulkUserCsv" class="form-label">Upload CSV File</label>
+                    <input type="file" name="bulkUserCsv" id="bulkUserCsv" accept=".csv" class="form-control" required>
+                    <div class="form-text">Only CSV files are allowed.</div>
+                </div>
+                <button type="submit" class="btn btn-success w-100">
+                    <i class="fa fa-upload"></i> Upload
+                </button>
+            </form>
+        </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xl-12">
@@ -45,6 +63,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <div class="card-header-left">
                                         <?php if (checkModuleFunctionAccess(4, 21)) { ?>
                                             <h5>
+                                                <button class="btn btn-outline-success btn-sm" id="addBulkUsers">Add Bulk Users</button>
                                                 <a href="<?= base_url('admin/' . $controller_route . '/add/') ?>" class="btn btn-outline-success btn-sm">Add <?= $title ?></a>
                                                 <a href="<?= base_url('admin/' . $controller_route . '/DeactivateUserlist/') ?>" class="btn btn-outline-success btn-sm">Deactivated <?= $title ?>s</a>
                                             </h5>
@@ -192,4 +211,12 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
         </div>
     </section>
+
 <?php   } ?>
+<script>
+ const button = document.getElementById('addBulkUsers');
+ const div = document.getElementById('csvUploadDiv');
+ button.addEventListener("click", ()=>{
+    div.style.display = div.style.display === 'none' ? 'block' : 'none';
+ });
+</script>

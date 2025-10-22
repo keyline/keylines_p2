@@ -24,7 +24,7 @@ class ClientController extends BaseController
             'primary_key'           => 'id'
         );
     }
-    public function list()
+    public function listClients()
     {
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'];
@@ -89,6 +89,7 @@ class ClientController extends BaseController
         $page_name                  = 'client/add-edit';
         $conditions                 = array($this->data['primary_key'] => $id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
+        // pr($data['row']);
         $order_by[0]                = array('field' => 'name', 'type' => 'ASC');
         $data['countries']          = $this->common_model->find_data('countries', 'array', '', 'name', '', '', $order_by);
         $data['users']              = $this->data['model']->find_data('user', 'array', ['status' => '1'], 'id,name', '', '', $order_by);
@@ -143,8 +144,7 @@ class ClientController extends BaseController
                     'phone_2'               => $this->pro->encrypt($this->request->getPost('phone_2')),
                     'dob_day'               => $this->request->getPost('dob_day'),
                     'dob_month'             => $this->request->getPost('dob_month'),
-                    'dob_year'              => $this->request->getPost('dob_year'),
-                    'password_org'          => $this->request->getPost('password'),
+                    'dob_year'              => $this->request->getPost('dob_year'),                    
                     'comment'               => $this->request->getPost('comment'),
                     'reference'             => $this->request->getPost('reference'),
                     'login_access'          => $this->request->getPost('login_access'),
