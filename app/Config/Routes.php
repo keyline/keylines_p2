@@ -147,9 +147,6 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin", 'filter'    => 
 		$routes->match(['get', 'post'], "office-location/delete/(:any)", "OfficeLocationController::confirm_delete/$1");
 		$routes->match(['get', 'post'], "office-location/change-status/(:any)", "OfficeLocationController::change_status/$1");
 		/* office location */
-		// screenshots settings
-		$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
-		$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
 		// delete account requests
 		$routes->match(['get'], "delete-account-request/list", "DeleteAccountRequestController::list");
 		$routes->match(['get', 'post'], "delete-account-request/delete/(:any)", "DeleteAccountRequestController::confirm_delete/$1");
@@ -284,6 +281,11 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "notifications/send/(:any)", "NotificationController::send/$1");
 	$routes->match(['get'], "notifications/list_from_app", "NotificationController::list_from_app");
 	// notifications	
+	
+	// screenshots settings
+	$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
+	$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
+	// screenshots settings
 });
 /* ADMIN PANEL */
 /* API */
