@@ -349,6 +349,9 @@
         margin-left: 3rem;
         align-items: center;
     }
+    .active{
+        margin-left: 0;
+    }
     /* total working time */
     .workCountingContainer{
     display: flex;
@@ -418,6 +421,15 @@
             max-width: 100%;
             border-right: none;
             padding-bottom: 10px;
+        }
+        .timeline-wrapper {
+            width: 1000px
+        }
+        .symbolsContainer {
+            margin-top: 1rem;
+        }
+        .active, .idle, .others {
+            margin-left: 1rem;
         }
     }
 
@@ -1051,16 +1063,16 @@
                                 </div>   
 
                              <!-- SSSSSSSSSSSSSSSSSSSSSSSSSS WORKING TIMELINE GRAPH START SSSSSSSSSSSSSSSSSSSSSSSS  -->
-                                <div class="col-12">
+                                <div class="col-12 overflow-auto">
                                     <div class="timeline-wrapper">
                                         <div class="timeline" id="timeline"></div>
                                         <div class="hours" id="hours"></div>
                                     </div>
-                                    <div class="symbolsContainer">
-                                        <div class="active"><div class="activeColor"></div> <div>Active</div></div>
-                                        <div class="idle"><div class="idleColor"></div> <div>Idle</div></div>
-                                        <div class="others"><div class="othersColor"></div> <div>Others</div></div>
-                                    </div>
+                                </div>
+                                <div class="symbolsContainer">
+                                    <div class="active"><div class="activeColor"></div> <div>Active</div></div>
+                                    <div class="idle"><div class="idleColor"></div> <div>Idle</div></div>
+                                    <div class="others"><div class="othersColor"></div> <div>Others</div></div>
                                 </div>
                                 <?php
                                 $segments = [];
@@ -1263,7 +1275,7 @@
                                                     <?php } ?>
 
                                                     <div class="card-body">
-                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i:s A', strtotime($screenshot['time_stamp'])) ?></p>
+                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
                                                         <!-- <p class="card-text mb-0 screenshort_app_name"><?= $screenshot['active_app_name']; ?></p> -->
                                                     </div>
                                                 <?php } else { ?>
@@ -1271,7 +1283,7 @@
                                                         <img src="<?= getenv('app.uploadsURL') . '/idle.jpg'?>" class="card-img-top img-fluid rounded" alt="Screenshot image">
                                                     </a>
                                                     <div class="card-body">
-                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i:s A', strtotime($screenshot['time_stamp'])) ?></p>
+                                                        <p class="card-text mb-0 screenshort_date"><?= date('F j, Y \a\t h:i A', strtotime($screenshot['time_stamp'])) ?></p>
                                                     </div>
                                                 <?php } ?>
 
