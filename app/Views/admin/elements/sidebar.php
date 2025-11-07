@@ -97,16 +97,16 @@ $userId             = $session->user_id;
       </li>
         <?php if (checkModuleAccess(12)) { ?>
            <li>
-        <a class="?= (($pageSegment == 'manage_functionlist') ? 'active' : '') ?>"
-          href="?= base_url('admin/manage_functionlist') ?>">
+        <a class="<?= (($pageSegment == 'manage_functionlist') ? 'active' : '') ?>"
+          href="<?= base_url('admin/manage_functionlist') ?>">
           <i class="fa fa-arrow-right"></i><span>Features</span>
         </a>
       </li>
       <?php } ?>
       <?php if (checkModuleAccess(13)) { ?>
       <li>
-        <a class="?= (($pageSegment == 'manage_modulelist') ? 'active' : '') ?>"
-          href="?= base_url('admin/manage_modulelist') ?>">
+        <a class="<?= (($pageSegment == 'manage_modulelist') ? 'active' : '') ?>"
+          href="<?= base_url('admin/manage_modulelist') ?>">
           <i class="fa fa-arrow-right"></i><span>Modules</span>
         </a>
       </li>
