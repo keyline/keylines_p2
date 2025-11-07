@@ -89,14 +89,14 @@ $userId             = $session->user_id;
             </a>
           </li>
         <?php } ?>
-        <!-- <li>
+        <li>
         <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>"
           href="javascript:void(0)">
           <span class="link_name">Access & Permission</span>
         </a>
-      </li> -->
+      </li>
         <?php if (checkModuleAccess(12)) { ?>
-          <!-- <li>
+           <li>
         <a class="?= (($pageSegment == 'manage_functionlist') ? 'active' : '') ?>"
           href="?= base_url('admin/manage_functionlist') ?>">
           <i class="fa fa-arrow-right"></i><span>Features</span>
@@ -110,7 +110,7 @@ $userId             = $session->user_id;
           <i class="fa fa-arrow-right"></i><span>Modules</span>
         </a>
       </li>
-      <?php } ?> -->
+      <?php } ?> 
           <?php if (checkModuleAccess(28)) { ?>
             <li>
               <a class="<?= (($pageSegment == 'role-master') ? 'active' : '') ?>"
