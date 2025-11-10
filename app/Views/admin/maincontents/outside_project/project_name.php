@@ -36,6 +36,7 @@ $controller_route   = $moduleDetail['controller_route'];
     </div>
 </div>
 <!-- End Page Title -->
+ <?php if(checkModuleFunctionAccess(34,91)){ ?>
 <section class="section profile">
     <div class="container-fluid">
         <div class="row">
@@ -152,6 +153,7 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
+<?php } ?>
 <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">

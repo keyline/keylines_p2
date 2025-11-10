@@ -18,6 +18,7 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </div>
+<?php if(checkModuleFunctionAccess(6,33)){ ?>
 <section class="section">
     <div class="container-fluid">
         <div class="row">
@@ -37,12 +38,14 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
             <div class="col-lg-12">
                 <div class="card table-card">
+                    <?php if(checkModuleFunctionAccess(6,34)){ ?>
                     <div class="card-header">
                         <h5>
                             <a href="<?= base_url('admin/' . $controller_route . '/add/') ?>" class="btn btn-outline-success btn-sm">Add <?= $title ?></a>
                             <!-- <a href="<?= base_url('admin/' . $controller_route . '/encrypt-info/') ?>" class="btn btn-info btn-sm" style="float: right;">Encrypt Client Email & Phone</a> -->
                         </h5>
                     </div>
+                    <?php } ?>
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
                             <table id="simpletable" class="table padding-y-10 general_table_style">
@@ -103,8 +106,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <?php    }  ?>
                                                 </td>
                                                 <td>
+                                                    <?php if(checkModuleFunctionAccess(6,55)){ ?>
                                                     <a href="<?= base_url('admin/' . $controller_route . '/edit/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-primary btn-sm" title="Edit <?= $title ?>"><i class="fa fa-edit"></i></a>
-                                                    <!-- <a href="<?= base_url('admin/' . $controller_route . '/delete/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-danger btn-sm" title="Delete <?= $title ?>" onclick="return confirm('Do You Want To Delete This <?= $title ?>');"><i class="fa fa-trash"></i></a> -->
+                                                    <?php } ?>
+                                                    <?php if(checkModuleFunctionAccess(6,108)){ ?>
+                                                    <a href="<?= base_url('admin/' . $controller_route . '/delete/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-danger btn-sm" title="Delete <?= $title ?>" onclick="return confirm('Do You Want To Delete This <?= $title ?>');"><i class="fa fa-trash"></i></a>
+                                                    <?php } ?>
                                                 </td>
                                             </tr>
                                     <?php }
@@ -118,3 +125,4 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
+<?php } ?>

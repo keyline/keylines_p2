@@ -93,7 +93,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <th scope="col">Tracker User</th>
                                             <th scope="col">App User</th>
                                             <th scope="col">Attendence Type</th>
+                                            <?php if(checkModuleFunctionAccess(4,22) || checkModuleFunctionAccess(4,23) || checkModuleFunctionAccess(4,24) || checkModuleFunctionAccess(4,25) || checkModuleFunctionAccess(4,58)){ ?>
                                             <th scope="col">Action</th>
+                                            <?php } ?>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -179,6 +181,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                             } ?>
                                                         </ul>
                                                     </td>
+                                                    <?php if(checkModuleFunctionAccess(4,22) || checkModuleFunctionAccess(4,23) || checkModuleFunctionAccess(4,24) || checkModuleFunctionAccess(4,25) || checkModuleFunctionAccess(4,58)){ ?>
                                                     <td>
                                                         <?php if (checkModuleFunctionAccess(4, 22)) { ?>
                                                             <a href="<?= base_url('admin/' . $controller_route . '/edit/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-primary btn-sm" title="Edit <?= $title ?>"><i class="fa fa-edit"></i></a>
@@ -199,6 +202,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                             <a href="<?= base_url('admin/users/send-credentials/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-secondary btn-sm" onclick="return confirm('Do you want to reset password & send credentials ?');"><i class="fa fa-envelope"></i></a>
                                                         <?php   } ?>
                                                     </td>
+                                                    <?php } ?>
                                                 </tr>
                                         <?php }
                                         } ?>

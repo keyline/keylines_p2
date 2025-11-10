@@ -18,6 +18,7 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </div>
+<?php if(checkModuleFunctionAccess(35,92)){ ?>
 <section class="section">
     <div class="container-fluid">
         <div class="row">
@@ -152,3 +153,4 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
+<?php } ?>
