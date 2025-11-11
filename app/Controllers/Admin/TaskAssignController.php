@@ -29,6 +29,13 @@ class TaskAssignController extends BaseController {
     /* task list */
         public function task_list()
         {
+            if (!$this->common_model->checkModuleFunctionAccess(36, 93)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }            
             $data['moduleDetail']       = $this->data;
             $title                      = 'Manage '.$this->data['title'];
             $page_name                  = 'task-assign/list';
@@ -98,6 +105,13 @@ class TaskAssignController extends BaseController {
     /* task list */
     /* task add */
         public function morning_meeting_schedule_submit(){
+            if (!$this->common_model->checkModuleFunctionAccess(36, 94)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }
             $apiStatus          = TRUE;
             $apiMessage         = '';
             $apiResponse        = [];

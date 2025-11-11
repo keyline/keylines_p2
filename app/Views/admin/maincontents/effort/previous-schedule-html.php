@@ -311,9 +311,10 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                                                 ?>
                                                                 <?php if($getTask->work_status_id == 0){?>
                                                                     <?php if($effortIcon == 1){?>
+                                                                        <?php if(checkModuleFunctionAccess(36,94)){ ?>
                                                                         <br>
                                                                         <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
-                                                                    <?php }?>
+                                                                    <?php } } ?>
                                                                 <?php }?>
                                                             </p>
                                                         </div>
@@ -354,10 +355,11 @@ $generalSetting             = $common_model->find_data('general_settings', 'row'
                                         ?>
 
                                          <?php if($effortIcon == 1){?>
+                                            <?php if(checkModuleFunctionAccess(36,94)){ ?>
                                             <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                 <i class="fa-solid fa-plus-circle"></i> Add Effort
                                             </a>
-                                        <?php }?>
+                                        <?php } }?>
                                         <!-- <?php
                                         $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => $yesterday, 'is_leave>' => 0], 'is_leave');
                                         if(!$getLeaveTask){

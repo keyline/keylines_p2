@@ -24,6 +24,13 @@ class AmcCheckingController extends BaseController {
     }
     public function list()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(35, 92)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'amc-checking';

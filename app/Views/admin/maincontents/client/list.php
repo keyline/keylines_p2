@@ -56,7 +56,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <th>Address</th>
                                         <th>Reference Emails Phones </th>
                                         <th>Added Last Login</th>
+                                        <?php if(checkModuleFunctionAccess(6,113) || checkModuleFunctionAccess(6,114)) { ?>
                                         <th class="text-center">Document</th>
+                                        <?php } ?>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -69,9 +71,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <td>
                                                     <?=$pro->decrypt($row->name)?><br>
                                                     <?php $projectCount = $common_model->find_data('project', 'count', ['client_id' => $row->id], 'id'); ?>
+                                                    <?php if(checkModuleFunctionAccess(6,112)) { ?>
                                                     <a href="<?= base_url('admin/' . $controller_route . '/add-project/' . base64_encode($row->id)) ?>" target="_blank" class="btn btn-info btn-sm d-inline-flex align-items-center" style="height: 20px;font-size: 12px;">
                                                         <i class="bi bi-plus-circle me-1"></i> Add Project
                                                     </a><br>
+                                                    <?php } ?>
                                                     <span class="badge bg-warning mt-1"><?= $projectCount ?> Projects</span>
                                                     <span class="badge mt-1 <?= (($row->login_access == '1') ? 'bg-success' : 'bg-danger') ?>"><?= (($row->login_access == '1') ? ' Login Access: YES' : 'Login Access: NO') ?></span><br>
                                                 </td>
@@ -95,16 +99,21 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <hr>
                                                     <?= (($row->last_login != '0000-00-00 00:00:00') ? date_format(date_create($row->last_login), "M d, Y h:i A") : '') ?>
                                                 </td>
+                                                <?php if(checkModuleFunctionAccess(6,113) || checkModuleFunctionAccess(6,114)) { ?>
                                                 <td class="text-center">
+                                                    <?php if(checkModuleFunctionAccess(6,113)){ ?>
                                                     <a href="<?= base_url('admin/' . $controller_route . '/add-proposal/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-success btn-sm" title="Add Proposal"><i class="fa fa-plus"></i></a>
+                                                    <?php } ?>
                                                     <?php
                                                     $sql = "SELECT COUNT(file) as totalFile FROM proposal_files WHERE client_id=" . $row->$primary_key;
                                                     $res = $db->query($sql)->getRow();
                                                     if ($res->totalFile > 0) {   ?>
+                                                        <?php if(checkModuleFunctionAccess(6,114)){ ?>
                                                         <a target="_blank" href="<?= base_url('admin/' . $controller_route . '/view-proposal/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-info btn-sm" title="View Proposal"><i class="fa fa-eye"></i></a>
                                                         <span class="badge bg-success mt-1"> <?= 'Total Document: ' . $res->totalFile ?? null ?></span>
-                                                    <?php    }  ?>
+                                                    <?php    }  } ?>
                                                 </td>
+                                                <?php } ?>
                                                 <td>
                                                     <?php if(checkModuleFunctionAccess(6,55)){ ?>
                                                     <a href="<?= base_url('admin/' . $controller_route . '/edit/' . encoded($row->$primary_key)) ?>" class="btn btn-outline-primary btn-sm" title="Edit <?= $title ?>"><i class="fa fa-edit"></i></a>
