@@ -1571,86 +1571,173 @@ class ApiController extends BaseController
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
+    // public function updateProfileImage()
+    // {
+    //     $apiStatus          = TRUE;
+    //     $apiMessage         = '';
+    //     $apiResponse        = [];
+    //     $this->isJSON(file_get_contents('php://input'));
+    //     $requestData        = $this->extract_json(file_get_contents('php://input'));
+    //     $requiredFields     = ['profile_image'];
+    //     $headerData         = $this->request->headers();
+    //     if (!$this->validateArray($requiredFields, $requestData)) {
+    //         $apiStatus          = FALSE;
+    //         $apiMessage         = 'All Data Are Not Present !!!';
+    //     }
+    //     if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+    //         $Authorization              = $headerData['Authorization'];
+    //         $app_access_token           = $this->extractToken($Authorization);
+    //         $getTokenValue              = $this->tokenAuth($app_access_token);
+    //         if ($getTokenValue['status']) {
+    //             $uId        = $getTokenValue['data'][1];
+    //             $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+    //             $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+    //             if ($getUser) {
+    //                 $profile_image_post                            = $requestData['profile_image'];
+    //                 /* profile image */
+    //                 if (!empty($profile_image_post)) {
+    //                     $profile_image      = $profile_image_post[0];
+    //                     $upload_type        = $profile_image['type'];
+    //                     if ($upload_type != 'image/jpeg' && $upload_type != 'image/jpg' && $upload_type != 'image/png') {
+    //                         $apiStatus          = FALSE;
+    //                         http_response_code(404);
+    //                         $apiMessage         = 'Please Upload Profile Image !!!';
+    //                         $apiExtraField      = 'response_code';
+    //                         $apiExtraData       = http_response_code();
+    //                     } else {
+    //                         $upload_base64      = $profile_image['base64'];
+    //                         $img                = $upload_base64;
+
+    //                         $data           = base64_decode($img);
+    //                         $fileName       = uniqid() . '.jpg';
+    //                         $file           = 'public/uploads/user/' . $fileName;
+    //                         $success        = file_put_contents($file, $data);
+    //                         $profileImage   = $fileName;
+    //                     }
+    //                 } else {
+    //                     $profileImage = $getUser->profile_image;
+    //                 }
+    //                 /* profile image */
+    //                 $fields = [
+    //                     'profile_image'                            => $profileImage,
+    //                 ];
+    //                 $this->common_model->save_data('user', $fields, $uId, 'id');
+
+    //                 $apiStatus          = TRUE;
+    //                 http_response_code(200);
+    //                 $apiMessage         = 'Profle Image Updated Successfully !!!';
+    //                 $apiExtraField      = 'response_code';
+    //                 $apiExtraData       = http_response_code();
+    //             } else {
+    //                 $apiStatus          = FALSE;
+    //                 http_response_code(404);
+    //                 $apiMessage         = 'User Not Found !!!';
+    //                 $apiExtraField      = 'response_code';
+    //                 $apiExtraData       = http_response_code();
+    //             }
+    //         } else {
+    //             http_response_code($getTokenValue['data'][2]);
+    //             $apiStatus                      = FALSE;
+    //             $apiMessage                     = $this->getResponseCode(http_response_code());
+    //             $apiExtraField                  = 'response_code';
+    //             $apiExtraData                   = http_response_code();
+    //         }
+    //     } else {
+    //         http_response_code(400);
+    //         $apiStatus          = FALSE;
+    //         $apiMessage         = $this->getResponseCode(http_response_code());
+    //         $apiExtraField      = 'response_code';
+    //         $apiExtraData       = http_response_code();
+    //     }
+    //     $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    // }
     public function updateProfileImage()
-    {
-        $apiStatus          = TRUE;
-        $apiMessage         = '';
-        $apiResponse        = [];
-        $this->isJSON(file_get_contents('php://input'));
-        $requestData        = $this->extract_json(file_get_contents('php://input'));
-        $requiredFields     = ['profile_image'];
-        $headerData         = $this->request->headers();
-        if (!$this->validateArray($requiredFields, $requestData)) {
-            $apiStatus          = FALSE;
-            $apiMessage         = 'All Data Are Not Present !!!';
-        }
-        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
-            $Authorization              = $headerData['Authorization'];
-            $app_access_token           = $this->extractToken($Authorization);
-            $getTokenValue              = $this->tokenAuth($app_access_token);
-            if ($getTokenValue['status']) {
-                $uId        = $getTokenValue['data'][1];
-                $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                if ($getUser) {
-                    $profile_image_post                            = $requestData['profile_image'];
-                    /* profile image */
-                    if (!empty($profile_image_post)) {
-                        $profile_image      = $profile_image_post[0];
-                        $upload_type        = $profile_image['type'];
-                        if ($upload_type != 'image/jpeg' && $upload_type != 'image/jpg' && $upload_type != 'image/png') {
-                            $apiStatus          = FALSE;
-                            http_response_code(404);
-                            $apiMessage         = 'Please Upload Profile Image !!!';
-                            $apiExtraField      = 'response_code';
-                            $apiExtraData       = http_response_code();
-                        } else {
-                            $upload_base64      = $profile_image['base64'];
-                            $img                = $upload_base64;
+{
+    $apiStatus   = TRUE;
+    $apiMessage  = '';
+    $apiResponse = [];
 
-                            $data           = base64_decode($img);
-                            $fileName       = uniqid() . '.jpg';
-                            $file           = 'public/uploads/user/' . $fileName;
-                            $success        = file_put_contents($file, $data);
-                            $profileImage   = $fileName;
-                        }
-                    } else {
-                        $profileImage = $getUser->profile_image;
+    $headerData  = $this->request->headers();
+
+    if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+        $Authorization      = $headerData['Authorization'];
+        $app_access_token   = $this->extractToken($Authorization);
+        $getTokenValue      = $this->tokenAuth($app_access_token);
+
+        if ($getTokenValue['status']) {
+            $uId    = $getTokenValue['data'][1];
+            $expiry = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+            $getUser = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+
+            if ($getUser) {
+                $profileImage = $getUser->profile_image;
+
+                // ✅ Handle form-data file upload
+                if (isset($_FILES['profile_image']) && $_FILES['profile_image']['error'] == 0) {
+                    $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+                    $fileType     = $_FILES['profile_image']['type'];
+                    $fileTmp      = $_FILES['profile_image']['tmp_name'];
+                    $fileExt      = pathinfo($_FILES['profile_image']['name'], PATHINFO_EXTENSION);
+                    $uploadDir    = FCPATH . 'public/uploads/user/';
+                    $fileName     = uniqid() . '.' . strtolower($fileExt);
+                    $uploadPath   = $uploadDir . $fileName;
+
+                    if (!in_array($fileType, $allowedTypes)) {
+                        $apiStatus  = FALSE;
+                        http_response_code(400);
+                        $apiMessage = 'Please upload a valid profile image (jpg, jpeg, png)';
+                        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+                        return;
                     }
-                    /* profile image */
-                    $fields = [
-                        'profile_image'                            => $profileImage,
-                    ];
-                    $this->common_model->save_data('user', $fields, $uId, 'id');
 
-                    $apiStatus          = TRUE;
-                    http_response_code(200);
-                    $apiMessage         = 'Profle Image Updated Successfully !!!';
-                    $apiExtraField      = 'response_code';
-                    $apiExtraData       = http_response_code();
-                } else {
-                    $apiStatus          = FALSE;
-                    http_response_code(404);
-                    $apiMessage         = 'User Not Found !!!';
-                    $apiExtraField      = 'response_code';
-                    $apiExtraData       = http_response_code();
+                    // Create folder if not exists
+                    if (!is_dir($uploadDir)) {
+                        mkdir($uploadDir, 0777, TRUE);
+                    }
+
+                    if (move_uploaded_file($fileTmp, $uploadPath)) {
+                        // ✅ Remove old image if exists
+                        if (!empty($getUser->profile_image) && file_exists($uploadDir . $getUser->profile_image)) {
+                            @unlink($uploadDir . $getUser->profile_image);
+                        }
+                        $profileImage = $fileName;
+                    } else {
+                        $apiStatus  = FALSE;
+                        http_response_code(500);
+                        $apiMessage = 'Failed to upload profile image.';
+                        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+                        return;
+                    }
                 }
+
+                // ✅ Update database
+                $fields = [
+                    'profile_image' => $profileImage,
+                ];
+                $this->common_model->save_data('user', $fields, $uId, 'id');
+
+                $apiStatus  = TRUE;
+                http_response_code(200);
+                $apiMessage = 'Profile image updated successfully!';
             } else {
-                http_response_code($getTokenValue['data'][2]);
-                $apiStatus                      = FALSE;
-                $apiMessage                     = $this->getResponseCode(http_response_code());
-                $apiExtraField                  = 'response_code';
-                $apiExtraData                   = http_response_code();
+                $apiStatus  = FALSE;
+                http_response_code(404);
+                $apiMessage = 'User not found!';
             }
         } else {
-            http_response_code(400);
-            $apiStatus          = FALSE;
-            $apiMessage         = $this->getResponseCode(http_response_code());
-            $apiExtraField      = 'response_code';
-            $apiExtraData       = http_response_code();
+            http_response_code($getTokenValue['data'][2]);
+            $apiStatus  = FALSE;
+            $apiMessage = $this->getResponseCode(http_response_code());
         }
-        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    } else {
+        http_response_code(400);
+        $apiStatus  = FALSE;
+        $apiMessage = $this->getResponseCode(http_response_code());
     }
+
+    $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+}
+
     public function getHoliday()
     {
         $apiStatus          = TRUE;
