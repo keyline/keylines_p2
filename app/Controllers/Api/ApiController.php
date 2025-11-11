@@ -1871,284 +1871,484 @@ class ApiController extends BaseController
         }
         $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
+    // public function markAttendance()
+    // {
+    //     $apiStatus          = TRUE;
+    //     $apiMessage         = '';
+    //     $apiResponse        = [];
+    //     $this->isJSON(file_get_contents('php://input'));
+    //     $requestData        = $this->extract_json(file_get_contents('php://input'));
+    //     $requiredFields     = ['punch_type', 'latitude', 'longitude', 'userImage'];
+    //     $headerData         = $this->request->headers();
+    //     if (!$this->validateArray($requiredFields, $requestData)) {
+    //         $apiStatus          = FALSE;
+    //         $apiMessage         = 'All Data Are Not Present !!!';
+    //     }
+    //     if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
+            
+    //         $Authorization              = $headerData['Authorization'];
+    //         $app_access_token           = $this->extractToken($Authorization);
+    //         $getTokenValue              = $this->tokenAuth($app_access_token);
+    //         if ($getTokenValue['status']) {
+    //             $uId        = $getTokenValue['data'][1];
+    //             $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
+    //             $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+    //             if ($getUser) {
+    //                 $punch_type = $requestData['punch_type'];
+    //                 $latitude   = $requestData['latitude'];
+    //                 $longitude  = $requestData['longitude'];
+
+    //                 $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
+    //                 $checkPunchIn = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => date('Y-m-d'), 'status' => 1], '', '', '', $orderBy);
+    //                 if (!$checkPunchIn) {
+    //                     $fields = [
+    //                         'user_id' => $uId,
+    //                         'punch_date' => date('Y-m-d'),
+    //                     ];
+    //                     $attenId = $this->common_model->save_data('attendances', $fields, '', 'id');
+    //                     $punch_type = 1;
+    //                 } else {
+    //                     $attenId = $checkPunchIn->id;
+    //                     $punch_type = $punch_type;
+    //                 }
+    //                 /* profile image */
+    //                     $profile_image_post                            = $requestData['userImage'];
+    //                     if (!empty($profile_image_post)) {
+    //                         $profile_image      = $profile_image_post;
+    //                         $upload_type        = $profile_image['type'];
+    //                         if ($upload_type != 'image/jpeg' && $upload_type != 'image/jpg' && $upload_type != 'image/png') {
+    //                             $apiStatus          = FALSE;
+    //                             http_response_code(200);
+    //                             $apiMessage         = 'Please Upload Image !!!';
+    //                             $apiExtraField      = 'response_code';
+    //                             $apiExtraData       = http_response_code();
+    //                         } else {
+    //                             $upload_base64      = $profile_image['base64'];
+    //                             $img                = $upload_base64;
+
+    //                             $data           = base64_decode($img);
+    //                             $fileName       = uniqid() . '.jpg';
+    //                             $file           = 'public/uploads/user/' . $fileName;
+    //                             $success        = file_put_contents($file, $data);
+    //                             $user_image     = $fileName;
+    //                         }
+    //                     } else {
+    //                         $apiStatus          = FALSE;
+    //                         http_response_code(200);
+    //                         $apiMessage         = 'Please Upload Image !!!';
+    //                         $apiExtraField      = 'response_code';
+    //                         $apiExtraData       = http_response_code();
+    //                     }
+    //                 /* profile image */
+
+    //                 $attendence_type = json_decode($getUser->attendence_type);
+    //                 if (!empty($attendence_type)) {
+    //                     $attendanceGivenStatus  = 1;
+    //                     $address                = $this->geolocationaddress($latitude, $longitude);
+    //                     if ($attendanceGivenStatus) {
+    //                         $punch_date = date('Y-m-d');
+    //                         $orderBy = [['field' => 'id', 'type' => 'DESC']];
+    //                         $AdminUsers         = $this->db->query("SELECT * FROM `user` WHERE `status` = '1' AND `type` IN ('SUPER ADMIN', 'ADMIN') ORDER BY `id` DESC")->getResult();
+    //                         foreach ($AdminUsers as $user) {
+    //                             $orderBy = [['field' => 'id', 'type' => 'DESC']];
+    //                             $userdevice = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $user->id], '', '', '', $orderBy);
+    //                             if (!empty($userdevice) && isset($userdevice->fcm_token) && isset($userdevice->device_type)) {
+    //                                 // Add the token and device_type for this user to the collective array
+    //                                 $allLastUserDevices[] = [
+    //                                     'id' => $userdevice->user_id,
+    //                                     'token' => $userdevice->fcm_token,
+    //                                     'device_type' => $userdevice->device_type
+    //                                 ];
+    //                             }
+    //                         }
+                            
+    //                         if ($punch_type == 1) {
+    //                             $punch_in_time      = date('H:i:s');
+    //                             $punch_in_lat       = $latitude;
+    //                             $punch_in_lng       = $longitude;
+    //                             $punch_in_address   = $address;
+
+    //                             $from_time          = strtotime($punch_date . " " . $punch_in_time);
+    //                             $to_time            = strtotime($punch_date . " 23:59:00");
+    //                             $attendance_time    = round(abs($to_time - $from_time) / 60, 2);
+
+    //                             $fields2 = [
+    //                                 'punch_in_time'         => $punch_in_time,
+    //                                 'punch_in_lat'          => $punch_in_lat,
+    //                                 'punch_in_lng'          => $punch_in_lng,
+    //                                 'punch_in_address'      => $punch_in_address,
+    //                                 'punch_in_image'        => $user_image,
+    //                                 'punch_out_time'        => '',
+    //                                 'punch_out_lat'         => '',
+    //                                 'punch_out_lng'         => '',
+    //                                 'punch_out_address'     => '',
+    //                                 'punch_out_image'       => '',
+    //                                 'status'                => 1,
+    //                                 'attendance_time'       => $attendance_time,
+    //                             ];
+    //                             // pr($fields2);
+    //                             $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+    //                             $apiMessage         = 'Attendance Punch In Successfully !!!';
+    //                             $apiStatus          = TRUE;
+    //                             http_response_code(200);
+    //                             // Send Notification
+    //                             if (!empty($allLastUserDevices)) {
+    //                                 $title = $getUser->name;
+    //                                 $body  = 'Punch In at ' . date('h:i A');
+    //                                 // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
+
+    //                                 $allResults = [];
+    //                                 foreach ($allLastUserDevices as $record) {
+    //                                     $token = $record['token'];
+    //                                     $device_type = $record['device_type'];
+
+    //                                     // Call sendCommonPushNotification for each record
+    //                                     $notificationResponse = $this->sendCommonPushNotification(
+    //                                         $token, // Pass single token
+    //                                         $title,
+    //                                         $body,
+    //                                         'attendance',
+    //                                         '',
+    //                                         $device_type // Pass device type for this specific token
+    //                                     );
+    //                                     $allResults[$token] = $notificationResponse->getJSON();
+    //                                 }
+    //                                 // pr($allResults); // Show results for all notifications
+    //                             }
+    //                             // if (!empty($deviceToken)) {
+    //                             //     $title = 'Punch In Successful';
+    //                             //     $body  = 'Hello ' . $getUser->name . ', your punch-in was recorded at ' . date('h:i A');
+    //                             //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
+    //                             // }
+
+    //                         } elseif ($punch_type == 2) {
+    //                             $punch_out_time      = date('H:i:s');
+    //                             $punch_out_lat       = $latitude;
+    //                             $punch_out_lng       = $longitude;
+    //                             $punch_out_address   = $address;
+
+    //                             $punch_in_time      = $checkPunchIn->punch_in_time;
+    //                             $from_time          = strtotime($punch_date . " " . $punch_in_time);
+    //                             $to_time            = strtotime($punch_date . " " . $punch_out_time);
+    //                             $attendance_time    = round(abs($to_time - $from_time) / 60, 2);
+
+    //                             $fields2 = [
+    //                                 'punch_out_time'        => $punch_out_time,
+    //                                 'punch_out_lat'         => $punch_out_lat,
+    //                                 'punch_out_lng'         => $punch_out_lng,
+    //                                 'punch_out_address'     => $punch_out_address,
+    //                                 'punch_out_image'       => $user_image,
+    //                                 'status'                => 2,
+    //                                 'attendance_time'       => $attendance_time,
+    //                             ];
+    //                             $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+    //                             $apiMessage         = 'Punch Out Successfully !!!';
+    //                             $apiStatus          = TRUE;
+    //                             http_response_code(200);
+    //                             // Send Notification
+    //                             if (!empty($allLastUserDevices)) {
+    //                                 $title = $getUser->name;
+    //                                 $body  = 'Punch Out at ' . date('h:i A');
+    //                                 // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
+
+    //                                 $allResults = [];
+    //                                 foreach ($allLastUserDevices as $record) {
+    //                                     $token = $record['token'];
+    //                                     $device_type = $record['device_type'];
+
+    //                                     // Call sendCommonPushNotification for each record
+    //                                     $notificationResponse = $this->sendCommonPushNotification(
+    //                                         $token, // Pass single token
+    //                                         $title,
+    //                                         $body,
+    //                                         'attendance',
+    //                                         '',
+    //                                         $device_type // Pass device type for this specific token
+    //                                     );
+    //                                     $allResults[$token] = $notificationResponse->getJSON();
+    //                                 }
+    //                                 // pr($allResults); // Show results for all notifications
+    //                             }
+    //                             // if (!empty($deviceToken)) {
+    //                             //     $title = 'Punch Out Successful';
+    //                             //     $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
+    //                             //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
+    //                             // }
+    //                         } else {
+    //                             $punch_out_time     = date('H:i:s');
+    //                             $punch_in_lat       = $latitude;
+    //                             $punch_in_lng       = $longitude;
+    //                             $punch_in_address   = $address;
+
+    //                             $fields2 = [
+    //                                 'punch_out_time'        => $punch_out_time,
+    //                                 'punch_out_lat'         => $punch_out_lat,
+    //                                 'punch_out_lng'         => $punch_out_lng,
+    //                                 'punch_out_address'     => $punch_out_address,
+    //                                 'punch_out_image'       => $user_image,
+    //                                 'status'                => 2,
+    //                             ];
+    //                             $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+    //                             $apiMessage         = 'Punch Out Successfully !!!';
+    //                             $apiStatus          = TRUE;
+    //                             http_response_code(200);
+    //                             // Send Notification
+    //                             if (!empty($allLastUserDevices)) {
+    //                                 $title = $getUser->name;
+    //                                 $body  = 'Punch Out at ' . date('h:i A');
+    //                                 // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
+
+    //                                 $allResults = [];
+    //                                 foreach ($allLastUserDevices as $record) {
+    //                                     $token = $record['token'];
+    //                                     $device_type = $record['device_type'];
+
+    //                                     // Call sendCommonPushNotification for each record
+    //                                     $notificationResponse = $this->sendCommonPushNotification(
+    //                                         $token, // Pass single token
+    //                                         $title,
+    //                                         $body,
+    //                                         'attendance',
+    //                                         '',
+    //                                         $device_type // Pass device type for this specific token
+    //                                     );
+    //                                     $allResults[$token] = $notificationResponse->getJSON();
+    //                                 }
+    //                             }
+    //                         }
+    //                     } else {
+    //                         $apiStatus          = FALSE;
+    //                         http_response_code(200);
+    //                     }
+    //                 } else {
+    //                     $apiStatus          = FALSE;
+    //                     http_response_code(200);
+    //                     $apiMessage         = 'Please Contact System Administrator For Attendance Type Update !!!';
+    //                 }
+    //                 $apiExtraField      = 'response_code';
+    //                 $apiExtraData       = http_response_code();
+    //             } else {
+    //                 $apiStatus          = FALSE;
+    //                 http_response_code(200);
+    //                 $apiMessage         = 'User Not Found !!!';
+    //                 $apiExtraField      = 'response_code';
+    //                 $apiExtraData       = http_response_code();
+    //             }
+    //         } else {
+    //             http_response_code($getTokenValue['data'][2]);
+    //             $apiStatus                      = FALSE;
+    //             $apiMessage                     = $this->getResponseCode(http_response_code());
+    //             $apiExtraField                  = 'response_code';
+    //             $apiExtraData                   = http_response_code();
+    //         }
+    //     } else {
+    //         http_response_code(400);
+    //         $apiStatus          = FALSE;
+    //         $apiMessage         = $this->getResponseCode(http_response_code());
+    //         $apiExtraField      = 'response_code';
+    //         $apiExtraData       = http_response_code();
+    //     }
+    //     $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    // }
     public function markAttendance()
     {
-        $apiStatus          = TRUE;
-        $apiMessage         = '';
-        $apiResponse        = [];
-        $this->isJSON(file_get_contents('php://input'));
-        $requestData        = $this->extract_json(file_get_contents('php://input'));
-        $requiredFields     = ['punch_type', 'latitude', 'longitude', 'userImage'];
-        $headerData         = $this->request->headers();
-        if (!$this->validateArray($requiredFields, $requestData)) {
-            $apiStatus          = FALSE;
-            $apiMessage         = 'All Data Are Not Present !!!';
-        }
-        if ($headerData['Key'] == 'Key: ' . getenv('app.PROJECTKEY')) {
-            
-            $Authorization              = $headerData['Authorization'];
-            $app_access_token           = $this->extractToken($Authorization);
-            $getTokenValue              = $this->tokenAuth($app_access_token);
-            if ($getTokenValue['status']) {
-                $uId        = $getTokenValue['data'][1];
-                $expiry     = date('d/m/Y H:i:s', $getTokenValue['data'][4]);
-                $getUser    = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
-                if ($getUser) {
-                    $punch_type = $requestData['punch_type'];
-                    $latitude   = $requestData['latitude'];
-                    $longitude  = $requestData['longitude'];
+        $apiStatus   = TRUE;
+        $apiMessage  = '';
+        $apiResponse = [];
+        $headerData  = $this->request->headers();
 
-                    $orderBy[0]     = ['field' => 'id', 'type' => 'DESC'];
-                    $checkPunchIn = $this->common_model->find_data('attendances', 'row', ['user_id' => $uId, 'punch_date' => date('Y-m-d'), 'status' => 1], '', '', '', $orderBy);
-                    if (!$checkPunchIn) {
-                        $fields = [
-                            'user_id' => $uId,
-                            'punch_date' => date('Y-m-d'),
-                        ];
-                        $attenId = $this->common_model->save_data('attendances', $fields, '', 'id');
-                        $punch_type = 1;
-                    } else {
-                        $attenId = $checkPunchIn->id;
-                        $punch_type = $punch_type;
-                    }
-                    /* profile image */
-                        $profile_image_post                            = $requestData['userImage'];
-                        if (!empty($profile_image_post)) {
-                            $profile_image      = $profile_image_post;
-                            $upload_type        = $profile_image['type'];
-                            if ($upload_type != 'image/jpeg' && $upload_type != 'image/jpg' && $upload_type != 'image/png') {
-                                $apiStatus          = FALSE;
-                                http_response_code(200);
-                                $apiMessage         = 'Please Upload Image !!!';
-                                $apiExtraField      = 'response_code';
-                                $apiExtraData       = http_response_code();
-                            } else {
-                                $upload_base64      = $profile_image['base64'];
-                                $img                = $upload_base64;
-
-                                $data           = base64_decode($img);
-                                $fileName       = uniqid() . '.jpg';
-                                $file           = 'public/uploads/user/' . $fileName;
-                                $success        = file_put_contents($file, $data);
-                                $user_image     = $fileName;
-                            }
-                        } else {
-                            $apiStatus          = FALSE;
-                            http_response_code(200);
-                            $apiMessage         = 'Please Upload Image !!!';
-                            $apiExtraField      = 'response_code';
-                            $apiExtraData       = http_response_code();
-                        }
-                    /* profile image */
-
-                    $attendence_type = json_decode($getUser->attendence_type);
-                    if (!empty($attendence_type)) {
-                        $attendanceGivenStatus  = 1;
-                        $address                = $this->geolocationaddress($latitude, $longitude);
-                        if ($attendanceGivenStatus) {
-                            $punch_date = date('Y-m-d');
-                            $orderBy = [['field' => 'id', 'type' => 'DESC']];
-                            $AdminUsers         = $this->db->query("SELECT * FROM `user` WHERE `status` = '1' AND `type` IN ('SUPER ADMIN', 'ADMIN') ORDER BY `id` DESC")->getResult();
-                            foreach ($AdminUsers as $user) {
-                                $orderBy = [['field' => 'id', 'type' => 'DESC']];
-                                $userdevice = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $user->id], '', '', '', $orderBy);
-                                if (!empty($userdevice) && isset($userdevice->fcm_token) && isset($userdevice->device_type)) {
-                                    // Add the token and device_type for this user to the collective array
-                                    $allLastUserDevices[] = [
-                                        'id' => $userdevice->user_id,
-                                        'token' => $userdevice->fcm_token,
-                                        'device_type' => $userdevice->device_type
-                                    ];
-                                }
-                            }
-                            
-                            if ($punch_type == 1) {
-                                $punch_in_time      = date('H:i:s');
-                                $punch_in_lat       = $latitude;
-                                $punch_in_lng       = $longitude;
-                                $punch_in_address   = $address;
-
-                                $from_time          = strtotime($punch_date . " " . $punch_in_time);
-                                $to_time            = strtotime($punch_date . " 23:59:00");
-                                $attendance_time    = round(abs($to_time - $from_time) / 60, 2);
-
-                                $fields2 = [
-                                    'punch_in_time'         => $punch_in_time,
-                                    'punch_in_lat'          => $punch_in_lat,
-                                    'punch_in_lng'          => $punch_in_lng,
-                                    'punch_in_address'      => $punch_in_address,
-                                    'punch_in_image'        => $user_image,
-                                    'punch_out_time'        => '',
-                                    'punch_out_lat'         => '',
-                                    'punch_out_lng'         => '',
-                                    'punch_out_address'     => '',
-                                    'punch_out_image'       => '',
-                                    'status'                => 1,
-                                    'attendance_time'       => $attendance_time,
-                                ];
-                                // pr($fields2);
-                                $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                                $apiMessage         = 'Attendance Punch In Successfully !!!';
-                                $apiStatus          = TRUE;
-                                http_response_code(200);
-                                // Send Notification
-                                if (!empty($allLastUserDevices)) {
-                                    $title = $getUser->name;
-                                    $body  = 'Punch In at ' . date('h:i A');
-                                    // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
-
-                                    $allResults = [];
-                                    foreach ($allLastUserDevices as $record) {
-                                        $token = $record['token'];
-                                        $device_type = $record['device_type'];
-
-                                        // Call sendCommonPushNotification for each record
-                                        $notificationResponse = $this->sendCommonPushNotification(
-                                            $token, // Pass single token
-                                            $title,
-                                            $body,
-                                            'attendance',
-                                            '',
-                                            $device_type // Pass device type for this specific token
-                                        );
-                                        $allResults[$token] = $notificationResponse->getJSON();
-                                    }
-                                    // pr($allResults); // Show results for all notifications
-                                }
-                                // if (!empty($deviceToken)) {
-                                //     $title = 'Punch In Successful';
-                                //     $body  = 'Hello ' . $getUser->name . ', your punch-in was recorded at ' . date('h:i A');
-                                //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
-                                // }
-
-                            } elseif ($punch_type == 2) {
-                                $punch_out_time      = date('H:i:s');
-                                $punch_out_lat       = $latitude;
-                                $punch_out_lng       = $longitude;
-                                $punch_out_address   = $address;
-
-                                $punch_in_time      = $checkPunchIn->punch_in_time;
-                                $from_time          = strtotime($punch_date . " " . $punch_in_time);
-                                $to_time            = strtotime($punch_date . " " . $punch_out_time);
-                                $attendance_time    = round(abs($to_time - $from_time) / 60, 2);
-
-                                $fields2 = [
-                                    'punch_out_time'        => $punch_out_time,
-                                    'punch_out_lat'         => $punch_out_lat,
-                                    'punch_out_lng'         => $punch_out_lng,
-                                    'punch_out_address'     => $punch_out_address,
-                                    'punch_out_image'       => $user_image,
-                                    'status'                => 2,
-                                    'attendance_time'       => $attendance_time,
-                                ];
-                                $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                                $apiMessage         = 'Punch Out Successfully !!!';
-                                $apiStatus          = TRUE;
-                                http_response_code(200);
-                                // Send Notification
-                                if (!empty($allLastUserDevices)) {
-                                    $title = $getUser->name;
-                                    $body  = 'Punch Out at ' . date('h:i A');
-                                    // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
-
-                                    $allResults = [];
-                                    foreach ($allLastUserDevices as $record) {
-                                        $token = $record['token'];
-                                        $device_type = $record['device_type'];
-
-                                        // Call sendCommonPushNotification for each record
-                                        $notificationResponse = $this->sendCommonPushNotification(
-                                            $token, // Pass single token
-                                            $title,
-                                            $body,
-                                            'attendance',
-                                            '',
-                                            $device_type // Pass device type for this specific token
-                                        );
-                                        $allResults[$token] = $notificationResponse->getJSON();
-                                    }
-                                    // pr($allResults); // Show results for all notifications
-                                }
-                                // if (!empty($deviceToken)) {
-                                //     $title = 'Punch Out Successful';
-                                //     $body  = 'Goodbye ' . $getUser->name . ', your punch-out was recorded at ' . date('h:i A');
-                                //     $this->sendCommonPushNotification($deviceToken, $title, $body, 'attendance','', $device_type);
-                                // }
-                            } else {
-                                $punch_out_time     = date('H:i:s');
-                                $punch_in_lat       = $latitude;
-                                $punch_in_lng       = $longitude;
-                                $punch_in_address   = $address;
-
-                                $fields2 = [
-                                    'punch_out_time'        => $punch_out_time,
-                                    'punch_out_lat'         => $punch_out_lat,
-                                    'punch_out_lng'         => $punch_out_lng,
-                                    'punch_out_address'     => $punch_out_address,
-                                    'punch_out_image'       => $user_image,
-                                    'status'                => 2,
-                                ];
-                                $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
-                                $apiMessage         = 'Punch Out Successfully !!!';
-                                $apiStatus          = TRUE;
-                                http_response_code(200);
-                                // Send Notification
-                                if (!empty($allLastUserDevices)) {
-                                    $title = $getUser->name;
-                                    $body  = 'Punch Out at ' . date('h:i A');
-                                    // $image = 'https://example.com/your-image.png'; // Optional: provide a valid image URL
-
-                                    $allResults = [];
-                                    foreach ($allLastUserDevices as $record) {
-                                        $token = $record['token'];
-                                        $device_type = $record['device_type'];
-
-                                        // Call sendCommonPushNotification for each record
-                                        $notificationResponse = $this->sendCommonPushNotification(
-                                            $token, // Pass single token
-                                            $title,
-                                            $body,
-                                            'attendance',
-                                            '',
-                                            $device_type // Pass device type for this specific token
-                                        );
-                                        $allResults[$token] = $notificationResponse->getJSON();
-                                    }
-                                }
-                            }
-                        } else {
-                            $apiStatus          = FALSE;
-                            http_response_code(200);
-                        }
-                    } else {
-                        $apiStatus          = FALSE;
-                        http_response_code(200);
-                        $apiMessage         = 'Please Contact System Administrator For Attendance Type Update !!!';
-                    }
-                    $apiExtraField      = 'response_code';
-                    $apiExtraData       = http_response_code();
-                } else {
-                    $apiStatus          = FALSE;
-                    http_response_code(200);
-                    $apiMessage         = 'User Not Found !!!';
-                    $apiExtraField      = 'response_code';
-                    $apiExtraData       = http_response_code();
-                }
-            } else {
-                http_response_code($getTokenValue['data'][2]);
-                $apiStatus                      = FALSE;
-                $apiMessage                     = $this->getResponseCode(http_response_code());
-                $apiExtraField                  = 'response_code';
-                $apiExtraData                   = http_response_code();
-            }
-        } else {
+        // ✅ Check header project key
+        if ($headerData['Key'] != 'Key: ' . getenv('app.PROJECTKEY')) {
             http_response_code(400);
-            $apiStatus          = FALSE;
-            $apiMessage         = $this->getResponseCode(http_response_code());
-            $apiExtraField      = 'response_code';
-            $apiExtraData       = http_response_code();
+            $apiStatus  = FALSE;
+            $apiMessage = $this->getResponseCode(http_response_code());
+            return $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
-        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+
+        // ✅ Validate required form-data fields
+        $requiredFields = ['punch_type', 'latitude', 'longitude'];
+        foreach ($requiredFields as $field) {
+            if (empty($this->request->getPost($field))) {
+                http_response_code(400);
+                $apiStatus  = FALSE;
+                $apiMessage = 'All Data Are Not Present !!!';
+                return $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+            }
+        }
+
+        // ✅ Token authentication
+        $Authorization    = $headerData['Authorization'];
+        $app_access_token = $this->extractToken($Authorization);
+        $getTokenValue    = $this->tokenAuth($app_access_token);
+
+        if (!$getTokenValue['status']) {
+            http_response_code($getTokenValue['data'][2]);
+            $apiStatus  = FALSE;
+            $apiMessage = $this->getResponseCode(http_response_code());
+            return $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+
+        $uId    = $getTokenValue['data'][1];
+        $getUser = $this->common_model->find_data('user', 'row', ['id' => $uId, 'status' => '1']);
+
+        if (!$getUser) {
+            http_response_code(404);
+            $apiStatus  = FALSE;
+            $apiMessage = 'User Not Found !!!';
+            return $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+
+        // ✅ Extract request values
+        $punch_type = $this->request->getPost('punch_type');
+        $latitude   = $this->request->getPost('latitude');
+        $longitude  = $this->request->getPost('longitude');
+
+        // ✅ Handle image upload from form-data
+        $uploadDir = FCPATH . 'public/uploads/user/';
+        if (!is_dir($uploadDir)) {
+            mkdir($uploadDir, 0777, TRUE);
+        }
+
+        if (!isset($_FILES['userImage']) || $_FILES['userImage']['error'] != 0) {
+            http_response_code(400);
+            $apiStatus  = FALSE;
+            $apiMessage = 'Please Upload Image !!!';
+            return $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+
+        $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png'];
+        $fileType     = $_FILES['userImage']['type'];
+        $fileTmp      = $_FILES['userImage']['tmp_name'];
+        $fileExt      = pathinfo($_FILES['userImage']['name'], PATHINFO_EXTENSION);
+        $fileName     = uniqid() . '.' . strtolower($fileExt);
+        $uploadPath   = $uploadDir . $fileName;
+
+        if (!in_array($fileType, $allowedTypes)) {
+            http_response_code(400);
+            $apiStatus  = FALSE;
+            $apiMessage = 'Please Upload a valid image (jpg, jpeg, png)';
+            return $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+
+        if (!move_uploaded_file($fileTmp, $uploadPath)) {
+            http_response_code(500);
+            $apiStatus  = FALSE;
+            $apiMessage = 'Failed to upload image!';
+            return $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+        }
+
+        $user_image = $fileName;
+
+        // ✅ Find or create attendance entry for the day
+        $orderBy      = [['field' => 'id', 'type' => 'DESC']];
+        $checkPunchIn = $this->common_model->find_data('attendances', 'row', [
+            'user_id'   => $uId,
+            'punch_date'=> date('Y-m-d'),
+            'status'    => 1
+        ], '', '', '', $orderBy);
+
+        if (!$checkPunchIn) {
+            $fields = [
+                'user_id'    => $uId,
+                'punch_date' => date('Y-m-d'),
+            ];
+            $attenId   = $this->common_model->save_data('attendances', $fields, '', 'id');
+            $punch_type = 1; // default to Punch In
+        } else {
+            $attenId = $checkPunchIn->id;
+        }
+
+        // ✅ Attendance logic
+        $address = $this->geolocationaddress($latitude, $longitude);
+        $punch_date = date('Y-m-d');
+        $AdminUsers = $this->db->query("SELECT * FROM `user` WHERE `status` = '1' AND `type` IN ('SUPER ADMIN','ADMIN') ORDER BY `id` DESC")->getResult();
+
+        $allLastUserDevices = [];
+        foreach ($AdminUsers as $user) {
+            $userdevice = $this->common_model->find_data('ecomm_user_devices', 'row', ['user_id' => $user->id], '', '', '', $orderBy);
+            if (!empty($userdevice) && isset($userdevice->fcm_token)) {
+                $allLastUserDevices[] = [
+                    'id'          => $userdevice->user_id,
+                    'token'       => $userdevice->fcm_token,
+                    'device_type' => $userdevice->device_type,
+                ];
+            }
+        }
+
+        if ($punch_type == 1) {
+            // ✅ Punch In
+            $punch_in_time = date('H:i:s');
+            $fields2 = [
+                'punch_in_time'    => $punch_in_time,
+                'punch_in_lat'     => $latitude,
+                'punch_in_lng'     => $longitude,
+                'punch_in_address' => $address,
+                'punch_in_image'   => $user_image,
+                'status'           => 1,
+            ];
+            $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+
+            $apiMessage = 'Attendance Punch In Successfully !!!';
+            $apiStatus  = TRUE;
+            http_response_code(200);
+
+            // 🔔 Send Notification
+            if (!empty($allLastUserDevices)) {
+                $title = $getUser->name;
+                $body  = 'Punch In at ' . date('h:i A');
+                foreach ($allLastUserDevices as $record) {
+                    $this->sendCommonPushNotification(
+                        $record['token'],
+                        $title,
+                        $body,
+                        'attendance',
+                        '',
+                        $record['device_type']
+                    );
+                }
+            }
+
+        } elseif ($punch_type == 2) {
+            // ✅ Punch Out
+            $punch_out_time = date('H:i:s');
+            $punch_in_time  = $checkPunchIn->punch_in_time ?? date('H:i:s');
+            $from_time      = strtotime($punch_date . " " . $punch_in_time);
+            $to_time        = strtotime($punch_date . " " . $punch_out_time);
+            $attendance_time = round(abs($to_time - $from_time) / 60, 2);
+
+            $fields2 = [
+                'punch_out_time'    => $punch_out_time,
+                'punch_out_lat'     => $latitude,
+                'punch_out_lng'     => $longitude,
+                'punch_out_address' => $address,
+                'punch_out_image'   => $user_image,
+                'status'            => 2,
+                'attendance_time'   => $attendance_time,
+            ];
+            $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
+
+            $apiMessage = 'Punch Out Successfully !!!';
+            $apiStatus  = TRUE;
+            http_response_code(200);
+
+            // 🔔 Send Notification
+            if (!empty($allLastUserDevices)) {
+                $title = $getUser->name;
+                $body  = 'Punch Out at ' . date('h:i A');
+                foreach ($allLastUserDevices as $record) {
+                    $this->sendCommonPushNotification(
+                        $record['token'],
+                        $title,
+                        $body,
+                        'attendance',
+                        '',
+                        $record['device_type']
+                    );
+                }
+            }
+        }
+
+        return $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
     }
     public function getMonthAttendanceNew()
     {
