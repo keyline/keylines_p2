@@ -2198,8 +2198,6 @@ class ApiController extends BaseController
             return $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
         }
 
-        pr($this->request->getPost());
-
         // ✅ Extract request values
         $punch_type = $this->request->getPost('punch_type');
         $latitude   = $this->request->getPost('latitude');
@@ -2288,6 +2286,7 @@ class ApiController extends BaseController
                 'punch_in_image'   => $user_image,
                 'status'           => 1,
             ];
+            pr($fields2);
             $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
 
             $apiMessage = 'Attendance Punch In Successfully !!!';
