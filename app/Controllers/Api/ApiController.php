@@ -2286,7 +2286,6 @@ class ApiController extends BaseController
                 'punch_in_image'   => $user_image,
                 'status'           => 1,
             ];
-            pr($fields2);
             $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
 
             $apiMessage = 'Attendance Punch In Successfully !!!';
