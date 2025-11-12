@@ -2277,13 +2277,22 @@ class ApiController extends BaseController
 
         if ($punch_type == 1) {
             // ✅ Punch In
-            $punch_in_time = date('H:i:s');
+            $punch_in_time      = date('H:i:s');
+            $punch_in_lat       = $latitude;
+            $punch_in_lng       = $longitude;
+            $punch_in_address   = $address;
+
+            $from_time          = strtotime($punch_date . " " . $punch_in_time);
+            $to_time            = strtotime($punch_date . " 23:59:00");
+            $attendance_time    = round(abs($to_time - $from_time) / 60, 2);
+
             $fields2 = [
                 'punch_in_time'    => $punch_in_time,
                 'punch_in_lat'     => $latitude,
                 'punch_in_lng'     => $longitude,
                 'punch_in_address' => $address,
                 'punch_in_image'   => $user_image,
+                'attendance_time'  => $attendance_time,
                 'status'           => 1,
             ];
             $this->common_model->save_data('attendances', $fields2, $attenId, 'id');
