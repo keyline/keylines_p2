@@ -459,7 +459,7 @@
                     </div>
                 <?php } ?>
             </div>
-
+            <?php if (checkModuleFunctionAccess(39, 103)) { ?>
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body pt-3">
@@ -1295,6 +1295,7 @@
                     </div>
                 </div>
             </div>
+            <?php } ?>
         </div>
     </div>
 </section>

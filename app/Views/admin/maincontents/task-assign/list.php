@@ -969,10 +969,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                         <?php if($getTask->work_status_id <= 0){?>
                                                                                                             <?php if($alterIcon){?>
                                                                                                                 <?php if($minutes <= $edit_time_after_task_add){?>
+                                                                                                                    <?php if(checkModuleFunctionAccess(36,117)){ ?>
                                                                                                                     <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
                                                                                                                         <i class="fa-solid fa-pencil text-primary"></i>
                                                                                                                     </a>
-                                                                                                                <?php }?>
+                                                                                                                <?php } }?>
                                                                                                             <?php }?>
                                                                                                         <?php }?>
                                                                                                     </div>

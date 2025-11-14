@@ -16,6 +16,7 @@ $user_type = session('user_type');
     </div>
   </div>  
 </div>
+<?php if(checkModuleFunctionAccess(9,52)){ ?>
 <section class="section profile">
   <div class="container-fluid">
     <div class="row">
@@ -44,7 +45,9 @@ $user_type = session('user_type');
                           <th scope="col">Name</th>
                           <th scope="col">Email</th>
                           <th scope="col">Subject</th>
+                          <?php if(checkModuleFunctionAccess(9,51)){ ?>
                           <th scope="col">Action</th>
+                          <?php } ?>
                       </tr>
                   </thead>
                   <tbody>
@@ -54,9 +57,11 @@ $user_type = session('user_type');
                           <td><?=$row->name?></td>
                           <td><?=$row->email?></td>
                           <td><?=$row->subject?></td>
+                          <?php if(checkModuleFunctionAccess(9,51)){ ?>
                           <td>
                               <a target="_blank" href="<?=base_url('admin/email-logs-details/'.encoded($row->id))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$row->subject?>"><i class="fa fa-info-circle"></i></a>
                           </td>
+                          <?php } ?>
                       </tr>
                       <?php } }?>
                   </tbody>
@@ -68,3 +73,4 @@ $user_type = session('user_type');
     </div>
   </div>
 </section>
+<?php } ?>

@@ -30,6 +30,13 @@ class AttendanceController extends BaseController
 
     public function attendance()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(27, 56)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }  
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'];
         $page_name                  = 'attendance-report';
@@ -340,6 +347,13 @@ class AttendanceController extends BaseController
 
     public function SaveAttendance()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(27, 106)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }  
         if($this->request->getMethod() == 'post') {  
             $user_id = $this->request->getPost('employee_id');
             $punch_date = $this->request->getPost('date');

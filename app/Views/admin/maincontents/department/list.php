@@ -37,13 +37,13 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
             <div class="col-lg-12">
                 <div class="card table-card">
-                    <div class="card-header">
-                        <?php if (checkModuleFunctionAccess(29, 77)) { ?>
+                    <?php if (checkModuleFunctionAccess(29, 77)) { ?>
+                    <div class="card-header">                        
                         <h5>
                             <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
-                        </h5>
-                        <?php   } ?>
+                        </h5>                        
                     </div>
+                    <?php   } ?>
                     <div class="card-body">
                         
                         <div class="dt-responsive table-responsive">
@@ -89,7 +89,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
                                                 <?php } ?>
                                                 <?php if (checkModuleFunctionAccess(29, 79)) { ?>
-                                                <!-- <a href="?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a> -->
+                                                <a href="?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
                                                 <?php } ?>
                                                 <?php if($row->status){?>
                                                     <?php if (checkModuleFunctionAccess(29, 80)) { ?>

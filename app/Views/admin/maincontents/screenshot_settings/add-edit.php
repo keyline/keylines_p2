@@ -43,6 +43,7 @@ $controller_route   = $moduleDetail['controller_route'];
             $screenshot_time      = '';
         }
         ?>
+        <?php if (checkModuleFunctionAccess(39, 121)) { ?>
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body pt-3">
@@ -73,5 +74,6 @@ $controller_route   = $moduleDetail['controller_route'];
                 </div>
             </div>
         </div>
+         <?php } ?>
     </div>
 </section>

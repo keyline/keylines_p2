@@ -712,6 +712,13 @@ class TaskAssignController extends BaseController {
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
         public function morning_meeting_schedule_update(){
+            if (!$this->common_model->checkModuleFunctionAccess(36, 117)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }  
             $apiStatus          = TRUE;
             $apiMessage         = '';
             $apiResponse        = [];
@@ -940,6 +947,13 @@ class TaskAssignController extends BaseController {
     /* task edit */
     /* task effort booking */
         public function morning_meeting_schedule_prefill_effort_booking(){
+            if (!$this->common_model->checkModuleFunctionAccess(36, 94)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }  
             $apiStatus          = TRUE;
             $apiMessage         = '';
             $apiResponse        = [];

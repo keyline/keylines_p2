@@ -56,7 +56,7 @@ $controller_route   = $moduleDetail['controller_route'];
     </div>
 </div>
 <!-- End Page Title -->
- 
+ <?php if(checkModuleFunctionAccess(27,56)){ ?>
 <section class="section dashboard">
     <div class="container-fluid">
         <div class="row">  
@@ -563,6 +563,7 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div> -->
 </section>
+<?php } ?>
 <!-- Add Attendance Modal -->
     <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
         <div class="modal-dialog">
