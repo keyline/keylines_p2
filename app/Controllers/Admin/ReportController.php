@@ -28,6 +28,7 @@ class ReportController extends BaseController
     }
     public function advanceSearch()
     {
+        echo "advnce search"; die;
         $result = $this->common_model->checkModuleFunctionAccess(22, 88);
 var_dump($result); exit;
         if (!$this->common_model->checkModuleFunctionAccess(22, 88)) {
