@@ -412,7 +412,7 @@ $userId             = $session->user_id;
 
   <?php //if (checkModuleAccess(11)) { 
   ?>
-  <?php if ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') { ?>
+  <?php if (checkModuleAccess(41)) { ?>
     <li>
       <div class="iocn-link">
         <a class="<?= (($pageSegment == 'settings') ? '' : 'collapsed') ?> <?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="javascript:void(0)">
