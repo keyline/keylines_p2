@@ -56,7 +56,7 @@ $controller_route   = $moduleDetail['controller_route'];
     </div>
 </div>
 <!-- End Page Title -->
- 
+ <?php if(checkModuleFunctionAccess(27,56)){ ?>
 <section class="section dashboard">
     <div class="container-fluid">
         <div class="row">  
@@ -75,7 +75,8 @@ $controller_route   = $moduleDetail['controller_route'];
                 <?php }?>
             </div>      
             <!-- Left side columns -->
-            <?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?>
+            <!-- ?php if($userType == "SUPER ADMIN" || $userType == "ADMIN") {?> -->
+             <?php if(checkModuleFunctionAccess(27, 107)) { ?>
                 <div class="col-md-12">
                     <div class="card table-card">
                         <div class="card-header">
@@ -102,6 +103,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             <?php } ?>
+            <?php if(checkModuleFunctionAccess(27, 106)) { ?>
             <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body pt-3">
@@ -143,6 +145,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     </div>
                 </div>
             </div>
+            <?php } ?>
             <?php
             if(($form_type ?? '') == 'monthly_attendance_report' && !empty($monthlyAttendancereport)) { ?>        
                 <div class="card table-card">
@@ -560,6 +563,7 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div> -->
 </section>
+<?php } ?>
 <!-- Add Attendance Modal -->
     <div class="modal fade" id="addAttendanceModal" tabindex="-1" aria-labelledby="addAttendanceLabel" aria-hidden="true">
         <div class="modal-dialog">

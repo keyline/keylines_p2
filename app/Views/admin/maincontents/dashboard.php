@@ -176,6 +176,7 @@
                      </div>
                   <?php }?>
                </div>
+               <?php if (checkModuleFunctionAccess(1, 105)) { ?>
                <div class="col-md-12">
                   <div class="card table-card shadow-sm">
                      <div class="card-header">
@@ -421,10 +422,9 @@
                         </div>
                      </div>
                   </div>
-               </div>                                 
-               
-               
-
+               </div>
+               <?php   } ?>                                 
+                        
                <div class="col-md-12">
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
                   <div class="card table-card">

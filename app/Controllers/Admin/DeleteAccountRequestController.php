@@ -24,6 +24,13 @@ class DeleteAccountRequestController extends BaseController {
     }
     public function list()
     {
+        if(!$this->common_model->checkModuleFunctionAccess(8, 50)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'delete-account-request/list';
@@ -43,6 +50,13 @@ class DeleteAccountRequestController extends BaseController {
     }
     public function change_status($id)
     {
+        if(!$this->common_model->checkModuleFunctionAccess(8, 48)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $id                         = decoded($id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', [$this->data['primary_key']=>$id]);
         if($data['row']->status){

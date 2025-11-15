@@ -50,8 +50,9 @@ $userType           = $session->user_type;
             </div>
             <div class="col-lg-12">
                 <div class="card table-card">
-                    <div class="card-header">
-                        <?php if(checkModuleFunctionAccess(5,29)){ ?>
+                    <?php if(checkModuleFunctionAccess(5,29)){ ?>
+                        <div class="card-header">
+                        
                             <div style="display: inline-flex;gap: 10px;">
                             <h5>
                                 <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-primary btn-sm">Add <?=$title?></a>
@@ -65,9 +66,9 @@ $userType           = $session->user_type;
                             <h5>
                                 <a href="<?=base_url('admin/' . $controller_route . '/inactive-project/')?>" class="btn btn-outline-danger btn-sm">Inactive Project</a>
                             </h5>
-                            </div>
-                        <?php   } ?>
-                    </div>
+                            </div>                        
+                        </div>
+                    <?php   } ?>
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
                             <table id="simpletable" class="table general_table_style padding-y-10">
@@ -75,8 +76,10 @@ $userType           = $session->user_type;
                                     <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">Project Name</th>                                    
-                                        <th scope="col">Assigned By<br>Client Service</th>                                    
+                                        <th scope="col">Assigned By<br>Client Service</th>   
+                                        <?php if (checkModuleFunctionAccess(5, 90)) { ?>                                 
                                         <th scope="col">Total Hour</th>
+                                        <?php }?>
                                         <!-- <th scope="col">Monthly Hour</th> -->
                                         <!-- <th scope="col">Contact</th> -->
                                         <!-- <th scope="col">Start<br>Deadline</th> -->
@@ -130,7 +133,8 @@ $userType           = $session->user_type;
                                                 
                                                 <!-- ?=(($row->deadline != '')?date_format(date_create($row->deadline), "M d, Y"):'')?> -->
                                             </td>                                    
-                                            <td><?=$row->assigned_name?><br><?=(($getClientService)?$getClientService->name:'')?></td>                                        
+                                            <td><?=$row->assigned_name?><br><?=(($getClientService)?$getClientService->name:'')?></td>  
+                                            <?php if (checkModuleFunctionAccess(5, 90)) { ?>                                      
                                             <td>
                                                 <?php if($getProject){ ?>
                                                     <button class="btn btn-primary btn-sm" onclick="toggleDetails(this)">Load More</button>
@@ -147,6 +151,7 @@ $userType           = $session->user_type;
                                                     </div>
                                                 <?php }?>
                                             </td>
+                                            <?php }?>
                                             <!-- <td>
                                                 <?php if($getProject){  }?>
                                             </td> -->
@@ -167,7 +172,7 @@ $userType           = $session->user_type;
                                                     <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
                                                 <?php  } ?>
                                                 <?php if(checkModuleFunctionAccess(5,57)){ ?>
-                                                    <!-- <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a><br><br> -->
+                                                    <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a><br><br>
                                                 <?php } ?>
                                                 <?php if($row->active == 0){?>
                                                     <?php if(checkModuleFunctionAccess(5,31)){ ?>

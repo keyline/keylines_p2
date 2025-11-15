@@ -2053,8 +2053,15 @@ class User extends BaseController
     /* settings */
     public function settings()
     {
-        if (!$this->session->get('is_admin_login')) {
-            return redirect()->to('/admin');
+        // if (!$this->session->get('is_admin_login')) {
+        //     return redirect()->to('/admin');
+        // }
+        if(!$this->common_model->checkModuleFunctionAccess(41, 128)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
         }
         $title                  = 'Settings';
         $page_name              = 'settings';
@@ -2066,7 +2073,7 @@ class User extends BaseController
         echo $this->layout_after_login($title, $page_name, $data);
     }
     public function profileSetting()
-    {
+    {        
         $user_id                = $this->session->get('user_id');
         $user_type              = $this->session->get('user_type');
 
@@ -2116,6 +2123,13 @@ class User extends BaseController
     }
     public function generalSetting()
     {
+        if(!$this->common_model->checkModuleFunctionAccess(41, 131)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $user_id                = $this->session->get('user_id');
         /* logo */
         $file = $this->request->getFile('site_logo');
@@ -2200,6 +2214,13 @@ class User extends BaseController
     }
     public function applicationSetting()
     {
+        if(!$this->common_model->checkModuleFunctionAccess(41, 132)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $user_id                = $this->session->get('user_id');
         $yes_no                 = isset($_POST['is_desklog_use']) ? $_POST['is_desklog_use'] : 0;
         $approval               = isset($_POST['is_task_approval']) ? $_POST['is_task_approval'] : 0;
@@ -2262,6 +2283,13 @@ class User extends BaseController
     }
     public function changePassword()
     {
+        if(!$this->common_model->checkModuleFunctionAccess(41, 130)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $user_id                = $this->session->get('user_id');
         $profile                = $this->common_model->find_data('user', 'row', ['id' => $user_id]);
         $old_password           = $this->request->getPost('old_password');
@@ -2315,6 +2343,13 @@ class User extends BaseController
     }
     public function emailSetting()
     {
+        if(!$this->common_model->checkModuleFunctionAccess(41, 133)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $user_id                = $this->session->get('user_id');
         $fields = [
             'from_email'                => $this->request->getPost('from_email'),
@@ -2330,6 +2365,13 @@ class User extends BaseController
     }
     public function smsSetting()
     {
+        if(!$this->common_model->checkModuleFunctionAccess(41, 134)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $user_id                = $this->session->get('user_id');
         $fields = [
             'sms_authentication_key'        => $this->request->getPost('sms_authentication_key'),
@@ -2408,16 +2450,16 @@ class User extends BaseController
     /* email logs */
     public function emailLogs()
     {
-        if (!$this->session->get('is_admin_login')) {
-            return redirect()->to('/admin');
-        }
-        // if(!$this->common_model->checkModuleAccess(21)){
-        //     $data['action']             = 'Access Forbidden';
-        //     $title                      = $data['action'].' '.$this->data['title'];
-        //     $page_name                  = 'access-forbidden';        
-        //     echo $this->layout_after_login($title,$page_name,$data);
-        //     exit;
+        // if (!$this->session->get('is_admin_login')) {
+        //     return redirect()->to('/admin');
         // }
+        if(!$this->common_model->checkModuleFunctionAccess(9, 52)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $title              = 'Email Logs';
         $page_name          = 'email-logs';
         $order_by[0]        = array('field' => 'id', 'type' => 'desc');
@@ -2426,16 +2468,16 @@ class User extends BaseController
     }
     public function emailLogsDetails($id)
     {
-        if (!$this->session->get('is_admin_login')) {
-            return redirect()->to('/admin');
-        }
-        // if(!$this->common_model->checkModuleAccess(21)){
-        //     $data['action']             = 'Access Forbidden';
-        //     $title                      = $data['action'].' '.$this->data['title'];
-        //     $page_name                  = 'access-forbidden';        
-        //     echo $this->layout_after_login($title,$page_name,$data);
-        //     exit;
+        // if (!$this->session->get('is_admin_login')) {
+        //     return redirect()->to('/admin');
         // }
+        if(!$this->common_model->checkModuleFunctionAccess(9, 51)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $id                 = decoded($id);
         $title              = 'Email Logs Details';
         $page_name          = 'email-logs-details';
@@ -2446,16 +2488,16 @@ class User extends BaseController
     /* login logs */
     public function loginLogs()
     {
-        if (!$this->session->get('is_admin_login')) {
-            return redirect()->to('/admin');
-        }
-        // if(!$this->common_model->checkModuleAccess(22)){
-        //     $data['action']             = 'Access Forbidden';
-        //     $title                      = $data['action'].' '.$this->data['title'];
-        //     $page_name                  = 'access-forbidden';        
-        //     echo $this->layout_after_login($title,$page_name,$data);
-        //     exit;
+        // if (!$this->session->get('is_admin_login')) {
+        //     return redirect()->to('/admin');
         // }
+        if(!$this->common_model->checkModuleFunctionAccess(9, 52)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $title              = 'Login Logs';
         $page_name          = 'login-logs';
         $order_by[0]        = array('field' => 'activity_id', 'type' => 'desc');

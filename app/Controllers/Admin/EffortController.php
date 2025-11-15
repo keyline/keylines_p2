@@ -23,6 +23,13 @@ class EffortController extends BaseController {
     }
     public function list()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(20, 36)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }  
         $user_id                    = $this->session->get('user_id');
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
@@ -420,6 +427,13 @@ class EffortController extends BaseController {
     }
     public function edit($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(20, 38)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }  
         $id                         = decoded($id);
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Edit';
@@ -510,6 +524,13 @@ class EffortController extends BaseController {
     }
     public function confirm_delete($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(20, 39)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }
         $id                         = decoded($id);
         $updateData = $this->common_model->delete_data($this->data['table_name'], $id, $this->data['primary_key']);
         $this->session->setFlashdata('success_message', $this->data['title'].' deleted successfully');
