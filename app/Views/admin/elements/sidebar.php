@@ -326,7 +326,7 @@ $userId             = $session->user_id;
     </li>
   <?php } ?>
 
-  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(28)) { ?>
+  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(29) || checkModuleAccess(30) || checkModuleAccess(37) || checkModuleAccess(38)) { ?>
     <li>
       <div class="iocn-link">
         <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
@@ -377,6 +377,8 @@ $userId             = $session->user_id;
               <i class="fa fa-arrow-right"></i><span>Work Status</span>
             </a>
           </li>
+          <?php } ?>
+          <?php if (checkModuleAccess(37)) { ?>
           <li>
             <a class="<?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>"
               href="<?= base_url('admin/holiday-list') ?>">
@@ -384,7 +386,7 @@ $userId             = $session->user_id;
             </a>
           </li>
         <?php } ?>
-        <?php if (checkModuleAccess(30)) { ?>
+        <?php if (checkModuleAccess(38)) { ?>
           <li>
             <a class="<?= (($pageSegment == 'office-location') ? 'active' : '') ?>"
               href="<?= base_url('admin/office-location/list') ?>">
@@ -434,13 +436,16 @@ $userId             = $session->user_id;
           </a>
         </li>
 
-        <!-- code added by @Shubha75 on 16/06/25 -->
+        <?php if (checkModuleAccess(39)) { ?>
+        <!-- code added by @Shubha75 on 16/06/25 -->         
         <li>
           <a class="<?= (($pageSegment == 'screenshot-settings') ? 'active' : '') ?>" href="<?= base_url('admin/screenshot-settings'); ?>">
             <i class="fa fa-arrow-right"></i>
             <span>Screenshot Settings</span>
           </a>
         </li>
+        <?php } ?>
+        <?php if (checkModuleAccess(40)) { ?>
         <!-- code added by @Shubha75 on 16/06/25 -->
         <li>
           <a class="<?= (($pageSegment == 'mobile-application') ? 'active' : '') ?>" href="<?= base_url('admin/mobile-application') ?>">
@@ -448,13 +453,15 @@ $userId             = $session->user_id;
             <span>Mobile Application</span>
           </a>
         </li>
-
+          <?php } ?>
+          <?php if (checkModuleAccess(8)) { ?>
         <li>
           <a class="<?= (($pageSegment == 'delete-account-request') ? 'active' : '') ?>" href="<?= base_url('admin/delete-account-request/list') ?>">
             <i class="fa fa-arrow-right"></i>
             <span>Delete Account Requests</span>
           </a>
         </li>
+        <?php } ?>
       </ul>
     </li>
   <?php } ?>
