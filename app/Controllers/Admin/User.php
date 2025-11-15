@@ -2105,7 +2105,7 @@ class User extends BaseController
                 'doj'               => $this->request->getPost('doj'),
                 'profile_image'     => $profile_image,
             ];
-            pr($fields);
+            // pr($fields);
             $this->common_model->save_data('user', $fields, $user_id, 'id');
         } else {
             $fields = [
