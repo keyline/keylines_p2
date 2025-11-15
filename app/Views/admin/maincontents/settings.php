@@ -187,7 +187,13 @@ $user_type = session('user_type');
                           <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?= $admin->hour_cost ?>">
                         </div>
                       </div>
-                      <?php } ?>
+                      <?php } else { ?>
+                        <div class="row mb-3">
+                          <div class="col-md-8 col-lg-9">
+                            <input type="hidden" name="hour_cost" class="form-control" id="hour_cost" value="<?= $admin->hour_cost ?>">
+                          </div>
+                        </div>
+                        <?php } ?>
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
                           <label for="dob" class="col-form-label">DOB</label>
