@@ -296,7 +296,7 @@ $controller_route       = $moduleDetail['controller_route'];
                         </ol>
                     </nav>
                 </div>
-                <?php if(checkModuleFunctionAccess(109,36)){ ?>
+                <?php if(checkModuleFunctionAccess(36,109)){ ?>
                 <div class="filtrable-box mb-3 mb-md-0 w-50">
                     <form method="POST" action="">
                         <div class="row align-items-center">
