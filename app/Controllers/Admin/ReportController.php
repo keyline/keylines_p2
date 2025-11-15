@@ -28,6 +28,8 @@ class ReportController extends BaseController
     }
     public function advanceSearch()
     {
+        $result = $this->common_model->checkModuleFunctionAccess(22, 88);
+var_dump($result); exit;
         if (!$this->common_model->checkModuleFunctionAccess(22, 88)) {
                 $data['action']             = 'Access Forbidden';
                 $title                      = $data['action'] . ' ' . $this->data['title'];
