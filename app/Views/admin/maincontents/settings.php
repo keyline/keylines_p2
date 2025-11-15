@@ -178,6 +178,7 @@ $user_type = session('user_type');
                           <input type="text" name="phone2" class="form-control" id="phone2" value="<?= $admin->phone2 ?>">
                         </div>
                       </div>
+                      <?php if (checkModuleFunctionAccess(41, 135)) { ?>
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
                           <label for="hour_cost" class="col-form-label">Hour Cost</label>
@@ -186,6 +187,7 @@ $user_type = session('user_type');
                           <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?= $admin->hour_cost ?>">
                         </div>
                       </div>
+                      <?php } ?>
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
                           <label for="dob" class="col-form-label">DOB</label>
