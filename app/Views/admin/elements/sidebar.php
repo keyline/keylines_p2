@@ -436,7 +436,7 @@ $userId             = $session->user_id;
           </a>
         </li>
 
-        <?php if (checkModuleAccess(39)) { ?>
+        <?php if (checkModuleFunctionAccess(39, 121)) { ?>
         <!-- code added by @Shubha75 on 16/06/25 -->         
         <li>
           <a class="<?= (($pageSegment == 'screenshot-settings') ? 'active' : '') ?>" href="<?= base_url('admin/screenshot-settings'); ?>">
