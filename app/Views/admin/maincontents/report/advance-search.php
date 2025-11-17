@@ -55,7 +55,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 <?php } ?>
             </div>
 
-            <?php if (checkModuleFunctionAccess(22, 88)) { ?>
+            <!-- ?php if (checkModuleFunctionAccess(22, 88)) { ?> -->
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-body pt-3">
@@ -376,7 +376,7 @@ $controller_route   = $moduleDetail['controller_route'];
                         </div>
                     <?php } ?>
                 </div>
-            <?php } ?>
+            <!-- ?php } ?> -->
         </div>
     </div>
 </section>
