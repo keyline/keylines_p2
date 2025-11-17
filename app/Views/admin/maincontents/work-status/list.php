@@ -37,13 +37,13 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
             <div class="col-lg-12">
                 <div class="card table-card">
-                    <div class="card-header">
-                        <?php if (checkModuleFunctionAccess(30, 83)) { ?>
+                    <?php if (checkModuleFunctionAccess(30, 83)) { ?>
+                    <div class="card-header">                        
                         <h5>
                             <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
-                        </h5>
-                        <?php } ?>
+                        </h5>                        
                     </div>
+                    <?php } ?>
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
                             <?php if (checkModuleFunctionAccess(30, 82)) { ?>

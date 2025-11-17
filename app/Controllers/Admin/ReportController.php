@@ -27,7 +27,14 @@ class ReportController extends BaseController
         );
     }
     public function advanceSearch()
-    {
+    {        
+        if (!$this->common_model->checkModuleFunctionAccess(22, 88)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }  
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'] . ' : Advance Search';
         $page_name                  = 'report/advance-search';
@@ -271,6 +278,13 @@ class ReportController extends BaseController
 
     public function effortType()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(23, 41)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'] . ' : Effort Report';
         $page_name                  = 'report/effort-report';
@@ -567,6 +581,13 @@ class ReportController extends BaseController
 
     public function projectReport()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(25, 44)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'] . ' : Project Report';
         $page_name                  = 'report/project-report';
@@ -1008,6 +1029,13 @@ class ReportController extends BaseController
     }
     public function hoursReport()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(24, 43)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }
         $title     = 'Manage ' . $this->data['title'];
         $page_name = 'report/hours-report';
         $data      = [];
@@ -1725,6 +1753,13 @@ class ReportController extends BaseController
 
     public function desklogReport()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(26, 49)) {
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'] . ' ' . $this->data['title'];
+                $page_name                  = 'access-forbidden';
+                echo $this->layout_after_login($title, $page_name, $data);
+                exit;
+            }  
         $form_type = $this->request->getPost('form_type');
         if ($form_type == 'fetch_backlog_date') {
             // Handle the first form submission (Fetching backlog date)

@@ -26,6 +26,13 @@ class ProjectController extends BaseController {
     }
     public function list()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(5, 28)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'project/list';
@@ -56,6 +63,13 @@ class ProjectController extends BaseController {
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function activeProject(){
+        if (!$this->common_model->checkModuleFunctionAccess(5, 29)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'project/active-project';
@@ -73,6 +87,13 @@ class ProjectController extends BaseController {
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function InactiveProject(){
+        if (!$this->common_model->checkModuleFunctionAccess(5, 29)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage '.$this->data['title'];
         $page_name                  = 'project/inactive-project';
@@ -85,11 +106,18 @@ class ProjectController extends BaseController {
         // $join[2]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'client_service', 'type' => 'inner'];
         $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['project.active!=' => 3,'active'=>1], $select, $join, '', $order_by);
                 // To print the last executed query
-// echo $this->db->getLastQuery(); die;
+        // echo $this->db->getLastQuery(); die;
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function add()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(5, 29)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Add';
         $title                      = $data['action'].' '.$this->data['title'];
@@ -135,6 +163,13 @@ class ProjectController extends BaseController {
     }
     public function edit($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(5, 30)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id                         = decoded($id);
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Edit';
@@ -180,6 +215,13 @@ class ProjectController extends BaseController {
     }
     public function confirm_delete($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(5, 57)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id                         = decoded($id);
         // $updateData = $this->common_model->delete_data($this->data['table_name'],$id,$this->data['primary_key']);
         $this->common_model->save_data($this->data['table_name'],['active' => 3],$id,$this->data['primary_key']);
@@ -188,6 +230,13 @@ class ProjectController extends BaseController {
     }
     public function change_status($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(5, 31)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id                         = decoded($id);
         $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', [$this->data['primary_key']=>$id]);
         if($data['row']->active == 0){

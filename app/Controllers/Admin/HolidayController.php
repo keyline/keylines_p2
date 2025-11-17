@@ -30,6 +30,13 @@ class HolidayController extends BaseController
 
     public function fetchHolidays()
     {
+        if(!$this->common_model->checkModuleFunctionAccess(37, 95)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'];
         $page_name                  = 'holiday-list';
@@ -104,6 +111,13 @@ class HolidayController extends BaseController
 
     public function addHoliday()
     {
+        if(!$this->common_model->checkModuleFunctionAccess(37, 96)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'];
         $page_name                  = 'holiday-list';
@@ -127,6 +141,13 @@ class HolidayController extends BaseController
 
     public function editHoliday($id)
     {
+        if(!$this->common_model->checkModuleFunctionAccess(37, 119)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $id                         = $id;
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Edit';
@@ -152,6 +173,13 @@ class HolidayController extends BaseController
 
     public function confirm_delete($id)
     {
+        if(!$this->common_model->checkModuleFunctionAccess(37, 120)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $id                         = decoded($id);
         $postData = array(
                             'status' => 3

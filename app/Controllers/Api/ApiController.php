@@ -455,6 +455,7 @@ class ApiController extends BaseController
                             'device_token'          => $device_token,
                             'fcm_token'             => $fcm_token,
                             'app_access_token'      => $app_access_token,
+                            'blur_screenshot'       => TRUE,
                         ];
                         $apiStatus                          = TRUE;
                         $apiMessage                         = 'SignIn Successfully !!!';

@@ -26,6 +26,13 @@ class ClientController extends BaseController
     }
     public function listClients()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(6, 33)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'];
         $page_name                  = 'client/list';
@@ -37,6 +44,13 @@ class ClientController extends BaseController
     }
     public function add()
     {
+        if (!$this->common_model->checkModuleFunctionAccess(6, 34)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Add';
         $title                      = $data['action'] . ' ' . $this->data['title'];
@@ -82,6 +96,13 @@ class ClientController extends BaseController
     }
     public function edit($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(6, 55)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id                         = decoded($id);
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Edit';
@@ -160,6 +181,13 @@ class ClientController extends BaseController
     }
     public function confirm_delete($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(6, 108)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id                         = decoded($id);
         $updateData = $this->common_model->delete_data($this->data['table_name'], $id, $this->data['primary_key']);
         $this->session->setFlashdata('success_message', $this->data['title'] . ' deleted successfully');
@@ -185,6 +213,13 @@ class ClientController extends BaseController
     }
     public function addProposal($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(6, 113)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id                         = decoded($id);
         $data['moduleDetail']       = $this->data;
         $title                      = 'Add Document';
@@ -238,6 +273,13 @@ class ClientController extends BaseController
     }
     public function viewProposal($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(6, 114)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id                         = decoded($id);
         $data['moduleDetail']       = $this->data;
         $title                      = 'View Document';
@@ -248,6 +290,13 @@ class ClientController extends BaseController
     }
     public function editProposal($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(6, 115)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id                         = base64_decode($id);
         $data['moduleDetail']       = $this->data;
         $title                      = 'Edit Document';
@@ -305,6 +354,13 @@ class ClientController extends BaseController
     }
     public function deleteProposal($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(6, 116)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id             = decoded($id);
         $p_file         = $this->data['model']->find_data('proposal_files', 'row', ['id' => $id], '', '', '', '');
         $file_pointer   = "public/uploads/proposal/" . $p_file->file;
@@ -317,6 +373,13 @@ class ClientController extends BaseController
     }
     public function addProject($id)
     {
+        if (!$this->common_model->checkModuleFunctionAccess(6, 112)) {
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'access-forbidden';
+            echo $this->layout_after_login($title, $page_name, $data);
+            exit;
+        }
         $id                         = base64_decode($id);
         $data['moduleDetail']       = $this->data;
         $title                      = 'Add Project';

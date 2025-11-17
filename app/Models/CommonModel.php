@@ -799,40 +799,54 @@ class CommonModel extends Model
     /* check module access */
     public function checkModuleAccess($id)
     {
-        $this->common_model = new CommonModel();
-        $this->session      = \Config\Services::session();
-        $userId             = $this->session->get('user_id');
-        $adminUser          = $this->common_model->find_data('ecoex_admin_user', 'row', ['id' => $userId]);
-        $checkExist         = $this->common_model->find_data('ecoex_role_module_function', 'count', ['module_id' => $id, 'role_id' => $adminUser->role_id, 'published' => 1]);
-        if ($checkExist > 0) {
-            return TRUE;
-            // $checkExistFunction         = $this->common_model->find_data('ecoex_role_module_function', 'count', ['role_id' => $adminUser->role_id, 'module_id' => $id, 'function_id' => 9, 'published' => 1]);
-            // echo $checkExistFunction;die;
-            // if($checkExistFunction > 0){
-            //     return TRUE;
-            // } else {
-            //     return FALSE;
-            // }
-        } else {
-            return FALSE;
-        }
+        $db               = \Config\Database::connect();
+      $common_model     = new CommonModel();
+      $session          = \Config\Services::session();
+      // pr($session->get());
+      $userId           = $session->get('user_id');
+      $userType         = $session->get('user_type');
+      if($userType != 'CLIENT'){
+        $adminUser        = $common_model->find_data('user', 'row', ['id' => $userId]);
+      }else{
+        $adminUser        = $common_model->find_data('client', 'row', ['id' => $userId]);
+      }
+      // pr($adminUser);
+      $checkExist       = $common_model->find_data('permission_role_module_function', 'count', ['module_id' => $id, 'role_id' => $adminUser->role_id]);
+      // echo $db->getLastQuery();die;
+      // echo $checkExist;die;
+      if ($checkExist > 0) {
+        return TRUE;
+      } else {
+        return FALSE;
+      }
     }
     /* check module access */
     /* check module function access */
     public function checkModuleFunctionAccess($module_id, $function_id)
     {
-        $this->db           = \Config\Database::connect();
-        $this->common_model = new CommonModel();
-        $this->session      = \Config\Services::session();
-        $userId             = $this->session->get('user_id');
-        $adminUser          = $this->common_model->find_data('ecoex_admin_user', 'row', ['id' => $userId]);
-        $role_id = $adminUser->role_id;
-        $checkExist         = $this->common_model->find_data('ecoex_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $function_id, 'published' => 1]);
-        if ($checkExist > 0) {
-            return TRUE;
-        } else {
-            return FALSE;
-        }
+        $db                 = \Config\Database::connect();
+      $common_model       = new CommonModel();
+      $session            = \Config\Services::session();
+      $userId             = $session->get('user_id');
+      // echo $userId;die;
+      // $adminUser          = $common_model->find_data('user', 'row', ['id' => $userId]);
+      $userType           = $session->get('user_type');
+      if($userType != 'CLIENT'){
+        $adminUser        = $common_model->find_data('user', 'row', ['id' => $userId]);
+      }else{
+        $adminUser        = $common_model->find_data('client', 'row', ['id' => $userId]);
+      }
+      // pr($adminUser);
+      $role_id = $adminUser->role_id;
+      $checkExist         = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $function_id]);
+      // echo $db->getLastQuery();
+      // die;
+      //echo $checkExist;die;
+      if ($checkExist > 0) {
+        return TRUE;
+      } else {
+        return FALSE;
+      }
     }
     /* check module function access */
     public function getProjectBooking($project_id, $project_type)

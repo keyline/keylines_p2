@@ -37,16 +37,16 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
             <div class="col-lg-12">
                 <div class="card table-card">
-                    <div class="card-header">
-                        <?php if (checkModuleFunctionAccess(30, 83)) { ?>
+                    <?php if (checkModuleFunctionAccess(38, 98)) { ?>
+                    <div class="card-header">                        
                             <h5>
                                 <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-success btn-sm add_effort_btn">Add <?=$title?></a>
-                            </h5>
-                        <?php } ?>
+                            </h5>                       
                     </div>
+                     <?php } ?>
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
-                            <?php if (checkModuleFunctionAccess(30, 82)) { ?>
+                            <?php if (checkModuleFunctionAccess(38, 97)) { ?>
                                 <table id="simpletable" class="table general_table_style padding-y-10">
                                     <thead>
                                         <tr>
@@ -71,18 +71,18 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <td><?=$row->latitude?></td>
                                             <td><?=$row->longitude?></td>
                                             <td class="text-center">
-                                                <?php if (checkModuleFunctionAccess(30, 84)) { ?>
+                                                <?php if (checkModuleFunctionAccess(38, 99)) { ?>
                                                 <a href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->$primary_key))?>" class="btn btn-outline-primary btn-sm" title="Edit <?=$title?>"><i class="fa fa-edit"></i></a>
                                                 <?php } ?>
-                                                <?php if (checkModuleFunctionAccess(30, 85)) { ?>
+                                                <?php if (checkModuleFunctionAccess(38, 100)) { ?>
                                                 <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
                                                 <?php } ?>
                                                 <?php if($row->status){?>
-                                                    <?php if (checkModuleFunctionAccess(30, 86)) { ?>
+                                                    <?php if (checkModuleFunctionAccess(38, 101)) { ?>
                                                     <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-success btn-sm" title="Activate <?=$title?>" onclick="return confirm('Do You Want To Deactivate This <?=$title?>');"><i class="fa fa-check"></i></a>
                                                     <?php } ?>
                                                 <?php } else {?>
-                                                    <?php if (checkModuleFunctionAccess(30, 87)) { ?>
+                                                    <?php if (checkModuleFunctionAccess(38, 102)) { ?>
                                                     <a href="<?=base_url('admin/' . $controller_route . '/change-status/'.encoded($row->$primary_key))?>" class="btn btn-outline-warning btn-sm" title="Deactivate <?=$title?>" onclick="return confirm('Do You Want To Activate This <?=$title?>');"><i class="fa fa-times"></i></a>
                                                     <?php } ?>
                                                 <?php }?>

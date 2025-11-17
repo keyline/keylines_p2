@@ -44,7 +44,7 @@ $controller_route   = $moduleDetail['controller_route'];
 <!-- End Page Title -->
 <section class="section profile">
     <div class="container-fluid">
-        <?php if (checkModuleFunctionAccess(26, 49)) { ?>
+        <?php if (checkModuleFunctionAccess(37, 95)) { ?>
             <div class="row">
                 <div class="col-xl-12">
                     <?php if (session('success_message')) { ?>
@@ -115,6 +115,7 @@ $controller_route   = $moduleDetail['controller_route'];
                     <div class="card">                                           
                         <div class="row">
                             <div class="portlet box green portlet-right card table-card">
+                                <?php if (checkModuleFunctionAccess(37, 96)) { ?>
                                 <div class="portlet-title">
                                     <div class="caption">
                                     </div>
@@ -125,6 +126,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </button>
                                     </div>
                                 </div>
+                                <?php } ?>
                                 <div class="portlet-body">
                                     <table class="table general_table_style padding-y-10" id="event-table">
                                         <thead>
@@ -132,7 +134,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <th>#</th>
                                                 <th>Event Name</th>
                                                 <th>Event Date</th>
+                                                <?php if (checkModuleFunctionAccess(37, 120)) { ?>
                                                 <th>Action</th>                                            
+                                                <?php }?>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -142,9 +146,11 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <th scope="row"><?=$sl++?></th>
                                             <th scope="row"><?=$row->title?></th>
                                             <th scope="row"><?=date_format(date_create($row->start_event), "l, M d, Y")?></th>
+                                            <?php if (checkModuleFunctionAccess(37, 120)) { ?>
                                             <th scope="row">                                            
                                                 <a href="<?=base_url('admin/' . $controller_route . '/delete/'.encoded($row->$primary_key))?>" class="btn btn-outline-danger btn-sm" title="Delete <?=$title?>" onclick="return confirm('Do You Want To Delete This <?=$title?>');"><i class="fa fa-trash"></i></a>
                                             </th>
+                                            <?php } ?>
                                             </tr>
                                         <?php } }?>
                                         </tbody>

@@ -68,65 +68,69 @@ $userId             = $session->user_id;
             <span class="link_name">User & Permission Management</span>
           </a>
         </li>
+        <?php if (checkModuleAccess(4)) { ?>
         <li>
           <a class="<?= (($pageSegment == 'users') ? 'active' : '') ?>" href="<?= base_url('admin/users/list') ?>">
             <i class="fa fa-arrow-right"></i>
             <span>Employees</span>
           </a>
         </li>
+        <?php } ?>
+        <?php if (checkModuleAccess(18)) { ?>
         <li>
           <a class="<?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/team/list') ?>">
             <i class="fa fa-arrow-right"></i>
             <span>Team</span>
           </a>
         </li>
-        <?php if ($userType == 'SUPER ADMIN') { ?>
+        <?php } ?>
+        <?php if (checkModuleAccess(33)) { ?>
+        <li>
+          <a class="<?= (($pageSegment == 'user_cost') ? 'active' : '') ?>"
+            href="<?= base_url('admin/user_cost/list') ?>">
+            <i class="fa fa-arrow-right"></i>
+            <span>Cost Update</span>
+          </a>
+        </li>
+        <?php } ?>
+        <li>
+          <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>"
+            href="javascript:void(0)">
+            <span class="link_name">Access & Permission</span>
+          </a>
+        </li>
+        <?php if (checkModuleAccess(12)) { ?>
+        <li>
+          <a class="<?= (($pageSegment == 'manage_functionlist') ? 'active' : '') ?>"
+            href="<?= base_url('admin/manage_functionlist') ?>">
+            <i class="fa fa-arrow-right"></i><span>Features</span>
+          </a>
+        </li>
+        <?php } ?>
+        <?php if (checkModuleAccess(13)) { ?>
+        <li>
+          <a class="<?= (($pageSegment == 'manage_modulelist') ? 'active' : '') ?>"
+            href="<?= base_url('admin/manage_modulelist') ?>">
+            <i class="fa fa-arrow-right"></i><span>Modules</span>
+          </a>
+        </li>
+        <?php } ?> 
+        <?php if (checkModuleAccess(28)) { ?>
           <li>
-            <a class="<?= (($pageSegment == 'user_cost') ? 'active' : '') ?>"
-              href="<?= base_url('admin/user_cost/list') ?>">
-              <i class="fa fa-arrow-right"></i>
-              <span>Cost Update</span>
+            <a class="<?= (($pageSegment == 'role-master') ? 'active' : '') ?>"
+              href="<?= base_url('admin/role-master/list') ?>">
+              <i class="fa fa-arrow-right"></i><span>Roles</span>
             </a>
           </li>
         <?php } ?>
-        <!-- <li>
-        <a class="<?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? '' : 'collapsed') ?> <?= (($pageSegment == 'manage_functionlist' || $pageSegment == 'manage_modulelist' || $pageSegment == 'manage_roles') ? 'active' : '') ?>"
-          href="javascript:void(0)">
-          <span class="link_name">Access & Permission</span>
-        </a>
-      </li> -->
-        <?php if (checkModuleAccess(12)) { ?>
-          <!-- <li>
-        <a class="?= (($pageSegment == 'manage_functionlist') ? 'active' : '') ?>"
-          href="?= base_url('admin/manage_functionlist') ?>">
-          <i class="fa fa-arrow-right"></i><span>Features</span>
-        </a>
-      </li>
-      <?php } ?>
-      <?php if (checkModuleAccess(13)) { ?>
-      <li>
-        <a class="?= (($pageSegment == 'manage_modulelist') ? 'active' : '') ?>"
-          href="?= base_url('admin/manage_modulelist') ?>">
-          <i class="fa fa-arrow-right"></i><span>Modules</span>
-        </a>
-      </li>
-      <?php } ?> -->
-          <?php if (checkModuleAccess(28)) { ?>
-            <li>
-              <a class="<?= (($pageSegment == 'role-master') ? 'active' : '') ?>"
-                href="<?= base_url('admin/role-master/list') ?>">
-                <i class="fa fa-arrow-right"></i><span>Roles</span>
-              </a>
-            </li>
-          <?php } ?>
-          <?php if (checkModuleAccess(14)) { ?>
-            <li>
-              <a class="<?= (($pageSegment == 'manage_roles') ? 'active' : '') ?>"
-                href="<?= base_url('admin/manage_roles') ?>">
-                <i class="fa fa-arrow-right"></i><span>Permission</span>
-              </a>
-            </li>
-          <?php } ?>
+        <?php if (checkModuleAccess(14)) { ?>
+        <li>
+          <a class="<?= (($pageSegment == 'manage_roles') ? 'active' : '') ?>"
+            href="<?= base_url('admin/manage_roles') ?>">
+            <i class="fa fa-arrow-right"></i><span>Permission</span>
+          </a>
+        </li>
+        <?php } ?>
       </ul>
     </li>
   <?php } ?>
@@ -153,24 +157,30 @@ $userId             = $session->user_id;
             <span>Project List</span>
           </a>
         </li>
+        <?php if (checkModuleAccess(34)) { ?>
         <li>
           <a class="<?= (($pageSegment == 'outside_project_cost') ? 'active' : '') ?>" href="<?= base_url('admin/outside_project/project_name') ?>">
             <i class="fa fa-arrow-right"></i>
             <span>Add Expenses</span>
           </a>
         </li>
+        <?php } ?>
+        <?php if (checkModuleAccess(35)) { ?>
         <li>
           <a class="<?= (($pageSegment == 'amc-checking') ? 'active' : '') ?>" href="<?= base_url('admin/amc-checking') ?>">
             <i class="fa fa-arrow-right"></i>
             <span>AMC Checking</span>
           </a>
         </li>
+        <?php } ?>
+        <?php if (checkModuleAccess(6)) { ?>
         <li>
           <a class="<?= (($pageSegment == 'clients') ? 'active' : '') ?>" href="<?= base_url('admin/clients/list') ?>">
             <i class="fa fa-arrow-right"></i>
             <span>Clients</span>
           </a>
         </li>
+        <?php } ?>
       </ul>
     </li>
   <?php } ?>
@@ -186,8 +196,8 @@ $userId             = $session->user_id;
     </li>
   ?php } ?> -->
 
-  <?php if ($userType != 'CLIENT') { ?>
-    <?php if (checkModuleAccess(7) || checkModuleAccess(19) || checkModuleAccess(20)) { ?>
+  <!-- ?php if ($userType != 'CLIENT') { ?> -->
+    <?php if (checkModuleAccess(7) || checkModuleAccess(36) || checkModuleAccess(20)) { ?>
       <li>
         <div class="iocn-link">
           <a class="<?= (($pageSegment == 'efforts') ? '' : 'collapsed') ?> <?= (($pageSegment == 'efforts') ? 'active' : '') ?>" href="javascript:void(0)">
@@ -203,9 +213,10 @@ $userId             = $session->user_id;
               <span class="link_name">Effort Management</span>
             </a>
           </li>
+          <?php if (checkModuleAccess(36)) { ?>
           <?php if ($admin->is_tracker_user) {  ?>
             <li>
-              <a class="<?= (($pageSegment == 'team') ? 'active' : '') ?>" href="<?= base_url('admin/task-assign') ?>">
+              <a class="<?= (($pageSegment == 'efforts') ? 'active' : '') ?>" href="<?= base_url('admin/task-assign') ?>">
                 <i class="fa fa-arrow-right"></i>
                 <span>Task Assign</span>
               </a>
@@ -217,7 +228,7 @@ $userId             = $session->user_id;
                         </a>
                     </li> -->
             <?php } ?>
-          <?php } ?>
+          <?php }  }?>
           <?php if (checkModuleAccess(20)) { ?>
             <li>
               <a class="<?= (($pageSegment == 'efforts' && $paramerId == 'list') ? 'active' : '') ?>" href="<?= base_url('admin/efforts/list') ?>">
@@ -228,9 +239,9 @@ $userId             = $session->user_id;
         </ul>
       </li>
     <?php } ?>
-  <?php } ?>
+  <!-- ?php } ?> -->
 
-  <?php if (checkModuleAccess(22) || checkModuleAccess(23) || checkModuleAccess(24) || checkModuleAccess(25) || checkModuleAccess(26)) {    ?>
+  <?php if (checkModuleAccess(22) || checkModuleAccess(23) || checkModuleAccess(24) || checkModuleAccess(25) || checkModuleAccess(26) || checkModuleAccess(27) || checkModuleAccess(9) || checkModuleAccess(10)) {    ?>
     <li>
       <div class="iocn-link">
         <a class="<?= (($pageSegment == 'reports') ? '' : 'collapsed') ?> <?= (($pageSegment == 'reports') ? 'active' : '') ?>" href="javascript:void(0)">
@@ -287,19 +298,23 @@ $userId             = $session->user_id;
             </li>
         <?php }
         } ?>
-        <?php if ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') { ?>
+        <?php  if (checkModuleAccess(27))  { ?>
           <li>
             <a class="<?= (($pageSegment == 'attendance-report') ? 'active' : '') ?>" href="<?= base_url('admin/attendance-report') ?>">
               <i class="fa fa-arrow-right"></i>
               <span>Attendance</span>
             </a>
           </li>
+        <?php } ?>
+        <?php if (checkModuleAccess(9)) { ?>
           <li>
             <a class="<?= (($pageSegment == 'email-logs') ? 'active' : '') ?>" href="<?= base_url('admin/email-logs') ?>">
               <i class="fa fa-arrow-right"></i>
               <span>Email Logs</span>
             </a>
           </li>
+        <?php } ?>
+        <?php if (checkModuleAccess(10)) { ?>
           <li>
             <a class="<?= (($pageSegment == 'login-logs') ? 'active' : '') ?>" href="<?= base_url('admin/login-logs') ?>">
               <i class="fa fa-arrow-right"></i>
@@ -311,7 +326,7 @@ $userId             = $session->user_id;
     </li>
   <?php } ?>
 
-  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(28)) { ?>
+  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(29) || checkModuleAccess(30) || checkModuleAccess(37) || checkModuleAccess(38)) { ?>
     <li>
       <div class="iocn-link">
         <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
@@ -362,6 +377,8 @@ $userId             = $session->user_id;
               <i class="fa fa-arrow-right"></i><span>Work Status</span>
             </a>
           </li>
+          <?php } ?>
+          <?php if (checkModuleAccess(37)) { ?>
           <li>
             <a class="<?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>"
               href="<?= base_url('admin/holiday-list') ?>">
@@ -369,7 +386,7 @@ $userId             = $session->user_id;
             </a>
           </li>
         <?php } ?>
-        <?php if (checkModuleAccess(30)) { ?>
+        <?php if (checkModuleAccess(38)) { ?>
           <li>
             <a class="<?= (($pageSegment == 'office-location') ? 'active' : '') ?>"
               href="<?= base_url('admin/office-location/list') ?>">
@@ -397,7 +414,7 @@ $userId             = $session->user_id;
 
   <?php //if (checkModuleAccess(11)) { 
   ?>
-  <?php if ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') { ?>
+  <?php if (checkModuleAccess(41)) { ?>
     <li>
       <div class="iocn-link">
         <a class="<?= (($pageSegment == 'settings') ? '' : 'collapsed') ?> <?= (($pageSegment == 'settings') ? 'active' : '') ?>" href="javascript:void(0)">
@@ -419,13 +436,16 @@ $userId             = $session->user_id;
           </a>
         </li>
 
-        <!-- code added by @Shubha75 on 16/06/25 -->
+        <?php if (checkModuleFunctionAccess(39, 121)) { ?>
+        <!-- code added by @Shubha75 on 16/06/25 -->         
         <li>
           <a class="<?= (($pageSegment == 'screenshot-settings') ? 'active' : '') ?>" href="<?= base_url('admin/screenshot-settings'); ?>">
             <i class="fa fa-arrow-right"></i>
             <span>Screenshot Settings</span>
           </a>
         </li>
+        <?php } ?>
+        <?php if (checkModuleAccess(40)) { ?>
         <!-- code added by @Shubha75 on 16/06/25 -->
         <li>
           <a class="<?= (($pageSegment == 'mobile-application') ? 'active' : '') ?>" href="<?= base_url('admin/mobile-application') ?>">
@@ -433,13 +453,15 @@ $userId             = $session->user_id;
             <span>Mobile Application</span>
           </a>
         </li>
-
+          <?php } ?>
+          <?php if (checkModuleAccess(8)) { ?>
         <li>
           <a class="<?= (($pageSegment == 'delete-account-request') ? 'active' : '') ?>" href="<?= base_url('admin/delete-account-request/list') ?>">
             <i class="fa fa-arrow-right"></i>
             <span>Delete Account Requests</span>
           </a>
         </li>
+        <?php } ?>
       </ul>
     </li>
   <?php } ?>

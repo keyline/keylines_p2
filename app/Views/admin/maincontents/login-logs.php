@@ -16,6 +16,7 @@ $user_type = session('user_type');
     </div>
   </div>
 </div>
+<?php if(checkModuleFunctionAccess(10, 53)) { ?>
 <section class="section profile">
   <div class="container-fluid">
     <div class="row">
@@ -212,3 +213,4 @@ $user_type = session('user_type');
     </div>
   </div>
 </section>
+<?php } ?>

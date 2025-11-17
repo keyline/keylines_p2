@@ -92,33 +92,43 @@ $user_type = session('user_type');
             </div>
           </div>
         </div>
+        <?php if (checkModuleFunctionAccess(41, 128)) { ?>
         <div class="col-xl-10">
           <div class="card">
             <div class="card-body pt-3">
               <!-- Bordered Tabs -->
-              <ul class="nav nav-tabs nav-tabs-bordered">
+              <ul class="nav nav-tabs nav-tabs-bordered">                
                 <li class="nav-item">
                   <button class="nav-link font-12 active" data-bs-toggle="tab" data-bs-target="#tab1">Profile</button>
-                </li>
+                </li>     
+                <?php if (checkModuleFunctionAccess(41, 130)) { ?>           
                 <li class="nav-item">
                   <button class="nav-link font-12" data-bs-toggle="tab" data-bs-target="#tab3">Change Password</button>
                 </li>
-                <?php if ($user_type == 'SUPER ADMIN' || $user_type == 'ADMIN') { ?>
+                <?php } ?>
+                <?php if (checkModuleFunctionAccess(41, 131)) { ?>
                   <li class="nav-item">
                     <button class="nav-link font-12" data-bs-toggle="tab" data-bs-target="#tab2">General</button>
                   </li>
+                  <?php }?>
+                  <?php if (checkModuleFunctionAccess(41, 132)) { ?>
                   <li class="nav-item">
                     <button class="nav-link font-12" data-bs-toggle="tab" data-bs-target="#tab11">Application</button>
                   </li>
+                  <?php }?>
+                  <?php if (checkModuleFunctionAccess(41, 133)) { ?>
                   <li class="nav-item">
                     <button class="nav-link font-12" data-bs-toggle="tab" data-bs-target="#tab4">Email</button>
                   </li>
+                  <?php }?>
                   <!-- <li class="nav-item">
                 <button class="nav-link font-12" data-bs-toggle="tab" data-bs-target="#tab9">Email Templates</button>
               </li> -->
+                  <?php if (checkModuleFunctionAccess(41, 134)) { ?>
                   <li class="nav-item">
-                <button class="nav-link font-12" data-bs-toggle="tab" data-bs-target="#tab5">SMS</button>
-              </li>
+                    <button class="nav-link font-12" data-bs-toggle="tab" data-bs-target="#tab5">SMS</button>
+                  </li>
+                  <?php } ?>
                   <!-- <li class="nav-item">
                 <button class="nav-link font-12" data-bs-toggle="tab" data-bs-target="#tab6">Footer</button>
               </li>
@@ -128,12 +138,11 @@ $user_type = session('user_type');
               <li class="nav-item">
                 <button class="nav-link font-12" data-bs-toggle="tab" data-bs-target="#tab8">Payment</button>
               </li>
-              -->
-                <?php } ?>
+              -->                
               </ul>
 
               <div class="tab-content pt-2">
-                <?php if ($user_type != "CLIENT") { ?>
+                <?php if ($user_type != "CLIENT") { ?>                  
                   <div class="tab-pane fade show active profile-overview" id="tab1">
                     <!-- profile settings Form -->
                     <form method="POST" action="<?= base_url('admin/profile-settings') ?>" enctype="multipart/form-data">
@@ -169,6 +178,7 @@ $user_type = session('user_type');
                           <input type="text" name="phone2" class="form-control" id="phone2" value="<?= $admin->phone2 ?>">
                         </div>
                       </div>
+                      <?php if (checkModuleFunctionAccess(41, 135)) { ?>
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
                           <label for="hour_cost" class="col-form-label">Hour Cost</label>
@@ -177,6 +187,13 @@ $user_type = session('user_type');
                           <input type="text" name="hour_cost" class="form-control" id="hour_cost" value="<?= $admin->hour_cost ?>">
                         </div>
                       </div>
+                      <?php } else { ?>
+                        <div class="row mb-3">
+                          <div class="col-md-8 col-lg-9">
+                            <input type="hidden" name="hour_cost" class="form-control" id="hour_cost" value="<?= $admin->hour_cost ?>">
+                          </div>
+                        </div>
+                        <?php } ?>
                       <div class="row mb-3">
                         <div class="col-md-4 col-lg-3">
                           <label for="dob" class="col-form-label">DOB</label>
@@ -212,7 +229,7 @@ $user_type = session('user_type');
                       </div>
                     </form><!-- End profile settings Form -->
                   </div>
-                <?php } else { ?>
+                <?php  } else { ?>                  
                   <div class="tab-pane fade show active profile-overview" id="tab1">
                     <!-- profile settings Form -->
                     <form method="POST" action="<?= base_url('admin/profile-settings') ?>" enctype="multipart/form-data">
@@ -261,7 +278,8 @@ $user_type = session('user_type');
                       </div>
                     </form><!-- End profile settings Form -->
                   </div>
-                <?php } ?>
+                <?php  } ?>
+                <?php if (checkModuleFunctionAccess(41, 131)) { ?>
                 <div class="tab-pane fade profile-edit pt-3" id="tab2">
                   <!-- general settings Form -->
                   <form method="POST" action="<?= base_url('admin/general-settings') ?>" enctype="multipart/form-data">
@@ -476,6 +494,8 @@ $user_type = session('user_type');
                     </div>
                   </form><!-- End general settings Form -->
                 </div>
+                <?php }?>
+                <?php if (checkModuleFunctionAccess(41, 132)) { ?>
                 <div class="tab-pane fade profile-edit pt-3" id="tab11">
                   <!-- application settings Form -->
                   <form method="POST" action="<?= base_url('admin/application-settings') ?>" enctype="multipart/form-data">                  
@@ -777,6 +797,8 @@ $user_type = session('user_type');
                     </div>
                   </form><!-- End general settings Form -->
                 </div>
+                <?php } ?>
+                <?php if (checkModuleFunctionAccess(41, 130)) { ?>
                 <div class="tab-pane fade pt-3" id="tab3">
                   <!-- change password Form -->
                   <form method="POST" action="<?= base_url('admin/change-password') ?>" enctype="multipart/form-data">
@@ -844,6 +866,8 @@ $user_type = session('user_type');
                     </div>
                   </form><!-- End change password Form -->
                 </div>
+                <?php } ?>
+                <?php if (checkModuleFunctionAccess(41, 133)) { ?>
                 <div class="tab-pane fade pt-3" id="tab4">
                   <h5 class="mb-2">Email Configuration</h5>
                   <!-- email settings Form -->
@@ -903,6 +927,8 @@ $user_type = session('user_type');
                   <h5 class="mb-2">Test Email</h5>
                   <a href="<?= base_url('admin/test-email') ?>" class="btn btn-success btn-sm"><i class="fa fa-envelope"></i> Click To Send Test Email</a>
                 </div>
+                <?php }?>
+                <?php if (checkModuleFunctionAccess(41, 134)) { ?>
                 <div class="tab-pane fade pt-3" id="tab5">
                   <!-- sms settings Form -->
                   <form method="POST" action="<?= base_url('admin/sms-settings') ?>" enctype="multipart/form-data">
@@ -935,6 +961,7 @@ $user_type = session('user_type');
                     </div>
                   </form><!-- End sms settings Form -->
                 </div>
+                <?php } ?>
                 <div class="tab-pane fade pt-3" id="tab6">
                   <!-- footer settings Form -->
                   <form method="POST" action="<?= base_url('admin/footer-settings') ?>" enctype="multipart/form-data">
@@ -1180,6 +1207,7 @@ $user_type = session('user_type');
             </div>
           </div>
         </div>
+         <?php } ?>
       </div>
     </div>
   </section>

@@ -43,7 +43,9 @@ $controller_route   = $moduleDetail['controller_route'];
                                     <th scope="col">Date</th>
                                     <th scope="col">Files</th>
                                     <th scope="col">Uploaded By</th>
+                                    <?php if(checkModuleFunctionAccess(6,115) || checkModuleFunctionAccess(6,116)) { ?>
                                     <th scope="col">Action</th>
+                                    <?php } ?>
                                 </tr>
                             </thead>
                             <tbody>
@@ -87,10 +89,16 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 echo $res1->name ?? '';
                                                 ?>
                                             </td>
+                                            <?php if(checkModuleFunctionAccess(6,115) || checkModuleFunctionAccess(6,116)) { ?>
                                             <td>
+                                                <?php if(checkModuleFunctionAccess(6,115)) { ?>
                                                 <a href="<?= base_url('admin/' . $controller_route . '/edit-proposal/' . base64_encode($row->id)); ?>" class="btn btn-outline-primary btn-sm" title="Edit Proposal"><i class="fa fa-edit"></i></a>
+                                                <?php } ?>
+                                                <?php if(checkModuleFunctionAccess(6,116)) { ?>
                                                 <a href="<?= base_url('admin/' . $controller_route . '/delete-proposal/' . base64_encode($row->id)); ?>" class="btn btn-outline-danger btn-sm" onclick="return confirm('Do you want to delete this proposal from list ?');" title="Delete Proposal"><i class="fa fa-trash"></i></a>
+                                                <?php } ?>
                                             </td>
+                                            <?php } ?>
                                         </tr>
                                 <?php }
                                 } ?>

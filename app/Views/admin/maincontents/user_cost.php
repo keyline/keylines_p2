@@ -28,7 +28,7 @@ $controller_route   = $moduleDetail['controller_route'];
         </div>
     </div>
 </div>
-<?php if(checkModuleFunctionAccess(4,20)){ ?>
+<?php if(checkModuleFunctionAccess(33,89)){ ?>
 <section class="section">
     <div class="container-fluid">
         <div class="row">

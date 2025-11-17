@@ -30,6 +30,13 @@ class ScreenshotSettingsController extends BaseController
 
     public function index()
     {
+        if(!$this->common_model->checkModuleFunctionAccess(39, 121)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $id                         = 1;
         $data['moduleDetail']       = $this->data;
         $data['action']             = 'Edit';
@@ -72,6 +79,13 @@ class ScreenshotSettingsController extends BaseController
 
     public function screenshotList($userId)
     {
+        if(!$this->common_model->checkModuleFunctionAccess(39, 103)){
+            $data['action']             = 'Access Forbidden';
+            $title                      = $data['action'].' '.$this->data['title'];
+            $page_name                  = 'access-forbidden';        
+            echo $this->layout_after_login($title,$page_name,$data);
+            exit;
+        }
         $id                         = decoded($userId);
         $title                      = 'Screenshot List';
         $page_name                  = 'screenshot_settings/user_screen_list';

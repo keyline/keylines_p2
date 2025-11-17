@@ -296,6 +296,7 @@ $controller_route       = $moduleDetail['controller_route'];
                         </ol>
                     </nav>
                 </div>
+                <?php if(checkModuleFunctionAccess(36,109)){ ?>
                 <div class="filtrable-box mb-3 mb-md-0 w-50">
                     <form method="POST" action="">
                         <div class="row align-items-center">
@@ -311,11 +312,13 @@ $controller_route       = $moduleDetail['controller_route'];
                         </div>
                     </form>
                 </div>
+                <?php } ?>
             </div>
         </div>
     </div>
 </div>
 <!-- End Page Title -->
+ <?php if(checkModuleFunctionAccess(36,93)){ ?>
 <section class="section profile">
     <div class="container-fluid">
         <div class="row">
@@ -624,9 +627,10 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                         By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
                                                                                                         <?php if($getTask->work_status_id == 0){?>
                                                                                                             <?php if($effortIcon){?>
+                                                                                                                <?php if(checkModuleFunctionAccess(36,94)){ ?>
                                                                                                                 <br>
                                                                                                                 <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
-                                                                                                            <?php }?>
+                                                                                                            <?php } }?>
                                                                                                         <?php }?>
                                                                                                     </p>
                                                                                                 </div>
@@ -647,10 +651,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php } }?>
 
                                                                                 <?php if($alterIcon){?>
+                                                                                    <?php if(checkModuleFunctionAccess(36,94)){ ?>
                                                                                     <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', '');">
                                                                                         <i class="fa-solid fa-plus-circle"></i> Add Effort
                                                                                     </a>
-                                                                                <?php }?>
+                                                                                <?php } }?>
                                                                                 <!-- <?php
                                                                                 $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => $yesterday, 'is_leave>' => 0], 'is_leave');
                                                                                 if(!$getLeaveTask){
@@ -954,19 +959,21 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                                             By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
                                                                                                             <?php if($getTask->work_status_id == 0){?>
                                                                                                                 <?php if($effortIcon){?>
+                                                                                                                    <?php if(checkModuleFunctionAccess(36,94)){ ?>
                                                                                                                     <br>
                                                                                                                     <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
-                                                                                                                <?php }?>
+                                                                                                                <?php } }?>
                                                                                                             <?php }?>
                                                                                                         </p>
 
                                                                                                         <?php if($getTask->work_status_id <= 0){?>
                                                                                                             <?php if($alterIcon){?>
                                                                                                                 <?php if($minutes <= $edit_time_after_task_add){?>
+                                                                                                                    <?php if(checkModuleFunctionAccess(36,117)){ ?>
                                                                                                                     <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
                                                                                                                         <i class="fa-solid fa-pencil text-primary"></i>
                                                                                                                     </a>
-                                                                                                                <?php }?>
+                                                                                                                <?php } }?>
                                                                                                             <?php }?>
                                                                                                         <?php }?>
                                                                                                     </div>
@@ -976,10 +983,11 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php } }?>
 
                                                                                 <?php if($alterIcon){?>
+                                                                                    <?php if(checkModuleFunctionAccess(36,94)){ ?>
                                                                                     <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
                                                                                         <i class="fa-solid fa-plus-circle"></i> Add Task
                                                                                     </a>
-                                                                                <?php }?>
+                                                                                <?php } }?>
 
                                                                                 <!-- <?php
                                                                                 $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
@@ -1021,6 +1029,7 @@ $controller_route       = $moduleDetail['controller_route'];
         </div>
     </div>
 </section>
+<?php } ?>
 
 <!-- lead activity modal -->
     <div class="modal fade" id="morningformModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999;">
