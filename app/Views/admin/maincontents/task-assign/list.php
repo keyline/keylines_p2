@@ -347,7 +347,7 @@ $controller_route       = $moduleDetail['controller_route'];
             </div>
             <div class="col-12">
                 <div class="card table-card">
-                    <div class="card-body">.
+                    <div class="card-body">
                         <div class="accordion" id="accordionPanelsStayOpenExample">
                             <?php
                             if(!empty($date_array)){ for($k=0;$k<count($date_array);$k++){
