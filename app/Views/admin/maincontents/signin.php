@@ -172,7 +172,7 @@
           <div class="d-grid">
             <button class="btn btn-warning text-white w-100 mb-3 mt-2" type="submit">Sign In</button>
           </div>
-          <p class="text-center small">Forgot Password? <a href="#">Click Here</a></p>
+          <p class="text-center small">Forgot Password? <a href="<?= base_url('admin/forgot-password') ?>">Click Here</a></p>
         </form>
         <div class="credits text-center mt-2">
           <small class="text-muted">Maintained by <a href="https://keylines.net/">Keylines Digitech Pvt.

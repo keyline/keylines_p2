@@ -1,55 +1,193 @@
-<div class="container">
-    <section class="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-4 col-md-6 d-flex flex-column align-items-center justify-content-center">
-                    <div class="d-flex justify-content-center py-4">
-                        <a href="<?=base_url('admin/')?>" class="logo d-flex align-items-center w-auto">
-                        <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>">
-                        </a>
-                    </div>
-                    <!-- End Logo -->
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <div class="pt-4 pb-2">
-                                <h5 class="card-title text-center pb-0 fs-4">Retrieve to Your Account</h5>
-                                <p class="text-center small">Enter otp to reset</p>
-                            </div>
-                            <?php if($session->getFlashdata('success_message')){?>
-                            <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
-                                <?=$session->getFlashdata('success_message')?>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            <?php }?>
-                            <?php if($session->getFlashdata('error_message')){?>
-                            <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
-                                <?=$session->getFlashdata('error_message')?>
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                            <?php }?>
-                            <form class="row g-3" method="POST" action="">
-                                <div class="col-12">
-                                    <label for="otp" class="form-label">OTP</label>
-                                    <div class="input-group has-validation">
-                                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-key"></i></span>
-                                        <input type="number" name="otp" class="form-control" id="otp" required>
-                                        <div class="invalid-feedback">Please enter your OTP.</div>
-                                    </div>
-                                </div>
-                                <div class="col-12">
-                                    <button class="btn btn-success w-100" type="submit">Submit</button>
-                                </div>
-                                <div class="col-12">
-                                    <p class="small mb-0">Already Have Account? <a href="<?=base_url('/admin/')?>">Sign In</a></p>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="credits">
-                        Maintained by <a href="https://keylines.net/">Keylines Digitech Pvt. Ltd.</a>
+
+<style>
+  body,
+  html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: 'Segoe UI', sans-serif;
+  }
+
+  .gradient-bg {
+    background: linear-gradient(135deg, #f9ed4c, #f19620);
+  }
+
+  input.form-control {
+    height: 45px;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+
+  button.btn {
+    height: 45px;
+    font-size: 16px;
+    border-radius: 6px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .logo {
+    width: 200px;
+    margin-bottom: 20px;
+  }
+
+  .signin-box {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+  }
+
+  .qr-box {
+    background: #fff;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .qr-box img {
+    max-width: 150px;
+    margin-bottom: 10px;
+  }
+
+  .app-path {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #333;
+  }
+  @media (max-width: 768px) {
+
+    .qr-box .qr-image{
+      display: none
+    }
+    .qr-box{
+      width: 100%;
+      max-width: 380px;
+    }
+    .gradient-bg{
+      background: transparent !important;
+    }
+    .signin_box{
+      background: linear-gradient(135deg, #f9ed4c, #f19620);
+      padding-bottom: 24px;
+      flex-direction: column-reverse;
+    }
+    .signin_box .col-md-8,
+    .signin_box .col-md-4{
+      width: 100%;
+    }
+    .signin_box .col-md-4.bg-white{
+      background: transparent !important;
+    }
+    .signin_box.vh-100 {
+      height: 100% !important;
+    }
+    .app-path{
+      margin-top: 12px;
+    }
+  }
+</style>
+
+<div class="signin_box d-flex flex-wrap vh-100">
+  <!-- Left Panel -->
+  <div class="col-md-8 d-flex flex-column justify-content-center align-items-center">
+    <div class="gradient-bg text-white w-100 h-100 d-flex flex-column justify-content-center px-3">
+      <div class="text-center my-4 mb-md-4 d-none d-md-block">
+        <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
+          style="width: 100%;max-width: 200px;">
+      </div>
+      <div class="qr-box mt-2">
+        <div class="row justify-content-center">
+          <div class="col-md-5">
+            <img src="<?= base_url('public/uploads/Android.png')?>" alt="" class="img-fluid qr-image">
+            <a href="https://play.google.com/store/apps/details?id=com.keytracker.keyline" target="_blank" class="d-block">
+              <img src="<?= base_url('public/uploads/play-store.png')?>" alt="" class="img-fluid">
+            </a>
+          </div>
+          <div class="col-md-5">
+            <img src="<?= base_url('public/uploads/iOS.png')?>" alt="" class="img-fluid qr-image">
+            <a href="https://apps.apple.com/us/app/effortrak/id6502506223" target="_blank" class="d-block">
+              <img src="<?= base_url('public/uploads/app-store.png')?>" alt="" class="img-fluid">
+            </a>
+          </div>
+        </div>
+        <div class="app-path">
+          <p><b>Application Link :</b> <a href="#" data-bs-toggle="tooltip" data-bs-placement="top"
+              title="Copy this link and paste it in the mobile app URL location">
+              <?=getenv('app.baseURL')?>
+            </a></p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Right Panel -->
+  <div class="col-md-4 d-flex align-items-center justify-content-center bg-white flex-column px-3">
+    <div class="text-center my-4 mb-md-4 d-block d-md-none">
+      <img src="<?=getenv('app.uploadsURL').$general_settings->site_logo?>" alt="<?=$general_settings->site_name?>"
+          style="width: 100%;max-width: 200px;">
+    </div>
+    <div class="card shadow p-4" style="width: 100%; max-width: 380px; border-radius: 16px;">
+      <div class="card-body">
+        <div class="text-center mb-4">
+          <h3 class="mb-1 text-primary">Forgot Password</h3>
+          <p class="text-muted small">Enter your registered email</p>
+        </div>
+        <div class="col-xl-12">
+          <?php if(session('success_message')){?>
+              <div class="alert alert-success bg-success text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <?=session('success_message')?>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          <?php }?>
+          <?php if(session('error_message')){?>
+              <div class="alert alert-danger bg-danger text-light border-0 alert-dismissible fade show hide-message" role="alert">
+                <?=session('error_message')?>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+          <?php }?>
+        </div>
+            <form class="row g-3" method="POST" action="">
+                <div class="col-12">
+                    <label for="otp" class="form-label">OTP</label>
+                    <div class="input-group has-validation">
+                        <span class="input-group-text" id="inputGroupPrepend"><i class="fa fa-key"></i></span>
+                        <input type="number" name="otp" class="form-control" id="otp" required>
+                        <div class="invalid-feedback">Please enter your OTP.</div>
                     </div>
                 </div>
-            </div>
+                <div class="col-12">
+                    <button class="btn btn-success w-100" type="submit">Submit</button>
+                </div>
+                <div class="col-12">
+                    <p class="small mb-0">Already Have Account? <a href="</?=base_url('/admin/')?>">Sign In</a></p>
+                </div>
+            </form>
+        <div class="credits text-center mt-2">
+          <small class="text-muted">Maintained by <a href="https://keylines.net/">Keylines Digitech Pvt.
+              Ltd.</a></small>
         </div>
-    </section>
+      </div>
+    </div>
+  </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $('#viewPassword').on('click', function () {
+      $('#password').attr('type', 'text');
+      $('#viewPassword').hide();
+      $('#hidePassword').show();
+    });
+    $('#hidePassword').on('click', function () {
+      $('#password').attr('type', 'password');
+      $('#hidePassword').hide();
+      $('#viewPassword').show();
+    });
+  })
+</script>
+
