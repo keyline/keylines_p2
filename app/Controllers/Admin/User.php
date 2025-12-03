@@ -205,7 +205,7 @@ class User extends BaseController
         $page_name  = 'forgot-password';
         $data       = [];
         if ($this->request->getPost()) {
-            $email          = $this->request->getPost('username');
+            $email          = $this->request->getPost('email');
             $checkEmail     = $this->common_model->find_data('user', 'row', ['email' => $email, 'status' => '1']);
             if ($checkEmail) {
                 // otp mail send
