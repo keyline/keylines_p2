@@ -288,7 +288,7 @@
                                     </div>
                                  </div>
                                   <?php } ?>   
-                                     <!-- Add effort for yesterday -->
+                                     <!-- Add effort button for yesterday (this portion added on 12nd December of 2025) -->
                                       <?php $yesterday = date('Y-m-d', strtotime("-1 days")); ?>
                                     <?php if(checkModuleFunctionAccess(36,94)){ ?>
                                     <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$admin->department?>, <?=$admin->id?>, '<?=$admin->name?>', '');">
@@ -1863,6 +1863,7 @@
 
 </script>
 
+<!-- This script for add effort button for yesterday (this portion added on 12nd December of 2025) -->
 <!-- <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script> -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script type="text/javascript">
@@ -2200,6 +2201,9 @@
                                         $('#total-time-' + user_id + '_' + book_date).html('[Assigned : ' + res.data.totalTime + ']');
                                         $('#total-booked-time-' + user_id + '_' + book_date).html('[Booked : ' + res.data.totalBookedTime + ']');
                                         toastAlert("success", res.message);
+                                            setTimeout(function () {
+                                                location.reload();
+                                             }, 800); // small delay to show toast
                                     }
                                 },
                                 error: function(xhr, status, error) {

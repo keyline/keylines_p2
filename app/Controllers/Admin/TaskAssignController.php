@@ -1941,7 +1941,7 @@ class TaskAssignController extends BaseController {
         echo $this->layout_after_login($title,$page_name,$data);
     }
 
-        /* task effort booking */
+        /* This script for add effort button for yesterday (this portion added on 12nd December of 2025)  */
         public function morning_meeting_schedule_prefill_effort_booking_for_dashboard_yesterday(){
             if (!$this->common_model->checkModuleFunctionAccess(36, 94)) {
                 $data['action']             = 'Access Forbidden';
