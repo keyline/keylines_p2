@@ -1,5 +1,7 @@
 <?php
    //die("dashboard");
+   // print_r($admin); die;
+   // print_r($projects_with_client_name); die;
    $userType    = $session->user_type;
    $user_id     = $session->user_id;
    ?>
@@ -285,7 +287,14 @@
                                        </div>
                                     </div>
                                  </div>
-                                  <?php } ?>                                                                   
+                                  <?php } ?>   
+                                     <!-- Add effort for yesterday -->
+                                      <?php $yesterday = date('Y-m-d', strtotime("-1 days")); ?>
+                                    <?php if(checkModuleFunctionAccess(36,94)){ ?>
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$admin->department?>, <?=$admin->id?>, '<?=$admin->name?>', '');">
+                                          <i class="fa-solid fa-plus-circle"></i> Add Effort
+                                    </a>
+                                 <?php  }?>                                                                                                  
                               </div>                                                                                         
                            </div>
                            <div class="col-xxl-4 col-md-4 table-responsive"> 
@@ -1597,6 +1606,36 @@
       </div>
    </div>
 
+
+   <!-- lead activity modal -->
+    <div class="modal fade" id="morningformModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999;">
+        <div class="modal-dialog modal-dialog-centered" role="document" style="max-width: 50%; margin-top: 20px;">
+            <div class="modal-content">
+                <div class="modal-header" id="morningformTitle">
+                    
+                </div>
+                <div class="modal-body" id="morningformBody">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- lead activity modal -->
+<!-- reject task modal -->
+ <div class="modal fade" id="taskRescheduleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="z-index: 9999999;">
+        <div class="modal-dialog" role="document" style="max-width: 50%; margin-top: 20px;">
+            <div class="modal-content">
+                <div class="modal-header" id="taskRescheduleTitle">
+                    
+                </div>
+                <div class="modal-body" id="taskRescheduleBody">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- reject task modal -->
+
  
 <!-- <script>
    $(document).ready(function() {
@@ -1608,6 +1647,7 @@
 </script> -->
 
 <script>
+   
    function dayWiseList(userId, name, date, effort_time) {
        $('#modalBody').html('');
        $.ajax({
@@ -1776,7 +1816,7 @@
    }
    
 
-function change_work_status(work_status_id) {
+   function change_work_status(work_status_id) {
    //  console.log("Work status changed to:", work_status_id);
     work_status_id = parseInt(work_status_id);
 
@@ -1794,7 +1834,7 @@ function change_work_status(work_status_id) {
         $('#fhour').prop('disabled', false).val();
         $('#fminute').prop('disabled', false).val();
     }
-}
+  }
 
 
 
@@ -1819,6 +1859,592 @@ function change_work_status(work_status_id) {
          }
       }, true);
 
+
+
+</script>
+
+<!-- <script src="https://cdn.ckeditor.com/4.16.0/standard/ckeditor.js"></script> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script type="text/javascript">
+    function openForm(deptId, userId, userName){
+        $('#morningformModal').modal('show');
+        var heading = '<h5>Task Schedule For <strong>' + userName + '</strong></h5>';
+        var body    = '';
+        body        =   `<form id="morningMeetingForm">
+                            <input type="hidden" name="dept_id" id="dept_id" value="${deptId}">
+                            <input type="hidden" name="user_id" id="user_id" value="${userId}">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="input-group mb-1">
+                                        <select name="project_id" id="project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required>
+                                            <option value="" selected="">Select Project</option>
+                                            <hr>
+                                            <?php if($projects_with_client_name){ foreach($projects_with_client_name as $project){?>
+                                                <option value="<?=$project->id?>"><?=$project->name?> (<?=$pro->decrypt($project->client_name)?>) - <?=$project->project_status_name?></option>
+                                                <hr>
+                                            <?php } }?>
+                                        </select>
+                                        <input type="hidden" name="date_added" id="date_added" placeholder="Schedule Date" class="form-control" value="<?=date('Y-m-d')?>" max="<?=date('Y-m-d')?>" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group mb-1">
+                                        <span><input type="radio" name="is_leave" id="leave0" value="0" onchange="myFunction()" checked><label for="leave0" style="margin-left : 3px;">PRESENT</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave1" value="1" onchange="myFunction()"><label for="leave1" style="margin-left : 3px;">HALFDAY LEAVE</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="is_leave" id="leave2" value="2" onchange="myFunction()"><label for="leave2" style="margin-left : 3px;">FULLDAY LEAVE</label></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="fill_up_projectss" id="fill_up_project_0" style="display:none;">
+                                        
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="input-group mb-1">
+                                        <textarea name="description" id="description" placeholder="Description" class="form-control" rows="5" required></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group mb-1">
+                                        <select name="hour" class="form-control" id="hour" required>
+                                            <option value="">Select Hour</option>
+                                            <?php for($h=0;$h<=8;$h++){?>
+                                                <option value="<?=$h?>" <?=(($h == 0)?'selected':'')?>><?=$h?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group mb-1">
+                                        <select name="min" class="form-control" id="min" required>
+                                            <option value="">Select Minute</option>
+                                            <?php for($m = 0; $m < 60; $m += 15){?>
+                                                <option value="<?=$m?>" <?=(($m == 0)?'selected':'')?>><?=$m?></option>
+                                            <?php }?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="input-group mb-1">
+                                        <span>Priority : </span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority1" value="1" required><label for="priority1" style="margin-left : 3px;">LOW</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority2" value="2" checked required><label for="priority2" style="margin-left : 3px;">MEDIUM</label></span>
+                                        <span style="margin-left : 10px;"><input type="radio" name="priority" id="priority3" value="3" required><label for="priority3" style="margin-left : 3px;">HIGH</label></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="input-group mb-1">
+                                        <button type="button" class="btn btn-success btn-sm" id="addTaskSaveBtn" onClick="submitForm();">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>`;
+
+        $('#morningformTitle').empty();
+        $('#morningformBody').empty();
+        $('#morningformTitle').html(heading);
+        $('#morningformBody').html(body);
+    }
+
+    function submitForm(){
+        $("#addTaskSaveBtn").prop("disabled", true); 
+        $("#addTaskSaveBtn").text("Saving..."); 
+
+        var base_url        = '<?=base_url()?>';
+        var dataJson        = {};
+        dataJson.dept_id                    = $('#dept_id').val();
+        dataJson.user_id                    = $('#user_id').val();
+        dataJson.date_added                 = $('#date_added').val();
+        dataJson.project_id                 = $('#project_id').val();
+        dataJson.description                = $('#description').val();
+        dataJson.hour                       = $('#hour').val();
+        dataJson.min                        = $('#min').val();
+        dataJson.priority                   = $('input[name="priority"]:checked').val();
+        dataJson.is_leave                   = $('input[name="is_leave"]:checked').val();
+        dataJson.work_home                  = '';
+        var user_id                         = $('#user_id').val();
+        var current_date                    = '<?=$current_date?>';
+        var date_added                      = $('#date_added').val();
+         
+
+        if($('input[name="priority"]:checked').val() == 0){
+            if($('#project_id').val() != ''){
+                if($('#description').val() != ''){
+                    if($('#hour').val() != ''){
+                        if($('#min').val() != ''){
+                            $.ajax({
+                                type: 'POST',
+                                url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
+                                data: JSON.stringify(dataJson),
+                                success: function(res) {
+                                    res = $.parseJSON(res);
+                                    if(res.success){
+                                        $('#morningMeetingForm').trigger("reset");
+                                        $('#morningformModal').modal('hide');
+                                        
+                                        if(current_date == date_added){
+                                            $('#meeting-user-' + user_id + '_' + date_added).empty();
+                                            $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        } else {
+                                            $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
+                                            $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                                        }
+                                        
+                                        $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
+                                        toastAlert("success", res.message);
+                                    } else {
+                                        $('#morningMeetingForm').trigger("reset");
+                                        $('#morningformModal').modal('hide');
+                                        toastAlert("error", res.message);
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error); // Handle errors
+                                }
+                            });
+                        } else {
+                            toastAlert("error", 'Please Select Minutes !!!');
+                        }
+                    } else {
+                        toastAlert("error", 'Please Select Hour !!!');
+                    }
+                } else {
+                    toastAlert("error", 'Please Enter Description !!!');
+                }
+            } else {
+                toastAlert("error", 'Please Select Project !!!');
+            }
+        } else {
+            $.ajax({
+                    type: 'POST',
+                    url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
+                    data: JSON.stringify(dataJson),
+                    success: function(res) {
+                        res = $.parseJSON(res);
+                        if(res.success){
+                            $('#morningMeetingForm').trigger("reset");
+                            $('#morningformModal').modal('hide');
+                            
+                            if(current_date == date_added){
+                                $('#meeting-user-' + user_id + '_' + date_added).empty();
+                                $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            } else {
+                                $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
+                                $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            }
+                            $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
+                            toastAlert("success", res.message);
+                        } else {
+                            $('#morningMeetingForm').trigger("reset");
+                            $('#morningformModal').modal('hide');
+                            toastAlert("error", res.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error); // Handle errors
+                    }
+                });
+        }
+    }
+
+    function openEditForm(deptId, userId, userName, scheduleId){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.dept_id                    = deptId;
+        dataJson.user_id                    = userId;
+        dataJson.schedule_id                = scheduleId;
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-schedule-prefill", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    var heading = '<h5>Task Schedule Modify For <strong>' + userName + '</strong></h5>';
+                    var body    = res.data;
+                    $('#morningformModal').modal('show');
+                    $('#morningformTitle').empty();
+                    $('#morningformBody').empty();
+                    $('#morningformTitle').html(heading);
+                    $('#morningformBody').html(body);
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
+    function submitEditForm(){
+        var base_url        = '<?=base_url()?>';
+        var dataJson        = {};
+        dataJson.dept_id                    = $('#dept_id').val();
+        dataJson.user_id                    = $('#user_id').val();
+        dataJson.schedule_id                = $('#schedule_id').val();
+        dataJson.date_added                 = $('#date_added').val();
+        dataJson.project_id                 = $('#project_id').val();
+        dataJson.description                = $('#description').val();
+        dataJson.hour                       = $('#hour').val();
+        dataJson.min                        = $('#min').val();
+        dataJson.priority                   = $('input[name="priority"]:checked').val();
+        dataJson.is_leave                   = 0;
+        dataJson.work_home                  = '';
+        var user_id                         = $('#user_id').val();
+        var date_added                      = $('#date_added').val();
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-schedule-update", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    $('#morningMeetingForm').trigger("reset");
+                    $('#morningformModal').modal('hide');
+                    $('#meeting-user-' + user_id + '_' + date_added).empty();
+                    $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                    $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
+
+    function openEffortSubmitForm(deptId, userId, userName, scheduleId){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.dept_id                    = deptId;
+        dataJson.user_id                    = userId;
+        dataJson.schedule_id                = scheduleId;
+        dataJson.task_date                  = $('.task_add_btn-updated').attr('data-taskdate');
+        
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-schedule-prefill-effort-booking-dashboard-yesterday", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    var heading = '<h5>Task Effort Booking For <strong>' + userName + '</strong></h5>';
+                    var body    = res.data;
+                    $('#morningformModal').modal('show');
+                    $('#morningformTitle').empty();
+                    $('#morningformBody').empty();
+                    $('#morningformTitle').html(heading);
+                    $('#morningformBody').html(body);
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
+    function submitEffortBookingForm(book_date){
+        $("#effortSaveBtn").prop("disabled", true);
+        $("#effortSaveBtn").text("Saving...");
+        
+        var base_url        = '<?=base_url()?>';
+        var dataJson        = {};
+        dataJson.dept_id                    = $('#dept_id').val();
+        dataJson.user_id                    = $('#user_id').val();
+        dataJson.schedule_id                = $('#schedule_id').val();
+        dataJson.date_added                 = $('#date_added').val();
+        dataJson.project_id                 = $('#dash_yesterday_project_id').val();
+        dataJson.description                = $('#dash_yesterday_description').val();
+        dataJson.hour                       = $('#hour').val();
+        dataJson.min                        = $('#min').val();
+        dataJson.priority                   = $('input[name="priority"]').val();
+        dataJson.is_leave                   = 0;
+        dataJson.work_home                  = '';
+        var user_id                         = $('#user_id').val();
+        dataJson.effort_type                = $('#effort_type').val();
+        dataJson.work_status_id             = $('#dash_yesterday_work_status_id').val();
+      console.log('dataJson before send:', dataJson);
+        if($('#effort_type').val() == ''){
+            toastAlert("error", "Please Select Effort Type !!!");
+        } else {
+            if($('#dash_yesterday_work_status_id').val() == ''){
+                toastAlert("error", "Please Select Work Status !!!");
+            } else {
+                if($('#dash_yesterday_description').val() == ''){
+                    toastAlert("error", "Please Enter Description !!!");
+                    console.log("yes");
+                } else {
+                    if($('#hour').val() == ''){
+                        toastAlert("error", "Please Select Hours !!!");
+                    } else {
+                        if($('#min').val() == ''){
+                            toastAlert("error", "Please Select Minutes !!!");
+                        } else {
+                            var current_date    = '<?=$current_date?>';
+                            $.ajax({
+                                type: 'POST',
+                                url: base_url + "admin/task-assign/morning-meeting-effort-booking", // Replace with your server endpoint
+                                data: JSON.stringify(dataJson),
+                                success: function(res) {
+                                    res = $.parseJSON(res);
+                                    if(res.success){
+                                        $('#morningMeetingForm').trigger("reset");
+                                        $('#morningformModal').modal('hide');
+
+                                        if(current_date == book_date){
+                                            $('#meeting-user-' + user_id + '_' + book_date).empty();
+                                            $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                        } else {
+                                            $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
+                                            $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                        }
+                                        $('#total-time-' + user_id + '_' + book_date).html('[Assigned : ' + res.data.totalTime + ']');
+                                        $('#total-booked-time-' + user_id + '_' + book_date).html('[Booked : ' + res.data.totalBookedTime + ']');
+                                        toastAlert("success", res.message);
+                                    }
+                                },
+                                error: function(xhr, status, error) {
+                                    console.error('Error:', error);
+                                        console.log('STATUS:', status);
+                                      console.log('ERROR:', error);
+                                      console.log('RESPONSE TEXT:', xhr.responseText);
+                                }
+                            });
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    function approveTask(schedule_id, effort_id, user_id){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.schedule_id                = schedule_id;
+        dataJson.effort_id                  = effort_id;
+        dataJson.user_id                    = user_id;
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-schedule-approve-task", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    $('.action-' + schedule_id + '-' + user_id).hide();
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
+    function rejectTask(schedule_id, effort_id, user_id){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.schedule_id                = schedule_id;
+        dataJson.effort_id                  = effort_id;
+        dataJson.user_id                    = user_id;
+        $('#taskRescheduleModal').modal('show');
+        var modalTitle  = 'Task Reschedule';
+        var modalBody   = `<form id="taskRescheduleForm">
+                            <input type="hidden" name="schedule_id" id="schedule_id" value="${schedule_id}">
+                            <input type="hidden" name="effort_id" id="effort_id" value="${effort_id}">
+                            <input type="hidden" name="user_id" id="user_id" value="${user_id}">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group mb-1">
+                                        <label for="reschedule_date">Reschedule Date</label>
+                                        <input type="date" name="reschedule_date" id="reschedule_date" placeholder="Reschedule Date" class="form-control" value="<?=date('Y-m-d')?>" min="<?=date('Y-m-d')?>" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="input-group mb-1">
+                                        <button type="button" class="btn btn-success" onClick="submitRescheduleTaskForm();">Save</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>`;
+        $('#taskRescheduleTitle').empty();
+        $('#taskRescheduleBody').empty();
+        $('#taskRescheduleTitle').html(modalTitle);
+        $('#taskRescheduleBody').html(modalBody);
+    }
+    function submitRescheduleTaskForm(){
+        var base_url                        = '<?=base_url()?>';
+        var dataJson                        = {};
+        dataJson.schedule_id                = $('#schedule_id').val();
+        dataJson.effort_id                  = $('#effort_id').val();
+        dataJson.user_id                    = $('#user_id').val();
+        dataJson.reschedule_date            = $('#reschedule_date').val();
+
+        schedule_id                         = $('#schedule_id').val();
+        effort_id                           = $('#effort_id').val();
+        user_id                             = $('#user_id').val();
+
+        $.ajax({
+            type: 'POST',
+            url: base_url + "admin/task-assign/morning-meeting-reschedule-task", // Replace with your server endpoint
+            data: JSON.stringify(dataJson),
+            success: function(res) {
+                res = $.parseJSON(res);
+                if(res.success){
+                    $('#taskRescheduleModal').modal('hide');
+                    $('#meeting-user-' + user_id).empty();
+                    $('#meeting-user-' + user_id).html(res.data.scheduleHTML);
+                    $('#total-time-' + user_id).html('[Assigned : ' + res.data.totalTime + ']');
+                    $('.action-' + schedule_id + '-' + user_id).hide();
+                    toastAlert("success", res.message);
+                }
+            },
+            error: function(xhr, status, error) {
+                console.error('Error:', error); // Handle errors
+            }
+        });
+    }
+    function myFunction(){
+        var selectedValue = $('input[name=is_leave]:checked').val();
+        if(selectedValue == 0){
+            var description = '';
+            $('#description').val(description);
+            $('#project_id').attr('required', true);
+            $('#hour').attr('required', true);
+            $('#min').attr('required', true);
+            $('input[name="priority"]').attr('required', true);
+
+            $('#project_id').attr('disabled', false);
+            $('#hour').attr('disabled', false);
+            $('#min').attr('disabled', false);
+            $('input[name="priority"]').attr('disabled', false);
+        } else if(selectedValue == 1){
+            var description = 'Half Day Leave Taken';
+            $('#description').val(description);
+            $('#project_id').attr('required', false);
+            $('#hour').attr('required', false);
+            $('#min').attr('required', false);
+            $('input[name="priority"]').attr('required', false);
+
+            $('#project_id').attr('disabled', true);
+            $('#hour').attr('disabled', true);
+            $('#min').attr('disabled', true);
+            $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#hour').val('');
+            $('#min').val('');
+        } else if(selectedValue == 2){
+            var description = 'Full Day Leave Taken';
+            $('#description').val(description);
+            $('#project_id').attr('required', false);
+            $('#hour').attr('required', false);
+            $('#min').attr('required', false);
+            $('input[name="priority"]').attr('required', false);
+
+            $('#project_id').attr('disabled', true);
+            $('#hour').attr('disabled', true);
+            $('#min').attr('disabled', true);
+            $('input[name="priority"]').attr('disabled', true);
+
+            $('#project_id').val('');
+            $('#hour').val('');
+            $('#min').val('');
+        }
+    }
+    $(document).ready(function(){    
+        var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
+            removeItemButton: true,
+            maxItemCount:5,
+            searchResultLimit:5,
+            renderChoiceLimit:5
+        });     
+    });
+    $(document).ready(function() {
+      // Event listener for when an accordion item is clicked
+      $('.accordion-button').on('click', function() {
+            var targetPanel = $(this).attr('data-bs-target'); // Get the target panel ID
+            // Check if the panel is open
+            // if ($(targetPanel).hasClass('show')) {
+            if (!$(this).hasClass('collapsed')) {
+                // console.log('The accordion is open.');
+                var taskDate                        = $(this).attr('data-task-date');
+                var base_url                        = '<?=base_url()?>';
+                var dataJson                        = {};
+                dataJson.taskDate                   = taskDate;
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + "admin/task-assign/morning-meeting-get-previous-task", // Replace with your server endpoint
+                    data: JSON.stringify(dataJson),
+                    success: function(res) {
+                        console.log(res);
+                        res = $.parseJSON(res);
+                        if(res.success){
+                            $('#task-list-' + taskDate).html(res.data.scheduleHTML);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error); // Handle errors
+                    }
+                });
+            } else {
+              // console.log('The accordion is closed.');
+            }
+        });
+    });
+    function change_work_status(work_status_id){
+        if(work_status_id == 2){
+            $('#hour').val(0);
+            $('#min').val(0);
+        } else {
+            var hr = $('#hour').val();
+            var mn = $('#min').val();
+            $('#hour').val(hr);
+            $('#min').val(mn);
+        }
+    }
+
+    function getProjectInfo(projectId, counter){
+        var base_url = '<?=base_url()?>';
+        $.ajax({
+            type: "POST",
+            url: base_url + "admin/efforts/get-project-info",
+            data: {projectId : projectId},
+            dataType: "JSON",
+            beforeSend: function () {
+               
+            },
+            success: function (res) {
+                var html = '';
+                $('#fill_up_project_' + counter).show();
+                if(res.success){
+                    if(res.data.project_time_type == 'Onetime'){
+                        html += '<div class="row">\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date" style="border: 1px solid #fff;margin-top: 10px;margin-bottom: 10px; padding: 5px;border-radius: 10px;background-color: #03312e;color: #fff;text-align: center;"><span class="time-font"><b>Assigned Fixed :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.assigned + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.current_month_booking + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.total_booked + '</span></div>\
+                                    </div>\
+                                </div>';
+                    } else if(res.data.project_time_type == 'Monthlytime'){
+                        html += '<div class="row">\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Assigned Monthly :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.assigned + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Booked Current Month :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.current_month_booking + '</span></div>\
+                                    </div>\
+                                    <div class="col-md-4 col-sm-4">\
+                                        <div class="info-date"><span class="time-font"><b>Total Booked from Start :</b><br class="d-none d-sm-block d-md-none"> ' + res.data.total_booked + '</span></div>\
+                                    </div>\
+                                </div>';
+                    }  
+                    $('#fill_up_project_' + counter).html(html);
+                }
+            }
+        });
+    }
 
 
 </script>
