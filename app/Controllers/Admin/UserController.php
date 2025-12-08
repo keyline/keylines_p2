@@ -171,6 +171,7 @@ class UserController extends BaseController {
                 'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
                 'attendence_type'       => json_encode($attnType),
                 'date_added'            => date('Y-m-d H:i:s'),
+                'task_view_access'      => $this->request->getPost('task_view_access'),
             );
             //  pr($postData);
             /* credentials sent */
