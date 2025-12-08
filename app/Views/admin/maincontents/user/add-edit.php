@@ -296,6 +296,20 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 </select>
                                             </div>
                                         </div> -->
+                                        <!-- Task view access -->
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="general_form_box">
+                                                <label for="task_view_access" class="col-form-label">Task View Access</label>
+                                                <div class="">
+                                                    <input type="radio" name="task_view_access"   value='1'>
+                                                    <label for="task_view_access" class="col-form-label">Self</label>
+                                                    <input type="radio" name="task_view_access"   value='2'>
+                                                    <label for="task_view_access" class="col-form-label">Team</label>
+                                                    <input type="radio" name="task_view_access"   value='3'>
+                                                    <label for="task_view_access" class="col-form-label">All</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!--Profile Image field -->
                                         <div class="col-md-12 col-lg-12">
                                             <div class="general_form_box">
