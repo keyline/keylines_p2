@@ -251,8 +251,7 @@
                                  
                                  <div class="col-md-12">
                                     <?php  foreach($yesterday_task_details as $task){  
-                                    $task_background = $task['background_color'] ?? '';                                                                    
-                                 ?>  
+                                    $task_background = $task['background_color'] ?? ''; ?>  
                                     <div class="card table-card card table-card shadow-sm">
                                        <div class="card-header task" style="background-color: <?= $task_background ?>;">
                                           <div class="row">
@@ -288,13 +287,15 @@
                                        </div>
                                     </div>
                                     <?php } ?>   
-                                     <!-- Add effort button for yesterday (this portion added on 12nd December of 2025) -->
-                                      <?php $yesterday = date('Y-m-d', strtotime("-1 days")); ?>
+                                    <!-- Add effort button for yesterday (this portion added on 12nd December of 2025) -->
+                                    <?php $yesterday = date('Y-m-d', strtotime("-1 days")); ?>
                                     <?php if(checkModuleFunctionAccess(36,94)){ ?>
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated w-100" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$admin->department?>, <?=$admin->id?>, '<?=$admin->name?>', '');">
-                                          <i class="fa-solid fa-plus-circle"></i> Add Effort
-                                    </a>
-                                 <?php  }?>       
+                                    <div class="text-center">
+                                       <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated w-50" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$admin->department?>, <?=$admin->id?>, '<?=$admin->name?>', '');">
+                                             <i class="fa-solid fa-plus-circle"></i> Add Effort
+                                       </a>
+                                    </div>                                    
+                                    <?php  }?>       
                                  </div>
                                                                                                                              
                               </div>                                                                                         
