@@ -373,7 +373,18 @@ class User extends BaseController
             // $order_by[0]                        = array('field' => 'status', 'type' => 'DESC');
             $order_by[0]                        = array('field' => 'name', 'type' => 'ASC');
             $data['employees']                  = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
-            $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);            
+            $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);  
+            
+            // This is for add effort for yesterday (projects with client & status)
+            $projectJoin = [];
+            // JOIN client: project.client_id = client.id
+            $projectJoin[0] = ['table' => 'client', 'field' => 'id','table_master' => 'project','field_table_master' => 'client_id','type' => 'LEFT',];
+            // JOIN project_status: project.status = project_status.id
+            $projectJoin[1] = ['table' => 'project_status','field' => 'id','table_master' => 'project','field_table_master'=> 'status','type' => 'LEFT',];
+            $projectSelect = 'project.id,project.name,client.name as client_name,project_status.name as project_status_name';
+            $data['projects_with_client_name'] = $this->common_model->find_data('project','array',['project.status!=' => '13'],$projectSelect,$projectJoin,'',$order_by);
+            $data['current_date']       = date('Y-m-d');
+
             // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();       
             $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
