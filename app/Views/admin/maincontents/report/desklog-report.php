@@ -57,7 +57,7 @@ $controller_route   = $moduleDetail['controller_route'];
                 <div class="col-xl-12">
                     <div class="card">
                         <div class="card-body pt-3">
-                        <form method="POST" action="<?= base_url('admin/reports/get-desklog-report') ?>" enctype="multipart/form-data">
+                        <!-- <form method="POST" action="<?= base_url('admin/reports/get-desklog-report') ?>" enctype="multipart/form-data">
                             <input type="hidden" name="form_type" value="fetch_backlog_date">
                                 <div class="row mb-2 align-items-end">
                                     <div class="col-md-6 col-lg-6">
@@ -70,7 +70,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         </div>
                                     </div>
                                 </div>
-                            </form>
+                            </form> -->
                             <!-- <a href="<?= base_url('admin/reports/get-desklog-report') ?>" class="btn btn-success btn-sm" onclick="return confirm('Do you want to fetch data from desklog ?');">Fetch Current Date Date From Desklog</a> -->
                             <form method="POST" action="" enctype="multipart/form-data">
                                 <input type="hidden" name="mode" value="advance_search">
