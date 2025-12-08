@@ -291,7 +291,7 @@
                                      <!-- Add effort button for yesterday (this portion added on 12nd December of 2025) -->
                                       <?php $yesterday = date('Y-m-d', strtotime("-1 days")); ?>
                                     <?php if(checkModuleFunctionAccess(36,94)){ ?>
-                                    <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$admin->department?>, <?=$admin->id?>, '<?=$admin->name?>', '');">
+                                    <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated w-100" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$admin->department?>, <?=$admin->id?>, '<?=$admin->name?>', '');">
                                           <i class="fa-solid fa-plus-circle"></i> Add Effort
                                     </a>
                                  <?php  }?>       
