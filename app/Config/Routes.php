@@ -354,3 +354,5 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
 	$routes->get('screenshot/list', 'Screenshots\ScreenshotsUploadController::list');
 });
 /* API */
+    // Curl route for total focus time and idle time store in db :
+	$routes->get('cron/desktop-timeline', 'DesktopCron::run');
