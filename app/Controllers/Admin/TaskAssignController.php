@@ -41,7 +41,7 @@ class TaskAssignController extends BaseController {
             $page_name                  = 'task-assign/list';
 
             $user_id                    = $this->session->get('user_id');
-            $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show,type');
+            $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show,type,task_view_access');
 
             $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
             $data['type']               = (($getUser)?$getUser->type:'');
@@ -50,13 +50,32 @@ class TaskAssignController extends BaseController {
 
             $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
             $data['all_departments']    = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
-
-            if(empty($data['tracker_depts_show'])){
-                $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
-            } else {
-                $tracker_depts_show_string = implode(",", $data['tracker_depts_show']);
-                $data['departments']        = $this->db->query("SELECT * FROM `department` WHERE `id` IN ($tracker_depts_show_string) AND `is_join_morning_meeting` = 1 AND status = 1 ORDER BY rank ASC")->getResult();
-            }        
+            $data['user']               = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access');
+            // if(empty($data['tracker_depts_show'])){
+            //     $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
+            // } else {
+            //     $tracker_depts_show_string = implode(",", $data['tracker_depts_show']);
+            //     $data['departments']        = $this->db->query("SELECT * FROM `department` WHERE `id` IN ($tracker_depts_show_string) AND `is_join_morning_meeting` = 1 AND status = 1 ORDER BY rank ASC")->getResult();
+            // }      
+            
+               if((empty($data['tracker_depts_show']))){
+                   if($getUser->task_view_access == '3'){
+                    $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
+                    }else{
+                        $data['departments'] = [];
+                    }
+                } else {
+                    if(($getUser->task_view_access == '2') || ($getUser->task_view_access == '1')){
+                      $tracker_depts_show_string = implode(",", $data['tracker_depts_show']);
+                      $data['departments']        = $this->db->query("SELECT * FROM `department` WHERE `id` IN ($tracker_depts_show_string) AND `is_join_morning_meeting` = 1 AND status = 1 ORDER BY rank ASC")->getResult();
+                    }else{
+                        if($getUser->task_view_access == '3'){
+                              $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
+                        }else{
+                           $data['departments'] = [];
+                       }
+                    }   
+                }   
 
             $order_by1[0]               = array('field' => 'project.name', 'type' => 'ASC');
             $join1[0]                   = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];

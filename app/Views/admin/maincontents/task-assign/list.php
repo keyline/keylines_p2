@@ -301,13 +301,13 @@ $controller_route       = $moduleDetail['controller_route'];
                     <form method="POST" action="">
                         <div class="row align-items-center">
                             <div class="col-lg-12 col-md-12 d-flex align-items-center justify-content-start justify-content-md-end gap-3">
-                                <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple>
+                                <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple <?php if(($user->task_view_access == '1') || ($user->task_view_access == '2')){echo 'disabled';}?> >
                                     <!-- <option value="0">Only Mine</option> -->
                                     <?php if($all_departments){ foreach($all_departments as $dept){?>
                                         <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
                                     <?php } }?>
                                 </select>
-                                <button type="submit" class="btn filter-btn"><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid me-0" style="width: 15px"> <span>Filter</span></button>
+                                <button type="submit" class="btn filter-btn" <?php if(($user->task_view_access == '1') || ($user->task_view_access == '2')){echo 'disabled';}?>  ><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid me-0" style="width: 15px"> <span>Filter</span></button>
                             </div>
                         </div>
                     </form>
@@ -827,6 +827,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                             ?>
                                                                 <td style="background-color: <?=$dept->body_color?>;">
                                                                     <div class="field_wrapper" id="name">
+                                                                    <!-- Condition for task view access -->
+                                                                    <!-- </?php $user = $common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access'); ?> -->
+                                                                         <?php if(($user->task_view_access == '1') && ($user_id == $teamMember->id)){ ?>
                                                                         <div class="row">
                                                                             <div class="col-12" id="meeting-user-<?=$teamMember->id?>_<?=$today?>">
                                                                                 <?php
@@ -1009,6 +1012,191 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php }?> -->
                                                                             </div>
                                                                         </div>
+                                                                        <?php }elseif (($user->task_view_access == '2') || ($user->task_view_access == '3')) {?>
+                                                                        <div class="row">
+                                                                            <div class="col-12" id="meeting-user-<?=$teamMember->id?>_<?=$today?>">
+                                                                                <?php
+                                                                                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+                                                                                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+                                                                                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+                                                                                $join1[2]                    = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $today], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
+                                                                                
+                                                                                if($getTasks){ foreach($getTasks as $getTask){
+                                                                                    $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color,name');
+                                                                                    $work_status_color              = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
+                                                                                    $work_status_border_color       = (($getWorkStatus)?$getWorkStatus->border_color:'#0c0c0c4a');
+                                                                                    $work_status_name               = (($getWorkStatus)?$getWorkStatus->name:'');
+                                                                                ?>
+
+                                                                               
+                                                                                    <div class="input-group">
+                                                                                        <div class="card">
+                                                                                            <div class="card-body" style="border: 1px solid <?=$work_status_border_color?>;width: 100%;padding: 8px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top; box-shadow: 0 0 15px -13px #000; background-color: <?=$work_status_color?>;">
+                                                                                                <p>
+                                                                                                    <?php if($getTask->is_leave == 0){?>
+                                                                                                        <?php if($getTask->priority == 3){?>
+                                                                                                            <span class="card_priotty_item proiodty_high">H</span>
+                                                                                                        <?php }?>
+                                                                                                        <?php if($getTask->priority == 2){?>
+                                                                                                            <span class="card_priotty_item proiodty_medium">M</span>
+                                                                                                        <?php }?>
+                                                                                                        <?php if($getTask->priority == 1){?>
+                                                                                                            <span class="card_priotty_item proiodty_low">L</span>
+                                                                                                        <?php }?>
+                                                                                                    <?php }?>
+                                                                                                </p>
+
+                                                                                                <?php
+                                                                                                if($getTask->project_name != ''){
+                                                                                                    $projectName = $getTask->project_name;
+                                                                                                } else {
+                                                                                                    if($getTask->is_leave == 1){
+                                                                                                        $projectName = 'HALFDAY LEAVE';
+                                                                                                    } else {
+                                                                                                        $projectName = 'FULLDAY LEAVE';
+                                                                                                    }
+                                                                                                }
+
+                                                                                                if($getTask->is_leave == 0){
+                                                                                                    $display = 'block';
+                                                                                                } else {
+                                                                                                    $display = 'none';
+                                                                                                }
+                                                                                                ?>
+
+                                                                                                <div class="mb-1 d-block">
+                                                                                                    <div class="card_projectname"><b><?=$projectName?> :</b> </div>
+                                                                                                    <!-- <p><strong style="color: #2d93d1">Status:</strong> XXX YYY</p> -->
+                                                                                                  <?php if($work_status_name !== ''){ ?>  <p><strong style="color: #2d93d1">Status: <?= $work_status_name ?>  </strong></p> <?php } ?>
+                                                                                                    <div class="card_projecttime">
+                                                                                                        <p><strong style="color: #2d93d1">Assigned:
+                                                                                                            (<?php
+                                                                                                                if($getTask->hour > 0) {
+                                                                                                                    if($getTask->hour == 1){
+                                                                                                                        echo $getTask->hour . " hr ";
+                                                                                                                    } else {
+                                                                                                                        echo $getTask->hour . " hrs ";
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo "0 hr ";
+                                                                                                                }
+                                                                                                                if($getTask->min > 0) {
+                                                                                                                    if($getTask->min == 1){
+                                                                                                                        echo $getTask->min . " min";
+                                                                                                                    } else {
+                                                                                                                        echo $getTask->min . " mins";
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo "0 min";
+                                                                                                                }
+                                                                                                            ?>)
+                                                                                                            </strong>
+                                                                                                        </p>
+                                                                                                    </div>
+                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div>
+                                                                                                        <?php if($getTask->booked_description != ''){?>
+                                                                                                            <div class="card_proj_info">
+                                                                                                                <strong style="color: #2d93d1;">
+                                                                                                                    Booked : (
+                                                                                                                    <?php
+                                                                                                                        // Hours
+                                                                                                                        if ($getTask->booked_hour > 0) {
+                                                                                                                            echo $getTask->booked_hour . ' ' . ($getTask->booked_hour == 1 ? 'hr' : 'hrs');
+                                                                                                                        } else {
+                                                                                                                            echo '0 hr';
+                                                                                                                        }
+
+                                                                                                                        echo ' ';
+
+                                                                                                                        // Minutes
+                                                                                                                        if ($getTask->booked_min > 0) {
+                                                                                                                            echo $getTask->booked_min . ' ' . ($getTask->booked_min == 1 ? 'min' : 'mins');
+                                                                                                                        } else {
+                                                                                                                            echo '0 min';
+                                                                                                                        }
+                                                                                                                    ?>
+                                                                                                                    )
+                                                                                                                </strong>
+                                                                                                                <?php if($getTask->description !== $getTask->booked_description){ ?>
+                                                                                                                <p><?=$getTask->booked_description?></p>
+                                                                                                                <?php } ?>
+                                                                                                            </div>
+                                                                                                        <?php }?>
+                                                                                                    </div>
+
+                                                                                                    <div class="d-flex justify-content-between">
+                                                                                                        <?php
+                                                                                                        if($getTask->updated_at == ''){
+                                                                                                            $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
+                                                                                                        } else {
+                                                                                                            $createdAt = date_format(date_create($getTask->updated_at), "d/m/y - h:i a");
+                                                                                                        }
+
+                                                                                                        $time1 = new DateTime($getTask->created_at);
+                                                                                                        $time2 = new DateTime(date('Y-m-d H:i:s'));
+                                                                                                        // Get the difference
+                                                                                                        $interval = $time1->diff($time2);
+                                                                                                        // Convert the difference to total minutes
+                                                                                                        $minutes = ($interval->h * 60) + $interval->i;
+                                                                                                        ?>
+                                                                                                        <p class="mb-0 assign-name">
+                                                                                                            By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
+                                                                                                            <?php if($getTask->work_status_id == 0){?>
+                                                                                                                <?php if($effortIcon){?>
+                                                                                                                    <?php if(checkModuleFunctionAccess(36,94)){ ?>
+                                                                                                                    <br>
+                                                                                                                    <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
+                                                                                                                <?php } }?>
+                                                                                                            <?php }?>
+                                                                                                        </p>
+
+                                                                                                        <?php if($getTask->work_status_id <= 0){?>
+                                                                                                            <?php if($alterIcon){?>
+                                                                                                                <?php if($minutes <= $edit_time_after_task_add){?>
+                                                                                                                    <?php if(checkModuleFunctionAccess(36,117)){ ?>
+                                                                                                                    <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
+                                                                                                                        <i class="fa-solid fa-pencil text-primary"></i>
+                                                                                                                    </a>
+                                                                                                                <?php } }?>
+                                                                                                            <?php }?>
+                                                                                                        <?php }?>
+                                                                                                    </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                <?php } }?>
+
+                                                                                <?php if($alterIcon){?>
+                                                                                    <?php if(checkModuleFunctionAccess(36,94)){ ?>
+                                                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                        <i class="fa-solid fa-plus-circle"></i> Add Task
+                                                                                    </a>
+                                                                                <?php } }?>
+
+                                                                                <!-- <?php
+                                                                                $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                                                                                if(!$getLeaveTask){
+                                                                                    if($alterIcon){
+                                                                                ?>
+                                                                                        <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                            <i class="fa-solid fa-plus-circle"></i> Add Task
+                                                                                        </a>
+                                                                                    <?php }?>
+                                                                                <?php } else {?>
+                                                                                    <?php if($getLeaveTask->is_leave == 1){?>
+                                                                                        <?php if($alterIcon){?>
+                                                                                            <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                                <i class="fa-solid fa-plus-circle"></i> Add Task
+                                                                                            </a>
+                                                                                        <?php }?>
+                                                                                    <?php }?>
+                                                                                <?php }?> -->
+                                                                            </div>
+                                                                        </div>
+                                                                        <?php } ?>
+                                                                        <!-- Condition for task view access Ending -->
                                                                     </div>
                                                                 </td>
                                                                 <?php } } ?>
