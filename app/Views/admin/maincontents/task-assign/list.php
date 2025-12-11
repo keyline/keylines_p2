@@ -763,6 +763,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $totalBooked    = '[Booked : ' . $totalBooked . ']';
                                                                     $today          = date('Y-m-d');
                                                                     ?>
+                                                                    <!-- Condition for task view access heading part -->
+                                                                     <!-- </?php $user = $common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access'); ?> -->
                                                                     <?php if($user->task_view_access == '1'){ ?>
                                                                         <?php if($user_id == $teamMember->id){ ?>
                                                                         <th style="background-color: <?=$dept->header_color?>;">
@@ -814,7 +816,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                             <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span> -->
                                                                         </div>
                                                                     </th>
-                                                                    <?php } ?>    
+                                                                    <?php } ?>
+                                                                    <!-- Condition for task view access Ending -->    
                                                                 <?php } } ?>
                                                             <?php } } ?>
                                                         </tr>
@@ -857,7 +860,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                             ?>
                                                                 <td style="background-color: <?=$dept->body_color?>;">
                                                                     <div class="field_wrapper" id="name">
-                                                                    <!-- Condition for task view access -->
+                                                                    <!-- Condition for task view access data part -->
                                                                     <!-- </?php $user = $common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access'); ?> -->
                                                                          <?php if(($user->task_view_access == '1') && ($user_id == $teamMember->id)){ ?>
                                                                         <div class="row">
