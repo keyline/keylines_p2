@@ -296,6 +296,25 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 </select>
                                             </div>
                                         </div> -->
+                                        <!-- Task view access -->
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="general_form_box">
+                                                <label for="task_view_access" class="col-form-label">Task View Access</label>
+                                                <div class="">
+                                                    <?php 
+                                                        $taskViewAccess = (!empty($row) && isset($row->task_view_access)) 
+                                                            ? $row->task_view_access 
+                                                            : '';
+                                                        ?>
+                                                    <input type="radio" name="task_view_access" <?php if($taskViewAccess == '1'){echo 'checked';} ?>   value='1'>
+                                                    <label for="task_view_access" class="col-form-label">Self</label>
+                                                    <input type="radio" name="task_view_access" <?php if($taskViewAccess == '2'){echo 'checked';} ?>  value='2'>
+                                                    <label for="task_view_access" class="col-form-label">Team</label>
+                                                    <input type="radio" name="task_view_access" <?php if($taskViewAccess == '3'){echo 'checked';} ?> <?php if($taskViewAccess == ''){echo 'checked';} ?>   value='3' >
+                                                    <label for="task_view_access" class="col-form-label" >All</label>
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!--Profile Image field -->
                                         <div class="col-md-12 col-lg-12">
                                             <div class="general_form_box">

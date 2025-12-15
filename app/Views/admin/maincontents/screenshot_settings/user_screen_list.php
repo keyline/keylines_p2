@@ -1367,16 +1367,16 @@
             }
         }
     }
-};
+ };
 
-var chart = new ApexCharts(document.querySelector("#screenshort_chart"), options);
-chart.render();
+ var chart = new ApexCharts(document.querySelector("#screenshort_chart"), options);
+ chart.render();
 </script>
 
 <!-- Working timing chart script -->
 <script>
-const hoursDiv = document.getElementById("hours");
-for (let h = 0; h <= 24; h++) {
+   const hoursDiv = document.getElementById("hours");
+   for (let h = 0; h <= 24; h++) {
     if(h == 24){
      let label = document.createElement("span");
      let time = "";
@@ -1387,8 +1387,8 @@ for (let h = 0; h <= 24; h++) {
     let time = h + "h";
     label.innerHTML = `<strong>${time}</strong>`;
     hoursDiv.appendChild(label);
-  }
-}
+   }
+ }
 
     const timeline = document.getElementById("timeline");
     // helper: color percentage width
