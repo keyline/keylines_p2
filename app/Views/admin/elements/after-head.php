@@ -3,6 +3,7 @@
 <title><?= $page_header ?></title>
 <meta content="" name="description">
 <meta content="" name="keywords">
+<meta name="csrf-token" content="<?= csrf_hash() ?>">
 <!-- Favicons -->
 <link href="<?= getenv('app.uploadsURL') . $general_settings->site_favicon ?>" rel="icon">
 <link href="<?= getenv('app.uploadsURL' . $general_settings->site_favicon) ?>" rel="apple-touch-icon">

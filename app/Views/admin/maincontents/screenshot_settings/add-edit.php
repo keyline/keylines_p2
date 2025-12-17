@@ -2,6 +2,8 @@
 $title              = $moduleDetail['title'];
 $primary_key        = $moduleDetail['primary_key'];
 $controller_route   = $moduleDetail['controller_route'];
+$users              = $common_model->find_data('user','array', ['status' => '1'], 'id, name', );
+// ($table, $return_type = 'array', $conditions = '', $select = '*', $join = '', $group_by = '', $order_by = '', $limit = 0, $offset = 0, $orConditions = '')
 ?>
 <div class="pagetitle">
     <h1><?= $page_header ?></h1>
@@ -50,21 +52,43 @@ $controller_route   = $moduleDetail['controller_route'];
                     <form method="POST" action="" enctype="multipart/form-data">
 
                         <div class="row mb-3">
+                            <label for="title" class="col-md-2 col-lg-2 col-form-label">Employee Name</label>
+                            <div class="col-md-10 col-lg-10">
+                                <select name="user_id" class="form-control" id="employee">
+                                    <option value="">--Select Employee--</option>
+                                   <?php foreach($users as $user){ ?>
+                                    <option value="<?php echo $user->id; ?>"><?php echo $user->name; ?></option>
+                                    <?php } ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
                             <label for="title" class="col-md-2 col-lg-2 col-form-label">Screenshot Resolution</label>
                             <div class="col-md-10 col-lg-10">
-                                <input type="text" class="form-control" name="screenshot_resolution" value="<?= $screenshot_resolution ?>" required placeholder="e.g. 1920x1080">
+                                <!-- <input type="text" class="form-control" id="screenshot_resolution" name="screenshot_resolution" value="</?= $screenshot_resolution ?>" required placeholder="e.g. 1920x1080"> -->
+                                <input type="text" class="form-control" id="screenshot_resolution" name="screenshot_resolution"  required placeholder="e.g. 1920x1080">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="description" class="col-md-2 col-lg-2 col-form-label">Idle Time</label>
                             <div class="col-md-10 col-lg-10">
-                                <input type="text" class="form-control" name="idle_time" value="<?= $idle_time ?>" required placeholder="e.g. 300 (in seconds)">
+                                <!-- <input type="text" class="form-control" id="idle_time" name="idle_time" value="</?= $idle_time ?>" required placeholder="e.g. 300 (in seconds)"> -->
+                                <input type="text" class="form-control" id="idle_time" name="idle_time"  required placeholder="e.g. 300 (in seconds)">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="title" class="col-md-2 col-lg-2 col-form-label">Screenshot time</label>
                             <div class="col-md-10 col-lg-10">
-                                <input type="text" class="form-control" name="screenshot_time" value="<?= $screenshot_time ?>" required placeholder="e.g. 60 (in seconds)">
+                                <!-- <input type="text" class="form-control" id="screenshot_time" name="screenshot_time" value="</?= $screenshot_time ?>" required placeholder="e.g. 60 (in seconds)"> -->
+                                <input type="text" class="form-control" id="screenshot_time" name="screenshot_time"  required placeholder="e.g. 60 (in seconds)">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <label  class="col-md-2 col-lg-2 col-form-label">Screenshot Blur</label>
+                            <div class="col-md-10 col-lg-10">
+                                <input type="radio" value="0" name="blur"><label for="blur" >Yes</label>
+                                <input type="radio" value="1" name="blur"><label for="blur" >No</label>
                             </div>
                         </div>
                         <div class="text-center">
@@ -77,3 +101,72 @@ $controller_route   = $moduleDetail['controller_route'];
          <?php } ?>
     </div>
 </section>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function(){
+        $("#employee").on("change", function(){
+            var employeeId = $(this).val();
+             if (!employeeId) return;
+
+            // var employeeId = $("#employee").val();
+            $.ajax({
+                url: "<?= base_url('admin/screenshot-settings/fetch') ?>",
+                type: "POST",
+                dataType: "json",
+                data: {
+                    user_id: employeeId,
+                    <?= csrf_token() ?>: "<?= csrf_hash() ?>",
+                },
+                success: function (res) {
+                    if(res.success){
+                       $("#screenshot_resolution").val(res.screenshot_resolution || '');
+                        $("#idle_time").val(res.idle_time || '');
+                        $("#screenshot_time").val(res.screenshot_time || '');
+                    }else {
+                        console.log("No data not found");
+                    $("#screenshot_resolution, #idle_time, #screenshot_time").val('');
+                    }
+                  },
+                error: function (xhr) {
+                        console.log(xhr.responseText);  
+                }
+            })
+        })
+    })
+</script>
+<!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+<!-- <script>
+ $(document).ready(function () {
+
+    $("#employee").on("change", function () {
+
+        var employeeId = $(this).val();
+        if (!employeeId) return;
+
+        $.ajax({
+            url: "</?= base_url('admin/screenshot-settings/fetch') ?>",
+            type: "POST",
+            dataType: "json",
+            data: {
+                user_id: employeeId,
+                </?= csrf_token() ?>: "</?= csrf_hash() ?>"
+            },
+            success: function (res) {
+                if (res.success) {
+                    $("#screenshot_resolution").val(res.screenshot_resolution || '');
+                    $("#idle_time").val(res.idle_time || '');
+                    $("#screenshot_time").val(res.screenshot_time || '');
+                } else {
+                    console.log("No data found");
+                    $("#screenshot_resolution, #idle_time, #screenshot_time").val('');
+                }
+            },
+            error: function (xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+
+    });
+
+ });
+</script> -->

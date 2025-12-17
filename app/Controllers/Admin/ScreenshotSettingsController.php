@@ -116,4 +116,54 @@ class ScreenshotSettingsController extends BaseController
 
         echo $this->layout_after_login($title, $page_name, $data);
     }
+
+
+        public function fetchSettings()
+    {
+        if ($this->request->isAJAX()) {
+                $user_id = $this->request->getPost('user_id');
+                $user = $this->common_model->find_data('screenshot_settings','row', ['user_id' => $user_id]);
+                if($user){
+                    return $this->response->setJSON([
+                        'success' => true,
+                        'screenshot_resolution' => $user->screenshot_resolution,
+                        'idle_time' => $user->idle_time,
+                        'screenshot_time' => $user->screenshot_time,
+                    ]);
+                }
+                    return $this->response->setJSON([
+                        'success' => false,
+                        'message' => 'No settings found for this user.',
+                    ]);
+                }    
+            }
+
+        //     public function fetchSettings()
+        // {
+        //     if ($this->request->isAJAX()) {
+
+        //         $user_id = $this->request->getPost('user_id');
+
+        //         $user = $this->common_model->find_data(
+        //             'screenshot_settings',
+        //             'row',
+        //             ['user_id' => $user_id]
+        //         );
+
+        //         if ($user) {
+        //             return $this->response->setJSON([
+        //                 'success' => true,
+        //                 'screenshot_resolution' => $user->screenshot_resolution,
+        //                 'idle_time' => $user->idle_time,
+        //                 'screenshot_time' => $user->screenshot_time,
+        //             ]);
+        //         }
+
+        //         return $this->response->setJSON([
+        //             'success' => false,
+        //             'message' => 'No settings found'
+        //         ]);
+        //     }
+        // }
+
 }
