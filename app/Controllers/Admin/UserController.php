@@ -392,6 +392,7 @@ class UserController extends BaseController {
                     'is_tracker_user'       => $this->request->getPost('is_tracker_user'),
                     'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
                     'attendence_type'       => json_encode($attnType),
+                    'task_view_access'      => $this->request->getPost('task_view_access'),
                 );
             } else {
                 $postData   = array(
@@ -416,6 +417,7 @@ class UserController extends BaseController {
                     'is_tracker_user'       => $this->request->getPost('is_tracker_user'),
                     'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
                     'attendence_type'       => json_encode($attnType),
+                    'task_view_access'      => $this->request->getPost('task_view_access'),
                 );
             }
             // pr($postData);
