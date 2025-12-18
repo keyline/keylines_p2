@@ -28,53 +28,122 @@ class ScreenshotSettingsController extends BaseController
         );
     }
 
-    public function index()
-    {
-        if(!$this->common_model->checkModuleFunctionAccess(39, 121)){
-            $data['action']             = 'Access Forbidden';
-            $title                      = $data['action'].' '.$this->data['title'];
-            $page_name                  = 'access-forbidden';        
-            echo $this->layout_after_login($title,$page_name,$data);
-            exit;
-        }
-        $id                         = 1;
-        $data['moduleDetail']       = $this->data;
-        $data['action']             = 'Edit';
-        $title                      = $data['action'] . ' ' . $this->data['title'];
-        $page_name                  = 'screenshot_settings/add-edit';
-        $conditions                 = array($this->data['primary_key'] => $id);
-        $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
+    // public function index()
+    // {
+    //     if(!$this->common_model->checkModuleFunctionAccess(39, 121)){
+    //         $data['action']             = 'Access Forbidden';
+    //         $title                      = $data['action'].' '.$this->data['title'];
+    //         $page_name                  = 'access-forbidden';        
+    //         echo $this->layout_after_login($title,$page_name,$data);
+    //         exit;
+    //     }
+    //     $id                         = 1;
+    //     $data['moduleDetail']       = $this->data;
+    //     $data['action']             = 'Edit';
+    //     $title                      = $data['action'] . ' ' . $this->data['title'];
+    //     $page_name                  = 'screenshot_settings/add-edit';
+    //     $conditions                 = array($this->data['primary_key'] => $id);
+    //     $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
 
-        if ($this->request->getMethod() == 'post') {
+    //     if ($this->request->getMethod() == 'post') {
 
-            //  rules for form-data validation
-            $rules = [
-                'screenshot_resolution' => 'required|max_length[255]|regex_match[/^\d{2,5}x\d{2,5}$/]',
-                'idle_time'             => 'required|is_natural_no_zero',
-                'screenshot_time'       => 'required|is_natural_no_zero', // assuming it's a time interval in seconds
-            ];
+    //         //  rules for form-data validation
+    //         $rules = [
+    //             'screenshot_resolution' => 'required|max_length[255]|regex_match[/^\d{2,5}x\d{2,5}$/]',
+    //             'idle_time'             => 'required|is_natural_no_zero',
+    //             'screenshot_time'       => 'required|is_natural_no_zero', // assuming it's a time interval in seconds
+    //         ];
 
-            if (! $this->validate($rules)) {
-                $errors = $this->validator->getErrors();
-                $errorMessage =  implode(', ', $errors);
-                $this->session->setFlashdata('error_message', $errorMessage);
+    //         if (! $this->validate($rules)) {
+    //             $errors = $this->validator->getErrors();
+    //             $errorMessage =  implode(', ', $errors);
+    //             $this->session->setFlashdata('error_message', $errorMessage);
 
-                return redirect()->to('/admin/' . $this->data['controller_route']);
+    //             return redirect()->to('/admin/' . $this->data['controller_route']);
+    //         }
+
+    //         $postData   = array(
+    //             'screenshot_resolution'             => $this->request->getPost('screenshot_resolution'),
+    //             'idle_time'       => $this->request->getPost('idle_time'),
+    //             'screenshot_time'       => $this->request->getPost('screenshot_time')
+    //         );
+
+    //         $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
+    //         $this->session->setFlashdata('success_message', $this->data['title'] . ' updated successfully');
+    //         return redirect()->to('/admin/' . $this->data['controller_route']);
+    //     }
+    //     echo $this->layout_after_login($title, $page_name, $data);
+    // }
+      
+       public function index()
+       {
+            if(!$this->common_model->checkModuleFunctionAccess(39, 121)){
+                $data['action']             = 'Access Forbidden';
+                $title                      = $data['action'].' '.$this->data['title'];
+                $page_name                  = 'access-forbidden';        
+                echo $this->layout_after_login($title,$page_name,$data);
+                exit;
             }
+            // $id                         = 1;
+            $data['moduleDetail']       = $this->data;
+            $data['action']             = 'Edit';
+            $title                      = $data['action'] . ' ' . $this->data['title'];
+            $page_name                  = 'screenshot_settings/add-edit';
+            // $conditions                 = array($this->data['primary_key'] => $id);
+            // $data['row']                = $this->data['model']->find_data($this->data['table_name'], 'row', $conditions);
 
-            $postData   = array(
-                'screenshot_resolution'             => $this->request->getPost('screenshot_resolution'),
-                'idle_time'       => $this->request->getPost('idle_time'),
-                'screenshot_time'       => $this->request->getPost('screenshot_time')
-            );
+                if($this->request->getMethod(true) === 'POST'){
+                    $rules = [
+                        'user_id'               => 'required|is_natural_no_zero',
+                        'screenshot_resolution' => 'required|max_length[255]|regex_match[/^\d{2,5}x\d{2,5}$/]',
+                        'idle_time'             => 'required|is_natural_no_zero',
+                        'screenshot_time'       => 'required|is_natural_no_zero',
+                        'blur'                  => 'required|in_list[0,1]'
+                    ];
+                        //   echo "hellow world"; exit;
+                            // print_r($this->request->getPost());
+                            // exit;
+                        if (! $this->validate($rules)) {
+                            $errors = $this->validator->getErrors();
+                            $errorMessage =  implode(', ', $errors);
+                            $this->session->setFlashdata('error_message', $errorMessage);
 
-            $record = $this->common_model->save_data($this->data['table_name'], $postData, $id, $this->data['primary_key']);
-            $this->session->setFlashdata('success_message', $this->data['title'] . ' updated successfully');
-            return redirect()->to('/admin/' . $this->data['controller_route']);
-        }
-        echo $this->layout_after_login($title, $page_name, $data);
-    }
+                            return redirect()->to('/admin/' . $this->data['controller_route']);
+                        }
+                        $user_id = $this->request->getPost('user_id');
+                        $conditions   = array('user_id' => $user_id);
+                        $isUserExists = $this->data['model']->find_data('screenshot_settings', 'count', $conditions);
 
+                        if($isUserExists > 0){
+                            $postData   = array(
+                                'user_id'                           => $this->request->getPost('user_id'),
+                                'screenshot_resolution'             => $this->request->getPost('screenshot_resolution'),
+                                'idle_time'                         => $this->request->getPost('idle_time'),
+                                'screenshot_time'                   => $this->request->getPost('screenshot_time'),
+                                'blur'                              => $this->request->getPost('blur')
+                            );
+                            
+                            $record = $this->common_model->save_data($this->data['table_name'], $postData, $user_id, 'user_id');
+                            $this->session->setFlashdata('success_message', $this->data['title'] . ' updated successfully');
+                            return redirect()->to('/admin/' . $this->data['controller_route']);
+                        }else{
+                            $postData   = array(
+                                'user_id'                           => $this->request->getPost('user_id'),
+                                'screenshot_resolution'             => $this->request->getPost('screenshot_resolution'),
+                                'idle_time'                         => $this->request->getPost('idle_time'),
+                                'screenshot_time'                   => $this->request->getPost('screenshot_time'),
+                                'blur'                              => $this->request->getPost('blur')
+                            );
+                            
+                            $record = $this->common_model->save_data($this->data['table_name'], $postData, '', '');
+                            $this->session->setFlashdata('success_message', $this->data['title'] . ' inserted successfully');
+                            return redirect()->to('/admin/' . $this->data['controller_route']);                            
+                        }
+
+                }
+
+            echo $this->layout_after_login($title, $page_name, $data);
+       }
 
 
     public function screenshotList($userId)
@@ -129,6 +198,7 @@ class ScreenshotSettingsController extends BaseController
                         'screenshot_resolution' => $user->screenshot_resolution,
                         'idle_time' => $user->idle_time,
                         'screenshot_time' => $user->screenshot_time,
+                        'blur' => $user->blur,
                     ]);
                 }
                     return $this->response->setJSON([
@@ -136,34 +206,6 @@ class ScreenshotSettingsController extends BaseController
                         'message' => 'No settings found for this user.',
                     ]);
                 }    
-            }
-
-        //     public function fetchSettings()
-        // {
-        //     if ($this->request->isAJAX()) {
-
-        //         $user_id = $this->request->getPost('user_id');
-
-        //         $user = $this->common_model->find_data(
-        //             'screenshot_settings',
-        //             'row',
-        //             ['user_id' => $user_id]
-        //         );
-
-        //         if ($user) {
-        //             return $this->response->setJSON([
-        //                 'success' => true,
-        //                 'screenshot_resolution' => $user->screenshot_resolution,
-        //                 'idle_time' => $user->idle_time,
-        //                 'screenshot_time' => $user->screenshot_time,
-        //             ]);
-        //         }
-
-        //         return $this->response->setJSON([
-        //             'success' => false,
-        //             'message' => 'No settings found'
-        //         ]);
-        //     }
-        // }
+    }
 
 }
