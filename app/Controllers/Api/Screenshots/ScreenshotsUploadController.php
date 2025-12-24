@@ -9,6 +9,7 @@ use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\HTTP\ResponseInterface;
 use Config\Services;
 use Exception;
+use App\Models\CommonModel;
 
 class ScreenshotsUploadController extends ResourceController
 {
@@ -246,4 +247,67 @@ class ScreenshotsUploadController extends ResourceController
             return $this->respond(['status' => false, 'message' => 'Key Not Matched'], 401);
         }
     }
+
+
+        public function getUserScreenshotSettings()
+        {
+            // 1️⃣ Project key check
+            $key = $this->request->getHeaderLine('Key');
+            if ($key !== getenv('app.PROJECTKEY')) {
+                return $this->respond([
+                    'status'  => false,
+                    'message' => 'Key Not Matched',
+                ], 401);
+            }
+
+            // 2️⃣ READ AUTH HEADER (FIX)
+            // $authorization = $this->request->getHeaderLine('Authorization');
+            $authorization = $this->request->getHeaderLine('Authorization')?: $this->request->getHeaderLine('HTTP_AUTHORIZATION');
+
+            if (empty($authorization)) {
+                return $this->respond([
+                    'status'  => false,
+                    'message' => 'Authorization header missing'
+                ], 401);
+            }
+
+            $WithOutBearer = str_ireplace('Bearer ', '', $authorization);
+
+            // 3️⃣ Extract token
+            // $app_access_token = $this->extractToken($WithOutBearer);
+
+            // if (empty($app_access_token)) {
+            //     return $this->respond([
+            //         'status'  => false,
+            //         'message' => 'Token Not Found In Request !!!',
+            //         'token' => $WithOutBearer
+            //     ], 401);
+            // }
+
+            // 4️⃣ Token auth
+            $authResponse = $this->tokenAuth($WithOutBearer);
+            if (!$authResponse['status']) {
+                return $this->respond([
+                    'status'  => false,
+                    'message' => $authResponse['data']
+                ], 401);
+            }
+
+            // 5️⃣ Fetch data
+            $userId = $authResponse['data']['user_id'];
+            $CommonModel = new \App\Models\CommonModel();
+
+            $data = $CommonModel->find_data(
+                'screenshot_settings',
+                'row',
+                ['user_id' => $userId]
+            );
+
+            return $this->respond([
+                'status' => true,
+                'data'   => $data
+            ]);
+        }
+
+
 }

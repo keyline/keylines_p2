@@ -353,6 +353,8 @@ $routes->group("api", ["namespace" => "App\Controllers\Api"], function ($routes)
 	$routes->post('screenshot/settings', 'Screenshots\ScreenshotsUploadController::settings');
 	// list endpoint for both Base64 and file uploads:
 	$routes->get('screenshot/list', 'Screenshots\ScreenshotsUploadController::list');
+    // list user screenshot settings data sending endpoint:
+	$routes->get('screenshot/user-settings','Screenshots\ScreenshotsUploadController::getUserScreenshotSettings');
 });
 /* API */
     // Curl route for total focus time and idle time store in db :

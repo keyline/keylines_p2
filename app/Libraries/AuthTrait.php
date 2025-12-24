@@ -45,13 +45,17 @@ trait AuthTrait
             $this->userEmail  = $userdata['data']['email'];
             $this->userMobile = $userdata['data']['phone'];
             $this->userExpiry = $userdata['data']['exp'];
-
-            return ['status' => true, 'data' => [
-                $this->userId,
-                $this->userEmail,
-                $this->userMobile,
-                $this->userExpiry,
-            ]];
+        
+        // Somnath changed here only return part by adding key 'user_id', 'email',  'mobile',  'expiry'. Before that only values were returned.  
+        return [
+            'status' => true,
+            'data' => [
+                'user_id' => $this->userId,
+                'email'   => $this->userEmail,
+                'mobile'  => $this->userMobile,
+                'expiry'  => $this->userExpiry,
+            ]
+        ];
         }
 
         return ['status' => false, 'data' => 'Token Has Expired !!!'];
