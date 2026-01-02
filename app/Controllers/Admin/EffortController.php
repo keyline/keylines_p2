@@ -468,6 +468,7 @@ class EffortController extends BaseController {
             $month          = date('m', strtotime($effortlist->date_added)); // 08
             $cal_usercost   = ($user_cost/60);
             $getProject     = $this->data['model']->find_data('project', 'row', ['id' => $project], 'status,bill');
+            $getAssignedTaskId     = $this->data['model']->find_data('morning_meetings', 'row', ['effort_id' => $id], );
             
             
             $postData   = array(
@@ -479,7 +480,7 @@ class EffortController extends BaseController {
                 'work_home'             => 0,
                 'effort_type'           => $effort_type,
                 'bill'                  => (($getProject)?$getProject->bill:1),
-                'assigned_task_id'      => 0,
+                'assigned_task_id'      => $getAssignedTaskId->id,
             );
             $cal                = (($hour*60) + $minute); //converted to minutes
             $projectCost        = floatval($cal_usercost * $cal);

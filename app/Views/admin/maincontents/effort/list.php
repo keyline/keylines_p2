@@ -112,7 +112,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <td><?=date_format(date_create($row->date_today), "d-m-Y h:i:s A")?></td>
                                         <td>
                                             <?php if(checkModuleFunctionAccess(20,38)){ ?>
-                                            <a class="btn btn-outline-primary btn-sm me-1" target="_blank" href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->id))?>" title="Edit Effort" onclick="return confirm('Do you want to edit this effort ?');"><i class="fa fa-edit"></i></a>
+                                            <a class="btn btn-outline-primary btn-sm me-1"  href="<?=base_url('admin/' . $controller_route . '/edit/'.encoded($row->id))?>" title="Edit Effort" ><i class="fa fa-edit"></i></a>
                                             <?php } ?>
                                             <?php
                                             // $userType           = $session->user_type;

@@ -84,12 +84,12 @@
                                 <div class="col-md-3">
                                     <label class="control-label">Hour</label>
                                     <br>
-                                    <input type="number" name="hour" minlength="0" maxlength="2" min="0" max="4" class="form-control" required="" autocomplete="off" value="<?=$hour?>">
+                                    <input type="number" name="hour"  class="form-control" required  value="<?=$hour?>">
                                 </div>
                                 <div class="col-md-3">
                                     <label class="control-label">Minute</label>
                                     <br>
-                                    <input type="number" name="minute" minlength="0" maxlength="2" min="0" max="50" class="form-control" required="" autocomplete="off" value="<?=$min?>">
+                                    <input type="number" name="minute"  class="form-control" required  value="<?=$min?>">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="control-label">Description</label>
