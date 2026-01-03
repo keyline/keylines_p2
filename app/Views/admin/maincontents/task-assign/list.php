@@ -763,6 +763,37 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $totalBooked    = '[Booked : ' . $totalBooked . ']';
                                                                     $today          = date('Y-m-d');
                                                                     ?>
+                                                                    <!-- Condition for task view access heading part -->
+                                                                     <!-- </?php $user = $common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access'); ?> -->
+                                                                    <?php if($user->task_view_access == '1'){ ?>
+                                                                        <?php if($user_id == $teamMember->id){ ?>
+                                                                        <th style="background-color: <?=$dept->header_color?>;">
+                                                                            <div class="d-flex justify-content-between">
+                                                                                <div class="row">
+                                                                                    <div class="col-md-12" style="text-align: center;">
+                                                                                        <span><?=$teamMember->name?></span>
+                                                                                    </div>
+                                                                                    <div class="col-md-6" style="text-align: left;">
+                                                                                        <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In: <?=$punchInTime?></span><br>
+                                                                                        <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
+                                                                                    </div>
+                                                                                    <div class="col-md-6" style="text-align: right;">
+                                                                                        <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
+                                                                                        <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <!-- <?=$teamMember->name?><br>
+                                                                                <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                                <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
+                                                                                <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
+                                                                                <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span> -->
+                                                                            </div>
+                                                                        </th>
+                                                                       <?php }else{ ?>
+                                                                        <th style="background-color: <?=$dept->header_color?>;">
+                                                                       </th>
+                                                                       <?php } ?>
+                                                                    <?php }elseif(($user->task_view_access == '2') || ($user->task_view_access == '3')) {?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
                                                                             <div class="row">
@@ -785,6 +816,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                             <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span> -->
                                                                         </div>
                                                                     </th>
+                                                                    <?php } ?>
+                                                                    <!-- Condition for task view access Ending -->    
                                                                 <?php } } ?>
                                                             <?php } } ?>
                                                         </tr>
@@ -827,7 +860,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                             ?>
                                                                 <td style="background-color: <?=$dept->body_color?>;">
                                                                     <div class="field_wrapper" id="name">
-                                                                    <!-- Condition for task view access -->
+                                                                    <!-- Condition for task view access data part -->
                                                                     <!-- </?php $user = $common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access'); ?> -->
                                                                          <?php if(($user->task_view_access == '1') && ($user_id == $teamMember->id)){ ?>
                                                                         <div class="row">
