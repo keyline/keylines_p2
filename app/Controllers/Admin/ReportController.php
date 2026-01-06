@@ -1928,14 +1928,14 @@ class ReportController extends BaseController
         $page_name                  = 'report/desklog-report';
 
         $currentDate                = date('Y-m-d');
-        $dateWise                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $currentDate . '%']);
+        $dateWise                   = $this->common_model->find_data('desktop_app', 'array', ['insert_date LIKE' => '%' . $currentDate . '%']);
         $data['dateWise']           = $dateWise;
         $data['is_date_range']      = $currentDate;
 
         if ($this->request->getMethod() == 'post') {
 
             $is_date_range              = $this->request->getPost('is_date_range');
-            $dateWise                   = $this->common_model->find_data('desklog_report', 'array', ['insert_date LIKE' => '%' . $is_date_range . '%']);
+            $dateWise                   = $this->common_model->find_data('desktop_app', 'array', ['insert_date LIKE' => '%' . $is_date_range . '%']);
             $data['dateWise']           = $dateWise;
             //  print_r($data['dateWise']);
             //  var_dump($data['dateWise']);
