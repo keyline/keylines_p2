@@ -1924,7 +1924,7 @@ class ReportController extends BaseController
     public function show()
     {
         $data['moduleDetail']       = $this->data;
-        $title                      = 'Manage ' . $this->data['title'] . ' : Desklog Report';
+        $title                      = 'Manage ' . $this->data['title'] . ' : Desktop App Report';
         $page_name                  = 'report/desklog-report';
 
         $currentDate                = date('Y-m-d');
