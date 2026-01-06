@@ -97,8 +97,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                         <thead>
                                             <tr>
                                                 <th width="3%">#</th>
-                                                <th>Desklog Usrid</th>
-                                                <th>Tracker User Id</th>
+                                                <!-- <th>Desklog Usrid</th> -->
+                                                <!-- <th>Tracker User Id</th> -->
                                                 <th>Email</th>
                                                 <th>Arrival At</th>
                                                 <th>Left At</th>
@@ -106,8 +106,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <th>Productive Time</th>
                                                 <th>Idle Time</th>
                                                 <th>Private Time</th>
-                                                <th>Total Time Allocated</th>
-                                                <th>Total Time Spended</th>
+                                                <!-- <th>Total Time Allocated</th> -->
+                                                <!-- <th>Total Time Spended</th> -->
                                                 <th>Time Zone</th>
                                                 <th>App And Os</th>
                                                 <th>Insert Date</th>
@@ -119,8 +119,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 foreach ($dateWise as $res) { ?>
                                                     <tr>
                                                         <td><?= $sl++ ?></td>
-                                                        <td><?= $res->desklog_usrid ?></td>
-                                                        <td><?= $res->tracker_user_id ?></td>
+                                                        <!-- <td></?= $res->desklog_usrid ?></td> -->
+                                                        <!-- <td></?= $res->tracker_user_id ?></td> -->
                                                         <td><?= $res->email ?></td>
                                                         <td><?= $res->arrival_at ?></td>
                                                         <td><?= $res->left_at ?></td>
@@ -128,8 +128,8 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         <td><?= $res->productive_time ?></td>
                                                         <td><?= $res->idle_time ?></td>
                                                         <td><?= $res->private_time ?></td>
-                                                        <td><?= $res->total_time_allocated ?></td>
-                                                        <td><?= $res->total_time_spended ?></td>
+                                                        <!-- <td></?= $res->total_time_allocated ?></td> -->
+                                                        <!-- <td></?= $res->total_time_spended ?></td> -->
                                                         <td><?= $res->time_zone ?></td>
                                                         <td><?= $res->app_and_os ?></td>
                                                         <td><?= $res->insert_date ?></td>
