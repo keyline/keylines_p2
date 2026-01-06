@@ -293,7 +293,7 @@ $userId             = $session->user_id;
           if ($desklog->is_desklog_use == 1) { ?>
             <li>
               <a class="<?= (($pageSegment == 'reports' && $paramerId == 'desklog-report-view') ? 'active' : '') ?>" href="<?= base_url('admin/reports/desklog-report-view') ?>">
-                <i class="fa fa-arrow-right"></i><span>Desklog Report</span>
+                <i class="fa fa-arrow-right"></i><span>Desktop App Report</span>
               </a>
             </li>
         <?php }
