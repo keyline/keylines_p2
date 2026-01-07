@@ -262,7 +262,7 @@ class UserController extends BaseController {
                         'pincode'           => trim($rowData['pincode'] ?? ''),
                         'latitude'          => $rowData['latitude'] ?? '',
                         'longitude'         => $rowData['longitude'] ?? '',
-                        'password'          => password_hash($rowData['password'], PASSWORD_DEFAULT),
+                        'password'          => md5(trim($rowData['password'])),
                         'remember_token'    => $rowData['remember_token'] ?? null,
                         'type'              => $rowData['type'] ?? '',
                         'role_id'           => $rowData['role_id'] ?? 2,
