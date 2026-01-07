@@ -491,13 +491,23 @@ class User extends BaseController
                     // $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear1%'";
                     $getDesktimeHour = $this->db->query($sql)->getRow();
                     //  pr($getDesktimeHour);
-                    if ($getDesktimeHour) {
-                        // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        // $result1 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result1 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime1 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 01 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $jan_productive = $this->db->query($sqlForAppProductiveTime1)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    //     // $result1 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result1 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result1 = '';
+                    // }
+                    if ($jan_productive) {
+                        $result1 = substr($jan_productive->total_productive_time, 0, 5);
                     } else {
-                        $result1 = '';
+                        $result1 = '00:00';
                     }
+                    // echo $result1; die;
                     if ($jan_booked) {
                         $tothour = $jan_booked->tothour * 60;
                         $totmin = $jan_booked->totmin;
@@ -507,10 +517,19 @@ class User extends BaseController
                     $monthYear2 = date('Y') . '-' . date('02');
                     $feb_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear2%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 2 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        // $result2 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result2 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime2 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 02 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $feb_productive = $this->db->query($sqlForAppProductiveTime2)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    //     // $result2 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result2 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result2 = '';
+                    // }
+                    if ($feb_productive) {
+                        $result2 = substr($feb_productive->total_productive_time, 0, 5);
                     } else {
                         $result2 = '';
                     }
@@ -523,10 +542,19 @@ class User extends BaseController
                     $monthYear3 = date('Y') . '-' . date('03');
                     $mar_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id=$row->id and date_added LIKE '%$monthYear3%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 3 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        // $result3 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result3 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime3 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 03 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $mar_productive = $this->db->query($sqlForAppProductiveTime3)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    //     // $result3 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result3 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result3 = '';
+                    // }
+                    if ($mar_productive) {
+                        $result3 = substr($mar_productive->total_productive_time, 0, 5);
                     } else {
                         $result3 = '';
                     }
@@ -539,10 +567,19 @@ class User extends BaseController
                     $monthYear4 = date('Y') . '-' . date('04');
                     $apr_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear4%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 4 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        // $result4 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result4 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime4 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 04 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $apr_productive = $this->db->query($sqlForAppProductiveTime4)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    //     // $result4 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result4 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result4 = '';
+                    // }
+                    if ($apr_productive) {
+                        $result4 = substr($apr_productive->total_productive_time, 0, 5);
                     } else {
                         $result4 = '';
                     }
@@ -555,10 +592,19 @@ class User extends BaseController
                     $monthYear5 = date('Y') . '-' . date('05');
                     $may_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear5%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 5 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        // $result5 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result5 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime5 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 05 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $may_productive = $this->db->query($sqlForAppProductiveTime5)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    //     // $result5 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result5 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result5 = '';
+                    // }
+                    if ($may_productive) {
+                        $result5 = substr($may_productive->total_productive_time, 0, 5);
                     } else {
                         $result5 = '';
                     }
@@ -571,10 +617,19 @@ class User extends BaseController
                     $monthYear6 = date('Y') . '-' . date('06');
                     $jun_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear6%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 6 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                        // $result6 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result6 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime6 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 06 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $jun_productive = $this->db->query($sqlForAppProductiveTime6)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                    //     // $result6 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result6 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result6 = '';
+                    // }
+                    if ($jun_productive) {
+                        $result6 = substr($jun_productive->total_productive_time, 0, 5);
                     } else {
                         $result6 = '';
                     }
@@ -588,10 +643,19 @@ class User extends BaseController
                     $jul_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear7%'")->getRow();
                     $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = 7 AND user_id = '$row->id'";
                     $getDesktimeHour = $this->db->query($sql10)->getRow();
-                    if ($getDesktimeHour) {
-                        // $result7 = $getDesktimeHour->total_desktime_hour;  
-                        // $result7 = (int)$getDesktimeHour->total_desktime_hour; 
-                        $result7 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime7 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 07 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $jul_productive = $this->db->query($sqlForAppProductiveTime7)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result7 = $getDesktimeHour->total_desktime_hour;  
+                    //     // $result7 = (int)$getDesktimeHour->total_desktime_hour; 
+                    //     $result7 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result7 = '';
+                    // }
+                    if ($jul_productive) {
+                        $result7 = substr($jul_productive->total_productive_time, 0, 5);
                     } else {
                         $result7 = '';
                     }
@@ -604,10 +668,19 @@ class User extends BaseController
                     $monthYear8 = date('Y') . '-' . date('08');
                     $aug_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear8%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result8 = $getDesktimeHour->total_desktime_hour;
-                        // $result8 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result8 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime8 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 08 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $aug_productive = $this->db->query($sqlForAppProductiveTime8)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result8 = $getDesktimeHour->total_desktime_hour;
+                    //     // $result8 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result8 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result8 = '';
+                    // }
+                    if ($aug_productive) {
+                        $result8 = substr($aug_productive->total_productive_time, 0, 5);
                     } else {
                         $result8 = '';
                     }
@@ -620,9 +693,18 @@ class User extends BaseController
                     $monthYear9 = date('Y') . '-' . date('09');
                     $sep_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear9%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result9 = $getDesktimeHour->total_desktime_hour;
-                        $result9 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime9 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 09 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $sep_productive = $this->db->query($sqlForAppProductiveTime9)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result9 = $getDesktimeHour->total_desktime_hour;
+                    //     $result9 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result9 = '';
+                    // }
+                    if ($sep_productive) {
+                        $result9 = substr($sep_productive->total_productive_time, 0, 5);
                     } else {
                         $result9 = '';
                     }
@@ -635,10 +717,19 @@ class User extends BaseController
                     $monthYear10 = date('Y') . '-' . date('10');
                     $oct_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear10%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result10 = $getDesktimeHour->total_desktime_hour;
-                        // $result10 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result10 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime10 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 10 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $oct_productive = $this->db->query($sqlForAppProductiveTime10)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result10 = $getDesktimeHour->total_desktime_hour;
+                    //     // $result10 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result10 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result10 = '';
+                    // }
+                    if ($oct_productive) {
+                        $result10 = substr($oct_productive->total_productive_time, 0, 5);
                     } else {
                         $result10 = '';
                     }
@@ -651,10 +742,19 @@ class User extends BaseController
                     $monthYear11 = date('Y') . '-' . date('11');
                     $nov_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear11%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result11 = $getDesktimeHour->total_desktime_hour;
-                        // $result11 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result11 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime11 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 11 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $nov_productive = $this->db->query($sqlForAppProductiveTime11)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result11 = $getDesktimeHour->total_desktime_hour;
+                    //     // $result11 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result11 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result11 = '';
+                    // }
+                    if ($nov_productive) {
+                        $result11 = substr($nov_productive->total_productive_time, 0, 5);
                     } else {
                         $result11 = '';
                     }
@@ -667,10 +767,19 @@ class User extends BaseController
                     $monthYear12 = date('Y') . '-' . date('12');
                     $dec_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear12%'")->getRow();
                     $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
-                    if ($getDesktimeHour) {
-                        // $result12 = $getDesktimeHour->total_desktime_hour;
-                        // $result12 = (int)$getDesktimeHour->total_desktime_hour;
-                        $result12 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+
+                    $sqlForAppProductiveTime12 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 12 AND YEAR(insert_date) = YEAR(CURDATE())";
+                    $dec_productive = $this->db->query($sqlForAppProductiveTime12)->getRow();
+
+                    // if ($getDesktimeHour) {
+                    //     // $result12 = $getDesktimeHour->total_desktime_hour;
+                    //     // $result12 = (int)$getDesktimeHour->total_desktime_hour;
+                    //     $result12 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                    // } else {
+                    //     $result12 = '';
+                    // }
+                    if ($dec_productive) {
+                        $result12 = substr($dec_productive->total_productive_time, 0, 5);
                     } else {
                         $result12 = '';
                     }
@@ -731,18 +840,18 @@ class User extends BaseController
                         'oct_booked'    => $totalBooked10,
                         'nov_booked'    => $totalBooked11,
                         'dec_booked'    => $totalBooked12,
-                        'jan_desklog'   => $result1,
-                        'feb_desklog'   => $result2,
-                        'mar_desklog'   => $result3,
-                        'apr_desklog'   => $result4,
-                        'may_desklog'   => $result5,
-                        'jun_desklog'   => $result6,
-                        'jul_desklog'   => $result7,
-                        'aug_desklog'   => $result8,
-                        'sep_desklog'   => $result9,
-                        'oct_desklog'   => $result10,
-                        'nov_desklog'   => $result11,
-                        'dec_desklog'   => $result12,
+                        'jan_desktop_app'   => $result1,
+                        'feb_desktop_app'   => $result2,
+                        'mar_desktop_app'   => $result3,
+                        'apr_desktop_app'   => $result4,
+                        'may_desktop_app'   => $result5,
+                        'jun_desktop_app'   => $result6,
+                        'jul_desktop_app'   => $result7,
+                        'aug_desktop_app'   => $result8,
+                        'sep_desktop_app'   => $result9,
+                        'oct_desktop_app'   => $result10,
+                        'nov_desktop_app'   => $result11,
+                        'dec_desktop_app'   => $result12,
                         'deskloguser'   => $desklog_user,
                     ];
                 }
@@ -763,7 +872,8 @@ class User extends BaseController
                         for ($k = 0; $k < count($arr); $k++) {
                             $loopDate               = $arr[$k];
                             $dayWiseBooked          = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '$loopDate'")->getRow();
-                            $desklogdayWise         = $this->db->query("SELECT time_at_work  FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$loopDate%'")->getRow();
+                            // $desklogdayWise         = $this->db->query("SELECT time_at_work  FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$loopDate%'")->getRow();
+                            $desklogdayWise         = $this->db->query("SELECT productive_time  FROM `desktop_app` where desktopapp_userid='$row->id' and insert_date LIKE '%$loopDate%'")->getRow();
                             // echo $this->db->getLastquery();
                             // echo "<pre>";
                             // print_r($str);
@@ -776,7 +886,7 @@ class User extends BaseController
                             $workdate               = date_create($loopDate);
                             $entrydate              = date_create($dayWiseBooked->date_today);
                             if ($desklogdayWise !== null) {
-                                $desklogTime            = $desklogdayWise->time_at_work;
+                                $desklogTime            = $desklogdayWise->productive_time;
                             } else {
                                 $desklogTime            = 0;
                             }
