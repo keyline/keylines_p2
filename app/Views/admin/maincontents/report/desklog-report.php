@@ -99,18 +99,19 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <th width="3%">#</th>
                                                 <!-- <th>Desklog Usrid</th> -->
                                                 <!-- <th>Tracker User Id</th> -->
-                                                <th>Email</th>
+                                                <!-- <th>Email</th> -->
+                                                <th>Name</th>
                                                 <th>Arrival At</th>
                                                 <th>Left At</th>
                                                 <th>Time At Work</th>
                                                 <th>Productive Time</th>
                                                 <th>Idle Time</th>
-                                                <th>Private Time</th>
+                                                <!-- <th>Private Time</th> -->
                                                 <!-- <th>Total Time Allocated</th> -->
                                                 <!-- <th>Total Time Spended</th> -->
-                                                <th>Time Zone</th>
-                                                <th>App And Os</th>
-                                                <th>Insert Date</th>
+                                                <!-- <th>Time Zone</th> -->
+                                                <!-- <th>App And Os</th> -->
+                                                <!-- <th>Insert Date</th> -->
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -121,18 +122,19 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         <td><?= $sl++ ?></td>
                                                         <!-- <td></?= $res->desklog_usrid ?></td> -->
                                                         <!-- <td></?= $res->tracker_user_id ?></td> -->
-                                                        <td><?= $res->email ?></td>
+                                                        <!-- <td></?= $res->email ?></td> -->
+                                                        <td><?= $res->name ?></td>
                                                         <td><?= $res->arrival_at ?></td>
                                                         <td><?= $res->left_at ?></td>
                                                         <td><?= $res->time_at_work ?></td>
                                                         <td><?= $res->productive_time ?></td>
                                                         <td><?= $res->idle_time ?></td>
-                                                        <td><?= $res->private_time ?></td>
+                                                        <!-- <td></?= $res->private_time ?></td> -->
                                                         <!-- <td></?= $res->total_time_allocated ?></td> -->
                                                         <!-- <td></?= $res->total_time_spended ?></td> -->
-                                                        <td><?= $res->time_zone ?></td>
-                                                        <td><?= $res->app_and_os ?></td>
-                                                        <td><?= $res->insert_date ?></td>
+                                                        <!-- <td></?= $res->time_zone ?></td> -->
+                                                        <!-- <td></?= $res->app_and_os ?></td> -->
+                                                        <!-- <td></?= $res->insert_date ?></td> -->
                                                     </tr>
                                             <?php }
                                             } ?>
