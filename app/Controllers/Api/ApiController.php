@@ -2581,11 +2581,14 @@ class ApiController extends BaseController
                                 $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desktop_app` where desktopapp_userid='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
                                 $desklog_time = $getDesklogTime->time_at_work; 
 
-                                if (!empty($desklog_time) && strpos($desklog_time, ':') !== false) {
-                                    [$hours, $minutes] = explode(':', $desklog_time);
-                                    $desklog_time_formatted = sprintf('%02d.%02d', $hours, $minutes);
-                                } else {
-                                    $desklog_time_formatted = '';
+                                // if (!empty($desklog_time) && strpos($desklog_time, ':') !== false) {
+                                //     [$hours, $minutes] = explode(':', $desklog_time);
+                                //     $desklog_time_formatted = sprintf('%02d.%02d', $hours, $minutes);
+                                // } else {
+                                //     $desklog_time_formatted = '';
+                                // }
+                                if(!empty($desklog_time)){
+                                   $desklog_time_formatted =  str_replace(':', '.', $desklog_time);
                                 }
 
                                 $trackerLast7Days[]     = [
