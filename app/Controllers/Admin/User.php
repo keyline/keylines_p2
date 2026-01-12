@@ -2043,7 +2043,7 @@ class User extends BaseController
         if ($dateFormate) {
             $formattedDate = date_format($dateFormate, 'Y-m-d');
         }
-        $sql = "SELECT attendances.user_id, attendances.punch_date, attendances.punch_in_time, attendances.punch_in_address, attendances.punch_in_image, attendances.punch_out_time, attendances.punch_out_address, attendances.punch_out_image, user.name FROM `attendances`
+        $sql = "SELECT attendances.user_id, attendances.punch_date, attendances.punch_in_time, attendances.punch_in_address, attendances.punch_in_image, attendances.punch_out_time, attendances.punch_out_address, attendances.punch_out_image, attendances.note, user.name FROM `attendances`
                     INNER JOIN user WHERE attendances.user_id = user.id and user_id = $userId AND punch_date = '$formattedDate'";
 
         $rows = $this->db->query($sql)->getResult();
@@ -2061,6 +2061,7 @@ class User extends BaseController
                                             <th>Image</th>                                                                                       
                                             <th>Punch Time(IN-OUT)</th>
                                             <th>Address</th>
+                                            <th>Note</th>
                                         </tr>
                                     </thead>
                                     <tbody>';
@@ -2073,6 +2074,7 @@ class User extends BaseController
                                 </td>                                                                
                                 <td><b>IN:</b> ' . esc($record->punch_in_time) . '</td>
                                 <td>' . esc($record->punch_in_address) . '</td>
+                                <td rowspan="2">' . esc($record->note) . '</td>
                             </tr> ';
                 if ($record->punch_out_address != '') {
                     $html .= '<tr>
