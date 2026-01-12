@@ -2572,16 +2572,23 @@ class ApiController extends BaseController
                                 $totmin                 = $dayWiseBooked->totmin;
                                 $totalMin               = ($tothour + $totmin);
                                 $booked_effort          = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                                $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desklog_report` where tracker_user_id='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
+                                // $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desklog_report` where tracker_user_id='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
                                 // echo $this->db->getLastQuery();
-                                $desklog_time           = (($getDesklogTime) ? $getDesklogTime->time_at_work : '');
-                                $desklog_time1           = str_replace("m", "", $desklog_time);
-                                $desklog_time2           = str_replace("h ", ".", $desklog_time1);
+                                // $desklog_time           = (($getDesklogTime) ? $getDesklogTime->time_at_work : '');
+                                // $desklog_time1           = str_replace("m", "", $desklog_time);
+                                // $desklog_time2           = str_replace("h ", ".", $desklog_time1);
+
+                                $getDesktopAppTime         = $this->db->query("SELECT time_at_work FROM `desktop_app` where desktopapp_userid='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
+
+                                $desktop_app_time           = (($getDesktopAppTime) ? $getDesktopAppTime->time_at_work : '');
+                                $desktop_time               = str_replace(":", ".", $desktop_app_time);
+
                                 $trackerLast7Days[]     = [
                                     'date_no'       => date_format(date_create($last7Days[$t]), "M d, Y"),
                                     'day_name'      => date('D', strtotime($last7Days[$t])),
                                     'booked_time'   => $booked_effort,
-                                    'desklog_time'  => (($desklog_time != '') ? $desklog_time2 : $desklog_time)
+                                    // 'desklog_time'  => (($desklog_time != '') ? $desklog_time2 : $desklog_time)
+                                    'desklog_time'  => (($desktop_app_time != '') ? $desktop_time : $desktop_app_time)
                                 ];
                             }
                         }
