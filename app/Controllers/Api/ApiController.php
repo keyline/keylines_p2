@@ -2578,16 +2578,21 @@ class ApiController extends BaseController
                                 // $desklog_time1           = str_replace("m", "", $desklog_time);
                                 // $desklog_time2           = str_replace("h ", ".", $desklog_time1);
 
-                                $getDesktopAppTime         = $this->db->query("SELECT time_at_work FROM `desktop_app` where desktopapp_userid='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
-                                // echo $this->db->getLastQuery();
-                                $desktop_app_time           = (($getDesktopAppTime) ? $getDesktopAppTime->time_at_work : '');
-                                // $desklog_time1           = str_replace("m", "", $desklog_time);
-                                // $desklog_time2           = str_replace("h ", ".", $desklog_time1);                                
+                                $getDesklogTime         = $this->db->query("SELECT time_at_work FROM `desktop_app` where desktopapp_userid='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
+                                $desklog_time = $getDesklogTime->time_at_work; 
+
+                                if (!empty($desklog_time) && strpos($desklog_time, ':') !== false) {
+                                    [$hours, $minutes] = explode(':', $desklog_time);
+                                    $desklog_time_formatted = sprintf('%02d.%02d', $hours, $minutes);
+                                } else {
+                                    $desklog_time_formatted = '';
+                                }
+
                                 $trackerLast7Days[]     = [
                                     'date_no'       => date_format(date_create($last7Days[$t]), "M d, Y"),
                                     'day_name'      => date('D', strtotime($last7Days[$t])),
                                     'booked_time'   => $booked_effort,
-                                    'desklog_time'  => (($desktop_app_time != '') ? $desktop_app_time : $desktop_app_time)
+                                    'desklog_time'  => (($desklog_time != '') ? $desklog_time_formatted : $desklog_time)
                                 ];
                             }
                         }
