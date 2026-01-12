@@ -2074,7 +2074,7 @@ class User extends BaseController
                                 </td>                                                                
                                 <td><b>IN:</b> ' . esc($record->punch_in_time) . '</td>
                                 <td>' . esc($record->punch_in_address) . '</td>
-                                <td rowspan="2">' . esc($record->note) . '</td>
+                                <td rowspan="2" style="border-left: 3px solid #e5f3ff;">' . esc($record->note) . '</td>
                             </tr> ';
                 if ($record->punch_out_address != '') {
                     $html .= '<tr>
