@@ -459,19 +459,19 @@
                                     <?php
                                     if($desklog_user == 1){
                                     ?>
-                                    <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                    <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desktop-app-icon.png')?>" alt="" class="desklog-icon"></li>
                                     <?php } ?>
                                     <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
                                     <?php 
                                     if($desklog_user == 1) {
                                     ?>
-                                    <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                    <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/desktop-app-icon.png')?>" alt="" class="desklog-icon"></li>
                                     <?php } ?>
                                     <li><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> : Keyline Tracker</li>
                                     <?php 
                                     if($desklog_user == 1){
                                     ?>
-                                    <li><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> : Desktop Tracker</li>
+                                    <li><img src="<?= base_url('public/uploads/desktop-app-icon.png')?>" alt="" class="desklog-icon"> : Desktop Tracker</li>
                                     <?php } ?>
                                  </ul>
                               </div>
@@ -686,19 +686,19 @@
                                        <?php
                                        if($desklog_user == 1){
                                        ?>
-                                       <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                       <li><span class="dots dots-bg-light-success"></span>Reach Max. Time - <img src="<?= base_url('public/uploads/desktop-app-icon.png')?>" alt="" class="desklog-icon"></li>
                                        <?php } ?>
                                        <li><span class="dots dots-bg-dark-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"></li>
                                        <?php 
                                        if($desklog_user == 1) {
                                        ?>
-                                       <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"></li>
+                                       <li><span class="dots dots-bg-light-denger"></span>Not Reach Max. Time - <img src="<?= base_url('public/uploads/desktop-app-icon.png')?>" alt="" class="desklog-icon"></li>
                                        <?php } ?>
                                        <li><img src="<?= base_url('public/uploads/tracker-icon.webp')?>" alt="" class="tracker-icon"> : Keyline Tracker</li>
                                        <?php 
                                        if($desklog_user == 1){
                                        ?>
-                                       <li><img src="<?= base_url('public/uploads/desklog-icon.webp')?>" alt="" class="desklog-icon"> : Desktop Tracker</li>
+                                       <li><img src="<?= base_url('public/uploads/desktop-app-icon.png')?>" alt="" class="desklog-icon"> : Desktop Tracker</li>
                                        <?php } ?>
                                     </ul>
                                  </div>
