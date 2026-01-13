@@ -2578,9 +2578,9 @@ class ApiController extends BaseController
                                 // $desklog_time1           = str_replace("m", "", $desklog_time);
                                 // $desklog_time2           = str_replace("h ", ".", $desklog_time1);
 
-                                $getDesktopAppTime         = $this->db->query("SELECT time_at_work FROM `desktop_app` where desktopapp_userid='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
+                                $getDesktopAppTime         = $this->db->query("SELECT productive_time FROM `desktop_app` where desktopapp_userid='$getUserId' and insert_date LIKE '%$loopDate%'")->getRow();
 
-                                $desktop_app_time           = (($getDesktopAppTime) ? $getDesktopAppTime->time_at_work : '');
+                                $desktop_app_time           = (($getDesktopAppTime) ? $getDesktopAppTime->productive_time : '');
                                 $desktop_time               = str_replace(":", ".", $desktop_app_time);
 
                                 $trackerLast7Days[]     = [
