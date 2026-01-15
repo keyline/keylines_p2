@@ -189,7 +189,7 @@ if ($row) {
                                                                                     if ($functions) {
                                                                                         foreach ($functions as $function) { ?>
                                                                                             <?php
-                                                                                            $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $nestedMenu->id, 'function_id' => $function->function_id]);
+                                                                                            $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $nestedMenu->id, 'function_id' => $function->function_id, 'published' => 1]);
                                                                                             if ($checkFunctionSelected > 0) {
                                                                                                 $checked = 'checked';
                                                                                             } else {
