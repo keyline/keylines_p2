@@ -119,6 +119,7 @@ class UserController extends BaseController {
         $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1, 'id!=' => 1]);
         }
         $data['officeLocations']    = $this->data['model']->find_data('office_locations', 'array', ['status=' => 1], 'id,name,address');
+        $data['shiftingTimes']    = $this->data['model']->find_data('shifting_work_details', 'array', ['status=' => 1], 'id,shifting_name,shift_in_time,shift_out_time');
         if($this->request->getMethod() == 'post') {
             //  pr($this->request->getPost());
             /* profile image */
@@ -172,6 +173,7 @@ class UserController extends BaseController {
                 'attendence_type'       => json_encode($attnType),
                 'date_added'            => date('Y-m-d H:i:s'),
                 'task_view_access'      => $this->request->getPost('task_view_access'),
+                'shift_time'            => $this->request->getPost('shifting_id'),
             );
             //  pr($postData);
             /* credentials sent */
@@ -335,6 +337,7 @@ class UserController extends BaseController {
             $data['roleMasters']        = $this->data['model']->find_data('permission_roles', 'array', ['published=' => 1, 'id!=' => 1]);
             }
         $data['officeLocations']    = $this->data['model']->find_data('office_locations', 'array', ['status=' => 1], 'id,name,address');
+        $data['shiftingTimes']    = $this->data['model']->find_data('shifting_work_details', 'array', ['status=' => 1], 'id,shifting_name,shift_in_time,shift_out_time');
         if($this->request->getMethod() == 'post') {
             /* profile image */
                 $file = $this->request->getFile('image');
@@ -393,6 +396,7 @@ class UserController extends BaseController {
                     'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
                     'attendence_type'       => json_encode($attnType),
                     'task_view_access'      => $this->request->getPost('task_view_access'),
+                    'shift_time'            => $this->request->getPost('shifting_id'),
                 );
             } else {
                 $postData   = array(
@@ -418,6 +422,7 @@ class UserController extends BaseController {
                     'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
                     'attendence_type'       => json_encode($attnType),
                     'task_view_access'      => $this->request->getPost('task_view_access'),
+                    'shift_time'            => $this->request->getPost('shifting_id'),
                 );
             }
             // pr($postData);

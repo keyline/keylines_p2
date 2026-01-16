@@ -326,10 +326,10 @@ $userId             = $session->user_id;
     </li>
   <?php } ?>
 
-  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(29) || checkModuleAccess(30) || checkModuleAccess(37) || checkModuleAccess(38)) { ?>
+  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(29) || checkModuleAccess(30) || checkModuleAccess(37) || checkModuleAccess(38) || checkModuleAccess(42)) { ?>
     <li>
       <div class="iocn-link">
-        <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status') ? 'active' : '') ?>"
+        <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'shifting-time') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'shifting-time') ? 'active' : '') ?>"
           href="javascript:void(0)">
           <i class="fa fa-database"></i>
           <span class="link_name">Masters</span>
@@ -337,9 +337,9 @@ $userId             = $session->user_id;
         </a>
       </div>
       <ul
-        class="sub-menu <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'office-location') ? 'show' : '') ?>">
+        class="sub-menu <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'office-location' || $pageSegment == 'shifting-time') ? 'show' : '') ?>">
         <li>
-          <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'office-location') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'office-location') ? 'active' : '') ?>"
+          <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'office-location' || $pageSegment == 'shifting-time') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'office-location' || $pageSegment == 'shifting-time') ? 'active' : '') ?>"
             href="javascript:void(0)">
             <span class="link_name">Masters</span>
           </a>
@@ -377,8 +377,16 @@ $userId             = $session->user_id;
               <i class="fa fa-arrow-right"></i><span>Work Status</span>
             </a>
           </li>
-          <?php } ?>
-          <?php if (checkModuleAccess(37)) { ?>
+        <?php } ?>
+        <?php if (checkModuleAccess(42)) { ?>
+          <li>
+            <a class="<?= (($pageSegment == 'shifting-time') ? 'active' : '') ?>"
+              href="<?= base_url('admin/shifting-time/list') ?>">
+              <i class="fa fa-arrow-right"></i><span>Shifting Time</span>
+            </a>
+          </li>
+        <?php } ?>
+        <?php if (checkModuleAccess(37)) { ?>
           <li>
             <a class="<?= (($pageSegment == 'holiday-list') ? 'active' : '') ?>"
               href="<?= base_url('admin/holiday-list') ?>">

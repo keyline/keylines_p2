@@ -100,32 +100,132 @@ class Manage_roles extends BaseController {
         $data['parentmodules']      = $this->common_model->find_data('permission_modules', 'array', ['published' => 1, 'parent_id' => 0]);
         $data['functions']          = $this->common_model->find_data('permission_module_functions', 'array', ['published' => 1, 'module_id' => $id]);
         $data['action']             = 'Update';
-        if($this->request->getPost()){
-            // pr($this->request->getPost());
-            $postData = [
-                            'role_name'                    => strtoupper($this->request->getPost('role_name_hidden')),
-                            'updated_at'                   => date('Y-m-d H:i:s')
-                        ];
-            // $this->common_model->save_data('permission_roles', $postData, $id, 'id');
+        // if($this->request->getPost()){
+        //     pr($this->request->getPost());
+        //     $postData = [
+        //                     'role_name'                    => strtoupper($this->request->getPost('role_name_hidden')),
+        //                     'updated_at'                   => date('Y-m-d H:i:s')
+        //                 ];
+        //     // $this->common_model->save_data('permission_roles', $postData, $id, 'id');
+        //     $role_id = $id;
+        //     // $this->common_model->delete_data('permission_role_module_function', $role_id, 'role_id');
+        //     /* function manage */
+        //         $function_id  = $this->request->getPost('function_id');
+        //         if(count($function_id)>0){
+        //             for($f=0;$f<count($function_id);$f++){
+        //                 $function    = $this->common_model->find_data('permission_module_functions', 'row', ['function_id' => $function_id[$f]]);
+        //                 $module_id = (($function)?$function->module_id:0);
+        //                 $new_function_id = $function_id[$f];
+
+        //                 $exsistingRow = $this->common_model->find_data('permission_role_module_function', 'row', ['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $new_function_id, 'published' => 1]);
+        //                 // pr($exsistingRow);
+        //                 if($exsistingRow)
+        //                     {
+        //                         echo 'exsisting';
+        //                     }
+        //                 else{
+        //                     $postData2 = [
+        //                                 'role_id'                         => $role_id,
+        //                                 'module_id'                       => (($function)?$function->module_id:0),
+        //                                 'function_id'                     => $function_id[$f],
+        //                             ];
+        //                     pr($postData2);
+        //                 $this->common_model->save_data('permission_role_module_function', $postData2, '', 'function_id');
+        //                 }
+                        
+        //             }
+        //         }
+        //     /* function manage */                    
+        //     $this->session->setFlashdata('success_message', $this->data['module'].' inserted successfully');
+        //     return redirect()->to('/admin/'.$this->data['controller']);
+        // }
+
+        
+        //code by deblina for update role and functions
+        if ($this->request->getPost()) {
+
             $role_id = $id;
-            $this->common_model->delete_data('permission_role_module_function', $role_id, 'role_id');
-            /* function manage */
-                $function_id  = $this->request->getPost('function_id');
-                if(count($function_id)>0){
-                    for($f=0;$f<count($function_id);$f++){
-                        $function    = $this->common_model->find_data('permission_module_functions', 'row', ['function_id' => $function_id[$f]]);
-                        $postData2 = [
-                                        'role_id'                         => $role_id,
-                                        'module_id'                       => (($function)?$function->module_id:0),
-                                        'function_id'                     => $function_id[$f],
-                                    ];
-                        $this->common_model->save_data('permission_role_module_function', $postData2, '', 'function_id');
+
+            $function_ids = $this->request->getPost('function_id') ?? [];
+
+            /* ===============================
+            STEP 1: Set all existing rows to published = 0
+            =============================== */
+            $this->common_model->save_data(
+                'permission_role_module_function',
+                ['published' => 0],
+                $role_id,
+                'role_id'
+            );
+
+            /* ===============================
+            STEP 2: Loop submitted functions
+            =============================== */
+            if (count($function_ids) > 0) {
+
+                foreach ($function_ids as $fid) {
+
+                    // get module_id from function
+                    $function = $this->common_model->find_data(
+                        'permission_module_functions',
+                        'row',
+                        ['function_id' => $fid]
+                    );
+
+                    if (!$function) {
+                        continue;
+                    }
+
+                    $module_id = $function->module_id;
+
+                    // check if record already exists
+                    $existingRow = $this->common_model->find_data(
+                        'permission_role_module_function',
+                        'row',
+                        [
+                            'role_id'     => $role_id,
+                            'module_id'   => $module_id,
+                            'function_id' => $fid
+                        ]
+                    );
+
+                    if ($existingRow) {
+
+                        // UPDATE published = 1
+                        $this->common_model->save_data(
+                            'permission_role_module_function',
+                            [
+                                'published'  => 1,
+                                'updated_at' => date('Y-m-d H:i:s')
+                            ],
+                            $existingRow->id,
+                            'id'
+                        );
+
+                    } else {
+
+                        // INSERT new row
+                        $this->common_model->save_data(
+                            'permission_role_module_function',
+                            [
+                                'role_id'     => $role_id,
+                                'module_id'   => $module_id,
+                                'function_id' => $fid,
+                                'published'   => 1,
+                                'created_at'  => date('Y-m-d H:i:s'),
+                                'updated_at'  => date('Y-m-d H:i:s')
+                            ],
+                            '',
+                            'id'
+                        );
                     }
                 }
-            /* function manage */                    
-            $this->session->setFlashdata('success_message', $this->data['module'].' inserted successfully');
-            return redirect()->to('/admin/'.$this->data['controller']);
+            }
+
+            $this->session->setFlashdata('success_message', 'Permissions updated successfully');
+            return redirect()->to('/admin/' . $this->data['controller']);
         }
+
         echo $this->layout_after_login($title,$page_name,$data);
     }
     public function view($id){

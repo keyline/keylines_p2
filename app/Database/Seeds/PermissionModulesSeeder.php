@@ -38,7 +38,18 @@ class PermissionModulesSeeder extends Seeder
             array('id' => '28', 'parent_id' => '3', 'module_name' => 'ROLE MASTER', 'published' => '1', 'created_at' => '2024-07-25 15:38:42', 'updated_at' => '2024-07-25 15:38:42'),
             array('id' => '29', 'parent_id' => '3', 'module_name' => 'DEPARTMENTS', 'published' => '1', 'created_at' => '2024-07-30 14:47:48', 'updated_at' => '2024-07-30 14:47:48'),
             array('id' => '30', 'parent_id' => '3', 'module_name' => 'WORK STATUS', 'published' => '1', 'created_at' => '2024-07-30 14:49:38', 'updated_at' => '2024-07-30 14:49:38'),
-            array('id' => '31', 'parent_id' => '11', 'module_name' => 'TEST SETTING', 'published' => '1', 'created_at' => '2024-08-06 11:01:46', 'updated_at' => '2024-08-06 11:01:46')
+            array('id' => '31', 'parent_id' => '11', 'module_name' => 'TEST SETTING', 'published' => '1', 'created_at' => '2024-08-06 11:01:46', 'updated_at' => '2024-08-06 11:01:46'),
+            array('id' => '32', 'parent_id' => '0',  'module_name' => 'PROJECTS & CLIENTS', 'published' => '1', 'created_at' => '2025-11-07 16:41:12', 'updated_at' => '2025-11-07 16:41:12'),
+            array('id' => '33', 'parent_id' => '2',  'module_name' => 'COST UPDATE',        'published' => '1', 'created_at' => '2025-11-07 16:51:10', 'updated_at' => '2025-11-07 16:51:10'),
+            array('id' => '34', 'parent_id' => '32', 'module_name' => 'ADD EXPENSES',       'published' => '1', 'created_at' => '2025-11-07 17:06:30', 'updated_at' => '2025-11-07 17:06:30'),
+            array('id' => '35', 'parent_id' => '32', 'module_name' => 'AMC CHECKING',        'published' => '1', 'created_at' => '2025-11-07 17:15:22', 'updated_at' => '2025-11-11 18:15:59'),
+            array('id' => '36', 'parent_id' => '7',  'module_name' => 'TASK ASSIGN',         'published' => '1', 'created_at' => '2025-11-07 17:23:27', 'updated_at' => '2025-11-12 14:30:02'),
+            array('id' => '37', 'parent_id' => '3',  'module_name' => 'HOLIDAY LIST',        'published' => '1', 'created_at' => '2025-11-07 17:42:00', 'updated_at' => '2025-11-14 15:57:08'),
+            array('id' => '38', 'parent_id' => '3',  'module_name' => 'OFFICE LOCATION',     'published' => '1', 'created_at' => '2025-11-07 17:44:51', 'updated_at' => '2025-11-07 17:44:51'),
+            array('id' => '39', 'parent_id' => '11', 'module_name' => 'SCREENSHOT SETTINGS', 'published' => '1', 'created_at' => '2025-11-07 17:48:25', 'updated_at' => '2025-11-14 18:01:39'),
+            array('id' => '40', 'parent_id' => '11', 'module_name' => 'MOBILE APPLICATION',  'published' => '1', 'created_at' => '2025-11-07 17:52:01', 'updated_at' => '2025-11-07 17:52:01'),
+            array('id' => '41', 'parent_id' => '11', 'module_name' => 'ALL SETTINGS',         'published' => '1', 'created_at' => '2025-11-14 18:57:20', 'updated_at' => '2025-11-14 18:57:20'),
+            array('id' => '42', 'parent_id' => '3', 'module_name' => 'SHIFTING TIME',         'published' => '1', 'created_at' => '2026-01-14 10:49:25', 'updated_at' => '2026-01-14 10:49:25'),
         );
         $this->db->table('permission_modules')->insertBatch($permission_modules);
     }
