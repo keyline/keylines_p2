@@ -87,22 +87,26 @@ class ReportController extends BaseController
                 $dayQuery4 = "t.date_added >= '$search_range_from' and t.date_added <= '$search_range_to'";
                 if ($search_user_id == 'all' && $search_project_id == 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by effort_type";
                     $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " group by t.project_id order by p.name asc";
                 } elseif ($search_user_id != 'all' && $search_project_id == 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and user_id = '$search_user_id' order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by effort_type";
                     $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
                 } elseif ($search_user_id == 'all' && $search_project_id != 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by effort_type";
                     $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' group by t.project_id order by p.name asc";
                 } elseif ($search_user_id != 'all' && $search_project_id != 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by effort_type";
                     $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
                 }
