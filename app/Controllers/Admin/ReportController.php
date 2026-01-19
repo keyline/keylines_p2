@@ -229,8 +229,9 @@ class ReportController extends BaseController
                     $totMins                = $tot_hour + $tot_min;
                     $totalBooked            = intdiv($totMins, 60) . '.' . ($totMins % 60);
                     $graphUserData[]        = "'" . $totalBooked . "'";
+                    $totalCost              =  number_format($getUserGraph->tot_cost, 2);
                     // $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
-                    $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]    [ ₹" . $getUserGraph->tot_cost . " ]'" : '');
+                    $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]    [ ₹" . $totalCost . " ]'" : '');
                 }
             }
             // pr($graphUsers,0);
