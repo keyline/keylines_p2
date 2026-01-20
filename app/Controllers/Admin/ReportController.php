@@ -35,7 +35,7 @@ class ReportController extends BaseController
                 echo $this->layout_after_login($title, $page_name, $data);
                 exit;
             }  
-        $session = \Config\Services::session();
+        
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'] . ' : Advance Search';
         $page_name                  = 'report/advance-search';
@@ -55,7 +55,7 @@ class ReportController extends BaseController
         if ($user_type == 'CLIENT') {
             $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
             $data['closed_projects']    = $this->data['model']->find_data('project', 'array', ['project.status' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
-            dd($data['projects']); die;
+            // dd($data['projects']); die;
             $project_id = $data['projects'][0]->id;
             $sql = "SELECT DISTINCT user.status, user.name, user.id FROM `timesheet` INNER JOIN user on timesheet.user_id = user.id WHERE timesheet.project_id = $project_id and user.status = '1';";
             $rows = $this->db->query($sql)->getResult();
@@ -218,7 +218,7 @@ class ReportController extends BaseController
             $data['search_range_from']      = $search_range_from;
             $data['search_range_to']        = $search_range_to;
 
-            pr($session->get());
+            
 
             /* user graph */
             $getUserGraphs = $this->db->query($sql2)->getResult();
@@ -234,8 +234,11 @@ class ReportController extends BaseController
                     $graphUserData[]        = "'" . $totalBooked . "'";
                     $totalCost              =  number_format($getUserGraph->tot_cost, 2);
                     // $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
-                    $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]    [ ₹" . $totalCost . " ]'" : '');
-                }
+                    if($user_type == 'SUPER ADMIN' ){
+                        $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]    [ ₹" . $totalCost . " ]'" : '');
+                    }else{
+                        $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
+                    }
             }
             // pr($graphUsers,0);
             // pr($graphUserData);
