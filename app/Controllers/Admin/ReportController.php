@@ -35,6 +35,7 @@ class ReportController extends BaseController
                 echo $this->layout_after_login($title, $page_name, $data);
                 exit;
             }  
+        
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'] . ' : Advance Search';
         $page_name                  = 'report/advance-search';
@@ -54,7 +55,7 @@ class ReportController extends BaseController
         if ($user_type == 'CLIENT') {
             $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
             $data['closed_projects']    = $this->data['model']->find_data('project', 'array', ['project.status' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
-            dd($data['projects']); die;
+            // dd($data['projects']); die;
             $project_id = $data['projects'][0]->id;
             $sql = "SELECT DISTINCT user.status, user.name, user.id FROM `timesheet` INNER JOIN user on timesheet.user_id = user.id WHERE timesheet.project_id = $project_id and user.status = '1';";
             $rows = $this->db->query($sql)->getResult();
@@ -87,24 +88,32 @@ class ReportController extends BaseController
                 $dayQuery4 = "t.date_added >= '$search_range_from' and t.date_added <= '$search_range_to'";
                 if ($search_user_id == 'all' && $search_project_id == 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by user_id";  
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by effort_type";
-                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " group by t.project_id order by p.name asc";
+                    // $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " group by t.project_id order by p.name asc";
+                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min, sum(cost) as tot_cost from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " group by t.project_id order by p.name asc";
                 } elseif ($search_user_id != 'all' && $search_project_id == 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and user_id = '$search_user_id' order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by effort_type";
-                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+                    // $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min, sum(cost) as tot_cost from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
                 } elseif ($search_user_id == 'all' && $search_project_id != 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by effort_type";
-                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' group by t.project_id order by p.name asc";
+                    // $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' group by t.project_id order by p.name asc";
+                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min, sum(cost) as tot_cost from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' group by t.project_id order by p.name asc";
                 } elseif ($search_user_id != 'all' && $search_project_id != 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by effort_type";
-                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+                    // $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min, sum(cost) as tot_cost from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
                 }
                 $data['is_date_range']      = 1;
             } else {
@@ -150,24 +159,32 @@ class ReportController extends BaseController
 
                 if ($search_user_id == 'all' && $search_project_id == 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by effort_type";
-                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " group by t.project_id order by p.name asc";
+                    // $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " group by t.project_id order by p.name asc";
+                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min, sum(cost) as tot_cost from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " group by t.project_id order by p.name asc";
                 } elseif ($search_user_id != 'all' && $search_project_id == 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and user_id = '$search_user_id' order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by effort_type";
-                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+                    // $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min, sum(cost) as tot_cost from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
                 } elseif ($search_user_id == 'all' && $search_project_id != 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by effort_type";
-                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' group by t.project_id order by p.name asc";
+                    // $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' group by t.project_id order by p.name asc";
+                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min, sum(cost) as tot_cost from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' group by t.project_id order by p.name asc";
                 } elseif ($search_user_id != 'all' && $search_project_id != 'all') {
                     $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' order by id desc";
-                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
+                    // $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
+                    $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min, sum(cost) as tot_cost from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
                     $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by effort_type";
-                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+                    // $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+                    $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min, sum(cost) as tot_cost from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
                 }
             }
             // echo $sql;die;
@@ -209,6 +226,8 @@ class ReportController extends BaseController
             $data['search_range_from']      = $search_range_from;
             $data['search_range_to']        = $search_range_to;
 
+            
+
             /* user graph */
             $getUserGraphs = $this->db->query($sql2)->getResult();
             $graphUsers     = [];
@@ -221,8 +240,13 @@ class ReportController extends BaseController
                     $totMins                = $tot_hour + $tot_min;
                     $totalBooked            = intdiv($totMins, 60) . '.' . ($totMins % 60);
                     $graphUserData[]        = "'" . $totalBooked . "'";
-                    $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
-                }
+                    $totalCost              =  number_format($getUserGraph->tot_cost, 2);
+                    // $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
+                    // if($user_type == 'SUPER ADMIN' ){
+                        $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]    [ ₹" . $totalCost . " ]'" : '');
+                    // }else{
+                    //     $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
+                    // }
             }
             // pr($graphUsers,0);
             // pr($graphUserData);
@@ -263,7 +287,8 @@ class ReportController extends BaseController
                     $totMins                = $tot_hour + $tot_min;
                     $totalBooked            = intdiv($totMins, 60) . '.' . ($totMins % 60);
                     $graphProjectData[]     = "'" . $totalBooked . "'";
-                    $graphProjects[]        = (($getProject) ? "'" . $getProject->name . " [" . $totalBooked . "]'" : '');
+                    $totalCostOfProject     =  number_format($getProjectGraph->tot_cost, 2);
+                    $graphProjects[]        = (($getProject) ? "'" . $getProject->name . " [" . $totalBooked . "]    [ ₹" . $totalCostOfProject . " ]'" : '');
                 }
             }
             // pr($graphProjects,0);
@@ -274,7 +299,258 @@ class ReportController extends BaseController
             /* project graph */
         }
         echo $this->layout_after_login($title, $page_name, $data);
+        }
     }
+
+    // public function advanceSearch()
+    // {        
+    //     if (!$this->common_model->checkModuleFunctionAccess(22, 88)) {
+    //             $data['action']             = 'Access Forbidden';
+    //             $title                      = $data['action'] . ' ' . $this->data['title'];
+    //             $page_name                  = 'access-forbidden';
+    //             echo $this->layout_after_login($title, $page_name, $data);
+    //             exit;
+    //         }  
+    //     $data['moduleDetail']       = $this->data;
+    //     $title                      = 'Manage ' . $this->data['title'] . ' : Advance Search';
+    //     $page_name                  = 'report/advance-search';
+    //     $order_by[0]                = array('field' => 'status', 'type' => 'DESC');
+    //     $order_by[1]                = array('field' => 'name', 'type' => 'ASC');
+    //     $data['users']              = $this->data['model']->find_data('user', 'array', ['status!=' => '3'], 'id,name,status', '', '', $order_by);
+
+    //     // $data['projectwise_users']  = $this->data['model']->find_data('user', 'array', ['status!=' => '3'], 'id,name,status', '', '', $order_by); 
+
+    //     // $order_by[0]                = array('field' => 'project.status', 'type' => 'ASC');
+    //     $order_by[0]                = array('field' => 'project.name', 'type' => 'ASC');
+    //     $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+    //     $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+    //     $user_type                  = $this->session->get('user_type');
+    //     $user_id                    = $this->session->get('user_id');
+
+    //     if ($user_type == 'CLIENT') {
+    //         $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
+    //         $data['closed_projects']    = $this->data['model']->find_data('project', 'array', ['project.status' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
+    //         dd($data['projects']); die;
+    //         $project_id = $data['projects'][0]->id;
+    //         $sql = "SELECT DISTINCT user.status, user.name, user.id FROM `timesheet` INNER JOIN user on timesheet.user_id = user.id WHERE timesheet.project_id = $project_id and user.status = '1';";
+    //         $rows = $this->db->query($sql)->getResult();
+    //         $data['projectwise_user'] = $rows;
+    //         // pr($data['projectwise_user']);
+    //     } else {
+    //         $data['projects']           = $this->data['model']->find_data('project', 'array', ['project.status!=' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
+    //         $data['closed_projects']    = $this->data['model']->find_data('project', 'array', ['project.status' => 13], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join, '', $order_by);
+    //     }
+
+
+    //     $data['response']           = [];
+    //     $data['search_user_id']     = 'all';
+    //     $data['search_project_id']  = '';
+    //     $data['search_day_id']      = 'all';
+    //     $data['is_date_range']      = 0;
+    //     $data['search_range_from']  = '';
+    //     $data['search_range_to']    = '';
+    //     $data['graph_users']        = '';
+    //     $data['graph_user_data']    = '';
+    //     if ($this->request->getGet('mode') == 'advance_search') {
+    //         // pr($this->request->getGet());
+    //         $search_user_id     = $this->request->getGet('search_user_id');
+    //         $search_project_id  = $this->request->getGet('search_project_id');
+    //         $search_day_id      = $this->request->getGet('search_day_id');
+    //         $search_range_from  = $this->request->getGet('search_range_from');
+    //         $search_range_to    = $this->request->getGet('search_range_to');
+    //         if (array_key_exists('is_date_range', $this->request->getGet())) {
+    //             $dayQuery = "date_added >= '$search_range_from' and date_added <= '$search_range_to'";
+    //             $dayQuery4 = "t.date_added >= '$search_range_from' and t.date_added <= '$search_range_to'";
+    //             if ($search_user_id == 'all' && $search_project_id == 'all') {
+    //                 $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " order by id desc";
+    //                 $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by user_id";
+    //                 $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by effort_type";
+    //                 $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " group by t.project_id order by p.name asc";
+    //             } elseif ($search_user_id != 'all' && $search_project_id == 'all') {
+    //                 $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and user_id = '$search_user_id' order by id desc";
+    //                 $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
+    //                 $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by effort_type";
+    //                 $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+    //             } elseif ($search_user_id == 'all' && $search_project_id != 'all') {
+    //                 $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' order by id desc";
+    //                 $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
+    //                 $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by effort_type";
+    //                 $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' group by t.project_id order by p.name asc";
+    //             } elseif ($search_user_id != 'all' && $search_project_id != 'all') {
+    //                 $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' order by id desc";
+    //                 $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
+    //                 $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by effort_type";
+    //                 $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+    //             }
+    //             $data['is_date_range']      = 1;
+    //         } else {
+    //             $today          = date('Y-m-d');
+    //             $yesterday      = date('Y-m-d', strtotime("-1 days"));
+    //             $lastMonday     = date('Y-m-d', strtotime('last Monday'));
+    //             $lastWeekmonday = date('Y-m-d', strtotime('monday last week'));
+    //             $lastWeeksunday = date('Y-m-d', strtotime('sunday last week'));
+    //             $currentMonthFirstDay = date('Y-m') . "-01";
+    //             $firstDayLastMonth = date("Y-m-d", mktime(0, 0, 0, date("m") - 1, 1));
+    //             $lastDayLastMonth = date("Y-m-d", mktime(0, 0, 0, date("m"), 0));
+    //             $last7Day = date('Y-m-d', strtotime('-7 days'));
+    //             $last30Day = date('Y-m-d', strtotime('-30 days'));
+    //             $data['is_date_range']      = 0;
+    //             if ($search_day_id == 'all') {
+    //                 $dayQuery = "date_added >= '2018-05-01'";
+    //                 $dayQuery4 = "t.date_added >= '2018-05-01'";
+    //             } elseif ($search_day_id == 'today') {
+    //                 $dayQuery = "date_added = '$today'";
+    //                 $dayQuery4 = "t.date_added = '$today'";
+    //             } elseif ($search_day_id == 'yesterday') {
+    //                 $dayQuery = "date_added = '$yesterday'";
+    //                 $dayQuery4 = "t.date_added = '$yesterday'";
+    //             } elseif ($search_day_id == 'this_week') {
+    //                 $dayQuery = "date_added >= '$lastMonday' and date_added <= '$today'";
+    //                 $dayQuery4 = "t.date_added >= '$lastMonday' and t.date_added <= '$today'";
+    //             } elseif ($search_day_id == 'last_week') {
+    //                 $dayQuery = "date_added >= '$lastWeekmonday' and date_added <= '$lastWeeksunday'";
+    //                 $dayQuery4 = "t.date_added >= '$lastWeekmonday' and t.date_added <= '$lastWeeksunday'";
+    //             } elseif ($search_day_id == 'this_month') {
+    //                 $dayQuery = "date_added >= '$currentMonthFirstDay' and date_added <= '$today'";
+    //                 $dayQuery4 = "t.date_added >= '$currentMonthFirstDay' and t.date_added <= '$today'";
+    //             } elseif ($search_day_id == 'last_month') {
+    //                 $dayQuery = "date_added >= '$firstDayLastMonth' and date_added <= '$lastDayLastMonth'";
+    //                 $dayQuery4 = "t.date_added >= '$firstDayLastMonth' and t.date_added <= '$lastDayLastMonth'";
+    //             } elseif ($search_day_id == 'last_7_days') {
+    //                 $dayQuery = "date_added >= '$last7Day' and date_added <= '$yesterday'";
+    //                 $dayQuery4 = "t.date_added >= '$last7Day' and t.date_added <= '$yesterday'";
+    //             } elseif ($search_day_id == 'last_30_days') {
+    //                 $dayQuery = "date_added >= '$last30Day' and date_added <= '$yesterday'";
+    //                 $dayQuery4 = "t.date_added >= '$last30Day' and t.date_added <= '$yesterday'";
+    //             }
+
+    //             if ($search_user_id == 'all' && $search_project_id == 'all') {
+    //                 $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " order by id desc";
+    //                 $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by user_id";
+    //                 $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " group by effort_type";
+    //                 $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " group by t.project_id order by p.name asc";
+    //             } elseif ($search_user_id != 'all' && $search_project_id == 'all') {
+    //                 $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and user_id = '$search_user_id' order by id desc";
+    //                 $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by user_id";
+    //                 $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and user_id = '$search_user_id' group by effort_type";
+    //                 $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+    //             } elseif ($search_user_id == 'all' && $search_project_id != 'all') {
+    //                 $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' order by id desc";
+    //                 $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by user_id";
+    //                 $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' group by effort_type";
+    //                 $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' group by t.project_id order by p.name asc";
+    //             } elseif ($search_user_id != 'all' && $search_project_id != 'all') {
+    //                 $sql = "select id,project_id,status_id,user_id,description,hour,min,effort_type,date_today,date_added from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' order by id desc";
+    //                 $sql2 = "select user_id,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by user_id";
+    //                 $sql3 = "select effort_type,sum(hour) as tot_hour,sum(min) as tot_min from timesheet where " . $dayQuery . " and project_id = '$search_project_id' and user_id = '$search_user_id' group by effort_type";
+    //                 $sql4 = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where " . $dayQuery4 . " and t.project_id = '$search_project_id' and t.user_id = '$search_user_id' group by t.project_id order by p.name asc";
+    //             }
+    //         }
+    //         // echo $sql;die;
+    //         $rows = $this->db->query($sql)->getResult();
+    //         $response = [];
+    //         $total_effort_in_mins = 0;
+    //         if ($rows) {
+    //             $sl = 1;
+    //             foreach ($rows as $row) {
+    //                 $getProject = $this->common_model->find_data('project', 'row', ['id' => $row->project_id], 'name');
+    //                 $getUser = $this->common_model->find_data('user', 'row', ['id' => $row->user_id], 'name');
+    //                 $getProjectStatus = $this->common_model->find_data('project_status', 'row', ['id' => $row->status_id], 'name');
+    //                 $getEffortType = $this->common_model->find_data('effort_type', 'row', ['id' => $row->effort_type], 'name');
+    //                 $effort_time = $row->hour . ':' . $row->min;
+    //                 $response[] = [
+    //                     'sl_no'             => $sl++,
+    //                     'id'                => $row->id,
+    //                     'project_name'      => (($getProject) ? $getProject->name : ''),
+    //                     'user_name'         => (($getUser) ? $getUser->name : ''),
+    //                     'work_date'         => date_format(date_create($row->date_added), "d-m-Y"),
+    //                     'date_today'        => date_format(date_create($row->date_today), "d-m-Y"),
+    //                     'description'       => $row->description,
+    //                     'effort_time'       => $effort_time,
+    //                     'hour'              => $row->hour,
+    //                     'min'               => $row->min,
+    //                     'project_status'    => (($getProjectStatus) ? $getProjectStatus->name : ''),
+    //                     'effort_type'       => (($getEffortType) ? $getEffortType->name : ''),
+    //                 ];
+    //                 $total_hour_min = ($row->hour * 60); // 0*60 = 0
+    //                 $total_min_min = $row->min; // 30
+    //                 $total_effort_in_mins += ($total_hour_min + $total_min_min);
+    //             }
+    //         }
+    //         $data['response']               = $response;
+    //         $data['total_effort_in_mins']   = $total_effort_in_mins;
+    //         $data['search_user_id']         = $search_user_id;
+    //         $data['search_project_id']      = $search_project_id;
+    //         $data['search_day_id']          = $search_day_id;
+    //         $data['search_range_from']      = $search_range_from;
+    //         $data['search_range_to']        = $search_range_to;
+
+    //         /* user graph */
+    //         $getUserGraphs = $this->db->query($sql2)->getResult();
+    //         $graphUsers     = [];
+    //         $graphUserData  = [];
+    //         if ($getUserGraphs) {
+    //             foreach ($getUserGraphs as $getUserGraph) {
+    //                 $getUser = $this->common_model->find_data('user', 'row', ['id' => $getUserGraph->user_id], 'name');
+    //                 $tot_hour               = $getUserGraph->tot_hour * 60;
+    //                 $tot_min                = $getUserGraph->tot_min;
+    //                 $totMins                = $tot_hour + $tot_min;
+    //                 $totalBooked            = intdiv($totMins, 60) . '.' . ($totMins % 60);
+    //                 $graphUserData[]        = "'" . $totalBooked . "'";
+    //                 $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
+    //             }
+    //         }
+    //         // pr($graphUsers,0);
+    //         // pr($graphUserData);
+    //         $data['graph_users']            = $graphUsers;
+    //         $data['graph_user_data']        = $graphUserData;
+    //         /* user graph */
+    //         /* type graph */
+    //         $getTypeGraphs = $this->db->query($sql3)->getResult();
+    //         $graphTypes     = [];
+    //         $graphTypeData  = [];
+    //         if ($getTypeGraphs) {
+    //             foreach ($getTypeGraphs as $getTypeGraph) {
+    //                 $getEffortType          = $this->common_model->find_data('effort_type', 'row', ['id' => $getTypeGraph->effort_type], 'name');
+
+    //                 $tot_hour               = $getTypeGraph->tot_hour * 60;
+    //                 $tot_min                = $getTypeGraph->tot_min;
+    //                 $totMins                = $tot_hour + $tot_min;
+    //                 $totalBooked            = intdiv($totMins, 60) . '.' . ($totMins % 60);
+    //                 $graphTypeData[]        = "'" . $totalBooked . "'";
+    //                 $graphTypes[]           = (($getEffortType) ? "'" . $getEffortType->name . " [" . $totalBooked . "]'" : '');
+    //             }
+    //         }
+    //         // pr($graphTypes,0);
+    //         // pr($graphTypeData);
+    //         $data['graph_types']            = $graphTypes;
+    //         $data['graph_type_data']        = $graphTypeData;
+    //         /* type graph */
+    //         /* project graph */
+    //         $getProjectGraphs = $this->db->query($sql4)->getResult();
+    //         $graphProjects     = [];
+    //         $graphProjectData  = [];
+    //         if ($getProjectGraphs) {
+    //             foreach ($getProjectGraphs as $getProjectGraph) {
+    //                 $getProject          = $this->common_model->find_data('project', 'row', ['id' => $getProjectGraph->project_id], 'name');
+
+    //                 $tot_hour               = $getProjectGraph->tot_hour * 60;
+    //                 $tot_min                = $getProjectGraph->tot_min;
+    //                 $totMins                = $tot_hour + $tot_min;
+    //                 $totalBooked            = intdiv($totMins, 60) . '.' . ($totMins % 60);
+    //                 $graphProjectData[]     = "'" . $totalBooked . "'";
+    //                 $graphProjects[]        = (($getProject) ? "'" . $getProject->name . " [" . $totalBooked . "]'" : '');
+    //             }
+    //         }
+    //         // pr($graphProjects,0);
+    //         // pr($graphProjectData);
+    //         $data['graph_projects_bar_height']            = ((count($graphProjects) > 1) ? (count($graphProjects) * 30) : 100);
+    //         $data['graph_projects']            = $graphProjects;
+    //         $data['graph_project_data']        = $graphProjectData;
+    //         /* project graph */
+    //     }
+    //     echo $this->layout_after_login($title, $page_name, $data);
+    // }
 
     public function effortType()
     {
