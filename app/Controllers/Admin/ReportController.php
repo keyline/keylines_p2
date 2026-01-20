@@ -35,6 +35,7 @@ class ReportController extends BaseController
                 echo $this->layout_after_login($title, $page_name, $data);
                 exit;
             }  
+        $session = \Config\Services::session();
         $data['moduleDetail']       = $this->data;
         $title                      = 'Manage ' . $this->data['title'] . ' : Advance Search';
         $page_name                  = 'report/advance-search';
