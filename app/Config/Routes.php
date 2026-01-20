@@ -140,6 +140,13 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin", 'filter'    => 
 		$routes->match(['get', 'post'], "work-status/delete/(:any)", "WorkStatusController::confirm_delete/$1");
 		$routes->match(['get', 'post'], "work-status/change-status/(:any)", "WorkStatusController::change_status/$1");
 		/* work status */
+		/* shifting time */
+		$routes->match(['get'], "shifting-time/list", "ShiftingTimeController::list");
+		$routes->match(['get', 'post'], "shifting-time/add", "ShiftingTimeController::add");
+		$routes->match(['get', 'post'], "shifting-time/edit/(:any)", "ShiftingTimeController::edit/$1");
+		$routes->match(['get', 'post'], "shifting-time/delete/(:any)", "ShiftingTimeController::confirm_delete/$1");
+		$routes->match(['get', 'post'], "shifting-time/change-status/(:any)", "ShiftingTimeController::change_status/$1");
+		/* shifting time */
 		/* office location */
 		$routes->match(['get'], "office-location/list", "OfficeLocationController::list");
 		$routes->match(['get', 'post'], "office-location/add", "OfficeLocationController::add");

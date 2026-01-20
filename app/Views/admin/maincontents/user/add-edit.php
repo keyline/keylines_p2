@@ -315,6 +315,19 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 </div>
                                             </div>
                                         </div>
+                                        <!-- Shifting Time -->
+                                        <div class="col-md-12 col-lg-12">
+                                            <div class="general_form_box">
+                                                <label for="shifting_name" class="col-form-label">Shifting Time</label>
+                                                <div class="">                                                                                                        
+                                                    <?php if($shiftingTimes){ foreach($shiftingTimes as $shiftingTime){?>
+                                                        <input type="radio" name="shifting_id" value='<?=$shiftingTime->id?>'>
+                                                        <label for="shifting_name" class="col-form-label"><?=$shiftingTime->shifting_name?></label>
+                                                    <?php } }?>
+
+                                                </div>
+                                            </div>
+                                        </div>
                                         <!--Profile Image field -->
                                         <div class="col-md-12 col-lg-12">
                                             <div class="general_form_box">
