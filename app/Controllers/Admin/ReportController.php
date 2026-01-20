@@ -242,11 +242,11 @@ class ReportController extends BaseController
                     $graphUserData[]        = "'" . $totalBooked . "'";
                     $totalCost              =  number_format($getUserGraph->tot_cost, 2);
                     // $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
-                    // if($user_type == 'SUPER ADMIN' ){
+                    if($user_type == 'SUPER ADMIN' ){
                         $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]    [ ₹" . $totalCost . " ]'" : '');
-                    // }else{
-                    //     $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
-                    // }
+                    }else{
+                        $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
+                    }
             }}
             // pr($graphUsers,0);
             // pr($graphUserData);
@@ -288,7 +288,12 @@ class ReportController extends BaseController
                     $totalBooked            = intdiv($totMins, 60) . '.' . ($totMins % 60);
                     $graphProjectData[]     = "'" . $totalBooked . "'";
                     $totalCostOfProject     =  number_format($getProjectGraph->tot_cost, 2);
-                    $graphProjects[]        = (($getProject) ? "'" . $getProject->name . " [" . $totalBooked . "]    [ ₹" . $totalCostOfProject . " ]'" : '');
+                    // $graphProjects[]        = (($getProject) ? "'" . $getProject->name . " [" . $totalBooked . "]    [ ₹" . $totalCostOfProject . " ]'" : '');
+                    if($user_type == 'SUPER ADMIN' ){
+                         $graphProjects[]        = (($getProject) ? "'" . $getProject->name . " [" . $totalBooked . "]    [ ₹" . $totalCostOfProject . " ]'" : '');
+                    }else{
+                         $graphProjects[]        = (($getProject) ? "'" . $getProject->name . " [" . $totalBooked . "]'" : '');
+                    }
                 }
             }
             // pr($graphProjects,0);
@@ -299,6 +304,7 @@ class ReportController extends BaseController
             /* project graph */
         }
         echo $this->layout_after_login($title, $page_name, $data);
+        // }
     }
 
     // public function advanceSearch()
