@@ -217,6 +217,8 @@ class ReportController extends BaseController
             $data['search_range_from']      = $search_range_from;
             $data['search_range_to']        = $search_range_to;
 
+            pr($session->get());
+
             /* user graph */
             $getUserGraphs = $this->db->query($sql2)->getResult();
             $graphUsers     = [];
