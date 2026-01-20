@@ -290,6 +290,7 @@ class ReportController extends BaseController
             /* project graph */
         }
         echo $this->layout_after_login($title, $page_name, $data);
+        }
     }
 
     public function effortType()
