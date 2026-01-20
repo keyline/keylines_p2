@@ -241,12 +241,12 @@ class ReportController extends BaseController
                     $totalBooked            = intdiv($totMins, 60) . '.' . ($totMins % 60);
                     $graphUserData[]        = "'" . $totalBooked . "'";
                     $totalCost              =  number_format($getUserGraph->tot_cost, 2);
-                    // $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
-                    if($user_type == 'SUPER ADMIN' ){
-                        $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]    [ ₹" . $totalCost . " ]'" : '');
-                    }else{
-                        $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
-                    }
+                    $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
+                    // if($user_type == 'SUPER ADMIN' ){
+                    //     $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]    [ ₹" . $totalCost . " ]'" : '');
+                    // }else{
+                    //     $graphUsers[]           = (($getUser) ? "'" . $getUser->name . " [" . $totalBooked . "]'" : '');
+                    // }
             }
             // pr($graphUsers,0);
             // pr($graphUserData);
