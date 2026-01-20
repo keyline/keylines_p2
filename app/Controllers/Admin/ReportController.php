@@ -297,9 +297,8 @@ class ReportController extends BaseController
             $data['graph_projects']            = $graphProjects;
             $data['graph_project_data']        = $graphProjectData;
             /* project graph */
-        // }
-        echo $this->layout_after_login($title, $page_name, $data);
         }
+        echo $this->layout_after_login($title, $page_name, $data);
     }
 
     // public function advanceSearch()
