@@ -76,7 +76,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                         <i class="bi bi-plus-circle me-1"></i> Add Project
                                                     </a><br>
                                                     <?php } ?>
-                                                    <span class="badge bg-warning mt-1"><?= $projectCount ?> Projects</span>
+                                                    <span class="btn badge bg-warning mt-1" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-client-id="<?= $row->id ?>" data-client-name="<?= esc($pro->decrypt($row->name)) ?>" ><?= $projectCount ?> Projects</span>
                                                     <span class="badge mt-1 <?= (($row->login_access == '1') ? 'bg-success' : 'bg-danger') ?>"><?= (($row->login_access == '1') ? ' Login Access: YES' : 'Login Access: NO') ?></span><br>
                                                 </td>
                                                 <td>
@@ -133,5 +133,51 @@ $controller_route   = $moduleDetail['controller_route'];
             </div>
         </div>
     </div>
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel"></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <!-- <button type="button" class="btn btn-primary">Understood</button> -->
+      </div>
+    </div>
+  </div>
+</div>
 </section>
 <?php } ?>
+<script>
+document.getElementById('staticBackdrop')
+  .addEventListener('show.bs.modal', function (event) {
+
+    const triggerElement = event.relatedTarget;
+    const clientId = triggerElement.getAttribute('data-client-id');
+    const clientName = triggerElement.getAttribute('data-client-name');
+
+        // 🔹 Set modal header
+    this.querySelector('#staticBackdropLabel').innerText =
+        clientName + ' — Projects';
+
+    // Optional: loading text
+    this.querySelector('.modal-body').innerHTML = 'Loading projects...';
+
+    fetch('<?= base_url('admin/clients/get-projects') ?>/' + clientId)
+      .then(res => res.text())
+      .then(html => {
+          this.querySelector('.modal-body').innerHTML = html;
+      })
+      .catch(err => {
+          this.querySelector('.modal-body').innerHTML = 'Failed to load projects';
+          console.error(err);
+      });
+});
+</script>
+
