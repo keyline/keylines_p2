@@ -391,12 +391,12 @@ class UserController extends BaseController {
                     'doj'                   => date_format(date_create($this->request->getPost('doj')), "Y-m-d"),
                     'profile_image'         => $profile_image,
                     'status'                => $this->request->getPost('status'),
-                    // 'work_mode'             => $this->request->getPost('work_mode'),
+                    'work_mode'             => $this->request->getPost('work_mode'),
                     'is_tracker_user'       => $this->request->getPost('is_tracker_user'),
                     'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
                     'attendence_type'       => json_encode($attnType),
                     'task_view_access'      => $this->request->getPost('task_view_access'),
-                    'shift_time'            => $this->request->getPost('shifting_id'),
+                    'shift_time' => $this->request->getPost('shifting_id') ?? null,
                 );
             } else {
                 $postData   = array(
@@ -422,7 +422,7 @@ class UserController extends BaseController {
                     'is_salarybox_user'     => $this->request->getPost('is_salarybox_user'),
                     'attendence_type'       => json_encode($attnType),
                     'task_view_access'      => $this->request->getPost('task_view_access'),
-                    'shift_time'            => $this->request->getPost('shifting_id'),
+                    'shift_time' => $this->request->getPost('shifting_id') ?? null,
                 );
             }
             // pr($postData);
