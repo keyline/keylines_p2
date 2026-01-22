@@ -303,8 +303,8 @@ $controller_route       = $moduleDetail['controller_route'];
                             <div class="col-lg-12 col-md-12 d-flex align-items-center justify-content-start justify-content-md-end gap-3">
                                 <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple <?php if(($user->task_view_access == '1') || ($user->task_view_access == '2')){echo 'disabled';}?> >
                                     <!-- <option value="0">Only Mine</option> -->
-                                    <?php if($all_departments){ foreach($all_departments as $dept){?>
-                                        <option value="<?=$dept->id?>" ><?=$dept->deprt_name?></option>
+                                    <?php  if($all_departments){ foreach($all_departments as $dept){?>
+                                        <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
                                     <?php } }?>
                                 </select>
                                 <button type="submit" class="btn filter-btn" <?php if(($user->task_view_access == '1') || ($user->task_view_access == '2')){echo 'disabled';}?>  ><img src="<?= base_url('public/uploads/filter.webp')?>" alt="" class="img-fluid me-0" style="width: 15px"> <span>Filter</span></button>
