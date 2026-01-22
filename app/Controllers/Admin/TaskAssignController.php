@@ -44,13 +44,14 @@ class TaskAssignController extends BaseController {
             $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show,type,task_view_access');
 
             $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
+            pr($data['tracker_depts_show']);
             $data['type']               = (($getUser)?$getUser->type:'');
             $data['user_id']            = $user_id;
             $data['current_date']       = date('Y-m-d');
 
             $order_by[0]                = array('field' => 'rank', 'type' => 'asc');
             $data['all_departments']    = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
-            // pr($data['all_departments']);
+            pr($data['all_departments']);
             $data['user']               = $this->common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access');
             // if(empty($data['tracker_depts_show'])){
             //     $data['departments']        = $this->common_model->find_data('department', 'array', ['status' => 1, 'is_join_morning_meeting' => 1], 'id,deprt_name,header_color,body_color', '', '', $order_by);
