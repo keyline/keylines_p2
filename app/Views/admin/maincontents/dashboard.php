@@ -33,7 +33,7 @@
          <div class="col-lg-12">
             <div class="row">
                <div class="col-xxl-12 col-md-12">
-                  <h4 style="font-weight: bold;">Welcome To test <?= $general_settings->site_name ?></h4>
+                  <h4 style="font-weight: bold;">Welcome To <?= $general_settings->site_name ?></h4>
                </div>
                <!-- Recent Sales -->
                <div class="col-12">
