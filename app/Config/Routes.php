@@ -35,6 +35,8 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin", 'filter'    => 
 		$routes->match(['get', 'post'], "clients/project-effort-list/(:any)", "ClientController::projectEffortList/$1");
 		$routes->match(['get', 'post'], "clients/encrypt-info", "ClientController::encryptInfo");
 
+		$routes->match(['get'], "clients/get-projects/(:num)", "ClientController::get_projects/$1");    // This route is for fetching projects of clients for modal view 		
+
 		$routes->match(['get', 'post'], "clients/add-project/(:any)", "ClientController::addProject/$1");
 
 		$routes->match(['get', 'post'], "clients/add-proposal/(:any)", "ClientController::addProposal/$1");
