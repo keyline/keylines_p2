@@ -180,6 +180,9 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 		$routes->match(['get', 'post'], "users/change-salarybox-status/(:any)", "UserController::change_salarybox_status/$1");
 		$routes->match(['get', 'post'], "users/send-credentials/(:any)", "UserController::sendCredentials/$1");
 		/* users */
+		/* clear user credentials from session */
+		$routes->get('users/clear-credentials', 'UserController::clearCredentials');
+        /* clear user credentials from session */
 	
 	// authentication
 	$routes->match(['get', 'post'], "/", "User::login");
