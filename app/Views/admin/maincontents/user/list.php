@@ -54,6 +54,21 @@ $controller_route   = $moduleDetail['controller_route'];
                         </div>
                     <?php } ?>
                 </div>
+                <div class="col-xl-12">
+                    <?php if (session('user_credentials')) { ?>
+                        <div class="alert alert-warning bg-warning text-dark border-0 alert-dismissible fade show"
+                            role="alert" id="credAlert">
+                            <strong>Due to SMTP issue credential mail has not been sent to user, below it is given.</strong><br>
+                            <strong>User Credentials:</strong><br>
+                            <?= nl2br(esc(session('user_credentials'))) ?>
+                            <button type="button"
+                                    class="btn-close"
+                                    aria-label="Close"
+                                    onclick="removeCredAlert()">
+                            </button>
+                        </div>
+                    <?php } ?>
+                </div>
                 <div class="col-lg-12">
                     <div class="card table-card">
                         <div class="card-header">
@@ -225,4 +240,13 @@ $controller_route   = $moduleDetail['controller_route'];
  button.addEventListener("click", ()=>{
     div.style.display = div.style.display === 'none' ? 'block' : 'none';
  });
+</script>
+
+<script>
+function removeCredAlert() {
+    fetch("<?= base_url('admin/users/clear-credentials') ?>")
+        .then(() => {
+            document.getElementById('credAlert').remove();
+        });
+}
 </script>
