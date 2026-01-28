@@ -234,12 +234,34 @@ $controller_route       = $moduleDetail['controller_route'];
     .choices{
         margin-bottom: 0;
     }
-    .choices__inner{
+    /* .choices__inner{
         border-radius: 5px;
         border: 1px solid #ccc;
         height: 48px;
         overflow: auto
+    } */
+    .choices__inner{
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        min-height: 48px;
+        max-height: 48px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;   
+    } 
+    .choices__input{
+        min-width: 12rem;   
+        width: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
+    .choices__list--multiple{
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }   
     .filter-btn{
         background: #424242;
         color: #fff;
@@ -303,7 +325,7 @@ $controller_route       = $moduleDetail['controller_route'];
                             <div class="col-lg-12 col-md-12 d-flex align-items-center justify-content-start justify-content-md-end gap-3">
                                 <select class="form-control" id="choices-multiple-remove-button" name="tracker_depts_show[]" multiple <?php if(($user->task_view_access == '1') || ($user->task_view_access == '2')){echo 'disabled';}?> >
                                     <!-- <option value="0">Only Mine</option> -->
-                                    <?php if($all_departments){ foreach($all_departments as $dept){?>
+                                    <?php    if($all_departments){ foreach($all_departments as $dept){?>
                                         <option value="<?=$dept->id?>" <?=((in_array($dept->id, $tracker_depts_show))?'selected':'')?>><?=$dept->deprt_name?></option>
                                     <?php } }?>
                                 </select>
@@ -1768,8 +1790,11 @@ $controller_route       = $moduleDetail['controller_route'];
         var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
             removeItemButton: true,
             maxItemCount:5,
-            searchResultLimit:5,
-            renderChoiceLimit:5
+            // searchResultLimit:5,
+            // renderChoiceLimit:5
+            searchEnabled: -1,
+            shouldSort: -1,
+            placeholderValue: 'Select department'
         });     
     });
     $(document).ready(function() {

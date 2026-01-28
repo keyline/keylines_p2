@@ -454,4 +454,103 @@ class ClientController extends BaseController
         $this->session->setFlashdata('success_message', $this->data['title'] . ' name, company name, email 1, email 2, phone 1, phone 2 encrypted successfully');
         return redirect()->to('/admin/' . $this->data['controller_route'] . '/list');
     }
+
+    public function get_projects($clientId)
+    {
+        $projects = $this->common_model->find_data(
+            'project',
+            'array',
+            ['client_id' => $clientId]
+        );
+
+        $html = '';
+
+        if (!empty($projects)) {
+
+            $html .= '
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Project Name</th>
+                            <th>Project Type</th>
+                            <th>Booked Time</th>
+                            <th>Assigned Time</th>
+                        </tr>
+                    </thead>
+                    <tbody>';
+            foreach ($projects as $project) {
+
+                $lastMonth = date('Y-m', strtotime('first day of last month'));
+
+                if($project->project_time_type == "Monthlytime"){
+                     $query = "SELECT sum(hour) as tot_hour, sum(min) as tot_min FROM `timesheet` where project_id = " . $project->id .  " AND date_added Like '%" . $lastMonth . "%' GROUP BY project_id";
+                    }else{
+                        $query = "SELECT sum(hour) as tot_hour, sum(min) as tot_min FROM `timesheet` where project_id = " . $project->id . " GROUP BY project_id";
+                    }
+                //   if($project->project_time_type == "Onetime"){
+                //     $query = "SELECT sum(hour) as tot_hour, sum(min) as tot_min FROM `timesheet` where project_id = " . $project->id . " GROUP BY project_id";
+                //     }elseif($project->project_time_type == "Monthlytime"){
+                //      $query = "SELECT sum(hour) as tot_hour, sum(min) as tot_min FROM `timesheet` where project_id = " . $project->id .  " AND date_added >= " . $start . " AND date_added < " . $end . " GROUP BY project_id";
+                //     }
+                // $query = "SELECT sum(hour) as tot_hour, sum(min) as tot_min FROM `timesheet` where project_id = " . $project->id . " GROUP BY project_id";
+                    $rows = $this->db->query($query)->getResult();
+                    $total_hour = (int) ($rows[0]->tot_hour ?? 0);
+                    $total_min  = (int) ($rows[0]->tot_min ?? 0);
+
+                    // convert extra minutes into hours
+                    if ($total_min >= 60) {
+                        $extra_hours = intdiv($total_min, 60);   // how many full hours
+                        $remaining_min = $total_min % 60;        // leftover minutes
+
+                        $total_hour += $extra_hours;
+                        $total_min   = $remaining_min;
+                    }
+                    if($project->project_time_type == "Onetime"){
+                          $assigned_hour = $project->hour;
+                    }elseif($project->project_time_type == "Monthlytime"){
+                        $assigned_hour = $project->hour_month;
+                    }
+                $html .= '
+                    <tr>
+                        <td class="fw-semibold">' . esc($project->name ?? '-') . '</td>
+                        <td>
+                            <span class="badge bg-info">
+                                ' . esc($project->project_time_type ?? 'N/A') . '
+                            </span>
+                        </td>
+                        <td>
+                            <span class="text-success fw-bold">' . esc($total_hour ?? '--') . ':' . esc($total_min ?? '--') . '</span>
+                        </td>
+                        <td>
+                            <span class="text-primary fw-bold">' . esc($assigned_hour ?? 'N/A') . '</span>
+                        </td>
+                    </tr>';
+            }
+
+            $html .= '
+                    </tbody>
+                </table>
+            </div>';
+
+        } else {
+            $html = '
+            <div class="alert alert-warning d-flex align-items-center mb-0" role="alert">
+                <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                <div>No projects found.</div>
+            </div>';
+        }
+
+
+        return $this->response->setBody($html);
+                // return $this->response->setJSON(
+        //     [
+        //         'projects' => $projects,
+        //         'status' => 'success',
+        //         'clientId' => $clientId
+        //     ], 200
+        // );
+    }
+
+
 }
