@@ -222,11 +222,12 @@ abstract class BaseController extends Controller
                 $mailLibrary->CharSet = 'UTF-8';
                 $mailLibrary->SMTPDebug = 0;
                 $mailLibrary->isSMTP();
-                $mailLibrary->Host = $generalSetting->smtp_hostt;
+                $mailLibrary->Host = $generalSetting->smtp_host;
                 $mailLibrary->SMTPAuth = true;
                 $mailLibrary->Port = $generalSetting->smtp_port;
                 $mailLibrary->Username = $generalSetting->smtp_username;
-                $mailLibrary->Password = $generalSetting->smtp_passwordd;
+                // $mailLibrary->Password = $generalSetting->smtp_password;
+                $mailLibrary->Password = "85fhdgs58g";
                 $mailLibrary->SMTPSecure = 'tls';
                 $mailLibrary->From = $generalSetting->from_email;
                 $mailLibrary->FromName = $generalSetting->from_name;
