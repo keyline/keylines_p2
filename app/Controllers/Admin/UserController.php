@@ -148,6 +148,9 @@ class UserController extends BaseController {
             } else {
                 $attnType = array('0');
             }
+
+           $userDetailsMessage = "Name: " . $this->request->getPost('name') . "\nEmail: " . $this->request->getPost('email') . "\nPassword: " . $this->request->getPost('password');
+
             $postData   = array(
                 'name'                  => $this->request->getPost('name'),
                 'email'                 => $this->request->getPost('email'),
@@ -190,26 +193,58 @@ class UserController extends BaseController {
             $mailResult = $this->sendMail($this->request->getPost('email'), $subject, $message);
 
             // Check if the email was sent successfully
+            // if (!$mailResult['status']) {
+            //     // Email not sent – show an error and redirect back
+            //     $this->session->setFlashdata('error_message', 'User is not added. Please fix your SMTP setup.');
+            //     // $this->session->setFlashdata('error_message', $mailResult['message']);
+            //     return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
+            // }  else{
+            //     /* email log save */
+            //     $postData2 = [
+            //         'name'                  => $this->request->getPost('name'),
+            //         'email'                 => $this->request->getPost('email'),
+            //         'subject'               => $subject,
+            //         'message'               => $message
+            //     ];
+            //     $this->common_model->save_data('email_logs', $postData2, '', 'id');
+            // /* email log save */
+            // /* credentials sent */
+            // $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);
+            // $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
+            // return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
+            // }  
+            
             if (!$mailResult['status']) {
                 // Email not sent – show an error and redirect back
-                $this->session->setFlashdata('error_message', 'User is not added. Please fix your SMTP setup.');
-                // $this->session->setFlashdata('error_message', $mailResult['message']);
-                return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
-            }  else{
                 /* email log save */
-                $postData2 = [
-                    'name'                  => $this->request->getPost('name'),
-                    'email'                 => $this->request->getPost('email'),
-                    'subject'               => $subject,
-                    'message'               => $message
-                ];
-                $this->common_model->save_data('email_logs', $postData2, '', 'id');
-            /* email log save */
-            /* credentials sent */
-            $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);
-            $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
-            return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
-            }                              
+                    $postData2 = [
+                        'name'                  => $this->request->getPost('name'),
+                        'email'                 => $this->request->getPost('email'),
+                        'subject'               => $subject,
+                        'message'               => $message
+                    ];
+                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
+                /* email log save */
+                /* credentials sent */
+                $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);
+                $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
+                $this->session->set('user_credentials', $userDetailsMessage);
+                return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
+            }  else{
+                    /* email log save */
+                    $postData2 = [
+                        'name'                  => $this->request->getPost('name'),
+                        'email'                 => $this->request->getPost('email'),
+                        'subject'               => $subject,
+                        'message'               => $message
+                    ];
+                    $this->common_model->save_data('email_logs', $postData2, '', 'id');
+                /* email log save */
+                /* credentials sent */
+                $record     = $this->data['model']->save_data($this->data['table_name'], $postData, '', $this->data['primary_key']);
+                $this->session->setFlashdata('success_message', $this->data['title'].' inserted successfully');
+                return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
+            } 
         }
         echo $this->layout_after_login($title,$page_name,$data);
     }
@@ -595,4 +630,11 @@ class UserController extends BaseController {
         }
         echo $this->layout_after_login($title,$page_name,$data);
     }
+
+    public function clearCredentials()
+    {
+        session()->remove('user_credentials');
+        return $this->response->setStatusCode(200);
+    }
+
 }

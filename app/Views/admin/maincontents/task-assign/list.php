@@ -234,12 +234,34 @@ $controller_route       = $moduleDetail['controller_route'];
     .choices{
         margin-bottom: 0;
     }
-    .choices__inner{
+    /* .choices__inner{
         border-radius: 5px;
         border: 1px solid #ccc;
         height: 48px;
         overflow: auto
+    } */
+    .choices__inner{
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        min-height: 48px;
+        max-height: 48px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;   
+    } 
+    .choices__input{
+        min-width: 12rem;   
+        width: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
+    .choices__list--multiple{
+        display: flex;
+        flex-wrap: nowrap;
+        overflow: hidden;
+    }   
     .filter-btn{
         background: #424242;
         color: #fff;
@@ -1768,8 +1790,11 @@ $controller_route       = $moduleDetail['controller_route'];
         var multipleCancelButton = new Choices('#choices-multiple-remove-button', {
             removeItemButton: true,
             maxItemCount:5,
-            searchResultLimit:5,
-            renderChoiceLimit:5
+            // searchResultLimit:5,
+            // renderChoiceLimit:5
+            searchEnabled: -1,
+            shouldSort: -1,
+            placeholderValue: 'Select department'
         });     
     });
     $(document).ready(function() {
