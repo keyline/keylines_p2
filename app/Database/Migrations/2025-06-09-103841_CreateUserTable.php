@@ -32,7 +32,7 @@ class CreateUserTable extends Migration
                 'null'       => true,
             ],
             'role_id'           => ['type' => 'INT', 'constraint' => 11, 'null' => true, 'default' => 0],
-            'category'          => ['type' => 'INT', 'constraint' => 11, 'default' => 0],
+            'category'          => ['type' => 'INT', 'constraint' => 11, 'null' => true],
             'hour_cost'         => ['type' => 'VARCHAR', 'constraint' => 256, 'null' => true],
             'dob'               => ['type' => 'VARCHAR', 'constraint' => 256, 'null' => true],
             'doj'               => ['type' => 'VARCHAR', 'constraint' => 250, 'null' => true],
