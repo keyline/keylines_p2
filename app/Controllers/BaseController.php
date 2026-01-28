@@ -226,8 +226,7 @@ abstract class BaseController extends Controller
                 $mailLibrary->SMTPAuth = true;
                 $mailLibrary->Port = $generalSetting->smtp_port;
                 $mailLibrary->Username = $generalSetting->smtp_username;
-                // $mailLibrary->Password = $generalSetting->smtp_password;
-                $mailLibrary->Password = "85fhdgs58g";
+                $mailLibrary->Password = $generalSetting->smtp_password;
                 $mailLibrary->SMTPSecure = 'tls';
                 $mailLibrary->From = $generalSetting->from_email;
                 $mailLibrary->FromName = $generalSetting->from_name;
