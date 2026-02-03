@@ -1348,9 +1348,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                 <div class="col-md-3">
                                     <div class="input-group mb-1">
                                         <select name="hour" class="form-control" id="hour" required>
-                                            <option value="">Select Hour</option>
+                                            <option value="" selected >Select Hour</option>
                                             <?php for($h=0;$h<=8;$h++){?>
-                                                <option value="<?=$h?>" <?=(($h == 0)?'selected':'')?>><?=$h?></option>
+                                                <option value="<?=$h?>"><?=$h?></option>
                                             <?php }?>
                                         </select>
                                     </div>
@@ -1358,9 +1358,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                 <div class="col-md-3">
                                     <div class="input-group mb-1">
                                         <select name="min" class="form-control" id="min" required>
-                                            <option value="">Select Minute</option>
+                                            <option value="" selected >Select Minute</option>
                                             <?php for($m = 0; $m < 60; $m += 15){?>
-                                                <option value="<?=$m?>" <?=(($m == 0)?'selected':'')?>><?=$m?></option>
+                                                <option value="<?=$m?>" ><?=$m?></option>
                                             <?php }?>
                                         </select>
                                     </div>
@@ -1408,7 +1408,8 @@ $controller_route       = $moduleDetail['controller_route'];
         var date_added                      = $('#date_added').val();
          
 
-        if($('input[name="priority"]:checked').val() == 0){
+        if($('input[name="priority"]:checked').val() != 0){
+            // console.log($('input[name="priority"]:checked').val());
             if($('#project_id').val() != ''){
                 if($('#description').val() != ''){
                     if($('#hour').val() != ''){
@@ -1445,15 +1446,27 @@ $controller_route       = $moduleDetail['controller_route'];
                             });
                         } else {
                             toastAlert("error", 'Please Select Minutes !!!');
+                            console.log('Please Select Minutes');
+                            $("#addTaskSaveBtn").prop("disabled", false); 
+                            $("#addTaskSaveBtn").text("Save");
                         }
                     } else {
                         toastAlert("error", 'Please Select Hour !!!');
+                        console.log('Please Select Hour');
+                        $("#addTaskSaveBtn").prop("disabled", false); 
+                        $("#addTaskSaveBtn").text("Save");
                     }
                 } else {
                     toastAlert("error", 'Please Enter Description !!!');
+                    console.log('Please Enter Description');
+                   $("#addTaskSaveBtn").prop("disabled", false); 
+                   $("#addTaskSaveBtn").text("Save");
                 }
             } else {
                 toastAlert("error", 'Please Select Project !!!');
+                console.log('please select project');
+                $("#addTaskSaveBtn").prop("disabled", false); 
+                $("#addTaskSaveBtn").text("Save");
             }
         } else {
             $.ajax({
