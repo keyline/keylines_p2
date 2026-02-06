@@ -1410,6 +1410,7 @@ $controller_route       = $moduleDetail['controller_route'];
 
         if($('input[name="priority"]:checked').val() != 0){
             // console.log($('input[name="priority"]:checked').val());
+          if($('input[name="is_leave"]:checked').val() == 0){
             if($('#project_id').val() != ''){
                 if($('#description').val() != ''){
                     if($('#hour').val() != ''){
@@ -1468,6 +1469,37 @@ $controller_route       = $moduleDetail['controller_route'];
                 $("#addTaskSaveBtn").prop("disabled", false); 
                 $("#addTaskSaveBtn").text("Save");
             }
+          } else {
+             $.ajax({
+                    type: 'POST',
+                    url: base_url + "admin/task-assign/morning-meeting-schedule-submit", // Replace with your server endpoint
+                    data: JSON.stringify(dataJson),
+                    success: function(res) {
+                        res = $.parseJSON(res);
+                        if(res.success){
+                            $('#morningMeetingForm').trigger("reset");
+                            $('#morningformModal').modal('hide');
+                            
+                            if(current_date == date_added){
+                                $('#meeting-user-' + user_id + '_' + date_added).empty();
+                                $('#meeting-user-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            } else {
+                                $('#meeting-user-previous-' + user_id + '_' + date_added).empty();
+                                $('#meeting-user-previous-' + user_id + '_' + date_added).html(res.data.scheduleHTML);
+                            }
+                            $('#total-time-' + user_id + '_' + date_added).html('[Assigned : ' + res.data.totalTime + ']');
+                            toastAlert("success", res.message);
+                        } else {
+                            $('#morningMeetingForm').trigger("reset");
+                            $('#morningformModal').modal('hide');
+                            toastAlert("error", res.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error); // Handle errors
+                    }
+                });
+          }
         } else {
             $.ajax({
                     type: 'POST',
