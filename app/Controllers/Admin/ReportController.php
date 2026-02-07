@@ -363,14 +363,30 @@ class ReportController extends BaseController
                 $monthYear1 = $year . '-' . date('01');
                 $yearString = $year;
                 $jan_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear1%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 1 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    // $result1 = floor($getDesktimeHour->total_desktime_hour);
-                    $result1 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 1 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear1%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result1 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result1 = '';
                 }
+                // echo $result1; exit;
+                // if ($getDesktimeHour) {
+                //     // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     // $result1 = floor($getDesktimeHour->total_desktime_hour);
+                //     $result1 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result1 = '';
+                // }
                 if ($jan_booked) {
                     $tothour = $jan_booked->tothour * 60;
                     $totmin = $jan_booked->totmin;
@@ -380,13 +396,28 @@ class ReportController extends BaseController
                 $monthYear2 = $year . '-' . date('02');
                 $yearString = $year;
                 $feb_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear2%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 2 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result2 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 2 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear2%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result2 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result2 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result2 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result2 = '';
+                // }
                 if ($feb_booked) {
                     $tothour = $feb_booked->tothour * 60;
                     $totmin = $feb_booked->totmin;
@@ -396,13 +427,28 @@ class ReportController extends BaseController
                 $monthYear3 = $year . '-' . date('03');
                 $yearString = $year;
                 $mar_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id=$row->id and date_added LIKE '%$monthYear3%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 3 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result3 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 3 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear3%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result3 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result3 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result3 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result3 = '';
+                // }
                 if ($mar_booked) {
                     $tothour3 = $mar_booked->tothour * 60;
                     $totmin3 = $mar_booked->totmin;
@@ -412,13 +458,28 @@ class ReportController extends BaseController
                 $monthYear4 = $year . '-' . date('04');
                 $yearString = $year;
                 $apr_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear4%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 4 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result4 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 4 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear4%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result4 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result4 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result4 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result4 = '';
+                // }
                 if ($apr_booked) {
                     $tothour = $apr_booked->tothour * 60;
                     $totmin = $apr_booked->totmin;
@@ -428,13 +489,28 @@ class ReportController extends BaseController
                 $monthYear5 = $year . '-' . date('05');
                 $yearString = $year;
                 $may_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear5%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 5 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result5 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 5 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear5%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result5 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result5 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result5 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result5 = '';
+                // }
                 if ($may_booked) {
                     $tothour = $may_booked->tothour * 60;
                     $totmin = $may_booked->totmin;
@@ -444,13 +520,28 @@ class ReportController extends BaseController
                 $monthYear6 = $year . '-' . date('06');
                 $yearString = $year;
                 $jun_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear6%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 6 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result6 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 6 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear6%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result6 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result6 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result6 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result6 = '';
+                // }
                 if ($jun_booked) {
                     $tothour = $jun_booked->tothour * 60;
                     $totmin = $jun_booked->totmin;
@@ -460,13 +551,28 @@ class ReportController extends BaseController
                 $monthYear7 = $year . '-' . date('07');
                 $yearString = $year;
                 $jul_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear7%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 7 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result7 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result7 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 7 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear7%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result7 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result7 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result7 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result7 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result7 = '';
+                // }
                 if ($jul_booked) {
                     $tothour = $jul_booked->tothour * 60;
                     $totmin = $jul_booked->totmin;
@@ -476,13 +582,28 @@ class ReportController extends BaseController
                 $monthYear8 = $year . '-' . date('08');
                 $yearString = $year;
                 $aug_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear8%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result8 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result8 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear8%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result8 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result8 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result8 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result8 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result8 = '';
+                // }
                 if ($aug_booked) {
                     $tothour = $aug_booked->tothour * 60;
                     $totmin = $aug_booked->totmin;
@@ -492,13 +613,28 @@ class ReportController extends BaseController
                 $monthYear9 = $year . '-' . date('09');
                 $yearString = $year;
                 $sep_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear9%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result9 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result9 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear9%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result9 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result9 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result9 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result9 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result9 = '';
+                // }
                 if ($sep_booked) {
                     $tothour = $sep_booked->tothour * 60;
                     $totmin = $sep_booked->totmin;
@@ -508,13 +644,28 @@ class ReportController extends BaseController
                 $monthYear10 = $year . '-' . date('10');
                 $yearString = $year;
                 $oct_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear10%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result10 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result10 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear10%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result10 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result10 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result10 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result10 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result10 = '';
+                // }
                 if ($oct_booked) {
                     $tothour = $oct_booked->tothour * 60;
                     $totmin = $oct_booked->totmin;
@@ -524,13 +675,28 @@ class ReportController extends BaseController
                 $monthYear11 = $year . '-' . date('11');
                 $yearString = $year;
                 $nov_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear11%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result11 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result11 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear11%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result11 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result11 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result11 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result11 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result11 = '';
+                // }
                 if ($nov_booked) {
                     $tothour = $nov_booked->tothour * 60;
                     $totmin = $nov_booked->totmin;
@@ -540,13 +706,28 @@ class ReportController extends BaseController
                 $monthYear12 = $year . '-' . date('12');
                 $yearString = $year;
                 $dec_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear12%'")->getRow();
-                $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
-                if ($getDesktimeHour) {
-                    // $result12 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    $result12 = (int)$getDesktimeHour->total_desktime_hour;
+                // $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$yearString' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
+                $tot_prod_time_array = $this->db->query("SELECT productive_time FROM `desktop_app`  WHERE insert_date LIKE '%$monthYear12%'  AND desktopapp_userid ='$row->id' ")->getResultArray();
+                 $total_min = 0;
+                 $total_hour = 0;
+                 foreach($tot_prod_time_array as $time){
+                    $total_hour += explode(":", $time['productive_time'])[0]; 
+                    $total_min += explode(":", $time['productive_time'])[1];  
+                 }
+
+                $grand_total_hour = $total_hour + floor($total_min/60);
+                $grand_total_min = ($total_min%60);
+                if($tot_prod_time_array){
+                    $result12 = $grand_total_hour . ":" . $grand_total_min;
                 } else {
                     $result12 = '';
                 }
+                // if ($getDesktimeHour) {
+                //     // $result12 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                //     $result12 = (int)$getDesktimeHour->total_desktime_hour;
+                // } else {
+                //     $result12 = '';
+                // }
                 if ($dec_booked) {
                     $tothour = $dec_booked->tothour * 60;
                     $totmin = $dec_booked->totmin;
@@ -571,23 +752,24 @@ class ReportController extends BaseController
                     'oct_booked'    => $totalBooked10,
                     'nov_booked'    => $totalBooked11,
                     'dec_booked'    => $totalBooked12,
-                    'jan_desklog'   => $result1,
-                    'feb_desklog'   => $result2,
-                    'mar_desklog'   => $result3,
-                    'apr_desklog'   => $result4,
-                    'may_desklog'   => $result5,
-                    'jun_desklog'   => $result6,
-                    'jul_desklog'   => $result7,
-                    'aug_desklog'   => $result8,
-                    'sep_desklog'   => $result9,
-                    'oct_desklog'   => $result10,
-                    'nov_desklog'   => $result11,
-                    'dec_desklog'   => $result12,
+                    'jan_desktop'   => $result1,
+                    'feb_desktop'   => $result2,
+                    'mar_desktop'   => $result3,
+                    'apr_desktop'   => $result4,
+                    'may_desktop'   => $result5,
+                    'jun_desktop'   => $result6,
+                    'jul_desktop'   => $result7,
+                    'aug_desktop'   => $result8,
+                    'sep_desktop'   => $result9,
+                    'oct_desktop'   => $result10,
+                    'nov_desktop'   => $result11,
+                    'dec_desktop'   => $result12,
                     'deskloguser'   => $desklog_user,
                 ];
             }
         }
         $data['responses']                   = $response;
+        // dd($response); exit;
 
         $last7DaysResponses = [];
         $arr                = [];
