@@ -344,7 +344,7 @@
             margin-right: 10px;
             border-radius: 50%;
     }
-    .active, .idle, .others {
+    .symbolsContainer .active, .idle, .others {
         display: flex;
         margin-left: 3rem;
         align-items: center;
