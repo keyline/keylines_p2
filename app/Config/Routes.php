@@ -299,6 +299,13 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "screenshot-settings", "ScreenshotSettingsController::index");
 	$routes->get('user/screenshots/(:any)', 'ScreenshotSettingsController::screenshotList/$1');
 	// screenshots settings
+
+	// duplicate email check
+	$routes->match(['post'], "user/check_email", "UserController::checkEmail");
+
+	// duplicate phone check
+	$routes->match(['post'], "user/check_phone", "UserController::checkPhone");
+
 });
 /* ADMIN PANEL */
 /* API */
