@@ -24,7 +24,7 @@ class ShiftingTimeController extends BaseController {
     }
     public function list()
     {
-        if(!$this->common_model->checkModuleFunctionAccess(42, 136)){
+        if(!$this->common_model->checkModuleFunctionAccess(43, 136)){
             $data['action']             = 'Access Forbidden';
             $title                      = $data['action'].' '.$this->data['title'];
             $page_name                  = 'access-forbidden';        
@@ -40,7 +40,7 @@ class ShiftingTimeController extends BaseController {
     }
     public function add()
     {
-        if(!$this->common_model->checkModuleFunctionAccess(42, 137)){
+        if(!$this->common_model->checkModuleFunctionAccess(43, 137)){
             $data['action']             = 'Access Forbidden';
             $title                      = $data['action'].' '.$this->data['title'];
             $page_name                  = 'access-forbidden';        
@@ -68,7 +68,7 @@ class ShiftingTimeController extends BaseController {
     }
     public function edit($id)
     {
-        if(!$this->common_model->checkModuleFunctionAccess(42, 138)){
+        if(!$this->common_model->checkModuleFunctionAccess(43, 138)){
             $data['action']             = 'Access Forbidden';
             $title                      = $data['action'].' '.$this->data['title'];
             $page_name                  = 'access-forbidden';        
@@ -99,7 +99,7 @@ class ShiftingTimeController extends BaseController {
     }
     public function confirm_delete($id)
     {
-        if(!$this->common_model->checkModuleFunctionAccess(42, 141)){
+        if(!$this->common_model->checkModuleFunctionAccess(43, 141)){
             $data['action']             = 'Access Forbidden';
             $title                      = $data['action'].' '.$this->data['title'];
             $page_name                  = 'access-forbidden';        
@@ -113,7 +113,7 @@ class ShiftingTimeController extends BaseController {
     }
     public function change_status($id)
     {
-        if(!$this->common_model->checkModuleFunctionAccess(42, 139)){
+        if(!$this->common_model->checkModuleFunctionAccess(43, 139)){
             $data['action']             = 'Access Forbidden';
             $title                      = $data['action'].' '.$this->data['title'];
             $page_name                  = 'access-forbidden';        
