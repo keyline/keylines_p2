@@ -326,7 +326,7 @@ $userId             = $session->user_id;
     </li>
   <?php } ?>
 
-  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(29) || checkModuleAccess(30) || checkModuleAccess(37) || checkModuleAccess(38) || checkModuleAccess(42)) { ?>
+  <?php if (checkModuleAccess(16) || checkModuleAccess(17) || checkModuleAccess(29) || checkModuleAccess(30) || checkModuleAccess(37) || checkModuleAccess(38) || checkModuleAccess(43)) { ?>
     <li>
       <div class="iocn-link">
         <a class="<?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'shifting-time') ? '' : 'collapsed') ?> <?= (($pageSegment == 'effort-type' || $pageSegment == 'project-status' || $pageSegment == 'role-master' || $pageSegment == 'department' || $pageSegment == 'work-status' || $pageSegment == 'shifting-time') ? 'active' : '') ?>"
@@ -378,7 +378,7 @@ $userId             = $session->user_id;
             </a>
           </li>
         <?php } ?>
-        <?php if (checkModuleAccess(42)) { ?>
+        <?php if (checkModuleAccess(43)) { ?>
           <li>
             <a class="<?= (($pageSegment == 'shifting-time') ? 'active' : '') ?>"
               href="<?= base_url('admin/shifting-time/list') ?>">
