@@ -283,8 +283,34 @@ class UserController extends BaseController {
                 unset($csvData[0]);
                 
                 $insertCount = 0;
+                $skipCount   = 0;
                 foreach ($csvData as $row) {
                     $rowData = array_combine($header, $row);
+
+                        $email  = trim($rowData['email']);
+                        $phone1 = trim($rowData['phone1']);
+
+                        //  Duplicate Email Check
+                        if (!empty($email)) {
+                            $emailExists = $this->data['model']
+                                ->find_data('user', 'row', ['email' => $email]);
+
+                            if ($emailExists) {
+                                $skipCount++;
+                                continue; //  skip this row
+                            }
+                        }
+
+                        //  Duplicate Phone Check
+                        if (!empty($phone1)) {
+                            $phoneExists = $this->data['model']
+                                ->find_data('user', 'row', ['phone1' => $phone1]);
+
+                            if ($phoneExists) {
+                                $skipCount++;
+                                continue; //  skip this row
+                            }
+                        }
 
                     // Attendance type handling
                     $attnType = !empty($rowData['attendence_type']) ? explode('|', $rowData['attendence_type']) : ['0'];
@@ -335,7 +361,7 @@ class UserController extends BaseController {
                     $insertCount++;
                 }
 
-                $this->session->setFlashdata('success_message', "$insertCount users inserted successfully.");
+                $this->session->setFlashdata('success_message', "$insertCount users inserted successfully and $skipCount users skipped due to duplicate email or phone.");
                 return redirect()->to('/admin/'.$this->data['controller_route'].'/list');
             } else {
                 $this->session->setFlashdata('error_message', 'Please upload a valid CSV file.');
@@ -635,6 +661,55 @@ class UserController extends BaseController {
     {
         session()->remove('user_credentials');
         return $this->response->setStatusCode(200);
+    }
+
+    public function checkEmail()
+    {
+            $validation = \Config\Services::validation();
+
+            $validation->setRules([
+                'email' => 'permit_empty|valid_email'
+            ]);
+
+            if (!$validation->withRequest($this->request)->run()) {
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => $validation->getError('email')
+                ]);
+            }
+            $email = $this->request->getPost('email');
+            $exist_email = $this->data['model']->find_data('user', 'array', ['email' => $email]);
+
+            if(!empty($exist_email)){
+                return $this->response->setJSON(['status' => false, 'message' => 'Email already exists']);
+            }else{
+                return $this->response->setJSON(['status' => true, 'message' => 'Looking good']);
+            }
+    }
+
+    public function checkPhone()
+    {
+            $validation = \Config\Services::validation();
+
+            $validation->setRules([
+                'phone1' => 'permit_empty|regex_match[/^[6-9][0-9]{9}$/]'
+            ]);
+
+            if (!$validation->withRequest($this->request)->run()) {
+                return $this->response->setJSON([
+                    'status' => false,
+                    'message' => "Invalid phone number format"
+                ]);
+            }
+            $phone = $this->request->getPost('phone1');
+            $exist_phone = $this->data['model']->find_data('user', 'array', ['phone1' => $phone]);
+
+            if(!empty($exist_phone)){
+                return $this->response->setJSON(['status' => false, 'message' => 'Phone already exists']);
+            }else{
+                return $this->response->setJSON(['status' => true, 'message' => 'Looking good']);
+            }
+
     }
 
 }
