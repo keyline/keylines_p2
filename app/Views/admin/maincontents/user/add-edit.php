@@ -118,6 +118,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <label for="phone1" class="col-form-label">Phone <span class="text-danger">*</span></label>
                                             <div class="">
                                                 <input type="text" name="phone1" class="form-control" id="phone1" value="<?=$phone1?>" minlength="10" maxlength="10" onkeypress="return isNumber(event)">
+                                                <span id="phone1-error" class="text-danger"></span>
                                             </div>
                                         </div>
                                         <!--Alternate Phone field -->
@@ -347,7 +348,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                 </div>
                             
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary font-12 btn-sm mt-1"><?=(($row)?'Save':'Add')?></button>
+                                <button type="submit" class="btn btn-primary font-12 btn-sm mt-1" id="saveUserBtn" ><?=(($row)?'Save':'Add')?></button>
                             </div>
                         </form>
                     </div>
@@ -412,24 +413,52 @@ $controller_route   = $moduleDetail['controller_route'];
 </script>
 <script>
 $(document).ready(function () {
-    $('#email').on('blur', function () {
+    $('#email').on('input', function () {
         var email = $(this).val();
         if (email !== '') {
             $.ajax({
-                url: '<?= base_url("user/check_email") ?>', // adjust path accordingly
+                url: '<?= base_url("admin/user/check_email") ?>', // adjust path accordingly
                 method: 'POST',
                 data: { email: email },
                 success: function (response) {
-                    if (response === 'exists') {
-                        $('#email-error').text('Email already exists!');
+                    if (response.status === false) {
+                        $('#email-error').text(response.message);
                         $('#email').addClass('is-invalid');
+                        $('#saveUserBtn').attr('disabled', true);
+                        console.log(response.message);
                     } else {
                         $('#email-error').text('');
                         $('#email').removeClass('is-invalid');
+                        $('#saveUserBtn').attr('disabled', false);
+                        console.log(response.message);
                     }
                 }
             });
         }
     });
+
+    $('#phone1').on('input', function () {
+        var phone1 = $(this).val();
+        if (phone1 !== '') {
+            $.ajax({
+                url: '<?= base_url("admin/user/check_phone") ?>', // adjust path accordingly
+                method: 'POST',
+                data: { phone1: phone1 },
+                success: function (response) {
+                    if (response.status === false) {
+                        $('#phone1-error').text(response.message);
+                        $('#phone1').addClass('is-invalid');
+                        $('#saveUserBtn').attr('disabled', true);
+                        console.log(response.message);
+                    } else {
+                        $('#phone1-error').text('');
+                        $('#phone1').removeClass('is-invalid');
+                        $('#saveUserBtn').attr('disabled', false);
+                        console.log(response.message);
+                    }
+                }
+            });
+        }
+    });  
 });
 </script>
