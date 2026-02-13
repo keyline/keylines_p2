@@ -181,6 +181,8 @@
                <?php if (checkModuleFunctionAccess(1, 105)) { ?>
                <div class="col-md-12">
                   <div class="card table-card shadow-sm">
+                   <!-- This condition is for check if user does have tracker access or not  -->
+                  <?php if($admin->is_tracker_user == '1'){ ?>
                      <div class="card-header">
                         <div class="row align-items-center">
                            <div class="col-lg-5 col-md-6">
@@ -433,10 +435,11 @@
                            </div>
                         </div>
                      </div>
+                  <?php } ?>  
                   </div>
                </div>
                <?php   } ?>                                 
-                        
+               <!-- The condition is for check if user does have tracker access or not, ending here  -->         
                <div class="col-md-12">
                   <?php if (checkModuleFunctionAccess(1, 66)) { ?>
                   <div class="card table-card">

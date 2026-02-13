@@ -287,8 +287,16 @@ class UserController extends BaseController {
                 foreach ($csvData as $row) {
                     $rowData = array_combine($header, $row);
 
+                        $name  = trim($rowData['name']);
                         $email  = trim($rowData['email']);
-                        $phone1 = trim($rowData['phone1']);
+                        $phone = trim($rowData['phone']);
+                        $password = trim($rowData['password']);
+                        $doj = trim($rowData['doj']);
+
+                        // Required field validation (without this condition runs, but a empty row will be inserted due to date format set on doj column)
+                        if (empty($name) || empty($email) || empty($phone) || empty($password) || empty($doj)) {
+                            continue;
+                        }
 
                         //  Duplicate Email Check
                         if (!empty($email)) {
@@ -302,9 +310,9 @@ class UserController extends BaseController {
                         }
 
                         //  Duplicate Phone Check
-                        if (!empty($phone1)) {
+                        if (!empty($phone)) {
                             $phoneExists = $this->data['model']
-                                ->find_data('user', 'row', ['phone1' => $phone1]);
+                                ->find_data('user', 'row', ['phone1' => $phone]);
 
                             if ($phoneExists) {
                                 $skipCount++;
@@ -315,33 +323,45 @@ class UserController extends BaseController {
                     // Attendance type handling
                     $attnType = !empty($rowData['attendence_type']) ? explode('|', $rowData['attendence_type']) : ['0'];
 
+                    // $postData = [
+                    //     'name'              => trim($rowData['name']),
+                    //     'email'             => trim($rowData['email']),
+                    //     'personal_email'    => trim($rowData['personal_email'] ?? ''),
+                    //     'phone1'            => trim($rowData['phone1']),
+                    //     'phone2'            => trim($rowData['phone2'] ?? ''),
+                    //     'address'           => trim($rowData['address'] ?? ''),
+                    //     'pincode'           => trim($rowData['pincode'] ?? ''),
+                    //     'latitude'          => $rowData['latitude'] ?? '',
+                    //     'longitude'         => $rowData['longitude'] ?? '',
+                    //     'password'          => md5(trim($rowData['password'])),
+                    //     'remember_token'    => $rowData['remember_token'] ?? null,
+                    //     'type'              => $rowData['type'] ?? 'USER',
+                    //     'role_id'           => $rowData['role_id'] ?? 3,
+                    //     'category'          => $rowData['category'] ?? '',
+                    //     'hour_cost'         => $rowData['hour_cost'] ?? 0,
+                    //     'dob'               => !empty($rowData['dob']) ? date('Y-m-d', strtotime($rowData['dob'])) : null,
+                    //     'doj'               => !empty($rowData['doj']) ? date('Y-m-d', strtotime($rowData['doj'])) : null,
+                    //     'profile_image'     => '', 
+                    //     'department'        => $rowData['department'] ?? '',
+                    //     'dept_type'         => $rowData['dept_type'] ?? '',
+                    //     'status'            => $rowData['status'] ?? 1,
+                    //     'approve_date'      => !empty($rowData['approve_date']) ? date('Y-m-d', strtotime($rowData['approve_date'])) : null,
+                    //     'work_mode'         => $rowData['work_mode'] ?? 1,
+                    //     'is_tracker_user'   => $rowData['is_tracker_user'] ?? 0,
+                    //     'is_salarybox_user' => $rowData['is_salarybox_user'] ?? 0,
+                    //     'attendence_type'   => json_encode($attnType),
+                    //     'date_added'        => date('Y-m-d H:i:s'),
+                    // ];
+
                     $postData = [
                         'name'              => trim($rowData['name']),
-                        'email'             => trim($rowData['email']),
-                        'personal_email'    => trim($rowData['personal_email'] ?? ''),
-                        'phone1'            => trim($rowData['phone1']),
-                        'phone2'            => trim($rowData['phone2'] ?? ''),
-                        'address'           => trim($rowData['address'] ?? ''),
-                        'pincode'           => trim($rowData['pincode'] ?? ''),
-                        'latitude'          => $rowData['latitude'] ?? '',
-                        'longitude'         => $rowData['longitude'] ?? '',
+                        'email'             => trim($rowData['email'] ?? ''),
+                        'phone1'            => trim($rowData['phone'] ?? ''),
                         'password'          => md5(trim($rowData['password'])),
-                        'remember_token'    => $rowData['remember_token'] ?? null,
-                        'type'              => $rowData['type'] ?? '',
-                        'role_id'           => $rowData['role_id'] ?? 2,
-                        'category'          => $rowData['category'] ?? '',
-                        'hour_cost'         => $rowData['hour_cost'] ?? 0,
-                        'dob'               => !empty($rowData['dob']) ? date('Y-m-d', strtotime($rowData['dob'])) : null,
+                        'type'              => 'USER',
+                        'role_id'           => '3',
                         'doj'               => !empty($rowData['doj']) ? date('Y-m-d', strtotime($rowData['doj'])) : null,
-                        'profile_image'     => '', 
-                        'department'        => $rowData['department'] ?? '',
-                        'dept_type'         => $rowData['dept_type'] ?? '',
-                        'status'            => $rowData['status'] ?? 1,
-                        'approve_date'      => !empty($rowData['approve_date']) ? date('Y-m-d', strtotime($rowData['approve_date'])) : null,
-                        'work_mode'         => $rowData['work_mode'] ?? 1,
-                        'is_tracker_user'   => $rowData['is_tracker_user'] ?? 0,
-                        'is_salarybox_user' => $rowData['is_salarybox_user'] ?? 0,
-                        'attendence_type'   => json_encode($attnType),
+                        'status'            => '1',
                         'date_added'        => date('Y-m-d H:i:s'),
                     ];
 

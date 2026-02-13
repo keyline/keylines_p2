@@ -23,8 +23,8 @@ $controller_route   = $moduleDetail['controller_route'];
         <!-- Hidden CSV Upload Form -->
         <div id="csvUploadDiv" class="card p-3 shadow-sm" style="display: none;">
             <a href="<?= base_url('public/csv/user.csv') ?>" download="users.csv"  class="btn btn-outline-success btn-sm">
-            Download Template
-            </a>
+            Download Template 
+            </a> <span class="text-danger">(* Do not edit header items )</span>
             <form id="csvUploadForm" action="<?= base_url('admin/' . $controller_route . '/addbulk') ?>" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
 
