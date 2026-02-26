@@ -154,8 +154,10 @@ if ($row) {
                                                                     if ($functions) {
                                                                         foreach ($functions as $function) { ?>
                                                                             <?php
-                                                                            $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $parentmodule->id, 'function_id' => $function->function_id]);
-                                                                            if ($checkFunctionSelected > 0) {
+                                                                            // $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $parentmodule->id, 'function_id' => $function->function_id]);
+                                                                            $checkFunctionSelected = $common_model->find_data('permission_role_module_function', 'row', ['role_id' => $role_id, 'module_id' => $parentmodule->id, 'function_id' => $function->function_id]);
+                                                                            //  var_dump($checkFunctionSelected);
+                                                                            if ($checkFunctionSelected &&$checkFunctionSelected->published == 1) {
                                                                                 $checked = 'checked';
                                                                             } else {
                                                                                 $checked = '';

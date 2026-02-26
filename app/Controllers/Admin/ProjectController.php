@@ -38,6 +38,7 @@ class ProjectController extends BaseController {
         $page_name                  = 'project/list';
         $order_by1[0]                = array('field' => 'name', 'type' => 'ASC');
         $data['projectStats']       = $this->data['model']->find_data('project_status', 'array', ['status' => 1], 'id,name', '', '', $order_by1);
+        $data['clients']            = $this->data['model']->find_data('client', 'array', '', 'id,name,compnay', '', '', '');
         $order_by[0]                = array('field' => $this->data['table_name'].'.'.$this->data['primary_key'], 'type' => 'desc');
         $select                     = 'project.*, user.name as assigned_name, client.name as client_name, client.compnay as client_company_name, project_status.name as project_status_name';
         $join[0]                    = ['table' => 'user', 'field' => 'id', 'table_master' => $this->data['table_name'], 'field_table_master' => 'assigned_by', 'type' => 'inner'];

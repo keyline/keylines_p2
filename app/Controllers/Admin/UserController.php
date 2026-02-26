@@ -42,7 +42,7 @@ class UserController extends BaseController {
         // $data['rows']               = $this->data['model']->find_data($this->data['table_name'], 'array', ['status' => '1'], 'id,name,email,personal_email,phone1,phone2,status,work_mode,is_tracker_user,is_salarybox_user,attendence_type,type', '', '', $order_by);        
         $sql = "SELECT u.id, u.name, u.email, u.personal_email, u.phone1, u.phone2,
                     u.status, u.work_mode, u.is_tracker_user, u.is_salarybox_user,
-                    u.attendence_type, u.type,
+                    u.attendence_type, u.role_id,
                     ss.screenshot_time
                 FROM user u
                 LEFT JOIN (
@@ -162,9 +162,9 @@ class UserController extends BaseController {
                 'latitude'              => $this->request->getPost('latitude'),
                 'longitude'             => $this->request->getPost('longitude'),
                 'password'              => md5($this->request->getPost('password')),
-                'type'                  => $this->request->getPost('type'),
+                // 'type'                  => $this->request->getPost('type'),
                 'role_id'               => $this->request->getPost('role_id'),
-                'category'              => $this->request->getPost('category'),
+                // 'category'              => $this->request->getPost('category'),
                 'hour_cost'             => '0',
                 'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
                 'doj'                   => date_format(date_create($this->request->getPost('doj')), "Y-m-d"),
@@ -287,8 +287,16 @@ class UserController extends BaseController {
                 foreach ($csvData as $row) {
                     $rowData = array_combine($header, $row);
 
+                        $name  = trim($rowData['name']);
                         $email  = trim($rowData['email']);
-                        $phone1 = trim($rowData['phone1']);
+                        $phone = trim($rowData['phone']);
+                        $password = trim($rowData['password']);
+                        $doj = trim($rowData['doj']);
+
+                        // Required field validation (without this condition runs, but a empty row will be inserted due to date format set on doj column)
+                        if (empty($name) || empty($email) || empty($phone) || empty($password) || empty($doj)) {
+                            continue;
+                        }
 
                         //  Duplicate Email Check
                         if (!empty($email)) {
@@ -302,9 +310,9 @@ class UserController extends BaseController {
                         }
 
                         //  Duplicate Phone Check
-                        if (!empty($phone1)) {
+                        if (!empty($phone)) {
                             $phoneExists = $this->data['model']
-                                ->find_data('user', 'row', ['phone1' => $phone1]);
+                                ->find_data('user', 'row', ['phone1' => $phone]);
 
                             if ($phoneExists) {
                                 $skipCount++;
@@ -315,33 +323,45 @@ class UserController extends BaseController {
                     // Attendance type handling
                     $attnType = !empty($rowData['attendence_type']) ? explode('|', $rowData['attendence_type']) : ['0'];
 
+                    // $postData = [
+                    //     'name'              => trim($rowData['name']),
+                    //     'email'             => trim($rowData['email']),
+                    //     'personal_email'    => trim($rowData['personal_email'] ?? ''),
+                    //     'phone1'            => trim($rowData['phone1']),
+                    //     'phone2'            => trim($rowData['phone2'] ?? ''),
+                    //     'address'           => trim($rowData['address'] ?? ''),
+                    //     'pincode'           => trim($rowData['pincode'] ?? ''),
+                    //     'latitude'          => $rowData['latitude'] ?? '',
+                    //     'longitude'         => $rowData['longitude'] ?? '',
+                    //     'password'          => md5(trim($rowData['password'])),
+                    //     'remember_token'    => $rowData['remember_token'] ?? null,
+                    //     'type'              => $rowData['type'] ?? 'USER',
+                    //     'role_id'           => $rowData['role_id'] ?? 3,
+                    //     'category'          => $rowData['category'] ?? '',
+                    //     'hour_cost'         => $rowData['hour_cost'] ?? 0,
+                    //     'dob'               => !empty($rowData['dob']) ? date('Y-m-d', strtotime($rowData['dob'])) : null,
+                    //     'doj'               => !empty($rowData['doj']) ? date('Y-m-d', strtotime($rowData['doj'])) : null,
+                    //     'profile_image'     => '', 
+                    //     'department'        => $rowData['department'] ?? '',
+                    //     'dept_type'         => $rowData['dept_type'] ?? '',
+                    //     'status'            => $rowData['status'] ?? 1,
+                    //     'approve_date'      => !empty($rowData['approve_date']) ? date('Y-m-d', strtotime($rowData['approve_date'])) : null,
+                    //     'work_mode'         => $rowData['work_mode'] ?? 1,
+                    //     'is_tracker_user'   => $rowData['is_tracker_user'] ?? 0,
+                    //     'is_salarybox_user' => $rowData['is_salarybox_user'] ?? 0,
+                    //     'attendence_type'   => json_encode($attnType),
+                    //     'date_added'        => date('Y-m-d H:i:s'),
+                    // ];
+
                     $postData = [
                         'name'              => trim($rowData['name']),
-                        'email'             => trim($rowData['email']),
-                        'personal_email'    => trim($rowData['personal_email'] ?? ''),
-                        'phone1'            => trim($rowData['phone1']),
-                        'phone2'            => trim($rowData['phone2'] ?? ''),
-                        'address'           => trim($rowData['address'] ?? ''),
-                        'pincode'           => trim($rowData['pincode'] ?? ''),
-                        'latitude'          => $rowData['latitude'] ?? '',
-                        'longitude'         => $rowData['longitude'] ?? '',
+                        'email'             => trim($rowData['email'] ?? ''),
+                        'phone1'            => trim($rowData['phone'] ?? ''),
                         'password'          => md5(trim($rowData['password'])),
-                        'remember_token'    => $rowData['remember_token'] ?? null,
-                        'type'              => $rowData['type'] ?? '',
-                        'role_id'           => $rowData['role_id'] ?? 2,
-                        'category'          => $rowData['category'] ?? '',
-                        'hour_cost'         => $rowData['hour_cost'] ?? 0,
-                        'dob'               => !empty($rowData['dob']) ? date('Y-m-d', strtotime($rowData['dob'])) : null,
+                        // 'type'              => 'USER',
+                        'role_id'           => '3',
                         'doj'               => !empty($rowData['doj']) ? date('Y-m-d', strtotime($rowData['doj'])) : null,
-                        'profile_image'     => '', 
-                        'department'        => $rowData['department'] ?? '',
-                        'dept_type'         => $rowData['dept_type'] ?? '',
-                        'status'            => $rowData['status'] ?? 1,
-                        'approve_date'      => !empty($rowData['approve_date']) ? date('Y-m-d', strtotime($rowData['approve_date'])) : null,
-                        'work_mode'         => $rowData['work_mode'] ?? 1,
-                        'is_tracker_user'   => $rowData['is_tracker_user'] ?? 0,
-                        'is_salarybox_user' => $rowData['is_salarybox_user'] ?? 0,
-                        'attendence_type'   => json_encode($attnType),
+                        'status'            => '1',
                         'date_added'        => date('Y-m-d H:i:s'),
                     ];
 
@@ -445,9 +465,9 @@ class UserController extends BaseController {
                     'latitude'              => $this->request->getPost('latitude'),
                     'longitude'             => $this->request->getPost('longitude'),
                     'password'              => md5($password),
-                    'type'                  => $this->request->getPost('type'),
+                    // 'type'                  => $this->request->getPost('type'),
                     'role_id'               => $this->request->getPost('role_id'),
-                    'category'              => $this->request->getPost('category'),                
+                    // 'category'              => $this->request->getPost('category'),                
                     'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
                     'doj'                   => date_format(date_create($this->request->getPost('doj')), "Y-m-d"),
                     'profile_image'         => $profile_image,
@@ -471,9 +491,9 @@ class UserController extends BaseController {
                     'latitude'              => $this->request->getPost('latitude'),
                     'longitude'             => $this->request->getPost('longitude'),
                     // 'password'              => $newPassword,
-                    'type'                  => $this->request->getPost('type'),
+                    // 'type'                  => $this->request->getPost('type'),
                     'role_id'               => $this->request->getPost('role_id'),
-                    'category'              => $this->request->getPost('category'),                
+                    // 'category'              => $this->request->getPost('category'),                
                     'dob'                   => date_format(date_create($this->request->getPost('dob')), "Y-m-d"),
                     'doj'                   => date_format(date_create($this->request->getPost('doj')), "Y-m-d"),
                     'profile_image'         => $profile_image,

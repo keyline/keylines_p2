@@ -23,8 +23,8 @@ $controller_route   = $moduleDetail['controller_route'];
         <!-- Hidden CSV Upload Form -->
         <div id="csvUploadDiv" class="card p-3 shadow-sm" style="display: none;">
             <a href="<?= base_url('public/csv/user.csv') ?>" download="users.csv"  class="btn btn-outline-success btn-sm">
-            Download Template
-            </a>
+            Download Template 
+            </a> <span class="text-danger">(* Do not edit header items )</span>
             <form id="csvUploadForm" action="<?= base_url('admin/' . $controller_route . '/addbulk') ?>" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="<?= csrf_token() ?>" value="<?= csrf_hash() ?>" />
 
@@ -124,7 +124,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                                             <?= $row->name ?>
                                                         </a>
                                                         <span class="badge bg-warning ms-1"><?= $row->id ?></span> 
-                                                        <span class="badge bg-custom-primary"><?= $row->type ?></span>                                                   
+                                                        <?php     
+                                                              $user_type = $common_model->find_data('permission_roles', 'row', [
+                                                                'id'   => $row->role_id
+                                                            ])->role_name; 
+                                                            ?>
+                                                        <span class="badge bg-custom-primary"><?= $user_type ?></span>                                                   
                                                     </td>
                                                     <td class="text-center"><?= $row->phone1 ?></td>
                                                     <td><?= $row->email ?></td>

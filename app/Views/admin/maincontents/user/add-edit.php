@@ -49,8 +49,8 @@ $controller_route   = $moduleDetail['controller_route'];
                 $latitude             = $row->latitude;
                 $longitude            = $row->longitude;
                 $password             = $row->password;
-                $type                 = $row->type;
-                $category             = $row->category;
+                $role_id              = $row->role_id;
+                // $category             = $row->category;
                 $hour_cost            = $row->hour_cost;
                 $dob                  = $row->dob;
                 $doj                  = $row->doj;
@@ -71,8 +71,8 @@ $controller_route   = $moduleDetail['controller_route'];
                 $latitude             = '';
                 $longitude            = '';
                 $password             = '';
-                $type                 = '';
-                $category             = '';
+                $role_id              = '';
+                // $category             = '';
                 $hour_cost            = '';
                 $dob                  = '';
                 $doj                  = '';
@@ -166,28 +166,29 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <div class="">
                                                 <select name="category" class="form-control" id="category" required>
                                                     <option value="" selected>Select Category</option>
-                                                    <?php if($userCats){ foreach($userCats as $userCat){?>
-                                                    <option value="<?=$userCat->id?>" <?=(($userCat->id == $category)?'selected':'')?>><?=$userCat->name?></option>
-                                                    <?php } }?>
+                                                    </?php if($userCats){ foreach($userCats as $userCat){?>
+                                                    <option value="</?=$userCat->id?>" </?=(($userCat->id == $category)?'selected':'')?>></?=$userCat->name?></option>
+                                                    </?php } }?>
                                                 </select>
                                             </div>
                                         </div> -->
                                         <!-- Type field -->
                                         <div class="col-md-4 col-lg-4">
-                                            <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
+                                            <label for="role_i" class="col-form-label">Type <span class="text-danger">*</span></label>
                                             <div class="">
-                                                <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
+                                                <!-- <select name="role_id" class="form-control" id="type" required onchange="updateHiddenField()"> -->
+                                                <select name="role_id" class="form-control" id="type" required >
                                                     <option value="" selected>Select Type</option>
                                                     <?php if($roleMasters){ foreach($roleMasters as $roleMaster){?>
-                                                        <option value="<?=$roleMaster->role_name;?>" <?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
+                                                        <option value="<?=$roleMaster->id;?>" <?= $roleMaster->id == $role_id ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
                                                     <?php } }?>
                                                 </select>
-                                                <input type="hidden" id="role_id" name="role_id" value="">
-                                                <?php foreach ($roleMasters as $roleMaster): ?>
-                                                    <?php if ($roleMaster->role_name == htmlspecialchars($type)): ?>
-                                                        <input type="hidden" name="role_id" id="role_ide" value="<?= htmlspecialchars($roleMaster->id); ?>">
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
+                                                <!-- <input type="hidden" id="role_id" name="role_id" value=""> -->
+                                                <!-- </?php foreach ($roleMasters as $roleMaster): ?>
+                                                    </?php if ($roleMaster->role_name == htmlspecialchars($type)): ?>
+                                                        <input type="hidden" name="role_id" id="role_ide" value="</?= htmlspecialchars($roleMaster->id); ?>">
+                                                    </?php endif; ?>
+                                                </?php endforeach; ?> -->
                                             </div>
                                         </div>
                                         <!--Hour Cost field -->
@@ -257,7 +258,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                 <label for="is_salarybox_user" class="col-form-label">Mobile App User <span class="text-danger">*</span></label>
                                                 <div class=" d-flex align-items-center">
                                                     <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user1" value="1" <?=(($is_salarybox_user == '1')?'checked':'')?> required> <label class="me-2" for="is_salarybox_user1">YES</label>
-                                                    <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0"  <?=(($is_salarybox_user == '0')?'checked':'')?>required> <label for="is_salarybox_user2">NO</label>
+                                                    <input class="me-1" type="radio" name="is_salarybox_user" id="is_salarybox_user2" value="0"  <?=(($is_salarybox_user == '0')?'checked':'')?> required> <label for="is_salarybox_user2">NO</label>
                                                 </div>
                                             </div>
                                         </div>
@@ -269,7 +270,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <div class="row">
                                                         <div class="col-md-4 mb-3">
                                                             <div class="d-flex align-items-start">
-                                                            <input class="me-1 attnType" style="position: relative; top: 3.5px;" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?>> 
+                                                            <input class="me-1 attnType" style="position: relative; top: 3.5px;" type="checkbox" name="attendence_type[]" id="attendence_type0" value="0" <?=((in_array(0, $attendence_type))?'checked':'')?> required> 
                                                             <label class="me-2" for="attendence_type0" onclick="getAttnValue(0);">Hybrid Mode<br><span style="font-size: 10px;">(Work From Home)</span></label>
                                                         </div>
                                                     </div>
@@ -298,7 +299,7 @@ $controller_route   = $moduleDetail['controller_route'];
                                             </div>
                                         </div> -->
                                         <!-- Task view access -->
-                                        <div class="col-md-12 col-lg-12">
+                                        <div class="col-md-12 col-lg-12" id="taskViewAccessDiv">
                                             <div class="general_form_box">
                                                 <label for="task_view_access" class="col-form-label">Task View Access</label>
                                                 <div class="">
@@ -311,24 +312,26 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <label for="task_view_access" class="col-form-label">Self</label>
                                                     <input type="radio" name="task_view_access" <?php if($taskViewAccess == '2'){echo 'checked';} ?>  value='2'>
                                                     <label for="task_view_access" class="col-form-label">Team</label>
-                                                    <input type="radio" name="task_view_access" <?php if($taskViewAccess == '3'){echo 'checked';} ?> <?php if($taskViewAccess == ''){echo 'checked';} ?>   value='3' >
+                                                    <input type="radio" name="task_view_access" <?php if($taskViewAccess == '3'){echo 'checked';} ?>  value='3' >
                                                     <label for="task_view_access" class="col-form-label" >All</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <!-- Shifting Time -->
+                                        <?php if($shiftingTimes){ ?>
                                         <div class="col-md-12 col-lg-12">
                                             <div class="general_form_box">
                                                 <label for="shifting_name" class="col-form-label">Shifting Time</label>
                                                 <div class="">                                                                                                        
-                                                    <?php if($shiftingTimes){ foreach($shiftingTimes as $shiftingTime){?>
+                                                    <?php  foreach($shiftingTimes as $shiftingTime){?>
                                                         <input type="radio" name="shifting_id" value='<?=$shiftingTime->id?>'>
                                                         <label for="shifting_name" class="col-form-label"><?=$shiftingTime->shifting_name?></label>
-                                                    <?php } }?>
+                                                    <?php } ?>
 
                                                 </div>
                                             </div>
                                         </div>
+                                        <?php } ?>
                                         <!--Profile Image field -->
                                         <div class="col-md-12 col-lg-12">
                                             <div class="general_form_box">
@@ -369,8 +372,8 @@ $controller_route   = $moduleDetail['controller_route'];
         return true;
     }
 </script>
-<script>
-    const roles        = <?php echo json_encode($roleMasters); ?>;
+<!-- <script>
+    const roles        = </?php echo json_encode($roleMasters); ?>;
     const roleMapping  = {};
     for(let i = 0; i < roles.length; i++){
         roleMapping[roles[i]['role_name']] = roles[i]['id'];
@@ -381,7 +384,7 @@ $controller_route   = $moduleDetail['controller_route'];
         const roleIdField = document.getElementById('role_id');
         roleIdField.value = roleMapping[selectedType] || '';
     }
-</script>
+</script> -->
 <script>
     $(function(){
         $('#viewPassword').on('click', function(){
@@ -460,5 +463,27 @@ $(document).ready(function () {
             });
         }
     });  
-});
+
+    // $('input[name="is_tracker_user"]').on('change', function(){
+    //     if($(this).val() == '0'){
+    //         $('#taskViewAccessDiv').hide();
+    //     } else {
+    //         $('#taskViewAccessDiv').show();
+    //       }
+    //     });
+
+    function toggleDiv() {
+    let val = $('input[name="is_tracker_user"]:checked').val();
+
+    if (val == '0') {
+        $('#taskViewAccessDiv').hide();
+    } else {
+        $('#taskViewAccessDiv').show();
+    }
+   }
+
+    toggleDiv(); // run once on load
+
+    $('input[name="is_tracker_user"]').on('change', toggleDiv);
+    });
 </script>

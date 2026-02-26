@@ -103,13 +103,13 @@ $controller_route   = $moduleDetail['controller_route'];
                                                     <tbody>
                                                         <?php                                                    
                                                         if($users){ $sl=1; foreach($users as $row){
-                                                            $department_name =$db->query("SELECT user.id, user.name, user.status, user.department as depart_id, user.dept_type, department.deprt_name FROM `user` 
-                                                            INNER JOIN department ON user.department = department.id 
+                                                            $department_name =$db->query("SELECT user.id, user.name, user.status, user.member_type, user.department_id as depart_id, department.deprt_name FROM `user` 
+                                                            INNER JOIN department ON user.department_id = department.id 
                                                             WHERE user.`status` = '1' AND user.id= $row->id ORDER BY user.`status` DESC, user.`name` ASC")->getRow();
                                                             // echo $db->getlastQuery();
                                                             // pr($row);
                                                             $single_depart_id = (($department_name)?$department_name->depart_id:'');
-                                                            $single_dept_type = (($department_name)?$department_name->dept_type:'');
+                                                            $single_dept_type = (($department_name)?$department_name->member_type:'');
                                                             ?>
                                                         <tr>
                                                             <th scope="row"><?=$sl++?></th>

@@ -691,7 +691,8 @@ if ( ! function_exists('test_method'))
       }
       // pr($adminUser);
       $role_id = $adminUser->role_id;
-      $checkExist         = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $function_id]);
+      // $checkExist         = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $function_id]);
+      $checkExist         = $common_model->find_data('permission_role_module_function', 'count', ['role_id' => $role_id, 'module_id' => $module_id, 'function_id' => $function_id, 'published' => 1]);
       // echo $db->getLastQuery();
       // die;
       //echo $checkExist;die;

@@ -41,11 +41,14 @@ class TaskAssignController extends BaseController {
             $page_name                  = 'task-assign/list';
 
             $user_id                    = $this->session->get('user_id');
-            $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show,type,task_view_access');
+            $getUser                    = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'tracker_depts_show,role_id,task_view_access');
+            $user_role                  = $this->data['model']->find_data('permission_roles', 'row', ['id' => $getUser->role_id], 'role_name');
 
             $data['tracker_depts_show'] = (($getUser)?json_decode($getUser->tracker_depts_show):[]);
             // pr($data['tracker_depts_show']);
-            $data['type']               = (($getUser)?$getUser->type:'');
+            $data['user_role']          = $user_role->role_name ?? '';
+
+            
             $data['user_id']            = $user_id;
             $data['current_date']       = date('Y-m-d');
 
@@ -1291,7 +1294,7 @@ class TaskAssignController extends BaseController {
             $cal_usercost               = ($user_cost/60);
 
             $getProject     = $this->data['model']->find_data('project', 'row', ['id' => $project_id], 'status,bill');
-            $getUser        = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'department');
+            $getUser        = $this->data['model']->find_data('user', 'row', ['id' => $user_id], 'department_id');
             $getWorkStatus  = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'is_reassign');
 
             if (array_key_exists("date_task",$requestData)){
@@ -1435,7 +1438,7 @@ class TaskAssignController extends BaseController {
                             // die;
                         /* next working data calculate */
                         $morningScheduleData2 = [
-                            'dept_id'               => (($getUser)?$getUser->department:0),
+                            'dept_id'               => (($getUser)?$getUser->department_id:0),
                             'project_id'            => $project_id,
                             'status_id'             => (($getProject)?$getProject->status:0),
                             'user_id'               => $user_id,

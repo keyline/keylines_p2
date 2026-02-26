@@ -830,6 +830,9 @@ class ReportController extends BaseController
         $year                       = [];
         $sl                         = 1;
         // pr($projects);       
+        if(empty($projects)){
+            $data['year']        = '2018';
+        }
         foreach ($projects as $project) {
             $project_name = $project->name;
             $project_id = $project->project_id;

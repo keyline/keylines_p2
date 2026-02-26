@@ -55,22 +55,27 @@ $userType           = $session->user_type;
                         
                             <div style="display: inline-flex;gap: 10px;">
                             <h5>
-                                <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-primary btn-sm">Add <?=$title?></a>
+                                <!-- <a href="</?=base_url('admin/' . $controller_route . '/add/')?>" class="btn btn-outline-primary btn-sm">Add </?=$title?></a> -->
+                                <a href="<?=base_url('admin/' . $controller_route . '/add/')?>" class="<?php echo (empty($projectStats)  || empty($clients)) ? 'btn btn-secondary btn-sm disabled' : 'btn btn-outline-primary btn-sm'  ?>">Add <?=$title?></a>
                             </h5>
                             <h5>
-                                <a href="<?=base_url('admin/' . $controller_route . '/list/')?>" class="btn btn-outline-info btn-sm">All Projects</a>
+                                <!-- <a href="</?=base_url('admin/' . $controller_route . '/list/')?>" class="btn btn-outline-info btn-sm">All Projects</a> -->
+                                <a href="<?=base_url('admin/' . $controller_route . '/list/')?>" class="<?php echo empty($rows)? 'btn btn-secondary btn-sm disabled' : 'btn btn-outline-primary btn-sm'  ?>">All Projects</a>
                             </h5>
                             <h5>
-                                <a href="<?=base_url('admin/' . $controller_route . '/active-project/')?>" class="btn btn-outline-success btn-sm">Active Projects</a>
+                                <!-- <a href="</?=base_url('admin/' . $controller_route . '/active-project/')?>" class="btn btn-outline-success btn-sm">Active Projects</a> -->
+                                <a href="<?=base_url('admin/' . $controller_route . '/active-project/')?>" class="<?php echo empty($rows)? 'btn btn-secondary btn-sm disabled' : 'btn btn-outline-primary btn-sm'  ?>">Active Projects</a>
                             </h5>
                             <h5>
-                                <a href="<?=base_url('admin/' . $controller_route . '/inactive-project/')?>" class="btn btn-outline-danger btn-sm">Inactive Project</a>
+                                <!-- <a href="</?=base_url('admin/' . $controller_route . '/inactive-project/')?>" class="btn btn-outline-danger btn-sm">Inactive Project</a> -->
+                                <a href="<?=base_url('admin/' . $controller_route . '/inactive-project/')?>" class="<?php echo empty($rows)? 'btn btn-secondary btn-sm disabled' : 'btn btn-outline-primary btn-sm'  ?>">Inactive Project</a>
                             </h5>
                             </div>                        
                         </div>
                     <?php   } ?>
                     <div class="card-body">
                         <div class="dt-responsive table-responsive">
+                            <?php if(!empty($rows)){ ?>
                             <table id="simpletable" class="table general_table_style padding-y-10">
                                 <thead>
                                     <tr>
@@ -233,6 +238,10 @@ $userType           = $session->user_type;
                                     <?php } }?>
                                 </tbody>
                             </table>
+                            <?php }else{ ?>
+                                <div class="text-center">
+                                    <p class="mt-2">No projects found.</p>
+                            <?php } ?>        
                         </div>
                     </div>
                 </div>
