@@ -458,6 +458,9 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $totalBooked    = intdiv($totalBookedTime, 60) . ':' . ($totalBookedTime % 60);
                                                                     $totalBooked    = '[Booked : ' . $totalBooked . ']';
                                                                     ?>
+                                                                <!-- Condition for task view access heading part -->
+                                                                <!-- </?php $user = $common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access'); ?> -->    
+                                                                <?php if(($user->task_view_access == '1') && ($user_id == $teamMember->id)){ ?>
                                                                     <th style="background-color: <?=$dept->header_color?>;">
                                                                         <div class="d-flex justify-content-between">
                                                                             <div class="row">
@@ -480,6 +483,33 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                             <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span> -->
                                                                         </div>
                                                                     </th>
+                                                                <?php }elseif (($user->task_view_access == '2') || ($user->task_view_access == '3')) {?>
+                                                                    <th style="background-color: <?=$dept->header_color?>;">
+                                                                        <div class="d-flex justify-content-between">
+                                                                            <div class="row">
+                                                                                <div class="col-md-12" style="text-align: center;">
+                                                                                    <span><?=$teamMember->name?></span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: left;">
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In: <?=$punchInTime?></span><br>
+                                                                                    <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
+                                                                                </div>
+                                                                                <div class="col-md-6" style="text-align: right;">
+                                                                                    <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
+                                                                                </div>
+                                                                            </div>
+                                                                            <!-- <?=$teamMember->name?><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$attnBgColor?>; color: #000;">Punch-In</span><br>
+                                                                            <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span><br>
+                                                                            <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                            <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span> -->
+                                                                        </div>
+                                                                    </th>
+                                                                <?php }else{ ?>    
+                                                                    <th style="background-color: <?=$dept->header_color?>;"></th>
+                                                                <?php } ?>
+                                                                <!-- Condition for task view access Ending -->  
                                                                 <?php } } ?>
                                                             <?php } } ?>
                                                         </tr>
@@ -492,7 +522,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                                                     $application_settings    = $common_model->find_data('application_settings', 'row');
                                                                     $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
-                                                                    if($type == 'SUPER ADMIN'){
+                                                                    if($user_role == 'SUPER ADMIN'){
                                                                         if($user_id == $teamMember->id){
                                                                             $alterIcon  = 1;
                                                                             $effortIcon = 1;
@@ -500,7 +530,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                             $alterIcon  = 0;
                                                                             $effortIcon = 0;
                                                                         }
-                                                                    } elseif($type == 'ADMIN'){
+                                                                    } elseif($user_role == 'ADMIN'){
                                                                         if($user_id == $teamMember->id){
                                                                             $alterIcon  = 1;
                                                                             $effortIcon = 1;
@@ -508,7 +538,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                             $alterIcon  = 0;
                                                                             $effortIcon = 0;
                                                                         }
-                                                                    } elseif($type == 'USER'){
+                                                                    } elseif($user_role == 'USER'){
                                                                         if($user_id == $teamMember->id){
                                                                             $alterIcon  = 1;
                                                                             $effortIcon = 1;
@@ -523,7 +553,10 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     $yesterday                  = date('Y-m-d', strtotime("-1 days"));
                                                             ?>
                                                                 <td style="background-color: <?=$dept->body_color?>;">
-                                                                    <div class="field_wrapper" id="name">
+                                                                  <div class="field_wrapper" id="name">
+                                                                    <!-- Condition for task view access data part -->
+                                                                    <!-- </?php $user = $common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access'); ?> -->
+                                                                    <?php if(($user->task_view_access == '1') && ($user_id == $teamMember->id)){ ?>    
                                                                         <div class="row">
                                                                             <div class="col-12" id="meeting-user-previous-<?=$teamMember->id?>_<?=$yesterday?>">
                                                                                 <?php
@@ -698,7 +731,192 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php }?> -->
                                                                             </div>
                                                                         </div>
-                                                                    </div>
+                                                                    <?php }elseif (($user->task_view_access == '2') || ($user->task_view_access == '3')) {?>
+                                                                        <div class="row">
+                                                                            <div class="col-12" id="meeting-user-<?=$teamMember->id?>_<?=$yesterday?>">
+                                                                                <?php
+                                                                                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+                                                                                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+                                                                                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+                                                                                $join1[2]                    = ['table' => 'timesheet', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'effort_id', 'type' => 'LEFT'];
+
+                                                                                $getTasks                   = $common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $teamMember->id, 'morning_meetings.date_added' => $yesterday], 'project.name as project_name,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.id as schedule_id, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at, timesheet.description as booked_description, timesheet.hour as booked_hour, timesheet.min as booked_min', $join1, '', $order_by1);
+                                                                                
+                                                                                if($getTasks){ foreach($getTasks as $getTask){
+                                                                                    $getWorkStatus                  = $common_model->find_data('work_status', 'row', ['id' => $getTask->work_status_id], 'background_color,border_color,name');
+                                                                                    $work_status_color              = (($getWorkStatus)?$getWorkStatus->background_color:'#FFF');
+                                                                                    $work_status_border_color       = (($getWorkStatus)?$getWorkStatus->border_color:'#0c0c0c4a');
+                                                                                    $work_status_name               = (($getWorkStatus)?$getWorkStatus->name:'');
+                                                                                ?>
+
+                                                                               
+                                                                                    <div class="input-group">
+                                                                                        <div class="card">
+                                                                                            <div class="card-body" style="border: 1px solid <?=$work_status_border_color?>;width: 100%;padding: 8px;background-color: #fff;border-radius: 6px;text-align: left;vertical-align: top; box-shadow: 0 0 15px -13px #000; background-color: <?=$work_status_color?>;">
+                                                                                                <p>
+                                                                                                    <?php if($getTask->is_leave == 0){?>
+                                                                                                        <?php if($getTask->priority == 3){?>
+                                                                                                            <span class="card_priotty_item proiodty_high">H</span>
+                                                                                                        <?php }?>
+                                                                                                        <?php if($getTask->priority == 2){?>
+                                                                                                            <span class="card_priotty_item proiodty_medium">M</span>
+                                                                                                        <?php }?>
+                                                                                                        <?php if($getTask->priority == 1){?>
+                                                                                                            <span class="card_priotty_item proiodty_low">L</span>
+                                                                                                        <?php }?>
+                                                                                                    <?php }?>
+                                                                                                </p>
+
+                                                                                                <?php
+                                                                                                if($getTask->project_name != ''){
+                                                                                                    $projectName = $getTask->project_name;
+                                                                                                } else {
+                                                                                                    if($getTask->is_leave == 1){
+                                                                                                        $projectName = 'HALFDAY LEAVE';
+                                                                                                    } else {
+                                                                                                        $projectName = 'FULLDAY LEAVE';
+                                                                                                    }
+                                                                                                }
+
+                                                                                                if($getTask->is_leave == 0){
+                                                                                                    $display = 'block';
+                                                                                                } else {
+                                                                                                    $display = 'none';
+                                                                                                }
+                                                                                                ?>
+
+                                                                                                <div class="mb-1 d-block">
+                                                                                                    <div class="card_projectname"><b><?=$projectName?> :</b> </div>
+                                                                                                    <!-- <p><strong style="color: #2d93d1">Status:</strong> XXX YYY</p> -->
+                                                                                                  <?php if($work_status_name !== ''){ ?>  <p><strong style="color: #2d93d1">Status: <?= $work_status_name ?>  </strong></p> <?php } ?>
+                                                                                                    <div class="card_projecttime">
+                                                                                                        <p><strong style="color: #2d93d1">Assigned:
+                                                                                                            (<?php
+                                                                                                                if($getTask->hour > 0) {
+                                                                                                                    if($getTask->hour == 1){
+                                                                                                                        echo $getTask->hour . " hr ";
+                                                                                                                    } else {
+                                                                                                                        echo $getTask->hour . " hrs ";
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo "0 hr ";
+                                                                                                                }
+                                                                                                                if($getTask->min > 0) {
+                                                                                                                    if($getTask->min == 1){
+                                                                                                                        echo $getTask->min . " min";
+                                                                                                                    } else {
+                                                                                                                        echo $getTask->min . " mins";
+                                                                                                                    }
+                                                                                                                } else {
+                                                                                                                    echo "0 min";
+                                                                                                                }
+                                                                                                            ?>)
+                                                                                                            </strong>
+                                                                                                        </p>
+                                                                                                    </div>
+                                                                                                    <div class="card_proj_info"><?=$getTask->description?><br></div>
+                                                                                                        <?php if($getTask->booked_description != ''){?>
+                                                                                                            <div class="card_proj_info">
+                                                                                                                <strong style="color: #2d93d1;">
+                                                                                                                    Booked : (
+                                                                                                                    <?php
+                                                                                                                        // Hours
+                                                                                                                        if ($getTask->booked_hour > 0) {
+                                                                                                                            echo $getTask->booked_hour . ' ' . ($getTask->booked_hour == 1 ? 'hr' : 'hrs');
+                                                                                                                        } else {
+                                                                                                                            echo '0 hr';
+                                                                                                                        }
+
+                                                                                                                        echo ' ';
+
+                                                                                                                        // Minutes
+                                                                                                                        if ($getTask->booked_min > 0) {
+                                                                                                                            echo $getTask->booked_min . ' ' . ($getTask->booked_min == 1 ? 'min' : 'mins');
+                                                                                                                        } else {
+                                                                                                                            echo '0 min';
+                                                                                                                        }
+                                                                                                                    ?>
+                                                                                                                    )
+                                                                                                                </strong>
+                                                                                                                <?php if($getTask->description !== $getTask->booked_description){ ?>
+                                                                                                                <p><?=$getTask->booked_description?></p>
+                                                                                                                <?php } ?>
+                                                                                                            </div>
+                                                                                                        <?php }?>
+                                                                                                    </div>
+
+                                                                                                    <div class="d-flex justify-content-between">
+                                                                                                        <?php
+                                                                                                        if($getTask->updated_at == ''){
+                                                                                                            $createdAt = date_format(date_create($getTask->created_at), "d/m/y - h:i a");
+                                                                                                        } else {
+                                                                                                            $createdAt = date_format(date_create($getTask->updated_at), "d/m/y - h:i a");
+                                                                                                        }
+
+                                                                                                        $time1 = new DateTime($getTask->created_at);
+                                                                                                        $time2 = new DateTime(date('Y-m-d H:i:s'));
+                                                                                                        // Get the difference
+                                                                                                        $interval = $time1->diff($time2);
+                                                                                                        // Convert the difference to total minutes
+                                                                                                        $minutes = ($interval->h * 60) + $interval->i;
+                                                                                                        ?>
+                                                                                                        <p class="mb-0 assign-name">
+                                                                                                            By <?=$getTask->user_name?> <span class="ms-1">(<?=$createdAt?>)</span>
+                                                                                                            <?php if($getTask->work_status_id == 0){?>
+                                                                                                                <?php if($effortIcon){?>
+                                                                                                                    <?php if(checkModuleFunctionAccess(36,94)){ ?>
+                                                                                                                    <br>
+                                                                                                                    <span><a href="javascript:void(0);" class="badge bg-success text-light" onclick="openEffortSubmitForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);">Add Effort</a></span>
+                                                                                                                <?php } }?>
+                                                                                                            <?php }?>
+                                                                                                        </p>
+
+                                                                                                        <?php if($getTask->work_status_id <= 0){?>
+                                                                                                            <?php if($alterIcon){?>
+                                                                                                                <?php if($minutes <= $edit_time_after_task_add){?>
+                                                                                                                    <?php if(checkModuleFunctionAccess(36,117)){ ?>
+                                                                                                                    <a href="javascript:void(0);" class="task_edit_btn taskedit_iconright" onclick="openEditForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>', <?=$getTask->schedule_id?>);" style="display: <?=$display?>;">
+                                                                                                                        <i class="fa-solid fa-pencil text-primary"></i>
+                                                                                                                    </a>
+                                                                                                                <?php } }?>
+                                                                                                            <?php }?>
+                                                                                                        <?php }?>
+                                                                                                    </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                <?php } }?>
+
+                                                                                <?php if($alterIcon){?>
+                                                                                    <?php if(checkModuleFunctionAccess(36,94)){ ?>
+                                                                                    <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                        <i class="fa-solid fa-plus-circle"></i> Add Task
+                                                                                    </a>
+                                                                                <?php } }?>
+
+                                                                                <!-- <?php
+                                                                                $getLeaveTask                   = $common_model->find_data('morning_meetings', 'row', ['user_id' => $teamMember->id, 'date_added' => date('Y-m-d'), 'is_leave>' => 0], 'is_leave');
+                                                                                if(!$getLeaveTask){
+                                                                                    if($alterIcon){
+                                                                                ?>
+                                                                                        <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                            <i class="fa-solid fa-plus-circle"></i> Add Task
+                                                                                        </a>
+                                                                                    <?php }?>
+                                                                                <?php } else {?>
+                                                                                    <?php if($getLeaveTask->is_leave == 1){?>
+                                                                                        <?php if($alterIcon){?>
+                                                                                            <a href="javascript:void(0);" class="btn btn-success btn-sm" onclick="openForm(<?=$dept->id?>, <?=$teamMember->id?>, '<?=$teamMember->name?>');">
+                                                                                                <i class="fa-solid fa-plus-circle"></i> Add Task
+                                                                                            </a>
+                                                                                        <?php }?>
+                                                                                    <?php }?>
+                                                                                <?php }?> -->
+                                                                            </div>
+                                                                        </div>
+                                                                    <?php } ?>
+                                                                    <!-- Condition for task view access Ending -->  
+                                                                  </div>
                                                                 </td>
                                                                 <?php } } ?>
                                                             <?php } } ?>
@@ -735,6 +953,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                             <?php if($departments){ foreach($departments as $dept){?>
                                                                 <?php
                                                                 $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
+                                                                // var_dump($teamMembers);
                                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                                                 ?>
                                                                     <?php
@@ -800,8 +1019,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                         <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
                                                                                     </div>
                                                                                     <div class="col-md-6" style="text-align: right;">
-                                                                                        <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
-                                                                                        <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span>
+                                                                                        <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                                        <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
                                                                                     </div>
                                                                                 </div>
                                                                                 <!-- <?=$teamMember->name?><br>
@@ -827,8 +1046,8 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                     <span style="padding: 2px 8px; border-radius: 10px; font-size:10px; background-color:<?=$trackerBgColor?>; color: #000;">Tracker</span>
                                                                                 </div>
                                                                                 <div class="col-md-6" style="text-align: right;">
-                                                                                    <span id="total-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalAssigned?></span><br>
-                                                                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$today?>"><?=$totalBooked?></span>
+                                                                                    <span id="total-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalAssigned?></span><br>
+                                                                                    <span id="total-booked-time-<?=$teamMember->id?>_<?=$yesterday?>"><?=$totalBooked?></span>
                                                                                 </div>
                                                                             </div>
                                                                             <!-- <?=$teamMember->name?><br>
@@ -846,27 +1065,28 @@ $controller_route       = $moduleDetail['controller_route'];
                                                     </thead>
                                                     <tbody>
                                                         <tr>
+                                                            <!-- </?php echo $type; ?> -->
                                                             <?php if($departments){ foreach($departments as $dept){?>
                                                                 <?php
                                                                 $teamMembers = $db->query("select u.id,u.name from team t inner join user u on t.user_id = u.id where t.dep_id = '$dept->id' and u.status = '1'")->getResult();
                                                                 if($teamMembers){ foreach($teamMembers as $teamMember){
                                                                     $application_settings    = $common_model->find_data('application_settings', 'row');
                                                                     $edit_time_after_task_add = $application_settings->edit_time_after_task_add;
-                                                                    if($type == 'SUPER ADMIN'){
+                                                                    if($user_role == 'SUPER ADMIN'){
                                                                         $alterIcon  = 1;
                                                                         if($user_id == $teamMember->id){
                                                                             $effortIcon = 1;
                                                                         } else {
                                                                             $effortIcon = 0;
                                                                         }
-                                                                    } elseif($type == 'ADMIN'){
+                                                                    } elseif($user_role == 'ADMIN'){
                                                                         $alterIcon  = 1;
                                                                         if($user_id == $teamMember->id){
                                                                             $effortIcon = 1;
                                                                         } else {
                                                                             $effortIcon = 0;
                                                                         }
-                                                                    } elseif($type == 'USER'){
+                                                                    } elseif($user_role == 'USER'){
                                                                         if($user_id == $teamMember->id){
                                                                             $alterIcon  = 1;
                                                                             $effortIcon = 1;
@@ -884,7 +1104,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                     <div class="field_wrapper" id="name">
                                                                     <!-- Condition for task view access data part -->
                                                                     <!-- </?php $user = $common_model->find_data('user', 'row', ['id' => $user_id], 'name,task_view_access'); ?> -->
-                                                                         <?php if(($user->task_view_access == '1') && ($user_id == $teamMember->id)){ ?>
+                                                                    <?php if(($user->task_view_access == '1') && ($user_id == $teamMember->id)){ ?>
                                                                         <div class="row">
                                                                             <div class="col-12" id="meeting-user-<?=$teamMember->id?>_<?=$today?>">
                                                                                 <?php
@@ -1067,7 +1287,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php }?> -->
                                                                             </div>
                                                                         </div>
-                                                                        <?php }elseif (($user->task_view_access == '2') || ($user->task_view_access == '3')) {?>
+                                                                    <?php }elseif (($user->task_view_access == '2') || ($user->task_view_access == '3')) {?>
                                                                         <div class="row">
                                                                             <div class="col-12" id="meeting-user-<?=$teamMember->id?>_<?=$today?>">
                                                                                 <?php
@@ -1250,7 +1470,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                                                                 <?php }?> -->
                                                                             </div>
                                                                         </div>
-                                                                        <?php } ?>
+                                                                    <?php } ?>
                                                                         <!-- Condition for task view access Ending -->
                                                                     </div>
                                                                 </td>
@@ -1631,6 +1851,7 @@ $controller_route       = $moduleDetail['controller_route'];
     function submitEffortBookingForm(book_date){
         $("#effortSaveBtn").prop("disabled", true);
         $("#effortSaveBtn").text("Saving...");
+        // console.log(book_date);
         
         var base_url        = '<?=base_url()?>';
         var dataJson        = {};
@@ -1671,6 +1892,7 @@ $controller_route       = $moduleDetail['controller_route'];
                                 data: JSON.stringify(dataJson),
                                 success: function(res) {
                                     res = $.parseJSON(res);
+                                    // console.log(res);
                                     if(res.success){
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');

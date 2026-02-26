@@ -76,7 +76,7 @@
                                                         <td><?= $row->role_name ?></td>
                                                         <td>
                                                             <?php if (checkModuleFunctionAccess(14, 9) || (checkModuleFunctionAccess(14, 63)) ) { ?>
-                                                                <a href="<?php echo base_url(); ?>/admin/<?php echo $moduleDetail['controller']; ?>/edit/<?php echo $row->id; ?>" class="btn btn-outline-primary btn-sm" title="Provide Permissions"><i class="fa fa-edit"></i></a>
+                                                                <a href="<?php echo base_url(); ?>admin/<?php echo $moduleDetail['controller']; ?>/edit/<?php echo $row->id; ?>" class="btn btn-outline-primary btn-sm" title="Provide Permissions"><i class="fa fa-edit"></i></a>
                                                             <?php } ?>
                                                             &nbsp;&nbsp;&nbsp;
                                                             <?php if (checkModuleFunctionAccess(14, 63)) { ?>

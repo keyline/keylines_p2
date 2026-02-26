@@ -49,8 +49,8 @@ $controller_route   = $moduleDetail['controller_route'];
                 $latitude             = $row->latitude;
                 $longitude            = $row->longitude;
                 $password             = $row->password;
-                $type                 = $row->type;
-                $category             = $row->category;
+                $role_id              = $row->role_id;
+                // $category             = $row->category;
                 $hour_cost            = $row->hour_cost;
                 $dob                  = $row->dob;
                 $doj                  = $row->doj;
@@ -71,8 +71,8 @@ $controller_route   = $moduleDetail['controller_route'];
                 $latitude             = '';
                 $longitude            = '';
                 $password             = '';
-                $type                 = '';
-                $category             = '';
+                $role_id              = '';
+                // $category             = '';
                 $hour_cost            = '';
                 $dob                  = '';
                 $doj                  = '';
@@ -166,28 +166,29 @@ $controller_route   = $moduleDetail['controller_route'];
                                             <div class="">
                                                 <select name="category" class="form-control" id="category" required>
                                                     <option value="" selected>Select Category</option>
-                                                    <?php if($userCats){ foreach($userCats as $userCat){?>
-                                                    <option value="<?=$userCat->id?>" <?=(($userCat->id == $category)?'selected':'')?>><?=$userCat->name?></option>
-                                                    <?php } }?>
+                                                    </?php if($userCats){ foreach($userCats as $userCat){?>
+                                                    <option value="</?=$userCat->id?>" </?=(($userCat->id == $category)?'selected':'')?>></?=$userCat->name?></option>
+                                                    </?php } }?>
                                                 </select>
                                             </div>
                                         </div> -->
                                         <!-- Type field -->
                                         <div class="col-md-4 col-lg-4">
-                                            <label for="type" class="col-form-label">Type <span class="text-danger">*</span></label>
+                                            <label for="role_i" class="col-form-label">Type <span class="text-danger">*</span></label>
                                             <div class="">
-                                                <select name="type" class="form-control" id="type" required onchange="updateHiddenField()">
+                                                <!-- <select name="role_id" class="form-control" id="type" required onchange="updateHiddenField()"> -->
+                                                <select name="role_id" class="form-control" id="type" required >
                                                     <option value="" selected>Select Type</option>
                                                     <?php if($roleMasters){ foreach($roleMasters as $roleMaster){?>
-                                                        <option value="<?=$roleMaster->role_name;?>" <?= $roleMaster->role_name == $type ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
+                                                        <option value="<?=$roleMaster->id;?>" <?= $roleMaster->id == $role_id ? 'selected' : ''   ?>  ><?=$roleMaster->role_name;?></option>
                                                     <?php } }?>
                                                 </select>
-                                                <input type="hidden" id="role_id" name="role_id" value="">
-                                                <?php foreach ($roleMasters as $roleMaster): ?>
-                                                    <?php if ($roleMaster->role_name == htmlspecialchars($type)): ?>
-                                                        <input type="hidden" name="role_id" id="role_ide" value="<?= htmlspecialchars($roleMaster->id); ?>">
-                                                    <?php endif; ?>
-                                                <?php endforeach; ?>
+                                                <!-- <input type="hidden" id="role_id" name="role_id" value=""> -->
+                                                <!-- </?php foreach ($roleMasters as $roleMaster): ?>
+                                                    </?php if ($roleMaster->role_name == htmlspecialchars($type)): ?>
+                                                        <input type="hidden" name="role_id" id="role_ide" value="</?= htmlspecialchars($roleMaster->id); ?>">
+                                                    </?php endif; ?>
+                                                </?php endforeach; ?> -->
                                             </div>
                                         </div>
                                         <!--Hour Cost field -->
@@ -371,8 +372,8 @@ $controller_route   = $moduleDetail['controller_route'];
         return true;
     }
 </script>
-<script>
-    const roles        = <?php echo json_encode($roleMasters); ?>;
+<!-- <script>
+    const roles        = </?php echo json_encode($roleMasters); ?>;
     const roleMapping  = {};
     for(let i = 0; i < roles.length; i++){
         roleMapping[roles[i]['role_name']] = roles[i]['id'];
@@ -383,7 +384,7 @@ $controller_route   = $moduleDetail['controller_route'];
         const roleIdField = document.getElementById('role_id');
         roleIdField.value = roleMapping[selectedType] || '';
     }
-</script>
+</script> -->
 <script>
     $(function(){
         $('#viewPassword').on('click', function(){

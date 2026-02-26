@@ -148,6 +148,8 @@ class Manage_roles extends BaseController {
 
             $function_ids = $this->request->getPost('function_id') ?? [];
 
+            // var_dump($function_ids); die;
+
             /* ===============================
             STEP 1: Set all existing rows to published = 0
             =============================== */

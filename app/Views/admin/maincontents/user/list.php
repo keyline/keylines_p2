@@ -124,7 +124,12 @@ $controller_route   = $moduleDetail['controller_route'];
                                                             <?= $row->name ?>
                                                         </a>
                                                         <span class="badge bg-warning ms-1"><?= $row->id ?></span> 
-                                                        <span class="badge bg-custom-primary"><?= $row->type ?></span>                                                   
+                                                        <?php     
+                                                              $user_type = $common_model->find_data('permission_roles', 'row', [
+                                                                'id'   => $row->role_id
+                                                            ])->role_name; 
+                                                            ?>
+                                                        <span class="badge bg-custom-primary"><?= $user_type ?></span>                                                   
                                                     </td>
                                                     <td class="text-center"><?= $row->phone1 ?></td>
                                                     <td><?= $row->email ?></td>

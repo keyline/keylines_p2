@@ -38,17 +38,18 @@ class User extends BaseController
                 // pr($checkclientEmail);
                 // pr($checkEmail);
                 if ($checkEmail) {
-                    $user_type = $checkEmail->type;
+                    // $user_type = $checkEmail->type;
+                    $user_type = $this->common_model->find_data('permission_roles', 'row', ['id' => $checkEmail->role_id ])->role_name ?? '';
                     $user_name = $checkEmail->name;
                     if ($checkEmail->status == '1') {
                         if ($checkEmail->password == md5($this->request->getPost('password'))) {
                             $session_data = array(
                                 'user_id'           => $checkEmail->id,
-                                'user_type'         => $checkEmail->type,
+                                'user_type'         => $user_type,
                                 'username'          => $checkEmail->name,
                                 'name'              => $checkEmail->name,
                                 'email'             => $checkEmail->email,
-                                'category'          => $checkEmail->category,
+                                // 'category'          => $checkEmail->category,
                                 'is_admin_login'    => 1
                             );
                             $this->session->set($session_data);
@@ -469,7 +470,7 @@ class User extends BaseController
 
             // pr($user_task_details);
             // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
-            $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
+            $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department_id = department.id WHERE user.id = $userId AND user.status != 3";
             $users              = $this->db->query($sql11)->getResult();
             $application_settings        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
             //  pr($application_settings);

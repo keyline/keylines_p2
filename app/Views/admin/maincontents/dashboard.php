@@ -293,7 +293,7 @@
                                     <?php $yesterday = date('Y-m-d', strtotime("-1 days")); ?>
                                     <?php if(checkModuleFunctionAccess(36,94)){ ?>
                                     <div class="text-center">
-                                       <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated w-50" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$admin->department?>, <?=$admin->id?>, '<?=$admin->name?>', '');">
+                                       <a href="javascript:void(0);" class="btn btn-sm btn-success task_add_btn-updated w-50" data-taskdate="<?=$yesterday?>" onclick="openEffortSubmitForm(<?=$admin->department_id?>, <?=$admin->id?>, '<?=$admin->name?>', '');">
                                              <i class="fa-solid fa-plus-circle"></i> Add Effort
                                        </a>
                                     </div>                                    
@@ -1497,7 +1497,7 @@
                <div class="modal-body">
                   <!-- Project Dropdown -->
                   <div class="mb-3">
-                     <label for="project_id" class="form-label">Select Project</label>
+                     <label for="project_id" class="form-label">Select Project</label><?php if(empty($projects)){ echo ' <span class="text-danger"> *(Add any Project first) </span>';} ?>
                      <select name="project_id" id="project_id" class="form-select select2" required>
                         <option value="">Select Project</option>
                         <?php foreach ($projects as $project): ?>
@@ -1590,7 +1590,7 @@
                </div>
 
                <div class="modal-footer">
-                  <button type="submit" class="btn btn-success" id="addTaskSaveBtn">Save</button>
+                  <button type="submit" class="btn btn-success" id="addTaskSaveBtn" <?php if(empty($projects)){echo 'disabled';} ?> >Save</button>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                </div>
             </div>

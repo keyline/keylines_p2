@@ -40,7 +40,7 @@ class TeamController extends BaseController {
         $order_by[1]                = array('field' => 'status', 'type' => 'DESC');
         $order_by[2]                = array('field' => 'name', 'type' => 'ASC');
         $data['departments']        = $this->data['model']->find_data('department', 'array', '', '', '');         
-        $data['users']              = $this->data['model']->find_data('user', 'array', ['status' => '1'], 'id,name,status,department,dept_type', '', '', $order_by);
+        $data['users']              = $this->data['model']->find_data('user', 'array', ['status' => '1'], 'id,name,status,department_id', '', '', $order_by);
         // pr($data['department']);
         
         if($this->request->getMethod() == 'post') {           
@@ -71,9 +71,9 @@ class TeamController extends BaseController {
             } 
 
             $postData1   = array(
-                'department'                  => $this->request->getPost('dep_id'),
+                'department_id'                  => $this->request->getPost('dep_id'),
                 'id'                          => $this->request->getPost('user_id'),                
-                'dept_type'                   => $this->request->getPost('type'),                               
+                'member_type'                   => $this->request->getPost('type'),                               
                 'tracker_depts_show' => json_encode([ trim($this->request->getPost('dep_id')) ]),                             
             );
             //   pr($postData1);  
