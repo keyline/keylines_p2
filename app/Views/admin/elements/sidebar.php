@@ -180,6 +180,12 @@ $userId             = $session->user_id;
             <span>Clients</span>
           </a>
         </li>
+        <li>
+          <a class="<?= (($pageSegment == 'tasklist') ? 'active' : '') ?>" href="<?= base_url('admin/tasklist') ?>">
+            <i class="fa fa-arrow-right"></i>
+            <span>Projects Tasks</span>
+          </a>
+        </li>
         <?php } ?>
       </ul>
     </li>

@@ -2115,6 +2115,13 @@ class TaskAssignController extends BaseController {
                                 $scheduleHTML           .= '</select>
                                                         </div>
                                                     </div>
+                                                    <div class="col-12">
+                                                        <div class="input-group mb-1">
+                                                            <select name="dash_yesterday_project_task_id" id="dash_yesterday_project_task_id" class="form-control"  required disabled>
+                                                              <option value="" selected="">Select Task</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     <div class="col-md-12">
                                                         <div class="fill_up_projectss" id="fill_up_project_0">
                                                             '.$bookedProjectHTML.'
@@ -2163,7 +2170,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="dash_yesterday_work_status_id" id="dash_yesterday_work_status_id" class="form-control" onchange="change_work_status(this.value);" required>
+                                                            <select name="dash_yesterday_work_status_id" id="dash_yesterday_work_status_id" class="form-control" onchange="change_work_status(this.value);updateProjectTasks(this.value);" required>
                                                                 <option value="" selected="">Select Work Status</option>
                                                                 <hr>';
                                                                 if($workStats){ foreach($workStats as $workStat){
@@ -2196,7 +2203,7 @@ class TaskAssignController extends BaseController {
                                                     </div>
                                                     <div class="col-6">
                                                         <div class="input-group mb-1">
-                                                            <select name="dash_yesterday_project_id" id="dash_yesterday_project_id" class="form-control" onchange="getProjectInfo(this.value, 0);" required>
+                                                            <select name="dash_yesterday_project_id" id="dash_yesterday_project_id" class="form-control" onchange="getProjectInfo(this.value, 0);updateProjectTasks(this.value);" required>
                                                                 <option value="" selected="">Select Project</option>
                                                                 <hr>';
                                                                 if($projects){ foreach($projects as $project){
@@ -2204,6 +2211,13 @@ class TaskAssignController extends BaseController {
                                                                     <hr>';
                                                                 } }
                                 $scheduleHTML           .= '</select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="input-group mb-1">
+                                                            <select name="dash_yesterday_project_task_id" id="dash_yesterday_project_task_id" class="form-control"  required >
+                                                              <option value="" selected="">Select Task</option>
+                                                            </select>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-12">

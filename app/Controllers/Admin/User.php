@@ -390,7 +390,7 @@ class User extends BaseController
             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
             $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];            
-            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $userId, 'morning_meetings.date_added >=' => $yesterday], 'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);                        
+            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $userId, 'morning_meetings.date_added >=' => $yesterday], 'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id,morning_meetings.task_id as schedule_task_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);                        
             // pr($getTasks);
             $user_task_details = [];
             $yesterday_task_details = [];
@@ -412,6 +412,7 @@ class User extends BaseController
 
                 $tasks    = [
                                 'task_id'               => $task_data->schedule_id,
+                                'project_task_id'       => $task_data->schedule_task_id,
                                 'project_id'            => $task_data->project_id,
                                 'project_name'          => $task_data->project_name,
                                 'description'           => $task_data->description,
@@ -1277,10 +1278,12 @@ class User extends BaseController
                 $project = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
                 $project_status            = $project->status;
                 $project_bill           = $project->bill;
+                $task_id             = $this->request->getPost('task_id');
             } else {
                 $project = 0;
                 $project_status = 0;
                 $project_bill = 0;
+                $task_id = 0;
             }   
             // pr($project);
 
@@ -1293,6 +1296,7 @@ class User extends BaseController
                 $postData            = [                   
                     'project_id'        => 0,
                     'status_id'         => 0,
+                    'task_id'           => 0,
                     'user_id'           => $user_id,
                     'dept_id'           => $department_id,
                     'description'       => "Half Day Leave Taken",
@@ -1311,6 +1315,7 @@ class User extends BaseController
                 $postData            = [                   
                     'project_id'        => 0,
                     'status_id'         => 0,
+                    'task_id'           => 0,
                     'user_id'           => $user_id,
                     'dept_id'           => $department_id,
                     'description'       => "Full Day Leave Taken",
@@ -1329,6 +1334,7 @@ class User extends BaseController
                 $postData            = [
                     'project_id'        => $project_id,
                     'status_id'         => $project_status,
+                    'task_id'           => $task_id,
                     'user_id'           => $user_id,
                     'dept_id'           => $department_id,
                     'description'       => $description,
@@ -1352,11 +1358,12 @@ class User extends BaseController
 
         $task           = $this->common_model->find_data('morning_meetings', 'row', ['id' => $task_id]);
         $project        = $this->common_model->find_data('project', 'row', ['id' => $task->project_id]);
+        $project_tasks   = $this->common_model->find_data('task_list', 'array', ['project_id' => $task->project_id]);
         $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
         $projects       = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
         $effort_type    = $this->common_model->find_data('effort_type', 'array', ['status=' => '1'], 'id,name,status','', '', $order_by);
         $work_status    = $this->common_model->find_data('work_status', 'array', ['is_schedule=' => '1'], '','', '', $order_by);
-        // pr($task);
+        // return $this->response->setJSON($task);
         $html = '<div class="modal-header">
                     <h5 class="modal-title">Effort Booking</h5>                  
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
@@ -1373,7 +1380,16 @@ class User extends BaseController
                             }                                    
                         $html .='</select>
                         <input type="hidden" name="project_id" value="'.$task->project_id.'">
-                    </div>                                                                                                                                                 
+                    </div>
+                    <div class="mb-3">
+                        <select name="project_task_id" id="project_task_id" class="form-select" disabled>
+                            <option value="">Select Project</option>'; 
+                        foreach ($project_tasks as $project_task){
+                                $selected_project_task = ($project_task->id == $task->task_id) ? 'selected' : '';
+                                $html .= '<option value="'.$project_task->id.'" '.$selected_project_task.'> '.$project_task->task_name.'</option>';
+                            }  
+                    $html .='</select>
+                    </div>                                                                                                                                                
                     <div class="row mb-3">
                     <div class="col">
                         <label for="date" class="form-label">Date</label>
@@ -1443,6 +1459,7 @@ class User extends BaseController
 
         $task           = $this->common_model->find_data('morning_meetings', 'row', ['id' => $task_id]);
         $project        = $this->common_model->find_data('project', 'row', ['id' => $task->project_id]);
+        $project_tasks  = $this->common_model->find_data('task_list', 'array', ['project_id' => $task->project_id]);
         $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
         $projects       = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
         $employees      = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
@@ -1464,13 +1481,23 @@ class User extends BaseController
                         <div class="modal-body">                                              
                             <div class="mb-3">
                                 <label for="project_id" class="form-label">Select Project</label>
-                                <select name="project_id" id="project_id" class="form-select">
+                                <select name="project_id" id="project_id" class="form-select" onchange="projectTasksDropdownForEdit(this.value);">
                                     <option value="">Select Project</option>';                                                                      
                                     foreach ($projects as $project){
                                         $selected_project = ($project->id == $task->project_id) ? 'selected' : '';
                                         $html .= '<option value="'.$project->id.'" '.$selected_project.'> '.$project->name.'</option>';
                                     }                                    
                                 $html .='</select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="project_id" class="form-label">Select Project Task</label>
+                                <select name="project_task_id" id="project_task_id" class="form-control">
+                                    <option value="" selected="">Select Task</option>';
+                                      foreach ($project_tasks as $project_task){
+                                        $selected_project_task = ($project_task->id == $task->task_id) ? 'selected' : '';
+                                        $html .= '<option value="'.$project_task->id.'" '.$selected_project_task.'> '.$project_task->task_name.'</option>';
+                                    }   
+                            $html .='</select>
                             </div>';  
                             if ($userType == 'ADMIN' || $userType == 'SUPER ADMIN') {
                             $html .='<div class="mb-3">
@@ -1573,8 +1600,10 @@ class User extends BaseController
         $cal_usercost               = ($user_cost/60);
 
         $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
-        $project_id                = $requestData['project_id'];                
+        $project_id                = $this->request->getPost('task_id');                
+        $project_task_id           = $requestData['task_id'];                
         $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
+        var_dump($project); die;
         $project_status            = $project->status;        
         $project_bill              = $project->bill;                                 
         $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
@@ -1601,6 +1630,7 @@ class User extends BaseController
                 'project_id'        => $project_id,                        
                 'status_id'         => $project_status,
                 'user_id'           => $user_id,                            
+                'task_id'           => $project_task_id,                            
                 'description'       => $description,                            
                 'hour'              => $hour,
                 'min'               => $min,
@@ -1630,7 +1660,8 @@ class User extends BaseController
                     'project_id'        => $project_id,
                     'dept_id'           => $department_id,
                     'status_id'         => $project_status,
-                    'user_id'           => $user_id,                            
+                    'user_id'           => $user_id,
+                    'task_id'           => $project_task_id,                              
                     'description'       => "Not Booked Task",                            
                     'hour'              => 0,
                     'min'               => 0,
@@ -1646,7 +1677,8 @@ class User extends BaseController
                 $field            = [
                     'project_id'        => $project_id,                        
                     'status_id'         => $project_status,
-                    'user_id'           => $user_id,                            
+                    'user_id'           => $user_id,
+                    'task_id'           => $project_task_id,                              
                     'description'       => $description,                            
                     'hour'              => $hour,
                     'min'               => $min,
@@ -1786,6 +1818,7 @@ class User extends BaseController
 
         $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
         $project_id                = $requestData['project_id'];                
+        $project_task_id           = $requestData['project_task_id'];                
         $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
         $project_status            = $project->status;
         $project_bill              = $project->bill;                                 
@@ -1809,7 +1842,8 @@ class User extends BaseController
             $postData            = [
                 'id'           => $taskId,
                 'project_id'        => 0,
-                'status_id'         => 0,
+                'status_id'         => 0,               
+                'task_id'           => 0,
                 'user_id'           => $user_id,
                 'dept_id'           => $department_id,
                 'description'       => "Half Day Leave Taken",
@@ -1829,6 +1863,7 @@ class User extends BaseController
                 'id'           => $taskId,
                 'project_id'        => 0,
                 'status_id'         => 0,
+                'task_id'           => 0,
                 'user_id'           => $user_id,
                 'dept_id'           => $department_id,
                 'description'       => "Full Day Leave Taken",
@@ -1848,6 +1883,7 @@ class User extends BaseController
                 'id'           => $taskId,
                 'project_id'        => $project_id,
                 'status_id'         => $project_status,
+                'task_id'           => $project_task_id,
                 'user_id'           => $user_id,
                 'dept_id'           => $department_id,
                 'description'       => $description,

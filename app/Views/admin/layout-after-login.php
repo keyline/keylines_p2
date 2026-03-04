@@ -77,6 +77,11 @@
                     allowClear: true,
                     dropdownParent: $('#addAttendanceModal')
                 });
+                $('#task_id').select2({
+                    placeholder: "Search...",
+                    allowClear: true,
+                    dropdownParent: $('#addAttendanceModal')
+                });
             });
 
             $('#editTaskModal').on('shown.bs.modal', function() {

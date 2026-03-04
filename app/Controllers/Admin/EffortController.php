@@ -698,4 +698,21 @@ class EffortController extends BaseController {
         // $this->session->setFlashdata('success_message', $this->data['title'].' Booking Access Request Submitted successfully');
         // return redirect()->to('/admin/'.$this->data['controller_route'].'/add');
     }
+    public function getProjectTasks(){
+        $apiStatus          = FALSE;
+        $apiMessage         = '';
+        $apiResponse        = [];
+        $projectId = $this->request->getPost('projectId');
+        $tasks = $this->common_model->find_data('task_list', 'array', ['project_id' => $projectId], 'id,task_name');
+        if($tasks){
+            $apiResponse['tasks'] = $tasks;
+            $apiStatus = TRUE;
+            $apiMessage = 'Tasks Found';
+        } else {
+            $apiStatus = FALSE;
+            $apiMessage = 'No Tasks Found';
+        }
+        $this->response_to_json($apiStatus, $apiMessage, $apiResponse);
+    }
+    
 }

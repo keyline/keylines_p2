@@ -163,6 +163,8 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin", 'filter'    => 
 		// delete account requests
 		// Access & Permission
 		$routes->match(['get', 'post'], "manage_roles", "Manage_roles::index");
+		// Task-list settings
+		$routes->match(['get', 'post'], "tasklist", "TaskListController::tasklist");
 
 	// });		
 });
@@ -261,7 +263,9 @@ $routes->group("admin", ["namespace" => "App\Controllers\Admin"], function ($rou
 	$routes->match(['get', 'post'], "efforts/delete/(:any)", "EffortController::confirm_delete/$1");
 	$routes->match(['get', 'post'], "efforts/change-status/(:any)", "EffortController::change_status/$1");
 	$routes->match(['get', 'post'], "efforts/get-project-info", "EffortController::getProjectInfo");
+	$routes->match(['get', 'post'], "efforts/get-project-tasks", "EffortController::getProjectTasks");
 	$routes->match(['get', 'post'], "efforts/request-previous-task-submit/(:any)", "EffortController::requestPreviousTaskSubmit/$1");
+	
 	// effort
 
 	// hour_cost

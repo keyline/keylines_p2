@@ -258,6 +258,8 @@
                                              <div class="col-md-8">
                                                 <div>                                  
                                                    <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <?php $project_task = $common_model->find_data('task_list', 'row', ['id' => $task['project_task_id']]); ?>
+                                                    <p style="font-size: 12px;"><b><?= $project_task ? $project_task->task_name : 'Task Not Found' ?></b></p>
                                                    <?php if($task['work_status_id'] != 0) { ?>
                                                    <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
                                                    <?php } ?>
@@ -268,7 +270,6 @@
                                                    <?php if($task['description'] != $task['booked_description']) { ?>
                                                       <p style="font-size: 10px;"><?=$task['booked_description']?></p>
                                                    <?php } }?>
-
                                                    <p class="card-details text-muted" style="font-size: 9px;">
                                                       <i class="fa fa-clock" aria-hidden="true"></i> <?= $task['created_at']?> 
                                                       <span class="ms-3"><i class="fa fa-user" aria-hidden="true"></i> <?= $task['user_name']?></span>
@@ -279,7 +280,7 @@
                                              <?php if($task['work_status_id'] == 0) { ?>
                                              <div class="col-md-4 text-right">
                                                 <button style="font-size: 10px;" type="button" onclick="taskWiseList('<?= $task['task_id'] ?>')" class="btn btn-success mb-3 add-effort-btn btn-sm" data-bs-toggle="modal" data-bs-target="#addEffortModal" data-task-id="<?= $task['task_id'] ?>">
-                                                   <i class="fa fa-plus"></i> Add Effort
+                                                   <i class="fa fa-plus"></i> Add Effort 
                                                 </button>                                                                                     
                                              </div> 
                                              <?php } ?>                       
@@ -321,6 +322,8 @@
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
                                                    <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <?php $project_task = $common_model->find_data('task_list', 'row', ['id' => $task['project_task_id']]); ?>
+                                                    <p style="font-size: 12px;"><b><?= $project_task ? $project_task->task_name : 'Task Not Found' ?></b></p>
                                                    <?php if($task['work_status_id'] != 0) { ?>
                                                    <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
                                                    <?php } ?>
@@ -389,6 +392,8 @@
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
                                                    <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
+                                                   <?php $project_task = $common_model->find_data('task_list', 'row', ['id' => $task['project_task_id']]); ?>
+                                                    <p style="font-size: 12px;"><b><?= $project_task ? $project_task->task_name : 'Task Not Found' ?></b></p>
                                                    <?php if($task['work_status_id'] != 0) { ?>
                                                    <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
                                                    <?php } ?>
@@ -1502,6 +1507,16 @@
                         <?php endforeach; ?>
                      </select>
                   </div>
+                  <!-- Project task dropdown -->
+                  <div class="mb-3">
+                     <label for="task_id" class="form-label">Select Task</label>
+                     <select name="task_id" id="task_id" class="form-select select2" required>
+                        <option value="">Select Task</option>
+                        <!-- </?php foreach ($tasks as $task): ?>
+                           <option value="</?= $task->id ?>"></?= $task->task_name ?></option>
+                        </?php endforeach; ?> -->
+                     </select>
+                  </div>
                   <?php if ($userType == 'ADMIN' || $userType == 'SUPER ADMIN') { ?>
                   <!-- Employee Dropdown -->
                   <div class="mb-3">
@@ -2470,4 +2485,106 @@
     }
 
 
+</script>
+<script>
+   $(document).ready(function(){
+      $("#project_id").on('change', function(){
+         var projectId = $(this).val();
+         if(projectId != ''){
+            $.ajax({
+               dataType: "json",
+               data: {projectId: projectId},
+               type: "POST",
+               url: "<?=base_url('admin/efforts/get-project-tasks')?>",
+               success: function(res){
+                  if(res.success){
+                     var tasks = res.data.tasks;
+                     $('#task_id').empty();
+                     $('#task_id').append('<option value="">Select Task</option>');
+                     $.each(tasks, function(index, task){
+                        $('#task_id').append('<option value="'+task.id+'">'+task.task_name+'</option>');
+                     });
+                  }else{
+                    $('#task_id').empty();
+                    $('#task_id').append('<option value="">Select Task</option>');
+                  }
+               },
+               error: function(xhr, status, error){
+                  $('#task_id').empty();
+                  $('#task_id').append('<option value="">Select Task</option>');
+               }
+            })
+         }else{
+            $('#task_id').empty();
+            $('#task_id').append('<option value="">Select Task</option>');
+         }
+
+      });
+   });
+   function updateProjectTasks(projectId) {
+         console.log('Project changed');
+         // var projectId = $(this).val();
+         if(projectId != ''){
+            $.ajax({
+               dataType: "json",
+               data: {projectId: projectId},
+               type: "POST",
+               url: "<?=base_url('admin/efforts/get-project-tasks')?>",
+               success: function(res){
+                  if(res.success){
+                     var tasks = res.data.tasks;
+                     $('#dash_yesterday_project_task_id').empty();
+                     $('#dash_yesterday_project_task_id').append('<option value="">Select Task</option>');
+                     $.each(tasks, function(index, task){
+                        $('#dash_yesterday_project_task_id').append('<option value="'+task.id+'">'+task.task_name+'</option>');
+                     });
+                  }else{
+                    $('#dash_yesterday_project_task_id').empty();
+                    $('#dash_yesterday_project_task_id').append('<option value="">Select Task</option>');
+                  }
+               },
+               error: function(xhr, status, error){
+                  $('#dash_yesterday_project_task_id').empty();
+                  $('#dash_yesterday_project_task_id').append('<option value="">Select Task</option>');
+               }
+            })
+         }else{
+            $('#dash_yesterday_project_task_id').empty();
+            $('#dash_yesterday_project_task_id').append('<option value="">Select Task</option>');
+         }
+
+   };
+   function projectTasksDropdownForEdit(projectId) {
+         console.log('Project changed');
+         // var projectId = $(this).val();
+         if(projectId != ''){
+            $.ajax({
+               dataType: "json",
+               data: {projectId: projectId},
+               type: "POST",
+               url: "<?=base_url('admin/efforts/get-project-tasks')?>",
+               success: function(res){
+                  if(res.success){
+                     var tasks = res.data.tasks;
+                     $('#project_task_id').empty();
+                     $('#project_task_id').append('<option value="">Select Task</option>');
+                     $.each(tasks, function(index, task){
+                        $('#project_task_id').append('<option value="'+task.id+'">'+task.task_name+'</option>');
+                     });
+                  }else{
+                    $('#project_task_id').empty();
+                    $('#project_task_id').append('<option value="">Select Task</option>');
+                  }
+               },
+               error: function(xhr, status, error){
+                  $('#project_task_id').empty();
+                  $('#project_task_id').append('<option value="">Select Task</option>');
+               }
+            })
+         }else{
+            $('#project_task_id').empty();
+            $('#project_task_id').append('<option value="">Select Task</option>');
+         }
+
+   };
 </script>
