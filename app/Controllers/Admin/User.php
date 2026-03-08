@@ -390,7 +390,7 @@ class User extends BaseController
             $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
             $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
             $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];            
-            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $userId, 'morning_meetings.date_added >=' => $yesterday], 'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id,morning_meetings.task_id as schedule_task_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);                        
+            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $userId, 'morning_meetings.date_added >=' => $yesterday],'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id,morning_meetings.task_id as schedule_task_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);                        
             // pr($getTasks);
             $user_task_details = [];
             $yesterday_task_details = [];
@@ -403,6 +403,10 @@ class User extends BaseController
 
             $upcoming_total_time = 0;
             $upcoming_total_book_time = 0;
+            // foreach($getTasks as $task_data){
+            //   echo ($task_data->schedule_id . "<br>"); 
+            //  }
+            //  die;
             foreach ($getTasks as $task_data) {
                
                 $work_status_id         = $task_data->work_status_id;
@@ -440,7 +444,7 @@ class User extends BaseController
                 $assigned_minutes = ((int)$task_data->hour * 60) + (int)$task_data->min;
                 $has_booked_effort = $task_data->booked_hour !== '' || $task_data->booked_min !== '';
                 $booked_minutes = $has_booked_effort ? ((int)$task_data->booked_hour * 60) + (int)$task_data->booked_min : 0;
-
+                  $i=0;
                 if ($task_date == $yesterday) {
                     $yesterday_task_details[] = $tasks;
                     $yesterday_total_time += $assigned_minutes;
@@ -466,7 +470,7 @@ class User extends BaseController
             $data['yesterday_total_book_time'] = $yesterday_total_book_time;
             $data['user_total_book_time'] = $user_total_book_time;
             $data['upcoming_total_book_time'] = $upcoming_total_book_time;
-
+            // echo (count($yesterday_task_details)); die;
 
             // pr($user_task_details);
             // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
@@ -1278,7 +1282,7 @@ class User extends BaseController
                 $project = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
                 $project_status            = $project->status;
                 $project_bill           = $project->bill;
-                $task_id             = $this->request->getPost('task_id');
+                $task_id             = $this->request->getPost('task_list_id');
             } else {
                 $project = 0;
                 $project_status = 0;
@@ -1600,10 +1604,10 @@ class User extends BaseController
         $cal_usercost               = ($user_cost/60);
 
         $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
-        $project_id                = $this->request->getPost('task_id');                
-        $project_task_id           = $requestData['task_id'];                
+        $project_id                = $task_details->project_id;                
+        $project_task_id           = $task_details->task_id;                
         $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
-        var_dump($project); die;
+        // var_dump($project_task_id); die;
         $project_status            = $project->status;        
         $project_bill              = $project->bill;                                 
         $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided

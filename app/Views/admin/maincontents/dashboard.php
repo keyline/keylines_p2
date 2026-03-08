@@ -1510,7 +1510,7 @@
                   <!-- Project task dropdown -->
                   <div class="mb-3">
                      <label for="task_id" class="form-label">Select Task</label>
-                     <select name="task_id" id="task_id" class="form-select select2" required>
+                     <select name="task_list_id" id="task_list_id" class="form-select select2" required>
                         <option value="">Select Task</option>
                         <!-- </?php foreach ($tasks as $task): ?>
                            <option value="</?= $task->id ?>"></?= $task->task_name ?></option>
@@ -1804,6 +1804,7 @@
 
    function taskWiseList(task_id) {
        $('#modalEffort').html('');
+      //  console.log(task_id);
       $.ajax({
          url: '<?= base_url('admin/get-task-details') ?>', // Your backend URL
          type: 'GET',
@@ -1812,8 +1813,8 @@
          success: function(response) {
             // Set hidden task ID
             document.getElementById('task_id').value = task_id;
-            console.log(response);
-            
+            // console.log(response);
+            //   console.log(document.getElementById('task_id').value);
             // Inject only modal header + body + footer
             $('#modalEffort').html(response);  
             let modalEl = document.getElementById('myModaltask');
@@ -1851,7 +1852,7 @@
    
 
    function change_work_status(work_status_id) {
-   //  console.log("Work status changed to:", work_status_id);
+     //  console.log("Work status changed to:", work_status_id);
     work_status_id = parseInt(work_status_id);
 
     if (work_status_id == 2) {
@@ -2225,16 +2226,17 @@
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');
 
-                                        if(current_date == book_date){
-                                            $('#meeting-user-' + user_id + '_' + book_date).empty();
-                                            $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
-                                        } else {
+                                       //  if(current_date == book_date){
+                                       //      $('#meeting-user-' + user_id + '_' + book_date).empty();
+                                       //      $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                            
+                                       //  } else {
                                             $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
-                                            $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
-                                        }
-                                        $('#total-time-' + user_id + '_' + book_date).html('[Assigned : ' + res.data.totalTime + ']');
-                                        $('#total-booked-time-' + user_id + '_' + book_date).html('[Booked : ' + res.data.totalBookedTime + ']');
-                                        toastAlert("success", res.message);
+                                       //      $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                       // //  }
+                                       //  $('#total-time-' + user_id + '_' + book_date).html('[Assigned : ' + res.data.totalTime + ']');
+                                       //  $('#total-booked-time-' + user_id + '_' + book_date).html('[Booked : ' + res.data.totalBookedTime + ']');
+                                       //  toastAlert("success", res.message);
                                             setTimeout(function () {
                                                 location.reload();
                                              }, 800); // small delay to show toast
@@ -2499,24 +2501,24 @@
                success: function(res){
                   if(res.success){
                      var tasks = res.data.tasks;
-                     $('#task_id').empty();
-                     $('#task_id').append('<option value="">Select Task</option>');
+                     $('#task_list_id').empty();
+                     $('#task_list_id').append('<option value="">Select Task</option>');
                      $.each(tasks, function(index, task){
-                        $('#task_id').append('<option value="'+task.id+'">'+task.task_name+'</option>');
+                        $('#task_list_id').append('<option value="'+task.id+'">'+task.task_name+'</option>');
                      });
                   }else{
-                    $('#task_id').empty();
-                    $('#task_id').append('<option value="">Select Task</option>');
+                    $('#task_list_id').empty();
+                    $('#task_list_id').append('<option value="">Select Task</option>');
                   }
                },
                error: function(xhr, status, error){
-                  $('#task_id').empty();
-                  $('#task_id').append('<option value="">Select Task</option>');
+                  $('#task_list_id').empty();
+                  $('#task_list_id').append('<option value="">Select Task</option>');
                }
             })
          }else{
-            $('#task_id').empty();
-            $('#task_id').append('<option value="">Select Task</option>');
+            $('#task_list_id').empty();
+            $('#task_list_id').append('<option value="">Select Task</option>');
          }
 
       });
