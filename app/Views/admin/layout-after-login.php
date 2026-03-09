@@ -77,12 +77,25 @@
                     allowClear: true,
                     dropdownParent: $('#addAttendanceModal')
                 });
-                $('#task_id').select2({
+                $('#project_task_id').select2({
                     placeholder: "Search...",
                     allowClear: true,
                     dropdownParent: $('#addAttendanceModal')
                 });
             });
+
+            // $('#morningformModal').on('shown.bs.modal', function() {
+            //     $('#dash_yesterday_project_task_id').select2({
+            //         placeholder: "Search...",
+            //         allowClear: true,
+            //         dropdownParent: $('#addAttendanceModal')
+            //     });
+            //     $('#dash_yesterday_project_id').select2({
+            //         placeholder: "Search...",
+            //         allowClear: true,
+            //         dropdownParent: $('#addAttendanceModal')
+            //     });
+            // });
 
             $('#editTaskModal').on('shown.bs.modal', function() {
                 $('#project_id').select2({

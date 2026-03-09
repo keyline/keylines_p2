@@ -320,615 +320,1728 @@ class User extends BaseController
     }
     /* forgot password */
     /* dashboard */
-    public function dashboard()
-    {
-        if (!$this->session->get('is_admin_login')) {
-            return redirect()->to('/admin');
-        }
+    // public function dashboard()
+    // {
+    //     if (!$this->session->get('is_admin_login')) {
+    //         return redirect()->to('/admin');
+    //     }
 
-        $userType                           = $this->session->user_type;
-        $userId                             = $this->session->user_id;
-        if ($userType == 'CLIENT') {
-            $user_id                = $this->session->get('user_id');
-            $data['active_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id, 'status!=' => 13, 'type' => 'own']);
-            $data['closed_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id, 'status' => 13, 'type' => 'own']);
-            $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
-            $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
-            $data['projects']           = $this->common_model->find_data('project', 'array', ['project.status!=' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
-            // pr($data['projects']);
-            $data['closed_projects']    = $this->common_model->find_data('project', 'array', ['project.status' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
-            foreach ($data['projects'] as $project) {
-                // pr($project);
-                $project_id = $project->id;
-                $sql = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where t.project_id = '$project_id' group by t.project_id order by p.name asc";
-                $rows = $this->db->query($sql)->getResult();
-                // echo $sql; die;
-                $total_effort_in_mins = 0;
-                $hour = $rows[0]->tot_hour;
-                $min = $rows[0]->tot_min;
-                $total_hour_min = ($hour * 60); // 0*60 = 0
-                $total_min_min = $min; // 30
-                $total_effort_in_mins += ($total_hour_min + $total_min_min);
-                $data['total_effort_in_mins']   = $total_effort_in_mins;
-                // pr($data['total_effort_in_mins']);
-            }
-        } else {
-            /* total cards */
-            $cu_date            = date('Y-m-d');
-            $yesterday = date('Y-m-d', strtotime('-1 day'));            
-            $data['total_users']                = $this->common_model->find_data('user', 'count');
-            $data['total_active_users']         = $this->common_model->find_data('user', 'count', ['status' => '1']);
-            $data['total_inactive_users']       = $this->common_model->find_data('user', 'count', ['status' => '0']);
-            $data['total_projects']             = $this->common_model->find_data('project', 'count');
-            $data['total_prospect_projects']    = $this->common_model->find_data('project', 'count', ['type' => 'Prospect']);
-            $data['total_active_projects']      = $this->common_model->find_data('project', 'count', ['active' => '0', 'status<>' => '13']);
-            // echo $this->db->getLastquery();
-            $data['total_lost_projects']        = $this->common_model->find_data('project', 'count', ['type' => 'Lost']);
-            $data['total_nonbill_projects']     = $this->common_model->find_data('project', 'count', ['bill' => 1, 'active' => 0]);
-            $data['total_bill_projects']        = $this->common_model->find_data('project', 'count', ['bill' => 0, 'active' => 0]);
-            $data['total_clients']              = $this->common_model->find_data('client', 'count');
-            $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
-            $data['total_app_user']             = $this->db->query("SELECT COUNT(id) as user_count FROM `user` WHERE is_salarybox_user = '1'")->getRow();
-            $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
-            // $order_by[0]                        = array('field' => 'status', 'type' => 'DESC');
-            $order_by[0]                        = array('field' => 'name', 'type' => 'ASC');
-            $data['employees']                  = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
-            $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);  
+    //     $userType                           = $this->session->user_type;
+    //     $userId                             = $this->session->user_id;
+    //     if ($userType == 'CLIENT') {
+    //         $user_id                = $this->session->get('user_id');
+    //         $data['active_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id, 'status!=' => 13, 'type' => 'own']);
+    //         $data['closed_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id, 'status' => 13, 'type' => 'own']);
+    //         $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+    //         $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+    //         $data['projects']           = $this->common_model->find_data('project', 'array', ['project.status!=' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
+    //         // pr($data['projects']);
+    //         $data['closed_projects']    = $this->common_model->find_data('project', 'array', ['project.status' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
+    //         foreach ($data['projects'] as $project) {
+    //             // pr($project);
+    //             $project_id = $project->id;
+    //             $sql = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where t.project_id = '$project_id' group by t.project_id order by p.name asc";
+    //             $rows = $this->db->query($sql)->getResult();
+    //             // echo $sql; die;
+    //             $total_effort_in_mins = 0;
+    //             $hour = $rows[0]->tot_hour;
+    //             $min = $rows[0]->tot_min;
+    //             $total_hour_min = ($hour * 60); // 0*60 = 0
+    //             $total_min_min = $min; // 30
+    //             $total_effort_in_mins += ($total_hour_min + $total_min_min);
+    //             $data['total_effort_in_mins']   = $total_effort_in_mins;
+    //             // pr($data['total_effort_in_mins']);
+    //         }
+    //     } else {
+    //         /* total cards */
+    //         $cu_date            = date('Y-m-d');
+    //         $yesterday = date('Y-m-d', strtotime('-1 day'));            
+    //         $data['total_users']                = $this->common_model->find_data('user', 'count');
+    //         $data['total_active_users']         = $this->common_model->find_data('user', 'count', ['status' => '1']);
+    //         $data['total_inactive_users']       = $this->common_model->find_data('user', 'count', ['status' => '0']);
+    //         $data['total_projects']             = $this->common_model->find_data('project', 'count');
+    //         $data['total_prospect_projects']    = $this->common_model->find_data('project', 'count', ['type' => 'Prospect']);
+    //         $data['total_active_projects']      = $this->common_model->find_data('project', 'count', ['active' => '0', 'status<>' => '13']);
+    //         // echo $this->db->getLastquery();
+    //         $data['total_lost_projects']        = $this->common_model->find_data('project', 'count', ['type' => 'Lost']);
+    //         $data['total_nonbill_projects']     = $this->common_model->find_data('project', 'count', ['bill' => 1, 'active' => 0]);
+    //         $data['total_bill_projects']        = $this->common_model->find_data('project', 'count', ['bill' => 0, 'active' => 0]);
+    //         $data['total_clients']              = $this->common_model->find_data('client', 'count');
+    //         $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
+    //         $data['total_app_user']             = $this->db->query("SELECT COUNT(id) as user_count FROM `user` WHERE is_salarybox_user = '1'")->getRow();
+    //         $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
+    //         // $order_by[0]                        = array('field' => 'status', 'type' => 'DESC');
+    //         $order_by[0]                        = array('field' => 'name', 'type' => 'ASC');
+    //         $data['employees']                  = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+    //         $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);  
             
-            // This is for add effort for yesterday (projects with client & status)
-            $projectJoin = [];
-            // JOIN client: project.client_id = client.id
-            $projectJoin[0] = ['table' => 'client', 'field' => 'id','table_master' => 'project','field_table_master' => 'client_id','type' => 'LEFT',];
-            // JOIN project_status: project.status = project_status.id
-            $projectJoin[1] = ['table' => 'project_status','field' => 'id','table_master' => 'project','field_table_master'=> 'status','type' => 'LEFT',];
-            $projectSelect = 'project.id,project.name,client.name as client_name,project_status.name as project_status_name';
-            $data['projects_with_client_name'] = $this->common_model->find_data('project','array',['project.status!=' => '13'],$projectSelect,$projectJoin,'',$order_by);
-            $data['current_date']       = date('Y-m-d');
+    //         // This is for add effort for yesterday (projects with client & status)
+    //         $projectJoin = [];
+    //         // JOIN client: project.client_id = client.id
+    //         $projectJoin[0] = ['table' => 'client', 'field' => 'id','table_master' => 'project','field_table_master' => 'client_id','type' => 'LEFT',];
+    //         // JOIN project_status: project.status = project_status.id
+    //         $projectJoin[1] = ['table' => 'project_status','field' => 'id','table_master' => 'project','field_table_master'=> 'status','type' => 'LEFT',];
+    //         $projectSelect = 'project.id,project.name,client.name as client_name,project_status.name as project_status_name';
+    //         $data['projects_with_client_name'] = $this->common_model->find_data('project','array',['project.status!=' => '13'],$projectSelect,$projectJoin,'',$order_by);
+    //         $data['current_date']       = date('Y-m-d');
 
-            // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();       
-            $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
-            $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
-            $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
-            $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];            
-            $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $userId, 'morning_meetings.date_added >=' => $yesterday],'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id,morning_meetings.task_id as schedule_task_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);                        
-            // pr($getTasks);
-            $user_task_details = [];
-            $yesterday_task_details = [];
-            $upcoming_task_details = [];
-            $yesterday_total_time = 0;
-            $yesterday_total_book_time = 0;
+    //         // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();       
+    //         $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+    //         $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+    //         $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+    //         $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];            
+    //         $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $userId, 'morning_meetings.date_added >=' => $yesterday],'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id,morning_meetings.task_id as schedule_task_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);                        
+    //         // pr($getTasks);
+    //         $user_task_details = [];
+    //         $yesterday_task_details = [];
+    //         $upcoming_task_details = [];
+    //         $yesterday_total_time = 0;
+    //         $yesterday_total_book_time = 0;
 
-            $user_total_time = 0;
-            $user_total_book_time = 0;
+    //         $user_total_time = 0;
+    //         $user_total_book_time = 0;
 
-            $upcoming_total_time = 0;
-            $upcoming_total_book_time = 0;
-            // foreach($getTasks as $task_data){
-            //   echo ($task_data->schedule_id . "<br>"); 
-            //  }
-            //  die;
-            foreach ($getTasks as $task_data) {
+    //         $upcoming_total_time = 0;
+    //         $upcoming_total_book_time = 0;
+    //         // foreach($getTasks as $task_data){
+    //         //   echo ($task_data->schedule_id . "<br>"); 
+    //         //  }
+    //         //  die;
+    //         foreach ($getTasks as $task_data) {
                
-                $work_status_id         = $task_data->work_status_id;
-                $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
+    //             $work_status_id         = $task_data->work_status_id;
+    //             $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
 
-                $task_date = date('Y-m-d', strtotime($task_data->date_added)); // format safely
+    //             $task_date = date('Y-m-d', strtotime($task_data->date_added)); // format safely
 
-                $tasks    = [
-                                'task_id'               => $task_data->schedule_id,
-                                'project_task_id'       => $task_data->schedule_task_id,
-                                'project_id'            => $task_data->project_id,
-                                'project_name'          => $task_data->project_name,
-                                'description'           => $task_data->description,
-                                'booked_description'    => $task_data->booked_description,
-                                'booked_hour'           => $task_data->booked_hour,
-                                'booked_min'            => $task_data->booked_min,
-                                'hour'                  => $task_data->hour,
-                                'min'                   => $task_data->min,
-                                'priority'             => $task_data->priority,
-                                'date_added'            => date_format(date_create($task_data->date_added), "Y-m-d"),
-                                'user_name'             => $task_data->user_name,
-                                'user_id'               => $userId,
-                                'is_leave'              => $task_data->is_leave,
-                                'background_color'      => (($getWorkStatus) ? $getWorkStatus->background_color : ''),
-                                'border_color'          => (($getWorkStatus) ? $getWorkStatus->border_color : ''),
-                                'work_status_id'        => $task_data->work_status_id,
-                                'work_status_name'      => (($getWorkStatus) ? $getWorkStatus->name : ''),
-                                'added_by'              => $task_data->added_by,
-                                'created_at'            => date_format(date_create($task_data->created_at), "M d, Y h:i a"),
-                                'updated_at'            => date_format(date_create($task_data->updated_at), "M d, Y h:i a"),
-                            ]; 
+    //             $tasks    = [
+    //                             'task_id'               => $task_data->schedule_id,
+    //                             'project_task_id'       => $task_data->schedule_task_id,
+    //                             'project_id'            => $task_data->project_id,
+    //                             'project_name'          => $task_data->project_name,
+    //                             'description'           => $task_data->description,
+    //                             'booked_description'    => $task_data->booked_description,
+    //                             'booked_hour'           => $task_data->booked_hour,
+    //                             'booked_min'            => $task_data->booked_min,
+    //                             'hour'                  => $task_data->hour,
+    //                             'min'                   => $task_data->min,
+    //                             'priority'             => $task_data->priority,
+    //                             'date_added'            => date_format(date_create($task_data->date_added), "Y-m-d"),
+    //                             'user_name'             => $task_data->user_name,
+    //                             'user_id'               => $userId,
+    //                             'is_leave'              => $task_data->is_leave,
+    //                             'background_color'      => (($getWorkStatus) ? $getWorkStatus->background_color : ''),
+    //                             'border_color'          => (($getWorkStatus) ? $getWorkStatus->border_color : ''),
+    //                             'work_status_id'        => $task_data->work_status_id,
+    //                             'work_status_name'      => (($getWorkStatus) ? $getWorkStatus->name : ''),
+    //                             'added_by'              => $task_data->added_by,
+    //                             'created_at'            => date_format(date_create($task_data->created_at), "M d, Y h:i a"),
+    //                             'updated_at'            => date_format(date_create($task_data->updated_at), "M d, Y h:i a"),
+    //                         ]; 
                             
-                            // Now categorize the task
-                // Common logic to compute efforts
-                $assigned_minutes = ((int)$task_data->hour * 60) + (int)$task_data->min;
-                $has_booked_effort = $task_data->booked_hour !== '' || $task_data->booked_min !== '';
-                $booked_minutes = $has_booked_effort ? ((int)$task_data->booked_hour * 60) + (int)$task_data->booked_min : 0;
-                  $i=0;
-                if ($task_date == $yesterday) {
-                    $yesterday_task_details[] = $tasks;
-                    $yesterday_total_time += $assigned_minutes;
-                    $yesterday_total_book_time += $booked_minutes;
-                } elseif ($task_date == $cu_date) {
-                    $user_task_details[] = $tasks;
-                    $user_total_time += $assigned_minutes;
-                    $user_total_book_time += $booked_minutes;
-                } elseif ($task_date > $cu_date) {
-                    $upcoming_task_details[] = $tasks;
-                    $upcoming_total_time += $assigned_minutes;
-                    $upcoming_total_book_time += $booked_minutes;
-                }
-            }                                     
+    //                         // Now categorize the task
+    //             // Common logic to compute efforts
+    //             $assigned_minutes = ((int)$task_data->hour * 60) + (int)$task_data->min;
+    //             $has_booked_effort = $task_data->booked_hour !== '' || $task_data->booked_min !== '';
+    //             $booked_minutes = $has_booked_effort ? ((int)$task_data->booked_hour * 60) + (int)$task_data->booked_min : 0;
+    //               $i=0;
+    //             if ($task_date == $yesterday) {
+    //                 $yesterday_task_details[] = $tasks;
+    //                 $yesterday_total_time += $assigned_minutes;
+    //                 $yesterday_total_book_time += $booked_minutes;
+    //             } elseif ($task_date == $cu_date) {
+    //                 $user_task_details[] = $tasks;
+    //                 $user_total_time += $assigned_minutes;
+    //                 $user_total_book_time += $booked_minutes;
+    //             } elseif ($task_date > $cu_date) {
+    //                 $upcoming_task_details[] = $tasks;
+    //                 $upcoming_total_time += $assigned_minutes;
+    //                 $upcoming_total_book_time += $booked_minutes;
+    //             }
+    //         }                                     
             
 
-            $data['yesterday_task_details'] = $yesterday_task_details;            
-            $data['user_task_details']      = $user_task_details;            
-            $data['upcoming_task_details']  = $upcoming_task_details;
-            $data['yesterday_total_time'] = $yesterday_total_time;
-            $data['user_total_time'] = $user_total_time;            
-            $data['upcoming_total_time'] = $upcoming_total_time;        
-            $data['yesterday_total_book_time'] = $yesterday_total_book_time;
-            $data['user_total_book_time'] = $user_total_book_time;
-            $data['upcoming_total_book_time'] = $upcoming_total_book_time;
-            // echo (count($yesterday_task_details)); die;
+    //         $data['yesterday_task_details'] = $yesterday_task_details;            
+    //         $data['user_task_details']      = $user_task_details;            
+    //         $data['upcoming_task_details']  = $upcoming_task_details;
+    //         $data['yesterday_total_time'] = $yesterday_total_time;
+    //         $data['user_total_time'] = $user_total_time;            
+    //         $data['upcoming_total_time'] = $upcoming_total_time;        
+    //         $data['yesterday_total_book_time'] = $yesterday_total_book_time;
+    //         $data['user_total_book_time'] = $user_total_book_time;
+    //         $data['upcoming_total_book_time'] = $upcoming_total_book_time;
+    //         // echo (count($yesterday_task_details)); die;
 
-            // pr($user_task_details);
-            // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
-            $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
-            $users              = $this->db->query($sql11)->getResult();
-            $application_settings        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
-            //  pr($application_settings);
-            $desklog_user       = $application_settings->is_desklog_use;
-            $data['desklog_user'] = $desklog_user;
-            // $cu_date            = date('Y-m-d');
-            // }
+    //         // pr($user_task_details);
+    //         // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
+    //         $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
+    //         $users              = $this->db->query($sql11)->getResult();
+    //         $application_settings        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+    //         //  pr($application_settings);
+    //         $desklog_user       = $application_settings->is_desklog_use;
+    //         $data['desklog_user'] = $desklog_user;
+    //         // $cu_date            = date('Y-m-d');
+    //         // }
 
-            $response = [];
-            $last7DaysAttendance = [];
-            $sl = 1;
-            if ($users) {
-                foreach ($users as $row) {
-                    $monthYear1 = date('Y') . '-' . date('01');
-                    $year = date('Y');
-                    $sql1 = "SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear1%'";
-                    $jan_booked = $this->db->query($sql1)->getRow();
-                    $sql = "SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 1 AND user_id = '$row->id'";
-                    // $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear1%'";
-                    $getDesktimeHour = $this->db->query($sql)->getRow();
-                    //  pr($getDesktimeHour);
+    //         $response = [];
+    //         $last7DaysAttendance = [];
+    //         $sl = 1;
+    //         if ($users) {
+    //             foreach ($users as $row) {
+    //                 $monthYear1 = date('Y') . '-' . date('01');
+    //                 $year = date('Y');
+    //                 $sql1 = "SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear1%'";
+    //                 $jan_booked = $this->db->query($sql1)->getRow();
+    //                 $sql = "SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 1 AND user_id = '$row->id'";
+    //                 // $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear1%'";
+    //                 $getDesktimeHour = $this->db->query($sql)->getRow();
+    //                 //  pr($getDesktimeHour);
 
-                    $sqlForAppProductiveTime1 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 01 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $jan_productive = $this->db->query($sqlForAppProductiveTime1)->getRow();
+    //                 $sqlForAppProductiveTime1 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 01 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $jan_productive = $this->db->query($sqlForAppProductiveTime1)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    //     // $result1 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result1 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result1 = '';
-                    // }
-                    if ($jan_productive) {
-                        $result1 = substr($jan_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result1 = '00:00';
-                    }
-                    // echo $result1; die;
-                    if ($jan_booked) {
-                        $tothour = $jan_booked->tothour * 60;
-                        $totmin = $jan_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked1            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear2 = date('Y') . '-' . date('02');
-                    $feb_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear2%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 2 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+    //                 //     // $result1 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result1 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result1 = '';
+    //                 // }
+    //                 if ($jan_productive) {
+    //                     $result1 = substr($jan_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result1 = '00:00';
+    //                 }
+    //                 // echo $result1; die;
+    //                 if ($jan_booked) {
+    //                     $tothour = $jan_booked->tothour * 60;
+    //                     $totmin = $jan_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked1            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear2 = date('Y') . '-' . date('02');
+    //                 $feb_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear2%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 2 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime2 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 02 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $feb_productive = $this->db->query($sqlForAppProductiveTime2)->getRow();
+    //                 $sqlForAppProductiveTime2 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 02 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $feb_productive = $this->db->query($sqlForAppProductiveTime2)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    //     // $result2 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result2 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result2 = '';
-                    // }
-                    if ($feb_productive) {
-                        $result2 = substr($feb_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result2 = '';
-                    }
-                    if ($feb_booked) {
-                        $tothour = $feb_booked->tothour * 60;
-                        $totmin = $feb_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked2            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear3 = date('Y') . '-' . date('03');
-                    $mar_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id=$row->id and date_added LIKE '%$monthYear3%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 3 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+    //                 //     // $result2 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result2 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result2 = '';
+    //                 // }
+    //                 if ($feb_productive) {
+    //                     $result2 = substr($feb_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result2 = '';
+    //                 }
+    //                 if ($feb_booked) {
+    //                     $tothour = $feb_booked->tothour * 60;
+    //                     $totmin = $feb_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked2            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear3 = date('Y') . '-' . date('03');
+    //                 $mar_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id=$row->id and date_added LIKE '%$monthYear3%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 3 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime3 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 03 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $mar_productive = $this->db->query($sqlForAppProductiveTime3)->getRow();
+    //                 $sqlForAppProductiveTime3 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 03 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $mar_productive = $this->db->query($sqlForAppProductiveTime3)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    //     // $result3 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result3 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result3 = '';
-                    // }
-                    if ($mar_productive) {
-                        $result3 = substr($mar_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result3 = '';
-                    }
-                    if ($mar_booked) {
-                        $tothour3 = $mar_booked->tothour * 60;
-                        $totmin3 = $mar_booked->totmin;
-                        $totalMin3 = ($tothour3 + $totmin3);
-                        $totalBooked3            = intdiv($totalMin3, 60) . '.' . ($totalMin3 % 60);
-                    }
-                    $monthYear4 = date('Y') . '-' . date('04');
-                    $apr_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear4%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 4 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+    //                 //     // $result3 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result3 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result3 = '';
+    //                 // }
+    //                 if ($mar_productive) {
+    //                     $result3 = substr($mar_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result3 = '';
+    //                 }
+    //                 if ($mar_booked) {
+    //                     $tothour3 = $mar_booked->tothour * 60;
+    //                     $totmin3 = $mar_booked->totmin;
+    //                     $totalMin3 = ($tothour3 + $totmin3);
+    //                     $totalBooked3            = intdiv($totalMin3, 60) . '.' . ($totalMin3 % 60);
+    //                 }
+    //                 $monthYear4 = date('Y') . '-' . date('04');
+    //                 $apr_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear4%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 4 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime4 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 04 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $apr_productive = $this->db->query($sqlForAppProductiveTime4)->getRow();
+    //                 $sqlForAppProductiveTime4 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 04 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $apr_productive = $this->db->query($sqlForAppProductiveTime4)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    //     // $result4 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result4 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result4 = '';
-                    // }
-                    if ($apr_productive) {
-                        $result4 = substr($apr_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result4 = '';
-                    }
-                    if ($apr_booked) {
-                        $tothour = $apr_booked->tothour * 60;
-                        $totmin = $apr_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked4            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear5 = date('Y') . '-' . date('05');
-                    $may_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear5%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 5 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+    //                 //     // $result4 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result4 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result4 = '';
+    //                 // }
+    //                 if ($apr_productive) {
+    //                     $result4 = substr($apr_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result4 = '';
+    //                 }
+    //                 if ($apr_booked) {
+    //                     $tothour = $apr_booked->tothour * 60;
+    //                     $totmin = $apr_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked4            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear5 = date('Y') . '-' . date('05');
+    //                 $may_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear5%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 5 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime5 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 05 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $may_productive = $this->db->query($sqlForAppProductiveTime5)->getRow();
+    //                 $sqlForAppProductiveTime5 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 05 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $may_productive = $this->db->query($sqlForAppProductiveTime5)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    //     // $result5 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result5 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result5 = '';
-                    // }
-                    if ($may_productive) {
-                        $result5 = substr($may_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result5 = '';
-                    }
-                    if ($may_booked) {
-                        $tothour = $may_booked->tothour * 60;
-                        $totmin = $may_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked5            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear6 = date('Y') . '-' . date('06');
-                    $jun_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear6%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 6 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+    //                 //     // $result5 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result5 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result5 = '';
+    //                 // }
+    //                 if ($may_productive) {
+    //                     $result5 = substr($may_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result5 = '';
+    //                 }
+    //                 if ($may_booked) {
+    //                     $tothour = $may_booked->tothour * 60;
+    //                     $totmin = $may_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked5            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear6 = date('Y') . '-' . date('06');
+    //                 $jun_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear6%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 6 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime6 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 06 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $jun_productive = $this->db->query($sqlForAppProductiveTime6)->getRow();
+    //                 $sqlForAppProductiveTime6 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 06 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $jun_productive = $this->db->query($sqlForAppProductiveTime6)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
-                    //     // $result6 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result6 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result6 = '';
-                    // }
-                    if ($jun_productive) {
-                        $result6 = substr($jun_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result6 = '';
-                    }
-                    if ($jun_booked) {
-                        $tothour = $jun_booked->tothour * 60;
-                        $totmin = $jun_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked6            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear7 = date('Y') . '-' . date('07');
-                    $jul_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear7%'")->getRow();
-                    $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = 7 AND user_id = '$row->id'";
-                    $getDesktimeHour = $this->db->query($sql10)->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+    //                 //     // $result6 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result6 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result6 = '';
+    //                 // }
+    //                 if ($jun_productive) {
+    //                     $result6 = substr($jun_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result6 = '';
+    //                 }
+    //                 if ($jun_booked) {
+    //                     $tothour = $jun_booked->tothour * 60;
+    //                     $totmin = $jun_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked6            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear7 = date('Y') . '-' . date('07');
+    //                 $jul_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear7%'")->getRow();
+    //                 $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = 7 AND user_id = '$row->id'";
+    //                 $getDesktimeHour = $this->db->query($sql10)->getRow();
 
-                    $sqlForAppProductiveTime7 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 07 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $jul_productive = $this->db->query($sqlForAppProductiveTime7)->getRow();
+    //                 $sqlForAppProductiveTime7 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 07 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $jul_productive = $this->db->query($sqlForAppProductiveTime7)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result7 = $getDesktimeHour->total_desktime_hour;  
-                    //     // $result7 = (int)$getDesktimeHour->total_desktime_hour; 
-                    //     $result7 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result7 = '';
-                    // }
-                    if ($jul_productive) {
-                        $result7 = substr($jul_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result7 = '';
-                    }
-                    if ($jul_booked) {
-                        $tothour = $jul_booked->tothour * 60;
-                        $totmin = $jul_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked7            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear8 = date('Y') . '-' . date('08');
-                    $aug_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear8%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result7 = $getDesktimeHour->total_desktime_hour;  
+    //                 //     // $result7 = (int)$getDesktimeHour->total_desktime_hour; 
+    //                 //     $result7 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result7 = '';
+    //                 // }
+    //                 if ($jul_productive) {
+    //                     $result7 = substr($jul_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result7 = '';
+    //                 }
+    //                 if ($jul_booked) {
+    //                     $tothour = $jul_booked->tothour * 60;
+    //                     $totmin = $jul_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked7            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear8 = date('Y') . '-' . date('08');
+    //                 $aug_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear8%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime8 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 08 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $aug_productive = $this->db->query($sqlForAppProductiveTime8)->getRow();
+    //                 $sqlForAppProductiveTime8 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 08 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $aug_productive = $this->db->query($sqlForAppProductiveTime8)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result8 = $getDesktimeHour->total_desktime_hour;
-                    //     // $result8 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result8 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result8 = '';
-                    // }
-                    if ($aug_productive) {
-                        $result8 = substr($aug_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result8 = '';
-                    }
-                    if ($aug_booked) {
-                        $tothour = $aug_booked->tothour * 60;
-                        $totmin = $aug_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked8            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear9 = date('Y') . '-' . date('09');
-                    $sep_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear9%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result8 = $getDesktimeHour->total_desktime_hour;
+    //                 //     // $result8 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result8 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result8 = '';
+    //                 // }
+    //                 if ($aug_productive) {
+    //                     $result8 = substr($aug_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result8 = '';
+    //                 }
+    //                 if ($aug_booked) {
+    //                     $tothour = $aug_booked->tothour * 60;
+    //                     $totmin = $aug_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked8            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear9 = date('Y') . '-' . date('09');
+    //                 $sep_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear9%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime9 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 09 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $sep_productive = $this->db->query($sqlForAppProductiveTime9)->getRow();
+    //                 $sqlForAppProductiveTime9 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 09 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $sep_productive = $this->db->query($sqlForAppProductiveTime9)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result9 = $getDesktimeHour->total_desktime_hour;
-                    //     $result9 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result9 = '';
-                    // }
-                    if ($sep_productive) {
-                        $result9 = substr($sep_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result9 = '';
-                    }
-                    if ($sep_booked) {
-                        $tothour = $sep_booked->tothour * 60;
-                        $totmin = $sep_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked9            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear10 = date('Y') . '-' . date('10');
-                    $oct_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear10%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result9 = $getDesktimeHour->total_desktime_hour;
+    //                 //     $result9 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result9 = '';
+    //                 // }
+    //                 if ($sep_productive) {
+    //                     $result9 = substr($sep_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result9 = '';
+    //                 }
+    //                 if ($sep_booked) {
+    //                     $tothour = $sep_booked->tothour * 60;
+    //                     $totmin = $sep_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked9            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear10 = date('Y') . '-' . date('10');
+    //                 $oct_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear10%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime10 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 10 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $oct_productive = $this->db->query($sqlForAppProductiveTime10)->getRow();
+    //                 $sqlForAppProductiveTime10 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 10 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $oct_productive = $this->db->query($sqlForAppProductiveTime10)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result10 = $getDesktimeHour->total_desktime_hour;
-                    //     // $result10 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result10 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result10 = '';
-                    // }
-                    if ($oct_productive) {
-                        $result10 = substr($oct_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result10 = '';
-                    }
-                    if ($oct_booked) {
-                        $tothour = $oct_booked->tothour * 60;
-                        $totmin = $oct_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked10            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear11 = date('Y') . '-' . date('11');
-                    $nov_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear11%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result10 = $getDesktimeHour->total_desktime_hour;
+    //                 //     // $result10 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result10 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result10 = '';
+    //                 // }
+    //                 if ($oct_productive) {
+    //                     $result10 = substr($oct_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result10 = '';
+    //                 }
+    //                 if ($oct_booked) {
+    //                     $tothour = $oct_booked->tothour * 60;
+    //                     $totmin = $oct_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked10            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear11 = date('Y') . '-' . date('11');
+    //                 $nov_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear11%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime11 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 11 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $nov_productive = $this->db->query($sqlForAppProductiveTime11)->getRow();
+    //                 $sqlForAppProductiveTime11 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 11 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $nov_productive = $this->db->query($sqlForAppProductiveTime11)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result11 = $getDesktimeHour->total_desktime_hour;
-                    //     // $result11 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result11 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result11 = '';
-                    // }
-                    if ($nov_productive) {
-                        $result11 = substr($nov_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result11 = '';
-                    }
-                    if ($nov_booked) {
-                        $tothour = $nov_booked->tothour * 60;
-                        $totmin = $nov_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked11            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
-                    $monthYear12 = date('Y') . '-' . date('12');
-                    $dec_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear12%'")->getRow();
-                    $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result11 = $getDesktimeHour->total_desktime_hour;
+    //                 //     // $result11 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result11 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result11 = '';
+    //                 // }
+    //                 if ($nov_productive) {
+    //                     $result11 = substr($nov_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result11 = '';
+    //                 }
+    //                 if ($nov_booked) {
+    //                     $tothour = $nov_booked->tothour * 60;
+    //                     $totmin = $nov_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked11            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
+    //                 $monthYear12 = date('Y') . '-' . date('12');
+    //                 $dec_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear12%'")->getRow();
+    //                 $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
 
-                    $sqlForAppProductiveTime12 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 12 AND YEAR(insert_date) = YEAR(CURDATE())";
-                    $dec_productive = $this->db->query($sqlForAppProductiveTime12)->getRow();
+    //                 $sqlForAppProductiveTime12 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 12 AND YEAR(insert_date) = YEAR(CURDATE())";
+    //                 $dec_productive = $this->db->query($sqlForAppProductiveTime12)->getRow();
 
-                    // if ($getDesktimeHour) {
-                    //     // $result12 = $getDesktimeHour->total_desktime_hour;
-                    //     // $result12 = (int)$getDesktimeHour->total_desktime_hour;
-                    //     $result12 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
-                    // } else {
-                    //     $result12 = '';
-                    // }
-                    if ($dec_productive) {
-                        $result12 = substr($dec_productive->total_productive_time, 0, 5);
-                    } else {
-                        $result12 = '';
-                    }
-                    if ($dec_booked) {
-                        $tothour = $dec_booked->tothour * 60;
-                        $totmin = $dec_booked->totmin;
-                        $totalMin = ($tothour + $totmin);
-                        $totalBooked12            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                    }
+    //                 // if ($getDesktimeHour) {
+    //                 //     // $result12 = $getDesktimeHour->total_desktime_hour;
+    //                 //     // $result12 = (int)$getDesktimeHour->total_desktime_hour;
+    //                 //     $result12 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+    //                 // } else {
+    //                 //     $result12 = '';
+    //                 // }
+    //                 if ($dec_productive) {
+    //                     $result12 = substr($dec_productive->total_productive_time, 0, 5);
+    //                 } else {
+    //                     $result12 = '';
+    //                 }
+    //                 if ($dec_booked) {
+    //                     $tothour = $dec_booked->tothour * 60;
+    //                     $totmin = $dec_booked->totmin;
+    //                     $totalMin = ($tothour + $totmin);
+    //                     $totalBooked12            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                 }
 
-                    $arr                = [];
-                    $arr = $this->getLastNDays(7, 'Y-m-d');
-                    if (!empty($arr)) {
-                        $Attendancereports = [];
-                        for ($k = 0; $k < count($arr); $k++) {
-                            $loopDate           = $arr[$k];
-                            // print_r($loopDate);die;
-                            $dayWiseAttendance      = $this->db->query("SELECT MIN(punch_in_time) AS first_punch_in, MAX(punch_out_time) AS last_punch_out FROM `attendances` where user_id='$row->id' and punch_date LIKE '$loopDate'")->getRow();
-                            // $dayWiseAttendance      = $this->db->query("SELECT MIN(punch_in_time) AS first_punch_in, MAX(punch_out_time) AS last_punch_out FROM `attendances` where user_id='$row->id' and punch_date LIKE '%2024-08-29%'")->getRow();
-                            // echo $this->db->getLastquery();
-                            //  pr($dayWiseAttendance);                                
+    //                 $arr                = [];
+    //                 $arr = $this->getLastNDays(7, 'Y-m-d');
+    //                 if (!empty($arr)) {
+    //                     $Attendancereports = [];
+    //                     for ($k = 0; $k < count($arr); $k++) {
+    //                         $loopDate           = $arr[$k];
+    //                         // print_r($loopDate);die;
+    //                         $dayWiseAttendance      = $this->db->query("SELECT MIN(punch_in_time) AS first_punch_in, MAX(punch_out_time) AS last_punch_out FROM `attendances` where user_id='$row->id' and punch_date LIKE '$loopDate'")->getRow();
+    //                         // $dayWiseAttendance      = $this->db->query("SELECT MIN(punch_in_time) AS first_punch_in, MAX(punch_out_time) AS last_punch_out FROM `attendances` where user_id='$row->id' and punch_date LIKE '%2024-08-29%'")->getRow();
+    //                         // echo $this->db->getLastquery();
+    //                         //  pr($dayWiseAttendance);                                
 
-                            if ($dayWiseAttendance) {
-                                $punchIn = $dayWiseAttendance->first_punch_in;
-                                $punchOut = $dayWiseAttendance->last_punch_out;
-                            } else {
-                                $punchIn = null;
-                                $punchOut = null;
-                            }
-                            $Attendancereports[] = [
-                                'booked_date'   => date_format(date_create($loopDate), "d-m-Y"),
-                                'punchIn' => $punchIn,
-                                'punchOut' => $punchOut,
-                            ];
-                        }
-                        // pr($Attendancereports);
-                    }
-                    $last7DaysAttendance[] = [
-                        'userId'    => $row->id,
-                        'name'      => $row->name,
-                        'Attendancereports'   => $Attendancereports,
-                    ];
+    //                         if ($dayWiseAttendance) {
+    //                             $punchIn = $dayWiseAttendance->first_punch_in;
+    //                             $punchOut = $dayWiseAttendance->last_punch_out;
+    //                         } else {
+    //                             $punchIn = null;
+    //                             $punchOut = null;
+    //                         }
+    //                         $Attendancereports[] = [
+    //                             'booked_date'   => date_format(date_create($loopDate), "d-m-Y"),
+    //                             'punchIn' => $punchIn,
+    //                             'punchOut' => $punchOut,
+    //                         ];
+    //                     }
+    //                     // pr($Attendancereports);
+    //                 }
+    //                 $last7DaysAttendance[] = [
+    //                     'userId'    => $row->id,
+    //                     'name'      => $row->name,
+    //                     'Attendancereports'   => $Attendancereports,
+    //                 ];
 
 
 
-                    $response[] = [
-                        'sl_no'         => $sl++,
-                        'name'          => $row->name,
-                        'jan_booked'    => $totalBooked1,
-                        'feb_booked'    => $totalBooked2,
-                        'mar_booked'    => $totalBooked3,
-                        'apr_booked'    => $totalBooked4,
-                        'may_booked'    => $totalBooked5,
-                        'jun_booked'    => $totalBooked6,
-                        'jul_booked'    => $totalBooked7,
-                        'aug_booked'    => $totalBooked8,
-                        'sep_booked'    => $totalBooked9,
-                        'oct_booked'    => $totalBooked10,
-                        'nov_booked'    => $totalBooked11,
-                        'dec_booked'    => $totalBooked12,
-                        'jan_desktop_app'   => $result1,
-                        'feb_desktop_app'   => $result2,
-                        'mar_desktop_app'   => $result3,
-                        'apr_desktop_app'   => $result4,
-                        'may_desktop_app'   => $result5,
-                        'jun_desktop_app'   => $result6,
-                        'jul_desktop_app'   => $result7,
-                        'aug_desktop_app'   => $result8,
-                        'sep_desktop_app'   => $result9,
-                        'oct_desktop_app'   => $result10,
-                        'nov_desktop_app'   => $result11,
-                        'dec_desktop_app'   => $result12,
-                        'deskloguser'   => $desklog_user,
-                    ];
-                }
+    //                 $response[] = [
+    //                     'sl_no'         => $sl++,
+    //                     'name'          => $row->name,
+    //                     'jan_booked'    => $totalBooked1,
+    //                     'feb_booked'    => $totalBooked2,
+    //                     'mar_booked'    => $totalBooked3,
+    //                     'apr_booked'    => $totalBooked4,
+    //                     'may_booked'    => $totalBooked5,
+    //                     'jun_booked'    => $totalBooked6,
+    //                     'jul_booked'    => $totalBooked7,
+    //                     'aug_booked'    => $totalBooked8,
+    //                     'sep_booked'    => $totalBooked9,
+    //                     'oct_booked'    => $totalBooked10,
+    //                     'nov_booked'    => $totalBooked11,
+    //                     'dec_booked'    => $totalBooked12,
+    //                     'jan_desktop_app'   => $result1,
+    //                     'feb_desktop_app'   => $result2,
+    //                     'mar_desktop_app'   => $result3,
+    //                     'apr_desktop_app'   => $result4,
+    //                     'may_desktop_app'   => $result5,
+    //                     'jun_desktop_app'   => $result6,
+    //                     'jul_desktop_app'   => $result7,
+    //                     'aug_desktop_app'   => $result8,
+    //                     'sep_desktop_app'   => $result9,
+    //                     'oct_desktop_app'   => $result10,
+    //                     'nov_desktop_app'   => $result11,
+    //                     'dec_desktop_app'   => $result12,
+    //                     'deskloguser'   => $desklog_user,
+    //                 ];
+    //             }
+    //         }
+    //         $data['responses']                   = $response;
+    //         $data['last7DaysAttendance']         = $last7DaysAttendance;
+
+    //         $last7DaysResponses = [];
+    //         $arr                = [];
+    //         $users_data              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+    //         $arr = $this->getLastNDays(7, 'Y-m-d');
+    //         //print_r($arr);die;
+    //         if ($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users) {
+    //             // if($users){
+    //             foreach ($user as $row) {
+    //                 if (!empty($arr)) {
+    //                     $reports = [];
+    //                     for ($k = 0; $k < count($arr); $k++) {
+    //                         $loopDate               = $arr[$k];
+    //                         $dayWiseBooked          = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '$loopDate'")->getRow();
+    //                         // $desklogdayWise         = $this->db->query("SELECT time_at_work  FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$loopDate%'")->getRow();
+    //                         $desklogdayWise         = $this->db->query("SELECT productive_time  FROM `desktop_app` where desktopapp_userid='$row->id' and insert_date LIKE '%$loopDate%'")->getRow();
+    //                         // echo $this->db->getLastquery();
+    //                         // echo "<pre>";
+    //                         // print_r($str);
+    //                         // var_dump($desklogdayWise); die();
+
+    //                         $tothour                = $dayWiseBooked->tothour * 60;
+    //                         $totmin                 = $dayWiseBooked->totmin;
+    //                         $totalMin               = ($tothour + $totmin);
+    //                         $booked_effort          = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+    //                         $workdate               = date_create($loopDate);
+    //                         $entrydate              = date_create($dayWiseBooked->date_today);
+    //                         if ($desklogdayWise !== null) {
+    //                             $desklogTime            = $desklogdayWise->productive_time;
+    //                         } else {
+    //                             $desklogTime            = 0;
+    //                         }
+
+    //                         $reports[] = [
+    //                             'booked_date'   => date_format(date_create($loopDate), "d-m-Y"),
+    //                             'booked_effort' => $booked_effort,
+    //                             'booked_today' => date_format(date_create($dayWiseBooked->date_today), "d-m-Y"),
+    //                             'desklog_time'  => str_replace(['h ', 'm'], [':', ''], $desklogTime),
+    //                             'deskloguser'   => $desklog_user,
+    //                         ];
+    //                     }
+    //                 }
+    //                 $last7DaysResponses[] = [
+    //                     'userId'    => $row->id,
+    //                     'name'      => $row->name,
+    //                     'reports'   => $reports,
+    //                 ];
+    //             }
+    //         }
+    //         $data['arr']                        = $arr;
+    //         $data['last7DaysResponses']         = $last7DaysResponses;
+    //         // echo "<pre>";   
+    //         // print_r($data['last7DaysResponses'])  ;die;       
+    //         $userGraph = [];
+    //         $AlluserGraph = [];
+
+    //         if ($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users) {
+    //             foreach ($user as $row) {
+    //                 // pr($row);       
+    //                 $team = "SELECT team.*,department.deprt_name  FROM `team` INNER JOIN department on team.dep_id = department.id WHERE user_id = '$row->id'";
+    //                 $teamdetails = $this->db->query($team)->getRow();
+    //                 // pr($teamdetails);
+    //                 /* user graph */
+    //                 $yesterday_date = date('Y-m-d', strtotime("-1 days"));
+    //                 $qry_yesterday_proj = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill  from timesheet where date_added = '$yesterday_date' and user_id = '$row->id' group by timesheet.project_id" . " order by timesheet.date_added desc";
+    //                 $res_yesterday_proj = $this->db->query($qry_yesterday_proj)->getResult();
+    //                 $i4 = 1;
+    //                 $ystrdhr = 0;
+    //                 $ystrdmin = 0;
+    //                 $ystrdbill_hr = 0;
+    //                 $ystrdbill_min = 0;
+    //                 $ystrdnonbill_hr = 0;
+    //                 $ystrdnonbill_min = 0;
+    //                 // $yesterday_hour = 0;
+    //                 // $yesterday_minute = 0;
+    //                 foreach ($res_yesterday_proj as $row_yesterday_proj) {
+    //                     if ($row_yesterday_proj->bill != '1') {
+    //                         $ystrdbill_hr = $ystrdbill_hr + $row_yesterday_proj->hour;
+    //                         $ystrdbill_min = $ystrdbill_min + $row_yesterday_proj->min;
+    //                     } else {
+    //                         $ystrdnonbill_hr = $ystrdnonbill_hr + $row_yesterday_proj->hour;
+    //                         $ystrdnonbill_min = $ystrdnonbill_min + $row_yesterday_proj->min;
+    //                     }
+    //                     $i4++;
+    //                 }
+    //                 if ($ystrdbill_min < 60) {
+    //                     $ystrdtotbill_hour = $ystrdbill_hr;
+    //                     $ystrdtotbill_minute = $ystrdbill_min;
+    //                 } else {
+    //                     $ystrdtotbill_hour_res1 = floor($ystrdbill_min / 60);
+    //                     $ystrdtotbill_minute = $ystrdbill_min % 60;
+    //                     $ystrdtotbill_hour = $ystrdbill_hr + $ystrdtotbill_hour_res1;
+    //                 }
+    //                 if ($ystrdnonbill_min < 60) {
+    //                     $ystrdtotnonbill_hour = $ystrdnonbill_hr;
+    //                     $ystrdtotnonbill_minute = $ystrdnonbill_min;
+    //                 } else {
+    //                     $ystrdtotnonbill_hour_res1 = floor($ystrdnonbill_min / 60);
+    //                     $ystrdtotnonbill_minute = $ystrdnonbill_min % 60;
+    //                     $ystrdtotnonbill_hour = $ystrdnonbill_hr + $ystrdtotnonbill_hour_res1;
+    //                 }
+    //                 $yesterdayHourBill = $ystrdtotbill_hour + ($ystrdtotbill_minute / 60);
+    //                 $yesterdayMinBill = $ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60);
+    //                 /* user graph */
+    //                 /* user Monthly graph */
+    //                 $thismonthdayUsr = "";
+    //                 $thismonthmonthUsr = "";
+    //                 $thismonthyearUsr = "";
+    //                 $thismonthtdayUsr = ($thismonthdayUsr == "") ? "01" : $thismonthdayUsr;
+    //                 $thismonthtmonthUsr = ($thismonthmonthUsr == "") ? date("m") : $thismonthmonthUsr;
+    //                 $thismonthtyearUsr = ($thismonthyearUsr == "") ? date("Y") : $thismonthyearUsr;
+    //                 $thismonthmonth_sdUsr = date("Y-m-d", strtotime($thismonthtmonthUsr . '/' . $thismonthtdayUsr . '/' . $thismonthtyearUsr . ' 00:00:00'));
+    //                 $thismonthmonth_edUsr = date("Y-m-d", strtotime('-1 second', strtotime('+1 month', strtotime($thismonthtmonthUsr . '/' . $thismonthtdayUsr . '/' . $thismonthtyearUsr . ' 00:00:00'))));
+    //                 $thismonthdateUsr = date('Y-m-d');
+    //                 $qry_thismonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
+    //                     . "from timesheet where date_added between '$thismonthmonth_sdUsr' and '$thismonthdateUsr' and user_id = '$row->id' "
+    //                     . " group by timesheet.project_id order by timesheet.date_added desc";
+    //                 $res_thismonth_projUsr = $this->db->query($qry_thismonth_projUsr)->getResult();
+    //                 //pr($res_thismonth_projUsr);
+    //                 $i5Usr = 1;
+    //                 $thismonthhrUsr = 0;
+    //                 $thismonthminUsr = 0;
+    //                 $thismonthbill_hrUsr = 0;
+    //                 $thismonthbill_minUsr = 0;
+    //                 $thismonthnonbill_hrUsr = 0;
+    //                 $thismonthnonbill_minUsr = 0;
+    //                 foreach ($res_thismonth_projUsr as $row_thismonth_projUsr) {
+    //                     if ($row_thismonth_projUsr->bill != '1') {
+    //                         $thismonthbill_hrUsr = $thismonthbill_hrUsr + $row_thismonth_projUsr->hour;
+    //                         $thismonthbill_minUsr = $thismonthbill_minUsr + $row_thismonth_projUsr->min;
+    //                     } else {
+    //                         $thismonthnonbill_hrUsr = $thismonthnonbill_hrUsr + $row_thismonth_projUsr->hour;
+    //                         $thismonthnonbill_minUsr = $thismonthnonbill_minUsr + $row_thismonth_projUsr->min;
+    //                     }
+    //                     $i5Usr++;
+    //                 }
+    //                 if ($thismonthbill_minUsr < 60) {
+    //                     $thismonthtotbill_hourUsr = $thismonthbill_hrUsr;
+    //                     $thismonthtotbill_minuteUsr = $thismonthbill_minUsr;
+    //                 } else {
+    //                     $thismonthtotbill_hour_res1Usr = floor($thismonthbill_minUsr / 60);
+    //                     $thismonthtotbill_minuteUsr = $thismonthbill_minUsr % 60;
+    //                     $thismonthtotbill_hourUsr = $thismonthbill_hrUsr + $thismonthtotbill_hour_res1Usr;
+    //                 }
+
+    //                 if ($thismonthnonbill_minUsr < 60) {
+    //                     $thismonthtotnonbill_hourUsr = $thismonthnonbill_hrUsr;
+    //                     $thismonthtotnonbill_minuteUsr = $thismonthnonbill_minUsr;
+    //                 } else {
+    //                     $thismonthtotnonbill_hour_res1Usr = floor($thismonthnonbill_minUsr / 60);
+    //                     $thismonthtotnonbill_minuteUsr = $thismonthnonbill_minUsr % 60;
+    //                     $thismonthtotnonbill_hourUsr = $thismonthnonbill_hrUsr + $thismonthtotnonbill_hour_res1Usr;
+    //                 }
+    //                 $thismonthHourBillUsr = $thismonthtotbill_hourUsr + ($thismonthtotbill_minuteUsr / 60);
+    //                 $thismonthMinBillUsr = $thismonthtotnonbill_hourUsr + ($thismonthtotnonbill_minuteUsr / 60);
+    //                 $data['thismonthHourBillUsr']        = $thismonthHourBillUsr;
+    //                 $data['thismonthMinBillUsr']        = $thismonthMinBillUsr;
+    //                 /* user Monthly graph */
+    //                 /* user Last Month graph */
+    //                 $lastmonththis_yearUsr = date("Y");
+    //                 $lastmonththis_monthUsr = date("m");
+    //                 if ($lastmonththis_monthUsr == '01' || $lastmonththis_monthUsr == '1') {
+    //                     $lastmonthmonthUsr = 12;
+    //                     $lastmonththis_yearUsr = $lastmonththis_yearUsr - 1;
+    //                 } else {
+    //                     $lastmonthmonthUsr = $lastmonththis_monthUsr - 1;
+    //                 }
+    //                 $lastmonthlastdayUsr = mktime(0, 0, 0, $lastmonthmonthUsr + 1, 0, $lastmonththis_yearUsr);
+    //                 $lastmonthfirstdayUsr = mktime(0, 0, 0, $lastmonthmonthUsr, 1, $lastmonththis_yearUsr);
+    //                 $lastmonthendUsr = date("Y-m-d", $lastmonthlastdayUsr);
+    //                 $lastmonthstartUsr = date("Y-m-d", $lastmonthfirstdayUsr);
+    //                 $qry_lastmonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
+    //                     . "from timesheet where date_added between '$lastmonthstartUsr' and '$lastmonthendUsr' and user_id = '$row->id' "
+    //                     . " group by timesheet.project_id order by timesheet.date_added desc";
+    //                 $res_lastmonth_projUsr = $this->db->query($qry_lastmonth_projUsr)->getResult();
+    //                 $i6Usr = 1;
+    //                 $lastmonthhhrUsr = 0;
+    //                 $lastmonthminUsr = 0;
+    //                 $lastmonthbill_hrUsr = 0;
+    //                 $lastmonthbill_minUsr = 0;
+    //                 $lastmonthnonbill_hrUsr = 0;
+    //                 $lastmonthnonbill_minUsr = 0;
+    //                 foreach ($res_lastmonth_projUsr as $row_lastmonth_projUsr) {
+    //                     if ($row_lastmonth_projUsr->bill != '1') {
+    //                         $lastmonthbill_hrUsr = $lastmonthbill_hrUsr + $row_lastmonth_projUsr->hour;
+    //                         $lastmonthbill_minUsr = $lastmonthbill_minUsr + $row_lastmonth_projUsr->min;
+    //                     } else {
+    //                         $lastmonthnonbill_hrUsr = $lastmonthnonbill_hrUsr + $row_lastmonth_projUsr->hour;
+    //                         $lastmonthnonbill_minUsr = $lastmonthnonbill_minUsr + $row_lastmonth_projUsr->min;
+    //                     }
+    //                     $i6Usr++;
+    //                 }
+    //                 if ($lastmonthbill_minUsr < 60) {
+    //                     $lastmonthtotbill_hourUsr = $lastmonthbill_hrUsr;
+    //                     $lastmonthtotbill_minuteUsr = $lastmonthbill_minUsr;
+    //                 } else {
+    //                     $lastmonthtotbill_hour_res1Usr = floor($lastmonthbill_minUsr / 60);
+    //                     $lastmonthtotbill_minuteUsr = $lastmonthbill_minUsr % 60;
+    //                     $lastmonthtotbill_hourUsr = $lastmonthbill_hrUsr + $lastmonthtotbill_hour_res1Usr;
+    //                 }
+    //                 if ($lastmonthnonbill_minUsr < 60) {
+    //                     $lastmonthtotnonbill_hourUsr = $lastmonthnonbill_hrUsr;
+    //                     $lastmonthtotnonbill_minuteUsr = $lastmonthnonbill_minUsr;
+    //                 } else {
+    //                     $lastmonthtotnonbill_hour_res1Usr = floor($lastmonthnonbill_minUsr / 60);
+    //                     $lastmonthtotnonbill_minuteUsr = $lastmonthnonbill_minUsr % 60;
+    //                     $lastmonthtotnonbill_hourUsr = $lastmonthnonbill_hrUsr + $lastmonthtotnonbill_hour_res1Usr;
+    //                 }
+    //                 $lastmonthHourBillUsr = $lastmonthtotbill_hourUsr + ($lastmonthtotbill_minuteUsr / 60);
+    //                 $lastmonthMinBillUsr = $lastmonthtotnonbill_hourUsr + ($lastmonthtotnonbill_minuteUsr / 60);
+    //                 $data['lastmonthHourBillUsr']        = $lastmonthHourBillUsr;
+    //                 $data['lastmonthMinBillUsr']        = $lastmonthMinBillUsr;
+    //                 /* user last Month graph */
+    //                 $userGraph[] = [
+    //                     'name'                      => $row->name,
+    //                     'id'                        => $row->id,
+    //                     'type'                      => ($teamdetails) ? $teamdetails->type : '',
+    //                     'deprt_name'                => ($teamdetails) ? $teamdetails->deprt_name : '',
+    //                     'yesterdayMinBill'          => number_format($yesterdayMinBill, 2),
+    //                     'yesterdayHourBill'         => number_format($yesterdayHourBill, 2),
+    //                     'thismonthHourBillUsr'      => number_format($thismonthHourBillUsr, 2),
+    //                     'thismonthMinBillUsr'       => number_format($thismonthMinBillUsr, 2),
+    //                     'lastmonthHourBillUsr'      => number_format($lastmonthHourBillUsr, 2),
+    //                     'lastmonthMinBillUsr'       => number_format($lastmonthMinBillUsr, 2),
+    //                     // 'reports'   => $reports,
+    //                 ];
+    //                 //    pr($userGraph);               
+    //                 //array_push($userGraph,$row->name);
+
+    //             }
+    //             //  pr($userGraph);  
+
+    //             /* All user graph */
+    //             $yesterday_date = date('Y-m-d', strtotime("-1 days"));
+    //             $qry_yesterday_proj = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill  from timesheet where date_added = '$yesterday_date' group by timesheet.project_id" . " order by timesheet.date_added desc";
+    //             $res_yesterday_proj = $this->db->query($qry_yesterday_proj)->getResult();
+    //             // pr($res_yesterday_proj);                      
+    //             $i4 = 1;
+    //             $ystrdhr = 0;
+    //             $ystrdmin = 0;
+    //             $ystrdbill_hr = 0;
+    //             $ystrdbill_min = 0;
+    //             $ystrdnonbill_hr = 0;
+    //             $ystrdnonbill_min = 0;
+    //             foreach ($res_yesterday_proj as $row_yesterday_proj) {
+    //                 // pr($row_yesterday_proj);
+    //                 if ($row_yesterday_proj->bill != '1') {
+    //                     $ystrdbill_hr = $ystrdbill_hr + $row_yesterday_proj->hour;
+    //                     $ystrdbill_min = $ystrdbill_min + $row_yesterday_proj->min;
+    //                 } else {
+    //                     $ystrdnonbill_hr = $ystrdnonbill_hr + $row_yesterday_proj->hour;
+    //                     $ystrdnonbill_min = $ystrdnonbill_min + $row_yesterday_proj->min;
+    //                 }
+    //                 $i4++;
+    //             }
+    //             if ($ystrdbill_min < 60) {
+    //                 $ystrdtotbill_hour = $ystrdbill_hr;
+    //                 $ystrdtotbill_minute = $ystrdbill_min;
+    //             } else {
+    //                 $ystrdtotbill_hour_res1 = floor($ystrdbill_min / 60);
+    //                 $ystrdtotbill_minute = $ystrdbill_min % 60;
+    //                 $ystrdtotbill_hour = $ystrdbill_hr + $ystrdtotbill_hour_res1;
+    //             }
+    //             if ($ystrdnonbill_min < 60) {
+    //                 $ystrdtotnonbill_hour = $ystrdnonbill_hr;
+    //                 $ystrdtotnonbill_minute = $ystrdnonbill_min;
+    //             } else {
+    //                 $ystrdtotnonbill_hour_res1 = floor($ystrdnonbill_min / 60);
+    //                 $ystrdtotnonbill_minute = $ystrdnonbill_min % 60;
+    //                 $ystrdtotnonbill_hour = $ystrdnonbill_hr + $ystrdtotnonbill_hour_res1;
+    //             }
+    //             $yesterdayAllUserHourBill = $ystrdtotbill_hour + ($ystrdtotbill_minute / 60);
+    //             $yesterdayAllUserMinBill = $ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60);
+    //             /* All user graph */
+
+    //             /* All user Monthly graph */
+    //             $thismonthdayUsr = "";
+    //             $thismonthmonthUsr = "";
+    //             $thismonthyearUsr = "";
+    //             $thismonthtdayUsr = ($thismonthdayUsr == "") ? "01" : $thismonthdayUsr;
+    //             $thismonthtmonthUsr = ($thismonthmonthUsr == "") ? date("m") : $thismonthmonthUsr;
+    //             $thismonthtyearUsr = ($thismonthyearUsr == "") ? date("Y") : $thismonthyearUsr;
+    //             $thismonthmonth_sdUsr = date("Y-m-d", strtotime($thismonthtmonthUsr . '/' . $thismonthtdayUsr . '/' . $thismonthtyearUsr . ' 00:00:00'));
+    //             $thismonthmonth_edUsr = date("Y-m-d", strtotime('-1 second', strtotime('+1 month', strtotime($thismonthtmonthUsr . '/' . $thismonthtdayUsr . '/' . $thismonthtyearUsr . ' 00:00:00'))));
+    //             $thismonthdateUsr = date('Y-m-d');
+    //             $qry_thismonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
+    //                 . "from timesheet where date_added between '$thismonthmonth_sdUsr' and '$thismonthdateUsr' "
+    //                 . " group by timesheet.project_id order by timesheet.date_added desc";
+    //             $res_thismonth_projUsr = $this->db->query($qry_thismonth_projUsr)->getResult();
+    //             //pr($res_thismonth_projUsr);
+    //             $i5Usr = 1;
+    //             $thismonthhrUsr = 0;
+    //             $thismonthminUsr = 0;
+    //             $thismonthbill_hrUsr = 0;
+    //             $thismonthbill_minUsr = 0;
+    //             $thismonthnonbill_hrUsr = 0;
+    //             $thismonthnonbill_minUsr = 0;
+    //             foreach ($res_thismonth_projUsr as $row_thismonth_projUsr) {
+    //                 if ($row_thismonth_projUsr->bill != '1') {
+    //                     $thismonthbill_hrUsr = $thismonthbill_hrUsr + $row_thismonth_projUsr->hour;
+    //                     $thismonthbill_minUsr = $thismonthbill_minUsr + $row_thismonth_projUsr->min;
+    //                 } else {
+    //                     $thismonthnonbill_hrUsr = $thismonthnonbill_hrUsr + $row_thismonth_projUsr->hour;
+    //                     $thismonthnonbill_minUsr = $thismonthnonbill_minUsr + $row_thismonth_projUsr->min;
+    //                 }
+    //                 $i5Usr++;
+    //             }
+    //             if ($thismonthbill_minUsr < 60) {
+    //                 $thismonthtotbill_hourUsr = $thismonthbill_hrUsr;
+    //                 $thismonthtotbill_minuteUsr = $thismonthbill_minUsr;
+    //             } else {
+    //                 $thismonthtotbill_hour_res1Usr = floor($thismonthbill_minUsr / 60);
+    //                 $thismonthtotbill_minuteUsr = $thismonthbill_minUsr % 60;
+    //                 $thismonthtotbill_hourUsr = $thismonthbill_hrUsr + $thismonthtotbill_hour_res1Usr;
+    //             }
+
+    //             if ($thismonthnonbill_minUsr < 60) {
+    //                 $thismonthtotnonbill_hourUsr = $thismonthnonbill_hrUsr;
+    //                 $thismonthtotnonbill_minuteUsr = $thismonthnonbill_minUsr;
+    //             } else {
+    //                 $thismonthtotnonbill_hour_res1Usr = floor($thismonthnonbill_minUsr / 60);
+    //                 $thismonthtotnonbill_minuteUsr = $thismonthnonbill_minUsr % 60;
+    //                 $thismonthtotnonbill_hourUsr = $thismonthnonbill_hrUsr + $thismonthtotnonbill_hour_res1Usr;
+    //             }
+    //             $thismonthAllUserHourBillUsr = $thismonthtotbill_hourUsr + ($thismonthtotbill_minuteUsr / 60);
+    //             $thismonthAllUserMinBillUsr = $thismonthtotnonbill_hourUsr + ($thismonthtotnonbill_minuteUsr / 60);
+    //             $data['thismonthAllUserHourBillUsr']        = $thismonthAllUserHourBillUsr;
+    //             $data['thismonthAllUserMinBillUsr']        = $thismonthAllUserMinBillUsr;
+    //             /* All user Monthly graph */
+    //             /* All user Last Month graph */
+    //             $lastmonththis_yearUsr = date("Y");
+    //             $lastmonththis_monthUsr = date("m");
+    //             if ($lastmonththis_monthUsr == '01' || $lastmonththis_monthUsr == '1') {
+    //                 $lastmonthmonthUsr = 12;
+    //                 $lastmonththis_yearUsr = $lastmonththis_yearUsr - 1;
+    //             } else {
+    //                 $lastmonthmonthUsr = $lastmonththis_monthUsr - 1;
+    //             }
+    //             $lastmonthlastdayUsr = mktime(0, 0, 0, $lastmonthmonthUsr + 1, 0, $lastmonththis_yearUsr);
+    //             $lastmonthfirstdayUsr = mktime(0, 0, 0, $lastmonthmonthUsr, 1, $lastmonththis_yearUsr);
+    //             $lastmonthendUsr = date("Y-m-d", $lastmonthlastdayUsr);
+    //             $lastmonthstartUsr = date("Y-m-d", $lastmonthfirstdayUsr);
+    //             $qry_lastmonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
+    //                 . "from timesheet where date_added between '$lastmonthstartUsr' and '$lastmonthendUsr'"
+    //                 . " group by timesheet.project_id order by timesheet.date_added desc";
+    //             $res_lastmonth_projUsr = $this->db->query($qry_lastmonth_projUsr)->getResult();
+    //             $i6Usr = 1;
+    //             $lastmonthhhrUsr = 0;
+    //             $lastmonthminUsr = 0;
+    //             $lastmonthbill_hrUsr = 0;
+    //             $lastmonthbill_minUsr = 0;
+    //             $lastmonthnonbill_hrUsr = 0;
+    //             $lastmonthnonbill_minUsr = 0;
+    //             foreach ($res_lastmonth_projUsr as $row_lastmonth_projUsr) {
+    //                 if ($row_lastmonth_projUsr->bill != '1') {
+    //                     $lastmonthbill_hrUsr = $lastmonthbill_hrUsr + $row_lastmonth_projUsr->hour;
+    //                     $lastmonthbill_minUsr = $lastmonthbill_minUsr + $row_lastmonth_projUsr->min;
+    //                 } else {
+    //                     $lastmonthnonbill_hrUsr = $lastmonthnonbill_hrUsr + $row_lastmonth_projUsr->hour;
+    //                     $lastmonthnonbill_minUsr = $lastmonthnonbill_minUsr + $row_lastmonth_projUsr->min;
+    //                 }
+    //                 $i6Usr++;
+    //             }
+    //             if ($lastmonthbill_minUsr < 60) {
+    //                 $lastmonthtotbill_hourUsr = $lastmonthbill_hrUsr;
+    //                 $lastmonthtotbill_minuteUsr = $lastmonthbill_minUsr;
+    //             } else {
+    //                 $lastmonthtotbill_hour_res1Usr = floor($lastmonthbill_minUsr / 60);
+    //                 $lastmonthtotbill_minuteUsr = $lastmonthbill_minUsr % 60;
+    //                 $lastmonthtotbill_hourUsr = $lastmonthbill_hrUsr + $lastmonthtotbill_hour_res1Usr;
+    //             }
+    //             if ($lastmonthnonbill_minUsr < 60) {
+    //                 $lastmonthtotnonbill_hourUsr = $lastmonthnonbill_hrUsr;
+    //                 $lastmonthtotnonbill_minuteUsr = $lastmonthnonbill_minUsr;
+    //             } else {
+    //                 $lastmonthtotnonbill_hour_res1Usr = floor($lastmonthnonbill_minUsr / 60);
+    //                 $lastmonthtotnonbill_minuteUsr = $lastmonthnonbill_minUsr % 60;
+    //                 $lastmonthtotnonbill_hourUsr = $lastmonthnonbill_hrUsr + $lastmonthtotnonbill_hour_res1Usr;
+    //             }
+    //             $lastmonthAllUserHourBillUsr = $lastmonthtotbill_hourUsr + ($lastmonthtotbill_minuteUsr / 60);
+    //             $lastmonthAllUserMinBillUsr = $lastmonthtotnonbill_hourUsr + ($lastmonthtotnonbill_minuteUsr / 60);
+    //             $data['lastmonthAllUserHourBillUsr']        = $lastmonthAllUserHourBillUsr;
+    //             $data['lastmonthAllUserMinBillUsr']        = $lastmonthAllUserMinBillUsr;
+    //             /* All user last Month graph */
+
+    //             $AlluserGraph[] = [
+    //                 'yesterdayAllUserHourBill'      => number_format($yesterdayAllUserHourBill, 2),
+    //                 'yesterdayAllUserMinBill'       => number_format($yesterdayAllUserMinBill, 2),
+    //                 'thismonthAllUserHourBillUsr'   => number_format($thismonthAllUserHourBillUsr, 2),
+    //                 'thismonthAllUserMinBillUsr'    => number_format($thismonthAllUserMinBillUsr, 2),
+    //                 'lastmonthAllUserHourBillUsr'   => number_format($lastmonthAllUserHourBillUsr, 2),
+    //                 'lastmonthAllUserMinBillUsr'    => number_format($lastmonthAllUserMinBillUsr, 2),
+    //             ];
+    //             //   pr($AlluserGraph);
+    //         }
+    //         $data['userGraph']         = $userGraph;
+    //         $data['AlluserGraph']         = $AlluserGraph;
+    //     }
+    //     $title                              = 'Dashboard';
+    //     $page_name                          = 'dashboard';
+    //     echo $this->layout_after_login($title, $page_name, $data);
+    // }
+        public function dashboard()
+        {
+            if (!$this->session->get('is_admin_login')) {
+                return redirect()->to('/admin');
             }
-            $data['responses']                   = $response;
-            $data['last7DaysAttendance']         = $last7DaysAttendance;
 
-            $last7DaysResponses = [];
-            $arr                = [];
-            $users_data              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
-            $arr = $this->getLastNDays(7, 'Y-m-d');
-            //print_r($arr);die;
-            if ($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users) {
-                // if($users){
-                foreach ($user as $row) {
-                    if (!empty($arr)) {
-                        $reports = [];
-                        for ($k = 0; $k < count($arr); $k++) {
-                            $loopDate               = $arr[$k];
-                            $dayWiseBooked          = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '$loopDate'")->getRow();
-                            // $desklogdayWise         = $this->db->query("SELECT time_at_work  FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$loopDate%'")->getRow();
-                            $desklogdayWise         = $this->db->query("SELECT productive_time  FROM `desktop_app` where desktopapp_userid='$row->id' and insert_date LIKE '%$loopDate%'")->getRow();
-                            // echo $this->db->getLastquery();
-                            // echo "<pre>";
-                            // print_r($str);
-                            // var_dump($desklogdayWise); die();
-
-                            $tothour                = $dayWiseBooked->tothour * 60;
-                            $totmin                 = $dayWiseBooked->totmin;
-                            $totalMin               = ($tothour + $totmin);
-                            $booked_effort          = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
-                            $workdate               = date_create($loopDate);
-                            $entrydate              = date_create($dayWiseBooked->date_today);
-                            if ($desklogdayWise !== null) {
-                                $desklogTime            = $desklogdayWise->productive_time;
-                            } else {
-                                $desklogTime            = 0;
-                            }
-
-                            $reports[] = [
-                                'booked_date'   => date_format(date_create($loopDate), "d-m-Y"),
-                                'booked_effort' => $booked_effort,
-                                'booked_today' => date_format(date_create($dayWiseBooked->date_today), "d-m-Y"),
-                                'desklog_time'  => str_replace(['h ', 'm'], [':', ''], $desklogTime),
-                                'deskloguser'   => $desklog_user,
-                            ];
-                        }
-                    }
-                    $last7DaysResponses[] = [
-                        'userId'    => $row->id,
-                        'name'      => $row->name,
-                        'reports'   => $reports,
-                    ];
+            $userType                           = $this->session->user_type;
+            $userId                             = $this->session->user_id;
+            if ($userType == 'CLIENT') {
+                $user_id                = $this->session->get('user_id');
+                $data['active_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id, 'status!=' => 13, 'type' => 'own']);
+                $data['closed_project'] = $this->common_model->find_data('project', 'count', ['client_id' => $user_id, 'status' => 13, 'type' => 'own']);
+                $join[0]                    = ['table' => 'project_status', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'status', 'type' => 'INNER'];
+                $join[1]                    = ['table' => 'client', 'field' => 'id', 'table_master' => 'project', 'field_table_master' => 'client_id', 'type' => 'INNER'];
+                $data['projects']           = $this->common_model->find_data('project', 'array', ['project.status!=' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
+                // pr($data['projects']);
+                $data['closed_projects']    = $this->common_model->find_data('project', 'array', ['project.status' => 13, 'project.client_id' => $user_id], 'project.id,project.name,project_status.name as project_status_name,client.name as client_name', $join);
+                foreach ($data['projects'] as $project) {
+                    // pr($project);
+                    $project_id = $project->id;
+                    $sql = "select t.project_id,sum(t.hour) as tot_hour,sum(t.min) as tot_min from timesheet as t inner join project as p on p.id = t.project_id where t.project_id = '$project_id' group by t.project_id order by p.name asc";
+                    $rows = $this->db->query($sql)->getResult();
+                    // echo $sql; die;
+                    $total_effort_in_mins = 0;
+                    $hour = $rows[0]->tot_hour;
+                    $min = $rows[0]->tot_min;
+                    $total_hour_min = ($hour * 60); // 0*60 = 0
+                    $total_min_min = $min; // 30
+                    $total_effort_in_mins += ($total_hour_min + $total_min_min);
+                    $data['total_effort_in_mins']   = $total_effort_in_mins;
+                    // pr($data['total_effort_in_mins']);
                 }
-            }
-            $data['arr']                        = $arr;
-            $data['last7DaysResponses']         = $last7DaysResponses;
-            // echo "<pre>";   
-            // print_r($data['last7DaysResponses'])  ;die;       
-            $userGraph = [];
-            $AlluserGraph = [];
+            } else {
+                /* total cards */
+                $cu_date            = date('Y-m-d');
+                $yesterday = date('Y-m-d', strtotime('-1 day'));            
+                $data['total_users']                = $this->common_model->find_data('user', 'count');
+                $data['total_active_users']         = $this->common_model->find_data('user', 'count', ['status' => '1']);
+                $data['total_inactive_users']       = $this->common_model->find_data('user', 'count', ['status' => '0']);
+                $data['total_projects']             = $this->common_model->find_data('project', 'count');
+                $data['total_prospect_projects']    = $this->common_model->find_data('project', 'count', ['type' => 'Prospect']);
+                $data['total_active_projects']      = $this->common_model->find_data('project', 'count', ['active' => '0', 'status<>' => '13']);
+                // echo $this->db->getLastquery();
+                $data['total_lost_projects']        = $this->common_model->find_data('project', 'count', ['type' => 'Lost']);
+                $data['total_nonbill_projects']     = $this->common_model->find_data('project', 'count', ['bill' => 1, 'active' => 0]);
+                $data['total_bill_projects']        = $this->common_model->find_data('project', 'count', ['bill' => 0, 'active' => 0]);
+                $data['total_clients']              = $this->common_model->find_data('client', 'count');
+                $data['total_clients_leads']        = $this->db->query("select count(*) as count_lead from client where id not in(select client_id from project)")->getRow();
+                $data['total_app_user']             = $this->db->query("SELECT COUNT(id) as user_count FROM `user` WHERE is_salarybox_user = '1'")->getRow();
+                $data['total_present_user']         = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%'")->getRow();
+                // $order_by[0]                        = array('field' => 'status', 'type' => 'DESC');
+                $order_by[0]                        = array('field' => 'name', 'type' => 'ASC');
+                $data['employees']                  = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+                $data['projects']                   = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);  
+                
+                // This is for add effort for yesterday (projects with client & status)
+                $projectJoin = [];
+                // JOIN client: project.client_id = client.id
+                $projectJoin[0] = ['table' => 'client', 'field' => 'id','table_master' => 'project','field_table_master' => 'client_id','type' => 'LEFT',];
+                // JOIN project_status: project.status = project_status.id
+                $projectJoin[1] = ['table' => 'project_status','field' => 'id','table_master' => 'project','field_table_master'=> 'status','type' => 'LEFT',];
+                $projectSelect = 'project.id,project.name,client.name as client_name,project_status.name as project_status_name';
+                $data['projects_with_client_name'] = $this->common_model->find_data('project','array',['project.status!=' => '13'],$projectSelect,$projectJoin,'',$order_by);
+                $data['current_date']       = date('Y-m-d');
 
-            if ($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users) {
-                foreach ($user as $row) {
-                    // pr($row);       
-                    $team = "SELECT team.*,department.deprt_name  FROM `team` INNER JOIN department on team.dep_id = department.id WHERE user_id = '$row->id'";
-                    $teamdetails = $this->db->query($team)->getRow();
-                    // pr($teamdetails);
-                    /* user graph */
+                // $data['total_absent_user']          = $this->db->query("SELECT COUNT(DISTINCT attendances.user_id) AS user_count FROM `attendances` WHERE attendances.punch_date LIKE '%$cu_date%' and punch_in_time = ''")->getRow();       
+                $order_by1[0]               = array('field' => 'morning_meetings.priority', 'type' => 'DESC');
+                $join1[0]                   = ['table' => 'project', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'project_id', 'type' => 'LEFT'];
+                $join1[1]                   = ['table' => 'user', 'field' => 'id', 'table_master' => 'morning_meetings', 'field_table_master' => 'added_by', 'type' => 'INNER'];
+                $join1[2]                   = ['table' => 'timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];  
+                // $join1[2]                   = ['table' => '(SELECT assigned_task_id, SUM(hour) as hour, SUM(min) as min,MAX(description) as description FROM timesheet GROUP BY assigned_task_id) timesheet', 'field' => 'assigned_task_id', 'table_master' => 'morning_meetings', 'field_table_master' => 'id', 'type' => 'LEFT'];          
+                $getTasks                   = $this->common_model->find_data('morning_meetings', 'array', ['morning_meetings.user_id' => $userId, 'morning_meetings.date_added >=' => $yesterday], 'project.name as project_name, project.id as project_id,timesheet.description as booked_description,timesheet.hour as booked_hour,timesheet.min as booked_min,morning_meetings.description,morning_meetings.project_task_id,morning_meetings.hour,morning_meetings.min,morning_meetings.dept_id,morning_meetings.user_id,morning_meetings.id as schedule_id, morning_meetings.date_added, morning_meetings.added_by, user.name as user_name,morning_meetings.work_status_id,morning_meetings.priority,morning_meetings.effort_id,morning_meetings.is_leave,morning_meetings.created_at,morning_meetings.updated_at', $join1, '', $order_by1);                        
+                // pr($getTasks);
+                $user_task_details = [];
+                $yesterday_task_details = [];
+                $upcoming_task_details = [];
+                $yesterday_total_time = 0;
+                $yesterday_total_book_time = 0;
+
+                $user_total_time = 0;
+                $user_total_book_time = 0;
+
+                $upcoming_total_time = 0;
+                $upcoming_total_book_time = 0;
+                foreach ($getTasks as $task_data) {
+                
+                    $work_status_id         = $task_data->work_status_id;
+                    $getWorkStatus          = $this->common_model->find_data('work_status', 'row', ['id' => $work_status_id], 'name,background_color,border_color');
+
+                    $task_date = date('Y-m-d', strtotime($task_data->date_added)); // format safely
+
+                    $tasks    = [
+                                    'task_id'               => $task_data->schedule_id,
+                                    'project_id'            => $task_data->project_id,
+                                    'project_task_id'       => $task_data->project_task_id,
+                                    'project_name'          => $task_data->project_name,
+                                    'description'           => $task_data->description,
+                                    'booked_description'    => $task_data->booked_description,
+                                    'booked_hour'           => $task_data->booked_hour,
+                                    'booked_min'            => $task_data->booked_min,
+                                    'hour'                  => $task_data->hour,
+                                    'min'                   => $task_data->min,
+                                    'priority'             => $task_data->priority,
+                                    'date_added'            => date_format(date_create($task_data->date_added), "Y-m-d"),
+                                    'user_name'             => $task_data->user_name,
+                                    'user_id'               => $userId,
+                                    'is_leave'              => $task_data->is_leave,
+                                    'background_color'      => (($getWorkStatus) ? $getWorkStatus->background_color : ''),
+                                    'border_color'          => (($getWorkStatus) ? $getWorkStatus->border_color : ''),
+                                    'work_status_id'        => $task_data->work_status_id,
+                                    'work_status_name'      => (($getWorkStatus) ? $getWorkStatus->name : ''),
+                                    'added_by'              => $task_data->added_by,
+                                    'created_at'            => date_format(date_create($task_data->created_at), "M d, Y h:i a"),
+                                    'updated_at'            => date_format(date_create($task_data->updated_at), "M d, Y h:i a"),
+                                ]; 
+                                
+                                // Now categorize the task
+                    // Common logic to compute efforts
+                    $assigned_minutes = ((int)$task_data->hour * 60) + (int)$task_data->min;
+                    $has_booked_effort = $task_data->booked_hour !== '' || $task_data->booked_min !== '';
+                    $booked_minutes = $has_booked_effort ? ((int)$task_data->booked_hour * 60) + (int)$task_data->booked_min : 0;
+
+                    if ($task_date == $yesterday) {
+                        $yesterday_task_details[] = $tasks;
+                        $yesterday_total_time += $assigned_minutes;
+                        $yesterday_total_book_time += $booked_minutes;
+                    } elseif ($task_date == $cu_date) {
+                        $user_task_details[] = $tasks;
+                        $user_total_time += $assigned_minutes;
+                        $user_total_book_time += $booked_minutes;
+                    } elseif ($task_date > $cu_date) {
+                        $upcoming_task_details[] = $tasks;
+                        $upcoming_total_time += $assigned_minutes;
+                        $upcoming_total_book_time += $booked_minutes;
+                    }
+                }                                     
+                
+
+                $data['yesterday_task_details'] = $yesterday_task_details;            
+                $data['user_task_details']      = $user_task_details;            
+                $data['upcoming_task_details']  = $upcoming_task_details;
+                $data['yesterday_total_time'] = $yesterday_total_time;
+                $data['user_total_time'] = $user_total_time;            
+                $data['upcoming_total_time'] = $upcoming_total_time;        
+                $data['yesterday_total_book_time'] = $yesterday_total_book_time;
+                $data['user_total_book_time'] = $user_total_book_time;
+                $data['upcoming_total_book_time'] = $upcoming_total_book_time;
+
+
+                // pr($user_task_details);
+                // $users              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'id' => $userId], '', '', '', $order_by);
+                $sql11              = "SELECT user.*, department.deprt_name as deprt_name FROM `user`INNER JOIN department ON user.department = department.id WHERE user.id = $userId AND user.status != 3";
+                $users              = $this->db->query($sql11)->getResult();
+                $application_settings        = $this->common_model->find_data('application_settings', 'row', ['id' => 1]);
+                //  pr($application_settings);
+                $desklog_user       = $application_settings->is_desklog_use;
+                $data['desklog_user'] = $desklog_user;
+                // $cu_date            = date('Y-m-d');
+                // }
+
+                $response = [];
+                $last7DaysAttendance = [];
+                $sl = 1;
+                if ($users) {
+                    foreach ($users as $row) {
+                        $monthYear1 = date('Y') . '-' . date('01');
+                        $year = date('Y');
+                        $sql1 = "SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear1%'";
+                        $jan_booked = $this->db->query($sql1)->getRow();
+                        $sql = "SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 1 AND user_id = '$row->id'";
+                        // $sql = "SELECT time_at_work FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$monthYear1%'";
+                        $getDesktimeHour = $this->db->query($sql)->getRow();
+                        //  pr($getDesktimeHour);
+
+                        $sqlForAppProductiveTime1 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 01 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $jan_productive = $this->db->query($sqlForAppProductiveTime1)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result1 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        //     // $result1 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result1 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result1 = '';
+                        // }
+                        if ($jan_productive) {
+                            $result1 = substr($jan_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result1 = '00:00';
+                        }
+                        // echo $result1; die;
+                        if ($jan_booked) {
+                            $tothour = $jan_booked->tothour * 60;
+                            $totmin = $jan_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked1            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear2 = date('Y') . '-' . date('02');
+                        $feb_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear2%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 2 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime2 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 02 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $feb_productive = $this->db->query($sqlForAppProductiveTime2)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result2 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        //     // $result2 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result2 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result2 = '';
+                        // }
+                        if ($feb_productive) {
+                            $result2 = substr($feb_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result2 = '';
+                        }
+                        if ($feb_booked) {
+                            $tothour = $feb_booked->tothour * 60;
+                            $totmin = $feb_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked2            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear3 = date('Y') . '-' . date('03');
+                        $mar_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id=$row->id and date_added LIKE '%$monthYear3%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 3 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime3 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 03 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $mar_productive = $this->db->query($sqlForAppProductiveTime3)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result3 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        //     // $result3 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result3 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result3 = '';
+                        // }
+                        if ($mar_productive) {
+                            $result3 = substr($mar_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result3 = '';
+                        }
+                        if ($mar_booked) {
+                            $tothour3 = $mar_booked->tothour * 60;
+                            $totmin3 = $mar_booked->totmin;
+                            $totalMin3 = ($tothour3 + $totmin3);
+                            $totalBooked3            = intdiv($totalMin3, 60) . '.' . ($totalMin3 % 60);
+                        }
+                        $monthYear4 = date('Y') . '-' . date('04');
+                        $apr_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear4%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 4 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime4 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 04 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $apr_productive = $this->db->query($sqlForAppProductiveTime4)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result4 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        //     // $result4 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result4 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result4 = '';
+                        // }
+                        if ($apr_productive) {
+                            $result4 = substr($apr_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result4 = '';
+                        }
+                        if ($apr_booked) {
+                            $tothour = $apr_booked->tothour * 60;
+                            $totmin = $apr_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked4            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear5 = date('Y') . '-' . date('05');
+                        $may_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear5%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 5 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime5 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 05 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $may_productive = $this->db->query($sqlForAppProductiveTime5)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result5 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        //     // $result5 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result5 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result5 = '';
+                        // }
+                        if ($may_productive) {
+                            $result5 = substr($may_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result5 = '';
+                        }
+                        if ($may_booked) {
+                            $tothour = $may_booked->tothour * 60;
+                            $totmin = $may_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked5            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear6 = date('Y') . '-' . date('06');
+                        $jun_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear6%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 6 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime6 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 06 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $jun_productive = $this->db->query($sqlForAppProductiveTime6)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result6 = substr($getDesktimeHour->total_desktime_hour, 0, -3);
+                        //     // $result6 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result6 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result6 = '';
+                        // }
+                        if ($jun_productive) {
+                            $result6 = substr($jun_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result6 = '';
+                        }
+                        if ($jun_booked) {
+                            $tothour = $jun_booked->tothour * 60;
+                            $totmin = $jun_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked6            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear7 = date('Y') . '-' . date('07');
+                        $jul_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear7%'")->getRow();
+                        $sql10 = "SELECT * FROM `desktime_sheet_tracking` WHERE year_upload = '$year' AND month_upload = 7 AND user_id = '$row->id'";
+                        $getDesktimeHour = $this->db->query($sql10)->getRow();
+
+                        $sqlForAppProductiveTime7 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 07 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $jul_productive = $this->db->query($sqlForAppProductiveTime7)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result7 = $getDesktimeHour->total_desktime_hour;  
+                        //     // $result7 = (int)$getDesktimeHour->total_desktime_hour; 
+                        //     $result7 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result7 = '';
+                        // }
+                        if ($jul_productive) {
+                            $result7 = substr($jul_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result7 = '';
+                        }
+                        if ($jul_booked) {
+                            $tothour = $jul_booked->tothour * 60;
+                            $totmin = $jul_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked7            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear8 = date('Y') . '-' . date('08');
+                        $aug_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear8%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 8 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime8 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 08 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $aug_productive = $this->db->query($sqlForAppProductiveTime8)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result8 = $getDesktimeHour->total_desktime_hour;
+                        //     // $result8 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result8 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result8 = '';
+                        // }
+                        if ($aug_productive) {
+                            $result8 = substr($aug_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result8 = '';
+                        }
+                        if ($aug_booked) {
+                            $tothour = $aug_booked->tothour * 60;
+                            $totmin = $aug_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked8            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear9 = date('Y') . '-' . date('09');
+                        $sep_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear9%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 9 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime9 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 09 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $sep_productive = $this->db->query($sqlForAppProductiveTime9)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result9 = $getDesktimeHour->total_desktime_hour;
+                        //     $result9 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result9 = '';
+                        // }
+                        if ($sep_productive) {
+                            $result9 = substr($sep_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result9 = '';
+                        }
+                        if ($sep_booked) {
+                            $tothour = $sep_booked->tothour * 60;
+                            $totmin = $sep_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked9            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear10 = date('Y') . '-' . date('10');
+                        $oct_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear10%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 10 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime10 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 10 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $oct_productive = $this->db->query($sqlForAppProductiveTime10)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result10 = $getDesktimeHour->total_desktime_hour;
+                        //     // $result10 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result10 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result10 = '';
+                        // }
+                        if ($oct_productive) {
+                            $result10 = substr($oct_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result10 = '';
+                        }
+                        if ($oct_booked) {
+                            $tothour = $oct_booked->tothour * 60;
+                            $totmin = $oct_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked10            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear11 = date('Y') . '-' . date('11');
+                        $nov_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear11%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 11 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime11 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 11 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $nov_productive = $this->db->query($sqlForAppProductiveTime11)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result11 = $getDesktimeHour->total_desktime_hour;
+                        //     // $result11 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result11 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result11 = '';
+                        // }
+                        if ($nov_productive) {
+                            $result11 = substr($nov_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result11 = '';
+                        }
+                        if ($nov_booked) {
+                            $tothour = $nov_booked->tothour * 60;
+                            $totmin = $nov_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked11            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+                        $monthYear12 = date('Y') . '-' . date('12');
+                        $dec_booked = $this->db->query("SELECT sum(hour) as tothour, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '%$monthYear12%'")->getRow();
+                        $getDesktimeHour = $this->db->query("SELECT * FROM `desktime_sheet_tracking`  WHERE year_upload = '$year' AND month_upload = 12 AND user_id = '$row->id'")->getRow();
+
+                        $sqlForAppProductiveTime12 = "SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(productive_time))) AS total_productive_time FROM `desktop_app` where desktopapp_userid='$row->id' AND MONTH(insert_date) = 12 AND YEAR(insert_date) = YEAR(CURDATE())";
+                        $dec_productive = $this->db->query($sqlForAppProductiveTime12)->getRow();
+
+                        // if ($getDesktimeHour) {
+                        //     // $result12 = $getDesktimeHour->total_desktime_hour;
+                        //     // $result12 = (int)$getDesktimeHour->total_desktime_hour;
+                        //     $result12 = str_replace(['h ', 'm'], [':', ''], $getDesktimeHour->total_desktime_hour);
+                        // } else {
+                        //     $result12 = '';
+                        // }
+                        if ($dec_productive) {
+                            $result12 = substr($dec_productive->total_productive_time, 0, 5);
+                        } else {
+                            $result12 = '';
+                        }
+                        if ($dec_booked) {
+                            $tothour = $dec_booked->tothour * 60;
+                            $totmin = $dec_booked->totmin;
+                            $totalMin = ($tothour + $totmin);
+                            $totalBooked12            = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                        }
+
+                        $arr                = [];
+                        $arr = $this->getLastNDays(7, 'Y-m-d');
+                        if (!empty($arr)) {
+                            $Attendancereports = [];
+                            for ($k = 0; $k < count($arr); $k++) {
+                                $loopDate           = $arr[$k];
+                                // print_r($loopDate);die;
+                                $dayWiseAttendance      = $this->db->query("SELECT MIN(punch_in_time) AS first_punch_in, MAX(punch_out_time) AS last_punch_out FROM `attendances` where user_id='$row->id' and punch_date LIKE '$loopDate'")->getRow();
+                                // $dayWiseAttendance      = $this->db->query("SELECT MIN(punch_in_time) AS first_punch_in, MAX(punch_out_time) AS last_punch_out FROM `attendances` where user_id='$row->id' and punch_date LIKE '%2024-08-29%'")->getRow();
+                                // echo $this->db->getLastquery();
+                                //  pr($dayWiseAttendance);                                
+
+                                if ($dayWiseAttendance) {
+                                    $punchIn = $dayWiseAttendance->first_punch_in;
+                                    $punchOut = $dayWiseAttendance->last_punch_out;
+                                } else {
+                                    $punchIn = null;
+                                    $punchOut = null;
+                                }
+                                $Attendancereports[] = [
+                                    'booked_date'   => date_format(date_create($loopDate), "d-m-Y"),
+                                    'punchIn' => $punchIn,
+                                    'punchOut' => $punchOut,
+                                ];
+                            }
+                            // pr($Attendancereports);
+                        }
+                        $last7DaysAttendance[] = [
+                            'userId'    => $row->id,
+                            'name'      => $row->name,
+                            'Attendancereports'   => $Attendancereports,
+                        ];
+
+
+
+                        $response[] = [
+                            'sl_no'         => $sl++,
+                            'name'          => $row->name,
+                            'jan_booked'    => $totalBooked1,
+                            'feb_booked'    => $totalBooked2,
+                            'mar_booked'    => $totalBooked3,
+                            'apr_booked'    => $totalBooked4,
+                            'may_booked'    => $totalBooked5,
+                            'jun_booked'    => $totalBooked6,
+                            'jul_booked'    => $totalBooked7,
+                            'aug_booked'    => $totalBooked8,
+                            'sep_booked'    => $totalBooked9,
+                            'oct_booked'    => $totalBooked10,
+                            'nov_booked'    => $totalBooked11,
+                            'dec_booked'    => $totalBooked12,
+                            'jan_desktop_app'   => $result1,
+                            'feb_desktop_app'   => $result2,
+                            'mar_desktop_app'   => $result3,
+                            'apr_desktop_app'   => $result4,
+                            'may_desktop_app'   => $result5,
+                            'jun_desktop_app'   => $result6,
+                            'jul_desktop_app'   => $result7,
+                            'aug_desktop_app'   => $result8,
+                            'sep_desktop_app'   => $result9,
+                            'oct_desktop_app'   => $result10,
+                            'nov_desktop_app'   => $result11,
+                            'dec_desktop_app'   => $result12,
+                            'deskloguser'   => $desklog_user,
+                        ];
+                    }
+                }
+                $data['responses']                   = $response;
+                $data['last7DaysAttendance']         = $last7DaysAttendance;
+
+                $last7DaysResponses = [];
+                $arr                = [];
+                $users_data              = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
+                $arr = $this->getLastNDays(7, 'Y-m-d');
+                //print_r($arr);die;
+                if ($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users) {
+                    // if($users){
+                    foreach ($user as $row) {
+                        if (!empty($arr)) {
+                            $reports = [];
+                            for ($k = 0; $k < count($arr); $k++) {
+                                $loopDate               = $arr[$k];
+                                $dayWiseBooked          = $this->db->query("SELECT sum(hour) as tothour, date_today, sum(min) as totmin FROM `timesheet` where user_id='$row->id' and date_added LIKE '$loopDate'")->getRow();
+                                // $desklogdayWise         = $this->db->query("SELECT time_at_work  FROM `desklog_report` where tracker_user_id='$row->id' and insert_date LIKE '%$loopDate%'")->getRow();
+                                $desklogdayWise         = $this->db->query("SELECT productive_time  FROM `desktop_app` where desktopapp_userid='$row->id' and insert_date LIKE '%$loopDate%'")->getRow();
+                                // echo $this->db->getLastquery();
+                                // echo "<pre>";
+                                // print_r($str);
+                                // var_dump($desklogdayWise); die();
+
+                                $tothour                = $dayWiseBooked->tothour * 60;
+                                $totmin                 = $dayWiseBooked->totmin;
+                                $totalMin               = ($tothour + $totmin);
+                                $booked_effort          = intdiv($totalMin, 60) . '.' . ($totalMin % 60);
+                                $workdate               = date_create($loopDate);
+                                $entrydate              = date_create($dayWiseBooked->date_today);
+                                if ($desklogdayWise !== null) {
+                                    $desklogTime            = $desklogdayWise->productive_time;
+                                } else {
+                                    $desklogTime            = 0;
+                                }
+
+                                $reports[] = [
+                                    'booked_date'   => date_format(date_create($loopDate), "d-m-Y"),
+                                    'booked_effort' => $booked_effort,
+                                    'booked_today' => date_format(date_create($dayWiseBooked->date_today), "d-m-Y"),
+                                    'desklog_time'  => str_replace(['h ', 'm'], [':', ''], $desklogTime),
+                                    'deskloguser'   => $desklog_user,
+                                ];
+                            }
+                        }
+                        $last7DaysResponses[] = [
+                            'userId'    => $row->id,
+                            'name'      => $row->name,
+                            'reports'   => $reports,
+                        ];
+                    }
+                }
+                $data['arr']                        = $arr;
+                $data['last7DaysResponses']         = $last7DaysResponses;
+                // echo "<pre>";   
+                // print_r($data['last7DaysResponses'])  ;die;       
+                $userGraph = [];
+                $AlluserGraph = [];
+
+                if ($user = ($userType == 'SUPER ADMIN' || $userType == 'ADMIN') ? $users_data : $users) {
+                    foreach ($user as $row) {
+                        // pr($row);       
+                        $team = "SELECT team.*,department.deprt_name  FROM `team` INNER JOIN department on team.dep_id = department.id WHERE user_id = '$row->id'";
+                        $teamdetails = $this->db->query($team)->getRow();
+                        // pr($teamdetails);
+                        /* user graph */
+                        $yesterday_date = date('Y-m-d', strtotime("-1 days"));
+                        $qry_yesterday_proj = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill  from timesheet where date_added = '$yesterday_date' and user_id = '$row->id' group by timesheet.project_id" . " order by timesheet.date_added desc";
+                        $res_yesterday_proj = $this->db->query($qry_yesterday_proj)->getResult();
+                        $i4 = 1;
+                        $ystrdhr = 0;
+                        $ystrdmin = 0;
+                        $ystrdbill_hr = 0;
+                        $ystrdbill_min = 0;
+                        $ystrdnonbill_hr = 0;
+                        $ystrdnonbill_min = 0;
+                        // $yesterday_hour = 0;
+                        // $yesterday_minute = 0;
+                        foreach ($res_yesterday_proj as $row_yesterday_proj) {
+                            if ($row_yesterday_proj->bill != '1') {
+                                $ystrdbill_hr = $ystrdbill_hr + $row_yesterday_proj->hour;
+                                $ystrdbill_min = $ystrdbill_min + $row_yesterday_proj->min;
+                            } else {
+                                $ystrdnonbill_hr = $ystrdnonbill_hr + $row_yesterday_proj->hour;
+                                $ystrdnonbill_min = $ystrdnonbill_min + $row_yesterday_proj->min;
+                            }
+                            $i4++;
+                        }
+                        if ($ystrdbill_min < 60) {
+                            $ystrdtotbill_hour = $ystrdbill_hr;
+                            $ystrdtotbill_minute = $ystrdbill_min;
+                        } else {
+                            $ystrdtotbill_hour_res1 = floor($ystrdbill_min / 60);
+                            $ystrdtotbill_minute = $ystrdbill_min % 60;
+                            $ystrdtotbill_hour = $ystrdbill_hr + $ystrdtotbill_hour_res1;
+                        }
+                        if ($ystrdnonbill_min < 60) {
+                            $ystrdtotnonbill_hour = $ystrdnonbill_hr;
+                            $ystrdtotnonbill_minute = $ystrdnonbill_min;
+                        } else {
+                            $ystrdtotnonbill_hour_res1 = floor($ystrdnonbill_min / 60);
+                            $ystrdtotnonbill_minute = $ystrdnonbill_min % 60;
+                            $ystrdtotnonbill_hour = $ystrdnonbill_hr + $ystrdtotnonbill_hour_res1;
+                        }
+                        $yesterdayHourBill = $ystrdtotbill_hour + ($ystrdtotbill_minute / 60);
+                        $yesterdayMinBill = $ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60);
+                        /* user graph */
+                        /* user Monthly graph */
+                        $thismonthdayUsr = "";
+                        $thismonthmonthUsr = "";
+                        $thismonthyearUsr = "";
+                        $thismonthtdayUsr = ($thismonthdayUsr == "") ? "01" : $thismonthdayUsr;
+                        $thismonthtmonthUsr = ($thismonthmonthUsr == "") ? date("m") : $thismonthmonthUsr;
+                        $thismonthtyearUsr = ($thismonthyearUsr == "") ? date("Y") : $thismonthyearUsr;
+                        $thismonthmonth_sdUsr = date("Y-m-d", strtotime($thismonthtmonthUsr . '/' . $thismonthtdayUsr . '/' . $thismonthtyearUsr . ' 00:00:00'));
+                        $thismonthmonth_edUsr = date("Y-m-d", strtotime('-1 second', strtotime('+1 month', strtotime($thismonthtmonthUsr . '/' . $thismonthtdayUsr . '/' . $thismonthtyearUsr . ' 00:00:00'))));
+                        $thismonthdateUsr = date('Y-m-d');
+                        $qry_thismonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
+                            . "from timesheet where date_added between '$thismonthmonth_sdUsr' and '$thismonthdateUsr' and user_id = '$row->id' "
+                            . " group by timesheet.project_id order by timesheet.date_added desc";
+                        $res_thismonth_projUsr = $this->db->query($qry_thismonth_projUsr)->getResult();
+                        //pr($res_thismonth_projUsr);
+                        $i5Usr = 1;
+                        $thismonthhrUsr = 0;
+                        $thismonthminUsr = 0;
+                        $thismonthbill_hrUsr = 0;
+                        $thismonthbill_minUsr = 0;
+                        $thismonthnonbill_hrUsr = 0;
+                        $thismonthnonbill_minUsr = 0;
+                        foreach ($res_thismonth_projUsr as $row_thismonth_projUsr) {
+                            if ($row_thismonth_projUsr->bill != '1') {
+                                $thismonthbill_hrUsr = $thismonthbill_hrUsr + $row_thismonth_projUsr->hour;
+                                $thismonthbill_minUsr = $thismonthbill_minUsr + $row_thismonth_projUsr->min;
+                            } else {
+                                $thismonthnonbill_hrUsr = $thismonthnonbill_hrUsr + $row_thismonth_projUsr->hour;
+                                $thismonthnonbill_minUsr = $thismonthnonbill_minUsr + $row_thismonth_projUsr->min;
+                            }
+                            $i5Usr++;
+                        }
+                        if ($thismonthbill_minUsr < 60) {
+                            $thismonthtotbill_hourUsr = $thismonthbill_hrUsr;
+                            $thismonthtotbill_minuteUsr = $thismonthbill_minUsr;
+                        } else {
+                            $thismonthtotbill_hour_res1Usr = floor($thismonthbill_minUsr / 60);
+                            $thismonthtotbill_minuteUsr = $thismonthbill_minUsr % 60;
+                            $thismonthtotbill_hourUsr = $thismonthbill_hrUsr + $thismonthtotbill_hour_res1Usr;
+                        }
+
+                        if ($thismonthnonbill_minUsr < 60) {
+                            $thismonthtotnonbill_hourUsr = $thismonthnonbill_hrUsr;
+                            $thismonthtotnonbill_minuteUsr = $thismonthnonbill_minUsr;
+                        } else {
+                            $thismonthtotnonbill_hour_res1Usr = floor($thismonthnonbill_minUsr / 60);
+                            $thismonthtotnonbill_minuteUsr = $thismonthnonbill_minUsr % 60;
+                            $thismonthtotnonbill_hourUsr = $thismonthnonbill_hrUsr + $thismonthtotnonbill_hour_res1Usr;
+                        }
+                        $thismonthHourBillUsr = $thismonthtotbill_hourUsr + ($thismonthtotbill_minuteUsr / 60);
+                        $thismonthMinBillUsr = $thismonthtotnonbill_hourUsr + ($thismonthtotnonbill_minuteUsr / 60);
+                        $data['thismonthHourBillUsr']        = $thismonthHourBillUsr;
+                        $data['thismonthMinBillUsr']        = $thismonthMinBillUsr;
+                        /* user Monthly graph */
+                        /* user Last Month graph */
+                        $lastmonththis_yearUsr = date("Y");
+                        $lastmonththis_monthUsr = date("m");
+                        if ($lastmonththis_monthUsr == '01' || $lastmonththis_monthUsr == '1') {
+                            $lastmonthmonthUsr = 12;
+                            $lastmonththis_yearUsr = $lastmonththis_yearUsr - 1;
+                        } else {
+                            $lastmonthmonthUsr = $lastmonththis_monthUsr - 1;
+                        }
+                        $lastmonthlastdayUsr = mktime(0, 0, 0, $lastmonthmonthUsr + 1, 0, $lastmonththis_yearUsr);
+                        $lastmonthfirstdayUsr = mktime(0, 0, 0, $lastmonthmonthUsr, 1, $lastmonththis_yearUsr);
+                        $lastmonthendUsr = date("Y-m-d", $lastmonthlastdayUsr);
+                        $lastmonthstartUsr = date("Y-m-d", $lastmonthfirstdayUsr);
+                        $qry_lastmonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
+                            . "from timesheet where date_added between '$lastmonthstartUsr' and '$lastmonthendUsr' and user_id = '$row->id' "
+                            . " group by timesheet.project_id order by timesheet.date_added desc";
+                        $res_lastmonth_projUsr = $this->db->query($qry_lastmonth_projUsr)->getResult();
+                        $i6Usr = 1;
+                        $lastmonthhhrUsr = 0;
+                        $lastmonthminUsr = 0;
+                        $lastmonthbill_hrUsr = 0;
+                        $lastmonthbill_minUsr = 0;
+                        $lastmonthnonbill_hrUsr = 0;
+                        $lastmonthnonbill_minUsr = 0;
+                        foreach ($res_lastmonth_projUsr as $row_lastmonth_projUsr) {
+                            if ($row_lastmonth_projUsr->bill != '1') {
+                                $lastmonthbill_hrUsr = $lastmonthbill_hrUsr + $row_lastmonth_projUsr->hour;
+                                $lastmonthbill_minUsr = $lastmonthbill_minUsr + $row_lastmonth_projUsr->min;
+                            } else {
+                                $lastmonthnonbill_hrUsr = $lastmonthnonbill_hrUsr + $row_lastmonth_projUsr->hour;
+                                $lastmonthnonbill_minUsr = $lastmonthnonbill_minUsr + $row_lastmonth_projUsr->min;
+                            }
+                            $i6Usr++;
+                        }
+                        if ($lastmonthbill_minUsr < 60) {
+                            $lastmonthtotbill_hourUsr = $lastmonthbill_hrUsr;
+                            $lastmonthtotbill_minuteUsr = $lastmonthbill_minUsr;
+                        } else {
+                            $lastmonthtotbill_hour_res1Usr = floor($lastmonthbill_minUsr / 60);
+                            $lastmonthtotbill_minuteUsr = $lastmonthbill_minUsr % 60;
+                            $lastmonthtotbill_hourUsr = $lastmonthbill_hrUsr + $lastmonthtotbill_hour_res1Usr;
+                        }
+                        if ($lastmonthnonbill_minUsr < 60) {
+                            $lastmonthtotnonbill_hourUsr = $lastmonthnonbill_hrUsr;
+                            $lastmonthtotnonbill_minuteUsr = $lastmonthnonbill_minUsr;
+                        } else {
+                            $lastmonthtotnonbill_hour_res1Usr = floor($lastmonthnonbill_minUsr / 60);
+                            $lastmonthtotnonbill_minuteUsr = $lastmonthnonbill_minUsr % 60;
+                            $lastmonthtotnonbill_hourUsr = $lastmonthnonbill_hrUsr + $lastmonthtotnonbill_hour_res1Usr;
+                        }
+                        $lastmonthHourBillUsr = $lastmonthtotbill_hourUsr + ($lastmonthtotbill_minuteUsr / 60);
+                        $lastmonthMinBillUsr = $lastmonthtotnonbill_hourUsr + ($lastmonthtotnonbill_minuteUsr / 60);
+                        $data['lastmonthHourBillUsr']        = $lastmonthHourBillUsr;
+                        $data['lastmonthMinBillUsr']        = $lastmonthMinBillUsr;
+                        /* user last Month graph */
+                        $userGraph[] = [
+                            'name'                      => $row->name,
+                            'id'                        => $row->id,
+                            'type'                      => ($teamdetails) ? $teamdetails->type : '',
+                            'deprt_name'                => ($teamdetails) ? $teamdetails->deprt_name : '',
+                            'yesterdayMinBill'          => number_format($yesterdayMinBill, 2),
+                            'yesterdayHourBill'         => number_format($yesterdayHourBill, 2),
+                            'thismonthHourBillUsr'      => number_format($thismonthHourBillUsr, 2),
+                            'thismonthMinBillUsr'       => number_format($thismonthMinBillUsr, 2),
+                            'lastmonthHourBillUsr'      => number_format($lastmonthHourBillUsr, 2),
+                            'lastmonthMinBillUsr'       => number_format($lastmonthMinBillUsr, 2),
+                            // 'reports'   => $reports,
+                        ];
+                        //    pr($userGraph);               
+                        //array_push($userGraph,$row->name);
+
+                    }
+                    //  pr($userGraph);  
+
+                    /* All user graph */
                     $yesterday_date = date('Y-m-d', strtotime("-1 days"));
-                    $qry_yesterday_proj = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill  from timesheet where date_added = '$yesterday_date' and user_id = '$row->id' group by timesheet.project_id" . " order by timesheet.date_added desc";
+                    $qry_yesterday_proj = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill  from timesheet where date_added = '$yesterday_date' group by timesheet.project_id" . " order by timesheet.date_added desc";
                     $res_yesterday_proj = $this->db->query($qry_yesterday_proj)->getResult();
+                    // pr($res_yesterday_proj);                      
                     $i4 = 1;
                     $ystrdhr = 0;
                     $ystrdmin = 0;
@@ -936,9 +2049,8 @@ class User extends BaseController
                     $ystrdbill_min = 0;
                     $ystrdnonbill_hr = 0;
                     $ystrdnonbill_min = 0;
-                    // $yesterday_hour = 0;
-                    // $yesterday_minute = 0;
                     foreach ($res_yesterday_proj as $row_yesterday_proj) {
+                        // pr($row_yesterday_proj);
                         if ($row_yesterday_proj->bill != '1') {
                             $ystrdbill_hr = $ystrdbill_hr + $row_yesterday_proj->hour;
                             $ystrdbill_min = $ystrdbill_min + $row_yesterday_proj->min;
@@ -964,10 +2076,11 @@ class User extends BaseController
                         $ystrdtotnonbill_minute = $ystrdnonbill_min % 60;
                         $ystrdtotnonbill_hour = $ystrdnonbill_hr + $ystrdtotnonbill_hour_res1;
                     }
-                    $yesterdayHourBill = $ystrdtotbill_hour + ($ystrdtotbill_minute / 60);
-                    $yesterdayMinBill = $ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60);
-                    /* user graph */
-                    /* user Monthly graph */
+                    $yesterdayAllUserHourBill = $ystrdtotbill_hour + ($ystrdtotbill_minute / 60);
+                    $yesterdayAllUserMinBill = $ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60);
+                    /* All user graph */
+
+                    /* All user Monthly graph */
                     $thismonthdayUsr = "";
                     $thismonthmonthUsr = "";
                     $thismonthyearUsr = "";
@@ -978,7 +2091,7 @@ class User extends BaseController
                     $thismonthmonth_edUsr = date("Y-m-d", strtotime('-1 second', strtotime('+1 month', strtotime($thismonthtmonthUsr . '/' . $thismonthtdayUsr . '/' . $thismonthtyearUsr . ' 00:00:00'))));
                     $thismonthdateUsr = date('Y-m-d');
                     $qry_thismonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
-                        . "from timesheet where date_added between '$thismonthmonth_sdUsr' and '$thismonthdateUsr' and user_id = '$row->id' "
+                        . "from timesheet where date_added between '$thismonthmonth_sdUsr' and '$thismonthdateUsr' "
                         . " group by timesheet.project_id order by timesheet.date_added desc";
                     $res_thismonth_projUsr = $this->db->query($qry_thismonth_projUsr)->getResult();
                     //pr($res_thismonth_projUsr);
@@ -1016,12 +2129,12 @@ class User extends BaseController
                         $thismonthtotnonbill_minuteUsr = $thismonthnonbill_minUsr % 60;
                         $thismonthtotnonbill_hourUsr = $thismonthnonbill_hrUsr + $thismonthtotnonbill_hour_res1Usr;
                     }
-                    $thismonthHourBillUsr = $thismonthtotbill_hourUsr + ($thismonthtotbill_minuteUsr / 60);
-                    $thismonthMinBillUsr = $thismonthtotnonbill_hourUsr + ($thismonthtotnonbill_minuteUsr / 60);
-                    $data['thismonthHourBillUsr']        = $thismonthHourBillUsr;
-                    $data['thismonthMinBillUsr']        = $thismonthMinBillUsr;
-                    /* user Monthly graph */
-                    /* user Last Month graph */
+                    $thismonthAllUserHourBillUsr = $thismonthtotbill_hourUsr + ($thismonthtotbill_minuteUsr / 60);
+                    $thismonthAllUserMinBillUsr = $thismonthtotnonbill_hourUsr + ($thismonthtotnonbill_minuteUsr / 60);
+                    $data['thismonthAllUserHourBillUsr']        = $thismonthAllUserHourBillUsr;
+                    $data['thismonthAllUserMinBillUsr']        = $thismonthAllUserMinBillUsr;
+                    /* All user Monthly graph */
+                    /* All user Last Month graph */
                     $lastmonththis_yearUsr = date("Y");
                     $lastmonththis_monthUsr = date("m");
                     if ($lastmonththis_monthUsr == '01' || $lastmonththis_monthUsr == '1') {
@@ -1035,7 +2148,7 @@ class User extends BaseController
                     $lastmonthendUsr = date("Y-m-d", $lastmonthlastdayUsr);
                     $lastmonthstartUsr = date("Y-m-d", $lastmonthfirstdayUsr);
                     $qry_lastmonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
-                        . "from timesheet where date_added between '$lastmonthstartUsr' and '$lastmonthendUsr' and user_id = '$row->id' "
+                        . "from timesheet where date_added between '$lastmonthstartUsr' and '$lastmonthendUsr'"
                         . " group by timesheet.project_id order by timesheet.date_added desc";
                     $res_lastmonth_projUsr = $this->db->query($qry_lastmonth_projUsr)->getResult();
                     $i6Usr = 1;
@@ -1071,200 +2184,29 @@ class User extends BaseController
                         $lastmonthtotnonbill_minuteUsr = $lastmonthnonbill_minUsr % 60;
                         $lastmonthtotnonbill_hourUsr = $lastmonthnonbill_hrUsr + $lastmonthtotnonbill_hour_res1Usr;
                     }
-                    $lastmonthHourBillUsr = $lastmonthtotbill_hourUsr + ($lastmonthtotbill_minuteUsr / 60);
-                    $lastmonthMinBillUsr = $lastmonthtotnonbill_hourUsr + ($lastmonthtotnonbill_minuteUsr / 60);
-                    $data['lastmonthHourBillUsr']        = $lastmonthHourBillUsr;
-                    $data['lastmonthMinBillUsr']        = $lastmonthMinBillUsr;
-                    /* user last Month graph */
-                    $userGraph[] = [
-                        'name'                      => $row->name,
-                        'id'                        => $row->id,
-                        'type'                      => ($teamdetails) ? $teamdetails->type : '',
-                        'deprt_name'                => ($teamdetails) ? $teamdetails->deprt_name : '',
-                        'yesterdayMinBill'          => number_format($yesterdayMinBill, 2),
-                        'yesterdayHourBill'         => number_format($yesterdayHourBill, 2),
-                        'thismonthHourBillUsr'      => number_format($thismonthHourBillUsr, 2),
-                        'thismonthMinBillUsr'       => number_format($thismonthMinBillUsr, 2),
-                        'lastmonthHourBillUsr'      => number_format($lastmonthHourBillUsr, 2),
-                        'lastmonthMinBillUsr'       => number_format($lastmonthMinBillUsr, 2),
-                        // 'reports'   => $reports,
+                    $lastmonthAllUserHourBillUsr = $lastmonthtotbill_hourUsr + ($lastmonthtotbill_minuteUsr / 60);
+                    $lastmonthAllUserMinBillUsr = $lastmonthtotnonbill_hourUsr + ($lastmonthtotnonbill_minuteUsr / 60);
+                    $data['lastmonthAllUserHourBillUsr']        = $lastmonthAllUserHourBillUsr;
+                    $data['lastmonthAllUserMinBillUsr']        = $lastmonthAllUserMinBillUsr;
+                    /* All user last Month graph */
+
+                    $AlluserGraph[] = [
+                        'yesterdayAllUserHourBill'      => number_format($yesterdayAllUserHourBill, 2),
+                        'yesterdayAllUserMinBill'       => number_format($yesterdayAllUserMinBill, 2),
+                        'thismonthAllUserHourBillUsr'   => number_format($thismonthAllUserHourBillUsr, 2),
+                        'thismonthAllUserMinBillUsr'    => number_format($thismonthAllUserMinBillUsr, 2),
+                        'lastmonthAllUserHourBillUsr'   => number_format($lastmonthAllUserHourBillUsr, 2),
+                        'lastmonthAllUserMinBillUsr'    => number_format($lastmonthAllUserMinBillUsr, 2),
                     ];
-                    //    pr($userGraph);               
-                    //array_push($userGraph,$row->name);
-
+                    //   pr($AlluserGraph);
                 }
-                //  pr($userGraph);  
-
-                /* All user graph */
-                $yesterday_date = date('Y-m-d', strtotime("-1 days"));
-                $qry_yesterday_proj = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill  from timesheet where date_added = '$yesterday_date' group by timesheet.project_id" . " order by timesheet.date_added desc";
-                $res_yesterday_proj = $this->db->query($qry_yesterday_proj)->getResult();
-                // pr($res_yesterday_proj);                      
-                $i4 = 1;
-                $ystrdhr = 0;
-                $ystrdmin = 0;
-                $ystrdbill_hr = 0;
-                $ystrdbill_min = 0;
-                $ystrdnonbill_hr = 0;
-                $ystrdnonbill_min = 0;
-                foreach ($res_yesterday_proj as $row_yesterday_proj) {
-                    // pr($row_yesterday_proj);
-                    if ($row_yesterday_proj->bill != '1') {
-                        $ystrdbill_hr = $ystrdbill_hr + $row_yesterday_proj->hour;
-                        $ystrdbill_min = $ystrdbill_min + $row_yesterday_proj->min;
-                    } else {
-                        $ystrdnonbill_hr = $ystrdnonbill_hr + $row_yesterday_proj->hour;
-                        $ystrdnonbill_min = $ystrdnonbill_min + $row_yesterday_proj->min;
-                    }
-                    $i4++;
-                }
-                if ($ystrdbill_min < 60) {
-                    $ystrdtotbill_hour = $ystrdbill_hr;
-                    $ystrdtotbill_minute = $ystrdbill_min;
-                } else {
-                    $ystrdtotbill_hour_res1 = floor($ystrdbill_min / 60);
-                    $ystrdtotbill_minute = $ystrdbill_min % 60;
-                    $ystrdtotbill_hour = $ystrdbill_hr + $ystrdtotbill_hour_res1;
-                }
-                if ($ystrdnonbill_min < 60) {
-                    $ystrdtotnonbill_hour = $ystrdnonbill_hr;
-                    $ystrdtotnonbill_minute = $ystrdnonbill_min;
-                } else {
-                    $ystrdtotnonbill_hour_res1 = floor($ystrdnonbill_min / 60);
-                    $ystrdtotnonbill_minute = $ystrdnonbill_min % 60;
-                    $ystrdtotnonbill_hour = $ystrdnonbill_hr + $ystrdtotnonbill_hour_res1;
-                }
-                $yesterdayAllUserHourBill = $ystrdtotbill_hour + ($ystrdtotbill_minute / 60);
-                $yesterdayAllUserMinBill = $ystrdtotnonbill_hour + ($ystrdtotnonbill_minute / 60);
-                /* All user graph */
-
-                /* All user Monthly graph */
-                $thismonthdayUsr = "";
-                $thismonthmonthUsr = "";
-                $thismonthyearUsr = "";
-                $thismonthtdayUsr = ($thismonthdayUsr == "") ? "01" : $thismonthdayUsr;
-                $thismonthtmonthUsr = ($thismonthmonthUsr == "") ? date("m") : $thismonthmonthUsr;
-                $thismonthtyearUsr = ($thismonthyearUsr == "") ? date("Y") : $thismonthyearUsr;
-                $thismonthmonth_sdUsr = date("Y-m-d", strtotime($thismonthtmonthUsr . '/' . $thismonthtdayUsr . '/' . $thismonthtyearUsr . ' 00:00:00'));
-                $thismonthmonth_edUsr = date("Y-m-d", strtotime('-1 second', strtotime('+1 month', strtotime($thismonthtmonthUsr . '/' . $thismonthtdayUsr . '/' . $thismonthtyearUsr . ' 00:00:00'))));
-                $thismonthdateUsr = date('Y-m-d');
-                $qry_thismonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
-                    . "from timesheet where date_added between '$thismonthmonth_sdUsr' and '$thismonthdateUsr' "
-                    . " group by timesheet.project_id order by timesheet.date_added desc";
-                $res_thismonth_projUsr = $this->db->query($qry_thismonth_projUsr)->getResult();
-                //pr($res_thismonth_projUsr);
-                $i5Usr = 1;
-                $thismonthhrUsr = 0;
-                $thismonthminUsr = 0;
-                $thismonthbill_hrUsr = 0;
-                $thismonthbill_minUsr = 0;
-                $thismonthnonbill_hrUsr = 0;
-                $thismonthnonbill_minUsr = 0;
-                foreach ($res_thismonth_projUsr as $row_thismonth_projUsr) {
-                    if ($row_thismonth_projUsr->bill != '1') {
-                        $thismonthbill_hrUsr = $thismonthbill_hrUsr + $row_thismonth_projUsr->hour;
-                        $thismonthbill_minUsr = $thismonthbill_minUsr + $row_thismonth_projUsr->min;
-                    } else {
-                        $thismonthnonbill_hrUsr = $thismonthnonbill_hrUsr + $row_thismonth_projUsr->hour;
-                        $thismonthnonbill_minUsr = $thismonthnonbill_minUsr + $row_thismonth_projUsr->min;
-                    }
-                    $i5Usr++;
-                }
-                if ($thismonthbill_minUsr < 60) {
-                    $thismonthtotbill_hourUsr = $thismonthbill_hrUsr;
-                    $thismonthtotbill_minuteUsr = $thismonthbill_minUsr;
-                } else {
-                    $thismonthtotbill_hour_res1Usr = floor($thismonthbill_minUsr / 60);
-                    $thismonthtotbill_minuteUsr = $thismonthbill_minUsr % 60;
-                    $thismonthtotbill_hourUsr = $thismonthbill_hrUsr + $thismonthtotbill_hour_res1Usr;
-                }
-
-                if ($thismonthnonbill_minUsr < 60) {
-                    $thismonthtotnonbill_hourUsr = $thismonthnonbill_hrUsr;
-                    $thismonthtotnonbill_minuteUsr = $thismonthnonbill_minUsr;
-                } else {
-                    $thismonthtotnonbill_hour_res1Usr = floor($thismonthnonbill_minUsr / 60);
-                    $thismonthtotnonbill_minuteUsr = $thismonthnonbill_minUsr % 60;
-                    $thismonthtotnonbill_hourUsr = $thismonthnonbill_hrUsr + $thismonthtotnonbill_hour_res1Usr;
-                }
-                $thismonthAllUserHourBillUsr = $thismonthtotbill_hourUsr + ($thismonthtotbill_minuteUsr / 60);
-                $thismonthAllUserMinBillUsr = $thismonthtotnonbill_hourUsr + ($thismonthtotnonbill_minuteUsr / 60);
-                $data['thismonthAllUserHourBillUsr']        = $thismonthAllUserHourBillUsr;
-                $data['thismonthAllUserMinBillUsr']        = $thismonthAllUserMinBillUsr;
-                /* All user Monthly graph */
-                /* All user Last Month graph */
-                $lastmonththis_yearUsr = date("Y");
-                $lastmonththis_monthUsr = date("m");
-                if ($lastmonththis_monthUsr == '01' || $lastmonththis_monthUsr == '1') {
-                    $lastmonthmonthUsr = 12;
-                    $lastmonththis_yearUsr = $lastmonththis_yearUsr - 1;
-                } else {
-                    $lastmonthmonthUsr = $lastmonththis_monthUsr - 1;
-                }
-                $lastmonthlastdayUsr = mktime(0, 0, 0, $lastmonthmonthUsr + 1, 0, $lastmonththis_yearUsr);
-                $lastmonthfirstdayUsr = mktime(0, 0, 0, $lastmonthmonthUsr, 1, $lastmonththis_yearUsr);
-                $lastmonthendUsr = date("Y-m-d", $lastmonthlastdayUsr);
-                $lastmonthstartUsr = date("Y-m-d", $lastmonthfirstdayUsr);
-                $qry_lastmonth_projUsr = "select timesheet.project_id,sum(hour) hour,sum(min) min,timesheet.bill "
-                    . "from timesheet where date_added between '$lastmonthstartUsr' and '$lastmonthendUsr'"
-                    . " group by timesheet.project_id order by timesheet.date_added desc";
-                $res_lastmonth_projUsr = $this->db->query($qry_lastmonth_projUsr)->getResult();
-                $i6Usr = 1;
-                $lastmonthhhrUsr = 0;
-                $lastmonthminUsr = 0;
-                $lastmonthbill_hrUsr = 0;
-                $lastmonthbill_minUsr = 0;
-                $lastmonthnonbill_hrUsr = 0;
-                $lastmonthnonbill_minUsr = 0;
-                foreach ($res_lastmonth_projUsr as $row_lastmonth_projUsr) {
-                    if ($row_lastmonth_projUsr->bill != '1') {
-                        $lastmonthbill_hrUsr = $lastmonthbill_hrUsr + $row_lastmonth_projUsr->hour;
-                        $lastmonthbill_minUsr = $lastmonthbill_minUsr + $row_lastmonth_projUsr->min;
-                    } else {
-                        $lastmonthnonbill_hrUsr = $lastmonthnonbill_hrUsr + $row_lastmonth_projUsr->hour;
-                        $lastmonthnonbill_minUsr = $lastmonthnonbill_minUsr + $row_lastmonth_projUsr->min;
-                    }
-                    $i6Usr++;
-                }
-                if ($lastmonthbill_minUsr < 60) {
-                    $lastmonthtotbill_hourUsr = $lastmonthbill_hrUsr;
-                    $lastmonthtotbill_minuteUsr = $lastmonthbill_minUsr;
-                } else {
-                    $lastmonthtotbill_hour_res1Usr = floor($lastmonthbill_minUsr / 60);
-                    $lastmonthtotbill_minuteUsr = $lastmonthbill_minUsr % 60;
-                    $lastmonthtotbill_hourUsr = $lastmonthbill_hrUsr + $lastmonthtotbill_hour_res1Usr;
-                }
-                if ($lastmonthnonbill_minUsr < 60) {
-                    $lastmonthtotnonbill_hourUsr = $lastmonthnonbill_hrUsr;
-                    $lastmonthtotnonbill_minuteUsr = $lastmonthnonbill_minUsr;
-                } else {
-                    $lastmonthtotnonbill_hour_res1Usr = floor($lastmonthnonbill_minUsr / 60);
-                    $lastmonthtotnonbill_minuteUsr = $lastmonthnonbill_minUsr % 60;
-                    $lastmonthtotnonbill_hourUsr = $lastmonthnonbill_hrUsr + $lastmonthtotnonbill_hour_res1Usr;
-                }
-                $lastmonthAllUserHourBillUsr = $lastmonthtotbill_hourUsr + ($lastmonthtotbill_minuteUsr / 60);
-                $lastmonthAllUserMinBillUsr = $lastmonthtotnonbill_hourUsr + ($lastmonthtotnonbill_minuteUsr / 60);
-                $data['lastmonthAllUserHourBillUsr']        = $lastmonthAllUserHourBillUsr;
-                $data['lastmonthAllUserMinBillUsr']        = $lastmonthAllUserMinBillUsr;
-                /* All user last Month graph */
-
-                $AlluserGraph[] = [
-                    'yesterdayAllUserHourBill'      => number_format($yesterdayAllUserHourBill, 2),
-                    'yesterdayAllUserMinBill'       => number_format($yesterdayAllUserMinBill, 2),
-                    'thismonthAllUserHourBillUsr'   => number_format($thismonthAllUserHourBillUsr, 2),
-                    'thismonthAllUserMinBillUsr'    => number_format($thismonthAllUserMinBillUsr, 2),
-                    'lastmonthAllUserHourBillUsr'   => number_format($lastmonthAllUserHourBillUsr, 2),
-                    'lastmonthAllUserMinBillUsr'    => number_format($lastmonthAllUserMinBillUsr, 2),
-                ];
-                //   pr($AlluserGraph);
+                $data['userGraph']         = $userGraph;
+                $data['AlluserGraph']         = $AlluserGraph;
             }
-            $data['userGraph']         = $userGraph;
-            $data['AlluserGraph']         = $AlluserGraph;
+            $title                              = 'Dashboard';
+            $page_name                          = 'dashboard';
+            echo $this->layout_after_login($title, $page_name, $data);
         }
-        $title                              = 'Dashboard';
-        $page_name                          = 'dashboard';
-        echo $this->layout_after_login($title, $page_name, $data);
-    }
     public function Savetask()
     { 
         $added_by                = $this->session->get('user_id');
@@ -1282,12 +2224,12 @@ class User extends BaseController
                 $project = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
                 $project_status            = $project->status;
                 $project_bill           = $project->bill;
-                $task_id             = $this->request->getPost('task_list_id');
+                $project_task_id             = $this->request->getPost('project_task_id');
             } else {
                 $project = 0;
                 $project_status = 0;
                 $project_bill = 0;
-                $task_id = 0;
+                $project_task_id = 0;
             }   
             // pr($project);
 
@@ -1338,7 +2280,7 @@ class User extends BaseController
                 $postData            = [
                     'project_id'        => $project_id,
                     'status_id'         => $project_status,
-                    'task_id'           => $task_id,
+                    'project_task_id'   => $project_task_id,
                     'user_id'           => $user_id,
                     'dept_id'           => $department_id,
                     'description'       => $description,
@@ -1362,7 +2304,7 @@ class User extends BaseController
 
         $task           = $this->common_model->find_data('morning_meetings', 'row', ['id' => $task_id]);
         $project        = $this->common_model->find_data('project', 'row', ['id' => $task->project_id]);
-        $project_tasks   = $this->common_model->find_data('task_list', 'array', ['project_id' => $task->project_id]);
+        $project_tasks   = $this->common_model->find_data('project_tasks', 'array', ['id' => $task->project_task_id]);
         $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
         $projects       = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
         $effort_type    = $this->common_model->find_data('effort_type', 'array', ['status=' => '1'], 'id,name,status','', '', $order_by);
@@ -1387,9 +2329,9 @@ class User extends BaseController
                     </div>
                     <div class="mb-3">
                         <select name="project_task_id" id="project_task_id" class="form-select" disabled>
-                            <option value="">Select Project</option>'; 
+                            <option value="">Select Task</option>'; 
                         foreach ($project_tasks as $project_task){
-                                $selected_project_task = ($project_task->id == $task->task_id) ? 'selected' : '';
+                                $selected_project_task = ($project_task->id == $task->project_task_id) ? 'selected' : '';
                                 $html .= '<option value="'.$project_task->id.'" '.$selected_project_task.'> '.$project_task->task_name.'</option>';
                             }  
                     $html .='</select>
@@ -1444,10 +2386,10 @@ class User extends BaseController
                     </div> 
                     
                     <!-- Description -->
-                    <div class="mb-3">
+                  <!--  <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
                         <textarea name="description" id="description" class="form-control" rows="3">'.$task->description.'</textarea>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="modal-footer">
@@ -1463,7 +2405,7 @@ class User extends BaseController
 
         $task           = $this->common_model->find_data('morning_meetings', 'row', ['id' => $task_id]);
         $project        = $this->common_model->find_data('project', 'row', ['id' => $task->project_id]);
-        $project_tasks  = $this->common_model->find_data('task_list', 'array', ['project_id' => $task->project_id]);
+        $project_tasks  = $this->common_model->find_data('project_tasks', 'array', ['project_id' => $task->project_id]);
         $order_by[0]    = array('field' => 'name', 'type' => 'ASC');
         $projects       = $this->common_model->find_data('project', 'array', ['status!=' => '13'], 'id,name,status','', '', $order_by);
         $employees      = $this->common_model->find_data('user', 'array', ['status!=' => '3', 'is_tracker_user' => 1], 'id,name,status', '', '', $order_by);
@@ -1495,11 +2437,11 @@ class User extends BaseController
                             </div>
                             <div class="mb-3">
                                 <label for="project_id" class="form-label">Select Project Task</label>
-                                <select name="project_task_id" id="project_task_id" class="form-control">
+                                <select name="edit_project_task_id" id="edit_project_task_id" class="form-control">
                                     <option value="" selected="">Select Task</option>';
                                       foreach ($project_tasks as $project_task){
-                                        $selected_project_task = ($project_task->id == $task->task_id) ? 'selected' : '';
-                                        $html .= '<option value="'.$project_task->id.'" '.$selected_project_task.'> '.$project_task->task_name.'</option>';
+                                        $selected_project_task = ($project_task->id == $task->project_task_id) ? 'selected' : '';
+                                        $html .= '<option value="'.$project_task->id.'" '.$selected_project_task.' class="'.$project_task->id.' '. $task->project_task_id .'"> '.$project_task->task_name.'</option>';
                                     }   
                             $html .='</select>
                             </div>';  
@@ -1532,10 +2474,10 @@ class User extends BaseController
                                 </div>
                             </div>
                             <!-- Description -->
-                            <div class="mb-3">
+                           <!-- <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 <textarea name="description" id="description" class="form-control" rows="3">'.$task->description.'</textarea>
-                            </div>
+                            </div> -->
                             
                             <div class="row mb-3">
                                 <div class="col">
@@ -1605,14 +2547,14 @@ class User extends BaseController
 
         $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
         $project_id                = $task_details->project_id;                
-        $project_task_id           = $task_details->task_id;                
+        $project_task_id           = $task_details->project_task_id;                
         $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
         // var_dump($project_task_id); die;
         $project_status            = $project->status;        
         $project_bill              = $project->bill;                                 
         $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
         $department_id             = $department ? $department->dep_id : 0;                    
-        $description               = $requestData['description'];                
+        $description               = $requestData['description']??'';                
         $date_added                = date_format(date_create($requestData['date']), "Y-m-d");                                     
         $created_at                = date('Y-m-d H:i:s');
         $effort_type_id            = $requestData['effort_type_id'];
@@ -1634,7 +2576,7 @@ class User extends BaseController
                 'project_id'        => $project_id,                        
                 'status_id'         => $project_status,
                 'user_id'           => $user_id,                            
-                'task_id'           => $project_task_id,                            
+                'project_task_id'   => $project_task_id,                            
                 'description'       => $description,                            
                 'hour'              => $hour,
                 'min'               => $min,
@@ -1665,7 +2607,7 @@ class User extends BaseController
                     'dept_id'           => $department_id,
                     'status_id'         => $project_status,
                     'user_id'           => $user_id,
-                    'task_id'           => $project_task_id,                              
+                    'project_task_id'   => $project_task_id,                              
                     'description'       => "Not Booked Task",                            
                     'hour'              => 0,
                     'min'               => 0,
@@ -1682,7 +2624,7 @@ class User extends BaseController
                     'project_id'        => $project_id,                        
                     'status_id'         => $project_status,
                     'user_id'           => $user_id,
-                    'task_id'           => $project_task_id,                              
+                    'project_task_id'   => $project_task_id,                              
                     'description'       => $description,                            
                     'hour'              => $hour,
                     'min'               => $min,
@@ -1822,13 +2764,13 @@ class User extends BaseController
 
         $department                = $this->common_model->find_data('team', 'row', ['user_id' => $uId]);
         $project_id                = $requestData['project_id'];                
-        $project_task_id           = $requestData['project_task_id'];                
+        $project_task_id           = $requestData['edit_project_task_id'];                
         $project                   = $this->common_model->find_data('project', 'row', ['id' => $project_id]);
         $project_status            = $project->status;
         $project_bill              = $project->bill;                                 
         $user_id                   = $requestData['user_id'] ?? $uId; // Default to current user if not provided
         $department_id             = $department ? $department->dep_id : 0;                    
-        $description               = $requestData['description'];                
+        $description               = $requestData['description']??'';                
         $is_leave                  = $requestData['status'];
         $date_added                = date_format(date_create($requestData['date']), "Y-m-d");
         $hour                      = $requestData['fhour'];
@@ -1847,7 +2789,7 @@ class User extends BaseController
                 'id'           => $taskId,
                 'project_id'        => 0,
                 'status_id'         => 0,               
-                'task_id'           => 0,
+                'project_task_id'           => 0,
                 'user_id'           => $user_id,
                 'dept_id'           => $department_id,
                 'description'       => "Half Day Leave Taken",
@@ -1867,7 +2809,7 @@ class User extends BaseController
                 'id'           => $taskId,
                 'project_id'        => 0,
                 'status_id'         => 0,
-                'task_id'           => 0,
+                'project_task_id'           => 0,
                 'user_id'           => $user_id,
                 'dept_id'           => $department_id,
                 'description'       => "Full Day Leave Taken",
@@ -1887,7 +2829,7 @@ class User extends BaseController
                 'id'           => $taskId,
                 'project_id'        => $project_id,
                 'status_id'         => $project_status,
-                'task_id'           => $project_task_id,
+                'project_task_id'   => $project_task_id,
                 'user_id'           => $user_id,
                 'dept_id'           => $department_id,
                 'description'       => $description,

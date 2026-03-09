@@ -147,7 +147,7 @@ class TaskAssignController extends BaseController {
                 'dept_id'       => $requestData['dept_id'],
                 'user_id'       => $requestData['user_id'],
                 'project_id'    => (($requestData['project_id'] != '')?$requestData['project_id']:0),
-                'description'   => $requestData['description'],
+                'description'   => $requestData['description']??'',
                 'hour'          => $requestData['hour'],
                 'min'           => $requestData['min'],
                 'work_home'     => $requestData['work_home'],
@@ -540,7 +540,7 @@ class TaskAssignController extends BaseController {
                     'project_name'              => (($getProject)?$getProject->name:''),
                     'hour'                      => $requestData['hour'],
                     'min'                       => $requestData['min'],
-                    'description'               => $requestData['description'],
+                    'description'               => $requestData['description']??'',
                     'priority'                  => $requestData['priority'],
                     'date_added'                => $requestData['date_added'],
                     'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->updated_at), "M d, Y h:i a"):''),
@@ -752,7 +752,7 @@ class TaskAssignController extends BaseController {
             $getProject         = $this->data['model']->find_data('project', 'row', ['id' => $requestData['project_id']], 'status,bill');
             $fields             = [
                 'project_id'    => $requestData['project_id'],
-                'description'   => $requestData['description'],
+                'description'   => $requestData['description']??'',
                 'hour'          => $requestData['hour'],
                 'min'           => $requestData['min'],
                 'work_home'     => $requestData['work_home'],
@@ -938,7 +938,7 @@ class TaskAssignController extends BaseController {
                     'project_name'              => (($getProject)?$getProject->name:''),
                     'hour'                      => $requestData['hour'],
                     'min'                       => $requestData['min'],
-                    'description'               => $requestData['description'],
+                    'description'               => $requestData['description']??'',
                     'priority'                  => $requestData['priority'],
                     'date_added'                => $requestData['date_added'],
                     'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->updated_at), "M d, Y h:i a"):''),
@@ -1276,7 +1276,8 @@ class TaskAssignController extends BaseController {
             $dept_id                    = $requestData['dept_id'];
             $date_added                 = $requestData['date_added'];
             $project_id                 = $requestData['project_id'];
-            $description                = $requestData['description'];
+            $project_task_id            = $requestData['project_task_id'];
+            $description                = $requestData['description']??'';
             $hour                       = $requestData['hour'];
             $min                        = $requestData['min'];
             $priority                   = $requestData['priority'];
@@ -1308,8 +1309,9 @@ class TaskAssignController extends BaseController {
                     $fields             = [
                         'dept_id'       => $requestData['dept_id'],
                         'user_id'       => $requestData['user_id'],
-                        'project_id'    => (($requestData['project_id'] != '')?$requestData['project_id']:0),
-                        'description'   => $requestData['description'],
+                        'project_id'    => (($project_id != '')?$project_id:0),
+                        'project_task_id' => (($project_task_id != '')?$project_task_id:0),
+                        'description'   => $requestData['description']??'',
                         'hour'          => $requestData['hour'],
                         'min'           => $requestData['min'],
                         'work_home'     => $requestData['work_home'],
@@ -1329,10 +1331,11 @@ class TaskAssignController extends BaseController {
                 $cal                    = (($hour*60) + $min); //converted to minutes
                 $projectCost            = floatval($cal_usercost * $cal);
                 $postData               = array(
-                    'project_id'            => $project_id,
+                    'project_id'            => (($project_id != '')?$project_id:0),
                     'status_id'             => (($getProject)?$getProject->status:0),
                     'user_id'               => $user_id,
-                    'description'           => $description,
+                    'project_task_id'       => (($project_task_id != '')?$project_task_id:0),
+                    // 'description'           => $description,
                     'hour'                  => $hour,
                     'min'                   => $min,
                     'work_home'             => 0,
@@ -1439,7 +1442,7 @@ class TaskAssignController extends BaseController {
                             'project_id'            => $project_id,
                             'status_id'             => (($getProject)?$getProject->status:0),
                             'user_id'               => $user_id,
-                            'description'           => $description,
+                            // 'description'           => $description,
                             'hour'                  => $hour,
                             'min'                   => $min,
                             'work_home'             => 0,
@@ -1654,7 +1657,7 @@ class TaskAssignController extends BaseController {
                     'project_name'              => (($getProject)?$getProject->name:''),
                     'hour'                      => $requestData['hour'],
                     'min'                       => $requestData['min'],
-                    'description'               => $requestData['description'],
+                    'description'               => $requestData['description']??'',
                     'date_added'                => $requestData['date_added'],
                     'task_created'              => (($getAssignedTask)?date_format(date_create($getAssignedTask->date_today), "M d, Y h:i a"):''),
                     'added_by'                  => (($getUser)?$getUser->name:''),
@@ -2127,11 +2130,6 @@ class TaskAssignController extends BaseController {
                                                             '.$bookedProjectHTML.'
                                                         </div>
                                                     </div>
-                                                    <div class="col-12">
-                                                        <div class="input-group mb-1">
-                                                            <textarea name="dash_yesterday_description" id="dash_yesterday_description" placeholder="Description" class="form-control" rows="5" required>' . $getTask->description . '</textarea>
-                                                        </div>
-                                                    </div>
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
                                                             <select name="hour" class="form-control" id="hour" required>
@@ -2225,11 +2223,6 @@ class TaskAssignController extends BaseController {
                                                             
                                                         </div>
                                                     </div>
-                                                    <div class="col-12">
-                                                        <div class="input-group mb-1">
-                                                            <textarea name="dash_yesterday_description" id="dash_yesterday_description" placeholder="Description" class="form-control" rows="5" required></textarea>
-                                                        </div>
-                                                    </div>
                                                     <div class="col-md-6">
                                                         <div class="input-group mb-1">
                                                             <select name="hour" class="form-control" id="hour" required>
@@ -2293,3 +2286,10 @@ class TaskAssignController extends BaseController {
             $this->response_to_json($apiStatus, $apiMessage, $apiResponse, $apiExtraField, $apiExtraData);
         }
 }
+
+// Text are removed from morning_meeting_schedule_prefill_effort_booking_for_dashboard_yesterday->$scheduleHTML
+// <div class="col-12">
+//     <div class="input-group mb-1">
+//         <textarea name="dash_yesterday_description" id="dash_yesterday_description" placeholder="Description" class="form-control" rows="5" required></textarea>
+//     </div>
+// </div>

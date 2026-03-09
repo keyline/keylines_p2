@@ -258,7 +258,7 @@
                                              <div class="col-md-8">
                                                 <div>                                  
                                                    <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
-                                                   <?php $project_task = $common_model->find_data('task_list', 'row', ['id' => $task['project_task_id']]); ?>
+                                                   <?php $project_task = $common_model->find_data('project_tasks', 'row', ['id' => $task['project_task_id']]); ?>
                                                     <p style="font-size: 12px;"><b><?= $project_task ? $project_task->task_name : 'Task Not Found' ?></b></p>
                                                    <?php if($task['work_status_id'] != 0) { ?>
                                                    <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
@@ -322,7 +322,7 @@
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
                                                    <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
-                                                   <?php $project_task = $common_model->find_data('task_list', 'row', ['id' => $task['project_task_id']]); ?>
+                                                   <?php $project_task = $common_model->find_data('project_tasks', 'row', ['id' => $task['project_task_id']]); ?>
                                                     <p style="font-size: 12px;"><b><?= $project_task ? $project_task->task_name : 'Task Not Found' ?></b></p>
                                                    <?php if($task['work_status_id'] != 0) { ?>
                                                    <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
@@ -392,7 +392,7 @@
                                              <div class="col-md-8">
                                                 <div>                                                                                                                                                                                                       
                                                    <h6 class="mb-2" style="font-size: 12px;"><b><i class="fa fa-building" aria-hidden="true"></i> <?= $task['project_name']?></b></h6>
-                                                   <?php $project_task = $common_model->find_data('task_list', 'row', ['id' => $task['project_task_id']]); ?>
+                                                   <?php $project_task = $common_model->find_data('project_tasks', 'row', ['id' => $task['project_task_id']]); ?>
                                                     <p style="font-size: 12px;"><b><?= $project_task ? $project_task->task_name : 'Task Not Found' ?></b></p>
                                                    <?php if($task['work_status_id'] != 0) { ?>
                                                    <p style="font-size: 10px;"><b>Status:</b> <?= $task['work_status_name']?></p>
@@ -1509,8 +1509,8 @@
                   </div>
                   <!-- Project task dropdown -->
                   <div class="mb-3">
-                     <label for="task_id" class="form-label">Select Task</label>
-                     <select name="task_list_id" id="task_list_id" class="form-select select2" required>
+                     <label for="project_task_id" class="form-label">Select Task</label>
+                     <select name="project_task_id" id="project_task_id" class="form-select select2" required>
                         <option value="">Select Task</option>
                         <!-- </?php foreach ($tasks as $task): ?>
                            <option value="</?= $task->id ?>"></?= $task->task_name ?></option>
@@ -1548,10 +1548,10 @@
                   </div>
 
                   <!-- Description -->
-                  <div class="mb-3">
+                  <!-- <div class="mb-3">
                   <label for="description" class="form-label">Description</label>
                   <textarea name="description" id="description" class="form-control" rows="3"></textarea>
-                  </div>
+                  </div> -->
                   
                   <?php
                      $today = date('Y-m-d');
@@ -2189,7 +2189,8 @@
         dataJson.schedule_id                = $('#schedule_id').val();
         dataJson.date_added                 = $('#date_added').val();
         dataJson.project_id                 = $('#dash_yesterday_project_id').val();
-        dataJson.description                = $('#dash_yesterday_description').val();
+        dataJson.project_task_id            = $('#dash_yesterday_project_task_id').val();
+      //   dataJson.description                = $('#dash_yesterday_description').val();
         dataJson.hour                       = $('#hour').val();
         dataJson.min                        = $('#min').val();
         dataJson.priority                   = $('input[name="priority"]').val();
@@ -2199,15 +2200,15 @@
         dataJson.effort_type                = $('#effort_type').val();
         dataJson.work_status_id             = $('#dash_yesterday_work_status_id').val();
       console.log('dataJson before send:', dataJson);
-        if($('#effort_type').val() == ''){
-            toastAlert("error", "Please Select Effort Type !!!");
+        if($('#dash_yesterday_project_task_id').val() == ''){
+              toastAlert("error", "Please Select Project Task !!!");
         } else {
-            if($('#dash_yesterday_work_status_id').val() == ''){
-                toastAlert("error", "Please Select Work Status !!!");
+            if($('#effort_type').val() == ''){
+               toastAlert("error", "Please Select Effort Type !!!");
             } else {
-                if($('#dash_yesterday_description').val() == ''){
-                    toastAlert("error", "Please Enter Description !!!");
-                    console.log("yes");
+                if($('#dash_yesterday_work_status_id').val() == ''){
+                      toastAlert("error", "Please Select Work Status !!!");
+                  //   console.log("yes");
                 } else {
                     if($('#hour').val() == ''){
                         toastAlert("error", "Please Select Hours !!!");
@@ -2226,17 +2227,17 @@
                                         $('#morningMeetingForm').trigger("reset");
                                         $('#morningformModal').modal('hide');
 
-                                       //  if(current_date == book_date){
-                                       //      $('#meeting-user-' + user_id + '_' + book_date).empty();
-                                       //      $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                        if(current_date == book_date){
+                                            $('#meeting-user-' + user_id + '_' + book_date).empty();
+                                            $('#meeting-user-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
                                             
-                                       //  } else {
+                                        } else {
                                             $('#meeting-user-previous-' + user_id + '_' + book_date).empty();
-                                       //      $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
-                                       // //  }
-                                       //  $('#total-time-' + user_id + '_' + book_date).html('[Assigned : ' + res.data.totalTime + ']');
-                                       //  $('#total-booked-time-' + user_id + '_' + book_date).html('[Booked : ' + res.data.totalBookedTime + ']');
-                                       //  toastAlert("success", res.message);
+                                            $('#meeting-user-previous-' + user_id + '_' + book_date).html(res.data.scheduleHTML);
+                                        }
+                                        $('#total-time-' + user_id + '_' + book_date).html('[Assigned : ' + res.data.totalTime + ']');
+                                        $('#total-booked-time-' + user_id + '_' + book_date).html('[Booked : ' + res.data.totalBookedTime + ']');
+                                        toastAlert("success", res.message);
                                             setTimeout(function () {
                                                 location.reload();
                                              }, 800); // small delay to show toast
@@ -2501,24 +2502,24 @@
                success: function(res){
                   if(res.success){
                      var tasks = res.data.tasks;
-                     $('#task_list_id').empty();
-                     $('#task_list_id').append('<option value="">Select Task</option>');
+                     $('#project_task_id').empty();
+                     $('#project_task_id').append('<option value="">Select Task</option>');
                      $.each(tasks, function(index, task){
-                        $('#task_list_id').append('<option value="'+task.id+'">'+task.task_name+'</option>');
+                        $('#project_task_id').append('<option value="'+task.id+'">'+task.task_name+'</option>');
                      });
                   }else{
-                    $('#task_list_id').empty();
-                    $('#task_list_id').append('<option value="">Select Task</option>');
+                    $('#project_task_id').empty();
+                    $('#project_task_id').append('<option value="">Select Task</option>');
                   }
                },
                error: function(xhr, status, error){
-                  $('#task_list_id').empty();
-                  $('#task_list_id').append('<option value="">Select Task</option>');
+                  $('#project_task_id').empty();
+                  $('#project_task_id').append('<option value="">Select Task</option>');
                }
             })
          }else{
-            $('#task_list_id').empty();
-            $('#task_list_id').append('<option value="">Select Task</option>');
+            $('#project_task_id').empty();
+            $('#project_task_id').append('<option value="">Select Task</option>');
          }
 
       });
@@ -2568,24 +2569,25 @@
                success: function(res){
                   if(res.success){
                      var tasks = res.data.tasks;
-                     $('#project_task_id').empty();
-                     $('#project_task_id').append('<option value="">Select Task</option>');
+                     console.log(tasks);
+                     $('#edit_project_task_id').empty();
+                     $('#edit_project_task_id').append('<option value="">Select Task</option>');
                      $.each(tasks, function(index, task){
-                        $('#project_task_id').append('<option value="'+task.id+'">'+task.task_name+'</option>');
+                        $('#edit_project_task_id').append('<option value="'+task.id+'">'+task.task_name+'</option>');
                      });
                   }else{
-                    $('#project_task_id').empty();
-                    $('#project_task_id').append('<option value="">Select Task</option>');
+                    $('#edit_project_task_id').empty();
+                    $('#edit_project_task_id').append('<option value="">Select Task</option>');
                   }
                },
                error: function(xhr, status, error){
-                  $('#project_task_id').empty();
-                  $('#project_task_id').append('<option value="">Select Task</option>');
+                  $('#edit_project_task_id').empty();
+                  $('#edit_project_task_id').append('<option value="">Select Task</option>');
                }
             })
          }else{
-            $('#project_task_id').empty();
-            $('#project_task_id').append('<option value="">Select Task</option>');
+            $('#edit_project_task_id').empty();
+            $('#edit_project_task_id').append('<option value="">Select Task</option>');
          }
 
    };

@@ -703,7 +703,7 @@ class EffortController extends BaseController {
         $apiMessage         = '';
         $apiResponse        = [];
         $projectId = $this->request->getPost('projectId');
-        $tasks = $this->common_model->find_data('task_list', 'array', ['project_id' => $projectId], 'id,task_name');
+        $tasks = $this->common_model->find_data('project_tasks', 'array', ['project_id' => $projectId], 'id,task_name');
         if($tasks){
             $apiResponse['tasks'] = $tasks;
             $apiStatus = TRUE;
